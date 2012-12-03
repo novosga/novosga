@@ -1,0 +1,461 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: SGA Livre Web 2\n"
+"POT-Creation-Date: 2012-10-29 10:04-0300\n"
+"PO-Revision-Date: 2012-10-29 10:11-0300\n"
+"Last-Translator: rogeriolino\n"
+"Language-Team: Rogério Alencar Lino Filho\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: ../../../../\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: core\n"
+"X-Poedit-SearchPath-1: home\n"
+"X-Poedit-SearchPath-2: install\n"
+"X-Poedit-SearchPath-3: login\n"
+"X-Poedit-SearchPath-4: modules\n"
+
+#: core/ErrorView.php:9 core/ErrorView.php:43
+msgid "Erro"
+msgstr "Error"
+
+#: core/ErrorView.php:13
+msgid "SGA Fatal Exception"
+msgstr "SGA Fatal Exception"
+
+#: core/ErrorView.php:31
+msgid "Uncaught exception"
+msgstr "Uncaught exception"
+
+#: core/ErrorView.php:33
+msgid "Por motivos de segurança o Trace da exception não pode ser exibido"
+msgstr ""
+
+#: core/ErrorView.php:37
+msgid "Trace"
+msgstr "Trace"
+
+#: core/ErrorView.php:44
+msgid "Local"
+msgstr "File"
+
+#: core/ErrorView.php:49
+msgid "Erro desconhecido"
+msgstr "Uknown error"
+
+#: core/ErrorView.php:49
+msgid "Tente novamente ou contacte o administrador do sistema"
+msgstr ""
+
+#: core/Senha.php:38 login/view/index.php:18
+#: modules/sga/usuarios/view/edit.php:44 modules/sga/unidades/view/edit.php:43
+msgid "Senha"
+msgstr "Password"
+
+#: core/Senha.php:51
+msgid "A sigla da senha deve ser um char"
+msgstr ""
+
+#: core/Senha.php:71
+msgid "O numero da senha deve ser um inteiro maior que zero"
+msgstr ""
+
+#: core/Senha.php:115
+msgid "A legenda da senha deve ser uma String"
+msgstr ""
+
+#: core/Fila.php:78
+msgid "Erro ao adicionar Atendimento na fila, tipo invalido."
+msgstr ""
+
+#: core/SGA.php:88
+#, php-format
+msgid "Arquivo não encontrado: %s"
+msgstr ""
+
+#: core/SGA.php:161
+msgid "A permissão para módulos não globais depende da unidade."
+msgstr ""
+
+#: core/SGA.php:232
+#, php-format
+msgid "Classe não encontrada: %s"
+msgstr ""
+
+#: core/Monitor.php:54
+msgid "Erro ao definir lista de menu. Deve ser um array."
+msgstr ""
+
+#: core/Monitor.php:97
+msgid "Erro ao definir lista de servicos. Deve ser um array."
+msgstr ""
+
+#: core/Monitor.php:118
+msgid "Erro ao definir total de senhas. Deve ser um inteiro positivo."
+msgstr ""
+
+#: core/view/PageView.php:30
+#, php-format
+msgid "Página não encontrada: %s"
+msgstr ""
+
+#: core/view/LoggedView.php:23 home/HomeView.php:12
+#: install/InstallController.php:19
+msgid "Início"
+msgstr "Home"
+
+#: core/view/LoggedView.php:37
+msgid "Global"
+msgstr "Global"
+
+#: core/view/LoggedView.php:50
+msgid "Trocar"
+msgstr "Change"
+
+#: core/view/LoggedView.php:59
+msgid "Data e hora no servidor"
+msgstr "Server date time"
+
+#: core/view/LoggedView.php:77
+msgid "Unidade"
+msgstr ""
+
+#: core/view/LoggedView.php:78
+msgid "Favor escolher a unidade"
+msgstr ""
+
+#: core/view/LoggedView.php:82 modules/sga/prioridades/view/edit.php:48
+#: modules/sga/grupos/view/edit.php:29 modules/sga/servicos/view/edit.php:29
+#: modules/sga/servicos/view/edit.php:42 modules/sga/usuarios/view/edit.php:33
+#: modules/sga/unidades/view/edit.php:32
+msgid "Selecione"
+msgstr "Choose"
+
+#: core/view/LoggedView.php:95
+msgid "Enviar"
+msgstr "Send"
+
+#: core/controller/CrudController.php:78
+msgid "Preencha os campos obrigatórios"
+msgstr ""
+
+#: core/controller/CrudController.php:87
+msgid "Registro alterado com sucesso"
+msgstr ""
+
+#: core/controller/CrudController.php:92
+msgid "Novo registro adicionado com sucesso"
+msgstr ""
+
+#: core/controller/CrudController.php:94
+msgid "Erro ao salvar o novo registro. Favor tentar novamente"
+msgstr ""
+
+#: core/model/Modulo.php:148
+#, php-format
+msgid "Não encontrada página \"%s\" no módulo \"%s\""
+msgstr ""
+
+#: core/model/Atendimento.php:188
+msgid "Erro ao definir status do atendimento. Deve ser maior que zero."
+msgstr ""
+
+#: core/model/Menu.php:100
+msgid "A ordem deve ser inteiro"
+msgstr ""
+
+#: core/model/Usuario.php:107
+msgid "Erro ao definir grupo do Usuario, deve ser um array."
+msgstr ""
+
+#: core/model/Usuario.php:183
+msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
+msgstr ""
+
+#: core/model/Usuario.php:203
+msgid "Erro ao definir status do Atendente, deve ser um inteiro."
+msgstr ""
+
+#: core/model/SequencialModel.php:22
+#, php-format
+msgid ""
+"Erro ao definir id da entidade (\"%s\"): Deve ser maior que zero. Passado %s"
+msgstr ""
+
+#: core/model/Prioridade.php:75
+msgid "O peso da prioridade deve ser um inteiro positivo"
+msgstr ""
+
+#: core/db/DefaultDatabaseAdapter.php:1328
+msgid ""
+"Não é possivel remover a unidade porque existem atendimentos, usuários ou "
+"serviços associados."
+msgstr ""
+
+#: core/db/DefaultDatabaseAdapter.php:1972
+#, php-format
+msgid "O valor de status passado para o atendimento é inválido: %s"
+msgstr ""
+
+#: core/db/DefaultDatabaseAdapter.php:2711
+#, php-format
+msgid "Invalido retorno para chamada da lotacao. Retornado: %s"
+msgstr ""
+
+#: core/db/DefaultQueryProvider.php:1595
+#, php-format
+msgid "Chamada a procedure/function \"%s\" não implementada"
+msgstr ""
+
+#: core/db/DB.php:59
+#, php-format
+msgid "Banco de dados não suportado: %s"
+msgstr ""
+
+#: install/InstallView.php:13
+msgid "Instalação"
+msgstr ""
+
+#: install/InstallController.php:20
+msgid "Verificação de Requisitos"
+msgstr ""
+
+#: install/InstallController.php:21
+msgid "Licença"
+msgstr ""
+
+#: install/InstallController.php:22
+msgid "Configurar Banco de Dados"
+msgstr ""
+
+#: install/InstallController.php:23
+msgid "Configurar Administrador"
+msgstr ""
+
+#: install/InstallController.php:24
+msgid "Aplicar"
+msgstr "Apply"
+
+#: install/view/test_db.php:8
+msgid "Banco de Dados testado com sucesso!"
+msgstr ""
+
+#: install/view/test_db.php:26
+msgid "Não foi encontrado arquivo SQL para o tipo de banco escolhido"
+msgstr ""
+
+#: install/view/do_install.php:7
+msgid "Instalação concluída com sucesso"
+msgstr ""
+
+#: install/view/do_install.php:14
+msgid "O SGA já está instalado"
+msgstr ""
+
+#: install/view/do_install.php:20
+msgid "Os dados da instalação não foram encontrados. Favor iniciar novamente"
+msgstr ""
+
+#: install/view/do_install.php:31
+#, php-format
+msgid ""
+"Você não tem permissão de escrita no arquivo (%s). Não é possível armazenar "
+"as configurações informadas na instalação."
+msgstr ""
+
+#: install/view/do_install.php:36
+#, php-format
+msgid "Arquivo SQL de instalação não encontrado. (%s)"
+msgstr ""
+
+#: login/LoginController.php:13 login/view/index.php:28
+#: modules/sga/usuarios/view/edit.php:16
+#: modules/sga/usuarios/view/index.php:32
+#: modules/sga/unidades/view/edit.php:16
+msgid "Login"
+msgstr "Username"
+
+#: login/LoginController.php:39
+msgid "Usuário Inválido. Por favor, tente novamente."
+msgstr ""
+
+#: login/view/index.php:14
+msgid "Usuário"
+msgstr "User"
+
+#: login/view/index.php:24
+msgid "Entrar"
+msgstr "Enter"
+
+#: modules/sga/prioridades/PrioridadesController.php:11
+msgid "Prioridades"
+msgstr ""
+
+#: modules/sga/prioridades/PrioridadesController.php:12
+msgid "Gerencie os prioridades do SGA"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:14
+#: modules/sga/grupos/view/edit.php:14 modules/sga/servicos/view/edit.php:14
+#: modules/sga/usuarios/view/edit.php:14 modules/sga/unidades/view/edit.php:14
+msgid "Campos obrigatórios"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:16
+#: modules/sga/prioridades/view/index.php:32
+#: modules/sga/grupos/view/edit.php:16 modules/sga/grupos/view/index.php:32
+#: modules/sga/servicos/view/edit.php:16
+#: modules/sga/servicos/view/index.php:32
+#: modules/sga/usuarios/view/edit.php:20
+#: modules/sga/usuarios/view/index.php:32
+#: modules/sga/unidades/view/edit.php:20
+msgid "Nome"
+msgstr "Name"
+
+#: modules/sga/prioridades/view/edit.php:20
+#: modules/sga/grupos/view/edit.php:20 modules/sga/servicos/view/edit.php:20
+msgid "Descrição"
+msgstr "Description"
+
+#: modules/sga/prioridades/view/edit.php:24
+#: modules/sga/prioridades/view/index.php:32
+msgid "Peso"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:29
+msgid "Normal"
+msgstr "Normal"
+
+#: modules/sga/prioridades/view/edit.php:43
+#: modules/sga/prioridades/view/index.php:32
+#: modules/sga/servicos/view/edit.php:37
+#: modules/sga/servicos/view/index.php:32
+#: modules/sga/usuarios/view/index.php:32
+msgid "Status"
+msgstr "Status"
+
+#: modules/sga/prioridades/view/edit.php:50
+#: modules/sga/servicos/view/edit.php:44 modules/sga/usuarios/view/edit.php:35
+#: modules/sga/unidades/view/edit.php:34
+msgid "Ativo"
+msgstr "Active"
+
+#: modules/sga/prioridades/view/edit.php:51
+#: modules/sga/servicos/view/edit.php:45 modules/sga/usuarios/view/edit.php:36
+#: modules/sga/unidades/view/edit.php:35
+msgid "Inativo"
+msgstr "Inactive"
+
+#: modules/sga/prioridades/view/edit.php:61
+#: modules/sga/grupos/view/edit.php:40 modules/sga/servicos/view/edit.php:55
+#: modules/sga/usuarios/view/edit.php:56 modules/sga/unidades/view/edit.php:55
+msgid "Salvar"
+msgstr "Save"
+
+#: modules/sga/prioridades/view/edit.php:66
+#: modules/sga/grupos/view/edit.php:45 modules/sga/servicos/view/edit.php:60
+#: modules/sga/usuarios/view/edit.php:61 modules/sga/unidades/view/edit.php:60
+msgid "Voltar"
+msgstr "Back"
+
+#: modules/sga/prioridades/view/index.php:4
+#: modules/sga/grupos/view/index.php:4 modules/sga/servicos/view/index.php:4
+#: modules/sga/usuarios/view/index.php:4
+msgid "buscar"
+msgstr "search"
+
+#: modules/sga/prioridades/view/index.php:10
+#: modules/sga/grupos/view/index.php:10 modules/sga/servicos/view/index.php:10
+#: modules/sga/usuarios/view/index.php:10
+msgid "Buscar"
+msgstr "Search"
+
+#: modules/sga/prioridades/view/index.php:15
+#: modules/sga/grupos/view/index.php:15 modules/sga/servicos/view/index.php:15
+#: modules/sga/usuarios/view/index.php:15
+msgid "Novo"
+msgstr "New"
+
+#: modules/sga/prioridades/view/index.php:27
+#: modules/sga/grupos/view/index.php:27 modules/sga/servicos/view/index.php:27
+#: modules/sga/usuarios/view/index.php:27
+msgid "Editar"
+msgstr "Edit"
+
+#: modules/sga/grupos/GruposController.php:11
+msgid "Grupos"
+msgstr ""
+
+#: modules/sga/grupos/GruposController.php:12
+msgid "Gerencie os grupos do SGA"
+msgstr ""
+
+#: modules/sga/grupos/view/edit.php:24 modules/sga/grupos/view/index.php:32
+msgid "Pai"
+msgstr "Parent"
+
+#: modules/sga/servicos/ServicosController.php:11
+msgid "Serviços"
+msgstr ""
+
+#: modules/sga/servicos/ServicosController.php:12
+msgid "Gerencie os serviços do SGA"
+msgstr ""
+
+#: modules/sga/servicos/view/edit.php:24
+#: modules/sga/servicos/view/index.php:32
+msgid "Macro"
+msgstr ""
+
+#: modules/sga/usuarios/UsuariosController.php:11
+msgid "Usuários"
+msgstr "Users"
+
+#: modules/sga/usuarios/UsuariosController.php:12
+msgid "Gerencie os usuários do SGA"
+msgstr ""
+
+#: modules/sga/usuarios/UsuariosController.php:29
+msgid "Preencha a senha corretamente."
+msgstr ""
+
+#: modules/sga/usuarios/UsuariosController.php:32
+msgid "A confirmação de senha não confere com a senha."
+msgstr ""
+
+#: modules/sga/usuarios/UsuariosController.php:34
+msgid "A senha deve possuir somente letras e números."
+msgstr ""
+
+#: modules/sga/usuarios/UsuariosController.php:36
+msgid "A senha deve possuir no mínimo 6 caracteres."
+msgstr ""
+
+#: modules/sga/usuarios/UsuariosController.php:66
+msgid "O login informado já está cadastrado para outro usuário."
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:24 modules/sga/unidades/view/edit.php:24
+msgid "Sobrenome"
+msgstr "Last name"
+
+#: modules/sga/usuarios/view/edit.php:48 modules/sga/unidades/view/edit.php:47
+msgid "Confirmar senha"
+msgstr ""
+
+#: modules/sga/unidades/UnidadesController.php:11
+msgid "Unidades"
+msgstr ""
+
+#: modules/sga/unidades/UnidadesController.php:12
+msgid "Gerencie as unidades do SGA"
+msgstr ""
+
+#: modules/sga/unidades/UnidadesController.php:22
+#: modules/sga/unidades/UnidadesController.php:30
+msgid "Código de Unidade já existe"
+msgstr ""

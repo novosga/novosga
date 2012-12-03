@@ -1,0 +1,52 @@
+
+#monitor .servico {
+    margin: 5px 0;
+    padding: 5px;
+}
+
+#monitor .servico .title {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0 0 5px;
+    display: block;
+}
+
+#monitor .servico.empty { display: none; }
+
+#monitor .servico .fila {
+    height: 20px;
+    margin: 0;
+    padding: 2px 0 2px 25px;
+    background-image: url(../images/client-16.png);
+    background-repeat: no-repeat;
+    background-position: 5px center;
+}
+
+#monitor .servico .fila li {
+    padding: 2px 5px;
+    list-style: none;
+    float: left;
+}
+
+#monitor .servico .fila li a {
+    float: left;
+}
+
+#monitor .servico .fila li.prioridade a {
+    color: red;
+}
+
+#dialog-monitor fieldset {
+    margin-bottom: 20px;
+}
+
+#dialog-monitor div {
+    padding: 3px 0;
+    clear: both;
+}
+
+#dialog-monitor div label {
+    width: 120px;
+    font-weight: bold;
+    float: left;
+}
