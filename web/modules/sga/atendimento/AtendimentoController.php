@@ -1,7 +1,9 @@
 <?php
 namespace modules\sga\atendimento;
 
+use \core\SGA;
 use \core\SGAContext;
+use \core\util\Arrays;
 use \core\controller\ModuleController;
 
 /**
@@ -25,6 +27,15 @@ class AtendimentoController extends ModuleController {
 //            $query->setParameter('unidade', $unidade->getId());
 //            $this->view()->assign('servicos', $query->getResult());
         }
+    }
+    
+    public function set_guiche(SGAContext $context) {
+        $numero = (int) Arrays::value($_POST, 'guiche');
+        if ($numero) {
+            $context->getCookie()->set('guiche', $numero);
+            $context->getSession()->set('guiche', $numero);
+        }
+        SGA::redirect('index');
     }
     
 }

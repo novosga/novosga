@@ -1,0 +1,57 @@
+
+#dialog-guiche div {
+    padding: 15px 0;
+}
+
+#dialog-guiche div label {
+    width: 95px;
+    padding: 5px 0;
+    float: left;
+}
+
+#dialog-guiche div input {
+    text-align: right;
+}
+
+#atendimento {
+    position: relative;
+}
+
+#atendimento #guiche {
+    top: -10px;
+    left: 20px;
+    min-width: 110px;
+    height: 150px;
+    position: absolute;
+    background-color: #F8CA00;
+    border-bottom: 3px solid #333;
+}
+
+#atendimento #guiche span {
+    padding: 0 10px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+}
+
+#atendimento #guiche .label {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#atendimento #guiche .numero {
+    font-size: 80px;
+    padding: 10px 0;
+}
+
+#atendimento #guiche a {
+    color: #666;
+    bottom: 10px;
+    width: 100%;
+    font-size: 12px;
+    text-align: center;
+    position: absolute;
+    display: block;
+}
+
+#atendimento #guiche a:hover { color: #000; }
