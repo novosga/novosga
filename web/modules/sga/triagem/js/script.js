@@ -4,6 +4,7 @@ SGA.Triagem = {
     
     ids: [],
     paused: false,
+    imprimir: false,
     ajaxInterval: 3000,
     
     servicoInfo: function(servico, title) {
@@ -87,6 +88,9 @@ SGA.Triagem = {
             type: 'post',
             success: function(response) {
                 if (response.success) {
+                    if (SGA.Triagem.imprimir) {
+                        window.open(SGA.url('imprimir') + "&id=" + response.id);
+                    }
                     // TODO: atualizar pelo response, ao inves de fazer outro request
                     SGA.Triagem.ajaxUpdate();
                 } else {

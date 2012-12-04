@@ -17,8 +17,6 @@ class Highcharts {
     private $axis = array();
     private $series = array();
     
-    private static $imported = false;
-    
     public function __construct($id, $title = '') {
         $this->id = $id;
         $this->title = $title;
@@ -81,11 +79,6 @@ class Highcharts {
     
     public function toString() {
         $html = '';
-        if (!self::$imported) {
-            self::$imported = true;
-            $html .= '<script type="text/javascript" src="lib/js/jquery-1.7.2.min.js"></script>';
-            $html .= '<script src="lib/js/highcharts.js"></script>';
-        }
         $html .= '<div id="'. $this->id .'" style="width: '. $this->width .'px; height: '. $this->height .'px;"></div>';
         $js = '<script type="text/javascript">';
         $js .= "$(document).ready(function() { new Highcharts.Chart({";

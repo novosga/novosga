@@ -1,0 +1,22 @@
+
+.chart-title {
+    padding: 20px 0 10px 0;
+}
+
+.unidade {
+    width: 50%;
+    float: left;
+    margin: 0;
+}
+
+.unidade .title {
+    padding: 20px 0 10px 0;
+    text-align: center;
+}
+
+.unidade .wrap {
+    padding: 10px;
+}
+
+.unidade .pie {
+}
