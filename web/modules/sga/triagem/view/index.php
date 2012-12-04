@@ -79,5 +79,6 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         SGA.Triagem.ids.push(servico.data('id'));
     });
     SGA.Triagem.ajaxUpdate();
+    SGA.Triagem.imprimir = <?php echo $unidade->getStatusImpressao() ? 'true' : 'false' ?>;
     setInterval(SGA.Triagem.ajaxUpdate, SGA.Triagem.ajaxInterval);
 </script>

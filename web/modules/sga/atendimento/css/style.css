@@ -35,7 +35,7 @@
 }
 
 #atendimento #guiche .label {
-    padding-top: 20px;
+    padding-top: 15px;
     padding-bottom: 20px;
 }
 
@@ -55,3 +55,32 @@
 }
 
 #atendimento #guiche a:hover { color: #000; }
+
+#atendimento #controls {
+    width: 90%;
+    height: 300px;
+    margin: 0 auto;
+}
+
+#atendimento #fila span {
+    font-weight: bold;
+    padding-right: 10px;
+    float: left;
+}
+
+#atendimento #fila ul {
+}
+    
+#atendimento #fila ul li {
+    list-style: none;
+    display: inline;
+    padding: 5px;
+}
+
+#atendimento #fila ul li.proximo {
+    font-size: 20px;
+}
+
+#atendimento #fila ul li.prioridade {
+    color: red;
+}

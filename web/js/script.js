@@ -285,12 +285,20 @@ Array.prototype.contains = function(elem) {
 
 /* jquery ext */
 
-jQuery.fn.center = function () {
+jQuery.fn.center = function (type) {
+    type = type || 'both';
+    if (type == 'both' || type == 'vertical') {
+        this.css({
+            top: '50%',
+            marginTop: '-' + (this.height() / 2) + 'px'
+        });
+    }
+    if (type == 'both' || type == 'horizontal') {
+        this.css({
+            left: '50%',
+            marginLeft: '-' + (this.width() / 2) + 'px'
+        });
+    }
     this.css("position","absolute");
-    this.css({
-        top: '50%',
-        left: '50%', 
-        margin: '-' + (this.height() / 2) + 'px 0 0 -' + (this.width() / 2) + 'px'
-    });
     return this;
 }

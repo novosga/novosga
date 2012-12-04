@@ -17,6 +17,8 @@ class Cookie {
      */
     public function set($key, $value) {
         $_COOKIE[$key] = $value;
+        $expire = time() + 60 * 60 * 24 * 30;
+        setcookie($key, $value, $expire);
     }
         
     /**

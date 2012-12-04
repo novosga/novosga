@@ -3,6 +3,7 @@ namespace modules\sga\triagem;
 
 use \PDO;
 use \Exception;
+use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
 use \core\model\util\Triagem;
@@ -34,6 +35,18 @@ class TriagemController extends ModuleController {
         }
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Prioridade e ORDER BY e.nome");
         $this->view()->assign('prioridades', $query->getResult());
+    }
+    
+    public function imprimir(SGAContext $context) {
+        $id = (int) Arrays::value($_GET, 'id');
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e WHERE e.id = :id");
+        $query->setParameter('id', $id);
+        $atendimento = $query->getOneOrNullResult();
+        if (!$atendimento) {
+            SGA::redirect('index');
+        }
+        $context->getResponse()->setRenderView(false);
+        $this->view()->assign('atendimento', $atendimento);
     }
     
     public function ajax_update(SGAContext $context) {
@@ -148,7 +161,9 @@ class TriagemController extends ModuleController {
             $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
             $stmt->bindValue('num_guiche', '', PDO::PARAM_INT);
             $stmt->bindValue('dt_cheg', date('Y-m-d H:i:s'), PDO::PARAM_STR);
+            
             $response['success'] = ($stmt->execute() == true);
+            $response['id'] = $conn->lastInsertId();
         } catch (Exception $e) {
             $response['success'] = false;
             $response['message'] = $e->getMessage();

@@ -245,7 +245,7 @@ class Atendimento extends SequencialModel {
      * @return String
      */
     public function toString() {
-        return "Atendimento[id:{$this->getId()},senha:{$this->getCliente()->getSenha()},status: {$this->getStatus()}]";
+        return "Atendimento[id:{$this->getId()},senha:{$this->getSenha()},status: {$this->getStatus()}]";
     }
 
 }
