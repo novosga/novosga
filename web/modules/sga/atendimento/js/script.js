@@ -6,9 +6,10 @@ SGA.Atendimento = {
     paused: false,
     ajaxInterval: 3000,
     
-    init: function() {
+    init: function(status) {
         setInterval(SGA.Atendimento.ajaxUpdate, SGA.Atendimento.ajaxInterval);
         SGA.Atendimento.ajaxUpdate();
+        SGA.Atendimento.updateControls(status);
     },
     
     ajaxUpdate: function() {
@@ -46,16 +47,61 @@ SGA.Atendimento = {
         });
     },
     
+    updateControls: function(status, atendimento) {
+        $('#controls .control').hide();
+        switch (status) {
+        case 1: // nenhum atendimento
+            $('#chamar').show();
+            break;
+        case 2: // senha chamada
+            if (atendimento) {
+                var info = $('#senha_info');
+                info.removeClass('prioridade');
+                if (atendimento.prioridade) {
+                    info.addClass('prioridade');
+                }
+                info.find('.numero span').text(atendimento.numero);
+                info.find('.prioridade span').text(atendimento.nomePrioridade);
+                info.find('.servico span').text(atendimento.servico);
+                info.find('.nome span').text(atendimento.nome);
+            }
+            $('#iniciar').show();
+            break;
+        case 3: // atendimento iniciado
+            $('#encerrar').show();
+            break;
+        }
+    },
+    
+    control: function(action, success) {
+        $.ajax({
+            url: SGA.url(action),
+            success: function(response) {
+                if (response.success) {
+                    success(response);
+                } else {
+                    alert(response.message);
+                }
+            }
+        });
+    },
+    
     chamar: function() {
-        
+        SGA.Atendimento.control('chamar', function(response) {
+            SGA.Atendimento.updateControls(2, response.atendimento)
+        });
     },
     
     iniciar: function() {
-        
+        SGA.Atendimento.control('iniciar', function(response) {
+            SGA.Atendimento.updateControls(3, response.atendimento)
+        });
     },
     
     encerrar: function() {
-        
+        SGA.Atendimento.control('encerrar', function() {
+            SGA.Atendimento.updateControls(1)
+        });
     }
     
 }
