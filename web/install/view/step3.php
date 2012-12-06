@@ -30,7 +30,7 @@ $builder = new TemplateBuilder();
         ?>
         <div class="field">
             <label>Tipo:</label>
-            <abbr class="db-type" title="<?php echo _('Escolhido no passo 1') ?>"><?php echo InstallData::$dbTypes[$data->database['db_type']]['rdms']; ?></abbr>
+            <abbr class="db-type" title="<?php SGA::out(_('Escolhido no passo 1')) ?>"><?php SGA::out(InstallData::$dbTypes[$data->database['db_type']]['rdms']) ?></abbr>
         </div>
         <div class="field">
             <label>Host:</label>

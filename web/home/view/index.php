@@ -22,13 +22,13 @@ function printModulos($builder, $modulos) {
     <div id="modules">
         <?php if ($unidade): ?>
         <div class="list unidade">
-            <h2><?php echo _('Unidade') ?></h2>
+            <h2><?php SGA::out(_('Unidade')) ?></h2>
             <p>Donec quam quam, venenatis non pretium ac, condimentum in risus.</p>
             <?php printModulos($builder, $modulosUnidade) ?>
         </div>
         <?php endif; ?>
         <div class="list global">
-            <h2><?php echo _('Global') ?></h2>
+            <h2><?php SGA::out(_('Global')) ?></h2>
             <p>Donec quam quam, venenatis non pretium ac, condimentum in risus.</p>
             <?php printModulos($builder, $modulosGlobal) ?>
         </div>

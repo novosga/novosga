@@ -1,7 +1,6 @@
-
 /**
- * SGA Object
- *
+ * Novo SGA - Main script
+ * @author rogeriolino
  */
 var SGA = {
     
@@ -35,6 +34,16 @@ var SGA = {
     
     reload: function() {
         window.location = window.location;
+    },
+    
+    formatDate: function(sqlDate) {
+        var d = sqlDate.split(' ');
+        var time = '';
+        var date = d[0].split('-').reverse().join('/'); // pt_br
+        if (d.length > 1) {
+            time = ' ' + d[1];
+        }
+        return date + time;
     },
     
     Form: {

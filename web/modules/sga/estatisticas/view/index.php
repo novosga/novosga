@@ -6,12 +6,12 @@ use core\contrib\Serie;
 <div>
     <div id="tabs">
         <ul>
-            <li><a href="#tabs-hoje"><?php echo _('Hoje') ?></a></li>
-            <li><a href="#tabs-graficos"><?php echo _('Gráficos') ?></a></li>
-            <li><a href="#tabs-relatorios"><?php echo _('Relatórios') ?></a></li>
+            <li><a href="#tabs-hoje"><?php SGA::out(_('Hoje')) ?></a></li>
+            <li><a href="#tabs-graficos"><?php SGA::out(_('Gráficos')) ?></a></li>
+            <li><a href="#tabs-relatorios"><?php SGA::out(_('Relatórios')) ?></a></li>
         </ul>
         <div id="tabs-hoje">
-            <h2 class="chart-title"><?php echo _('Atendimentos') ?></h2>
+            <h2 class="chart-title"><?php SGA::out(_('Atendimentos')) ?></h2>
             <?php 
             foreach ($unidades as $unidade) {
                 $id = $unidade->getId();
@@ -29,9 +29,9 @@ use core\contrib\Serie;
                 ?>
                 <div class="unidade">
                     <div class="wrap">
-                        <h3 class="title"><?php echo $unidade->getNome() ?></h3>
-                        <div id="atendimentos-<?php echo $id ?>" class="chart pie atendimentos"></div>
-                        <?php echo $script ?>
+                        <h3 class="title"><?php SGA::out($unidade->getNome()) ?></h3>
+                        <div id="atendimentos-<?php SGA::out($id) ?>" class="chart pie atendimentos"></div>
+                        <?php SGA::out($script) ?>
                     </div>
                 </div>
                 <?php

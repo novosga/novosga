@@ -17,7 +17,7 @@ $license = file_get_contents($filePrefix . $lang);
 ?>
 <div id="step_2">
     <div>
-        <textarea id="license_textarea" readonly="readonly"><?php echo $license;?></textarea>
+        <textarea id="license_textarea" readonly="readonly"><?php SGA::out($license) ?></textarea>
     </div>
     <div class="checkbox">
         <input type="checkbox" id="check_license" name="check_license" value="license_ok" onclick="SGA.Install.changeAcceptLicense();" />

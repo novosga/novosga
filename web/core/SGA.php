@@ -61,6 +61,16 @@ class SGA {
     }
     
     /**
+     * Echo wrapper
+     */
+    public static function out($str, array $args = array()) {
+        if (sizeof($args)) {
+            $str = printf($str, $args);
+        }
+        echo addslashes(str_replace('<', '&lt;', str_replace('>', '&gt;', $str)));
+    }
+    
+    /**
      * Importa um arquivo PHP a partir do nome
      * @param type $param
      * @return type
@@ -260,14 +270,6 @@ class SGA {
         $context->setParameter('error', array($number, $message, $file, $line));
         echo $view->render($context);
         exit();
-    }
-    
-    /**
-     * Retorna a data e hora (a partir da string passada por parametro)
-     * @return String
-     */
-    public static function get_date($date) {
-        return date($date, time());
     }
 
     /**

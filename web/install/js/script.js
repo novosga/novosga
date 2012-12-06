@@ -1,3 +1,7 @@
+/**
+ * Novo SGA - Install
+ * @author rogeriolino
+ */
 var SGA = SGA || {};
 
 SGA.Install = {

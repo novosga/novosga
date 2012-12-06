@@ -4,13 +4,13 @@ use \core\SGA;
 <div>
     <div id="tabs">
         <ul>
-            <li><a href="#tabs-triagem"><?php echo _('Triagem') ?></a></li>
-            <li><a href="#tabs-servicos"><?php echo _('Serviços') ?></a></li>
+            <li><a href="#tabs-triagem"><?php SGA::out(_('Triagem')) ?></a></li>
+            <li><a href="#tabs-servicos"><?php SGA::out(_('Serviços')) ?></a></li>
         </ul>
         <div id="tabs-triagem">
-            <form action="<?php echo SGA::url(array(SGA::K_PAGE => 'update_impressao')) ?>" method="post">
+            <form action="<?php SGA::out(SGA::url(array(SGA::K_PAGE => 'update_impressao'))) ?>" method="post">
                 <fieldset>
-                    <legend><?php echo _('Impressão') ?></legend>
+                    <legend><?php SGA::out(_('Impressão')) ?></legend>
                     <div class="field checkbox">
                         <?php 
                         echo $builder->checkbox(array(
@@ -20,14 +20,14 @@ use \core\SGA;
                             'checked' => $unidade->getStatusImpressao()
                         ));
                         ?>
-                        <label for="impressao"><?php echo _('Ativar impressão de senha') ?></label>
+                        <label for="impressao"><?php SGA::out(_('Ativar impressão de senha')) ?></label>
                     </div>
                     <div class="field">
-                        <label><?php echo _('Mensagem') ?></label>
-                        <input type="text" id="mensagem" name="mensagem" class="w400" maxlength="100" value="<?php echo $unidade->getMensagemImpressao() ?>" />
+                        <label><?php SGA::out(_('Mensagem')) ?></label>
+                        <input type="text" id="mensagem" name="mensagem" class="w400" maxlength="100" value="<?php SGA::out($unidade->getMensagemImpressao()) ?>" />
                     </div>
                     <div class="field">
-                        <label><?php echo _('Reiniciar senhas') ?></label>
+                        <label><?php SGA::out(_('Reiniciar senhas')) ?></label>
                         <?php echo $builder->button(array('label' => 'Reiniciar', 'class' => 'ui-button-error')) ?>
                     </div>
                 </fieldset>

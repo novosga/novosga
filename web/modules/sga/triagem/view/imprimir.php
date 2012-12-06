@@ -1,5 +1,5 @@
 <html>
 <body onload="print()">
-<?php echo $atendimento; ?>
+<?php SGA::out($atendimento) ?>
 </body>
 </html>

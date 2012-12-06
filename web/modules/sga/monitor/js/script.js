@@ -1,4 +1,7 @@
-
+/**
+ * Novo SGA - Monitor
+ * @author rogeriolino
+ */
 var SGA = SGA || {};
 
 SGA.Monitor = {
@@ -12,17 +15,17 @@ SGA.Monitor = {
         $.ajax({
             url: SGA.url('info_senha'),
             data: {numero: senha},
-            type: 'post',
             success: function(response) {
                 if (response.success) {
                     var dialog = $('#dialog-monitor');
                     dialog.find('#senha_numero').text(response.numero);
                     dialog.find('#senha_prioridade').text(response.prioridade);
-                    dialog.find('#senha_chegada').text(response.dt_cheg);
-                    dialog.find('#cliente_nome').text(response.cli_nome);
-                    dialog.find('#cliente_documento').text(response.cli_doc);
+                    dialog.find('#senha_servico').text(response.servico);
+                    dialog.find('#senha_chegada').text(SGA.formatDate(response.chegada));
+                    dialog.find('#cliente_nome').text(response.cliente.nome);
+                    dialog.find('#cliente_documento').text(response.cliente.documento);
                     dialog.dialog({
-                        width: 500
+                        width: 600
                     });
                 }
             }

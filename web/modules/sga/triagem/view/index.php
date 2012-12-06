@@ -35,40 +35,40 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
 
 ?>
 <div id="client-info">
-    <h4><?php echo _('Cliente') ?></h4>
+    <h4><?php SGA::out(_('Cliente')) ?></h4>
     <div>
-        <label for="cli_nome"><?php echo _('Nome') ?>:</label>
+        <label for="cli_nome"><?php SGA::out(_('Nome')) ?>:</label>
         <input type="text" id="cli_nome" class="nome" maxlength="50" />
     </div>
     <div>
-        <label for="cli_doc"><?php echo _('Documento') ?>:</label>
+        <label for="cli_doc"><?php SGA::out(_('Documento')) ?>:</label>
         <input type="text" id="cli_doc" class="doc" maxlength="20" />
     </div>
 </div>
 <div id="triagem-servicos">
     <?php foreach ($servicos as $servico): ?>
-    <?php echo blockServico($builder, $servico); ?>
+    <?php SGA::out(blockServico($builder, $servico)) ?>
     <?php endforeach; ?>
 </div>
 <!-- dialog para exibir informacoes do servico -->
-<div id="dialog-servico" title="<?php echo _('Serviço') ?>" style="display:none">
+<div id="dialog-servico" title="<?php SGA::out(_('Serviço')) ?>" style="display:none">
     <div>
-        <label><?php echo _('Descrição') ?></h3>
+        <label><?php SGA::out(_('Descrição')) ?></h3>
         <p class="descricao"></p>
     </div>
     <div>
-        <h3><?php echo _('Subserviços') ?></h3>
+        <h3><?php SGA::out(_('Subserviços')) ?></h3>
         <ul class="subservicos notempty"></ul>
-        <ul class="subservicos empty"><li><?php echo _('Não há subserviços') ?></li></ul>
+        <ul class="subservicos empty"><li><?php SGA::out(_('Não há subserviços')) ?></li></ul>
     </div>
 </div>
 <!-- dialog para escolher a prioridade da senha -->
-<div id="dialog-prioridade" title="<?php echo _('Prioridade') ?>" style="display:none">
+<div id="dialog-prioridade" title="<?php SGA::out(_('Prioridade')) ?>" style="display:none">
     <ul>
         <?php foreach ($prioridades as $prioridade): ?>
         <li>
-            <input id="prioridade-<?php echo $prioridade->getId() ?>" type="radio" name="prioridade" value="<?php echo $prioridade->getId() ?>" />
-            <label for="prioridade-<?php echo $prioridade->getId() ?>"><?php echo $prioridade->getNome() ?></label>
+            <input id="prioridade-<?php SGA::out($prioridade->getId()) ?>" type="radio" name="prioridade" value="<?php SGA::out($prioridade->getId()) ?>" />
+            <label for="prioridade-<?php SGA::out($prioridade->getId()) ?>"><?php SGA::out($prioridade->getNome()) ?></label>
         </li>
         <?php endforeach; ?>
     </ul>
@@ -79,6 +79,6 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         SGA.Triagem.ids.push(servico.data('id'));
     });
     SGA.Triagem.ajaxUpdate();
-    SGA.Triagem.imprimir = <?php echo $unidade->getStatusImpressao() ? 'true' : 'false' ?>;
+    SGA.Triagem.imprimir = <?php SGA::out($unidade->getStatusImpressao() ? 'true' : 'false') ?>;
     setInterval(SGA.Triagem.ajaxUpdate, SGA.Triagem.ajaxInterval);
 </script>

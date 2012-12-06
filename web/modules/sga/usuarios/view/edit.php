@@ -10,20 +10,20 @@ if ($message) {
 }
 
 ?>
-<form id="crud-form" method="post" action="<?php echo SGA::url() ?>">
-    <input type="hidden" name="id" value="<?php echo $model->getId() ?>" />
-    <p class="required-desc"><?php echo _('Campos obrigatórios') ?></p>
+<form id="crud-form" method="post" action="<?php SGA::out(SGA::url()) ?>">
+    <input type="hidden" name="id" value="<?php SGA::out($model->getId()) ?>" />
+    <p class="required-desc"><?php SGA::out(_('Campos obrigatórios')) ?></p>
     <div class="field required">
-        <label for="login" class="w125"><?php echo _('Login') ?></label>
-        <input id="login" type="text" name="login" class="w150" value="<?php echo $model->getLogin() ?>" />
+        <label for="login" class="w125"><?php SGA::out(_('Login')) ?></label>
+        <input id="login" type="text" name="login" class="w150" value="<?php SGA::out($model->getLogin()) ?>" />
     </div>
     <div class="field required">
-        <label for="nome" class="w125"><?php echo _('Nome') ?></label>
-        <input id="nome" type="text" name="nome" class="w200" value="<?php echo $model->getNome() ?>" />
+        <label for="nome" class="w125"><?php SGA::out(_('Nome')) ?></label>
+        <input id="nome" type="text" name="nome" class="w200" value="<?php SGA::out($model->getNome()) ?>" />
     </div>
     <div class="field required">
-        <label for="descricao" class="w125"><?php echo _('Sobrenome') ?></label>
-        <input id="descricao" type="text" name="sobrenome" class="w200" value="<?php echo $model->getSobrenome() ?>" />
+        <label for="descricao" class="w125"><?php SGA::out(_('Sobrenome')) ?></label>
+        <input id="descricao" type="text" name="sobrenome" class="w200" value="<?php SGA::out($model->getSobrenome()) ?>" />
     </div>
     <div class="field required">
         <label for="status" class="w125">Status</label>
@@ -42,11 +42,11 @@ if ($message) {
     </div>
     <?php if (!$id): // criando usuario, entao pede senha ?>
         <div class="field required">
-            <label class="w125"><?php echo _('Senha') ?></label>
+            <label class="w125"><?php SGA::out(_('Senha')) ?></label>
             <input type="password" name="senha" />
         </div>
         <div class="field required">
-            <label class="w125"><?php echo _('Confirmar senha') ?></label>
+            <label class="w125"><?php SGA::out(_('Confirmar senha')) ?></label>
             <input type="password" name="senha2" />
         </div>
     <?php endif; ?>

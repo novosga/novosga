@@ -1,3 +1,7 @@
+/**
+ * Novo SGA - Triagem
+ * @author rogeriolino
+ */
 var SGA = SGA || {};
 
 SGA.Triagem = {

@@ -4,6 +4,7 @@ namespace modules\sga\atendimento;
 use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
+use core\util\DateUtil;
 use \core\controller\ModuleController;
 use \core\model\Atendimento;
 use \core\model\Usuario;
@@ -98,6 +99,10 @@ class AtendimentoController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
+    /**
+     * Chama ou rechama o próximo da fila
+     * @param \core\SGAContext $context
+     */
     public function chamar(SGAContext $context) {
         $attempts = 0;
         $maxAttempts = 5;
@@ -139,7 +144,7 @@ class AtendimentoController extends ModuleController {
                     $query->setParameter('usuario', $context->getUser()->getId());
                     $query->setParameter('guiche', $context->getUser()->getGuiche());
                     $query->setParameter('novoStatus', Atendimento::CHAMADO_PELA_MESA);
-                    $query->setParameter('data', date('Y-m-s'));
+                    $query->setParameter('data', DateUtil::nowSQL());
                     $query->setParameter('id', $proximo->getId());
                     $query->setParameter('statusAtual', Atendimento::SENHA_EMITIDA);
                     /* 
@@ -168,7 +173,13 @@ class AtendimentoController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
-    public function iniciar(SGAContext $context) {
+    /**
+     * Muda o status do atendimento atual
+     * @param type $statusAtual
+     * @param type $novoStatus
+     * @param type $campoData
+     */
+    private function mudaStatusAtual(SGAContext $context, $statusAtual, $novoStatus, $campoData) {
         $usuario = $context->getUser();
         if (!$usuario) {
             SGA::redirect('/' . SGA::K_HOME);
@@ -181,14 +192,14 @@ class AtendimentoController extends ModuleController {
                 UPDATE 
                     \core\model\Atendimento e 
                 SET 
-                    e.dataInicio = :data, e.status = :novoStatus
+                    e.$campoData = :data, e.status = :novoStatus
                 WHERE 
                     e.id = :id AND e.status = :statusAtual
             ");
-            $query->setParameter('data', date('Y-m-s'));
-            $query->setParameter('novoStatus', Atendimento::ATENDIMENTO_INICIADO);
+            $query->setParameter('data', DateUtil::nowSQL());
+            $query->setParameter('novoStatus', $novoStatus);
             $query->setParameter('id', $atual->getId());
-            $query->setParameter('statusAtual', Atendimento::CHAMADO_PELA_MESA);
+            $query->setParameter('statusAtual', $statusAtual);
             $response['success'] = $query->execute() > 0;
         }
         if ($response['success']) {
@@ -199,35 +210,36 @@ class AtendimentoController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
+    /**
+     * Inicia o atendimento com o proximo da fila
+     * @param \core\SGAContext $context
+     */
+    public function iniciar(SGAContext $context) {
+        $this->mudaStatusAtual($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::ATENDIMENTO_INICIADO, 'dataInicio');
+    }
+    
+    /**
+     * Marca o atendimento como nao compareceu
+     * @param \core\SGAContext $context
+     */
+    public function naocompareceu(SGAContext $context) {
+        $this->mudaStatusAtual($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::NAO_COMPARECEU, 'dataFim');
+    }
+    
+    /**
+     * Marca o atendimento como nao compareceu
+     * @param \core\SGAContext $context
+     */
     public function encerrar(SGAContext $context) {
-        $usuario = $context->getUser();
-        if (!$usuario) {
-            SGA::redirect('/' . SGA::K_HOME);
-        }
-        $response = array('success' => false);
-        $atual = $this->atendimentoAndamento($usuario);
-        if ($atual) {
-            // atualizando atendimento
-            $query = $this->em()->createQuery("
-                UPDATE 
-                    \core\model\Atendimento e 
-                SET 
-                    e.dataFim = :data, e.status = :novoStatus
-                WHERE 
-                    e.id = :id AND e.status = :statusAtual
-            ");
-            $query->setParameter('data', date('Y-m-s'));
-            $query->setParameter('novoStatus', Atendimento::ATENDIMENTO_ENCERRADO);
-            $query->setParameter('id', $atual->getId());
-            $query->setParameter('statusAtual', Atendimento::ATENDIMENTO_INICIADO);
-            $response['success'] = $query->execute() > 0;
-        }
-        if (!$response['success']) {
-            $response['atendimento'] = $atual->toArray();
-        } else {
-            $response['message'] = _('Nenhum atendimento iniciado');
-        }
-        $context->getResponse()->jsonResponse($response);
+        $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
+    }
+    
+    /**
+     * Marca o atendimento como erro de triagem
+     * @param \core\SGAContext $context
+     */
+    public function errotriagem(SGAContext $context) {
+        $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ERRO_TRIAGEM, 'dataFim');
     }
     
 }

@@ -52,10 +52,10 @@ class InstallView extends SGAView {
         ?>
         <div id="install_panel">
             <script type="text/javascript">
-                SGA.Install.stepKey = '<?php echo SGA::K_INSTALL ?>';
-                SGA.Install.pageKey = '<?php echo SGA::K_PAGE ?>';
-                SGA.Install.currStep = <?php echo $index ?>; 
-                SGA.Install.totalSteps = <?php echo $totalSteps ?>;
+                SGA.Install.stepKey = '<?php SGA::out(SGA::K_INSTALL) ?>';
+                SGA.Install.pageKey = '<?php SGA::out(SGA::K_PAGE) ?>';
+                SGA.Install.currStep = <?php SGA::out($index) ?>; 
+                SGA.Install.totalSteps = <?php SGA::out($totalSteps) ?>;
             </script>
             <div class="step">
                 <?php
@@ -94,7 +94,7 @@ class InstallView extends SGAView {
                     }
                 ?>
             </div>
-            <h1>Instalação: <?php echo $currStep->getTitle() ?></h1>
+            <h1>Instalação: <?php SGA::out($currStep->getTitle()) ?></h1>
         </div>
         <?php
         $html .= ob_get_contents();

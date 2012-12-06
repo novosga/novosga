@@ -32,16 +32,6 @@ class Atendimento extends SequencialModel {
     const ERRO_TRIAGEM = 7;
     const ATENDIMENTO_ENCERRADO_CODIFICADO = 8;
     
-    public static $ARRAY_TODOS_STATUS = array(
-        Atendimento::SENHA_EMITIDA,
-        Atendimento::CHAMADO_PELA_MESA, 
-        Atendimento::ATENDIMENTO_INICIADO, 
-        Atendimento::ATENDIMENTO_ENCERRADO, 
-        Atendimento::NAO_COMPARECEU, 
-        Atendimento::ERRO_TRIAGEM, 
-        Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO
-    );
-    
     /**
      * @ManyToOne(targetEntity="ServicoUnidade")
      * @JoinColumns({

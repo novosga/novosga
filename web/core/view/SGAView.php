@@ -89,22 +89,22 @@ abstract class SGAView implements View {
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title><?php echo $title; ?></title>
+    <title><?php SGA::out($title) ?></title>
     <?php foreach ($styles as $style): ?>
-    <link type="text/css" rel="stylesheet" href="<?php echo $style . '?v=' . SGA::VERSION ?>" />
+    <link type="text/css" rel="stylesheet" href="<?php SGA::out($style . '?v=' . SGA::VERSION) ?>" />
     <?php endforeach; ?>
     <!--[if lt IE 9]>
     <script src="js/html5.js"></script>
     <![endif]-->
     <?php foreach ($scripts as $script): ?>
-    <script type="text/javascript" src="<?php echo $script . '?v=' . SGA::VERSION ?>"></script>
+    <script type="text/javascript" src="<?php SGA::out($script . '?v=' . SGA::VERSION) ?>"></script>
     <?php endforeach; ?>
     <script type="text/javascript">
-        SGA.K_MODULE = '<?php echo SGA::K_MODULE ?>'; SGA.K_PAGE = '<?php echo SGA::K_PAGE ?>'; SGA.module = '<?php echo defined('MODULE') ? MODULE : '' ?>';
+        SGA.K_MODULE = '<?php SGA::out(SGA::K_MODULE) ?>'; SGA.K_PAGE = '<?php SGA::out(SGA::K_PAGE) ?>'; SGA.module = '<?php SGA::out(defined('MODULE') ? MODULE : '') ?>';
     </script>
     <link rel="shortcut icon" href="images/favicon.png" />
 </head>
-<body class="<?php echo $bodyClass ?>">
+<body class="<?php SGA::out($bodyClass) ?>">
     <div id="geral">
         <?php
         $html = ob_get_contents();
