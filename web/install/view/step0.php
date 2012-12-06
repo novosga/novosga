@@ -1,5 +1,6 @@
 <?php
 use \core\SGA;
+use \install\InstallView;
 
 $context = SGA::getContext();
 $currAdapter = $context->getSession()->get('adapter');
@@ -23,7 +24,7 @@ function scriptHeader($file) {
 }
 
 $scripts = array();
-$files = glob(dirname(dirname(__FILE__)) . DS . 'sql' . DS . '*.sql');
+$files = glob(dirname(dirname(__FILE__)) . DS . 'sql' . DS . 'create' . DS . '*.sql');
 foreach ($files as $file) {
     $header = scriptHeader($file);
     $header['id'] = current(explode('.', basename($file)));

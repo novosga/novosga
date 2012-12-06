@@ -1,5 +1,7 @@
 <?php
 use \core\SGA;
+use \install\InstallData;
+use \core\view\TemplateBuilder;
 
 $session = SGA::getContext()->getSession();
 $data = $session->get(InstallData::SESSION_KEY);

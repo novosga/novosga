@@ -16,7 +16,7 @@ class UsuariosController extends CrudController {
     
     public function __construct() {
         $this->title = _('Usuários');
-        $this->subtitle = _('Gerencie os usuários do SGA');
+        $this->subtitle = _('Gerencie os usuários do sistema');
     }
 
     protected function createModel() {

@@ -16,7 +16,7 @@ class GruposController extends CrudController {
     
     public function __construct() {
         $this->title = _('Grupos');
-        $this->subtitle = _('Gerencie os grupos do SGA');
+        $this->subtitle = _('Gerencie os grupos do sistema');
     }
 
     protected function createModel() {

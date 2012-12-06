@@ -16,7 +16,7 @@ class CargosController extends CrudController {
     
     public function __construct() {
         $this->title = _('Cargos');
-        $this->subtitle = _('Gerencie os cargos do SGA');
+        $this->subtitle = _('Gerencie os cargos do sistema');
     }
 
     protected function createModel() {

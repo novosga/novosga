@@ -5,9 +5,15 @@ require_once(__DIR__ . '/InstallStep.php');
 require_once(__DIR__ . '/InstallData.php');
 require_once(__DIR__ . '/InstallView.php');
 
+use \Exception;
 use \core\SGA;
+use \core\Config;
+use \core\ConfigWriter;
+use \core\Security;
 use \core\SGAContext;
+use \core\db\DB;
 use \core\util\Arrays;
+use \core\util\StringMessage;
 use \core\controller\InternalController;
 
 /**
@@ -75,6 +81,14 @@ class InstallController extends InternalController {
         exit();
     }
     
+    private function script_create($type) {
+         return dirname(__FILE__). DS . 'sql' . DS . 'create' . DS . $type . '.sql';
+    }
+    
+    private function script_data() {
+         return dirname(__FILE__). DS . 'sql' . DS . 'data' . DS . 'default.sql';
+    }
+    
     public function test_db(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
             $response = array(
@@ -94,14 +108,14 @@ class InstallController extends InternalController {
                     $db[$field] = $_POST[$field];
                 }
                 $db_type = Arrays::value($db, 'db_type');
-                $sqlFile = dirname(__FILE__). DS . 'sql' . DS . $db_type . '.sql';
+                $sqlFile = $this->script_create($db_type);
                 if (!file_exists($sqlFile)) {
                     throw new Exception(_('Não foi encontrado arquivo SQL para o tipo de banco escolhido'));
                 }
                 $data->database = $db;
                 // testing connection
-                $adapter = DB::createAdapter($db_type);
-                $adapter->connect($db['db_host'], $db['db_port'], $db['db_user'], $db['db_pass'], $db['db_name']);
+                DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
+                $em = DB::getEntityManager();
             } catch (Exception $e) {
                 $response['success'] = false;
                 $response['message'] = $e->getMessage();
@@ -173,6 +187,7 @@ class InstallController extends InternalController {
                 'success' => true,
                 'message' => _('Instalação concluída com sucesso')
             );
+            $conn = null;
             $session = $context->getSession();
             try {
                 if (Config::SGA_INSTALLED) {
@@ -186,40 +201,49 @@ class InstallController extends InternalController {
                 $db_type = $db['db_type'];
 
                 $configFile = ConfigWriter::filename();
-                $sqlFile = dirname(__FILE__) . DS . 'sql' . DS . $db_type . '.sql';
+                $sqlInitFile = $this->script_create($db_type);
+                $sqlDataFile = $this->script_data();
 
                 // verifica se será possível escrever a configuração no arquivo Config.php
                 if (!is_writable($configFile)) {
                     $msg = _('Arquivo de configuação (%s) somente leitura');
                     throw new Exception(sprintf($msg, $configFile));
                 }
-                if (!is_readable($sqlFile)) {
+                // verifica se consegue ler o arquivo de criacao do banco
+                if (!is_readable($sqlInitFile)) {
                     $msg = _('Script SQL de instalação não encontrado (%s)');
-                    throw new Exception(sprintf($msg, $sqlFile));
+                    throw new Exception(sprintf($msg, $sqlInitFile));
+                }
+                // verifica se consegue ler o arquivo dos dados iniciais
+                if (!is_readable($sqlDataFile)) {
+                    $msg = _('Script SQL de instalação não encontrado (%s)');
+                    throw new Exception(sprintf($msg, $sqlDataFile));
                 }
 
-                $adapter = DB::createAdapter($db_type);
-                $adapter->connect($db['db_host'], $db['db_port'], $db['db_user'], $db['db_pass'], $db['db_name']);
+                DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
+                $em = DB::getEntityManager();
+                $conn = $em->getConnection();
+                
+                $conn->beginTransaction();
 
-                // executando arquivo sql
+                // executando arquivo sql de criacao
+                $conn->exec(file_get_contents($sqlInitFile));
+                
+                // executando arquivo sql de dados iniciais
                 $adm = $data->admin;
                 $adm['senha_usu'] = Security::passEncode($adm['senha_usu']);
-                $sql = file_get_contents($sqlFile);
-                foreach ($adm as $k => $v) {
-                    $sql = str_replace("%$k%", addslashes($v), $sql);
-                }
-
-                $adapter->begin();
-                $adapter->getConnection()->exec($sql);
-                $adapter->commit();
+                $sql = StringMessage::format(file_get_contents($sqlDataFile), $adm);
+                $conn->exec($sql);
+                
+                $conn->commit();
                 
                 // atualizando arquivo de configuracao
                 ConfigWriter::write($db);
                 // se sucesso limpa a sessao
                 SGA::getContext()->getSession()->clear();
             } catch (Exception $e) {
-                if ($adapter && $adapter->inTransaction()) {
-                    $adapter->rollBack();
+                if ($conn && $conn->isTransactionActive()) {
+                    $conn->rollBack();
                 }
                 $response['success'] = false;
                 $response['message'] = $e->getMessage();
