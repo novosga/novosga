@@ -1,6 +1,7 @@
 /**
  * Novo SGA - Atendimento
  * icon(s) by pixel-mixer.com
+ * @author rogeriolino
  */
  
 #dialog-guiche div {
@@ -18,17 +19,19 @@
 }
 
 #atendimento {
-    position: relative;
 }
+
+/* guiche */
 
 #atendimento #guiche {
     top: -10px;
     left: 20px;
     min-width: 110px;
     height: 150px;
-    position: absolute;
     background-color: #F8CA00;
     border-bottom: 3px solid #333;
+    position: relative;
+    float: left;
 }
 
 #atendimento #guiche span {
@@ -60,10 +63,11 @@
 
 #atendimento #guiche a:hover { color: #000; }
 
+/* controls */
+
 #atendimento #controls {
-    width: 600px;
     height: 300px;
-    margin: 0 auto;
+    padding-left: 160px;
 }
 
 #atendimento #controls .btn-control {
@@ -76,54 +80,85 @@
     background-repeat: no-repeat;
 }
 
-#atendimento #controls .btn-control.chamar span { background-image: url(../images/icon-chamar); }
-#atendimento #controls .btn-control.iniciar span { background-image: url(../images/icon-iniciar); }
-#atendimento #controls .btn-control.encerrar span { background-image: url(../images/icon-encerrar); }
+#atendimento #controls .btn-control.chamar span { background-image: url(../images/icon-chamar.png); }
+#atendimento #controls .btn-control.iniciar span { background-image: url(../images/icon-iniciar.png); }
+#atendimento #controls .btn-control.encerrar span { background-image: url(../images/icon-encerrar.png); }
+#atendimento #controls .btn-control.naocompareceu span { background-image: url(../images/icon-naocompareceu.png); }
+#atendimento #controls .btn-control.errotriagem span { background-image: url(../images/icon-errotriagem.png); }
 
-#atendimento .senha_info {
-    height: 110px;
-    padding: 20px 0;
+/* controls - atendimento info */
+
+#atendimento #controls .senha {
 }
 
-#atendimento .senha_info li {
+#atendimento #controls .senha .title {
+    padding: 5px 10px;
+}
+
+#atendimento #controls .senha .info {
+    height: 110px;
+    padding: 15px 20px;
+    
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #f9f9f9;
+    border: 1px solid #e1e1e8;
+}
+
+#atendimento #controls .senha .info li {
+    height: 20px;
     list-style: none;
     padding: 3px 0;
     display: block;
-    clear: both;
 }
 
-#atendimento .senha_info li .label {
+#atendimento #controls .senha .info li .label {
     width: 100px;
     float: left;
 }
 
-#atendimento .senha_info li.numero .value {
+#atendimento #controls .senha .info li.numero .value {
     font-size: 30px;
     font-weight: bold;
 }
 
-#atendimento .senha_info.prioridade li.numero .value { color: red; }
-#atendimento .senha_info.prioridade li.prioridade .value { font-weight: bold }
+#atendimento #controls .senha .info.prioridade li.nome-prioridade .value { font-weight: bold }
+
+/* fila */
 
 #atendimento #fila span {
     font-weight: bold;
-    padding-right: 10px;
-    float: left;
+    padding: 5px 0 5px 10px;
+    display: block;
 }
 
 #atendimento #fila ul {
+    height: 50px;
+    padding: 0 0 0 45px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #F7F9FE;
+    background-image: url(../images/client-16.png);
+    background-position: 20px center;
+    background-repeat: no-repeat;
+    border: 1px solid #e1e1e8;
 }
     
 #atendimento #fila ul li {
     list-style: none;
     display: inline;
-    padding: 5px;
+    padding: 12px 6px 0 6px;
+    float: left;
 }
 
 #atendimento #fila ul li.proximo {
     font-size: 20px;
 }
 
-#atendimento #fila ul li.prioridade {
-    color: red;
+#atendimento #fila ul li.empty {
+    color: #999;
+    font-style: italic;
+    padding-top: 15px;
 }

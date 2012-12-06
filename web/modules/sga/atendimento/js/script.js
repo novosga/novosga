@@ -1,9 +1,15 @@
-
+/**
+ * Novo SGA - Atendimento
+ * @author rogeriolino
+ */
 var SGA = SGA || {};
 
 SGA.Atendimento = {
     
     paused: false,
+    filaVazia: '',
+    marcarNaoCompareceu: '',
+    marcarErroTriagem: '',
     ajaxInterval: 3000,
     
     init: function(status) {
@@ -20,14 +26,18 @@ SGA.Atendimento = {
                     if (response.success) {
                         var list = $("#fila ul");
                         list.text('');
-                        for (var i = 0; i < response.atendimentos.length; i++) {
-                            var atendimento = response.atendimentos[i];
-                            var cssClass = atendimento.prioridade ? 'prioridade' : '';
-                            if (i == 0) {
-                                cssClass += ' proximo';
+                        if (response.atendimentos.length > 0) {
+                            for (var i = 0; i < response.atendimentos.length; i++) {
+                                var atendimento = response.atendimentos[i];
+                                var cssClass = atendimento.prioridade ? 'prioridade' : '';
+                                if (i == 0) {
+                                    cssClass += ' proximo';
+                                }
+                                var item = '<li class="' + cssClass + '"><abbr title="' + atendimento.servico + '">' + atendimento.numero + '</abbr></li>';
+                                list.append(item);
                             }
-                            var item = '<li class="' + cssClass + '"><abbr title="' + atendimento.servico + '">' + atendimento.numero + '</abbr></li>';
-                            list.append(item);
+                        } else {
+                            list.append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
                         }
                     }
                 }
@@ -56,13 +66,13 @@ SGA.Atendimento = {
             break;
         case 2: // senha chamada
             if (atendimento) {
-                var info = $('.senha_info');
+                var info = $('.senha .info');
                 info.removeClass('prioridade');
                 if (atendimento.prioridade) {
                     info.addClass('prioridade');
                 }
                 info.find('.numero .value').text(atendimento.numero);
-                info.find('.prioridade .value').text(atendimento.nomePrioridade);
+                info.find('.nome-prioridade .value').text(atendimento.nomePrioridade);
                 info.find('.servico .value').text(atendimento.servico);
                 info.find('.nome .value').text(atendimento.nome);
             }
@@ -105,10 +115,26 @@ SGA.Atendimento = {
         });
     },
     
+    naocompareceu: function() {
+        if (window.confirm(SGA.Atendimento.marcarNaoCompareceu)) {
+            SGA.Atendimento.control('naocompareceu', function(response) {
+                SGA.Atendimento.updateControls(1, response.atendimento)
+            });
+        }
+    },
+    
     encerrar: function() {
         SGA.Atendimento.control('encerrar', function() {
             SGA.Atendimento.updateControls(1)
         });
+    },
+    
+    errotriagem: function() {
+        if (window.confirm(SGA.Atendimento.marcarErroTriagem)) {
+            SGA.Atendimento.control('errotriagem', function() {
+                SGA.Atendimento.updateControls(1)
+            });
+        }
     }
     
 }

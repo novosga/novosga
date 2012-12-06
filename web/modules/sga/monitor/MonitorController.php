@@ -3,6 +3,7 @@ namespace modules\sga\monitor;
 
 use \core\SGAContext;
 use \core\util\Arrays;
+use \core\util\DateUtil;
 use \core\model\Unidade;
 use \core\model\util\Monitor;
 use \core\controller\ModuleController;
@@ -87,16 +88,19 @@ class MonitorController extends ModuleController {
         $response = array('success' => false);
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $numero = Arrays::value($_POST, 'numero');
+            $numero = Arrays::value($_GET, 'numero');
             $atendimentos = $this->buscaAtendimentos($unidade, $numero);
             if (sizeof($atendimentos)) {
                 // vendo ultimo atendimento para essa senha
                 $atendimento = end($atendimentos);
                 $response['numero'] = $atendimento->getSenha()->toString();
                 $response['prioridade'] = $atendimento->getSenha()->isPrioridade() ? $atendimento->getSenha()->getPrioridade()->getNome() : _('Atendimento Normal');
-                $response['cli_nome'] = $atendimento->getCliente()->getNome();
-                $response['cli_doc'] = $atendimento->getCliente()->getDocumento();
-                $response['dt_cheg'] = $atendimento->getDataChegada();
+                $response['servico'] = $atendimento->getServicoUnidade()->getNome();
+                $response['chegada'] = DateUtil::formatToSQL($atendimento->getDataChegada());
+                $response['cliente'] = array(
+                    'nome' => $atendimento->getCliente()->getNome(),
+                    'documento' => $atendimento->getCliente()->getDocumento()
+                );
                 $response['success'] = true;
             }
         }

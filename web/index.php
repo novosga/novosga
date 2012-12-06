@@ -33,8 +33,6 @@ if (sizeof($_GET) == 0) {
 $context = SGA::getContext();
 $context->setParameters($_GET);
 
-//require 'core/model/teste.php'; exit();
-
 foreach ($_GET as $key => $value) {
     if (empty($value)) {
         $value = 'index.php';

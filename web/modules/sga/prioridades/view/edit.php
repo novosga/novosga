@@ -10,19 +10,19 @@ if ($message) {
 }
 
 ?>
-<form id="crud-form" method="post" action="<?php echo SGA::url() ?>">
-    <input type="hidden" name="id" value="<?php echo $model->getId() ?>" />
-    <p class="required-desc"><?php echo _('Campos obrigatórios') ?></p>
+<form id="crud-form" method="post" action="<?php SGA::out(SGA::url()) ?>">
+    <input type="hidden" name="id" value="<?php SGA::out($model->getId()) ?>" />
+    <p class="required-desc"><?php SGA::out(_('Campos obrigatórios')) ?></p>
     <div class="field required">
-        <label for="nome" class="w125"><?php echo _('Nome') ?></label>
-        <input id="nome" type="text" name="nome" class="w400" value="<?php echo $model->getNome() ?>" />
+        <label for="nome" class="w125"><?php SGA::out(_('Nome')) ?></label>
+        <input id="nome" type="text" name="nome" class="w400" value="<?php SGA::out($model->getNome()) ?>" />
     </div>
     <div class="field required">
-        <label for="descricao" class="w125"><?php echo _('Descrição') ?></label>
-        <textarea id="descricao" name="descricao" class="w400 h100"><?php echo $model->getDescricao() ?></textarea>
+        <label for="descricao" class="w125"><?php SGA::out(_('Descrição')) ?></label>
+        <textarea id="descricao" name="descricao" class="w400 h100"><?php SGA::out($model->getDescricao()) ?></textarea>
     </div>
     <div class="field">
-        <label for="peso" class="w125"><?php echo _('Peso') ?></label>
+        <label for="peso" class="w125"><?php SGA::out(_('Peso')) ?></label>
         <?php
             echo $builder->select(array(
                 'id' => 'peso',
@@ -41,7 +41,7 @@ if ($message) {
         ?>
     </div>
     <div class="field required">
-        <label for="status" class="w125"><?php echo _('Status') ?></label>
+        <label for="status" class="w125"><?php SGA::out(_('Status')) ?></label>
         <?php
             echo $builder->select(array(
                 'id' => 'status',

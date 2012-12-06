@@ -1,7 +1,10 @@
-
+/**
+ * Novo SGA - Estatisticas
+ * @author rogeriolino
+ */
 var SGA = SGA || {};
 
-SGA.Relatorios = {
+SGA.Estatisticas = {
     
 }
 

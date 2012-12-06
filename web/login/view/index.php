@@ -34,10 +34,10 @@ $dialog = $this->builder->dialog(array(
 ))
         ;
 ?>
-<form id="login-form" action="?login&<?php echo SGA::K_PAGE ?>=validate" method="post">
+<form id="login-form" action="?login&<?php SGA::out(SGA::K_PAGE) ?>=validate" method="post">
     <div id="logo"></div>
     <div id="login">
-        <?php echo $dialog ?>
+        <?php SGA::out($dialog) ?>
     </div>
     <script type="text/javascript">$(document).ready(function() { $('#login_usu').focus() })</script>
 </form>

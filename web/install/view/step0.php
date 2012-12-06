@@ -33,21 +33,21 @@ foreach ($files as $file) {
 ?>
 <div id="step_0">
     <!--<img src="themes/sga.default/imgs/sga_passaro.png" />-->
-    <h2>Bem-vindo a instalação da versão web do <?php echo SGA::NAME;?>.</h2>
-    <h3>Versão <?php echo SGA::VERSION;?></h3>
+    <h2>Bem-vindo a instalação da versão web do <?php SGA::out(SGA::NAME) ?>.</h2>
+    <h3>Versão <?php SGA::out(SGA::VERSION) ?></h3>
     <p>Favor escolher o seu sistema de banco de dados preferido a partir dos listados abaixo:</p>
     <ul class="adapters">
         <?php foreach ($scripts as $script): ?>
-        <li id="adapter-<?php echo $script['id'] ?>" class="ui-corner-all <?php echo ($currAdapter == $script['id']) ? 'ui-state-highlight' : 'ui-state-default' ?>">
-            <input id="<?php echo $script['id'] ?>" type="radio" name="db" value="<?php echo $script['id'] ?>" onclick="setTimeout(function() { SGA.Install.chooseAdapter('<?php echo $script['id'] ?>')}, 100)" <?php echo ($currAdapter == $script['id']) ? 'checked="checked"' : '' ?> />
-            <label for="<?php echo $script['id'] ?>">
-                <span class="adapter"><?php echo $script['adapter'] ?></span>
-                <span class="info author"><?php echo _('Autor') . ': ' . $script['author'] ?></span>
-                <span class="info date"><?php echo _('Data de criação') . ': ' . $script['date'] ?></span>
+        <li id="adapter-<?php SGA::out($script['id']) ?>" class="ui-corner-all <?php SGA::out(($currAdapter == $script['id']) ? 'ui-state-highlight' : 'ui-state-default') ?>">
+            <input id="<?php SGA::out($script['id']) ?>" type="radio" name="db" value="<?php SGA::out($script['id']) ?>" onclick="setTimeout(function() { SGA.Install.chooseAdapter('<?php SGA::out($script['id']) ?>')}, 100)" <?php SGA::out(($currAdapter == $script['id']) ? 'checked="checked"' : '') ?> />
+            <label for="<?php SGA::out($script['id']) ?>">
+                <span class="adapter"><?php SGA::out($script['adapter']) ?></span>
+                <span class="info author"><?php SGA::out(_('Autor') . ': ' . $script['author']) ?></span>
+                <span class="info date"><?php SGA::out(_('Data de criação') . ': ' . $script['date']) ?></span>
             </label>
         </li>
         <?php endforeach; ?>
     </ul>
     <p>Os requisitos para instalação do sistema irão depender da opção acima.</p>
-    <script type="text/javascript"> SGA.Install.adapter = '<?php echo $currAdapter ?>';</script>
+    <script type="text/javascript"> SGA.Install.adapter = '<?php SGA::out($currAdapter) ?>';</script>
 </div>

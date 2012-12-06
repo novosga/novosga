@@ -1,6 +1,7 @@
 /**
  * Novo SGA - Monitor
  * icon(s) by pixel-mixer.com
+ * @author rogeriolino
  */
  
 #monitor .servico {
@@ -34,10 +35,6 @@
 
 #monitor .servico .fila li a {
     float: left;
-}
-
-#monitor .servico .fila li.prioridade a {
-    color: red;
 }
 
 #dialog-monitor fieldset {

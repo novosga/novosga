@@ -117,15 +117,15 @@ $tableInfo = $builder->table(array(
         }
     ?>
     <div class="requirement">
-        <h2><?php echo _('Requerimentos Mínimos') ?></h2>
-        <?php echo $tableSetup ?>
+        <h2><?php SGA::out(_('Requerimentos Mínimos')) ?></h2>
+        <?php SGA::out($tableSetup) ?>
     </div>
     <div class="requirement">
-        <h2><?php echo _('Permissões Requeridas') ?></h2>
-        <?php echo $tablePermission ?>
+        <h2><?php SGA::out(_('Permissões Requeridas')) ?></h2>
+        <?php SGA::out($tablePermission) ?>
     </div>
     <div class="requirement">
-        <h2><?php echo _('Informações do Ambiente') ?></h2>
-        <?php echo $tableInfo ?>
+        <h2><?php SGA::out(_('Informações do Ambiente')) ?></h2>
+        <?php SGA::out($tableInfo) ?>
     </div>
 </div>

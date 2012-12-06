@@ -1,4 +1,7 @@
-
+/**
+ * Novo SGA - Unidade
+ * @author rogeriolino
+ */
 var SGA = SGA || {};
 
 SGA.Unidade = {

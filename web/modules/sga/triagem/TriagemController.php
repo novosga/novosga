@@ -6,6 +6,7 @@ use \Exception;
 use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
+use core\util\DateUtil;
 use \core\model\util\Triagem;
 use \core\controller\ModuleController;
 
@@ -160,7 +161,7 @@ class TriagemController extends ModuleController {
             $stmt->bindValue('nm_cli', Arrays::value($_POST, 'cli_nome', ''), PDO::PARAM_STR);
             $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
             $stmt->bindValue('num_guiche', '', PDO::PARAM_INT);
-            $stmt->bindValue('dt_cheg', date('Y-m-d H:i:s'), PDO::PARAM_STR);
+            $stmt->bindValue('dt_cheg', DateUtil::nowSQL(), PDO::PARAM_STR);
             
             $response['success'] = ($stmt->execute() == true);
             $response['id'] = $conn->lastInsertId();

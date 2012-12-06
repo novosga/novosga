@@ -1,13 +1,13 @@
 /**
  * Novo SGA - Triagem
  * icon(s) by pixel-mixer.com
+ * @author rogeriolino
  */
  
 #client-info {
     height: 50px;
     margin-bottom: 5px;
     padding: 0 !important;
-
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;

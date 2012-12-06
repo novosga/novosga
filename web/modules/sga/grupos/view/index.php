@@ -2,9 +2,9 @@
 use \core\SGA;
 ?>
 <div class="search">
-    <form method="post" action="<?php echo SGA::url() ?>">
+    <form method="post" action="<?php SGA::out(SGA::url()) ?>">
         <span>
-            <input id="search-box" type="text" name="s" value="<?php echo $context->getRequest()->getParameter('s') ?>" placeholder="<?php echo _('buscar') ?>" />
+            <input id="search-box" type="text" name="s" value="<?php SGA::out($context->getRequest()->getParameter('s')) ?>" placeholder="<?php SGA::out(_('buscar')) ?>" />
             <script type="text/javascript">SGA.Form.searchBox('search-box')</script>
         </span>
         <?php

@@ -2,6 +2,7 @@
 namespace modules\sga\estatisticas;
 
 use \core\SGAContext;
+use \core\util\DateUtil;
 use \core\model\Unidade;
 use \core\controller\ModuleController;
 
@@ -21,7 +22,7 @@ class EstatisticasController extends ModuleController {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Unidade e ORDER BY e.nome");
         $unidades = $query->getResult();
         $this->view()->assign('unidades', $unidades);
-        $now = date('Y-m-d');
+        $now = DateUtil::nowSQL();
         $this->view()->assign('atendimentos', $this->total_atendimentos($now, $now));
     }
     

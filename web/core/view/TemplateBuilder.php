@@ -2,6 +2,7 @@
 namespace core\view;
 
 use \Exception;
+use \core\SGA;
 use \core\util\Arrays;
 use \core\util\Objects;
 use \core\util\StringMessage;
@@ -27,7 +28,7 @@ class TemplateBuilder {
         }
         $tag = '<' . $name . ' ';
         foreach ($attrs as $attrName => $attrValue) {
-            $tag .= $attrName . '="' . $attrValue . '" ';
+            $tag .= $attrName . '="' . addslashes($attrValue) . '" ';
         }
         if ($inner === null) { // simple tag
             $tag .= '/>';
@@ -197,7 +198,7 @@ class TemplateBuilder {
                     $k = $v->getId();
                 }
                 $selected = ($default === $k) ? ' selected="selected"' : '';
-                $content .= '<option value="' . $k . '"' . $selected . '>' . $v . '</option>';
+                $content .= '<option value="' . addslashes($k) . '"' . $selected . '>' . $v . '</option>';
             }
         }
         return $content;
@@ -283,7 +284,7 @@ class TemplateBuilder {
             $table = '<thead><tr>';
             for ($i = 0; $i < sizeof($header); $i++) {
                 $class = Arrays::value($classes, $i, '');
-                $table .= '<th class="' . $class . '">' . $header[$i] . '</th>';
+                $table .= '<th class="' . addslashes($class) . '">' . $header[$i] . '</th>';
             }
             $table .= '</tr></thead>';
         }
@@ -291,7 +292,7 @@ class TemplateBuilder {
             $table = '<tfoot><tr>';
             for ($i = 0; $i < sizeof($footer); $i++) {
                 $class = Arrays::value($classes, $i, '');
-                $table .= '<td class="' . $class . '">' . $footer[$i] . '</td>';
+                $table .= '<td class="' . addslashes($class) . '">' . $footer[$i] . '</td>';
             }
             $table .= '</tr></tfoot>';
         }
@@ -313,7 +314,7 @@ class TemplateBuilder {
                     $value = $this->resolveValue($item, $col);
                 }
                 $class .= Arrays::value($classes, $j, '');
-                $table .= '<td class="'. $class .'">' . $value . '</td>';
+                $table .= '<td class="'. addslashes($class) .'">' . $value . '</td>';
             }
             $table .= '</tr>';
         }
@@ -387,7 +388,7 @@ class TemplateBuilder {
             $class = ($i % 2 == 0) ? 'even' : 'odd';
             $table .= '<tr class="tree-item ' . $class . '" data-left="' . $item->getLeft() . '" data-right="' . $item->getRight() . '" data-open="true">';
             $table .= '<td class="num">' . ($i + 1) . '</td>';
-            $table .= '<td class="toggler">' . $spacer . $item . '</td>';
+            $table .= '<td class="toggler">' . $spacer . $item->toString() . '</td>';
             if (!empty($buttons)) {
                 $params = StringMessage::getParameters($buttons);
                 // se foi passado uma string com parametros na coluna

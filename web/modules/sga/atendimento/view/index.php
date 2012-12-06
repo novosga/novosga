@@ -1,47 +1,46 @@
 <?php
 use \core\SGA;
 
-
 function atendimentoInfo($atendimento) {
-    if ($atendimento) {
-        ?>
-        <h3><?php echo _('Atendimento') ?></h3>
-        <ul class="senha_info <?php echo $atendimento->getSenha()->isPrioridade() ? ' prioridade' : '' ?>">
+    ?>
+    <div class="senha">
+        <h3 class="title"><?php SGA::out(_('Atendimento')) ?></h3>
+        <ul class="info <?php SGA::out(($atendimento && $atendimento->getSenha()->isPrioridade()) ? ' prioridade' : '') ?>">
             <li class="numero">
-                <span class="label"><?php echo _('Senha') ?></span>
-                <span class="value"><?php echo $atendimento->getSenha()->toString() ?></span>
+                <span class="label"><?php SGA::out(_('Senha')) ?></span>
+                <span class="value"><?php SGA::out(($atendimento) ? $atendimento->getSenha()->toString() : '') ?></span>
             </li>
             <li class="servico">
-                <span class="label"><?php echo _('Serviço') ?></span>
-                <span class="value"><?php echo $atendimento->getServicoUnidade()->getNome() ?></span>
+                <span class="label"><?php SGA::out(_('Serviço')) ?></span>
+                <span class="value"><?php SGA::out(($atendimento) ? $atendimento->getServicoUnidade()->getNome() : '') ?></span>
             </li>
-            <li class="prioridade">
-                <span class="label"><?php echo _('Prioridade') ?></span>
-                <span class="value"><?php echo $atendimento->getSenha()->getPrioridade()->getNome() ?></span>
+            <li class="nome-prioridade">
+                <span class="label"><?php SGA::out(_('Prioridade')) ?></span>
+                <span class="value"><?php SGA::out(($atendimento) ? $atendimento->getSenha()->getPrioridade()->getNome() : '') ?></span>
             </li>
             <li class="nome">
-                <span class="label"><?php echo _('Nome') ?></span>
-                <span class="value"><?php echo $atendimento->getCliente()->getNome() ?></span>
+                <span class="label"><?php SGA::out(_('Nome')) ?></span>
+                <span class="value"><?php SGA::out(($atendimento) ? $atendimento->getCliente()->getNome() : '') ?></span>
             </li>
         </ul>
-        <?php
-    }
+    </div>
+    <?php
 }
 
 function btnControl($label, $action) {
     ?>
-    <button class="btn-control <?php echo $action ?>" onclick="SGA.Atendimento.<?php echo $action ?>()"><?php echo _($label) ?></button>
+    <button class="btn-control <?php SGA::out($action) ?>" onclick="SGA.Atendimento.<?php SGA::out($action) ?>()" title="<?php SGA::out(_($label)) ?>"><?php SGA::out(_($label)) ?></button>
     <?php
 }
 
 $guiche = $context->getUser()->getGuiche();
 
 ?>
-<div id="dialog-guiche" title="<?php echo _('Guichê') ?>" style="display:none">
-    <form id="guiche_form" action="<?php echo SGA::url('set_guiche') ?>" method="post">
+<div id="dialog-guiche" title="<?php SGA::out(_('Guichê')) ?>" style="display:none">
+    <form id="guiche_form" action="<?php SGA::out(SGA::url('set_guiche')) ?>" method="post">
         <div>
-            <label><?php echo _('Número') ?></label>
-            <input type="text" id="numero_guiche" name="guiche" maxlength="3" class="w50" value="<?php echo $context->getCookie()->get('guiche') ?>" />
+            <label><?php SGA::out(_('Número')) ?></label>
+            <input type="text" id="numero_guiche" name="guiche" maxlength="3" class="w50" value="<?php SGA::out($context->getCookie()->get('guiche')) ?>" />
         </div>
     </form>
     <script type="text/javascript">
@@ -60,7 +59,7 @@ $guiche = $context->getUser()->getGuiche();
 // se ainda nao definiu o guiche, exibe automaticamente a dialog
 if ($guiche <= 0) {
     ?>
-    <script type="text/javascript">SGA.Atendimento.updateGuiche("<?php echo _('Salvar') ?>"); $('#guiche').focus();</script>
+    <script type="text/javascript">SGA.Atendimento.updateGuiche("<?php SGA::out(_('Salvar')) ?>"); $('#guiche').focus();</script>
     <?php
 } 
 // guiche definido, exibe tela de atendimento
@@ -68,9 +67,9 @@ else {
     ?>
     <div id="atendimento">
         <div id="guiche">
-            <span class="label"><?php echo _('Guichê') ?></span>
-            <span class="numero"><?php echo $guiche ?></span>
-            <a href="javascript:void(0)" onclick="SGA.Atendimento.updateGuiche('<?php echo _('Salvar') ?>')"><?php echo _('Alterar') ?></a>
+            <span class="label"><?php SGA::out(_('Guichê')) ?></span>
+            <span class="numero"><?php SGA::out($guiche) ?></span>
+            <a href="javascript:void(0)" onclick="SGA.Atendimento.updateGuiche('<?php SGA::out(_('Salvar') )?>')"><?php SGA::out(_('Alterar')) ?></a>
         </div>
         <div id="controls">
             <div id="chamar" class="control" style="display:none">
@@ -81,17 +80,19 @@ else {
                     atendimentoInfo($atendimento);
                     btnControl('Chamar novamente', 'chamar');
                     btnControl('Iniciar atendimento', 'iniciar') ;
+                    btnControl('Não compareceu', 'naocompareceu') ;
                 ?>
             </div>
             <div id="encerrar" class="control" style="display:none">
                 <?php 
                     atendimentoInfo($atendimento); 
                     btnControl('Encerrar atendimento', 'encerrar');
+                    btnControl('Erro de triagem', 'errotriagem') ;
                 ?>
             </div>
         </div>
         <div id="fila">
-            <span><?php echo _('Minha fila') ?>:</span>
+            <span><?php SGA::out(_('Minha fila')) ?>:</span>
             <ul></ul>
         </div>
     </div>
@@ -99,8 +100,10 @@ else {
         <?php
             $status = ($atendimento) ? $atendimento->getStatus() : 1;
         ?>
-        SGA.Atendimento.init(<?php echo $status ?>);
+        SGA.Atendimento.filaVazia = '<?php SGA::out(_('Fila Vazia')) ?>';
+        SGA.Atendimento.marcarErroTriagem = '<?php SGA::out(_('Realmente deseja marcar como erro de triagem?')) ?>';
+        SGA.Atendimento.marcarNaoCompareceu = '<?php SGA::out(_('Realmente deseja marcar como não compareceu?')) ?>';
+        SGA.Atendimento.init(<?php SGA::out($status) ?>);
     </script>
     <?php
 }
-?>

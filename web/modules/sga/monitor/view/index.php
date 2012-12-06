@@ -3,7 +3,7 @@
     <?php $id  = $su->getServico()->getId(); ?>
     <?php $empty  = $su->getFila()->size() == 0; ?>
     <div id="servico-<?php echo $id ?>" class="servico ui-corner-all ui-state-default <?php echo ($empty) ? 'empty' : '' ?>" data-id="<?php echo $id ?>">
-        <span class="title"><?php echo $su->getServico()->getNome() ?></span>
+        <span class="title"><?php SGA::out($su->getServico()->getNome()) ?></span>
         <ul class="fila">
             <?php 
                 if (!$empty):
@@ -11,43 +11,47 @@
                         $senha = $su->getFila()->get($i)->getSenha(); 
                         $onclick = "SGA.Monitor.viewSenha({$senha->getNumero()})";
                     ?>
-                    <li class="<?php echo ($senha->isPrioridade() ? 'prioridade' : '') ?>">
-                        <a href="javascript:void(0)" onclick="<?php echo $onclick ?>" title="<?php echo ($senha->isPrioridade() ? $senha->getPrioridade()->getNome() : _('Atendimento Normal')) ?>">
-                            <?php echo $senha ?>
+                    <li class="<?php SGA::out(($senha->isPrioridade() ? 'prioridade' : '')) ?>">
+                        <a href="javascript:void(0)" onclick="<?php echo $onclick ?>" title="<?php SGA::out($senha->isPrioridade() ? $senha->getPrioridade()->getNome() : _('Atendimento Normal')) ?>">
+                            <?php SGA::out($senha) ?>
                         </a>
                     </li>
                     <?php endfor; ?>
                 <?php else: ?>
-                    <li class="empty"><?php echo _('Fila vazia') ?></li>
+                    <li class="empty"><?php SGA::out(_('Fila vazia')) ?></li>
             <?php endif; ?>
         </ul>
     </div>
     <?php endforeach; ?>
 </div>
-<div id="dialog-monitor" title="<?php echo _('Atendimento') ?>" style="display:none">
+<div id="dialog-monitor" title="<?php SGA::out(_('Atendimento')) ?>" style="display:none">
     <fieldset>
-        <legend><?php echo _('Senha') ?></legend>
+        <legend><?php SGA::out(_('Senha')) ?></legend>
         <div>
-            <label><?php echo _('Número') ?></label>
+            <label><?php SGA::out(_('Número')) ?></label>
             <span id="senha_numero"></span>
         </div>
         <div>
-            <label><?php echo _('Prioridade') ?></label>
+            <label><?php SGA::out(_('Prioridade')) ?></label>
             <span id="senha_prioridade"></span>
         </div>
         <div>
-            <label><?php echo _('Data chegada') ?></label>
+            <label><?php SGA::out(_('Serviço')) ?></label>
+            <span id="senha_servico"></span>
+        </div>
+        <div>
+            <label><?php SGA::out(_('Data chegada')) ?></label>
             <span id="senha_chegada"></span>
         </div>
     </fieldset>
     <fieldset>
-        <legend><?php echo _('Cliente') ?></legend>
+        <legend><?php SGA::out(_('Cliente')) ?></legend>
         <div>
-            <label><?php echo _('Nome') ?></label>
+            <label><?php SGA::out(_('Nome')) ?></label>
             <span id="cliente_nome"></span>
         </div>
         <div>
-            <label><?php echo _('Documento') ?></label>
+            <label><?php SGA::out(_('Documento')) ?></label>
             <span id="cliente_documento"></span>
         </div>
     </fieldset>
@@ -57,6 +61,6 @@
         var servico = $(v);
         SGA.Monitor.ids.push(servico.data('id'));
     });
-    SGA.Monitor.atendimentoNormal = '<?php echo _('Atendimento Normal') ?>';
+    SGA.Monitor.atendimentoNormal = '<?php SGA::out(_('Atendimento Normal')) ?>';
     setInterval(SGA.Monitor.ajaxUpdate, SGA.Monitor.ajaxInterval);
 </script>
