@@ -21,7 +21,7 @@ use \core\util\Arrays;
 if (!Config::SGA_INSTALLED && !isset($_GET[SGA::K_INSTALL])) {
     $lastStep = (int) SGA::getContext()->getSession()->getGlobal(SGA::K_INSTALL);
     $step = (int) Arrays::value($_GET, SGA::K_INSTALL, $lastStep);
-    SGA::redirect(SGA::K_INSTALL . '=' . $step);
+    SGA::redirect('/' . SGA::K_INSTALL . '=' . $step);
     exit();
 }
 

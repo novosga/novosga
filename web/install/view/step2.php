@@ -1,5 +1,6 @@
 <?php
 use \core\SGA;
+use \install\InstallView;
 
 // desabilita o proximo, para liberar so quando marcar o "aceito"
 SGA::getContext()->getSession()->set(InstallView::ERROR, true);

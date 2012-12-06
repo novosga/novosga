@@ -15,7 +15,7 @@ class UnidadesController extends CrudController {
     
     public function __construct() {
         $this->title = _('Unidades');
-        $this->subtitle = _('Gerencie as unidades do SGA');
+        $this->subtitle = _('Gerencie as unidades do sistema');
     }
 
     protected function createModel() {

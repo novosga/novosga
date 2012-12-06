@@ -1,5 +1,8 @@
 <?php
 use \core\SGA;
+use \install\InstallData;
+use \install\InstallView;
+use \core\view\TemplateBuilder;
 
 $fatal = false;
 $builder = new TemplateBuilder();
@@ -118,14 +121,14 @@ $tableInfo = $builder->table(array(
     ?>
     <div class="requirement">
         <h2><?php SGA::out(_('Requerimentos Mínimos')) ?></h2>
-        <?php SGA::out($tableSetup) ?>
+        <?php echo $tableSetup ?>
     </div>
     <div class="requirement">
         <h2><?php SGA::out(_('Permissões Requeridas')) ?></h2>
-        <?php SGA::out($tablePermission) ?>
+        <?php echo $tablePermission ?>
     </div>
     <div class="requirement">
         <h2><?php SGA::out(_('Informações do Ambiente')) ?></h2>
-        <?php SGA::out($tableInfo) ?>
+        <?php echo $tableInfo ?>
     </div>
 </div>

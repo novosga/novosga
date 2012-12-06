@@ -26,7 +26,7 @@ class Config {
     
     public static function write(array $values) {
         $values['namespace'] = __NAMESPACE__;
-        $values['generator'] = get_class(self);
+        $values['generator'] = 'ConfigWriter';
         $config = StringMessage::format(self::CONFIG_LAYOUT, $values);
         // atualizando o arquivo de configuracao
         file_put_contents(self::filename(), $config);

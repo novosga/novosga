@@ -16,7 +16,7 @@ class ServicosController extends CrudController {
     
     public function __construct() {
         $this->title = _('Serviços');
-        $this->subtitle = _('Gerencie os serviços do SGA');
+        $this->subtitle = _('Gerencie os serviços do sistema');
     }
 
     protected function createModel() {

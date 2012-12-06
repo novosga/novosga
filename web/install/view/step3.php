@@ -1,5 +1,8 @@
 <?php
 use \core\SGA;
+use \install\InstallData;
+use \install\InstallView;
+use \core\view\TemplateBuilder;
 
 // desabilita o proximo, para liberar so testar o banco
 $session = SGA::getContext()->getSession();
