@@ -48,22 +48,23 @@ SGA.Atendimento = {
     },
     
     updateControls: function(status, atendimento) {
+        $('#controls button').button();
         $('#controls .control').hide();
         switch (status) {
-        case 1: // nenhum atendimento
+        case 1: // nenhum atendimento, chamar
             $('#chamar').show();
             break;
         case 2: // senha chamada
             if (atendimento) {
-                var info = $('#senha_info');
+                var info = $('.senha_info');
                 info.removeClass('prioridade');
                 if (atendimento.prioridade) {
                     info.addClass('prioridade');
                 }
-                info.find('.numero span').text(atendimento.numero);
-                info.find('.prioridade span').text(atendimento.nomePrioridade);
-                info.find('.servico span').text(atendimento.servico);
-                info.find('.nome span').text(atendimento.nome);
+                info.find('.numero .value').text(atendimento.numero);
+                info.find('.prioridade .value').text(atendimento.nomePrioridade);
+                info.find('.servico .value').text(atendimento.servico);
+                info.find('.nome .value').text(atendimento.nome);
             }
             $('#iniciar').show();
             break;
@@ -88,7 +89,13 @@ SGA.Atendimento = {
     
     chamar: function() {
         SGA.Atendimento.control('chamar', function(response) {
-            SGA.Atendimento.updateControls(2, response.atendimento)
+            // remove o proximo da lista se for o mesmo do atendimento
+            var proximo = $("#fila ul li:first");
+            if (response.atendimento.numero == proximo.text()) {
+                proximo.remove();
+                $("#fila ul li:first").addClass('proximo'); // novo proximo
+            }
+            SGA.Atendimento.updateControls(2, response.atendimento);
         });
     },
     

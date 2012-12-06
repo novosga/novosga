@@ -240,12 +240,19 @@ class Atendimento extends SequencialModel {
         return $this->senha;
     }
 
-    /**
-     * Retorna String com Id, senha e status
-     * @return String
-     */
     public function toString() {
         return "Atendimento[id:{$this->getId()},senha:{$this->getSenha()},status: {$this->getStatus()}]";
+    }
+    
+    public function toArray() {
+        return array(
+            'id' => $this->getId(),
+            'numero' => $this->getSenha()->toString(),
+            'servico' => $this->getServicoUnidade()->getNome(),
+            'prioridade' => $this->getSenha()->isPrioridade(),
+            'nomePrioridade' => $this->getSenha()->getPrioridade()->getNome(),
+            'nome' => $this->getCliente()->getNome()
+        );
     }
 
 }
