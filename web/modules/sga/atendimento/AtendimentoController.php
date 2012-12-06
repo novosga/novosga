@@ -51,15 +51,15 @@ class AtendimentoController extends ModuleController {
                 JOIN su.servico s 
             WHERE 
                 e.status = :status AND
-                su.unidade = :unidade AND
-                s.id IN (:servicos)
+                su.unidade = :unidade 
             ORDER BY 
                 p.peso DESC,
                 e.numeroSenha ASC
         ");
+        // TODO: pegar os servidos do usuario e jogar na query (AND s.id IN (:servicos))
         $query->setParameter('status', Atendimento::SENHA_EMITIDA);
         $query->setParameter('unidade', $usuario->getUnidade()->getId());
-        $query->setParameter('servicos', array(15));
+        //$query->setParameter('servicos', array(15));
         return $query;
     }
     
@@ -157,14 +157,7 @@ class AtendimentoController extends ModuleController {
         // response
         $response['success'] = $success;
         if ($success) {
-            $response['atendimento'] = array(
-                'id' => $proximo->getId(),
-                'numero' => $proximo->getSenha()->toString(),
-                'servico' => $proximo->getServicoUnidade()->getNome(),
-                'prioridade' => $proximo->getSenha()->isPrioridade(),
-                'nomePrioridade' => $proximo->getSenha()->getPrioridade()->getNome(),
-                'nome' => $proximo->getCliente()->getNome()
-            );
+            $response['atendimento'] = $proximo->toArray();
         } else {
             if (!$proximo) {
                 $response['message'] = _('Fila vazia');
@@ -198,7 +191,9 @@ class AtendimentoController extends ModuleController {
             $query->setParameter('statusAtual', Atendimento::CHAMADO_PELA_MESA);
             $response['success'] = $query->execute() > 0;
         }
-        if (!$response['success']) {
+        if ($response['success']) {
+            $response['atendimento'] = $atual->toArray();
+        } else {
             $response['message'] = _('Nenhum atendimento disponível');
         }
         $context->getResponse()->jsonResponse($response);
@@ -228,6 +223,8 @@ class AtendimentoController extends ModuleController {
             $response['success'] = $query->execute() > 0;
         }
         if (!$response['success']) {
+            $response['atendimento'] = $atual->toArray();
+        } else {
             $response['message'] = _('Nenhum atendimento iniciado');
         }
         $context->getResponse()->jsonResponse($response);

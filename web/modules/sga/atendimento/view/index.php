@@ -3,25 +3,34 @@ use \core\SGA;
 
 
 function atendimentoInfo($atendimento) {
+    if ($atendimento) {
+        ?>
+        <h3><?php echo _('Atendimento') ?></h3>
+        <ul class="senha_info <?php echo $atendimento->getSenha()->isPrioridade() ? ' prioridade' : '' ?>">
+            <li class="numero">
+                <span class="label"><?php echo _('Senha') ?></span>
+                <span class="value"><?php echo $atendimento->getSenha()->toString() ?></span>
+            </li>
+            <li class="servico">
+                <span class="label"><?php echo _('Serviço') ?></span>
+                <span class="value"><?php echo $atendimento->getServicoUnidade()->getNome() ?></span>
+            </li>
+            <li class="prioridade">
+                <span class="label"><?php echo _('Prioridade') ?></span>
+                <span class="value"><?php echo $atendimento->getSenha()->getPrioridade()->getNome() ?></span>
+            </li>
+            <li class="nome">
+                <span class="label"><?php echo _('Nome') ?></span>
+                <span class="value"><?php echo $atendimento->getCliente()->getNome() ?></span>
+            </li>
+        </ul>
+        <?php
+    }
+}
+
+function btnControl($label, $action) {
     ?>
-    <ul id="senha_info">
-        <li class="numero">
-            <?php echo _('Senha') ?>
-            <span><?php echo ($atendimento) ? $atendimento->getSenha()->toString() : '' ?></span>
-        </li>
-        <li class="prioridade">
-            <?php echo _('Prioridade') ?>
-            <span><?php echo ($atendimento) ? $atendimento->getSenha()->getPrioridade()->getNome() : '' ?></span>
-        </li>
-        <li class="nome">
-            <?php echo _('Nome') ?>
-            <span><?php echo ($atendimento) ? $atendimento->getCliente()->getNome() : '' ?></span>
-        </li>
-        <li class="servico">
-            <?php echo _('Serviço') ?>
-            <span><?php echo ($atendimento) ? $atendimento->getServicoUnidade()->getNome() : '' ?></span>
-        </li>
-    </ul>
+    <button class="btn-control <?php echo $action ?>" onclick="SGA.Atendimento.<?php echo $action ?>()"><?php echo _($label) ?></button>
     <?php
 }
 
@@ -65,15 +74,20 @@ else {
         </div>
         <div id="controls">
             <div id="chamar" class="control" style="display:none">
-                <a href="javascript:void(0)" onclick="SGA.Atendimento.chamar()">chamar proximo</a>
+                <?php btnControl('Chamar próximo', 'chamar') ?>
             </div>
             <div id="iniciar" class="control" style="display:none">
-                <?php atendimentoInfo($atendimento); ?>
-                <a href="javascript:void(0)" onclick="SGA.Atendimento.iniciar()">iniciar atendimento</a>
+                <?php 
+                    atendimentoInfo($atendimento);
+                    btnControl('Chamar novamente', 'chamar');
+                    btnControl('Iniciar atendimento', 'iniciar') ;
+                ?>
             </div>
             <div id="encerrar" class="control" style="display:none">
-                <?php atendimentoInfo($atendimento); ?>
-                <a href="javascript:void(0)" onclick="SGA.Atendimento.encerrar()">encerrar atendimento</a>
+                <?php 
+                    atendimentoInfo($atendimento); 
+                    btnControl('Encerrar atendimento', 'encerrar');
+                ?>
             </div>
         </div>
         <div id="fila">

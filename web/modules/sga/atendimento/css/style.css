@@ -1,4 +1,8 @@
-
+/**
+ * Novo SGA - Atendimento
+ * icon(s) by pixel-mixer.com
+ */
+ 
 #dialog-guiche div {
     padding: 15px 0;
 }
@@ -61,6 +65,45 @@
     height: 300px;
     margin: 0 auto;
 }
+
+#atendimento #controls .btn-control {
+    margin: 10px;
+}
+
+#atendimento #controls .btn-control span {
+    padding-top: 60px;
+    background-position: center 5px;
+    background-repeat: no-repeat;
+}
+
+#atendimento #controls .btn-control.chamar span { background-image: url(../images/icon-chamar); }
+#atendimento #controls .btn-control.iniciar span { background-image: url(../images/icon-iniciar); }
+#atendimento #controls .btn-control.encerrar span { background-image: url(../images/icon-encerrar); }
+
+#atendimento .senha_info {
+    height: 110px;
+    padding: 20px 0;
+}
+
+#atendimento .senha_info li {
+    list-style: none;
+    padding: 3px 0;
+    display: block;
+    clear: both;
+}
+
+#atendimento .senha_info li .label {
+    width: 100px;
+    float: left;
+}
+
+#atendimento .senha_info li.numero .value {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#atendimento .senha_info.prioridade li.numero .value { color: red; }
+#atendimento .senha_info.prioridade li.prioridade .value { font-weight: bold }
 
 #atendimento #fila span {
     font-weight: bold;
