@@ -28,8 +28,8 @@ class ServicosController extends CrudController {
     }
 
     protected function preSave(SequencialModel $model) {
-        $id_macro = (int) Arrays::value($_POST, 'id_macro', 0);
-        $macro = $this->db()->getServico($id_macro);
+        $id_macro = (int) Arrays::value($_POST, 'id_macro');
+        $macro = $this->em()->find("\core\model\Servico", $id_macro);
         $model->setMestre($macro);
     }
 

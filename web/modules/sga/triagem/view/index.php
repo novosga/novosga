@@ -1,4 +1,5 @@
 <?php
+use \core\SGA;
 
 function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUnidade $servicoUnidade) {
     $servico = $servicoUnidade->getServico();

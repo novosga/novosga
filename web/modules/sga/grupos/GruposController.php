@@ -5,19 +5,14 @@ use \core\SGAContext;
 use \core\util\Arrays;
 use \core\model\SequencialModel;
 use \core\model\Grupo;
-use \core\controller\CrudController;
+use \core\controller\TreeModelController;
 
 /**
  * GruposController
  *
  * @author rogeriolino
  */
-class GruposController extends CrudController {
-    
-    public function __construct() {
-        $this->title = _('Grupos');
-        $this->subtitle = _('Gerencie os grupos do sistema');
-    }
+class GruposController extends TreeModelController {
 
     protected function createModel() {
         return new Grupo();

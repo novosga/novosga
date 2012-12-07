@@ -19,7 +19,7 @@ INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod)
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.cargos', 'Cargos', 'Gerencie os cargos do sistema', 'rogeriolino', 1, 1);
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.usuarios', 'Usuários', 'Gerencie os usuários do sistema', 'rogeriolino', 1, 1);
 -- modulos locais
-INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.configuracao', 'Configuração', 'Módulo para gerenciamento da unidade atual', 'rogeriolino', 0, 1);
+INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.unidade', 'Configuração', 'Módulo para gerenciamento da unidade atual', 'rogeriolino', 0, 1);
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.triagem', 'Triagem', 'Gerencie a distribuíção das senhas da unidade atual', 'rogeriolino', 0, 1);
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.monitor', 'Monitor', 'Gerencie as senhas aguardando atendimento', 'rogeriolino', 0, 1);
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.atendimento', 'Atendimento', 'Efetue o atendimento às senhas distribuídas dos serviços que você atende', 'rogeriolino', 0, 1);
