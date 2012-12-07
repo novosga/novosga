@@ -15,11 +15,6 @@ use \core\controller\ModuleController;
  */
 class MonitorController extends ModuleController {
     
-    public function __construct() {
-        $this->title = _('Monitor');
-        $this->subtitle = _('Gerencie as senhas aguardando atendimento');
-    }
-    
     private function servicos(Unidade $unidade, $where = "") {
         $dql = "SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade ";
         if (!empty($where)) {

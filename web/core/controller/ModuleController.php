@@ -2,6 +2,7 @@
 namespace core\controller;
 
 use \core\db\DB;
+use core\SGA;
 use \core\view\ModuleView;
 use \core\controller\SGAController;
 
@@ -14,6 +15,12 @@ abstract class ModuleController extends SGAController {
     
     protected $title = 'TITLE';
     protected $subtitle = 'SUBTITLE';
+    
+    public function __construct() {
+        $modulo = SGA::getContext()->getModule();
+        $this->title = _($modulo->getNome());
+        $this->subtitle = _($modulo->getDescricao());
+    }
 
 
     /**

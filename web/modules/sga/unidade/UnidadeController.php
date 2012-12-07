@@ -16,11 +16,6 @@ use \core\controller\ModuleController;
  */
 class UnidadeController extends ModuleController {
     
-    public function __construct() {
-        $this->title = _('Configuração');
-        $this->subtitle = _('Módulo para gerenciamento da unidade atual');
-    }
-    
     public function index(SGAContext $context) {
         $unidade = $context->getUser()->getUnidade();
         $this->view()->assign('unidade', $unidade);

@@ -14,11 +14,6 @@ use \core\controller\CrudController;
  */
 class PrioridadesController extends CrudController {
     
-    public function __construct() {
-        $this->title = _('Prioridades');
-        $this->subtitle = _('Gerencie os prioridades do sistema');
-    }
-
     protected function createModel() {
         return new Prioridade();
     }
