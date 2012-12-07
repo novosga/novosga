@@ -12,11 +12,6 @@ use \core\controller\ModuleController;
  * @author rogeriolino
  */
 class EstatisticasController extends ModuleController {
-    
-    public function __construct() {
-        $this->title = _('Estatisticas');
-        $this->subtitle = _('Visualize e exporte estastísticas e relatórios sobre o sistema');
-    }
 
     public function index(SGAContext $context) {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Unidade e ORDER BY e.nome");

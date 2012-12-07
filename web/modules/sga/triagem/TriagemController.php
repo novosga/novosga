@@ -16,12 +16,7 @@ use \core\controller\ModuleController;
  * @author rogeriolino
  */
 class TriagemController extends ModuleController {
-    
-    public function __construct() {
-        $this->title = _('Triagem');
-        $this->subtitle = _('Gerencie a distribuíção das senhas da unidade atual');
-    }
-    
+      
     private function servicos(\core\model\Unidade $unidade) {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1 ORDER BY e.nome");
         $query->setParameter('unidade', $unidade->getId());

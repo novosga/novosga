@@ -16,11 +16,6 @@ use \core\model\Usuario;
  */
 class AtendimentoController extends ModuleController {
     
-    public function __construct() {
-        $this->title = _('Atendimento');
-        $this->subtitle = _('Efetue o atendimento às senhas distribuídas dos serviços que você atende');
-    }
-
     public function index(SGAContext $context) {
         $usuario = $context->getUser();
         $unidade = $context->getUnidade();
