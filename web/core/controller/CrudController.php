@@ -52,7 +52,7 @@ abstract class CrudController extends ModuleController {
      * Insere ou atualiza a entidade no banco
      * @param \core\model\SequencialModel $model
      */
-    private function save(SequencialModel $model) {
+    protected function save(SequencialModel $model) {
         $this->preSave($model);
         if ($model->getId() > 0) {
             $this->em()->merge($model);

@@ -1,3 +1,6 @@
+<?php
+use \core\SGA;
+?>
 <div id="monitor">
     <?php foreach ($servicos as $su): ?>
     <?php $id  = $su->getServico()->getId(); ?>

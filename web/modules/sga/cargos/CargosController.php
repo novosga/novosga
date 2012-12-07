@@ -5,19 +5,14 @@ use \core\SGAContext;
 use \core\util\Arrays;
 use \core\model\SequencialModel;
 use \core\model\Cargo;
-use \core\controller\CrudController;
+use \core\controller\TreeModelController;
 
 /**
  * CargosController
  *
  * @author rogeriolino
  */
-class CargosController extends CrudController {
-    
-    public function __construct() {
-        $this->title = _('Cargos');
-        $this->subtitle = _('Gerencie os cargos do sistema');
-    }
+class CargosController extends TreeModelController {
 
     protected function createModel() {
         return new Cargo();
