@@ -2,13 +2,13 @@
 namespace core\util;
 
 /**
- * StringMessage
+ * Strings Utils
  *
  * @author rogeriolino
  */
-class StringMessage {
+class Strings {
     
-    const REGEX_PARAMS = '/{([^}]*)}/';
+    const REGEX_PARAMS = '/{([A-z0-9}]*)}/';
     
     public static function getParameters($str) {
         $matchs = array();
@@ -21,6 +21,10 @@ class StringMessage {
             $str = str_replace('{' . $k . '}', $v, $str);
         }
         return $str;
+    }
+    
+    public static function doubleQuoteSlash($str) {
+        return str_replace('"', '\"', $str);
     }
     
 }

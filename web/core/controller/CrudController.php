@@ -1,8 +1,10 @@
 <?php
 namespace core\controller;
 
+use \Exception;
 use \core\SGA;
 use \core\db\DB;
+use core\view\CrudView;
 use \core\model\SequencialModel;
 use \core\controller\ModuleController;
 use \core\SGAContext;
@@ -21,6 +23,13 @@ abstract class CrudController extends ModuleController {
      * @var SequencialModel
      */
     protected $model;
+    
+    /**
+     * @return CrudView
+     */
+    protected function createView() {
+        return new CrudView($this->title, $this->subtitle);
+    }
     
     /**
      * Retorna a entidade do controlador ou null caso nao encontre
@@ -49,27 +58,13 @@ abstract class CrudController extends ModuleController {
     protected abstract function createModel();
     
     /**
-     * Insere ou atualiza a entidade no banco
-     * @param \core\model\SequencialModel $model
+     * Monta a lista das entidades, podendo filtra-las.
+     * @param \core\SGAContext $context
      */
-    protected function save(SequencialModel $model) {
-        $this->preSave($model);
-        if ($model->getId() > 0) {
-            $this->em()->merge($model);
-        } else {
-            $this->em()->persist($model);
-        }
-        $this->postSave($model);
-        $this->em()->flush();
-    }
-    
-    protected function preSave(SequencialModel $model) {}
-    protected function postSave(SequencialModel $model) {}
-    
     public function index(SGAContext $context) {
         $context = SGA::getContext();
         if (isset($_POST['s'])) {
-            $arg = "%" . $_POST['s'] . "%";
+            $arg = "%" . strtoupper($_POST['s']) . "%";
         } else {
             $arg = "%";
         }
@@ -77,6 +72,11 @@ abstract class CrudController extends ModuleController {
         $this->view()->assign('items', $items);
     }
     
+    /**
+     * Exibe o formulário de cadastro, tanto novo quanto para alteração
+     * @param \core\SGAContext $context
+     * @throws \Exception
+     */
     public function edit(SGAContext $context) {
         $id = (int) Arrays::value($_GET, 'id');
         if ($id > 0) { // editando
@@ -94,7 +94,7 @@ abstract class CrudController extends ModuleController {
             try {
                 foreach ($requiredFields as $field) {
                     $value = trim(Arrays::value($_POST, $field));
-                    if (empty($value)) {
+                    if (empty($value) && $value !== '0') {
                         throw new \Exception(_('Preencha os campos obrigatórios'));
                     }
                     Objects::set($this->model, $field, $_POST[$field]);
@@ -103,10 +103,10 @@ abstract class CrudController extends ModuleController {
                 $id = Arrays::value($_POST, 'id', 0);
                 if ($id > 0) { // editando
                     $this->model->setId($id);
-                    $this->save($this->model);
+                    $this->doSave($this->model);
                     $message = array('success' => true, 'message' => _('Registro alterado com sucesso'));
                 } else { // criando
-                    $this->save($this->model);
+                    $this->doSave($this->model);
                     $id = $this->model->getId();
                     if ($id > 0) {
                         $message = array('success' => true, 'message' => _('Novo registro adicionado com sucesso'));
@@ -122,5 +122,50 @@ abstract class CrudController extends ModuleController {
         $this->view()->assign('message', $message);
         $this->view()->assign('model', $this->model);
     }
+    
+    /**
+     * Insere ou atualiza a entidade no banco
+     * @param \core\model\SequencialModel $model
+     */
+    protected function doSave(SequencialModel $model) {
+        $this->preSave($model);
+        if ($model->getId() > 0) {
+            $this->em()->merge($model);
+        } else {
+            $this->em()->persist($model);
+        }
+        $this->postSave($model);
+        $this->em()->flush();
+    }
+    
+    protected function preSave(SequencialModel $model) {}
+    protected function postSave(SequencialModel $model) {}
+    
+    public function delete(SGAContext $context) {
+        $id = (int) Arrays::value($_POST, 'id');
+        $model = $this->findById($id);
+        if ($model) {
+            try {
+                $this->doDelete($model);
+            } catch (Exception $e) {
+                $this->view()->addMessage($e->getMessage(), 'error');
+            }
+        }
+        SGA::redirect($_SERVER['HTTP_REFERER']);
+    }
+    
+    /**
+     * Insere ou atualiza a entidade no banco
+     * @param \core\model\SequencialModel $model
+     */
+    protected function doDelete(SequencialModel $model) {
+        $this->preDelete($model);
+        $this->em()->remove($model);
+        $this->postDelete($model);
+        $this->em()->flush();
+    }
+    
+    protected function preDelete(SequencialModel $model) {}
+    protected function postDelete(SequencialModel $model) {}
     
 }
