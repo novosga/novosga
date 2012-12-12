@@ -26,7 +26,7 @@ abstract class TreeModelController extends CrudController {
      * Insere ou atualiza a entidade no banco
      * @param \core\model\SequencialModel $model
      */
-    protected function save(SequencialModel $model) {
+    protected function doSave(SequencialModel $model) {
         if (!($model instanceof TreeModel)) {
             throw new Exception(sprintf(_('Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s'), get_class($model)));
         }
@@ -46,11 +46,8 @@ abstract class TreeModelController extends CrudController {
         $className = get_class($model);
         try {
             $this->em()->beginTransaction();
-            $query = $this->em()->createQuery("SELECT (e.right - 1) as right FROM $className e WHERE e.id = :id");
-            $query->setParameter('id', $model->getParent()->getId());
-            $rs = $query->getSingleResult();
-            $right = $rs['right'];
-            // Desloca todos elementos da arvore, para a direita (+2), abrindo um espaço de 2 a ser usado apra inserir o nó
+            $right = $model->getParent()->getRight() - 1;
+            // desloca todos elementos da arvore, para a direita (+2), abrindo um espaço de 2 a ser usado apra inserir o nó
             $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right + 2 WHERE e.right > :right");
             $query->setParameter('right', $right);
             $query->execute();
@@ -146,40 +143,46 @@ abstract class TreeModelController extends CrudController {
             throw new Exception(sprintf(_('Erro ao atualizar o registro: %s'), $e->getMessage()));
         }
     }
-        
+    
+    
+    protected function doDelete(SequencialModel $model) {
+        if ($model->getLeft() == 1) {
+            throw new Exception(_('Não pode remover a raiz'));
+        }
+        $this->preDelete($model);
+        try {
+            $className = get_class($model);
+            $this->em()->beginTransaction();
+
+            // apagando os filhos
+            $query = $this->em()->createQuery("DELETE FROM $className e WHERE e.left > :esquerda AND e.left < :direita");
+            $query->setParameter('esquerda', $model->getLeft());
+            $query->setParameter('direita', $model->getRight());
+            $query->execute();
+
+            // atualizando os tamanhos
+            $tamanho = $model->getRight() - $model->getLeft() + 1;
+            $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right - :tamanho WHERE e.right > :direita");
+            $query->setParameter('direita', $model->getRight());
+            $query->setParameter('tamanho', $tamanho);
+            $query->execute();
+
+            // atualizando os tamanhos
+            $query = $this->em()->createQuery("UPDATE $className e SET e.left = e.left - :tamanho WHERE e.left > :direita");
+            $query->setParameter('direita', $model->getRight());
+            $query->setParameter('tamanho', $tamanho);
+            $query->execute();
+            
+            $this->em()->remove($model);
+
+            $this->em()->commit();
+        } catch (Exception $e) {
+            $this->em()->rollback();
+            throw new Exception(sprintf(_('Erro ao apagar o registro: %s'), $e->getMessage()));
+        }
+        $this->postDelete($model);
+        $this->em()->flush();
+    }
+
 }
 
-
-/*
-
- --- DELETE ---
-
-CREATE FUNCTION sp_remover_cargo_cascata(p_id_cargo integer) RETURNS void
-    AS $$
-DECLARE
-    v_esquerda INTEGER;
-    v_direita INTEGER;
-    v_tamanho INTEGER;
-
-BEGIN
-
-    SELECT esquerda, direita, direita - esquerda + 1
-    INTO v_esquerda, v_direita, v_tamanho
-    FROM cargos_aninhados
-    WHERE id_cargo = p_id_cargo;
-
-    DELETE FROM cargos_aninhados
-    WHERE esquerda BETWEEN v_esquerda AND v_direita;
-
-    UPDATE cargos_aninhados
-    SET direita = (direita - v_tamanho)
-    WHERE direita > v_direita;
-
-    UPDATE cargos_aninhados
-    SET esquerda = (esquerda - v_tamanho)
-    WHERE esquerda > v_direita;
-
-END
-$$
-
- */

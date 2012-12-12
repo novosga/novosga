@@ -2,33 +2,18 @@
 -- @author=rogeriolino
 -- @date=2012-12-06
 
---
--- PostgreSQL database dump
---
-
--- Started on 2009-02-27 15:05:25 BRT
-
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = off;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET escape_string_warning = off;
 
---
--- TOC entry 400 (class 2612 OID 16386)
--- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: -
---
 SET search_path = public, pg_catalog;
-
 SET default_tablespace = '';
-
 SET default_with_oids = false;
 
-
 --
--- TOC entry 1572 (class 1259 OID 27357)
--- Dependencies: 3
--- Name: atend_codif; Type: TABLE; Schema: public; Owner: -; Tablespace:
+-- tables
 --
 
 CREATE TABLE atend_codif (
@@ -37,25 +22,11 @@ CREATE TABLE atend_codif (
     valor_peso smallint NOT NULL
 );
 
-
---
--- TOC entry 1574 (class 1259 OID 27362)
--- Dependencies: 3
--- Name: atend_status; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE atend_status (
     id_stat serial NOT NULL,
     nm_stat character varying(30) NOT NULL,
     desc_stat character varying(150) NOT NULL
 );
-
-
---
--- TOC entry 1576 (class 1259 OID 27368)
--- Dependencies: 1890 1891 3
--- Name: atendimentos; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE atendimentos (
     id_atend bigserial NOT NULL,
@@ -74,13 +45,6 @@ CREATE TABLE atendimentos (
     ident_cli character varying(11) DEFAULT NULL::character varying
 );
 
-
---
--- TOC entry 1618 (class 1259 OID 28262)
--- Dependencies: 3
--- Name: cargos_aninhados; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE cargos_aninhados (
     id_cargo serial NOT NULL,
     nm_cargo character varying(30) NOT NULL,
@@ -89,25 +53,11 @@ CREATE TABLE cargos_aninhados (
     direita integer NOT NULL
 );
 
-
---
--- TOC entry 1579 (class 1259 OID 27380)
--- Dependencies: 3
--- Name: cargos_mod_perm; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE cargos_mod_perm (
     id_cargo integer NOT NULL,
     id_mod integer NOT NULL,
     permissao integer NOT NULL
 );
-
-
---
--- TOC entry 1581 (class 1259 OID 27385)
--- Dependencies: 3
--- Name: grupos_aninhados; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE grupos_aninhados (
     id_grupo serial NOT NULL,
@@ -117,25 +67,11 @@ CREATE TABLE grupos_aninhados (
     direita integer NOT NULL
 );
 
-
---
--- TOC entry 1608 (class 1259 OID 28145)
--- Dependencies: 3
--- Name: historico_atend_codif; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE historico_atend_codif (
     id_atend bigint NOT NULL,
     id_serv integer NOT NULL,
     valor_peso smallint NOT NULL
 );
-
-
---
--- TOC entry 1607 (class 1259 OID 28118)
--- Dependencies: 1908 1909 3
--- Name: historico_atendimentos; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE historico_atendimentos (
     id_atend bigint NOT NULL,
@@ -154,12 +90,6 @@ CREATE TABLE historico_atendimentos (
     ident_cli character varying(11) DEFAULT NULL::character varying
 );
 
---
--- TOC entry 1585 (class 1259 OID 27397)
--- Dependencies: 1896 3
--- Name: modulos; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE modulos (
     id_mod serial NOT NULL,
     chave_mod character varying(50) NOT NULL,
@@ -171,35 +101,16 @@ CREATE TABLE modulos (
     stat_mod smallint NOT NULL
 );
 
-
---
--- TOC entry 1586 (class 1259 OID 27402)
--- Dependencies: 3
--- Name: paineis; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE paineis (
     id_uni integer NOT NULL,
     host integer NOT NULL
 );
-
---
--- TOC entry 1586 (class 1259 OID 27402)
--- Dependencies: 3
--- Name: paineis; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE paineis_servicos (
     host integer NOT NULL,
     id_uni integer NOT NULL,
     id_serv integer NOT NULL
 );
-
---
--- TOC entry 1588 (class 1259 OID 27407)
--- Dependencies: 3
--- Name: painel_senha; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE painel_senha (
     contador integer NOT NULL,
@@ -212,13 +123,6 @@ CREATE TABLE painel_senha (
     num_guiche smallint NOT NULL
 );
 
-
---
--- TOC entry 1590 (class 1259 OID 27413)
--- Dependencies: 3
--- Name: prioridades; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE prioridades (
     id_pri serial NOT NULL,
     nm_pri character varying(30) NOT NULL,
@@ -227,35 +131,15 @@ CREATE TABLE prioridades (
     stat_pri smallint NOT NULL
 );
 
---
--- TOC entry 1593 (class 1259 OID 27424)
--- Dependencies: 3
--- Name: serv_local; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE serv_local (
     id_loc serial NOT NULL,
     nm_loc character varying(20) NOT NULL
 );
 
-
---
--- TOC entry 1594 (class 1259 OID 27428)
--- Dependencies: 3
--- Name: serv_peso; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE serv_peso (
     id_serv integer NOT NULL,
     valor_peso smallint NOT NULL
 );
-
-
---
--- TOC entry 1596 (class 1259 OID 27433)
--- Dependencies: 3
--- Name: servicos; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE servicos (
     id_serv serial NOT NULL,
@@ -265,12 +149,6 @@ CREATE TABLE servicos (
     stat_serv smallint
 );
 
---
--- TOC entry 1599 (class 1259 OID 27446)
--- Dependencies: 3
--- Name: uni_serv; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE uni_serv (
     id_uni integer NOT NULL,
     id_serv integer NOT NULL,
@@ -279,13 +157,6 @@ CREATE TABLE uni_serv (
     sigla_serv character(1) NOT NULL,
     stat_serv smallint NOT NULL
 );
-
-
---
--- TOC entry 1601 (class 1259 OID 27451)
--- Dependencies: 1905 1906 3
--- Name: unidades; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE unidades (
     id_uni serial NOT NULL,
@@ -297,25 +168,11 @@ CREATE TABLE unidades (
     msg_imp varchar(100)
 );
 
-
---
--- TOC entry 1602 (class 1259 OID 27456)
--- Dependencies: 3
--- Name: usu_grup_cargo; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE usu_grup_cargo (
     id_usu integer NOT NULL,
     id_grupo integer NOT NULL,
     id_cargo integer NOT NULL
 );
-
-
---
--- TOC entry 1603 (class 1259 OID 27459)
--- Dependencies: 3
--- Name: usu_serv; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE usu_serv (
     id_uni integer NOT NULL,
@@ -323,25 +180,11 @@ CREATE TABLE usu_serv (
     id_usu integer NOT NULL
 );
 
-
---
--- TOC entry 1604 (class 1259 OID 27462)
--- Dependencies: 3
--- Name: usu_session; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
-
 CREATE TABLE usu_session (
     id_usu integer NOT NULL,
     session_id character varying(40) NOT NULL,
     stat_session integer NOT NULL
 );
-
-
---
--- TOC entry 1606 (class 1259 OID 27467)
--- Dependencies: 3
--- Name: usuarios; Type: TABLE; Schema: public; Owner: -; Tablespace:
---
 
 CREATE TABLE usuarios (
     id_usu serial NOT NULL,
@@ -353,31 +196,220 @@ CREATE TABLE usuarios (
     stat_usu smallint NOT NULL
 );
 
-
 --
--- TOC entry 1610 (class 1259 OID 28162)
--- Dependencies: 1696 3
--- Name: view_historico_atend_codif; Type: VIEW; Schema: public; Owner: -
+-- keys
 --
 
-CREATE VIEW view_historico_atend_codif AS
-    SELECT atend_codif.id_atend, atend_codif.id_serv, atend_codif.valor_peso FROM atend_codif UNION ALL SELECT historico_atend_codif.id_atend, historico_atend_codif.id_serv, historico_atend_codif.valor_peso FROM historico_atend_codif;
+ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_pkey PRIMARY KEY (id_atend, id_serv);
+
+ALTER TABLE ONLY atend_status ADD CONSTRAINT atend_status_pkey PRIMARY KEY (id_stat);
+
+ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_pkey PRIMARY KEY (id_atend);
+
+ALTER TABLE ONLY cargos_aninhados ADD CONSTRAINT cargos_aninhados_pkey PRIMARY KEY (id_cargo);
+
+ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_pkey PRIMARY KEY (id_cargo, id_mod);
+
+ALTER TABLE ONLY grupos_aninhados ADD CONSTRAINT grupos_aninhados_pkey PRIMARY KEY (id_grupo);
+
+ALTER TABLE ONLY historico_atend_codif ADD CONSTRAINT historico_atend_codif_pkey PRIMARY KEY (id_atend, id_serv);
+
+ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_pkey PRIMARY KEY (id_atend);
+
+ALTER TABLE ONLY modulos ADD CONSTRAINT modulos_pkey PRIMARY KEY (id_mod);
+
+ALTER TABLE ONLY paineis ADD CONSTRAINT paineis_pkey PRIMARY KEY (host);
+
+ALTER TABLE ONLY paineis_servicos ADD CONSTRAINT paineis_servicos_pkey PRIMARY KEY (host, id_serv);
+
+ALTER TABLE ONLY painel_senha ADD CONSTRAINT painel_senha_pkey PRIMARY KEY (contador);
+
+ALTER TABLE ONLY prioridades ADD CONSTRAINT prioridades_pkey PRIMARY KEY (id_pri);
+
+ALTER TABLE ONLY serv_local ADD CONSTRAINT serv_local_pkey PRIMARY KEY (id_loc);
+
+ALTER TABLE ONLY serv_peso ADD CONSTRAINT serv_peso_pkey PRIMARY KEY (id_serv);
+
+ALTER TABLE ONLY servicos ADD CONSTRAINT servicos_pkey PRIMARY KEY (id_serv);
+
+ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_pkey PRIMARY KEY (id_uni, id_serv);
+
+ALTER TABLE ONLY unidades ADD CONSTRAINT unidades_pkey PRIMARY KEY (id_uni);
+
+ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_pkey PRIMARY KEY (id_usu, id_grupo);
+
+ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_pkey PRIMARY KEY (id_uni, id_serv, id_usu);
+
+ALTER TABLE ONLY usu_session ADD CONSTRAINT usu_session_pkey PRIMARY KEY (id_usu);
+
+ALTER TABLE ONLY usuarios ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id_usu);
+
+ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES atendimentos(id_atend) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (id_mod) REFERENCES modulos(id_mod) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES historico_atendimentos(id_atend) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY paineis ADD CONSTRAINT paineis_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_1 FOREIGN KEY (host) REFERENCES paineis (host) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv (id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY painel_senha ADD CONSTRAINT painel_senha_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY painel_senha ADD CONSTRAINT painel_senha_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY serv_peso ADD CONSTRAINT peso_ibfk_1 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY servicos ADD CONSTRAINT servicos_ibfk_1 FOREIGN KEY (id_macro) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_3 FOREIGN KEY (id_loc) REFERENCES serv_local(id_loc) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY unidades ADD CONSTRAINT unidades_id_grupo_fkey FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_2 FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_3 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_ibfk_1 FOREIGN KEY (id_serv, id_uni) REFERENCES uni_serv(id_serv, id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_ibfk_2 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE ONLY usu_session ADD CONSTRAINT usu_session_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+--
+-- indexes
+--
+
+CREATE UNIQUE INDEX cod_uni ON unidades USING btree (cod_uni);
+
+CREATE INDEX direita ON grupos_aninhados USING btree (direita);
+
+CREATE INDEX esqdir ON grupos_aninhados USING btree (esquerda, direita);
+
+CREATE INDEX esquerda ON grupos_aninhados USING btree (esquerda);
+
+CREATE INDEX fki_atend_codif_ibfk_2 ON atend_codif USING btree (id_serv);
+
+CREATE INDEX fki_atendimentos_ibfk_1 ON atendimentos USING btree (id_pri);
+
+CREATE INDEX fki_atendimentos_ibfk_2 ON atendimentos USING btree (id_uni, id_serv);
+
+CREATE INDEX fki_atendimentos_ibfk_3 ON atendimentos USING btree (id_stat);
+
+CREATE INDEX fki_atendimentos_ibfk_4 ON atendimentos USING btree (id_usu);
+
+CREATE INDEX fki_id_grupo ON unidades USING btree (id_grupo);
+
+CREATE INDEX fki_servicos_ibfk_1 ON servicos USING btree (id_macro);
+
+CREATE INDEX fki_uni_serv_ibfk_2 ON uni_serv USING btree (id_serv);
+
+CREATE INDEX fki_uni_serv_ibfk_3 ON uni_serv USING btree (id_loc);
+
+CREATE INDEX fki_usu_serv_ibfk_1 ON usu_serv USING btree (id_serv, id_uni);
+
+CREATE INDEX fki_usu_serv_ibfk_2 ON usu_serv USING btree (id_usu);
+
+CREATE UNIQUE INDEX local_serv_nm ON serv_local USING btree (nm_loc);
+
+CREATE UNIQUE INDEX login_usu ON usuarios USING btree (login_usu);
+
+CREATE UNIQUE INDEX modulos_chave ON modulos USING btree (chave_mod);
+
+--
+-- views
+--
+
+CREATE VIEW view_historico_atend_codif 
+AS
+    SELECT 
+        atend_codif.id_atend, 
+        atend_codif.id_serv, 
+        atend_codif.valor_peso 
+    FROM 
+        atend_codif 
+    UNION ALL 
+    SELECT 
+        historico_atend_codif.id_atend, 
+        historico_atend_codif.id_serv, 
+        historico_atend_codif.valor_peso 
+    FROM 
+        historico_atend_codif;
+
+
+CREATE VIEW view_historico_atendimentos 
+AS
+    SELECT 
+        atendimentos.id_atend, 
+        atendimentos.id_uni, 
+        atendimentos.id_usu, 
+        atendimentos.id_serv, 
+        atendimentos.id_pri, 
+        atendimentos.id_stat, 
+        atendimentos.num_senha, 
+        atendimentos.nm_cli, 
+        atendimentos.num_guiche, 
+        atendimentos.dt_cheg, 
+        atendimentos.dt_cha, 
+        atendimentos.dt_ini, 
+        atendimentos.dt_fim, 
+        atendimentos.ident_cli 
+    FROM 
+        atendimentos 
+    UNION ALL 
+    SELECT 
+        historico_atendimentos.id_atend, 
+        historico_atendimentos.id_uni, 
+        historico_atendimentos.id_usu, 
+        historico_atendimentos.id_serv, 
+        historico_atendimentos.id_pri, 
+        historico_atendimentos.id_stat, 
+        historico_atendimentos.num_senha, 
+        historico_atendimentos.nm_cli, 
+        historico_atendimentos.num_guiche, 
+        historico_atendimentos.dt_cheg, 
+        historico_atendimentos.dt_cha, 
+        historico_atendimentos.dt_ini, 
+        historico_atendimentos.dt_fim, 
+        historico_atendimentos.ident_cli 
+    FROM 
+        historico_atendimentos;
 
 
 --
--- TOC entry 1609 (class 1259 OID 28158)
--- Dependencies: 1695 3
--- Name: view_historico_atendimentos; Type: VIEW; Schema: public; Owner: -
+-- procedures/functions
 --
 
-CREATE VIEW view_historico_atendimentos AS
-    SELECT atendimentos.id_atend, atendimentos.id_uni, atendimentos.id_usu, atendimentos.id_serv, atendimentos.id_pri, atendimentos.id_stat, atendimentos.num_senha, atendimentos.nm_cli, atendimentos.num_guiche, atendimentos.dt_cheg, atendimentos.dt_cha, atendimentos.dt_ini, atendimentos.dt_fim, atendimentos.ident_cli FROM atendimentos UNION ALL SELECT historico_atendimentos.id_atend, historico_atendimentos.id_uni, historico_atendimentos.id_usu, historico_atendimentos.id_serv, historico_atendimentos.id_pri, historico_atendimentos.id_stat, historico_atendimentos.num_senha, historico_atendimentos.nm_cli, historico_atendimentos.num_guiche, historico_atendimentos.dt_cheg, historico_atendimentos.dt_cha, historico_atendimentos.dt_ini, historico_atendimentos.dt_fim, historico_atendimentos.ident_cli FROM historico_atendimentos;
-
-
---
--- TOC entry 24 (class 1255 OID 28166)
--- Dependencies: 3 400
--- Name: sp_acumular_atendimentos(timestamp with time zone); Type: FUNCTION; Schema: public; Owner: -
 --
 -- Move atendimentos da tabela "atendimentos" para a tabela "historico_atendimentos" e todas as
 -- respectivas codificações da tabela "atend_codif" para a tabela "historico_atend_codif"
@@ -419,7 +451,6 @@ BEGIN
 END;
 $$
     LANGUAGE plpgsql;
-
 
 
 
@@ -518,691 +549,3 @@ BEGIN
 END;
 $$
     LANGUAGE plpgsql;
-
-
---
--- TOC entry 1912 (class 2606 OID 28168)
--- Dependencies: 1572 1572 1572
--- Name: atend_codif_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY atend_codif
-    ADD CONSTRAINT atend_codif_pkey PRIMARY KEY (id_atend, id_serv);
-
-
---
--- TOC entry 1915 (class 2606 OID 27474)
--- Dependencies: 1574 1574
--- Name: atend_status_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY atend_status
-    ADD CONSTRAINT atend_status_pkey PRIMARY KEY (id_stat);
-
-
---
--- TOC entry 1917 (class 2606 OID 27476)
--- Dependencies: 1576 1576
--- Name: atendimentos_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY atendimentos
-    ADD CONSTRAINT atendimentos_pkey PRIMARY KEY (id_atend);
-
-
---
--- TOC entry 1982 (class 2606 OID 28267)
--- Dependencies: 1618 1618
--- Name: cargos_aninhados_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY cargos_aninhados
-    ADD CONSTRAINT cargos_aninhados_pkey PRIMARY KEY (id_cargo);
-
-
---
--- TOC entry 1925 (class 2606 OID 27478)
--- Dependencies: 1579 1579 1579
--- Name: cargos_mod_perm_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY cargos_mod_perm
-    ADD CONSTRAINT cargos_mod_perm_pkey PRIMARY KEY (id_cargo, id_mod);
-
-
-
---
--- TOC entry 1930 (class 2606 OID 27482)
--- Dependencies: 1581 1581
--- Name: grupos_aninhados_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY grupos_aninhados
-    ADD CONSTRAINT grupos_aninhados_pkey PRIMARY KEY (id_grupo);
-
-
---
--- TOC entry 1980 (class 2606 OID 28170)
--- Dependencies: 1608 1608 1608
--- Name: historico_atend_codif_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY historico_atend_codif
-    ADD CONSTRAINT historico_atend_codif_pkey PRIMARY KEY (id_atend, id_serv);
-
-
---
--- TOC entry 1978 (class 2606 OID 28124)
--- Dependencies: 1607 1607
--- Name: historico_atendimentos_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY historico_atendimentos
-    ADD CONSTRAINT historico_atendimentos_pkey PRIMARY KEY (id_atend);
-
-
---
--- TOC entry 1936 (class 2606 OID 27486)
--- Dependencies: 1585 1585
--- Name: modulos_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY modulos
-    ADD CONSTRAINT modulos_pkey PRIMARY KEY (id_mod);
-
-
---
--- TOC entry 1938 (class 2606 OID 27488)
--- Dependencies: 1586 1586
--- Name: paineis_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY paineis
-    ADD CONSTRAINT paineis_pkey PRIMARY KEY (host);
-
---
---
-
-ALTER TABLE ONLY paineis_servicos
-    ADD CONSTRAINT paineis_servicos_pkey PRIMARY KEY (host, id_serv);
-
-
---
--- TOC entry 1940 (class 2606 OID 27490)
--- Dependencies: 1588 1588
--- Name: painel_senha_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY painel_senha
-    ADD CONSTRAINT painel_senha_pkey PRIMARY KEY (contador);
-
-
---
--- TOC entry 1942 (class 2606 OID 27492)
--- Dependencies: 1590 1590
--- Name: prioridades_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY prioridades
-    ADD CONSTRAINT prioridades_pkey PRIMARY KEY (id_pri);
-
-
---
--- TOC entry 1947 (class 2606 OID 27496)
--- Dependencies: 1593 1593
--- Name: serv_local_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY serv_local
-    ADD CONSTRAINT serv_local_pkey PRIMARY KEY (id_loc);
-
-
---
--- TOC entry 1949 (class 2606 OID 27498)
--- Dependencies: 1594 1594
--- Name: serv_peso_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY serv_peso
-    ADD CONSTRAINT serv_peso_pkey PRIMARY KEY (id_serv);
-
-
---
--- TOC entry 1952 (class 2606 OID 27500)
--- Dependencies: 1596 1596
--- Name: servicos_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY servicos
-    ADD CONSTRAINT servicos_pkey PRIMARY KEY (id_serv);
-
-
-
---
--- TOC entry 1960 (class 2606 OID 27506)
--- Dependencies: 1599 1599 1599
--- Name: uni_serv_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY uni_serv
-    ADD CONSTRAINT uni_serv_pkey PRIMARY KEY (id_uni, id_serv);
-
-
---
--- TOC entry 1965 (class 2606 OID 27508)
--- Dependencies: 1601 1601
--- Name: unidades_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY unidades
-    ADD CONSTRAINT unidades_pkey PRIMARY KEY (id_uni);
-
-
---
--- TOC entry 1967 (class 2606 OID 27510)
--- Dependencies: 1602 1602 1602
--- Name: usu_grup_cargo_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY usu_grup_cargo
-    ADD CONSTRAINT usu_grup_cargo_pkey PRIMARY KEY (id_usu, id_grupo);
-
-
---
--- TOC entry 1971 (class 2606 OID 27512)
--- Dependencies: 1603 1603 1603 1603
--- Name: usu_serv_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY usu_serv
-    ADD CONSTRAINT usu_serv_pkey PRIMARY KEY (id_uni, id_serv, id_usu);
-
-
---
--- TOC entry 1973 (class 2606 OID 27514)
--- Dependencies: 1604 1604
--- Name: usu_session_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY usu_session
-    ADD CONSTRAINT usu_session_pkey PRIMARY KEY (id_usu);
-
-
---
--- TOC entry 1976 (class 2606 OID 27516)
--- Dependencies: 1606 1606
--- Name: usuarios_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
---
-
-ALTER TABLE ONLY usuarios
-    ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id_usu);
-
-
-
---
--- TOC entry 1961 (class 1259 OID 28244)
--- Dependencies: 1601
--- Name: cod_uni; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE UNIQUE INDEX cod_uni ON unidades USING btree (cod_uni);
-
-
---
--- TOC entry 1926 (class 1259 OID 27621)
--- Dependencies: 1581
--- Name: direita; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX direita ON grupos_aninhados USING btree (direita);
-
-
---
--- TOC entry 1927 (class 1259 OID 27622)
--- Dependencies: 1581 1581
--- Name: esqdir; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX esqdir ON grupos_aninhados USING btree (esquerda, direita);
-
-
---
--- TOC entry 1928 (class 1259 OID 27620)
--- Dependencies: 1581
--- Name: esquerda; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX esquerda ON grupos_aninhados USING btree (esquerda);
-
-
---
--- TOC entry 1913 (class 1259 OID 27627)
--- Dependencies: 1572
--- Name: fki_atend_codif_ibfk_2; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_atend_codif_ibfk_2 ON atend_codif USING btree (id_serv);
-
-
---
--- TOC entry 1918 (class 1259 OID 27623)
--- Dependencies: 1576
--- Name: fki_atendimentos_ibfk_1; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_atendimentos_ibfk_1 ON atendimentos USING btree (id_pri);
-
-
---
--- TOC entry 1919 (class 1259 OID 27624)
--- Dependencies: 1576 1576
--- Name: fki_atendimentos_ibfk_2; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_atendimentos_ibfk_2 ON atendimentos USING btree (id_uni, id_serv);
-
-
---
--- TOC entry 1920 (class 1259 OID 27625)
--- Dependencies: 1576
--- Name: fki_atendimentos_ibfk_3; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_atendimentos_ibfk_3 ON atendimentos USING btree (id_stat);
-
-
---
--- TOC entry 1921 (class 1259 OID 27626)
--- Dependencies: 1576
--- Name: fki_atendimentos_ibfk_4; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_atendimentos_ibfk_4 ON atendimentos USING btree (id_usu);
-
-
---
--- TOC entry 1962 (class 1259 OID 28394)
--- Dependencies: 1601
--- Name: fki_id_grupo; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_id_grupo ON unidades USING btree (id_grupo);
-
---
--- TOC entry 1950 (class 1259 OID 27631)
--- Dependencies: 1596
--- Name: fki_servicos_ibfk_1; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_servicos_ibfk_1 ON servicos USING btree (id_macro);
-
-
---
--- TOC entry 1957 (class 1259 OID 27639)
--- Dependencies: 1599
--- Name: fki_uni_serv_ibfk_2; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_uni_serv_ibfk_2 ON uni_serv USING btree (id_serv);
-
-
---
--- TOC entry 1958 (class 1259 OID 27640)
--- Dependencies: 1599
--- Name: fki_uni_serv_ibfk_3; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_uni_serv_ibfk_3 ON uni_serv USING btree (id_loc);
-
-
---
--- TOC entry 1968 (class 1259 OID 27641)
--- Dependencies: 1603 1603
--- Name: fki_usu_serv_ibfk_1; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_usu_serv_ibfk_1 ON usu_serv USING btree (id_serv, id_uni);
-
-
---
--- TOC entry 1969 (class 1259 OID 27642)
--- Dependencies: 1603
--- Name: fki_usu_serv_ibfk_2; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE INDEX fki_usu_serv_ibfk_2 ON usu_serv USING btree (id_usu);
-
-
---
--- TOC entry 1945 (class 1259 OID 27644)
--- Dependencies: 1593
--- Name: local_serv_nm; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE UNIQUE INDEX local_serv_nm ON serv_local USING btree (nm_loc);
-
-
---
--- TOC entry 1974 (class 1259 OID 28378)
--- Dependencies: 1606
--- Name: login_usu; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE UNIQUE INDEX login_usu ON usuarios USING btree (login_usu);
-
-
---
--- TOC entry 1934 (class 1259 OID 27643)
--- Dependencies: 1585
--- Name: modulos_chave; Type: INDEX; Schema: public; Owner: -; Tablespace:
---
-
-CREATE UNIQUE INDEX modulos_chave ON modulos USING btree (chave_mod);
-
-
---
--- TOC entry 1986 (class 2606 OID 27776)
--- Dependencies: 1576 1916 1572
--- Name: atend_codif_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY atend_codif
-    ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES atendimentos(id_atend) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1985 (class 2606 OID 27649)
--- Dependencies: 1596 1572 1951
--- Name: atend_codif_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY atend_codif
-    ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1987 (class 2606 OID 27654)
--- Dependencies: 1576 1590 1941
--- Name: atendimentos_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY atendimentos
-    ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1988 (class 2606 OID 27659)
--- Dependencies: 1959 1576 1576 1599 1599
--- Name: atendimentos_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY atendimentos
-    ADD CONSTRAINT atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1989 (class 2606 OID 27664)
--- Dependencies: 1914 1576 1574
--- Name: atendimentos_ibfk_3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY atendimentos
-    ADD CONSTRAINT atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1990 (class 2606 OID 27669)
--- Dependencies: 1975 1606 1576
--- Name: atendimentos_ibfk_4; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY atendimentos
-    ADD CONSTRAINT atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1991 (class 2606 OID 28281)
--- Dependencies: 1618 1981 1579
--- Name: cargos_mod_perm_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY cargos_mod_perm
-    ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1992 (class 2606 OID 28001)
--- Dependencies: 1935 1579 1585
--- Name: cargos_mod_perm_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY cargos_mod_perm
-    ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (id_mod) REFERENCES modulos(id_mod) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2016 (class 2606 OID 28148)
--- Dependencies: 1607 1977 1608
--- Name: historico_atend_codif_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY historico_atend_codif
-    ADD CONSTRAINT historico_atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES historico_atendimentos(id_atend) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2017 (class 2606 OID 28153)
--- Dependencies: 1951 1596 1608
--- Name: historico_atend_codif_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY historico_atend_codif
-    ADD CONSTRAINT historico_atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2013 (class 2606 OID 28125)
--- Dependencies: 1590 1607 1941
--- Name: historico_atendimentos_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY historico_atendimentos
-    ADD CONSTRAINT historico_atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2014 (class 2606 OID 28130)
--- Dependencies: 1607 1599 1959 1599 1607
--- Name: historico_atendimentos_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY historico_atendimentos
-    ADD CONSTRAINT historico_atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2015 (class 2606 OID 28135)
--- Dependencies: 1574 1914 1607
--- Name: historico_atendimentos_ibfk_3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY historico_atendimentos
-    ADD CONSTRAINT historico_atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2012 (class 2606 OID 28140)
--- Dependencies: 1606 1607 1975
--- Name: historico_atendimentos_ibfk_4; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY historico_atendimentos
-    ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
---
--- TOC entry 1995 (class 2606 OID 28016)
--- Dependencies: 1586 1964 1601
--- Name: paineis_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY paineis
-    ADD CONSTRAINT paineis_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
---
-
-ALTER TABLE ONLY paineis_servicos
-    ADD CONSTRAINT paineis_servicos_ibfk_1 FOREIGN KEY (host) REFERENCES paineis (host) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
---
-
-ALTER TABLE ONLY paineis_servicos
-    ADD CONSTRAINT paineis_servicos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv (id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
---
--- TOC entry 1996 (class 2606 OID 28006)
--- Dependencies: 1964 1601 1588
--- Name: painel_senha_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY painel_senha
-    ADD CONSTRAINT painel_senha_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1997 (class 2606 OID 28011)
--- Dependencies: 1588 1596 1951
--- Name: painel_senha_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY painel_senha
-    ADD CONSTRAINT painel_senha_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 1999 (class 2606 OID 27679)
--- Dependencies: 1594 1596 1951
--- Name: peso_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY serv_peso
-    ADD CONSTRAINT peso_ibfk_1 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2000 (class 2606 OID 27684)
--- Dependencies: 1951 1596 1596
--- Name: servicos_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY servicos
-    ADD CONSTRAINT servicos_ibfk_1 FOREIGN KEY (id_macro) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2001 (class 2606 OID 27689)
--- Dependencies: 1964 1599 1601
--- Name: uni_serv_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY uni_serv
-    ADD CONSTRAINT uni_serv_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2002 (class 2606 OID 27694)
--- Dependencies: 1596 1951 1599
--- Name: uni_serv_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY uni_serv
-    ADD CONSTRAINT uni_serv_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2003 (class 2606 OID 27699)
--- Dependencies: 1599 1946 1593
--- Name: uni_serv_ibfk_3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY uni_serv
-    ADD CONSTRAINT uni_serv_ibfk_3 FOREIGN KEY (id_loc) REFERENCES serv_local(id_loc) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
---
--- TOC entry 2005 (class 2606 OID 28389)
--- Dependencies: 1929 1601 1581
--- Name: unidades_id_grupo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY unidades
-    ADD CONSTRAINT unidades_id_grupo_fkey FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2007 (class 2606 OID 27976)
--- Dependencies: 1606 1975 1602
--- Name: usu_grup_cargo_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY usu_grup_cargo
-    ADD CONSTRAINT usu_grup_cargo_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2008 (class 2606 OID 27981)
--- Dependencies: 1929 1602 1581
--- Name: usu_grup_cargo_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY usu_grup_cargo
-    ADD CONSTRAINT usu_grup_cargo_ibfk_2 FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2006 (class 2606 OID 28291)
--- Dependencies: 1618 1602 1981
--- Name: usu_grup_cargo_ibfk_3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY usu_grup_cargo
-    ADD CONSTRAINT usu_grup_cargo_ibfk_3 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2009 (class 2606 OID 27709)
--- Dependencies: 1599 1959 1603 1603 1599
--- Name: usu_serv_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY usu_serv
-    ADD CONSTRAINT usu_serv_ibfk_1 FOREIGN KEY (id_serv, id_uni) REFERENCES uni_serv(id_serv, id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2010 (class 2606 OID 27714)
--- Dependencies: 1603 1975 1606
--- Name: usu_serv_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY usu_serv
-    ADD CONSTRAINT usu_serv_ibfk_2 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
---
--- TOC entry 2011 (class 2606 OID 27991)
--- Dependencies: 1604 1606 1975
--- Name: usu_session_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY usu_session
-    ADD CONSTRAINT usu_session_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-
--- Completed on 2009-02-27 15:05:26 BRT
-
---
--- PostgreSQL database dump complete
---

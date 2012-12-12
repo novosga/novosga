@@ -47,6 +47,37 @@ abstract class SGAView implements View {
     public function assign($name, $value) {
         $this->variables[$name] = $value;
     }
+    
+    public final function viewId() {
+        return md5(Arrays::value(SGA::K_MODULE, 'sga') . '_' .Arrays::value(SGA::K_PAGE, 'index'));
+    }
+    
+    public function addMessage($message, $class) {
+        $context = SGA::getContext();
+        $messages = $this->getMessages();
+        if (empty($messages)) {
+            $messages = array();
+        }
+        $messages[] = array('text' => $message, 'class' => $class);
+        $context->getSession()->set($this->viewId(), $messages);
+    }
+    
+    public function getMessages() {
+        $context = SGA::getContext();
+        return $context->getSession()->get($this->viewId());
+    }
+    
+    public function showMessages() {
+        $messages = $this->getMessages();
+        if (!empty($messages)) {
+            $html = '<ul>';
+            foreach ($messages as $message) {
+                $html .= '<li class="' . $message['class'] . '">' . $message['text'] . '</li>';
+            }
+            return $html . '</ul>';
+        }
+        return '';
+    }
 
     /**
      * @return TemplateBuilder
@@ -135,6 +166,8 @@ abstract class SGAView implements View {
             $html = $this->header($context);
             $html .= $content;
             $html .= $this->footer($context);
+            // limpando as mensagens da view
+            $context->getSession()->del($this->viewId());
             return $html;
         } catch (Exception $e) {
             $view = new ErrorView();

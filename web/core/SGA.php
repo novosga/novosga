@@ -115,8 +115,18 @@ class SGA {
     }
     
     public static function redirect($arg) {
-        header("Location: " . SGA::url($arg));
+        // se passou uma url completa
+        if (substr($arg, 0, 7) == 'http://' || substr($arg, 0, 7) == 'https://') {
+            $url = $arg;
+        } else {
+            $url = SGA::url($arg);
+        }
+        header("Location: " . $url);
         exit();
+    }
+    
+    public static function reload() {
+        self::redirect(SGA::url());
     }
     
     public static function checkAccess($key, $value) {
@@ -192,7 +202,7 @@ class SGA {
             return $_SERVER['REQUEST_URI'];
         } else {
             $arg = func_get_arg(0);
-            if (!is_array($arg)) { 
+            if (!is_array($arg)) {
                 if ($arg[0] == '/') {
                     return '?' . substr($arg, 1);
                 }

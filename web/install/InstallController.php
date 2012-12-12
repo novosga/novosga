@@ -13,7 +13,7 @@ use \core\Security;
 use \core\SGAContext;
 use \core\db\DB;
 use \core\util\Arrays;
-use \core\util\StringMessage;
+use \core\util\Strings;
 use \core\controller\InternalController;
 
 /**
@@ -153,19 +153,19 @@ class InstallController extends InternalController {
                 $adm['senha_usu'] = $_POST['senha_usu'];
 
                 if (strlen($adm['login_usu']) < 5) {
-                    throw new Exception('O login deve possuir 5 ou mais letras/números.');
+                    throw new Exception(_('O login deve possuir 5 ou mais letras/números.'));
                 }
                 if (!ctype_alnum($adm['login_usu'])) {
-                    throw new Exception('O login deve conter somente letras e números.');
+                    throw new Exception(_('O login deve conter somente letras e números.'));
                 }
                 if (!ctype_alnum($adm['senha_usu'])) {
-                    throw new Exception('O login deve conter somente letras e números.');
+                    throw new Exception(_('O login deve conter somente letras e números.'));
                 }
                 if (strlen($adm['senha_usu']) < 6) {
-                    throw new Exception('A senha deve possuir 6 ou mais letras/números.');
+                    throw new Exception(_('A senha deve possuir 6 ou mais letras/números.'));
                 }
                 if ($_POST['senha_usu'] != $_POST['senha_usu_2']) {
-                    throw new Exception('A senha não confere com a confirmação de senha.');
+                    throw new Exception(_('A senha não confere com a confirmação de senha.'));
                 }
                 $adm['senha_usu_2'] = '';
                 $data->admin = $adm;
@@ -232,7 +232,7 @@ class InstallController extends InternalController {
                 // executando arquivo sql de dados iniciais
                 $adm = $data->admin;
                 $adm['senha_usu'] = Security::passEncode($adm['senha_usu']);
-                $sql = StringMessage::format(file_get_contents($sqlDataFile), $adm);
+                $sql = Strings::format(file_get_contents($sqlDataFile), $adm);
                 $conn->exec($sql);
                 
                 $conn->commit();

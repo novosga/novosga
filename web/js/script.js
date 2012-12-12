@@ -85,6 +85,16 @@ var SGA = {
                 });
                 return success;
             });
+        },
+        
+        confirm: function(message, success, failure) {
+            var r = window.confirm(message);
+            if (r && typeof(success) == 'function') {
+                success();
+            }
+            else if (!r && typeof(failure) == 'function') {
+                failure();
+            }
         }
         
     },

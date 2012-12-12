@@ -21,14 +21,14 @@ if ($message) {
         <label for="descricao" class="w125"><?php SGA::out(_('Descrição')) ?></label>
         <textarea id="descricao" name="descricao" class="w400 h100"><?php SGA::out($model->getDescricao()) ?></textarea>
     </div>
-    <div class="field">
+    <div class="field required">
         <label for="peso" class="w125"><?php SGA::out(_('Peso')) ?></label>
         <?php
             echo $builder->select(array(
                 'id' => 'peso',
                 'name' => 'peso',
-                'label' => _('Normal'),
                 'items' => array(
+                    0 => _('Normal'), 
                     1 => '1', 
                     2 => '2', 
                     3 => '3', 

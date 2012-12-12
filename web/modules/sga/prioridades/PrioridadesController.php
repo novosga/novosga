@@ -2,8 +2,6 @@
 namespace modules\sga\prioridades;
 
 use \core\SGAContext;
-use \core\util\Arrays;
-use \core\model\SequencialModel;
 use \core\model\Prioridade;
 use \core\controller\CrudController;
 
@@ -19,7 +17,7 @@ class PrioridadesController extends CrudController {
     }
     
     protected function requiredFields() {
-        return array('nome', 'peso');
+        return array('nome', 'descricao', 'peso', 'status');
     }
 
     protected function search($arg) {
