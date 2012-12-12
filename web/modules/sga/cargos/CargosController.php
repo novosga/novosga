@@ -49,11 +49,4 @@ class CargosController extends TreeModelController {
         return $query->getResult();
     }
 
-    public function edit(SGAContext $context) {
-        parent::edit($context);
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Cargo e WHERE e.id != :id ORDER BY e.nome");
-        $query->setParameter('id', $this->model->getId());
-        $this->view()->assign('pais', $query->getResult());
-    }
-    
 }

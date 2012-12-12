@@ -18,7 +18,6 @@ abstract class TreeModel extends SequencialModel {
     // transient
     
     private $parent;
-    private $root = true;
     
     public function getLeft() {
         return $this->left;
@@ -26,7 +25,6 @@ abstract class TreeModel extends SequencialModel {
 
     public function setLeft($left) {
         $this->left = $left;
-        $this->root = $left == 1;
     }
     
     public function getRight() {
@@ -46,22 +44,19 @@ abstract class TreeModel extends SequencialModel {
             $em = \core\db\DB::getEntityManager();
             $query = $em->createQuery("
                 SELECT 
-                    pai
+                    parent
                 FROM 
-                    " . get_class($this) . " AS parent
-                LEFT JOIN
-                    " . get_class($this) . " AS child
-                    ON 
-                        child.left > parent.left AND 
-                        child.right < parent.right
+                    " . get_class($this) . " parent
                 WHERE 
-                    child.id = :id 
+                    parent.left < :left AND 
+                    parent.right > :right
                 ORDER BY 
                     parent.left DESC
             ");
-            $query->setParameter('id', $this->getId());
-            $this->parent = $query->getFirstResult();
-            
+            $query->setParameter('left', $this->getLeft());
+            $query->setParameter('right', $this->getRight());
+            $query->setMaxResults(1);
+            $this->parent = $query->getSingleResult();
         }
         return $this->parent;
     }
@@ -75,7 +70,7 @@ abstract class TreeModel extends SequencialModel {
      * @return boolean
      */
     public function isRoot() {
-        return $this->root;
+        return $this->left == 1;
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace core\controller;
 
 use \Exception;
+use \core\SGAContext;
 use \core\model\TreeModel;
 use core\model\SequencialModel;
 
@@ -13,6 +14,14 @@ use core\model\SequencialModel;
  */
 abstract class TreeModelController extends CrudController {
     
+    public function edit(SGAContext $context) {
+        parent::edit($context);
+        $className = get_class($this->model);
+        $query = $this->em()->createQuery("SELECT e FROM $className e WHERE e.id != :id ORDER BY e.left");
+        $query->setParameter('id', $this->model->getId());
+        $this->view()->assign('pais', $query->getResult());
+    }
+    
     /**
      * Insere ou atualiza a entidade no banco
      * @param \core\model\SequencialModel $model
@@ -22,38 +31,120 @@ abstract class TreeModelController extends CrudController {
             throw new Exception(sprintf(_('Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s'), get_class($model)));
         }
         $this->preSave($model);
-        $className = get_class($model);
         if ($model->getId() > 0) {
             // update
-            // TODO: fazer de acordo com o sql no rodape (removidas as procedures)
+            $this->merge($model);
         } else {
             // insert
-            try {
-                $this->em()->beginTransaction();
-                $query = $this->em()->createQuery("SELECT (e.right - 1) as right FROM $className e WHERE e.id = :id");
-                $query->setParameter('id', $model->getParent()->getId());
-                $rs = $query->getSingleResult();
-                $right = $rs['right'];
-                // Desloca todos elementos da arvore, para a direita (+2), abrindo um espaço de 2 a ser usado apra inserir o nó
-                $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right + 2 WHERE e.right > :right");
-                $query->setParameter('right', $right);
-                $query->execute();
-                // continuação do deslocamento acima (agora para o "esquerda")
-                $query = $this->em()->createQuery("UPDATE $className e SET e.left = e.left + 2 WHERE e.left > :right");
-                $query->setParameter('right', $right);
-                $query->execute();
-                // atualiza lados
-                $model->setLeft($right + 1);
-                $model->setRight($right + 2);
-                // salva
-                $this->em()->persist($model);
-                $this->em()->commit();
-            } catch (Exception $e) {
-                $this->em()->rollback();
-            }
+            $this->persist($model);
         }
         $this->postSave($model);
         $this->em()->flush();
+    }
+    
+    private function persist(TreeModel $model) {
+        $className = get_class($model);
+        try {
+            $this->em()->beginTransaction();
+            $query = $this->em()->createQuery("SELECT (e.right - 1) as right FROM $className e WHERE e.id = :id");
+            $query->setParameter('id', $model->getParent()->getId());
+            $rs = $query->getSingleResult();
+            $right = $rs['right'];
+            // Desloca todos elementos da arvore, para a direita (+2), abrindo um espaço de 2 a ser usado apra inserir o nó
+            $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right + 2 WHERE e.right > :right");
+            $query->setParameter('right', $right);
+            $query->execute();
+            // continuação do deslocamento acima (agora para o "esquerda")
+            $query = $this->em()->createQuery("UPDATE $className e SET e.left = e.left + 2 WHERE e.left > :right");
+            $query->setParameter('right', $right);
+            $query->execute();
+            // atualiza lados
+            $model->setLeft($right + 1);
+            $model->setRight($right + 2);
+            // salva
+            $this->em()->persist($model);
+            $this->em()->commit();
+        } catch (Exception $e) {
+            $this->em()->rollback();
+            throw new Exception(sprintf(_('Erro ao inserir o registro: %s'), $e->getMessage()));
+        }
+    }
+    
+    private function merge(TreeModel $model) {
+        try {
+            $className = get_class($model);
+            $this->em()->beginTransaction();
+            // se nao for raiz, verifica o pai
+            if ($model->getLeft() > 1) {
+                $query = $this->em()->createQuery("
+                    SELECT pai
+                    FROM $className no
+                    JOIN $className pai
+                    WHERE 
+                        no.left > pai.left AND 
+                        no.right < pai.right AND 
+                        no.id = :id
+                    ORDER BY 
+                        pai.left DESC
+                ");
+                $query->setParameter('id', $model->getId());
+                $query->setMaxResults(1);
+                $paiAtual = $query->getSingleResult();
+                $novoPai = $model->getParent();
+            
+                // se mudou o pai
+                if ($paiAtual->getId() != $novoPai->getId()) {
+                    $tamanho = $model->getRight() - $model->getLeft() + 1;
+
+                    $direita = $novoPai->getRight() - 1;
+                    $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right + :tamanho WHERE e.right > :direita_pai");
+                    $query->setParameter('tamanho', $tamanho);
+                    $query->setParameter('direita_pai', $direita);
+                    $query->execute();
+
+                    $query = $this->em()->createQuery("UPDATE $className e SET e.left = e.left + :tamanho WHERE e.left > :direita_pai");
+                    $query->setParameter('tamanho', $tamanho);
+                    $query->setParameter('direita_pai', $direita);
+                    $query->execute();
+
+                    if ($model->getLeft() > $direita) {
+                        $model->setLeft($model->getLeft() + $tamanho);
+                    }
+                    if ($model->getRight() > $direita) {
+                        $model->setRight($model->getRight() + $tamanho);
+                    }
+
+                    $deslocamento = ($novoPai->getRight() + $tamanho) - $model->getRight() - 1;
+
+                    $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right + :deslocamento, e.left = e.left + :deslocamento WHERE e.left >= :esquerda AND e.right <= :direita");
+                    $query->setParameter('deslocamento', $deslocamento);
+                    $query->setParameter('esquerda', $model->getLeft());
+                    $query->setParameter('direita', $model->getRight());
+                    $query->execute();
+
+                    $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right - :tamanho WHERE e.right > :direita");
+                    $query->setParameter('tamanho', $tamanho);
+                    $query->setParameter('direita', $model->getRight());
+                    $query->execute();
+
+                    $query = $this->em()->createQuery("UPDATE $className e SET e.left = e.left - :tamanho WHERE e.left > :direita");
+                    $query->setParameter('tamanho', $tamanho);
+                    $query->setParameter('direita', $model->getRight());
+                    $query->execute();
+
+                    $query = $this->em()->createQuery("SELECT e.left, e.right FROM $className e WHERE e.id = :id");
+                    $query->setParameter('id', $model->getId());
+                    $rs = $query->getSingleResult();
+                    $model->setLeft($rs['left']);
+                    $model->setRight($rs['right']);
+                }
+            }
+            $this->em()->merge($model);
+            $this->em()->commit();
+        } catch (Exception $e) {
+            $this->em()->rollback();
+            throw new Exception(sprintf(_('Erro ao atualizar o registro: %s'), $e->getMessage()));
+        }
     }
         
 }
@@ -90,83 +181,5 @@ BEGIN
 
 END
 $$
-
-
- --- UPDATE ---
-
-
-UPDATE grupos_aninhados
-    SET nm_grupo = p_nm_grupo, desc_grupo = p_desc_grupo
-    WHERE id_grupo = p_id_grupo;
-
-    SELECT pai.id_grupo, pai.esquerda, pai.direita
-    INTO v_id_pai_atual, v_esq_pai_atual, v_dir_pai_atual
-    FROM grupos_aninhados AS no,
-    grupos_aninhados AS pai
-    WHERE no.esquerda > pai.esquerda
-        AND no.direita < pai.direita
-    AND no.id_grupo = p_id_grupo
-    ORDER BY pai.esquerda DESC
-    LIMIT 1;
-
-    IF v_id_pai_atual != p_id_pai THEN
-
-        SELECT esquerda, direita, (direita - esquerda + 1)
-        INTO v_esq_grupo, v_dir_grupo, v_len_grupo
-        FROM grupos_aninhados
-        WHERE id_grupo = p_id_grupo
-        LIMIT 1;
-
-
-        SELECT (direita - 1)
-        INTO v_pai_direita
-        FROM grupos_aninhados
-        WHERE id_grupo = p_id_pai;
-
-
-        UPDATE grupos_aninhados
-        SET direita = direita + v_len_grupo
-        WHERE direita > v_pai_direita;
-
-        UPDATE grupos_aninhados
-        SET esquerda = esquerda + v_len_grupo
-        WHERE esquerda > v_pai_direita;
-
-
-        SELECT esquerda, direita, (direita - esquerda + 1)
-        INTO v_esq_novo_pai, v_dir_novo_pai, v_len_novo_pai
-        FROM grupos_aninhados
-        WHERE id_grupo = p_id_pai
-        LIMIT 1;
-
-
-        SELECT direita
-        INTO v_dir_pai_atual
-        FROM grupos_aninhados
-        WHERE id_grupo = v_id_pai_atual
-        LIMIT 1;
-
-        SELECT esquerda, direita
-        INTO v_esq_grupo, v_dir_grupo
-        FROM grupos_aninhados
-        WHERE id_grupo = p_id_grupo
-        LIMIT 1;
-
-        v_deslocamento := v_dir_novo_pai - v_dir_grupo - 1;
-
-        UPDATE grupos_aninhados
-        SET direita = direita + v_deslocamento,
-            esquerda = esquerda + v_deslocamento
-        WHERE esquerda >= v_esq_grupo
-            AND direita <= v_dir_grupo;
-
-
-        UPDATE grupos_aninhados
-        SET direita = direita - v_len_grupo
-        WHERE direita > v_dir_grupo;
-
-        UPDATE grupos_aninhados
-        SET esquerda = esquerda - v_len_grupo WHERE esquerda > v_dir_grupo;
-    END IF;
 
  */

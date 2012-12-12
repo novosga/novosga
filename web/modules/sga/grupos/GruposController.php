@@ -47,11 +47,5 @@ class GruposController extends TreeModelController {
         $query->setParameter('arg', $arg);
         return $query->getResult();
     }
-
-    public function edit(SGAContext $context) {
-        parent::edit($context);
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Grupo e WHERE e.id != :id ORDER BY e.left, e.nome");
-        $this->view()->assign('pais', $query->getResult());
-    }
     
 }
