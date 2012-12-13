@@ -304,7 +304,7 @@ class TemplateBuilder {
             for ($j = 0; $j < sizeof($columns); $j++) {
                 $class = '';
                 $col = $columns[$j];
-                if (is_callable($col)) {
+                if (!is_string($col) && is_callable($col)) {
                     $value = $col($item);
                 } else {
                     if (is_array($col)) {
@@ -323,7 +323,7 @@ class TemplateBuilder {
     }
     
     private function resolveValue($item, $key) {
-        if (is_callable($key)) {
+        if (!is_string($key) && is_callable($key)) {
             $value = $key($item);
         } else {
             $params = Strings::getParameters($key);

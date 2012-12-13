@@ -67,7 +67,8 @@ abstract class LoggedView extends PageView {
     }
     
     public function footer(SGAContext $context) {
-        $html = $this->changeUnidadeDialog($context);
+        $html = '<spa id="ajax-loading" class="mini-loading" style="display:none"></span>';
+        $html .= $this->changeUnidadeDialog($context);
         return $html . parent::footer($context);
     }
     

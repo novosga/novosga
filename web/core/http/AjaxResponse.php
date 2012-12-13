@@ -8,9 +8,14 @@ namespace core\http;
  */
 class AjaxResponse {
     
-    public $success = false;
+    public $success;
+    public $message;
     public $data = array();
-    public $message = '';
     public $sessionActive = true;
+    
+    public function __construct($success = false, $message = '') {
+        $this->success = $success;
+        $this->message = $message;
+    }
     
 }

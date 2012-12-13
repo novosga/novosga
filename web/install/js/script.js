@@ -146,6 +146,7 @@ SGA.Install = {
                 input.value = SGA.Install.dbData[i];
             }
         }
+        $('#db_host').focus();
     },
     
     setAdminData: function() {
@@ -189,10 +190,12 @@ SGA.Install = {
                 input.value = SGA.Install.adminData[i];
             }
         }
+        $('#nm_usu').focus();
     },
     
     doInstall: function() {
         $('#btn_install_final').button('disable');
+        $('#install-loading').show();
         $('#install_success, #install_error').hide();
         SGA.Install.saveAdminData(); // updating adminData
         $.ajax({
@@ -216,6 +219,9 @@ SGA.Install = {
             error: function() {
                 alert('Erro ao instalar o SGA');
                 $('#btn_install_final').button('enable');
+            },
+            complete: function() {
+                $('#install-loading').hide();
             }
         });
     }

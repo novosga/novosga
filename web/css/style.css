@@ -83,17 +83,21 @@
     min-width: 800px;
 }
 
-#loading {
+#ajax-loading {
     top: 10px;
     left: 50%;
+    margin-left: -20px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 5px;
+}
+
+.mini-loading {
     width: 40px;
     height: 20px;
-    margin-left: -20px;
     background-image: url(../images/loading.gif);
     background-repeat: no-repeat;
     background-position: center center;
-    background-color: rgba(0, 0, 0, .1);
-    border-radius: 5px;
     position: absolute;
     display: block;
 }
@@ -358,6 +362,7 @@ div.required label { background-position: right 5px; }
 
 fieldset {
     padding: 10px !important;
+    margin: 5px 0 10px 0;
     border: 1px solid #e1e1e1 !important;
     border-radius: 5px;
 }

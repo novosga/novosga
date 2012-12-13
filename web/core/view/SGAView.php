@@ -153,7 +153,7 @@ abstract class SGAView implements View {
      * @return string
      */
     public function footer(SGAContext $context) {
-        return '</div><spa id="loading" style="display:none"></span></body></html>';
+        return '</div></body></html>';
     }
     
     /**

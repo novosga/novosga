@@ -66,7 +66,7 @@ var SGA = {
     
     /* jQuery ajax wrapper */
     ajax: function(arg) {
-        $('#loading').show();
+        $('#ajax-loading').show();
         $.ajax({
             url: arg.url,
             data: arg.data || {},
@@ -95,7 +95,7 @@ var SGA = {
                 }
             },
             complete: function(response) {
-                $('#loading').hide();
+                $('#ajax-loading').hide();
                 var fn = arg.complete;
                 if (fn && typeof(fn) == 'function') {
                     fn(response);

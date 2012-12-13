@@ -12,6 +12,7 @@ use \core\ConfigWriter;
 use \core\Security;
 use \core\SGAContext;
 use \core\db\DB;
+use \core\http\AjaxResponse;
 use \core\util\Arrays;
 use \core\util\Strings;
 use \core\controller\InternalController;
@@ -58,13 +59,14 @@ class InstallController extends InternalController {
     
     public function set_adapter(SGAContext $context) {
         $context->getSession()->del('adapter');
+        $response = new AjaxResponse();
         if ($context->getRequest()->isPost()) {
             $adapter = Arrays::value($_POST, 'adapter');
             if (array_key_exists($adapter, InstallData::$dbTypes)) {
-                $response['success'] = true;
+                $response->success = true;
                 $context->getSession()->set('adapter', $adapter);
             } else {
-                $response['message'] = sprintf(_('Opção inválida: %s'), $adapter);
+                $response->message = sprintf(_('Opção inválida: %s'), $adapter);
             }
         } else {
             $response = $this->postErrorResponse();
@@ -91,10 +93,7 @@ class InstallController extends InternalController {
     
     public function test_db(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
-            $response = array(
-                'success' => true,
-                'message' => _('Banco de Dados testado com sucesso!')
-            );
+            $response = new AjaxResponse(true, _('Banco de Dados testado com sucesso!'));
             $session = $context->getSession();
             $data = $session->get(InstallData::SESSION_KEY);
             try {
@@ -116,9 +115,11 @@ class InstallController extends InternalController {
                 // testing connection
                 DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
                 $em = DB::getEntityManager();
+                $em->beginTransaction();
+                $em->rollback();
             } catch (Exception $e) {
-                $response['success'] = false;
-                $response['message'] = $e->getMessage();
+                $response->success = false;
+                $response->message = $e->getMessage();
             }
             $session->set(InstallData::SESSION_KEY, $data);
         } else {
@@ -129,10 +130,7 @@ class InstallController extends InternalController {
     
     public function set_admin(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
-            $response = array(
-                'success' => true,
-                'message' => 'Dados do usuário informados com sucesso'
-            );
+            $response = new AjaxResponse(true, _('Dados do usuário informados com sucesso'));
             $session = $context->getSession();
             $data = $session->get(InstallData::SESSION_KEY);
             if (!$data) {
@@ -171,8 +169,8 @@ class InstallController extends InternalController {
                 $data->admin = $adm;
 
             } catch (Exception $e) {
-                $response['success'] = false;
-                $response['message'] = $e->getMessage();
+                $response->success = false;
+                $response->message = $e->getMessage();
             }
             $session->set(InstallData::SESSION_KEY, $data);
         } else {
@@ -183,10 +181,7 @@ class InstallController extends InternalController {
     
     public function do_install(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
-            $response = array(
-                'success' => true,
-                'message' => _('Instalação concluída com sucesso')
-            );
+            $response = new AjaxResponse(true, _('Instalação concluída com sucesso'));
             $conn = null;
             $session = $context->getSession();
             try {
@@ -219,7 +214,7 @@ class InstallController extends InternalController {
                     $msg = _('Script SQL de instalação não encontrado (%s)');
                     throw new Exception(sprintf($msg, $sqlDataFile));
                 }
-
+                
                 DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
                 $em = DB::getEntityManager();
                 $conn = $em->getConnection();
@@ -245,8 +240,8 @@ class InstallController extends InternalController {
                 if ($conn && $conn->isTransactionActive()) {
                     $conn->rollBack();
                 }
-                $response['success'] = false;
-                $response['message'] = $e->getMessage();
+                $response->success = false;
+                $response->message = $e->getMessage();
             }
         } else {
             $response = $this->postErrorResponse();
@@ -255,10 +250,7 @@ class InstallController extends InternalController {
     }
     
     private function postErrorResponse() {
-        return array(
-            'success' => false,
-            'message' => _('Requisição inválida')
-        );
+        return new AjaxResponse(false, _('Requisição inválida'));
     }
 
 }
