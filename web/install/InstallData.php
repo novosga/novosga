@@ -10,9 +10,27 @@ class InstallData {
     const SESSION_KEY = 'SGA_INSTALL_DATA';
     
     public static $dbTypes = array(
-        'pgsql' => array('label' => 'PDO PgSQL', 'rdms' => 'PostgreSQL', 'driver' => 'pdo_pgsql', 'version' => '1.0.2'), 
-        'mysql' => array('label' => 'PDO MySQL', 'rdms' => 'MySQL', 'driver' => 'pdo_mysql', 'version' => '1.0.0'), 
-        'mssql' => array('label' => 'PDO SyBase', 'rdms' => 'MS SQL Server', 'driver' => 'pdo_dblib', 'version' => '1.0.0')
+        'pgsql' => array(
+            'label' => 'PDO PgSQL', 
+            'rdms' => 'PostgreSQL', 
+            'driver' => 'pdo_pgsql', 
+            'version' => '1.0.2',
+            'port' => '5432'
+        ), 
+        'mysql' => array(
+            'label' => 'PDO MySQL', 
+            'rdms' => 'MySQL', 
+            'driver' => 'pdo_mysql', 
+            'version' => '1.0.0',
+            'port' => '3306'
+        ), 
+        'mssql' => array(
+            'label' => 'PDO SyBase', 
+            'rdms' => 'MS SQL Server', 
+            'driver' => 'pdo_dblib', 
+            'version' => '1.0.0',
+            'port' => '1433'
+        )
     );
     
     public static $dbFields = array(

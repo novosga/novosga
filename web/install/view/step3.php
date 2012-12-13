@@ -13,6 +13,10 @@ if (!$data) {
     $data = new InstallData();
 }
 $data->database['db_type'] = $session->get('adapter');
+// setting default port
+if (!$data->database['db_port']) {
+    $data->database['db_port'] = InstallData::$dbTypes[$session->get('adapter')]['port'];
+}
 $session->set(InstallData::SESSION_KEY, $data);
 
 $builder = new TemplateBuilder();

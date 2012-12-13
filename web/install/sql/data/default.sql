@@ -59,5 +59,5 @@ INSERT INTO grupos_aninhados (nm_grupo, desc_grupo, esquerda, direita) VALUES ('
 INSERT INTO unidades (id_grupo, cod_uni, nm_uni, stat_uni, stat_imp, msg_imp) VALUES (1, '1', 'Unidade Padrão', 1, 0, 'Novo SGA');
 
 -- administrador
-INSERT INTO usuarios (login_usu, nm_usu, ult_nm_usu, senha_usu, ult_acesso, stat_usu) VALUES ('{login_usu}', '{nm_usu}', '{ult_nm_usu}', '{senha_usu}', NULL, 1);
+INSERT INTO usuarios (login_usu, nm_usu, ult_nm_usu, senha_usu, ult_acesso, stat_usu, session_id) VALUES ('{login_usu}', '{nm_usu}', '{ult_nm_usu}', '{senha_usu}', NULL, 1, '');
 INSERT INTO usu_grup_cargo (id_usu, id_grupo, id_cargo) VALUES (1, 1, 1);
