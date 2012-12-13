@@ -21,10 +21,18 @@ class LoginController extends InternalController {
     
     public function index(SGAContext $context) {
         if (SGA::isLogged()) {
-            if (!$context->getModule()) {
-                SGA::redirect('/' . SGA::K_HOME);
+            if (SGA::isValidSession()) {
+                if (!$context->getModule()) {
+                    SGA::redirect('/' . SGA::K_HOME);
+                } else {
+                    SGA::redirect(array(SGA::K_MODULE => $context->getModule()->getChave()));
+                }
             } else {
-                SGA::redirect(array(SGA::K_MODULE => $context->getModule()->getChave()));
+                $user = $context->getUser();
+                if ($user->isAtivo()) {
+                    $this->view()->assign('error', _('Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.'));
+                    $user->setAtivo(0);
+                }
             }
         }
     }
@@ -36,10 +44,6 @@ class LoginController extends InternalController {
             $password = $_POST['pass'];
             $user = SGA::auth($username, $password);
             if ($user) {
-                // TODO: chamar procedure
-//                $em = DB::getEntityManager();
-//                $db->salvarSessionId($user->getId());
-//                $db->setSessionStatus($user->getId(), Session::SESSION_ATIVA);
                 $context->setUser($user);
                 SGA::redirect('/' . SGA::K_HOME);
             } else {

@@ -83,6 +83,21 @@
     min-width: 800px;
 }
 
+#loading {
+    top: 10px;
+    left: 50%;
+    width: 40px;
+    height: 20px;
+    margin-left: -20px;
+    background-image: url(../images/loading.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: rgba(0, 0, 0, .1);
+    border-radius: 5px;
+    position: absolute;
+    display: block;
+}
+
 /* home */
 #home {
     padding: 20px;
@@ -497,6 +512,15 @@ table.ui-tree-view .toggler .ui-icon {
 /* home */
 #dialog-unidade {
     width: 400px;
+}
+
+#dialog-error p {
+    padding: 10px 0;
+}
+
+#dialog-error p span {
+    float: left;
+    margin: 2px 10px;
 }
 
 

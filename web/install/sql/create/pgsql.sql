@@ -180,12 +180,6 @@ CREATE TABLE usu_serv (
     id_usu integer NOT NULL
 );
 
-CREATE TABLE usu_session (
-    id_usu integer NOT NULL,
-    session_id character varying(40) NOT NULL,
-    stat_session integer NOT NULL
-);
-
 CREATE TABLE usuarios (
     id_usu serial NOT NULL,
     login_usu character varying(20) NOT NULL,
@@ -193,7 +187,8 @@ CREATE TABLE usuarios (
     ult_nm_usu character varying(100) NOT NULL,
     senha_usu character varying(40) NOT NULL,
     ult_acesso timestamp with time zone,
-    stat_usu smallint NOT NULL
+    stat_usu smallint NOT NULL,
+    session_id character varying(40) NOT NULL
 );
 
 --
@@ -239,8 +234,6 @@ ALTER TABLE ONLY unidades ADD CONSTRAINT unidades_pkey PRIMARY KEY (id_uni);
 ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_pkey PRIMARY KEY (id_usu, id_grupo);
 
 ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_pkey PRIMARY KEY (id_uni, id_serv, id_usu);
-
-ALTER TABLE ONLY usu_session ADD CONSTRAINT usu_session_pkey PRIMARY KEY (id_usu);
 
 ALTER TABLE ONLY usuarios ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id_usu);
 
@@ -303,8 +296,6 @@ ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_3 FOREIGN KEY
 ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_ibfk_1 FOREIGN KEY (id_serv, id_uni) REFERENCES uni_serv(id_serv, id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_ibfk_2 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE ONLY usu_session ADD CONSTRAINT usu_session_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 --
 -- indexes
@@ -531,21 +522,3 @@ BEGIN
 END$$
     LANGUAGE plpgsql;
 
-
---
--- Insere uma session, caso não exista, ou atualiza caso exista.
--- Equivalente ao REPLACE do MySQL
---
-CREATE FUNCTION sp_salvar_session_id(p_id_usu integer, p_session_id character varying) RETURNS void
-    AS $$
-BEGIN
-    IF EXISTS( SELECT 1 FROM usu_session WHERE id_usu = p_id_usu ) THEN
-        UPDATE usu_session
-        SET session_id = p_session_id
-        WHERE id_usu = p_id_usu;
-    ELSE
-        INSERT INTO usu_session VALUES( p_id_usu, p_session_id, 1 );
-    END IF;
-END;
-$$
-    LANGUAGE plpgsql;

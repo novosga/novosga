@@ -6,29 +6,27 @@ var SGA = SGA || {};
 
 SGA.Atendimento = {
     
-    paused: false,
     filaVazia: '',
     marcarNaoCompareceu: '',
     marcarErroTriagem: '',
-    ajaxInterval: 3000,
     
     init: function(status) {
-        setInterval(SGA.Atendimento.ajaxUpdate, SGA.Atendimento.ajaxInterval);
+        setInterval(SGA.Atendimento.ajaxUpdate, SGA.updateInterval);
         SGA.Atendimento.ajaxUpdate();
         SGA.Atendimento.updateControls(status);
     },
     
     ajaxUpdate: function() {
-        if (!SGA.Atendimento.paused) {
-            $.ajax({
+        if (!SGA.paused) {
+            SGA.ajax({
                 url: SGA.url('get_fila'),
                 success: function(response) {
                     if (response.success) {
                         var list = $("#fila ul");
                         list.text('');
-                        if (response.atendimentos.length > 0) {
-                            for (var i = 0; i < response.atendimentos.length; i++) {
-                                var atendimento = response.atendimentos[i];
+                        if (response.data.length > 0) {
+                            for (var i = 0; i < response.data.length; i++) {
+                                var atendimento = response.data[i];
                                 var cssClass = atendimento.prioridade ? 'prioridade' : '';
                                 if (i == 0) {
                                     cssClass += ' proximo';
@@ -85,13 +83,11 @@ SGA.Atendimento = {
     },
     
     control: function(action, success) {
-        $.ajax({
+        SGA.ajax({
             url: SGA.url(action),
             success: function(response) {
                 if (response.success) {
                     success(response);
-                } else {
-                    alert(response.message);
                 }
             }
         });
@@ -101,24 +97,24 @@ SGA.Atendimento = {
         SGA.Atendimento.control('chamar', function(response) {
             // remove o proximo da lista se for o mesmo do atendimento
             var proximo = $("#fila ul li:first");
-            if (response.atendimento.numero == proximo.text()) {
+            if (response.data.numero == proximo.text()) {
                 proximo.remove();
                 $("#fila ul li:first").addClass('proximo'); // novo proximo
             }
-            SGA.Atendimento.updateControls(2, response.atendimento);
+            SGA.Atendimento.updateControls(2, response.data);
         });
     },
     
     iniciar: function() {
         SGA.Atendimento.control('iniciar', function(response) {
-            SGA.Atendimento.updateControls(3, response.atendimento)
+            SGA.Atendimento.updateControls(3, response.data)
         });
     },
     
     naocompareceu: function() {
         if (window.confirm(SGA.Atendimento.marcarNaoCompareceu)) {
             SGA.Atendimento.control('naocompareceu', function(response) {
-                SGA.Atendimento.updateControls(1, response.atendimento)
+                SGA.Atendimento.updateControls(1, response.data)
             });
         }
     },

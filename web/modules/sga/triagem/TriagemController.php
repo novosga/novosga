@@ -7,7 +7,7 @@ use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
 use core\util\DateUtil;
-use \core\model\util\Triagem;
+use \core\http\AjaxResponse;
 use \core\controller\ModuleController;
 
 /**
@@ -46,7 +46,7 @@ class TriagemController extends ModuleController {
     }
     
     public function ajax_update(SGAContext $context) {
-        $response = array('success' => false);
+        $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
             $ids = Arrays::value($_GET, 'ids');
@@ -68,7 +68,7 @@ class TriagemController extends ModuleController {
                 $stmt->execute();
                 $rs = $stmt->fetchAll();
                 foreach ($rs as $r) {
-                    $response[$r['id']] = array('total' => $r['total']);
+                    $response->data[$r['id']] = array('total' => $r['total']);
                 }
                 // total senhas esperando
                 $stmt = $conn->prepare($sql . " AND id_stat = :status GROUP BY id_serv");
@@ -77,35 +77,36 @@ class TriagemController extends ModuleController {
                 $stmt->execute();
                 $rs = $stmt->fetchAll();
                 foreach ($rs as $r) {
-                    $response[$r['id']]['fila'] = $r['total'];
+                    $response->data[$r['id']]['fila'] = $r['total'];
                 }
-                $response['success'] = true;
+                $response->success = true;
             }
         }
         $context->getResponse()->jsonResponse($response);
     }
     
     public function servico_info(SGAContext $context) {
-        $info = array();
+        $response = new AjaxResponse();
         if ($context->getRequest()->isPost()) {
             $id = (int) $context->getRequest()->getParameter('id');
             $servico = $this->em()->find("\core\model\Servico", $id);
             if ($servico) {
-                $info['descricao'] = $servico->getDescricao();
-                $info['subservicos'] = array();
+                $response->data['descricao'] = $servico->getDescricao();
+                $response->data['subservicos'] = array();
                 $query = $this->em()->createQuery("SELECT e FROM \core\model\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
                 $query->setParameter('mestre', $servico->getId());
                 $subservicos = $query->getResult();
                 foreach ($subservicos as $s) {
-                    $info['subservicos'][] = $s->getNome();
+                    $response->data['subservicos'][] = $s->getNome();
                 }
             }
+            $response->success = true;
         }
-        $context->getResponse()->jsonResponse($info);
+        $context->getResponse()->jsonResponse($response);
     }
     
     public function distribui_senha(SGAContext $context) {
-        $response = array('success' => false);
+        $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         try {
             if (!$unidade) {
@@ -139,7 +140,7 @@ class TriagemController extends ModuleController {
                     :id_uni, :id_serv, :id_pri, :id_stat, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, 
                     COALESCE(
                         (
-                            SELECT TOP 1
+                            SELECT 
                                 num_senha
                             FROM
                                 atendimentos a
@@ -147,6 +148,7 @@ class TriagemController extends ModuleController {
                                 a.id_uni = :id_uni
                             ORDER BY
                                 num_senha DESC
+                            LIMIT 1
                         ) , 0) + 1
             ");
             $stmt->bindValue('id_uni', $unidade->getId(), PDO::PARAM_INT);
@@ -155,14 +157,17 @@ class TriagemController extends ModuleController {
             $stmt->bindValue('id_stat', \core\model\Atendimento::SENHA_EMITIDA, PDO::PARAM_INT);
             $stmt->bindValue('nm_cli', Arrays::value($_POST, 'cli_nome', ''), PDO::PARAM_STR);
             $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
-            $stmt->bindValue('num_guiche', '', PDO::PARAM_INT);
+            $stmt->bindValue('num_guiche', 0, PDO::PARAM_INT);
             $stmt->bindValue('dt_cheg', DateUtil::nowSQL(), PDO::PARAM_STR);
             
-            $response['success'] = ($stmt->execute() == true);
-            $response['id'] = $conn->lastInsertId();
+            $response->success = ($stmt->execute() == true);
+            if (!$response->success) {
+                throw new Exception(_('Erro ao tentar gerar nova senha'));
+            }
+            $response->data['id'] = $conn->lastInsertId();
         } catch (Exception $e) {
-            $response['success'] = false;
-            $response['message'] = $e->getMessage();
+            $response->success = false;
+            $response->message = $e->getMessage();
         }
         $context->getResponse()->jsonResponse($response);
     }
