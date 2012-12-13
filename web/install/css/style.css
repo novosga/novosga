@@ -154,6 +154,12 @@
 
 #step_5 .btns {
     padding: 15px 0;
+    position: relative;
+}
+
+#step_5 #install-loading {
+    top: 20px;
+    left: 70px;
 }
 
 p.alert {

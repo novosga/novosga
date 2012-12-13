@@ -35,5 +35,6 @@ use \core\view\TemplateBuilder;
                 'style' => 'display:none'
             ));
         ?>
+        <span id="install-loading" class="mini-loading" style="display: none"></span>
     </div>
 </div>
