@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="painel" default="dist" basedir=".">
+	<description>
+        Painel SGA LIVRE
+    </description>
+
+	<property name="version" value="1.0.0" />
+	<property name="src" location="src" />
+	<property name="dist" location="dist" />
+	<property name="dist-files" location="dist-files" />
+	<property name="build" location="build" />
+	<property name="build.classes" location="${build}/classes" />
+	<property name="build.dist" location="${build}/dist" />
+	<property name="build.dist.deb" location="${build.dist}/deb" />
+
+	<target name="init" depends="clean" description="Cria pastas destino.">
+		<mkdir dir="${build}" />
+		<mkdir dir="${build.classes}" />
+		<mkdir dir="${build.dist}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compila o código.">
+
+		<javac destdir="${build.classes}" optimize="off" debug="on" source="1.5" target="1.5" nowarn="off" encoding="utf-8">
+			<src path="${src}" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile" description="Cria o arquivo jar">
+
+		<copy todir="${build.classes}/br/gov/dataprev/painel/imagens/">
+			<fileset dir="${src}/br/gov/dataprev/painel/imagens/">
+				<include name="*.png" />
+			</fileset>
+		</copy>
+
+		<copy todir="${build.dist}">
+			<fileset dir="${dist-files}" />
+		</copy>
+
+		<copy todir="${build.classes}/br/gov/dataprev/userinterface/fonts/">
+			<fileset dir="${src}/br/gov/dataprev/userinterface/fonts/">
+				<include name="*.ttf" />
+			</fileset>
+		</copy>
+
+		<jar destfile="${build.dist}/painel.jar">
+			<fileset dir="${build.classes}" />
+			<manifest>
+				<attribute name="Main-Class" value="br.gov.dataprev.exec.Painel" />
+			</manifest>
+		</jar>
+
+		<copy todir="${build.dist}">
+			<fileset dir="${build}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="dist" depends="jar" description="Gera uma tgz do painel">
+		<tar destfile="${build}/sgalivre-painel_${version}.tgz" compression="gzip">
+			<tarfileset dir="${build.dist}" mode="755" username="root" group="root" prefix="sgalivre-painel/">
+			</tarfileset>
+		</tar>
+	</target>
+
+	<target name="dist-zip" depends="jar" description="Gera uma zip do painel">
+		<zip destfile="${build}/sgalivre-painel_${version}.zip">
+			<zipfileset dir="${build.dist}" prefix="sgalivre-painel">
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="dist-deb" depends="jar" description="Gera um pacote debian do painel">
+
+		<copy todir="${build.dist.deb}">
+			<fileset dir="${dist}/linux/deb" />
+		</copy>
+
+		<copy todir="${build.dist.deb}/sgalivre-painel/usr/share/sgalivre-painel">
+			<fileset dir="${build.dist}">
+				<exclude name="**/deb/**" />
+			</fileset>
+		</copy>
+
+		<exec dir="${build.dist.deb}" executable="chmod" output="${build}/mkpkg_chmod.out">
+			<arg value="0555" />
+			<arg value="${build.dist.deb}/sgalivre-painel/DEBIAN/postinst" />
+		</exec>
+
+		<exec dir="${build.dist.deb}" executable="sudo" output="${build}/mkpkg_chown.out" failonerror="false">
+			<arg value="chown" />
+			<arg value="-R" />
+			<arg value="root:root" />
+			<arg value="${build.dist.deb}/sgalivre-painel" />
+		</exec>
+
+		<exec dir="${build.dist.deb}" executable="dpkg-deb" output="${build}/mkpkg_dpkg-deb.out">
+			<arg value="-b" />
+			<arg value="${build.dist.deb}/sgalivre-painel" />
+			<arg value="sgalivre-painel_${version}.deb" />
+		</exec>
+
+		<exec dir="${build.dist.deb}" executable="sudo" output="${build}/mkpkg_chown.out" failonerror="false">
+			<arg value="chown" />
+			<arg value="-R" />
+			<arg value="${user.name}:${user.name}" />
+			<arg value="${build.dist.deb}/sgalivre-painel" />
+		</exec>
+	</target>
+
+	<target name="clean" description="Limpa arquivos de saida">
+		<delete dir="${build}" />
+	</target>
+</project>

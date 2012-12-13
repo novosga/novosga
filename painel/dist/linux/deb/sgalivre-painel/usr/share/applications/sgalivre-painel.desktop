@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Painel SGA Livre
+GenericName=Painel SGA Livre
+Comment=Painel de senhas do SGA Livre
+Type=Application
+Exec=sh /usr/share/sgalivre-painel/painel.sh
+Icon=/usr/share/sgalivre-painel/tray.png
+Categories=GNOME;Utility;
