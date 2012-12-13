@@ -1,0 +1,10 @@
+Package: sgalivre-painel
+Priority: optional
+Version:1.0
+Architecture: all
+Maintainer: DATAPREV
+Section: misc
+Installed-Size: 744
+Depends: openjdk-6-jre | sun-java6-jre
+Description: Painel de Senhas do SGA Livre. Utilizado para chamar senhas. Requer openjdk-6-jre ou sun-java6-jre.
+
