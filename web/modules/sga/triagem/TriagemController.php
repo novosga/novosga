@@ -7,6 +7,7 @@ use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
 use core\util\DateUtil;
+use \core\model\Atendimento;
 use \core\http\AjaxResponse;
 use \core\controller\ModuleController;
 
@@ -68,12 +69,12 @@ class TriagemController extends ModuleController {
                 $stmt->execute();
                 $rs = $stmt->fetchAll();
                 foreach ($rs as $r) {
-                    $response->data[$r['id']] = array('total' => $r['total']);
+                    $response->data[$r['id']] = array('total' => $r['total'], 'fila' => 0);
                 }
                 // total senhas esperando
                 $stmt = $conn->prepare($sql . " AND id_stat = :status GROUP BY id_serv");
                 $stmt->bindValue('unidade', $unidade->getId(), \PDO::PARAM_INT);
-                $stmt->bindValue('status', \core\model\Atendimento::SENHA_EMITIDA, \PDO::PARAM_INT);
+                $stmt->bindValue('status', Atendimento::SENHA_EMITIDA, \PDO::PARAM_INT);
                 $stmt->execute();
                 $rs = $stmt->fetchAll();
                 foreach ($rs as $r) {

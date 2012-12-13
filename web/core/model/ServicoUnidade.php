@@ -103,13 +103,15 @@ class ServicoUnidade extends Model {
                     JOIN e.prioridadeSenha p
                 WHERE 
                     su.servico = :servico AND 
-                    su.unidade = :unidade
+                    su.unidade = :unidade AND
+                    e.status = :status
                 ORDER BY
                     p.peso DESC,
                     e.numeroSenha ASC
             ");
             $query->setParameter('servico', $this->getServico()->getId());
             $query->setParameter('unidade', $this->getUnidade()->getId());
+            $query->setParameter('status', Atendimento::SENHA_EMITIDA);
             $this->fila = new Fila($query->getResult());
         }
         return $this->fila;
