@@ -5,7 +5,7 @@ use \core\SGAContext;
 use \core\util\Arrays;
 use \core\util\DateUtil;
 use \core\model\Unidade;
-use \core\model\util\Monitor;
+use \core\http\AjaxResponse;
 use \core\controller\ModuleController;
 
 /**
@@ -36,13 +36,13 @@ class MonitorController extends ModuleController {
     }
     
     public function ajax_update(SGAContext $context) {
-        $response = array('success' => false, 'servicos' => array());
+        $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
             $ids = Arrays::value($_GET, 'ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
             if (sizeof($ids)) {
-                $response['total'] = 0;
+                $response->data['total'] = 0;
                 $servicos = $this->servicos($unidade, " e.servico IN (" . implode(',', $ids) . ") ");
                 for ($i = 0; $i < sizeof($servicos); $i++) {
                     $su = $servicos[$i];
@@ -62,11 +62,11 @@ class MonitorController extends ModuleController {
                             }
                             $fila[] = $item;
                         }
-                        $response['servicos'][$su->getServico()->getId()] = $fila;
-                        $response['total']++;
+                        $response->data['servicos'][$su->getServico()->getId()] = $fila;
+                        $response->data['total']++;
                     }
                 }
-                $response['success'] = true;
+                $response->success = true;
             }
         }
         $context->getResponse()->jsonResponse($response);
@@ -80,7 +80,7 @@ class MonitorController extends ModuleController {
     }
     
     public function info_senha(SGAContext $context) {
-        $response = array('success' => false);
+        $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $numero = Arrays::value($_GET, 'numero');
@@ -88,15 +88,15 @@ class MonitorController extends ModuleController {
             if (sizeof($atendimentos)) {
                 // vendo ultimo atendimento para essa senha
                 $atendimento = end($atendimentos);
-                $response['numero'] = $atendimento->getSenha()->toString();
-                $response['prioridade'] = $atendimento->getSenha()->isPrioridade() ? $atendimento->getSenha()->getPrioridade()->getNome() : _('Atendimento Normal');
-                $response['servico'] = $atendimento->getServicoUnidade()->getNome();
-                $response['chegada'] = DateUtil::formatToSQL($atendimento->getDataChegada());
-                $response['cliente'] = array(
+                $response->data['numero'] = $atendimento->getSenha()->toString();
+                $response->data['prioridade'] = $atendimento->getSenha()->isPrioridade() ? $atendimento->getSenha()->getPrioridade()->getNome() : _('Atendimento Normal');
+                $response->data['servico'] = $atendimento->getServicoUnidade()->getNome();
+                $response->data['chegada'] = DateUtil::formatToSQL($atendimento->getDataChegada());
+                $response->data['cliente'] = array(
                     'nome' => $atendimento->getCliente()->getNome(),
                     'documento' => $atendimento->getCliente()->getDocumento()
                 );
-                $response['success'] = true;
+                $response->success = true;
             }
         }
         $context->getResponse()->jsonResponse($response);

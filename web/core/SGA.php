@@ -50,11 +50,21 @@ class SGA {
      */
     public static function auth($login, $pass) {
         $pass = Security::passEncode($pass);
-        $query = \core\db\DB::getEntityManager()->createQuery("SELECT u FROM core\model\Usuario u WHERE u.login = :login");
+        $em = \core\db\DB::getEntityManager();
+        $query = $em->createQuery("SELECT u FROM core\model\Usuario u WHERE u.login = :login");
         $query->setParameter('login', $login);
         try {
             $user = $query->getSingleResult();
-            return ($user && $user->getSenha() == $pass) ? $user : null;
+            $success = ($user && $user->getSenha() == $pass);
+            if ($success) {
+                // atualizando o session id
+                $user->setSessionId(session_id());
+                $user->setAtivo(true);
+                $em->merge($user);
+                $em->flush();
+                return $user;
+            }
+            return null;
         } catch (\Exception $e) { // no result
             return false;
         }
@@ -131,13 +141,22 @@ class SGA {
     
     public static function checkAccess($key, $value) {
         if (self::isProtectedPage($key)) {
-            if (!self::isLogged()) {
-                SGA::redirect('/' . SGA::K_LOGIN);
+            $context = self::getContext();
+            if (!self::isLogged() || !self::isValidSession()) {
+                if ($context->getRequest()->isAjax()) {
+                    $response = new \core\http\AjaxResponse();
+                    $response->success = false;
+                    $response->sessionActive = false;
+                    $context->getResponse()->jsonResponse($response);
+                } else {
+                    SGA::redirect('/' . SGA::K_LOGIN);
+                }
             }
+
             if (self::isHomePage($key)) {
                 return true;
             }
-            $module = self::getContext()->getModule();
+            $module = $context->getModule();
             if (!$module) { // invalid or inactive module
                 return false;
             }
@@ -167,11 +186,11 @@ class SGA {
     }
     
     public static function hasAccess(Modulo $modulo) {
-        if (SGA::isLogged()) {
+        if (SGA::isLogged() && SGA::isValidSession()) {
             $usuario = SGA::getContext()->getUser();
             $unidade = $usuario->getUnidade();
             $id_usu = $usuario->getId();
-            
+
             if ($modulo->isGlobal()) {
                 return \core\db\DB::getAdapter()->hasAccess_global($id_usu, $modulo->getId());
             } else {
@@ -179,7 +198,7 @@ class SGA {
                 if ($unidade == null) {
                     throw new \Exception(_('A permissão para módulos não globais depende da unidade.'));
                 }
-                
+
                 // módulo unidade
                 if ($usuario->getLotacao()) {
                     return $usuario->getLotacao()->get_cargo()->has_permissao($modulo->getId());
@@ -191,6 +210,19 @@ class SGA {
     
     public static function isLogged() {
         return self::getContext()->getUser() != null;
+    }
+    
+    public static function isValidSession() {
+        $user = self::getContext()->getUser();
+        if (!$user->isAtivo()) {
+            return false;
+        }
+        // verificando session id
+        $em = \core\db\DB::getEntityManager();
+        $query = $em->createQuery("SELECT u.sessionId FROM \core\model\Usuario u WHERE u.id = :id");
+        $query->setParameter('id', $user->getId());
+        $rs = $query->getSingleResult();
+        return $user->getSessionId() == $rs['sessionId'];
     }
 
     public static function hasUnidade() {

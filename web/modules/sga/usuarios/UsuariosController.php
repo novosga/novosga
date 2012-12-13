@@ -46,6 +46,7 @@ class UsuariosController extends CrudController {
         if ($rs['total']) {
             throw new \Exception(_('O login informado já está cadastrado para outro usuário.'));
         }
+        $model->setSessionId('');
     }
     
     protected function postSave(SequencialModel $model) {

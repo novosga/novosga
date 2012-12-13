@@ -1,5 +1,6 @@
 <?php
 use \core\SGA;
+use \core\util\Strings;
 
 function atendimentoInfo($atendimento) {
     ?>
@@ -96,10 +97,12 @@ else {
             <ul></ul>
         </div>
     </div>
+    <div id="sga-clock" title="<?php echo Strings::doubleQuoteSlash(_('Data e hora no servidor')) ?>"></div>
     <script type="text/javascript">
         <?php
             $status = ($atendimento) ? $atendimento->getStatus() : 1;
         ?>
+        SGA.Clock.init("sga-clock", <?php echo (time() * 1000) ?>);
         SGA.Atendimento.filaVazia = '<?php SGA::out(_('Fila Vazia')) ?>';
         SGA.Atendimento.marcarErroTriagem = '<?php SGA::out(_('Realmente deseja marcar como erro de triagem?')) ?>';
         SGA.Atendimento.marcarNaoCompareceu = '<?php SGA::out(_('Realmente deseja marcar como não compareceu?')) ?>';

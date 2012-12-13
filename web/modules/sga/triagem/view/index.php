@@ -48,7 +48,7 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
 </div>
 <div id="triagem-servicos">
     <?php foreach ($servicos as $servico): ?>
-    <?php SGA::out(blockServico($builder, $servico)) ?>
+    <?php echo blockServico($builder, $servico); ?>
     <?php endforeach; ?>
 </div>
 <!-- dialog para exibir informacoes do servico -->
@@ -81,5 +81,5 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
     });
     SGA.Triagem.ajaxUpdate();
     SGA.Triagem.imprimir = <?php SGA::out($unidade->getStatusImpressao() ? 'true' : 'false') ?>;
-    setInterval(SGA.Triagem.ajaxUpdate, SGA.Triagem.ajaxInterval);
+    SGA.Triagem.init();
 </script>

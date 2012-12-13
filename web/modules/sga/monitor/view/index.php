@@ -1,5 +1,6 @@
 <?php
 use \core\SGA;
+use \core\util\Strings;
 ?>
 <div id="monitor">
     <?php foreach ($servicos as $su): ?>
@@ -59,11 +60,13 @@ use \core\SGA;
         </div>
     </fieldset>
 </div>
+<div id="sga-clock" title="<?php echo Strings::doubleQuoteSlash(_('Data e hora no servidor')) ?>"></div>
 <script type="text/javascript">
     $('.servico').each(function(i,v) {
         var servico = $(v);
         SGA.Monitor.ids.push(servico.data('id'));
     });
+    SGA.Clock.init("sga-clock", <?php echo (time() * 1000) ?>);
     SGA.Monitor.atendimentoNormal = '<?php SGA::out(_('Atendimento Normal')) ?>';
-    setInterval(SGA.Monitor.ajaxUpdate, SGA.Monitor.ajaxInterval);
+    SGA.Monitor.init();
 </script>

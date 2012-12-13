@@ -3,8 +3,9 @@ use \core\SGA;
 
 $context = SGA::getContext();
 $session = $context->getSession();
-if ($session->get(SGA::K_LOGIN_ERROR)) {
-    $error = $this->builder->tag('span', array('class' => 'ui-state-error'), $session->get(SGA::K_LOGIN_ERROR));
+if ($session->get(SGA::K_LOGIN_ERROR) || isset($error)) {
+    $message = isset($error) ? $error : $session->get(SGA::K_LOGIN_ERROR);
+    $error = $this->builder->tag('span', array('class' => 'ui-state-error'), $message);
     $session->del(SGA::K_LOGIN_ERROR);
 } else {
     $error = "";

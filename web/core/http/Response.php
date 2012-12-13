@@ -33,7 +33,7 @@ class Response {
     /**
      * Desabilita o template, e altera o content-type
      */
-    public function jsonResponse($response) {
+    public function jsonResponse(AjaxResponse $response) {
         $this->contentType = self::CONTENT_TYPE_JSON;
         $this->updateHeaders();
         echo json_encode($response);

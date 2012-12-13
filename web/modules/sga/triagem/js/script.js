@@ -7,12 +7,14 @@ var SGA = SGA || {};
 SGA.Triagem = {
     
     ids: [],
-    paused: false,
     imprimir: false,
-    ajaxInterval: 3000,
+    
+    init: function() {
+        setInterval(SGA.Triagem.ajaxUpdate, SGA.updateInterval);
+    },
     
     servicoInfo: function(servico, title) {
-        $.ajax({
+        SGA.ajax({
             type: 'post',
             url: SGA.url('servico_info'),
             data: {id: servico},
@@ -65,15 +67,17 @@ SGA.Triagem = {
     },
     
     ajaxUpdate: function() {
-        if (!SGA.Triagem.paused) {
-            $.ajax({
+        if (!SGA.paused) {
+            SGA.ajax({
                 url: SGA.url('ajax_update'),
                 data: {ids: SGA.Triagem.ids.join(',')},
                 success: function(response) {
-                    for (var i in response) {
-                        var qtd = response[i];
-                        $('#total-aguardando-' + i).text(qtd.fila);
-                        $('#total-senhas-' + i).text(qtd.total);
+                    if (response.success) {
+                        for (var i in response.data) {
+                            var qtd = response.data[i];
+                            $('#total-aguardando-' + i).text(qtd.fila);
+                            $('#total-senhas-' + i).text(qtd.total);
+                        }
                     }
                 }
             });
@@ -81,7 +85,7 @@ SGA.Triagem = {
     },
     
     distribuiSenha: function(servico, prioridade, complete) {
-        $.ajax({
+        SGA.ajax({
             url: SGA.url('distribui_senha'),
             data: {
                 servico: servico, 
@@ -93,12 +97,10 @@ SGA.Triagem = {
             success: function(response) {
                 if (response.success) {
                     if (SGA.Triagem.imprimir) {
-                        window.open(SGA.url('imprimir') + "&id=" + response.id);
+                        window.open(SGA.url('imprimir') + "&id=" + response.data.id);
                     }
                     // TODO: atualizar pelo response, ao inves de fazer outro request
                     SGA.Triagem.ajaxUpdate();
-                } else {
-                    alert(response.message);
                 }
             },
             complete: complete

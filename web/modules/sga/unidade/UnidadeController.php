@@ -4,7 +4,7 @@ namespace modules\sga\unidade;
 use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
-use \core\model\Unidade;
+use \core\http\AjaxResponse;
 use \core\controller\ModuleController;
 
 /**
@@ -68,17 +68,20 @@ class UnidadeController extends ModuleController {
     }
     
     public function habilita_servico(SGAContext $context) {
-        $response = array('success' => $this->change_status($context, 1));
+        $response = new AjaxResponse();
+        $response->success = $this->change_status($context, 1);
         $context->getResponse()->jsonResponse($response);
     }
     
     public function desabilita_servico(SGAContext $context) {
-        $response = array('success' => $this->change_status($context, 0));
+        $response = new AjaxResponse();
+        $response->success = $this->change_status($context, 0);
         $context->getResponse()->jsonResponse($response);
     }
     
     public function update_sigla(SGAContext $context) {
-        $response = array('success' => true);
+        $response = new AjaxResponse();
+        $response->success = true;
         $sigla = Arrays::value($_POST, 'sigla');
         $id_serv = Arrays::value($_POST, 'id');
         $id_uni = $context->getUser()->getUnidade()->getId();

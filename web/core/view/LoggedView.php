@@ -66,17 +66,8 @@ abstract class LoggedView extends PageView {
         return $items . $extra . '</ul>';
     }
     
-    public function content(SGAContext $context) {
-        $content = parent::content($context);
-        if ($context->getResponse()->renderView()) {
-            $content .= '<div id="sga-clock" title="' . _('Data e hora no servidor') . '"></div>';
-        }
-        return $content;
-    }
-    
     public function footer(SGAContext $context) {
-        $clock = '<script type="text/javascript">SGA.Clock.init("sga-clock", ' . (time() * 1000) . ');</script>';
-        $html = $this->changeUnidadeDialog($context) . $clock;
+        $html = $this->changeUnidadeDialog($context);
         return $html . parent::footer($context);
     }
     

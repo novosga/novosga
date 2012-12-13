@@ -9,7 +9,7 @@ SGA.Unidade = {
     Servicos: {
         request: function(method, btn, complete) {
             btn = $(btn);
-            $.ajax({
+            SGA.ajax({
                 url: SGA.url(method),
                 data: {id: btn.data('id')},
                 type: 'post',
@@ -41,7 +41,7 @@ SGA.Unidade = {
         
         updateSigla: function(input) {
             input = $(input);
-            $.ajax({
+            SGA.ajax({
                 url: SGA.url('update_sigla'),
                 data: {id: input.data('id'), sigla: input.val()},
                 type: 'post'

@@ -7,23 +7,26 @@ var SGA = SGA || {};
 SGA.Monitor = {
 
     ids: [],
-    paused: false,
     ajaxInterval: 3000,
     atendimentoNormal: '',
     
+    init: function() {
+        setInterval(SGA.Monitor.ajaxUpdate, SGA.updateInterval);
+    },
+    
     viewSenha: function(senha) {
-        $.ajax({
+        SGA.ajax({
             url: SGA.url('info_senha'),
             data: {numero: senha},
             success: function(response) {
                 if (response.success) {
                     var dialog = $('#dialog-monitor');
-                    dialog.find('#senha_numero').text(response.numero);
-                    dialog.find('#senha_prioridade').text(response.prioridade);
-                    dialog.find('#senha_servico').text(response.servico);
-                    dialog.find('#senha_chegada').text(SGA.formatDate(response.chegada));
-                    dialog.find('#cliente_nome').text(response.cliente.nome);
-                    dialog.find('#cliente_documento').text(response.cliente.documento);
+                    dialog.find('#senha_numero').text(response.data.numero);
+                    dialog.find('#senha_prioridade').text(response.data.prioridade);
+                    dialog.find('#senha_servico').text(response.data.servico);
+                    dialog.find('#senha_chegada').text(SGA.formatDate(response.data.chegada));
+                    dialog.find('#cliente_nome').text(response.data.cliente.nome);
+                    dialog.find('#cliente_documento').text(response.data.cliente.documento);
                     dialog.dialog({
                         width: 600
                     });
@@ -33,16 +36,16 @@ SGA.Monitor = {
     },
     
     ajaxUpdate: function() {
-        if (!SGA.Monitor.paused) {
-            $.ajax({
+        if (!SGA.paused) {
+            SGA.ajax({
                 url: SGA.url('ajax_update'),
                 data: {ids: SGA.Monitor.ids.join(',')},
                 success: function(response) {
                     if (response.success) {
                         $('#monitor .servico').hide();
-                        if (response.total > 0) {
-                            for (var i in response.servicos) {
-                                var fila = response.servicos[i];
+                        if (response.data.total > 0) {
+                            for (var i in response.data.servicos) {
+                                var fila = response.data.servicos[i];
                                 var servico = $('#servico-' + i);
                                 if (fila.length > 0) {
                                     servico.show();

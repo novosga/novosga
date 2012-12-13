@@ -131,7 +131,11 @@ abstract class SGAView implements View {
     <script type="text/javascript" src="<?php SGA::out($script . '?v=' . SGA::VERSION) ?>"></script>
     <?php endforeach; ?>
     <script type="text/javascript">
-        SGA.K_MODULE = '<?php SGA::out(SGA::K_MODULE) ?>'; SGA.K_PAGE = '<?php SGA::out(SGA::K_PAGE) ?>'; SGA.module = '<?php SGA::out(defined('MODULE') ? MODULE : '') ?>';
+        SGA.K_MODULE = '<?php SGA::out(SGA::K_MODULE) ?>'; 
+        SGA.K_PAGE = '<?php SGA::out(SGA::K_PAGE) ?>'; 
+        SGA.module = '<?php SGA::out(defined('MODULE') ? MODULE : '') ?>';
+        SGA.invalidSession = '<?php SGA::out(_('Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.')); ?>';
+        SGA.dialogs.error.title = '<?php SGA::out(_('Erro')) ?>';
     </script>
     <link rel="shortcut icon" href="images/favicon.png" />
 </head>
@@ -149,7 +153,7 @@ abstract class SGAView implements View {
      * @return string
      */
     public function footer(SGAContext $context) {
-        return '</div></body></html>';
+        return '</div><spa id="loading" style="display:none"></span></body></html>';
     }
     
     /**

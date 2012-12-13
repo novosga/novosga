@@ -225,15 +225,6 @@ CREATE TABLE [dbo].[usu_serv](
 
 GO
 
-/* Object:  Table [dbo].[usu_session]    Script Date: 10/08/2012 17:01:28 */
-CREATE TABLE [dbo].[usu_session](
-	[id_usu] [int] NOT NULL,
-	[session_id] [varchar](40) NOT NULL,
-	[stat_session] [int] NOT NULL
-) ON [PRIMARY]
-
-GO
-
 /* Object:  Table [dbo].[usuarios]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[usuarios](
 	[id_usu] [int] identity(1,1) NOT NULL,
@@ -242,7 +233,8 @@ CREATE TABLE [dbo].[usuarios](
 	[ult_nm_usu] [varchar](100) NOT NULL,
 	[senha_usu] [varchar](40) NOT NULL,
 	[ult_acesso] [datetime] NULL,
-	[stat_usu] [smallint] NOT NULL
+	[stat_usu] [smallint] NOT NULL,
+	[session_id] [varchar](40) NOT NULL
 ) ON [PRIMARY]
 
 GO
@@ -338,10 +330,6 @@ go
 
 ALTER TABLE usu_serv
     WITH NOCHECK ADD CONSTRAINT PK_usu_serv_pkey PRIMARY KEY CLUSTERED (id_uni, id_serv, id_usu);
-go
-
-ALTER TABLE usu_session
-    WITH NOCHECK ADD CONSTRAINT PK_usu_session_pkey PRIMARY KEY CLUSTERED (id_usu);
 go
 
 ALTER TABLE usuarios
@@ -530,10 +518,6 @@ ALTER TABLE usu_serv
     ADD CONSTRAINT FK_usu_serv_ibfk_2 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu);
 go
 
-ALTER TABLE usu_session
-    ADD CONSTRAINT FK_usu_session_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu);
-go
-
 /* VIEWS */
 -----------
 CREATE VIEW view_historico_atend_codif 
@@ -688,25 +672,3 @@ BEGIN TRANSACTION
 
 COMMIT TRANSACTION
 GO
-
---
---
-CREATE PROCEDURE dbo.sp_salvar_session_id
-	@p_id_usu integer, 
-	@p_session_id varchar(40)
-AS
-/*
--- Insere uma session, caso não exista, ou atualiza caso exista.
--- Equivalente ao REPLACE do MySQL
-*/
-BEGIN
-    IF EXISTS( SELECT 1 FROM usu_session WHERE id_usu = @p_id_usu )
-        UPDATE usu_session
-        SET session_id = @p_session_id
-        WHERE id_usu = @p_id_usu;
-    ELSE
-        INSERT INTO usu_session VALUES( @p_id_usu, @p_session_id, 1 );
-END
-GO
-
-

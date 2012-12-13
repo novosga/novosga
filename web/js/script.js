@@ -8,6 +8,29 @@ var SGA = {
     K_PAGE: '',
     module: '',
     page: '',
+    paused: false,
+    updateInterval: 5000,
+    
+    dialogs: {
+        error: {
+            id: 'dialog-error',
+            title: '',
+            create: function(prop) {
+                var node = $('<div id="' + SGA.dialogs.error.id + '" title="' + SGA.dialogs.error.title + '"><p><span class="ui-icon ui-icon-alert"></span>'+ prop.message +'</p></div>');
+                $('body').append(node);
+                node.dialog({
+                    width: 500,
+                    modal: true,
+                    close: function() {
+                        $('#' + SGA.dialogs.error.id).remove();
+                        if (typeof(prop.close) == 'function') {
+                            prop.close();
+                        }
+                    }
+                });
+            }
+        }
+    },
     
     url: function() {
         var arg = arguments.length > 0 ? arguments[0] : {};
@@ -26,12 +49,7 @@ var SGA = {
         }
         return '?' + url;
     },
-    
-    refresh: function() {
-        SGA.updateTime();
-        setInterval(SGA.updateTime, 1000);
-    },
-    
+        
     reload: function() {
         window.location = window.location;
     },
@@ -44,6 +62,46 @@ var SGA = {
             time = ' ' + d[1];
         }
         return date + time;
+    },
+    
+    /* jQuery ajax wrapper */
+    ajax: function(arg) {
+        $('#loading').show();
+        $.ajax({
+            url: arg.url,
+            data: arg.data || {},
+            type: arg.type || 'get',
+            dataType: arg.dataType || 'json',
+            success: function(response) {
+                if (response.success) {
+                    var fn = arg.success;
+                    if (fn && typeof(fn) == 'function') {
+                        fn(response);
+                    }
+                } else {
+                    // checking session
+                    if (!response.sessionActive) {
+                        SGA.paused = true;
+                        SGA.dialogs.error.create({message: SGA.invalidSession, close: function() { SGA.reload(); }});
+                    } else {
+                        SGA.dialogs.error.create({message: response.message});
+                    }
+                }
+            },
+            error: function() {
+                var fn = arg.error;
+                if (fn && typeof(fn) == 'function') {
+                    fn();
+                }
+            },
+            complete: function(response) {
+                $('#loading').hide();
+                var fn = arg.complete;
+                if (fn && typeof(fn) == 'function') {
+                    fn(response);
+                }
+            }
+        });
     },
     
     Form: {
@@ -114,7 +172,7 @@ var SGA = {
         },
         
         set: function(url) {
-            $.ajax({
+            SGA.ajax({
                 url: url,
                 data: { unidade: $('#unidade').val() },
                 dataType: 'json',

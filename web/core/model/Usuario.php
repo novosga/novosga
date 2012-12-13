@@ -25,6 +25,8 @@ class Usuario extends SequencialModel {
     protected $senha;
     /** @Column(type="integer", name="stat_usu", nullable=false) */
     protected $status;
+    /** @Column(type="integer", name="session_id", nullable=true) */
+    protected $sessionId;
     
     // transient - os campos abaixo dependem da unidade atual
     protected $grupos;
@@ -33,6 +35,7 @@ class Usuario extends SequencialModel {
     protected $guiche;
     protected $unidade;
     protected $lotacao;
+    protected $ativo = false;
 
     public function __construct() {
     }
@@ -159,7 +162,23 @@ class Usuario extends SequencialModel {
     public function getStatus() {
         return $this->status;
     }
+    
+    public function getSessionId() {
+        return $this->sessionId;
+    }
 
+    public function setSessionId($sessionId) {
+        $this->sessionId = $sessionId;
+    }
+    
+    public function isAtivo() {
+        return ($this->ativo == true);
+    }
+
+    public function setAtivo($ativo) {
+        $this->ativo = ($ativo == true);
+    }
+    
     public function tostring() {
         return "{$this->getLogin()} - {$this->getNome()}, {$this->getGrupo()}";
     }

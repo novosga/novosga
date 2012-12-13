@@ -1,4 +1,4 @@
--- @adapter=MySQL
+-- @adapter=MySQL / MariaDB
 -- @author=rogeriolino
 -- @date=2012-12-06
 
@@ -17,9 +17,8 @@ CREATE TABLE atend_status (
     id_stat integer NOT NULL AUTO_INCREMENT,
     nm_stat varchar(30) NOT NULL,
     desc_stat varchar (150) NOT NULL,
-	PRIMARY KEY (`id_stat`)
+    PRIMARY KEY (id_stat)
 ) ENGINE = INNODB;
-
 
 CREATE TABLE atendimentos (
     id_atend bigint NOT NULL AUTO_INCREMENT,
@@ -49,14 +48,12 @@ CREATE TABLE cargos_aninhados (
     PRIMARY KEY (id_cargo)
 ) ENGINE = INNODB;
 
-
 CREATE TABLE cargos_mod_perm (
     id_cargo integer NOT NULL,
     id_mod integer NOT NULL,
     permissao integer NOT NULL,
     PRIMARY KEY (id_cargo, id_mod)
 ) ENGINE = INNODB;
-
 
 CREATE TABLE grupos_aninhados (
     id_grupo integer NOT NULL AUTO_INCREMENT,
@@ -119,7 +116,6 @@ CREATE TABLE paineis_servicos (
     PRIMARY KEY (host, id_serv)
 ) ENGINE = INNODB;
 
-
 CREATE TABLE painel_senha (
     contador integer NOT NULL AUTO_INCREMENT,
     id_uni integer NOT NULL,
@@ -131,7 +127,6 @@ CREATE TABLE painel_senha (
     num_guiche smallint NOT NULL,
     PRIMARY KEY (contador)
 ) ENGINE = INNODB;
-
 
 CREATE TABLE prioridades (
     id_pri integer NOT NULL AUTO_INCREMENT,
@@ -193,19 +188,11 @@ CREATE TABLE usu_grup_cargo (
     PRIMARY KEY (id_usu, id_grupo)
 ) ENGINE = INNODB;
 
-
 CREATE TABLE usu_serv (
     id_uni integer NOT NULL,
     id_serv integer NOT NULL,
     id_usu integer NOT NULL,
     PRIMARY KEY (id_uni, id_serv, id_usu)
-) ENGINE = INNODB;
-
-CREATE TABLE usu_session (
-    id_usu integer NOT NULL,
-    session_id varchar(40) NOT NULL,
-    stat_session integer NOT NULL,
-    PRIMARY KEY (id_usu)
 ) ENGINE = INNODB;
 
 CREATE TABLE usuarios (
@@ -216,6 +203,7 @@ CREATE TABLE usuarios (
     senha_usu varchar(40) NOT NULL,
     ult_acesso datetime,
     stat_usu smallint NOT NULL,
+    session_id varchar(40) NOT NULL
     PRIMARY KEY (id_usu)
 ) ENGINE = INNODB;
 
@@ -282,8 +270,6 @@ ALTER TABLE usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_3 FOREIGN KEY (id_
 ALTER TABLE usu_serv ADD CONSTRAINT usu_serv_ibfk_1 FOREIGN KEY (id_serv, id_uni) REFERENCES uni_serv(id_serv, id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE usu_serv ADD CONSTRAINT usu_serv_ibfk_2 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE usu_session ADD CONSTRAINT usu_session_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 --
 -- indexes

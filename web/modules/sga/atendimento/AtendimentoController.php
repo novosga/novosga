@@ -8,6 +8,7 @@ use core\util\DateUtil;
 use \core\controller\ModuleController;
 use \core\model\Atendimento;
 use \core\model\Usuario;
+use \core\http\AjaxResponse;
 
 /**
  * AtendimentoController
@@ -72,12 +73,12 @@ class AtendimentoController extends ModuleController {
     }
     
     public function get_fila(SGAContext $context) {
-        $response = array('success' => false);
+        $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
             // fila de atendimento do atendente atual
             $rs = $this->atendimentos($context->getUser());
-            $response['atendimentos'] = array();
+            $response->data = array();
             foreach ($rs as $a) {
                 $atendimento = array(
                     'numero' => $a->getSenha()->toString(),
@@ -87,9 +88,9 @@ class AtendimentoController extends ModuleController {
                 if ($atendimento['prioridade']) {
                     $atendimento['nomePrioridade'] = $a->getSenha()->getPrioridade()->getNome();
                 }
-                $response['atendimentos'][] = $atendimento;
+                $response->data[] = $atendimento;
             }
-            $response['success'] = true;
+            $response->success = true;
         }
         $context->getResponse()->jsonResponse($response);
     }
@@ -103,7 +104,7 @@ class AtendimentoController extends ModuleController {
         $maxAttempts = 5;
         $proximo = null;
         $success = false;
-        $response = array();
+        $response = new AjaxResponse();
         $usuario = $context->getUser();
         if (!$usuario) {
             SGA::redirect('/' . SGA::K_HOME);
@@ -155,14 +156,14 @@ class AtendimentoController extends ModuleController {
             } while (!$success && $attempts < $maxAttempts);
         }
         // response
-        $response['success'] = $success;
+        $response->success = $success;
         if ($success) {
-            $response['atendimento'] = $proximo->toArray();
+            $response->data = $proximo->toArray();
         } else {
             if (!$proximo) {
-                $response['message'] = _('Fila vazia');
+                $response->message = _('Fila vazia');
             } else {
-                $response['message'] = _('Já existe um atendimento em andamento');
+                $response->message = _('Já existe um atendimento em andamento');
             }
         }
         $context->getResponse()->jsonResponse($response);
@@ -179,7 +180,7 @@ class AtendimentoController extends ModuleController {
         if (!$usuario) {
             SGA::redirect('/' . SGA::K_HOME);
         }
-        $response = array('success' => false);
+        $response = new AjaxResponse();
         $atual = $this->atendimentoAndamento($usuario);
         if ($atual) {
             // atualizando atendimento
@@ -195,12 +196,12 @@ class AtendimentoController extends ModuleController {
             $query->setParameter('novoStatus', $novoStatus);
             $query->setParameter('id', $atual->getId());
             $query->setParameter('statusAtual', $statusAtual);
-            $response['success'] = $query->execute() > 0;
+            $response->success = $query->execute() > 0;
         }
-        if ($response['success']) {
-            $response['atendimento'] = $atual->toArray();
+        if ($response->success) {
+            $response->data = $atual->toArray();
         } else {
-            $response['message'] = _('Nenhum atendimento disponível');
+            $response->message = _('Nenhum atendimento disponível');
         }
         $context->getResponse()->jsonResponse($response);
     }
