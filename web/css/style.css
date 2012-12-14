@@ -113,13 +113,21 @@
 
 #home .welcome h1 {
     margin: 0;
+    padding: 5px 0;
+}
+
+#home .modules h2 {
+    margin: 0;
+    padding: 5px 0;
 }
 
 #home p {
     color: #999;
+    padding: 5px 0;
 }
 
 #home #modules .list {
+    padding-bottom: 10px;
     clear: both;
 }
 

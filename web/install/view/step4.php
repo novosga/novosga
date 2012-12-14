@@ -31,7 +31,7 @@ if (!$data) {
         </div>
         <div class="field">
             <label class="w125">Usuário:</label>
-            <input type="text" id="login_usu" name="login_usu" />
+            <input type="text" id="login_usu" name="login_usu" onkeyup="SGA.Form.loginValue(this)" maxlength="20" />
         </div>
         <div class="field">
             <label class="w125">Senha:</label>
