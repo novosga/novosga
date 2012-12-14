@@ -22,7 +22,9 @@ class Cargo extends TreeModel {
     protected $nome;
     /** @Column(type="string", name="desc_cargo", length=150, nullable=false) */
     protected $descricao;
-    
+    /** 
+     * @OneToMany(targetEntity="PermissaoModulo", mappedBy="cargo")
+     */
     protected $permissoes;
 
     /**
@@ -65,17 +67,13 @@ class Cargo extends TreeModel {
     public function addPermissao(PermissaoModulo $pm) {
         $this->permissoes[] = $pm;	
     }
-	
+
     /**
-     * Modifica permissões
+     * Retorna as permissões do cargo
      * @return $permissoes array
      */
     public function getPermissoes() {
-        // lazy loading (carrega sob demanda)
-        if (!$this->permissoes) {
-            //$this->permissoes = DB::getAdapter()->get_permissoes_cargo($this->getId());
-        }
-        return $this->permissoes;	
+        return $this->permissoes;
     }
 	
     /**
@@ -83,15 +81,9 @@ class Cargo extends TreeModel {
      * @param $modulo
      * @return bool
      */
-    public function hasPermissao($modulo) {
-        if ($modulo instanceof Modulo) {
-            $id_mod = $modulo->getId();
-        }
-        else {
-            $id_mod = (int) $modulo;
-        }
-        foreach ($this->get_permissoes() as $pc) {
-            if ($pc->get_modulo()->getId() == $id_mod) {
+    public function hasPermissao(Modulo $modulo) {
+        foreach ($this->getPermissoes() as $permissao) {
+            if ($permissao->getModulo()->getId() == $modulo->getId()) {
                 return true;
             }
         }

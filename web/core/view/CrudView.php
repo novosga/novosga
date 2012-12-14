@@ -59,10 +59,11 @@ class CrudView extends ModuleView {
     
     public function tree($title, $items) {
         $buttons = function($model) {
+            $btns = $this->buttonEdit($model->getId());
             if ($model->getLeft() > 1) {
-                return $this->buttonEdit($model->getId()) . $this->buttonDelete($model->getId());
+                $btns .= $this->buttonDelete($model->getId());
             }
-            return '';
+            return $btns;
         };
         return $this->showMessages() . $this->getBuilder()->treeView(array(
             'title' => $title,

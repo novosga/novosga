@@ -54,7 +54,7 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
 <!-- dialog para exibir informacoes do servico -->
 <div id="dialog-servico" title="<?php SGA::out(_('Serviço')) ?>" style="display:none">
     <div>
-        <label><?php SGA::out(_('Descrição')) ?></h3>
+        <h3><?php SGA::out(_('Descrição')) ?></h3>
         <p class="descricao"></p>
     </div>
     <div>

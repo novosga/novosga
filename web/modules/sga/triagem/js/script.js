@@ -33,11 +33,7 @@ SGA.Triagem = {
                     subservicos.hide();
                     dialog.find('ul.subservicos.empty').show();
                 }
-                dialog.dialog({
-                    modal: true,
-                    title: title,
-                    width: 650
-                });
+                SGA.dialogs.modal('#dialog-guiche', { title: title, width: 650 });
             }
         });
     },
@@ -50,9 +46,8 @@ SGA.Triagem = {
                 dialog.dialog("close");
             });
         }
-        dialog.dialog({
-            modal: true,
-            width: 450,
+        SGA.dialogs.modal(dialog, { 
+            width: 450, 
             buttons: btns,
             create: function(event, ui) {
                 $('input:radio[name=prioridade]').on('click', function() {

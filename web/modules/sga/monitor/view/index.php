@@ -3,6 +3,33 @@ use \core\SGA;
 use \core\util\Strings;
 ?>
 <div id="monitor">
+    <div class="menu">
+        <h4><?php SGA::out(_('Senhas')) ?></h4>
+        <ul>
+            <li><?php 
+                echo $builder->button(array(
+                    'id' => 'btn-consultar',
+                    'label' => _('Consultar'),
+                    'onclick' => 'SGA.Monitor.Senha.consultar()'
+                ));
+            ?></li>
+            <li><?php 
+                echo $builder->button(array(
+                    'id' => 'btn-reativar',
+                    'label' => _('Reativar'),
+                    'onclick' => 'SGA.Monitor.Senha.reativar()'
+                ));
+            ?></li>
+            <li><?php 
+                echo $builder->button(array(
+                    'id' => 'btn-cancelar',
+                    'class' => 'ui-button-error',
+                    'label' => _('Cancelar'),
+                    'onclick' => 'SGA.Monitor.Senha.cancelar()'
+                ));
+            ?></li>
+        </ul>
+    </div>
     <?php foreach ($servicos as $su): ?>
     <?php $id  = $su->getServico()->getId(); ?>
     <?php $empty  = $su->getFila()->size() == 0; ?>
@@ -13,7 +40,7 @@ use \core\util\Strings;
                 if (!$empty):
                     for ($i = 0; $i < $su->getFila()->size(); $i++): 
                         $senha = $su->getFila()->get($i)->getSenha(); 
-                        $onclick = "SGA.Monitor.viewSenha({$senha->getNumero()})";
+                        $onclick = "SGA.Monitor.Senha.view({$senha->getNumero()})";
                     ?>
                     <li class="<?php SGA::out(($senha->isPrioridade() ? 'prioridade' : '')) ?>">
                         <a href="javascript:void(0)" onclick="<?php echo $onclick ?>" title="<?php SGA::out($senha->isPrioridade() ? $senha->getPrioridade()->getNome() : _('Atendimento Normal')) ?>">
@@ -27,6 +54,12 @@ use \core\util\Strings;
         </ul>
     </div>
     <?php endforeach; ?>
+</div>
+<div id="dialog-busca" title="<?php SGA::out(_('Busca')) ?>" style="display:none">
+    <div>
+        <label for="numero_busca"><?php SGA::out(_('Número')) ?></label>
+        <input id="numero_busca" type="text" maxlength="5" />
+    </div>
 </div>
 <div id="dialog-monitor" title="<?php SGA::out(_('Atendimento')) ?>" style="display:none">
     <fieldset>
