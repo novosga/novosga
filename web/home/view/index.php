@@ -17,19 +17,19 @@ function printModulos($builder, $modulos) {
 <div id="home">
     <div class="welcome">
         <h1>Bem-vindo</h1>
-        <p>Donec quam quam, venenatis non pretium ac, condimentum in risus.</p>
+        <p><?php SGA::out(_('Novo SGA: Sistema de Gerenciamento de Atendimento')) ?></p>
     </div>
     <div id="modules">
         <?php if ($unidade): ?>
         <div class="list unidade">
             <h2><?php SGA::out(_('Unidade')) ?></h2>
-            <p>Donec quam quam, venenatis non pretium ac, condimentum in risus.</p>
+            <p><?php SGA::out(_('Visualize abaixo os módulos disponíveis para a sua unidade')) ?></p>
             <?php printModulos($builder, $modulosUnidade) ?>
         </div>
         <?php endif; ?>
         <div class="list global">
             <h2><?php SGA::out(_('Global')) ?></h2>
-            <p>Donec quam quam, venenatis non pretium ac, condimentum in risus.</p>
+            <p><?php SGA::out(_('Visualize abaixo os módulos globais disponíveis que você possui acesso')) ?></p>
             <?php printModulos($builder, $modulosGlobal) ?>
         </div>
     </div>

@@ -153,6 +153,12 @@ var SGA = {
             else if (!r && typeof(failure) == 'function') {
                 failure();
             }
+        },
+        
+        loginValue: function(input) {
+            var value = input.value + "";
+            value = value.replace(/([^\w\d])+/g, '');
+            input.value = value.toLowerCase();
         }
         
     },

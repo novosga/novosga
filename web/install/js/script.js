@@ -23,7 +23,7 @@ SGA.Install = {
     
     nextStep: function() {
         switch (SGA.Install.currStep) { 
-        case 0: // database choose
+        case 0: // database choise
             SGA.Install.setDatabaseAdapter();
             break;
         case 4: // set admin
@@ -107,7 +107,8 @@ SGA.Install = {
                 $('#step_3 input').prop('disabled', false);
             },
             error: function() {
-                alert('Erro ao testar conexão');
+                $('#db_test_error').show();
+                $('#db_test_error').text('Erro ao testar conexão');
                 $('#step_3 input').prop('disabled', false);
             }
         });
@@ -148,7 +149,7 @@ SGA.Install = {
         }
         $('#db_host').focus();
     },
-    
+        
     setAdminData: function() {
         $('#db_admin_error').hide();
         $('#btn_next').button('disable');
@@ -164,12 +165,12 @@ SGA.Install = {
                 } else {
                     $('#db_admin_error').show();
                     $('#db_admin_error p').text(test.message);
-                    $('#btn_next').button('disable');
                 }
+                $('#btn_next').button('enable');
             },
             error: function() {
-                alert('Erro ao salvar dados do admin');
-                $('#btn_next').button('disable');
+                $('#db_admin_error').show();
+                $('#db_admin_error p').text('Erro ao salvar dados do admin');
             }
         });
     },

@@ -145,19 +145,16 @@ class InstallController extends InternalController {
                 $_POST['senha_usu_2'] = Arrays::value($_POST, 'senha_usu_2');
 
                 $adm = array();
-                $adm['login_usu'] = $_POST['login_usu'];
-                $adm['nm_usu'] = $_POST['nm_usu'];
-                $adm['ult_nm_usu'] = $_POST['ult_nm_usu'];
-                $adm['senha_usu'] = $_POST['senha_usu'];
+                $adm['login_usu'] = Arrays::value($_POST, 'login_usu');
+                $adm['nm_usu'] = Arrays::value($_POST, 'nm_usu');
+                $adm['ult_nm_usu'] = Arrays::value($_POST, 'ult_nm_usu');
+                $adm['senha_usu'] = Arrays::value($_POST, 'senha_usu');
 
-                if (strlen($adm['login_usu']) < 5) {
-                    throw new Exception(_('O login deve possuir 5 ou mais letras/números.'));
-                }
                 if (!ctype_alnum($adm['login_usu'])) {
                     throw new Exception(_('O login deve conter somente letras e números.'));
                 }
-                if (!ctype_alnum($adm['senha_usu'])) {
-                    throw new Exception(_('O login deve conter somente letras e números.'));
+                if (strlen($adm['login_usu']) < 5 || strlen($adm['login_usu']) > 20) {
+                    throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
                 }
                 if (strlen($adm['senha_usu']) < 6) {
                     throw new Exception(_('A senha deve possuir 6 ou mais letras/números.'));
