@@ -203,7 +203,7 @@ CREATE TABLE usuarios (
     senha_usu varchar(40) NOT NULL,
     ult_acesso datetime,
     stat_usu smallint NOT NULL,
-    session_id varchar(40) NOT NULL,
+    session_id varchar(40) NOT NULL
     PRIMARY KEY (id_usu)
 ) ENGINE = INNODB;
 
