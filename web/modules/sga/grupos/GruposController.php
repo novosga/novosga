@@ -22,7 +22,7 @@ class GruposController extends TreeModelController {
         return array('nome', 'descricao');
     }
 
-    protected function preSave(SequencialModel $model) {
+    protected function preSave(SGAContext $context, SequencialModel $model) {
         $id_pai = (int) Arrays::value($_POST, 'id_pai', 0);
         $pai = $this->em()->find(get_class($model), $id_pai);
         if ($pai) {

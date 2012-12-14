@@ -23,7 +23,7 @@ class Unidade extends SequencialModel {
     protected $nome;
     /** @Column(type="integer", name="stat_uni", nullable=false) */
     protected $status;
-    /** inversedBy="unidade", 
+    /**
      * @OneToOne(targetEntity="Grupo", fetch="EAGER")
      * @JoinColumn(name="id_grupo", referencedColumnName="id_grupo")
      */

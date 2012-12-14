@@ -1,8 +1,11 @@
 <?php
 namespace modules\sga\usuarios;
 
+use \Exception;
 use \core\SGA;
+use \core\SGAContext;
 use \core\util\Arrays;
+use \core\Security;
 use \core\model\SequencialModel;
 use \core\model\Usuario;
 use \core\controller\CrudController;
@@ -22,21 +25,28 @@ class UsuariosController extends CrudController {
         return array('login', 'nome', 'sobrenome');
     }
 
-    protected function preSave(SequencialModel $model) {
+    protected function preSave(SGAContext $context, SequencialModel $model) {
         if ($model->getId() == 0) {
             // para novos usuarios, tem que informar a senha
+            $login = Arrays::value($_POST, 'login');
+            if (!ctype_alnum($login)) {
+                throw new Exception(_('O login deve conter somente letras e números.'));
+            }
+            if (strlen($login) < 5 || strlen($login) > 20) {
+                throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
+            }
             $senha = Arrays::value($_POST, 'senha');
             $senha2 = Arrays::value($_POST, 'senha2');
-            if (empty($senha)) {
-                throw new Exception(_('Preencha a senha corretamente.'));
+            if (strlen($senha) < 6) {
+                throw new Exception(_('A senha deve possuir no mínimo 6 caracteres.'));
             }
             if ($senha != $senha2) {
                 throw new Exception(_('A confirmação de senha não confere com a senha.'));
-            } else if (!ctype_alnum($senha)) {
-                throw new Exception(_('A senha deve possuir somente letras e números.'));
-            } else if (strlen($senha) < 6) {
-                throw new Exception(_('A senha deve possuir no mínimo 6 caracteres.'));
             }
+            $model->setStatus(1);
+            $model->setSenha(Security::passEncode($senha));
+        } else {
+            $model->setStatus((int) Arrays::value($_POST, 'status'));
         }
         // verificando novo login ou alteracao
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM \core\model\Usuario e WHERE e.login = :login AND e.id != :id");
@@ -49,7 +59,7 @@ class UsuariosController extends CrudController {
         $model->setSessionId('');
     }
     
-    protected function postSave(SequencialModel $model) {
+    protected function postSave(SGAContext $context, SequencialModel $model) {
         return;
         $grupos = Arrays::value($_POST, 'grupos', array());
         $servicos = Arrays::value($_POST, 'servicos', array());

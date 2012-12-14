@@ -15,7 +15,7 @@ if ($message) {
     <p class="required-desc"><?php SGA::out(_('Campos obrigatórios')) ?></p>
     <div class="field required">
         <label for="login" class="w125"><?php SGA::out(_('Login')) ?></label>
-        <input id="login" type="text" name="login" class="w150" value="<?php SGA::out($model->getLogin()) ?>" />
+        <input id="login" type="text" name="login" class="w150" value="<?php SGA::out($model->getLogin()) ?>" onkeyup="SGA.Form.loginValue(this)" />
     </div>
     <div class="field required">
         <label for="nome" class="w125"><?php SGA::out(_('Nome')) ?></label>
@@ -25,6 +25,7 @@ if ($message) {
         <label for="descricao" class="w125"><?php SGA::out(_('Sobrenome')) ?></label>
         <input id="descricao" type="text" name="sobrenome" class="w200" value="<?php SGA::out($model->getSobrenome()) ?>" />
     </div>
+    <?php if ($id > 0): // ja cadastra o usuario como ativo ?>
     <div class="field required">
         <label for="status" class="w125">Status</label>
         <?php
@@ -40,6 +41,7 @@ if ($message) {
             ));
         ?>
     </div>
+    <?php endif; ?>
     <?php if (!$id): // criando usuario, entao pede senha ?>
         <div class="field required">
             <label class="w125"><?php SGA::out(_('Senha')) ?></label>

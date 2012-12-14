@@ -181,14 +181,14 @@
 
 #navbar .home, #navbar .home a {
     width: 130px;
-    height: 38px;
-    padding: 0;
+    padding: 2px 0;
     margin: 0;
     line-height: 0;
     float: left;
 }
 
 #navbar .home a {
+    height: 38px;
     text-indent: -900px;
     background-image: url(../images/sga_horizontal.png);
     background-position: center center;
@@ -408,6 +408,7 @@ div.field.checkbox label {
 
 div.buttons {
     padding: 30px 0 20px 0;
+    clear: both;
 }
 
 div.buttons .ui-button {
