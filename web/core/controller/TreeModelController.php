@@ -26,11 +26,11 @@ abstract class TreeModelController extends CrudController {
      * Insere ou atualiza a entidade no banco
      * @param \core\model\SequencialModel $model
      */
-    protected function doSave(SequencialModel $model) {
+    protected function doSave(SGAContext $context, SequencialModel $model) {
         if (!($model instanceof TreeModel)) {
             throw new Exception(sprintf(_('Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s'), get_class($model)));
         }
-        $this->preSave($model);
+        $this->preSave($context, $model);
         if ($model->getId() > 0) {
             // update
             $this->merge($model);
@@ -38,7 +38,7 @@ abstract class TreeModelController extends CrudController {
             // insert
             $this->persist($model);
         }
-        $this->postSave($model);
+        $this->postSave($context, $model);
         $this->em()->flush();
     }
     
@@ -145,11 +145,11 @@ abstract class TreeModelController extends CrudController {
     }
     
     
-    protected function doDelete(SequencialModel $model) {
+    protected function doDelete(SGAContext $context, SequencialModel $model) {
         if ($model->getLeft() == 1) {
             throw new Exception(_('Não pode remover a raiz'));
         }
-        $this->preDelete($model);
+        $this->preDelete($context, $model);
         try {
             $className = get_class($model);
             $this->em()->beginTransaction();
@@ -180,7 +180,7 @@ abstract class TreeModelController extends CrudController {
             $this->em()->rollback();
             throw new Exception(sprintf(_('Erro ao apagar o registro: %s'), $e->getMessage()));
         }
-        $this->postDelete($model);
+        $this->postDelete($context, $model);
         $this->em()->flush();
     }
 

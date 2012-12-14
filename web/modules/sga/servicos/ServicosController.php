@@ -22,7 +22,7 @@ class ServicosController extends CrudController {
         return array('nome', 'descricao', 'status');
     }
 
-    protected function preSave(SequencialModel $model) {
+    protected function preSave(SGAContext $context, SequencialModel $model) {
         $id_macro = (int) Arrays::value($_POST, 'id_macro');
         $macro = $this->em()->find("\core\model\Servico", $id_macro);
         $model->setMestre($macro);

@@ -103,10 +103,10 @@ abstract class CrudController extends ModuleController {
                 $id = Arrays::value($_POST, 'id', 0);
                 if ($id > 0) { // editando
                     $this->model->setId($id);
-                    $this->doSave($this->model);
+                    $this->doSave($context, $this->model);
                     $message = array('success' => true, 'message' => _('Registro alterado com sucesso'));
                 } else { // criando
-                    $this->doSave($this->model);
+                    $this->doSave($context, $this->model);
                     $id = $this->model->getId();
                     if ($id > 0) {
                         $message = array('success' => true, 'message' => _('Novo registro adicionado com sucesso'));
@@ -127,26 +127,26 @@ abstract class CrudController extends ModuleController {
      * Insere ou atualiza a entidade no banco
      * @param \core\model\SequencialModel $model
      */
-    protected function doSave(SequencialModel $model) {
-        $this->preSave($model);
+    protected function doSave(SGAContext $context, SequencialModel $model) {
+        $this->preSave($context, $model);
         if ($model->getId() > 0) {
             $this->em()->merge($model);
         } else {
             $this->em()->persist($model);
         }
-        $this->postSave($model);
+        $this->postSave($context, $model);
         $this->em()->flush();
     }
     
-    protected function preSave(SequencialModel $model) {}
-    protected function postSave(SequencialModel $model) {}
+    protected function preSave(SGAContext $context, SequencialModel $model) {}
+    protected function postSave(SGAContext $context, SequencialModel $model) {}
     
     public function delete(SGAContext $context) {
         $id = (int) Arrays::value($_POST, 'id');
         $model = $this->findById($id);
         if ($model) {
             try {
-                $this->doDelete($model);
+                $this->doDelete($context, $model);
             } catch (Exception $e) {
                 $this->view()->addMessage($e->getMessage(), 'error');
             }
@@ -158,14 +158,14 @@ abstract class CrudController extends ModuleController {
      * Insere ou atualiza a entidade no banco
      * @param \core\model\SequencialModel $model
      */
-    protected function doDelete(SequencialModel $model) {
-        $this->preDelete($model);
+    protected function doDelete(SGAContext $context, SequencialModel $model) {
+        $this->preDelete($context, $model);
         $this->em()->remove($model);
-        $this->postDelete($model);
+        $this->postDelete($context, $model);
         $this->em()->flush();
     }
     
-    protected function preDelete(SequencialModel $model) {}
-    protected function postDelete(SequencialModel $model) {}
+    protected function preDelete(SGAContext $context, SequencialModel $model) {}
+    protected function postDelete(SGAContext $context, SequencialModel $model) {}
     
 }

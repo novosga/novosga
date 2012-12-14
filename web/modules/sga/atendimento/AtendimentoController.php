@@ -7,7 +7,7 @@ use \core\util\Arrays;
 use core\util\DateUtil;
 use \core\controller\ModuleController;
 use \core\model\Atendimento;
-use \core\model\Usuario;
+use \core\model\util\UsuarioSessao;
 use \core\http\AjaxResponse;
 
 /**
@@ -37,7 +37,7 @@ class AtendimentoController extends ModuleController {
         SGA::redirect('index');
     }
     
-    private function atendimentosQuery(Usuario $usuario) {
+    private function atendimentosQuery(UsuarioSessao $usuario) {
         $query = $this->em()->createQuery("
             SELECT 
                 e 
@@ -60,11 +60,11 @@ class AtendimentoController extends ModuleController {
         return $query;
     }
     
-    private function atendimentos(Usuario $usuario) {
+    private function atendimentos(UsuarioSessao $usuario) {
         return $this->atendimentosQuery($usuario)->getResult();
     }
     
-    private function atendimentoAndamento(Usuario $usuario) {
+    private function atendimentoAndamento(UsuarioSessao $usuario) {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e WHERE e.usuario = :usuario AND (e.status = :status1 OR e.status = :status2)");
         $query->setParameter('usuario', $usuario->getId());
         $query->setParameter('status1', Atendimento::CHAMADO_PELA_MESA);

@@ -6,7 +6,7 @@ use \core\http\Session;
 use \core\http\Cookie;
 use \core\http\Request;
 use \core\http\Response;
-use \core\model\Usuario;
+use \core\model\util\UsuarioSessao;
 use \core\model\Modulo;
 use \core\model\Unidade;
 use \core\util\Arrays;
@@ -62,7 +62,7 @@ class SGAContext {
     }
 
     /**
-     * @return Usuario
+     * @return UsuarioSessao
      */
     public function getUser() {
         if ($this->user == null) {
@@ -71,7 +71,7 @@ class SGAContext {
         return $this->user;
     }
 
-    public function setUser(Usuario $user = null) {
+    public function setUser(UsuarioSessao $user = null) {
         $this->user = $user;
         $this->getSession()->setGlobal(SGA::K_CURRENT_USER, $user);
     }

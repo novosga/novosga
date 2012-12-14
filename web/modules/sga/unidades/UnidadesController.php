@@ -21,7 +21,7 @@ class UnidadesController extends CrudController {
         return array('codigo', 'nome', 'status');
     }
 
-    protected function preSave(SequencialModel $model) {
+    protected function preSave(SGAContext $context, SequencialModel $model) {
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM \core\model\Unidade e WHERE e.codigo = :codigo AND e.id != :id");
         $query->setParameter('codigo', $model->getCodigo());
         $query->setParameter('id', $model->getId());

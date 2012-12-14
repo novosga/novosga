@@ -12,15 +12,43 @@ var SGA = {
     updateInterval: 5000,
     
     dialogs: {
+        
+        modal: function(target, prop) {
+            if (typeof(target) == 'string') {
+                target = $(target);
+            }
+            target.dialog({
+                width: prop.width || 500,
+                modal: true,
+                title: prop.title || target.prop('title'),
+                buttons: prop.buttons || {},
+                create: function(event, ui) {
+                    if (typeof(prop.create) == 'function') {
+                        prop.create(event, ui);
+                    }
+                },
+                open: function(event, ui) {
+                    if (typeof(prop.open) == 'function') {
+                        prop.open(event, ui);
+                    }
+                    SGA.paused = true;
+                },
+                close: function(event, ui) {
+                    if (typeof(prop.close) == 'function') {
+                        prop.close(event, ui);
+                    }
+                    SGA.paused = false;
+                }
+            });
+        },
+        
         error: {
             id: 'dialog-error',
             title: '',
             create: function(prop) {
                 var node = $('<div id="' + SGA.dialogs.error.id + '" title="' + SGA.dialogs.error.title + '"><p><span class="ui-icon ui-icon-alert"></span>'+ prop.message +'</p></div>');
                 $('body').append(node);
-                node.dialog({
-                    width: 500,
-                    modal: true,
+                SGA.dialogs.modal(node, {
                     close: function() {
                         $('#' + SGA.dialogs.error.id).remove();
                         if (typeof(prop.close) == 'function') {
@@ -170,11 +198,7 @@ var SGA = {
             btns[btnLabel] = function() {
                 SGA.Unidades.set(postUrl);
             }
-            $("#" + id).dialog({
-                modal:true,
-                width: 450,
-                buttons: btns
-            });
+            SGA.dialogs.modal("#" + id, { width: 450, buttons: btns });
         },
         
         set: function(url) {

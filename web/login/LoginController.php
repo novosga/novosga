@@ -44,7 +44,7 @@ class LoginController extends InternalController {
             $password = $_POST['pass'];
             $user = SGA::auth($username, $password);
             if ($user) {
-                $context->setUser($user);
+                $context->setUser(new \core\model\util\UsuarioSessao($user));
                 SGA::redirect('/' . SGA::K_HOME);
             } else {
                 $context->getSession()->set(SGA::K_LOGIN_ERROR, _('Usuário Inválido. Por favor, tente novamente.'));

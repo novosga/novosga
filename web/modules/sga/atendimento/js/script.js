@@ -48,11 +48,7 @@ SGA.Atendimento = {
         btns[btnLabel] = function() {
             $('#guiche_form').submit();
         }
-        $('#dialog-guiche').dialog({
-            modal: true,
-            width: 200,
-            buttons: btns
-        });
+        SGA.dialogs.modal('#dialog-guiche', { width: 200, buttons: btns });
     },
     
     updateControls: function(status, atendimento) {
@@ -99,7 +95,13 @@ SGA.Atendimento = {
             var proximo = $("#fila ul li:first");
             if (response.data.numero == proximo.text()) {
                 proximo.remove();
-                $("#fila ul li:first").addClass('proximo'); // novo proximo
+                if ($("#fila ul li").length == 0) {
+                    // fila vazia
+                    $("#fila ul").append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
+                } else {
+                    // novo proximo
+                    $("#fila ul li:first").addClass('proximo'); 
+                }
             }
             SGA.Atendimento.updateControls(2, response.data);
         });

@@ -4,18 +4,30 @@ namespace core\model;
 use \core\model\Model;
 
 /**
- * 
+ * @Entity
+ * @Table(name="usu_grup_cargo")
  */
 class Lotacao extends Model {
-	
+    
+    /** 
+     * @Id
+     * @ManyToOne(targetEntity="Usuario")
+     * @JoinColumn(name="id_usu", referencedColumnName="id_usu")
+     */
     protected $usuario;
+    /** 
+     * @Id
+     * @ManyToOne(targetEntity="Grupo")
+     * @JoinColumn(name="id_grupo", referencedColumnName="id_grupo")
+     */
     protected $grupo;
+    /** 
+     * @ManyToOne(targetEntity="Cargo")
+     * @JoinColumn(name="id_cargo", referencedColumnName="id_cargo")
+     */
     protected $cargo;
 
-    public function __construct(Usuario $usuario, Grupo $grupo, Cargo $cargo) {
-        $this->setUsuario($usuario);
-        $this->setGrupo($grupo);
-        $this->setCargo($cargo);
+    public function __construct() {
     }
 	
     /**

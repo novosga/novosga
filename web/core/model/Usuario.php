@@ -27,6 +27,10 @@ class Usuario extends SequencialModel {
     protected $status;
     /** @Column(type="integer", name="session_id", nullable=true) */
     protected $sessionId;
+    /** 
+     * @OneToMany(targetEntity="Lotacao", mappedBy="usuario")
+     */
+    protected $lotacoes;
     
     // transient - os campos abaixo dependem da unidade atual
     protected $grupos;
@@ -119,24 +123,8 @@ class Usuario extends SequencialModel {
 //            $this->setLotacao($db->getLotacao_valida($this->getId(), $unidade->getGrupo()->getId()));
 //            $this->setServicos($db->get_usuario_servicos_unidade($this->getId(), $unidade->getId()));
         } else {
-            $this->setLotacao(null);
             $this->setServicos(array());
         }
-    }
-
-    /**
-     * @param Lotacao $lotacao
-     */
-    public function setLotacao(Lotacao $lotacao = null) {
-        $this->lotacao = $lotacao;
-    }
-
-    /**
-     * Retorna a lotacao do usuario na unidade atual
-     * @return Lotacao 
-     */
-    public function getLotacao() {
-        return $this->lotacao;
     }
     
     public function setServicos(array $servicos) {
@@ -157,6 +145,14 @@ class Usuario extends SequencialModel {
         } else {
             throw new Exception(_('Erro ao definir status do Atendente, deve ser um inteiro.'));
         }
+    }
+       
+    public function getLotacoes() {
+        return $this->lotacoes;
+    }
+
+    public function setLotacoes($lotacoes) {
+        $this->lotacoes = $lotacoes;
     }
 
     public function getStatus() {

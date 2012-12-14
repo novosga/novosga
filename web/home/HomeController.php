@@ -20,7 +20,8 @@ class HomeController extends SGAController {
     }
     
     public function index(SGAContext $context) {
-        $unidade = $context->getUser()->getUnidade();
+        $usuario = $context->getUser();
+        $unidade = $usuario->getUnidade();
         $this->view()->assign('unidade', $unidade);
         $em = DB::getEntityManager();
         $query = $em->createQuery("SELECT m FROM \core\model\Modulo m WHERE m.tipo = :tipo");
@@ -30,12 +31,14 @@ class HomeController extends SGAController {
             $query->setParameter('tipo', \core\model\Modulo::MODULO_UNIDADE);
             $this->view()->assign('modulosUnidade', $query->getResult());
         }
+        $this->view()->assign('usuario', $usuario);
     }
     
     public function unidade(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
             $id = (int) Arrays::value($_POST, 'unidade');
-            $unidade = DB::getEntityManager()->find("\core\model\Unidade", $id);
+            $em = DB::getEntityManager();
+            $unidade = $em->find("\core\model\Unidade", $id);
             $context->getUser()->setUnidade($unidade);
             // atualizando a sessao
             $context->setUser($context->getUser());

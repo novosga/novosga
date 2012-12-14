@@ -4,10 +4,10 @@ use \core\SGA;
 <div>
     <div id="tabs">
         <ul>
-            <li><a href="#tabs-triagem"><?php SGA::out(_('Triagem')) ?></a></li>
-            <li><a href="#tabs-servicos"><?php SGA::out(_('Serviços')) ?></a></li>
+            <li><a href="#tab-triagem"><?php SGA::out(_('Triagem')) ?></a></li>
+            <li><a href="#tab-servicos"><?php SGA::out(_('Serviços')) ?></a></li>
         </ul>
-        <div id="tabs-triagem">
+        <div id="tab-triagem">
             <form action="<?php SGA::out(SGA::url(array(SGA::K_PAGE => 'update_impressao'))) ?>" method="post">
                 <fieldset>
                     <legend><?php SGA::out(_('Impressão')) ?></legend>
@@ -36,7 +36,7 @@ use \core\SGA;
                 </div>
             </form>
         </div>
-        <div id="tabs-servicos">
+        <div id="tab-servicos">
             <?php
             $sigla = function($model) {
                 $id = $model->getServico()->getId();
