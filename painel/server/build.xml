@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="controladorpaineis" default="dist" basedir=".">
+	<description>
+        Controlador de Paineis SGA LIVRE
+    </description>
+
+	<property name="version" value="1.0.0" />
+	<property name="src" location="src" />
+	<property name="lib" location="lib" />
+	<property name="dist" location="dist" />
+	<property name="build" location="build" />
+	<property name="build.classes" location="${build}/classes" />
+	<property name="build.dist" location="${build}/dist" />
+
+	<path id="classpath">
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement path="${class}" />
+	</path>
+
+	<target name="init" depends="clean" description="Cria pastas destino.">
+		<mkdir dir="${build}" />
+		<mkdir dir="${build.classes}" />
+		<mkdir dir="${build.dist}" />
+	</target>
+
+	<target name="compile" depends="init" description="Compila o código.">
+
+		<javac destdir="${build.classes}" optimize="off" debug="on" classpathref="classpath" source="1.5" target="1.5" nowarn="off">
+			<src path="${src}" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile" description="Cria o arquivo jar">
+
+		<jar destfile="${build}/controladorpaineis.jar">
+			<fileset dir="${build.classes}" />
+			<manifest>
+				<attribute name="Main-Class" value="br.gov.dataprev.controladorpaineis.ControladorPaineis" />
+			</manifest>
+		</jar>
+
+		<copy todir="${build.dist}">
+			<fileset dir="${build}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="pre-dist" depends="jar">
+		<copy todir="${build.dist}/libs">
+			<fileset dir="${lib}">
+				<include name="*.jar" />
+			</fileset>
+		</copy>
+
+		<copy todir="${build.dist}">
+			<fileset dir="${dist}">
+				<include name="*.*" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="dist" depends="pre-dist" description="Gera um TGZ do controlador de paineis">
+		<tar destfile="${build}/sgalivre-controladorpaineis_${version}.tgz" compression="gzip">
+			<tarfileset dir="${build.dist}" prefix="controladorpaineis/">
+			</tarfileset>
+		</tar>
+	</target>
+
+	<target name="dist-zip" depends="pre-dist" description="Gera um zip do controlador de paineis">
+		<zip destfile="${build}/sgalivre-controladorpaineis_${version}.zip">
+			<zipfileset dir="${build.dist}" prefix="controladorpaineis/">
+			</zipfileset>
+		</zip>
+	</target>
+
+
+	<target name="clean" description="Limpa arquivos de saida">
+		<delete dir="${build}" />
+	</target>
+</project>
