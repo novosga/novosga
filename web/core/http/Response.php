@@ -36,7 +36,7 @@ class Response {
     public function jsonResponse(AjaxResponse $response) {
         $this->contentType = self::CONTENT_TYPE_JSON;
         $this->updateHeaders();
-        echo json_encode($response);
+        echo $response->toJson();
         exit();
     }
     
