@@ -17,6 +17,7 @@ var SGA = {
             if (typeof(target) == 'string') {
                 target = $(target);
             }
+            prop = prop || {};
             target.dialog({
                 width: prop.width || 500,
                 modal: true,
