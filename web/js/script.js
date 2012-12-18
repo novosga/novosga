@@ -108,7 +108,7 @@ var SGA = {
                     }
                 } else {
                     // checking session
-                    if (!response.sessionActive) {
+                    if (response.sessionInactive) {
                         SGA.paused = true;
                         SGA.dialogs.error.create({message: SGA.invalidSession, close: function() { SGA.reload(); }});
                     } else {
