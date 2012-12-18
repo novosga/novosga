@@ -53,7 +53,7 @@ class UsuarioSessao {
     public function getLotacao() {
         if (!$this->lotacao) {
             // pegando a lotacao do usuario na unidade escolhida
-            $query = \core\db\DB::getEntityManager()->createQuery("SELECT e FROM \core\model\Lotacao e WHERE e.usuario = :usuario");
+            $query = \core\db\DB::getEntityManager()->createQuery("SELECT e FROM \core\model\Lotacao e JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
             $query->setParameter('usuario', $this->getId());
             $lotacoes = $query->getResult();
             foreach ($lotacoes as $lotacao) {
