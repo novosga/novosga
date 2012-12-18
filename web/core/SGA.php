@@ -146,7 +146,7 @@ class SGA {
                 if ($context->getRequest()->isAjax()) {
                     $response = new \core\http\AjaxResponse();
                     $response->success = false;
-                    $response->sessionActive = false;
+                    $response->sessionInactive = true;
                     $context->getResponse()->jsonResponse($response);
                 } else {
                     SGA::redirect('/' . SGA::K_LOGIN);
