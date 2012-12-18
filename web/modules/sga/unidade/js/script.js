@@ -47,5 +47,17 @@ SGA.Unidade = {
                 type: 'post'
             });
         }
+    },
+    
+    reiniciarSenhas: function(alert) {
+        if (confirm(alert)) {
+            SGA.ajax({
+                url: SGA.url('acumular_atendimentos'),
+                complete: function(response) {
+                    SGA.dialogs.modal("#dialog-reiniciar");
+                }
+            });
+        }
+        return false;
     }
 }

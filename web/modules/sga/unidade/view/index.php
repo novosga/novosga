@@ -28,7 +28,13 @@ use \core\SGA;
                     </div>
                     <div class="field">
                         <label><?php SGA::out(_('Reiniciar senhas')) ?></label>
-                        <?php echo $builder->button(array('label' => 'Reiniciar', 'class' => 'ui-button-error')) ?>
+                        <?php 
+                            echo $builder->button(array(
+                                'label' => 'Reiniciar', 
+                                'class' => 'ui-button-error',
+                                'onclick' => "return SGA.Unidade.reiniciarSenhas('". _('Deseja realmente reiniciar as senhas?') ."')"
+                            )) 
+                        ?>
                     </div>
                 </fieldset>
                 <div class="buttons">
@@ -83,4 +89,7 @@ use \core\SGA;
         </div>
     </div>
     <script type="text/javascript"> $('#tabs').tabs(); </script>
+</div>
+<div id="dialog-reiniciar" title="<?php SGA::out(_('Configuração')) ?>" style="display:none">
+    <p><?php SGA::out(_('Senhas reiniciadas com sucesso')) ?></p>
 </div>
