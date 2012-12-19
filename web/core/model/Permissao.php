@@ -7,7 +7,7 @@ use \core\model\Modulo;
  * @Entity
  * @Table(name="cargos_mod_perm")
  */
-class PermissaoModulo extends Model {
+class Permissao extends Model {
     
     /** 
      * @Id

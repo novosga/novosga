@@ -112,7 +112,6 @@ class TemplateBuilder {
         $arg['id'] = Arrays::value($arg, 'id', $this->id('button'));
         $label = Arrays::value($arg, 'label');
         Arrays::removeKey($arg, 'label');
-        $icon = Arrays::value($arg, 'icon');
         
         $inner = '';
         if (!empty($label)) {
@@ -122,7 +121,14 @@ class TemplateBuilder {
                 $inner = $label;
             }
         }
-        return $this->tag($tag, $arg, $inner) . '<script type="text/javascript">$("#'. $arg['id'] .'").button()</script>';
+        
+        $props = array();
+        $icon = Arrays::value($arg, 'icon');
+        Arrays::removeKey($arg, 'icon');
+        if (!empty($icon)) {
+            $props['icons'] = array('primary' => $icon);
+        }
+        return $this->tag($tag, $arg, $inner) . '<script type="text/javascript">$("#'. $arg['id'] .'").button('. json_encode($props) .')</script>';
     }
     
     public function listView($items) {
