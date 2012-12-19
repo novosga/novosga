@@ -23,7 +23,7 @@ class Cargo extends TreeModel {
     /** @Column(type="string", name="desc_cargo", length=150, nullable=false) */
     protected $descricao;
     /** 
-     * @OneToMany(targetEntity="PermissaoModulo", mappedBy="cargo")
+     * @OneToMany(targetEntity="Permissao", mappedBy="cargo")
      */
     protected $permissoes;
 
@@ -64,7 +64,7 @@ class Cargo extends TreeModel {
      * @param $pm
      * @return none
      */
-    public function addPermissao(PermissaoModulo $pm) {
+    public function addPermissao(Permissao $pm) {
         $this->permissoes[] = $pm;	
     }
 

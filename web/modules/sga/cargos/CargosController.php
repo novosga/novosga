@@ -5,7 +5,6 @@ use \core\SGAContext;
 use \core\util\Arrays;
 use \core\model\SequencialModel;
 use \core\model\Cargo;
-use \core\model\PermissaoModulo;
 use \core\controller\TreeModelController;
 
 /**
@@ -36,7 +35,7 @@ class CargosController extends TreeModelController {
 
     protected function postSave(SGAContext $context, SequencialModel $model) {
         // atualizando permissoes do cargo
-        $query = $this->em()->createQuery("DELETE FROM \core\model\PermissaoModulo e WHERE e.cargo = :cargo");
+        $query = $this->em()->createQuery("DELETE FROM \core\model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
         $query->execute();
         $permissoes = Arrays::value($_POST, 'permissoes');
@@ -69,7 +68,7 @@ class CargosController extends TreeModelController {
         parent::edit($context);
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Modulo e WHERE e.status = 1 ORDER BY e.tipo, e.nome");
         $modulos = $query->getResult();
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\PermissaoModulo e WHERE e.cargo = :cargo");
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $this->model->getId());
         $permissoes = $query->getResult();
         $this->view()->assign('modulos', $modulos);
