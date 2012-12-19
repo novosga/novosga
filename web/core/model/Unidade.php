@@ -88,5 +88,9 @@ class Unidade extends SequencialModel {
     public function setMensagemImpressao($mensagemImpressao) {
         $this->mensagemImpressao = $mensagemImpressao;
     }
+    
+    public function toString() {
+        return $this->getNome();
+    }
 
 }

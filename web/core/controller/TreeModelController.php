@@ -38,14 +38,16 @@ abstract class TreeModelController extends CrudController {
             // insert
             $this->persist($model);
         }
-        $this->postSave($context, $model);
         $this->em()->flush();
+        $this->postSave($context, $model);
     }
     
     private function persist(TreeModel $model) {
         $className = get_class($model);
         try {
             $this->em()->beginTransaction();
+            // persiste a nova entidade
+            $this->em()->persist($model);
             $right = $model->getParent()->getRight() - 1;
             // desloca todos elementos da arvore, para a direita (+2), abrindo um espaço de 2 a ser usado apra inserir o nó
             $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right + 2 WHERE e.right > :right");
@@ -58,8 +60,6 @@ abstract class TreeModelController extends CrudController {
             // atualiza lados
             $model->setLeft($right + 1);
             $model->setRight($right + 2);
-            // salva
-            $this->em()->persist($model);
             $this->em()->commit();
         } catch (Exception $e) {
             $this->em()->rollback();

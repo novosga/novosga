@@ -407,12 +407,24 @@ div.field.checkbox label {
 }
 
 div.buttons {
-    padding: 30px 0 20px 0;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
     clear: both;
 }
 
+div.buttons span.btns {
+    padding-left: 10px;
+    float: left;
+}
+
+div.buttons p.required-desc {
+    margin-left: 20px;
+    float: left;
+}
+
 div.buttons .ui-button {
-    margin: 0 10px;
+    margin: 0 5px;
 }
 
 .left { float: left; }

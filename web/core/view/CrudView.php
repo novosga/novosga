@@ -3,6 +3,7 @@ namespace core\view;
 
 use \core\SGA;
 use \core\view\ModuleView;
+use \core\util\Arrays;
 use \core\util\Strings;
 
 /**
@@ -108,6 +109,38 @@ class CrudView extends ModuleView {
             'label' => _('Excluir'),
             'onclick' => "SGA.Form.confirm('" . _('Deseja realmente excluir?') . "', function() { $('#form-delete input').val(". $id ."); $('#form-delete').submit() })"
         ));
+    }
+    
+    public function editMessages() {
+        $message = Arrays::value($this->variables, 'message', array());
+        if (!empty($message)) {
+            if ($message['success']) {
+                return $this->getBuilder()->success($message['message']);
+            } else {
+                return $this->getBuilder()->error($message['message']);
+            }
+        }
+        return '';
+    }
+    
+    public function editButtonsBar() {
+        $html = '<div class="buttons">';
+        $html .= '<span class="btns">';
+        $html .= $this->getBuilder()->button(array(
+            'type' => 'submit',
+            'label' => _('Salvar'),
+            'class' => 'ui-button-primary btn-save'
+        ));
+        $html .= $this->getBuilder()->button(array(
+            'type' => 'link',
+            'label' => _('Voltar'),
+            'href' => SGA::url('index'),
+            'class' => 'btn-back'
+        ));
+        $html .= '</span>';
+        $html .= '<p class="required-desc">' . _('Campos obrigatórios') . '</p>';
+        $html .= '</div>';
+        return $html;
     }
 
 }

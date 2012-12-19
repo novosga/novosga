@@ -6,11 +6,11 @@ use core\contrib\Serie;
 <div>
     <div id="tabs">
         <ul>
-            <li><a href="#tabs-hoje"><?php SGA::out(_('Hoje')) ?></a></li>
-            <li><a href="#tabs-graficos"><?php SGA::out(_('Gráficos')) ?></a></li>
-            <li><a href="#tabs-relatorios"><?php SGA::out(_('Relatórios')) ?></a></li>
+            <li><a href="#tab-hoje"><?php SGA::out(_('Hoje')) ?></a></li>
+            <li><a href="#tab-graficos"><?php SGA::out(_('Gráficos')) ?></a></li>
+            <li><a href="#tab-relatorios"><?php SGA::out(_('Relatórios')) ?></a></li>
         </ul>
-        <div id="tabs-hoje">
+        <div id="tab-hoje">
             <h2 class="chart-title"><?php SGA::out(_('Atendimentos')) ?></h2>
             <?php 
             foreach ($unidades as $unidade) {
@@ -38,10 +38,10 @@ use core\contrib\Serie;
             }
             ?>
         </div>
-        <div id="tabs-graficos">
+        <div id="tab-graficos">
             
         </div>
-        <div id="tabs-relatorios">
+        <div id="tab-relatorios">
         </div>
     </div>
     <script type="text/javascript"> $('#tabs').tabs(); </script>

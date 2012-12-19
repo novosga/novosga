@@ -2,9 +2,10 @@
 namespace modules\sga\usuarios;
 
 use \Exception;
-use \core\SGA;
+use \core\db\DB;
 use \core\SGAContext;
 use \core\util\Arrays;
+use \core\http\AjaxResponse;
 use \core\Security;
 use \core\model\SequencialModel;
 use \core\model\Usuario;
@@ -24,7 +25,78 @@ class UsuariosController extends CrudController {
     protected function requiredFields() {
         return array('login', 'nome', 'sobrenome');
     }
+    
+    public function edit(SGAContext $context) {
+        parent::edit($context);
+        $lotacoes = array();
+        if ($this->model->getId() > 0) {
+            $query = DB::getEntityManager()->createQuery("
+                SELECT 
+                    e 
+                FROM 
+                    \core\model\Lotacao e 
+                    JOIN e.cargo c 
+                    JOIN e.grupo g 
+                WHERE 
+                    e.usuario = :usuario 
+                ORDER BY 
+                    g.left DESC
+            ");
+            $query->setParameter('usuario', $this->model->getId());
+            $lotacoes = $query->getResult();
+        }
+        $this->view()->assign('lotacoes', $lotacoes);
+        // grupos disponiveis
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Grupo e WHERE e.id NOT IN (SELECT g.id FROM \core\model\Lotacao l JOIN l.grupo g WHERE l.usuario = :usuario) ORDER BY e.nome");
+        $query->setParameter('usuario', $this->model->getId());
+        $this->view()->assign('grupos', $query->getResult());
+        // cargos disponiveis
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Cargo e WHERE e.id NOT IN (SELECT c.id FROM \core\model\Lotacao l JOIN l.cargo c WHERE l.usuario = :usuario) ORDER BY e.nome");
+        $query->setParameter('usuario', $this->model->getId());
+        $this->view()->assign('cargos', $query->getResult());
+        // servicos do usuario
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUsuario e WHERE e.usuario = :usuario");
+        $query->setParameter('usuario', $this->model->getId());
+        $this->view()->assign('servicos', $query->getResult());
+        // unidades
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Unidade e ORDER BY e.nome");
+        $this->view()->assign('unidades', $query->getResult());
+    }
 
+    public function permissoes_cargo(SGAContext $context) {
+        $response = new AjaxResponse(true);
+        $id = (int) $context->getRequest()->getParameter('cargo');
+        $query = $this->em()->createQuery("SELECT m.nome FROM \core\model\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
+        $query->setParameter('cargo', $id);
+        $response->data = $query->getResult();
+        $context->getResponse()->jsonResponse($response);
+    }
+
+    public function servicos_unidade(SGAContext $context) {
+        $response = new AjaxResponse(true);
+        $id = (int) $context->getRequest()->getParameter('unidade');
+        $exceto = $context->getRequest()->getParameter('exceto');
+        $exceto = Arrays::valuesToInt(explode(',', $exceto));
+        $query = $this->em()->createQuery("
+            SELECT 
+                s.id, e.nome 
+            FROM 
+                \core\model\ServicoUnidade e 
+                JOIN e.unidade u 
+                JOIN e.servico s 
+            WHERE 
+                e.status = 1 AND 
+                u = :unidade AND
+                s.id NOT IN (:exceto)
+            ORDER BY 
+                e.nome
+        ");
+        $query->setParameter('unidade', $id);
+        $query->setParameter('exceto', $exceto);
+        $response->data = $query->getResult();
+        $context->getResponse()->jsonResponse($response);
+    }
+    
     protected function preSave(SGAContext $context, SequencialModel $model) {
         if ($model->getId() == 0) {
             // para novos usuarios, tem que informar a senha
@@ -60,19 +132,35 @@ class UsuariosController extends CrudController {
     }
     
     protected function postSave(SGAContext $context, SequencialModel $model) {
-        return;
-        $grupos = Arrays::value($_POST, 'grupos', array());
-        $servicos = Arrays::value($_POST, 'servicos', array());
-        $permissoes = array();
-        foreach ($grupos as $g) {
-            $aux = explode('@',$g);
-            // formato: id_grupo@id_cargo
-            $db->inserir_lotacao($model->getId(), $aux[0], $aux[1]);
+        $conn = $this->em()->getConnection();
+        // lotacoes - atualizando permissoes do cargo
+        $query = $this->em()->createQuery("DELETE FROM \core\model\Lotacao e WHERE e.usuario = :usuario");
+        $query->setParameter('usuario', $model->getId());
+        $query->execute();
+        $lotacoes = Arrays::value($_POST, 'lotacoes', array());
+        if (!empty($lotacoes)) {
+            $stmt = $conn->prepare("INSERT INTO usu_grup_cargo (id_grupo, id_cargo, id_usu) VALUES (:grupo, :cargo, :usuario)");
+            foreach ($lotacoes as $lotacao) {
+                $value = explode(',', $lotacao);
+                $stmt->bindValue('grupo', $value[0], \PDO::PARAM_INT);
+                $stmt->bindValue('cargo', $value[1], \PDO::PARAM_INT);
+                $stmt->bindValue('usuario', $model->getId(), \PDO::PARAM_INT);
+                $stmt->execute();
+            }
         }
-        if (sizeof($servicos) > 0) {
-            $id_uni = SGA::getContext()->getUser()->getUnidade()->getId();
-            foreach ($servicos as $s) {
-                $db->adicionar_servico_usu($id_uni, $s, $model->getId());
+        // servicos
+        $query = $this->em()->createQuery("DELETE FROM \core\model\ServicoUsuario e WHERE e.usuario = :usuario");
+        $query->setParameter('usuario', $model->getId());
+        $query->execute();
+        $servicos = Arrays::value($_POST, 'servicos', array());
+        if (!empty($servicos)) {
+            $stmt = $conn->prepare("INSERT INTO usu_serv (id_uni, id_serv, id_usu) VALUES (:unidade, :servico, :usuario)");
+            foreach ($servicos as $servico) {
+                $value = explode(',', $servico);
+                $stmt->bindValue('unidade', $value[0], \PDO::PARAM_INT);
+                $stmt->bindValue('servico', $value[1], \PDO::PARAM_INT);
+                $stmt->bindValue('usuario', $model->getId(), \PDO::PARAM_INT);
+                $stmt->execute();
             }
         }
     }

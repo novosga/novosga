@@ -134,8 +134,8 @@ abstract class CrudController extends ModuleController {
         } else {
             $this->em()->persist($model);
         }
-        $this->postSave($context, $model);
         $this->em()->flush();
+        $this->postSave($context, $model);
     }
     
     protected function preSave(SGAContext $context, SequencialModel $model) {}

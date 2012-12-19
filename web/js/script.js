@@ -18,10 +18,11 @@ var SGA = {
                 target = $(target);
             }
             prop = prop || {};
+            prop.title = prop.title || target.prop('title');
             target.dialog({
                 width: prop.width || 500,
                 modal: true,
-                title: prop.title || target.prop('title'),
+                title: prop.title,
                 buttons: prop.buttons || {},
                 create: function(event, ui) {
                     if (typeof(prop.create) == 'function') {
@@ -38,6 +39,7 @@ var SGA = {
                     if (typeof(prop.close) == 'function') {
                         prop.close(event, ui);
                     }
+                    target.prop('title', prop.title);
                     SGA.paused = false;
                 }
             });
