@@ -78,61 +78,106 @@ SGA.Atendimento = {
         }
     },
     
-    control: function(action, success) {
+    control: function(prop) {
+        prop = prop || {};
         SGA.ajax({
-            url: SGA.url(action),
+            url: SGA.url(prop.action),
+            data: prop.data || {},
             success: function(response) {
                 if (response.success) {
-                    success(response);
+                    prop.success(response);
                 }
             }
         });
     },
     
     chamar: function() {
-        SGA.Atendimento.control('chamar', function(response) {
-            // remove o proximo da lista se for o mesmo do atendimento
-            var proximo = $("#fila ul li:first");
-            if (response.data.numero == proximo.text()) {
-                proximo.remove();
-                if ($("#fila ul li").length == 0) {
-                    // fila vazia
-                    $("#fila ul").append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
-                } else {
-                    // novo proximo
-                    $("#fila ul li:first").addClass('proximo'); 
+        SGA.Atendimento.control({
+            action: 'chamar', 
+            success: function(response) {
+                // remove o proximo da lista se for o mesmo do atendimento
+                var proximo = $("#fila ul li:first");
+                if (response.data.numero == proximo.text()) {
+                    proximo.remove();
+                    if ($("#fila ul li").length == 0) {
+                        // fila vazia
+                        $("#fila ul").append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
+                    } else {
+                        // novo proximo
+                        $("#fila ul li:first").addClass('proximo'); 
+                    }
                 }
+                SGA.Atendimento.updateControls(2, response.data);
             }
-            SGA.Atendimento.updateControls(2, response.data);
         });
     },
     
     iniciar: function() {
-        SGA.Atendimento.control('iniciar', function(response) {
-            SGA.Atendimento.updateControls(3, response.data)
+        SGA.Atendimento.control({
+            action: 'iniciar', 
+            success: function(response) {
+                SGA.Atendimento.updateControls(3, response.data)
+            }
         });
     },
     
-    naocompareceu: function() {
+    nao_compareceu: function() {
         if (window.confirm(SGA.Atendimento.marcarNaoCompareceu)) {
-            SGA.Atendimento.control('naocompareceu', function(response) {
-                SGA.Atendimento.updateControls(1, response.data)
+            SGA.Atendimento.control({
+                action: 'nao_compareceu', 
+                success: function(response) {
+                    SGA.Atendimento.updateControls(1, response.data)
+                }
             });
         }
     },
     
     encerrar: function() {
-        SGA.Atendimento.control('encerrar', function() {
-            SGA.Atendimento.updateControls(1)
+        $("#encerrar").hide();
+        $("#encerrar-servicos").show();
+        $("#servicos-realizados").html('');
+    },
+    
+    encerrar_voltar: function() {
+        $("#encerrar").show();
+        $("#encerrar-servicos").hide();
+    },
+    
+    encerrar_servicos: function() {
+        var servicos = [];
+        $('#servicos-realizados input.servicos').each(function(i, e) {
+            servicos.push($(e).val());
+        });
+        SGA.Atendimento.control({
+            action: 'encerrar', 
+            data: {servicos: servicos.join(',')},
+            success: function() {
+                SGA.Atendimento.updateControls(1)
+            }
         });
     },
     
-    errotriagem: function() {
+    erro_triagem: function() {
         if (window.confirm(SGA.Atendimento.marcarErroTriagem)) {
-            SGA.Atendimento.control('errotriagem', function() {
-                SGA.Atendimento.updateControls(1)
+            SGA.Atendimento.control({
+                action: 'erro_triagem', 
+                success: function() {
+                    SGA.Atendimento.updateControls(1)
+                }
             });
         }
+    },
+    
+    addServico: function(item) {
+        item = $(item);
+        $("#servicos-realizados").append('<li><a href="javascript:void(0)" onclick="SGA.Atendimento.delServico(this)"><input type="hidden" class="servicos" value="' + item.data('id') + '" />' + item.text() + '</a></li>');
+        $(item).parent().hide();
+    },
+    
+    delServico: function(item) {
+        item = $(item); 
+        $('#servico-' + item.find('input').val()).show();
+        item.parent().remove();
     }
     
 }
