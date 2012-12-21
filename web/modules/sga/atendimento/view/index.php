@@ -81,15 +81,51 @@ else {
                     atendimentoInfo($atendimento);
                     btnControl('Chamar novamente', 'chamar');
                     btnControl('Iniciar atendimento', 'iniciar') ;
-                    btnControl('Não compareceu', 'naocompareceu') ;
+                    btnControl('Não compareceu', 'nao_compareceu') ;
                 ?>
             </div>
             <div id="encerrar" class="control" style="display:none">
                 <?php 
                     atendimentoInfo($atendimento); 
                     btnControl('Encerrar atendimento', 'encerrar');
-                    btnControl('Erro de triagem', 'errotriagem') ;
+                    btnControl('Erro de triagem', 'erro_triagem') ;
                 ?>
+            </div>
+            <div id="encerrar-servicos" class="control" style="display:none">
+                <div class="left servicos-usuario">
+                    <h3><?php SGA::out(_('Macro serviços')) ?></h3>
+                    <ul id="macro-servicos" class="items">
+                        <?php 
+                            foreach ($servicos as $usuarioServico): 
+                                $servico = $usuarioServico->getServico(); 
+                                $subservicos = $servico->getSubServicos();
+                            ?>
+                            <li id="servico-<?php echo $servico->getId() ?>">
+                                <a href="javascript:void(0)" onclick="SGA.Atendimento.addServico(this)" data-id="<?php echo $servico->getId() ?>"><?php SGA::out($servico->getNome()) ?></a>
+                                <?php if (sizeof($subservicos)): ?>
+                                    <ul>
+                                    <?php foreach ($subservicos as $subservico): ?>
+                                        <li id="servico-<?php echo $subservico->getId() ?>">
+                                            <a href="javascript:void(0)" onclick="SGA.Atendimento.addServico(this)" data-id="<?php echo $subservico->getId() ?>"><?php SGA::out($subservico->getNome()) ?></a>
+                                        </li>
+                                    <?php endforeach; ?>
+                                    </ul>
+                                <?php endif; ?>
+                            </li>
+                            <?php 
+                            endforeach; 
+                        ?>
+                    </ul>
+                </div>
+                <div class="left servicos-escolhidos">
+                    <h3><?php SGA::out(_('Serviços realizados')) ?></h3>
+                    <ul id="servicos-realizados" class="items">
+                    </ul>
+                    <?php 
+                        btnControl('Voltar', 'encerrar_voltar');
+                        btnControl('Encerrar atendimento', 'encerrar_servicos');
+                    ?>
+                </div>
             </div>
         </div>
         <div id="fila">

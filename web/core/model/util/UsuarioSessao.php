@@ -1,6 +1,7 @@
 <?php
 namespace core\model\util;
 
+use \core\db\DB;
 use \core\model\Usuario;
 use \core\model\Unidade;
 
@@ -16,6 +17,7 @@ class UsuarioSessao {
     private $guiche;
     private $ativo;
     private $lotacao;
+    private $servicos;
     private $sessionId;
     private $wrapped;
     
@@ -53,7 +55,7 @@ class UsuarioSessao {
     public function getLotacao() {
         if (!$this->lotacao) {
             // pegando a lotacao do usuario na unidade escolhida
-            $query = \core\db\DB::getEntityManager()->createQuery("SELECT e FROM \core\model\Lotacao e JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
+            $query = DB::getEntityManager()->createQuery("SELECT e FROM \core\model\Lotacao e JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
             $query->setParameter('usuario', $this->getId());
             $lotacoes = $query->getResult();
             foreach ($lotacoes as $lotacao) {
@@ -68,12 +70,26 @@ class UsuarioSessao {
     }
     
     /**
+     * Retorna os servicos do usuario na unidade atual
+     * @return Locatacao
+     */
+    public function getServicos() {
+        if (!$this->servicos && $this->getUnidade()) {
+            $query = DB::getEntityManager()->createQuery("SELECT e FROM \core\model\ServicoUsuario e WHERE e.usuario = :usuario AND e.unidade = :unidade");
+            $query->setParameter('usuario', $this->getId());
+            $query->setParameter('unidade', $this->getUnidade()->getId());
+            $this->servicos = $query->getResult();
+        }
+        return $this->servicos;
+    }
+    
+    /**
      * 
      * @return \core\model\Unidade
      */
     public function getUnidade() {
         if (!$this->unidade && $this->unidadeId > 0) {
-            $this->unidade = \core\db\DB::getEntityManager()->find("\core\model\Unidade", $this->unidadeId);
+            $this->unidade = DB::getEntityManager()->find("\core\model\Unidade", $this->unidadeId);
         }
         return $this->unidade;
     }
@@ -89,7 +105,7 @@ class UsuarioSessao {
      */
     public function getWrapped() {
         if (!$this->wrapped) {
-            $this->wrapped = \core\db\DB::getEntityManager()->find("\core\model\Usuario", $this->id);
+            $this->wrapped = DB::getEntityManager()->find("\core\model\Usuario", $this->id);
         }
         return $this->wrapped;
     }

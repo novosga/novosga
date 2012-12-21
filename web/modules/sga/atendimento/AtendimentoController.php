@@ -25,6 +25,7 @@ class AtendimentoController extends ModuleController {
         }
         $this->view()->assign('unidade', $unidade);
         $this->view()->assign('atendimento', $this->atendimentoAndamento($usuario));
+        $this->view()->assign('servicos', $usuario->getServicos());
     }
     
     public function set_guiche(SGAContext $context) {
@@ -48,15 +49,20 @@ class AtendimentoController extends ModuleController {
                 JOIN su.servico s 
             WHERE 
                 e.status = :status AND
-                su.unidade = :unidade 
+                su.unidade = :unidade AND
+                s.id IN (:servicos)
             ORDER BY 
                 p.peso DESC,
                 e.numeroSenha ASC
         ");
-        // TODO: pegar os servidos do usuario e jogar na query (AND s.id IN (:servicos))
+        $ids = array();
+        $servicos = $usuario->getServicos();
+        foreach ($servicos as $s) {
+            $ids[] = $s->getServico()->getId();
+        }
         $query->setParameter('status', Atendimento::SENHA_EMITIDA);
         $query->setParameter('unidade', $usuario->getUnidade()->getId());
-        //$query->setParameter('servicos', array(15));
+        $query->setParameter('servicos', $ids);
         return $query;
     }
     
@@ -218,7 +224,7 @@ class AtendimentoController extends ModuleController {
      * Marca o atendimento como nao compareceu
      * @param \core\SGAContext $context
      */
-    public function naocompareceu(SGAContext $context) {
+    public function nao_compareceu(SGAContext $context) {
         $this->mudaStatusAtual($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::NAO_COMPARECEU, 'dataFim');
     }
     
@@ -227,6 +233,7 @@ class AtendimentoController extends ModuleController {
      * @param \core\SGAContext $context
      */
     public function encerrar(SGAContext $context) {
+        // TODO: pegar os servicos realizados
         $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
     }
     
@@ -234,7 +241,7 @@ class AtendimentoController extends ModuleController {
      * Marca o atendimento como erro de triagem
      * @param \core\SGAContext $context
      */
-    public function errotriagem(SGAContext $context) {
+    public function erro_triagem(SGAContext $context) {
         $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ERRO_TRIAGEM, 'dataFim');
     }
     
