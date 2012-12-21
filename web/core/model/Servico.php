@@ -27,6 +27,10 @@ class Servico extends SequencialModel {
      */
     private $mestre;
     /** 
+     * @OneToMany(targetEntity="Servico", mappedBy="mestre")
+     */
+    protected $subServicos;
+    /** 
      * @OneToMany(targetEntity="ServicoUnidade", mappedBy="servico")
      */
     protected $servicosUnidade;
@@ -70,6 +74,14 @@ class Servico extends SequencialModel {
         return $this->status;
     }
     
+    public function getSubServicos() {
+        return $this->subServicos;
+    }
+
+    public function setSubServicos($subServicos) {
+        $this->subServicos = $subServicos;
+    }
+        
     public function getServicosUnidade() {
         return $this->servicosUnidade;
     }
