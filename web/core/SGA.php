@@ -18,15 +18,16 @@ class SGA {
     // SESSION KEYS
     const K_CURRENT_MODULE  = "SGA_CURRENT_MODULE";
     const K_CURRENT_USER    = "SGA_CURRENT_USER";
-    const K_LOGIN_ERROR    = "SGA_LOGIN_ERROR";
+    const K_LOGIN_ERROR     = "SGA_LOGIN_ERROR";
     
     // URL KEYS
-    const K_INSTALL        = "install"; // redirect to install page
-    const K_LOGIN          = "login";   // redirect to login page
-    const K_HOME           = "home";    // redirect to home page
-    const K_MODULE         = "module";  // redirect to module
-    const K_PAGE           = "page";    // redirect to module
-    const K_LOGOUT         = "logout";  // redirect to logout page
+    const K_INSTALL  = "install";
+    const K_LOGIN    = "login";
+    const K_HOME     = "home";
+    const K_PANEL    = "painel";
+    const K_MODULE   = "module";
+    const K_PAGE     = "page";
+    const K_LOGOUT   = "logout";
         
     private static $context;
     private static $doctrineClassLoader;
@@ -264,7 +265,7 @@ class SGA {
      */
     public static function load($className) {
         // finding in the core
-        $filename = str_replace("\\", DS, $className) . ".php";
+        $filename = ROOT . DS . str_replace("\\", DS, $className) . ".php";
         if (file_exists($filename)) {
             require_once($filename);
             return true;
