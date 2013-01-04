@@ -42,6 +42,7 @@ foreach ($_GET as $key => $value) {
     case SGA::K_LOGOUT:
     case SGA::K_HOME:
     case SGA::K_INSTALL:
+    case SGA::K_PANEL:
     case SGA::K_MODULE:
         if (SGA::isProtectedPage($key)) {
             SGA::checkAccess($key, $value);
