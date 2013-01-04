@@ -7,6 +7,7 @@ use \core\util\Arrays;
 use core\util\DateUtil;
 use \core\controller\ModuleController;
 use \core\model\Atendimento;
+use \core\model\Unidade;
 use \core\model\util\UsuarioSessao;
 use \core\http\AjaxResponse;
 
@@ -101,6 +102,25 @@ class AtendimentoController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
+    private function chamaSenha(Unidade $unidade, Atendimento $atendimento) {
+        $conn = $this->em()->getConnection();
+    	$stmt = $conn->prepare("
+            INSERT INTO painel_senha 
+            (contador, id_uni, id_serv, num_senha, sig_senha, msg_senha, nm_local, num_guiche) 
+            VALUES 
+            (:contador, :id_uni, :id_serv, :num_senha, :sig_senha, :msg_senha, :nm_local, :num_guiche)
+        ");
+        $stmt->bindValue('contador', 1);
+        $stmt->bindValue('id_uni', $unidade->getId());
+        $stmt->bindValue('id_serv', $atendimento->getServicoUnidade()->getServico()->getId());
+        $stmt->bindValue('num_senha', $atendimento->getSenha()->getNumero());
+        $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
+        $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
+        $stmt->bindValue('nm_local', _('Guichê')); // TODO: pegar o nome do local de atendimento (guiche, sala, etc)
+        $stmt->bindValue('num_guiche', $atendimento->getGuiche());
+        $stmt->execute();
+    }
+    
     /**
      * Chama ou rechama o próximo da fila
      * @param \core\SGAContext $context
@@ -112,6 +132,7 @@ class AtendimentoController extends ModuleController {
         $success = false;
         $response = new AjaxResponse();
         $usuario = $context->getUser();
+        $unidade = $context->getUnidade();
         if (!$usuario) {
             SGA::redirect('/' . SGA::K_HOME);
         }
@@ -127,13 +148,16 @@ class AtendimentoController extends ModuleController {
                 $success = true;
                 $proximo = $atual;
             }
-            // TODO: 
         } else {
             do {
                 $query = $this->atendimentosQuery($usuario);
                 $query->setMaxResults(1);
                 $proximo = $query->getOneOrNullResult();
                 if ($proximo) {
+                    $proximo->setUsuario($context->getUser()->getWrapped());
+                    $proximo->setGuiche($context->getUser()->getGuiche());
+                    $proximo->setStatus(Atendimento::CHAMADO_PELA_MESA);
+                    $proximo->setDataChamada(DateUtil::nowSQL());
                     // atualiza o proximo da fila
                     $query = $this->em()->createQuery("
                         UPDATE 
@@ -143,10 +167,10 @@ class AtendimentoController extends ModuleController {
                         WHERE 
                             e.id = :id AND e.status = :statusAtual
                     ");
-                    $query->setParameter('usuario', $context->getUser()->getId());
-                    $query->setParameter('guiche', $context->getUser()->getGuiche());
-                    $query->setParameter('novoStatus', Atendimento::CHAMADO_PELA_MESA);
-                    $query->setParameter('data', DateUtil::nowSQL());
+                    $query->setParameter('usuario', $proximo->getUsuario()->getId());
+                    $query->setParameter('guiche', $proximo->getGuiche());
+                    $query->setParameter('novoStatus', $proximo->getStatus());
+                    $query->setParameter('data', $proximo->getDataChamada());
                     $query->setParameter('id', $proximo->getId());
                     $query->setParameter('statusAtual', Atendimento::SENHA_EMITIDA);
                     /* 
@@ -164,6 +188,7 @@ class AtendimentoController extends ModuleController {
         // response
         $response->success = $success;
         if ($success) {
+            $this->chamaSenha($unidade, $proximo);
             $response->data = $proximo->toArray();
         } else {
             if (!$proximo) {

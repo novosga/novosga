@@ -3,24 +3,11 @@ namespace core\http;
 
 /**
  * Request Wrapper
- *
+ * @author rogeriolino
  */
 class Request {
     
     public function __construct() {
-        // Workaround para Magic Quotes Enabled
-        // Magic Quotes esta depreciado a partir do PHP 5.3.0 e será removido no PHP 6
-        // mas ainda vem ativado por padrão no 5.2.x
-        if (get_magic_quotes_gpc()) {
-            function stripslashes_deep($value) {
-                $value = is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
-                return $value;
-            }
-            $_POST = array_map('stripslashes_deep', $_POST);
-            $_GET = array_map('stripslashes_deep', $_GET);
-            $_COOKIE = array_map('stripslashes_deep', $_COOKIE);
-            $_REQUEST = array_map('stripslashes_deep', $_REQUEST);
-        }
     }
     
     public function isPost() {

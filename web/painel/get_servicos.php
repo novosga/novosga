@@ -1,28 +1,12 @@
 <?php
 
-/**
- * Copyright (C) 2009 DATAPREV - Empresa de Tecnologia e Informações da Previdência Social - Brasil
- *
- * Este arquivo é parte do programa SGA Livre - Sistema de Gerenciamento do Atendimento - Versão Livre
- *
- * O SGA é um software livre; você pode redistribuí­-lo e/ou modificá-lo dentro dos termos da Licença Pública Geral GNU como 
- * publicada pela Fundação do Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer versão.
- *
- * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer
- * MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores detalhes.
- *
- * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título "LICENCA.txt", junto com este programa, se não, escreva para a 
- * Fundação do Software Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA.
- */
+// wrapper para manter compatibilidade com o painel antigo
 
-define("PATH", "../");
-require('../lib/environ.php');
+$_GET = array(
+    'painel' => '',
+    'version' => 1,
+    'page' => 'servicos',
+    'unidade' => isset($_GET['id_uni']) ? (int) $_GET['id_uni'] : 0
+);
 
-if (!isset($_GET['id_uni']) || ((int)$_GET['id_uni'] < 1)) {
-    exit;
-}
-$servicos = DB::getAdapter()->getServicos_unidade((int) $_GET['id_uni'], array(1));
-
-foreach ($servicos as $s) {
-	echo "{$s->getId()}#{$s->get_sigla()}#{$s->getNome()}\n";
-}
+require(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'index.php');

@@ -135,6 +135,7 @@ SGA.Atendimento = {
     encerrar: function() {
         $("#encerrar").hide();
         $("#encerrar-servicos").show();
+        $("#macro-servicos li").show();
         $("#servicos-realizados").html('');
     },
     
