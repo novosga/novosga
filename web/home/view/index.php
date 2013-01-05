@@ -16,8 +16,8 @@ function printModulos($builder, $modulos) {
 ?>
 <div id="home">
     <div class="welcome">
-        <h1>Bem-vindo</h1>
-        <p><?php SGA::out(_('Novo SGA: Sistema de Gerenciamento de Atendimento')) ?></p>
+        <h1><?php SGA::out(_('Bem-vindo')) ?></h1>
+        <p><?php SGA::out(_('Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código aberto e gratuito.')) ?></p>
     </div>
     <div id="modules">
         <?php if ($unidade): ?>

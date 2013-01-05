@@ -67,7 +67,8 @@ abstract class LoggedView extends PageView {
     }
     
     public function footer(SGAContext $context) {
-        $html = '<spa id="ajax-loading" class="mini-loading" style="display:none"></span>';
+        $html = '<div id="footer"><p>Novo SGA v' . SGA::VERSION . '</p></div>';
+        $html .= '<spa id="ajax-loading" class="mini-loading" style="display:none"></span>';
         $html .= $this->changeUnidadeDialog($context);
         return $html . parent::footer($context);
     }

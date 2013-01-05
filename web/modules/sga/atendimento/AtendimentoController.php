@@ -40,6 +40,15 @@ class AtendimentoController extends ModuleController {
     }
     
     private function atendimentosQuery(UsuarioSessao $usuario) {
+        $ids = array();
+        $servicos = $usuario->getServicos();
+        foreach ($servicos as $s) {
+            $ids[] = $s->getServico()->getId();
+        }
+        // se nao tiver servicos, coloca id invalido so para nao dar erro no sql
+        if (empty($ids)) {
+            $ids[] = 0;
+        }
         $query = $this->em()->createQuery("
             SELECT 
                 e 
@@ -56,11 +65,6 @@ class AtendimentoController extends ModuleController {
                 p.peso DESC,
                 e.numeroSenha ASC
         ");
-        $ids = array();
-        $servicos = $usuario->getServicos();
-        foreach ($servicos as $s) {
-            $ids[] = $s->getServico()->getId();
-        }
         $query->setParameter('status', Atendimento::SENHA_EMITIDA);
         $query->setParameter('unidade', $usuario->getUnidade()->getId());
         $query->setParameter('servicos', $ids);

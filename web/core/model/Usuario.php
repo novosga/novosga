@@ -176,7 +176,7 @@ class Usuario extends SequencialModel {
     }
     
     public function tostring() {
-        return "{$this->getLogin()} - {$this->getNome()}, {$this->getGrupo()}";
+        return $this->getLogin();
     }
 
 }
