@@ -75,6 +75,7 @@
 }
 
 #atendimento #controls .btn-control span {
+    min-width: 80px;
     padding-top: 60px;
     background-position: center 5px;
     background-repeat: no-repeat;
@@ -84,6 +85,7 @@
 #atendimento #controls .btn-control.iniciar span { background-image: url(../images/icon-iniciar.png); }
 #atendimento #controls .btn-control.encerrar span,
 #atendimento #controls .btn-control.encerrar_servicos span { background-image: url(../images/icon-encerrar.png); }
+#atendimento #controls .btn-control.encerrar_voltar span { background-image: url(../images/icon-voltar.png); }
 #atendimento #controls .btn-control.nao_compareceu span { background-image: url(../images/icon-naocompareceu.png); }
 #atendimento #controls .btn-control.erro_triagem span { background-image: url(../images/icon-errotriagem.png); }
 

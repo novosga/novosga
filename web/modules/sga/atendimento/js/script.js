@@ -7,6 +7,7 @@ var SGA = SGA || {};
 SGA.Atendimento = {
     
     filaVazia: '',
+    remover: '',
     marcarNaoCompareceu: '',
     marcarErroTriagem: '',
     
@@ -171,7 +172,7 @@ SGA.Atendimento = {
     
     addServico: function(item) {
         item = $(item);
-        $("#servicos-realizados").append('<li><a href="javascript:void(0)" onclick="SGA.Atendimento.delServico(this)"><input type="hidden" class="servicos" value="' + item.data('id') + '" />' + item.text() + '</a></li>');
+        $("#servicos-realizados").append('<li><a href="javascript:void(0)" onclick="SGA.Atendimento.delServico(this)" title="' + SGA.Atendimento.remover + '"><input type="hidden" class="servicos" value="' + item.data('id') + '" />' + item.text() + '</a></li>');
         $(item).parent().hide();
     },
     

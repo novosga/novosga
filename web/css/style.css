@@ -43,10 +43,11 @@
     top: 50%;
     left: 50%;
     width: 270px;
-    height: 180px;
-    margin-top: -300px;
+    height: 108px;
+    margin-top: -230px;
     margin-left: -135px;
-    background-image: url(../images/sga_passaroLog.png);
+    background-image: url(../images/novosga-login.png);
+    background-position: center center;
     background-repeat: no-repeat;
     position: fixed;
 }
@@ -176,13 +177,11 @@
 
 #navbar .home {
     border-radius: 0 !important;
-    padding: 5px 20px 0 5px;
+    padding-top: 7px;
 }
 
 #navbar .home, #navbar .home a {
     width: 130px;
-    padding: 2px 0;
-    margin: 0;
     line-height: 0;
     float: left;
 }
@@ -190,7 +189,8 @@
 #navbar .home a {
     height: 38px;
     text-indent: -900px;
-    background-image: url(../images/sga_horizontal.png);
+    margin: 0;
+    background-image: url(../images/novosga-navbar.png);
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -204,7 +204,7 @@
 }
 
 #navbar li.first {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 #navbar #navbar-menu {
@@ -285,6 +285,16 @@
 #navbar .logout {
     margin-right: 10px;
     float: right;
+}
+
+#footer {
+    clear: both;
+    padding: 40px;
+}
+
+#footer p {
+    color: #ccc;
+    text-align: right;
 }
 
 /* internal clock */
@@ -408,7 +418,7 @@ div.field.checkbox label {
 
 div.buttons {
     margin-top: 20px;
-    padding-top: 20px;
+    padding: 20px 0;
     border-top: 1px solid #ccc;
     clear: both;
 }
