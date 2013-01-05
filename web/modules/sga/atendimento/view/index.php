@@ -101,12 +101,12 @@ else {
                                 $subservicos = $servico->getSubServicos();
                             ?>
                             <li id="servico-<?php echo $servico->getId() ?>">
-                                <a href="javascript:void(0)" onclick="SGA.Atendimento.addServico(this)" data-id="<?php echo $servico->getId() ?>"><?php SGA::out($servico->getNome()) ?></a>
+                                <a href="javascript:void(0)" onclick="SGA.Atendimento.addServico(this)" data-id="<?php echo $servico->getId() ?>" title="<?php SGA::out(_('Adicionar')) ?>"><?php SGA::out($servico->getNome()) ?></a>
                                 <?php if (sizeof($subservicos)): ?>
                                     <ul>
                                     <?php foreach ($subservicos as $subservico): ?>
                                         <li id="servico-<?php echo $subservico->getId() ?>">
-                                            <a href="javascript:void(0)" onclick="SGA.Atendimento.addServico(this)" data-id="<?php echo $subservico->getId() ?>"><?php SGA::out($subservico->getNome()) ?></a>
+                                            <a href="javascript:void(0)" onclick="SGA.Atendimento.addServico(this)" data-id="<?php echo $subservico->getId() ?>" title="<?php SGA::out(_('Adicionar')) ?>"><?php SGA::out($subservico->getNome()) ?></a>
                                         </li>
                                     <?php endforeach; ?>
                                     </ul>
@@ -140,6 +140,7 @@ else {
         ?>
         SGA.Clock.init("sga-clock", <?php echo (time() * 1000) ?>);
         SGA.Atendimento.filaVazia = '<?php SGA::out(_('Fila Vazia')) ?>';
+        SGA.Atendimento.remover = '<?php SGA::out(_('Remover')) ?>';
         SGA.Atendimento.marcarErroTriagem = '<?php SGA::out(_('Realmente deseja marcar como erro de triagem?')) ?>';
         SGA.Atendimento.marcarNaoCompareceu = '<?php SGA::out(_('Realmente deseja marcar como não compareceu?')) ?>';
         SGA.Atendimento.init(<?php SGA::out($status) ?>);

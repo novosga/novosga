@@ -117,6 +117,7 @@ class UsuariosController extends CrudController {
             }
             $model->setStatus(1);
             $model->setSenha(Security::passEncode($senha));
+            $model->setSessionId('');
         } else {
             $model->setStatus((int) Arrays::value($_POST, 'status'));
         }
@@ -128,7 +129,6 @@ class UsuariosController extends CrudController {
         if ($rs['total']) {
             throw new \Exception(_('O login informado já está cadastrado para outro usuário.'));
         }
-        $model->setSessionId('');
     }
     
     protected function postSave(SGAContext $context, SequencialModel $model) {
