@@ -113,7 +113,7 @@ CREATE TABLE paineis_servicos (
 );
 
 CREATE TABLE painel_senha (
-    contador integer NOT NULL,
+    contador serial NOT NULL,
     id_uni integer NOT NULL,
     id_serv integer NOT NULL,
     num_senha integer NOT NULL,
