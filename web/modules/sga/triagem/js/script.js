@@ -113,4 +113,4 @@ SGA.Triagem = {
         SGA.Triagem.distribuiSenha(btn.data('id'), $('input:radio[name=prioridade]:checked').val(), complete);
     }
     
-}
+};
