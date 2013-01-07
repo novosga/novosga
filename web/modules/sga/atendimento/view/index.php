@@ -134,6 +134,8 @@ else {
         </div>
     </div>
     <div id="sga-clock" title="<?php echo Strings::doubleQuoteSlash(_('Data e hora no servidor')) ?>"></div>
+    <!-- som executado quando a fila deixa de estar fazia -->
+    <audio id="audio-new" src="media/audio/ekiga-vm.wav" style="display:none" />
     <script type="text/javascript">
         <?php
             $status = ($atendimento) ? $atendimento->getStatus() : 1;
@@ -143,6 +145,7 @@ else {
         SGA.Atendimento.remover = '<?php SGA::out(_('Remover')) ?>';
         SGA.Atendimento.marcarErroTriagem = '<?php SGA::out(_('Realmente deseja marcar como erro de triagem?')) ?>';
         SGA.Atendimento.marcarNaoCompareceu = '<?php SGA::out(_('Realmente deseja marcar como não compareceu?')) ?>';
+        SGA.Atendimento.nenhumServicoSelecionado = '<?php SGA::out(_('Nenhum serviço selecionado')) ?>';
         SGA.Atendimento.init(<?php SGA::out($status) ?>);
     </script>
     <?php

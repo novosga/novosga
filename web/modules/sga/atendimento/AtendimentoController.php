@@ -18,6 +18,8 @@ use \core\http\AjaxResponse;
  */
 class AtendimentoController extends ModuleController {
     
+    private $_atendimentoAtual;
+    
     public function index(SGAContext $context) {
         $usuario = $context->getUser();
         $unidade = $context->getUnidade();
@@ -76,11 +78,14 @@ class AtendimentoController extends ModuleController {
     }
     
     private function atendimentoAndamento(UsuarioSessao $usuario) {
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e WHERE e.usuario = :usuario AND (e.status = :status1 OR e.status = :status2)");
-        $query->setParameter('usuario', $usuario->getId());
-        $query->setParameter('status1', Atendimento::CHAMADO_PELA_MESA);
-        $query->setParameter('status2', Atendimento::ATENDIMENTO_INICIADO);
-        return $query->getOneOrNullResult();
+        if (!$this->_atendimentoAtual) {
+            $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e WHERE e.usuario = :usuario AND (e.status = :status1 OR e.status = :status2)");
+            $query->setParameter('usuario', $usuario->getId());
+            $query->setParameter('status1', Atendimento::CHAMADO_PELA_MESA);
+            $query->setParameter('status2', Atendimento::ATENDIMENTO_INICIADO);
+            $this->_atendimentoAtual = $query->getOneOrNullResult();
+        }
+        return $this->_atendimentoAtual;
     }
     
     public function get_fila(SGAContext $context) {
@@ -110,11 +115,10 @@ class AtendimentoController extends ModuleController {
         $conn = $this->em()->getConnection();
     	$stmt = $conn->prepare("
             INSERT INTO painel_senha 
-            (contador, id_uni, id_serv, num_senha, sig_senha, msg_senha, nm_local, num_guiche) 
+            (id_uni, id_serv, num_senha, sig_senha, msg_senha, nm_local, num_guiche) 
             VALUES 
-            (:contador, :id_uni, :id_serv, :num_senha, :sig_senha, :msg_senha, :nm_local, :num_guiche)
+            (:id_uni, :id_serv, :num_senha, :sig_senha, :msg_senha, :nm_local, :num_guiche)
         ");
-        $stmt->bindValue('contador', 1);
         $stmt->bindValue('id_uni', $unidade->getId());
         $stmt->bindValue('id_serv', $atendimento->getServicoUnidade()->getServico()->getId());
         $stmt->bindValue('num_senha', $atendimento->getSenha()->getNumero());
@@ -262,8 +266,28 @@ class AtendimentoController extends ModuleController {
      * @param \core\SGAContext $context
      */
     public function encerrar(SGAContext $context) {
-        // TODO: pegar os servicos realizados
-        $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
+        $atual = $this->atendimentoAndamento($context->getUser());
+        if ($atual) {
+            $servicos = $context->getRequest()->getParameter('servicos');
+            $servicos = Arrays::valuesToInt(explode(',', $servicos));
+            if (empty($servicos)) {
+                $response = new AjaxResponse(false, _('Nenhum serviço selecionado'));
+                $context->getResponse()->jsonResponse($response);
+            } else {
+                $conn = $this->em()->getConnection();
+                $stmt = $conn->prepare("INSERT INTO atend_codif (id_atend, id_serv, valor_peso) VALUES (:atendimento, :servico, 1)");
+                foreach ($servicos as $s) {
+                    $stmt->bindValue('atendimento', $atual->getId());
+                    // TODO: verificar se o usuario realmente pode atender o servico informado
+                    $stmt->bindValue('servico', $s);
+                    $stmt->execute();
+                }
+                $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
+            }
+        } else {
+            $response = new AjaxResponse(false, _('Nenhum atendimento em andamento'));
+            $context->getResponse()->jsonResponse($response);
+        }
     }
     
     /**

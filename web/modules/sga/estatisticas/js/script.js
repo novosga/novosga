@@ -6,7 +6,7 @@ var SGA = SGA || {};
 
 SGA.Estatisticas = {
     
-}
+};
 
 
 /* Highcharts JS v2.3.3 (2012-10-04) (c) 2009-2011 Torstein Hønsi License: www.highcharts.com/license */

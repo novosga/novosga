@@ -10,6 +10,7 @@ SGA.Atendimento = {
     remover: '',
     marcarNaoCompareceu: '',
     marcarErroTriagem: '',
+    nenhumServicoSelecionado: '',
     
     init: function(status) {
         setInterval(SGA.Atendimento.ajaxUpdate, SGA.updateInterval);
@@ -24,6 +25,11 @@ SGA.Atendimento = {
                 success: function(response) {
                     if (response.success) {
                         var list = $("#fila ul");
+                        // se a fila estava vazia e chegou um novo atendimento, entao toca o som
+                        if (response.data.length > 0 && list.find('li.empty').length > 0) {
+                            $('#chamar .chamar').button('enable');
+                            document.getElementById("audio-new").play();
+                        }
                         list.text('');
                         if (response.data.length > 0) {
                             for (var i = 0; i < response.data.length; i++) {
@@ -36,6 +42,7 @@ SGA.Atendimento = {
                                 list.append(item);
                             }
                         } else {
+                            $('#chamar .chamar').button('disable');
                             list.append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
                         }
                     }
@@ -150,6 +157,10 @@ SGA.Atendimento = {
         $('#servicos-realizados input.servicos').each(function(i, e) {
             servicos.push($(e).val());
         });
+        if (servicos.length == 0) {
+            alert(SGA.Atendimento.nenhumServicoSelecionado);
+            return false;
+        }
         SGA.Atendimento.control({
             action: 'encerrar', 
             data: {servicos: servicos.join(',')},
@@ -182,4 +193,4 @@ SGA.Atendimento = {
         item.parent().remove();
     }
     
-}
+};

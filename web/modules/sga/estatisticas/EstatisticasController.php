@@ -17,40 +17,91 @@ class EstatisticasController extends ModuleController {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Unidade e ORDER BY e.nome");
         $unidades = $query->getResult();
         $this->view()->assign('unidades', $unidades);
-        $now = DateUtil::nowSQL();
-        $this->view()->assign('atendimentos', $this->total_atendimentos($now, $now));
+        $ini = DateUtil::now('Y-m-d');
+        $fim = DateUtil::nowSQL(); // full datetime
+        $this->view()->assign('atendimentosStatus', $this->total_atendimentos_status($ini, $fim));
+        $this->view()->assign('atendimentosServico', $this->total_atendimentos_servico($ini, $fim));
     }
     
-    private function total_atendimentos($dataInicial, $dataFinal) {
+    private function total_atendimentos_status($dataInicial, $dataFinal) {
         $atendimentos = array();
-        $dql = "
+        $status = array(
+            'encerrado' => \core\model\Atendimento::ATENDIMENTO_ENCERRADO,
+            'nao_compareceu' => \core\model\Atendimento::NAO_COMPARECEU,
+            'senha_cancelada' => \core\model\Atendimento::SENHA_CANCELADA,
+            'erro_triagem' => \core\model\Atendimento::ERRO_TRIAGEM
+        );
+        $sql = "
             SELECT 
-                u.id as id,
-                COUNT(e) as total 
+                id_uni as id,
+                COUNT(*) as total 
             FROM 
-                \core\model\Atendimento e 
-                JOIN e.servicoUnidade su 
-                JOIN su.unidade u 
+                view_historico_atendimentos
             WHERE 
-                e.dataChegada >= :dtini AND 
-                e.dataChegada <= :dtfim
+                dt_cheg >= :dtini AND 
+                dt_cheg <= :dtfim
         ";
         // total
-        $query = $this->em()->createQuery($dql . " GROUP BY u");
-        $query->setParameter('dtini', $dataInicial);
-        $query->setParameter('dtfim', $dataFinal);
-        $rs = $query->getResult();
+        $conn = $this->em()->getConnection();
+        $stmt = $conn->prepare($sql . " GROUP BY id_uni");
+        $stmt->bindValue('dtini', $dataInicial);
+        $stmt->bindValue('dtfim', $dataFinal);
+        $stmt->execute();
+        $rs = $stmt->fetchAll();
         foreach ($rs as $r) {
-            $atendimentos[$r['id']] = array('total' => $r['total'], 'encerrado' => 0);
+            $atendimentos[$r['id']] = array();
+            // zerando os status
+            foreach ($status as $k => $v) {
+                $atendimentos[$r['id']][$k] = 0;
+            }
         }
+        // por status
+        $sql .= " AND id_stat = :status GROUP BY id_uni";
         // encerrado
-        $query = $this->em()->createQuery($dql . " AND e.status = :status GROUP BY u");
-        $query->setParameter('dtini', $dataInicial);
-        $query->setParameter('dtfim', $dataFinal);
-        $query->setParameter('status', \core\model\Atendimento::ATENDIMENTO_ENCERRADO);
-        $rs = $query->getResult();
-        foreach ($rs as $r) {        
-            $atendimentos[$r['id']]['encerrado'] = $r['total'];
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('dtini', $dataInicial);
+        $stmt->bindValue('dtfim', $dataFinal);
+        foreach ($status as $k => $v) {
+            $stmt->bindValue('status', $v);
+            $stmt->execute();
+            $rs = $stmt->fetchAll();
+            foreach ($rs as $r) {
+                $atendimentos[$r['id']][$k] = $r['total'];
+            }
+        }
+        return $atendimentos;
+    }
+    
+    private function total_atendimentos_servico($dataInicial, $dataFinal) {
+        $atendimentos = array();
+        $sql = "
+            SELECT 
+                a.id_uni as id,
+                us.nm_serv as servico,
+                COUNT(*) as total 
+            FROM 
+                view_historico_atendimentos a
+                INNER JOIN
+                    uni_serv us
+                    ON 
+                        us.id_uni = a.id_uni AND us.id_serv = a.id_serv
+            WHERE 
+                a.dt_cheg >= :dtini AND 
+                a.dt_cheg <= :dtfim
+            GROUP BY 
+                a.id_uni, a.id_serv, us.nm_serv
+        ";
+        $conn = $this->em()->getConnection();
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('dtini', $dataInicial);
+        $stmt->bindValue('dtfim', $dataFinal);
+        $stmt->execute();
+        $rs = $stmt->fetchAll();
+        foreach ($rs as $r) {
+            if (!isset($atendimentos[$r['id']])) {
+                $atendimentos[$r['id']] = array();
+            }
+            $atendimentos[$r['id']][$r['servico']] = $r['total'];
         }
         return $atendimentos;
     }
