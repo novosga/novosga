@@ -1,14 +1,16 @@
 Novo SGA
 =======
 
-Versão do SGALivre reformulada para o PHP 5.3+, utilizando DoctrinePHP para abstração do banco, e 100% compatível com a versão de origem.
+Versão do SGALivre reformulada para o PHP 5.3+, utilizando ORM para abstração do banco e 100% compatível com a versão de origem.
 
 Sobre
 =======
 
-Devido ao atual SGALivre está estagnado na mesma versão desde 2009, mais burocracia dos responsáveis pela comunidade no SoftwarePublico, surgiu a necessidade de criar uma nova versão para esse sistema que já roda em diversas localidades do Brasil.
+Devido ao atual SGALivre estar estagnado na mesma versão desde 2009, unindo a burocracia dos responsáveis pela comunidade no Portal do Software Publico, surgiu a necessidade de criar uma nova versão para esse sistema que já roda em diversas localidades do Brasil.
 
-A parte web foi totalmente reformulada, deixando mais leve e intuitiva, com uma interface amigável e instalação super fácil.
+A parte web foi totalmente reformulada, deixando mais leve e intuitiva, com uma interface amigável e instalação super fácil. Já no painel foi feitas melhorias para funcionar em monitores widescreen. Outras melhorias e funcionalidades estão previstas e irão ser aplicadas durante o desenvolvimento do projeto.
+
+Tem alguma sugestão? Crie uma issue ou participe do desenvolvimento!
 
 
 Tecnologia
@@ -16,8 +18,19 @@ Tecnologia
 
 A versão web continua escrita em PHP, porém compatível com as versões mais novas, desfrutando de melhorias e evolução da linguagem.
 
-Para a interface, a aplicação faz uso do que há disponível nos mais modernos navegadores. Utilizando HTML5 e CSS3. E com os frameworks client side, jQuery e jQueryUI (o tema principal é o Twitter Bootstrap).
+- PHP 5.3
+- Doctrine PHP 2.3
+- HTML5
+- CSS3
+- jQuery 1.8+
+- jQuery UI 1.9+
+- Twitter Bootstrap for jQuery UI
+- Highcharts
 
+Testado no seguintes bancos:
+- PostgreSQL
+- MySQL
+- MS SQL
 
 
 Autor
