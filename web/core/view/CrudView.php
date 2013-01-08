@@ -51,6 +51,7 @@ class CrudView extends ModuleView {
         array_push($columns, $this->buttonEdit() . $this->buttonDelete());
         $classes[sizeof($columns) - 1] = 'btns';
         return $this->showMessages() . $this->getBuilder()->table(array(
+            'id' => 'table-list',
             'header' => $header,
             'columns' => $columns,
             'classes' => $classes,
