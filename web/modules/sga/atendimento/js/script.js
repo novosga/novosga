@@ -38,7 +38,7 @@ SGA.Atendimento = {
                                 if (i == 0) {
                                     cssClass += ' proximo';
                                 }
-                                var item = '<li class="' + cssClass + '"><abbr title="' + atendimento.servico + '">' + atendimento.numero + '</abbr></li>';
+                                var item = '<li class="' + cssClass + '"><abbr title="' + atendimento.servico + '">' + atendimento.senha + '</abbr></li>';
                                 list.append(item);
                             }
                         } else {
@@ -73,10 +73,10 @@ SGA.Atendimento = {
                 if (atendimento.prioridade) {
                     info.addClass('prioridade');
                 }
-                info.find('.numero .value').text(atendimento.numero);
+                info.find('.numero .value').text(atendimento.senha);
                 info.find('.nome-prioridade .value').text(atendimento.nomePrioridade);
                 info.find('.servico .value').text(atendimento.servico);
-                info.find('.nome .value').text(atendimento.nome);
+                info.find('.nome .value').text(atendimento.cliente.nome);
             }
             $('#iniciar').show();
             break;
@@ -105,7 +105,7 @@ SGA.Atendimento = {
             success: function(response) {
                 // remove o proximo da lista se for o mesmo do atendimento
                 var proximo = $("#fila ul li:first");
-                if (response.data.numero == proximo.text()) {
+                if (response.data.senha == proximo.text()) {
                     proximo.remove();
                     if ($("#fila ul li").length == 0) {
                         // fila vazia

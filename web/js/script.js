@@ -21,6 +21,7 @@ var SGA = {
             prop.title = prop.title || target.prop('title');
             target.dialog({
                 width: prop.width || 500,
+                height: prop.height || 'auto',
                 modal: true,
                 title: prop.title,
                 buttons: prop.buttons || {},
@@ -86,13 +87,16 @@ var SGA = {
     },
     
     formatDate: function(sqlDate) {
-        var d = sqlDate.split(' ');
-        var time = '';
-        var date = d[0].split('-').reverse().join('/'); // pt_br
-        if (d.length > 1) {
-            time = ' ' + d[1];
+        if (sqlDate && sqlDate != "") {
+            var d = sqlDate.split(' ');
+            var time = '';
+            var date = d[0].split('-').reverse().join('/'); // pt_br
+            if (d.length > 1) {
+                time = ' ' + d[1];
+            }
+            return date + time;
         }
-        return date + time;
+        return "";
     },
     
     /* jQuery ajax wrapper */

@@ -3,32 +3,16 @@ use \core\SGA;
 use \core\util\Strings;
 ?>
 <div id="monitor">
-    <div class="menu">
-        <h4><?php SGA::out(_('Senhas')) ?></h4>
-        <ul>
-            <li><?php 
-                echo $builder->button(array(
-                    'id' => 'btn-consultar',
-                    'label' => _('Consultar'),
-                    'onclick' => 'SGA.Monitor.Senha.consultar()'
-                ));
-            ?></li>
-            <li><?php 
-                echo $builder->button(array(
-                    'id' => 'btn-reativar',
-                    'label' => _('Reativar'),
-                    'onclick' => 'SGA.Monitor.Senha.reativar()'
-                ));
-            ?></li>
-            <li><?php 
-                echo $builder->button(array(
-                    'id' => 'btn-cancelar',
-                    'class' => 'ui-button-error',
-                    'label' => _('Cancelar'),
-                    'onclick' => 'SGA.Monitor.Senha.cancelar()'
-                ));
-            ?></li>
-        </ul>
+    <div class="search">
+        <input type="text" id="buscar-senha" placeholder="<?php echo _('buscar senha') ?>" />
+        <?php 
+            echo $builder->button(array(
+                'id' => 'btn-open-consulta',
+                'label' => _('Consultar'),
+                'class' => 'ui-button-primary',
+                'onclick' => 'SGA.Monitor.Senha.consulta()'
+            ));
+        ?>
     </div>
     <?php foreach ($servicos as $su): ?>
     <?php $id  = $su->getServico()->getId(); ?>
@@ -39,11 +23,12 @@ use \core\util\Strings;
             <?php 
                 if (!$empty):
                     for ($i = 0; $i < $su->getFila()->size(); $i++): 
-                        $senha = $su->getFila()->get($i)->getSenha(); 
-                        $onclick = "SGA.Monitor.Senha.view({$senha->getNumero()})";
+                        $atendimento = $su->getFila()->get($i); 
+                        $senha = $atendimento->getSenha();
+                        $onclick = "SGA.Monitor.Senha.view({$atendimento->getId()})";
                     ?>
                     <li class="<?php SGA::out(($senha->isPrioridade() ? 'prioridade' : '')) ?>">
-                        <a href="javascript:void(0)" onclick="<?php echo $onclick ?>" title="<?php SGA::out($senha->isPrioridade() ? $senha->getPrioridade()->getNome() : _('Atendimento Normal')) ?>">
+                        <a href="javascript:void(0)" onclick="<?php echo $onclick ?>" title="<?php SGA::out($senha->getPrioridade()->getNome()) ?>">
                             <?php SGA::out($senha) ?>
                         </a>
                     </li>
@@ -59,9 +44,34 @@ use \core\util\Strings;
     <div>
         <label for="numero_busca"><?php SGA::out(_('Número')) ?></label>
         <input id="numero_busca" type="text" maxlength="5" />
+        <?php 
+            echo $builder->button(array(
+                'id' => 'btn-consultar',
+                'label' => _('Consultar'),
+                'class' => 'ui-button-primary',
+                'onclick' => 'SGA.Monitor.Senha.consultar()'
+            ));
+        ?>
+    </div>
+    <div class="result">
+        <table id="result_table" class="ui-data-table">
+            <thead>
+                <tr>
+                    <th><?php SGA::out(_('Número')) ?></th>
+                    <th><?php SGA::out(_('Serviço')) ?></th>
+                    <th><?php SGA::out(_('Data chegada')) ?></th>
+                    <th><?php SGA::out(_('Data Início')) ?></th>
+                    <th><?php SGA::out(_('Data Fim')) ?></th>
+                    <th><?php SGA::out(_('Situação')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 </div>
-<div id="dialog-monitor" title="<?php SGA::out(_('Atendimento')) ?>" style="display:none">
+<div id="dialog-view" title="<?php SGA::out(_('Atendimento')) ?>" style="display:none">
+    <input id="senha_id" type="hidden" />
     <fieldset>
         <legend><?php SGA::out(_('Senha')) ?></legend>
         <div>
@@ -80,6 +90,18 @@ use \core\util\Strings;
             <label><?php SGA::out(_('Data chegada')) ?></label>
             <span id="senha_chegada"></span>
         </div>
+        <div>
+            <label><?php SGA::out(_('Data início')) ?></label>
+            <span id="senha_inicio"></span>
+        </div>
+        <div>
+            <label><?php SGA::out(_('Data Fim')) ?></label>
+            <span id="senha_fim"></span>
+        </div>
+        <div>
+            <label><?php SGA::out(_('Situação')) ?></label>
+            <span id="senha_status"></span>
+        </div>
     </fieldset>
     <fieldset>
         <legend><?php SGA::out(_('Cliente')) ?></legend>
@@ -92,6 +114,44 @@ use \core\util\Strings;
             <span id="cliente_documento"></span>
         </div>
     </fieldset>
+    <div class="btns">
+        <?php 
+            echo $builder->button(array(
+                'id' => 'btn-transferir',
+                'label' => _('Transferir'),
+                'onclick' => "SGA.Monitor.Senha.transfere($('#senha_id').val(), $('#senha_numero').text())"
+            ));
+            echo $builder->button(array(
+                'id' => 'btn-cancelar',
+                'class' => 'ui-button-error',
+                'label' => _('Cancelar'),
+                'onclick' => "SGA.Monitor.Senha.cancelar($('#senha_id').val())"
+            ));
+        ?>
+    </div>
+</div>
+<div id="dialog-transfere" title="<?php SGA::out(_('Tranferir Senha')) ?>" style="display:none">
+    <input id="transfere_id" type="hidden" />
+    <div>
+        <label><?php SGA::out(_('Senha')) ?></label>
+        <span id="transfere_numero"></span>
+    </div>
+    <div>
+        <label for="transfere_servico"><?php SGA::out(_('Novo serviço')) ?></label>
+        <select id="transfere_servico">
+            <?php foreach ($servicos as $su): ?>
+            <option value="<?php echo $su->getServico()->getId() ?>"><?php echo $su->getServico()->getNome() ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div>
+        <label><?php SGA::out(_('Nova prioridade')) ?></label>
+        <select id="transfere_prioridade">
+            <?php foreach ($prioridades as $su): ?>
+            <option value="<?php echo $su->getId() ?>"><?php echo $su->getNome() ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
 </div>
 <div id="sga-clock" title="<?php echo Strings::doubleQuoteSlash(_('Data e hora no servidor')) ?>"></div>
 <script type="text/javascript">
@@ -100,6 +160,8 @@ use \core\util\Strings;
         SGA.Monitor.ids.push(servico.data('id'));
     });
     SGA.Clock.init("sga-clock", <?php echo (time() * 1000) ?>);
-    SGA.Monitor.atendimentoNormal = '<?php SGA::out(_('Atendimento Normal')) ?>';
+    SGA.Monitor.labelTransferir = '<?php SGA::out(_('Transferir')) ?>';
+    SGA.Monitor.alertCancelar = '<?php SGA::out(_('Deseja realmente cancelar?')) ?>';
+    SGA.Monitor.Senha.situacoes = <?php echo json_encode($situacoes) ?>;
     SGA.Monitor.init();
 </script>

@@ -7,6 +7,7 @@ use \core\model\util\Senha;
 use \core\model\ServicoUnidade;
 use \core\model\Usuario;
 use \core\model\Prioridade;
+use \core\util\DateUtil;
 
 /**
  * Classe Atendimento
@@ -234,15 +235,43 @@ class Atendimento extends SequencialModel {
         return "Atendimento[id:{$this->getId()},senha:{$this->getSenha()},status: {$this->getStatus()}]";
     }
     
-    public function toArray() {
+    public static function situacoes() {
         return array(
+            self::SENHA_EMITIDA => _('Senha emitida'),
+            self::CHAMADO_PELA_MESA => _('Chamado pela mesa'),
+            self::ATENDIMENTO_INICIADO => _('Atendimento iniciado'),
+            self::ATENDIMENTO_ENCERRADO => _('Atendimento encerrado'),
+            self::NAO_COMPARECEU => _('Não compareceu'),
+            self::SENHA_CANCELADA => _('Senha cancelada'),
+            self::ERRO_TRIAGEM => _('Erro triagem'),
+            self::ATENDIMENTO_ENCERRADO_CODIFICADO => _('Atendimento encerrado e codificado')
+        );
+    }
+    
+    public function toArray($minimal = false) {
+        $arr = array(
             'id' => $this->getId(),
-            'numero' => $this->getSenha()->toString(),
+            'senha' => $this->getSenha()->toString(),
             'servico' => $this->getServicoUnidade()->getNome(),
             'prioridade' => $this->getSenha()->isPrioridade(),
-            'nomePrioridade' => $this->getSenha()->getPrioridade()->getNome(),
-            'nome' => $this->getCliente()->getNome()
+            'nomePrioridade' => $this->getSenha()->getPrioridade()->getNome()
         );
+        if (!$minimal) {
+            $arr['numero'] = $this->getSenha()->toString();
+            $arr['chegada'] = DateUtil::formatToSQL($this->getDataChegada());
+            if ($this->getDataInicio()) {
+                $arr['inicio'] = DateUtil::formatToSQL($this->getDataInicio());
+            }
+            if ($this->getDataFim()) {
+                $arr['fim'] = DateUtil::formatToSQL($this->getDataFim());
+            }
+            $arr['status'] = $this->getStatus();
+            $arr['cliente'] = array(
+                'nome' => $this->getCliente()->getNome(),
+                'documento' => $this->getCliente()->getDocumento()
+            );
+        }
+        return $arr;
     }
 
 }
