@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="novosga-web" default="dist" basedir=".">
-    <description>
-        Novo SGA Ant tasks
-    </description>
+    <description>Novo SGA Ant tasks</description>
 
     <property name="project" value="novosga" />
     <property name="appname" value="${project}-web" />
-    <property name="version" value="1.0.0" />
+    <property name="version" value="0.1.1" />
 
     <property name="src" location="." />
     <property name="lib" location="lib" />
@@ -30,14 +28,17 @@
     </target>
 
     <!--
-        pre-dis: copia os arquivos fonte para o diretorio dist, ignorando arquivos do netbeans e svn
+        pre-dist: copia os arquivos fonte para o diretorio dist, ignorando arquivos do netbeans e svn
     -->
     <target name="pre-dist" depends="init" description="Prepara os arquivos para (re)distribuição">
         <copy todir="${build.dist}">
             <fileset dir="${src}">
                 <exclude name="**/nbproject/**" />
                 <exclude name="**/build/**" />
+                <exclude name="**/build.xml**" />
+                <exclude name="**/.buildpath**" />
                 <exclude name="**/.svn/**" />
+                <exclude name="**/.git/**" />
             </fileset>
         </copy>
         <copy overwrite="true" file="${build.dist}/core/Config.dev.php" tofile="${build.dist}/core/Config.php" />
