@@ -25,7 +25,7 @@ class Servico extends SequencialModel {
      * @ManyToOne(targetEntity="Servico")
      * @JoinColumn(name="id_macro", referencedColumnName="id_serv")
      */
-    private $mestre;
+    protected $mestre;
     /** 
      * @OneToMany(targetEntity="Servico", mappedBy="mestre")
      */
