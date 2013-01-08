@@ -14,6 +14,19 @@ use \core\controller\ModuleController;
  * @author rogeriolino
  */
 class MonitorController extends ModuleController {
+
+    public function index(SGAContext $context) {
+        $unidade = $context->getUser()->getUnidade();
+        $this->view()->assign('unidade', $unidade);
+        if ($unidade) {
+            // servicos
+            $this->view()->assign('servicos', $this->servicos($unidade));
+        }
+        // lista de prioridades para ser utilizada ao redirecionar senha
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Prioridade e WHERE e.status = 1 ORDER BY e.peso, e.nome");
+        $this->view()->assign('prioridades', $query->getResult());
+        $this->view()->assign('situacoes', \core\model\Atendimento::situacoes());
+    }
     
     private function servicos(Unidade $unidade, $where = "") {
         $dql = "SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade ";
@@ -24,15 +37,6 @@ class MonitorController extends ModuleController {
         $query = $this->em()->createQuery($dql);
         $query->setParameter('unidade', $unidade->getId());
         return $query->getResult();
-    }
-
-    public function index(SGAContext $context) {
-        $unidade = $context->getUser()->getUnidade();
-        $this->view()->assign('unidade', $unidade);
-        if ($unidade) {
-            // servicos
-            $this->view()->assign('servicos', $this->servicos($unidade));
-        }
     }
     
     public function ajax_update(SGAContext $context) {
@@ -51,16 +55,8 @@ class MonitorController extends ModuleController {
                     if ($total) {
                         $fila = array();
                         for ($j = 0; $j < $total; $j++) {
-                            $senha = $su->getFila()->get($j)->getSenha(); 
-                            $item = array(
-                                'numero' => $senha->getNumero(), 
-                                'numero_full' => $senha->toString(), 
-                                'prioridade' => $senha->isPrioridade()
-                            );
-                            if ($senha->isPrioridade()) {
-                                $item['nomePrioridade'] = $senha->getPrioridade()->getNome();
-                            }
-                            $fila[] = $item;
+                            $atendimento = $su->getFila()->get($j); 
+                            $fila[] = $atendimento->toArray(true);
                         }
                         $response->data['servicos'][$su->getServico()->getId()] = $fila;
                         $response->data['total']++;
@@ -70,6 +66,13 @@ class MonitorController extends ModuleController {
             }
         }
         $context->getResponse()->jsonResponse($response);
+    }
+    
+    private function buscaAtendimento(Unidade $unidade, $id) {
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.id = :id AND su.unidade = :unidade");
+        $query->setParameter('id', (int) $id);
+        $query->setParameter('unidade', $unidade->getId());
+        return $query->getOneOrNullResult();
     }
     
     private function buscaAtendimentos(Unidade $unidade, $numeroSenha) {
@@ -83,21 +86,116 @@ class MonitorController extends ModuleController {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $numero = Arrays::value($_GET, 'numero');
-            $atendimentos = $this->buscaAtendimentos($unidade, $numero);
-            if (sizeof($atendimentos)) {
-                // vendo ultimo atendimento para essa senha
-                $atendimento = end($atendimentos);
-                $response->data['numero'] = $atendimento->getSenha()->toString();
-                $response->data['prioridade'] = $atendimento->getSenha()->isPrioridade() ? $atendimento->getSenha()->getPrioridade()->getNome() : _('Atendimento Normal');
-                $response->data['servico'] = $atendimento->getServicoUnidade()->getNome();
-                $response->data['chegada'] = DateUtil::formatToSQL($atendimento->getDataChegada());
-                $response->data['cliente'] = array(
-                    'nome' => $atendimento->getCliente()->getNome(),
-                    'documento' => $atendimento->getCliente()->getDocumento()
-                );
+            $id = (int) $context->getRequest()->getParameter('id');
+            $atendimento = $this->buscaAtendimento($unidade, $id);
+            if ($atendimento) {
+                $response->data = $atendimento->toArray();
                 $response->success = true;
+            } else {
+                $response->message = _('Atendimento inválido');
             }
+        }
+        $context->getResponse()->jsonResponse($response);
+    }
+    
+    /**
+     * Busca os atendimentos a partir do número da senha
+     * @param \core\SGAContext $context
+     */
+    public function buscar(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            $numero = (int) $context->getRequest()->getParameter('numero');
+            $atendimentos = $this->buscaAtendimentos($unidade, $numero);
+            $response->data['total'] = sizeof($atendimentos);
+            foreach ($atendimentos as $atendimento) {
+                $response->data['atendimentos'][] = $atendimento->toArray();
+            }
+            $response->success = true;
+        } else{
+            $response->message = _('Nenhuma unidade selecionada');
+        }
+        $context->getResponse()->jsonResponse($response);
+    }
+    
+    /**
+     * Transfere o atendimento para outro serviço e prioridade
+     * @param \core\SGAContext $context
+     */
+    public function transferir(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            try {
+                $id = (int) $context->getRequest()->getParameter('id');
+                /*
+                 * TODO: verificar e tratar erro para ids invalidos. E verificar 
+                 * se o servico informado esta disponivel para a unidade.
+                 */
+                $servico = (int) $context->getRequest()->getParameter('servico');
+                $prioridade = (int) $context->getRequest()->getParameter('prioridade');
+                $conn = $this->em()->getConnection();
+                // transfere apenas se a data fim for nula
+                $stmt = $conn->prepare("
+                    UPDATE 
+                        atendimentos
+                    SET 
+                        id_serv = :servico,
+                        id_pri = :prioridade
+                    WHERE 
+                        id_atend = :id AND 
+                        id_uni = :unidade AND
+                        dt_fim IS NULL
+                        
+                ");
+                $stmt->bindValue('servico', $servico);
+                $stmt->bindValue('prioridade', $prioridade);
+                $stmt->bindValue('id', $id);
+                $stmt->bindValue('unidade', $unidade->getId());
+                $response->success = $stmt->execute() > 0;
+            } catch (\Exception $e) {
+                $response->message = $e->getMessage();
+            }
+        } else{
+            $response->message = _('Nenhuma unidade selecionada');
+        }
+        $context->getResponse()->jsonResponse($response);
+    }
+    
+    /**
+     * Atualiza o status da senha para cancelado
+     * @param \core\SGAContext $context
+     */
+    public function cancelar(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            try {
+                $id = (int) $context->getRequest()->getParameter('id');
+                $conn = $this->em()->getConnection();
+                // cancela apenas se a data fim for nula
+                $stmt = $conn->prepare("
+                    UPDATE 
+                        atendimentos
+                    SET 
+                        id_stat = :status,
+                        dt_fim = :data
+                    WHERE 
+                        id_atend = :id AND 
+                        id_uni = :unidade AND
+                        dt_fim IS NULL
+                ");
+                $stmt->bindValue('status', \core\model\Atendimento::SENHA_CANCELADA);
+                $stmt->bindValue('data', DateUtil::nowSQL());
+                $stmt->bindValue('id', $id);
+                $stmt->bindValue('unidade', $unidade->getId());
+                $response->success = $stmt->execute() > 0;
+            } catch (\Exception $e) {
+                $response->message = $e->getMessage();
+            }
+        } else{
+            $response->message = _('Nenhuma unidade selecionada');
         }
         $context->getResponse()->jsonResponse($response);
     }

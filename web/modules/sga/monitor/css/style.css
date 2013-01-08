@@ -4,31 +4,8 @@
  * @author rogeriolino
  */
  
-#monitor .menu {
-    height: 50px;
-    margin-bottom: 5px;
-    padding: 0 !important;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    background-color: #F7F9FE;
-    background-position: 20px center;
-    background-repeat: no-repeat;
-    border: 1px solid #e1e1e8;
-}
-
-#monitor .menu h4 {
-    padding: 13px 20px;
-    float: left;
-}
-
-#monitor .menu ul {
-    padding: 10px 0 0 0;
-}
-
-#monitor .menu ul li {
-    list-style: none;
-    display: inline;
+#monitor .search {
+    padding: 5px;
 }
  
 #monitor .servico {
@@ -64,17 +41,47 @@
     float: left;
 }
 
-#dialog-monitor fieldset {
+#monitor .servico .fila li.prioridade a {
+    color: red;
+}
+
+#dialog-view fieldset {
     margin-bottom: 20px;
 }
 
-#dialog-monitor div {
+#dialog-view div {
     padding: 3px 0;
     clear: both;
 }
 
-#dialog-monitor div label {
+#dialog-view div label {
     width: 120px;
     font-weight: bold;
     float: left;
+}
+
+#dialog-view div.btns {
+    text-align: right;
+}
+
+#dialog-view div.btns button {
+    margin: 0 3px;
+}
+
+#dialog-transfere div {
+    padding: 5px 0;
+    clear: both;
+}
+
+#dialog-transfere div #transfere_numero {
+    font-size: 22px;
+}
+
+#dialog-transfere div label {
+    width: 120px;
+    float: left;
+}
+
+#dialog-transfere div select {
+    width: 300px;
 }
