@@ -35,9 +35,11 @@ class ServicosController extends CrudController {
             FROM 
                 \core\model\Servico e 
                 LEFT JOIN e.mestre m
-            WHERE
+            WHERE 
                 UPPER(e.nome) LIKE :arg OR 
                 UPPER(e.descricao) LIKE :arg
+            ORDER BY
+                e.nome
         ");
         $query->setParameter('arg', $arg);
         return $query->getResult();
