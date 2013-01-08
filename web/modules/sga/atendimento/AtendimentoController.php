@@ -93,18 +93,10 @@ class AtendimentoController extends ModuleController {
         $unidade = $context->getUnidade();
         if ($unidade) {
             // fila de atendimento do atendente atual
-            $rs = $this->atendimentos($context->getUser());
             $response->data = array();
-            foreach ($rs as $a) {
-                $atendimento = array(
-                    'numero' => $a->getSenha()->toString(),
-                    'prioridade' => $a->getSenha()->isPrioridade(),
-                    'servico' => $a->getServicoUnidade()->getNome()
-                );
-                if ($atendimento['prioridade']) {
-                    $atendimento['nomePrioridade'] = $a->getSenha()->getPrioridade()->getNome();
-                }
-                $response->data[] = $atendimento;
+            $atendimentos = $this->atendimentos($context->getUser());
+            foreach ($atendimentos as $atendimento) {
+                $response->data[] = $atendimento->toArray(true);
             }
             $response->success = true;
         }
