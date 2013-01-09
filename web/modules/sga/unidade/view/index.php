@@ -6,6 +6,7 @@ use \core\SGA;
         <ul>
             <li><a href="#tab-triagem"><?php SGA::out(_('Triagem')) ?></a></li>
             <li><a href="#tab-servicos"><?php SGA::out(_('Serviços')) ?></a></li>
+            <li><a href="#tab-paineis"><?php SGA::out(_('Painéis')) ?></a></li>
         </ul>
         <div id="tab-triagem">
             <form action="<?php SGA::out(SGA::url(array(SGA::K_PAGE => 'update_impressao'))) ?>" method="post">
@@ -87,9 +88,39 @@ use \core\SGA;
             echo $table;
             ?>
         </div>
+        <div id="tab-paineis">
+            <ul class="paineis">
+                <?php foreach ($paineis as $painel): ?>
+                <li>
+                    <a href="javascript:void(0)" onclick="SGA.Unidade.painelInfo(<?php echo $painel->getHost() ?>)" title="<?php SGA::out(_('Visualizar serviços')) ?>">
+                        <span>IP</span>
+                        <span class="ip"><?php echo $painel->getIp() ?></span>
+                    </a>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
     </div>
     <script type="text/javascript"> $('#tabs').tabs(); </script>
 </div>
 <div id="dialog-reiniciar" title="<?php SGA::out(_('Configuração')) ?>" style="display:none">
     <p><?php SGA::out(_('Senhas reiniciadas com sucesso')) ?></p>
+</div>
+<div id="dialog-painel" title="<?php SGA::out(_('Painel')) ?>" style="display:none">
+    <div>
+        <label>IP</label>
+        <span id="painel_ip"></span>
+    </div>
+    <div>
+        <label><?php SGA::out(_('Unidade')) ?></label>
+        <span id="painel_unidade"></span>
+    </div>
+    <div>
+        <label><?php SGA::out(_('Serviços')) ?></label>
+        <ul id="painel_servicos"></ul>
+    </div>
+    <div>
+        <label><?php SGA::out(_('Últimas senhas')) ?></label>
+        <ul id="painel_senhas"></ul>
+    </div>
 </div>
