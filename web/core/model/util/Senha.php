@@ -12,12 +12,12 @@ use \core\model\Prioridade;
  */
  class Senha extends Model {
      
+     const LENGTH = 4;
+     
     private $sigla;
     private $numero;    
     private $prioridade;
     private $legenda;
-
-    private static $LENGTH = 4;
 
     public function __construct() {
         $this->setLegenda(_('Senha'));
@@ -68,7 +68,7 @@ use \core\model\Prioridade;
      * @return String
      */
     public function getNumeroZeros() {
-        return str_pad($this->getNumero(), Senha::$LENGTH, '0', STR_PAD_LEFT);
+        return str_pad($this->getNumero(), Senha::LENGTH, '0', STR_PAD_LEFT);
     }
 
     /**

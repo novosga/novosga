@@ -1,14 +1,13 @@
 <?php
 namespace modules\sga\unidade;
 
-use \PDO;
-use \Exception;
 use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
-use \core\util\DateUtil;
 use \core\http\AjaxResponse;
 use \core\controller\ModuleController;
+use \core\controller\PainelControllerUtil;
+use \core\controller\ConfigControllerUtil;
 
 /**
  * UnidadeController
@@ -20,7 +19,7 @@ use \core\controller\ModuleController;
 class UnidadeController extends ModuleController {
     
     public function index(SGAContext $context) {
-        $unidade = $context->getUser()->getUnidade();
+        $unidade = $context->getUnidade();
         $this->view()->assign('unidade', $unidade);
         if ($unidade) {
             // atualizando relacionamento entre unidade e servicos
@@ -36,7 +35,21 @@ class UnidadeController extends ModuleController {
             $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade ORDER BY e.nome");
             $query->setParameter('unidade', $unidade->getId());
             $this->view()->assign('servicos', $query->getResult());
+            $this->view()->assign('paineis', PainelControllerUtil::paineis($unidade));
         }
+    }
+    
+    public function painel_info(SGAContext $context) {
+        $response = new AjaxResponse();
+        try {
+            $unidade = $context->getUnidade();
+            $host = (int) $context->getRequest()->getParameter('host');
+            $response->data = PainelControllerUtil::painelInfo($unidade, $host);
+            $response->success = true;
+        } catch (\Exception $e) {
+            $response->message = $e->getMessage();
+        }
+        $context->getResponse()->jsonResponse($response);
     }
     
     public function update_impressao(SGAContext $context) {
@@ -100,67 +113,10 @@ class UnidadeController extends ModuleController {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
-            $conn = $this->em()->getConnection();
             try {
-                $data = DateUtil::nowSQL();
-                $conn->beginTransaction();
-                // salva atendimentos da unidade
-                $query = $conn->prepare("
-                    INSERT INTO historico_atendimentos
-                    SELECT 
-                        a.id_atend, a.id_uni, a.id_usu, a.id_serv, a.id_pri, a.id_stat, a.num_senha, 
-                        a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli
-                    FROM 
-                        atendimentos a
-                    WHERE 
-                        a.dt_cheg <= :data AND 
-                        a.id_uni = :unidade
-                ");
-                $query->bindValue('data', $data, PDO::PARAM_STR);
-                $query->bindValue('unidade', $unidade->getId(), PDO::PARAM_INT);
-                $query->execute();
-
-                // salva atendimentos codificados da unidade
-                $query = $conn->prepare("
-                    INSERT INTO historico_atend_codif
-                    SELECT 
-                        ac.id_atend, ac.id_serv, ac.valor_peso
-                    FROM 
-                        atend_codif ac
-                    WHERE 
-                        id_atend IN (
-                            SELECT a.id_atend FROM atendimentos a WHERE dt_cheg <= :data AND a.id_uni = :unidade
-                        )
-                ");
-                $query->bindValue('data', $data, PDO::PARAM_STR);
-                $query->bindValue('unidade', $unidade->getId(), PDO::PARAM_INT);
-                $query->execute();
-
-                // limpa atendimentos codificados da unidade
-                $query = $conn->prepare("
-                    DELETE FROM 
-                        atend_codif ac
-                    WHERE 
-                        ac.id_atend IN (
-                            SELECT id_atend FROM atendimentos a WHERE a.dt_cheg <= :data AND a.id_uni = :unidade
-                        )
-                ");
-                $query->bindValue('data', $data, PDO::PARAM_STR);
-                $query->bindValue('unidade', $unidade->getId(), PDO::PARAM_INT);
-                $query->execute();
-
-                // limpa atendimentos da unidade
-                $query = $conn->prepare("DELETE FROM atendimentos a WHERE dt_cheg <= :data AND a.id_uni = :unidade");
-                $query->bindValue('data', $data, PDO::PARAM_STR);
-                $query->bindValue('unidade', $unidade->getId(), PDO::PARAM_INT);
-                $query->execute();
-
-                $conn->commit();
+                ConfigControllerUtil::acumularAtendimentos($unidade);
                 $response->success = true;
-            } catch (Exception $e) {
-                if ($conn->isTransactionActive()) {
-                    $conn->rollBack();
-                }
+            } catch (\Exception $e) {
                 $response->message = $e->getMessage();
             }
         } else {
