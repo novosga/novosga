@@ -1,5 +1,5 @@
 <?php
-namespace core\controller;
+namespace core\business;
 
 use \PDO;
 use \Exception;
@@ -7,11 +7,11 @@ use \core\util\DateUtil;
 use \core\db\DB;
 
 /**
- * ConfigControllerUtil
+ * AtendimentoBusiness
  *
  * @author rogeriolino
  */
-abstract class ConfigControllerUtil {
+abstract class AtendimentoBusiness {
 
     /**
      * Move os registros da tabela atendimento para a tabela de historico de atendimentos.
