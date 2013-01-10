@@ -14,17 +14,17 @@
     font-size: 18px;
     margin: 0;
     padding: 10px 0 10px 140px;
-    background-image: url(../../images/sga_horizontal.png);
+    background-image: url(../../images/novosga-navbar.png);
     background-repeat: no-repeat;
-    background-position: 5px 2px;
+    background-position: 5px center;
 }
 
-#install_title .buttons {
+#install_title .navegation {
     padding: 8px 15px 0 0;
     float: right;
 }
 
-#install_title .buttons button {
+#install_title .navegation button {
     margin-left: 10px;
 }
 

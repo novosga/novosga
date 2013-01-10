@@ -1,4 +1,4 @@
 <?php
 
-echo $this->searchBar();
-echo $this->tree(_('Nome'), $items);
+echo $view->searchBar();
+echo $view->tree(_('Nome'), $items);
