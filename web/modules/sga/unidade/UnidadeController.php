@@ -6,8 +6,8 @@ use \core\SGAContext;
 use \core\util\Arrays;
 use \core\http\AjaxResponse;
 use \core\controller\ModuleController;
-use \core\controller\PainelControllerUtil;
-use \core\controller\ConfigControllerUtil;
+use \core\business\PainelBusiness;
+use \core\business\AtendimentoBusiness;
 
 /**
  * UnidadeController
@@ -35,7 +35,7 @@ class UnidadeController extends ModuleController {
             $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade ORDER BY e.nome");
             $query->setParameter('unidade', $unidade->getId());
             $this->view()->assign('servicos', $query->getResult());
-            $this->view()->assign('paineis', PainelControllerUtil::paineis($unidade));
+            $this->view()->assign('paineis', PainelBusiness::paineis($unidade));
         }
     }
     
@@ -44,7 +44,7 @@ class UnidadeController extends ModuleController {
         try {
             $unidade = $context->getUnidade();
             $host = (int) $context->getRequest()->getParameter('host');
-            $response->data = PainelControllerUtil::painelInfo($unidade, $host);
+            $response->data = PainelBusiness::painelInfo($unidade, $host);
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
@@ -114,7 +114,7 @@ class UnidadeController extends ModuleController {
         $unidade = $context->getUnidade();
         if ($unidade) {
             try {
-                ConfigControllerUtil::acumularAtendimentos($unidade);
+                AtendimentoBusiness::acumularAtendimentos($unidade);
                 $response->success = true;
             } catch (\Exception $e) {
                 $response->message = $e->getMessage();

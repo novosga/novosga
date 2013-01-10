@@ -1,14 +1,14 @@
 <?php
-namespace core\controller;
+namespace core\business;
 
 use \core\db\DB;
 
 /**
- * PainelControllerUtil
+ * PainelBusiness
  *
  * @author rogeriolino
  */
-abstract class PainelControllerUtil {
+abstract class PainelBusiness {
 
     public static function paineis($unidade) {
         if ($unidade instanceof \core\model\Unidade) {

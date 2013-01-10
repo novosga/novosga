@@ -4,8 +4,8 @@ namespace modules\sga\admin;
 use \core\SGAContext;
 use \core\http\AjaxResponse;
 use \core\controller\ModuleController;
-use \core\controller\PainelControllerUtil;
-use \core\controller\ConfigControllerUtil;
+use \core\business\PainelBusiness;
+use \core\business\AtendimentoBusiness;
 
 /**
  * AdminView
@@ -18,7 +18,7 @@ class AdminController extends ModuleController {
         $unidades = $query->getResult();
         $paineis = array();
         foreach ($unidades as $unidade) {
-            $paineis[$unidade->getId()] = PainelControllerUtil::paineis($unidade);
+            $paineis[$unidade->getId()] = PainelBusiness::paineis($unidade);
         }
         $this->view()->assign('unidades', $unidades);
         $this->view()->assign('paineis', $paineis);
@@ -27,7 +27,7 @@ class AdminController extends ModuleController {
     public function acumular_atendimentos(SGAContext $context) {
         $response = new AjaxResponse();
         try {
-            ConfigControllerUtil::acumularAtendimentos();
+            AtendimentoBusiness::acumularAtendimentos();
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
@@ -40,7 +40,7 @@ class AdminController extends ModuleController {
         try {
             $unidade = (int) $context->getRequest()->getParameter('unidade');
             $host = (int) $context->getRequest()->getParameter('host');
-            $response->data = PainelControllerUtil::painelInfo($unidade, $host);
+            $response->data = PainelBusiness::painelInfo($unidade, $host);
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
