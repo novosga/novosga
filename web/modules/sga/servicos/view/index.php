@@ -1,9 +1,9 @@
 <?php
 
-echo $this->searchBar();
+echo $view->searchBar();
 
-$status = function($model) {
-    return $this->statusLabel($model->getStatus());
+$status = function($model) use ($view) {
+    return $view->statusLabel($model->getStatus());
 };
 
 $nome = function($model) {
@@ -18,7 +18,7 @@ $nome = function($model) {
     return '<span class="nome ' . $class . '" data-mestre="' . $mestre . '">' . $model->getNome() . '</span>';
 };
 
-echo $this->table(
+echo $view->table(
     array(_('Nome'),_('Status')),
     array($nome, $status),
     $items

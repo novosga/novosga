@@ -1,12 +1,12 @@
 <?php
 
-echo $this->searchBar();
+echo $view->searchBar();
 
-$status = function($model) {
-    return $this->statusLabel($model->getStatus());
+$status = function($model) use ($view) {
+    return $view->statusLabel($model->getStatus());
 };
 
-echo $this->table(
+echo $view->table(
     array(_('Código'), _('Nome'), _('Grupo'), _('Status')),
     array('codigo', 'nome', 'grupo', $status),
     $items

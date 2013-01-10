@@ -60,10 +60,11 @@ class CrudView extends ModuleView {
     }
     
     public function tree($title, $items) {
-        $buttons = function($model) {
-            $btns = $this->buttonEdit($model->getId());
+        $view = $this;
+        $buttons = function($model) use ($view) {
+            $btns = $view->buttonEdit($model->getId());
             if ($model->getLeft() > 1) {
-                $btns .= $this->buttonDelete($model->getId());
+                $btns .= $view->buttonDelete($model->getId());
             }
             return $btns;
         };
