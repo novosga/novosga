@@ -15,6 +15,7 @@ use \core\SGA;
 SGA::getContext();
 use \core\Config;
 use \core\util\Arrays;
+use \core\business\AcessoBusiness;
 
 
 // redirect to installer
@@ -44,8 +45,8 @@ foreach ($_GET as $key => $value) {
     case SGA::K_INSTALL:
     case SGA::K_PANEL:
     case SGA::K_MODULE:
-        if (SGA::isProtectedPage($key)) {
-            SGA::checkAccess($key, $value);
+        if (AcessoBusiness::isProtectedPage($key)) {
+            AcessoBusiness::checkAccess($key, $value);
         }
         // na instalacao usa sempre o index
         if ($key == SGA::K_INSTALL) {
@@ -53,10 +54,6 @@ foreach ($_GET as $key => $value) {
         }
         // definindo constante do modulo atual
         if ($key == SGA::K_MODULE) {
-            define('MODULE', $value);
-            if (!$context->getModule()) {
-                throw new \Exception(sprintf(_('Módulo "%s" não econtrado.'), $value));
-            }
             // prefixo do nome do controlador do modulo
             $tokens = explode('.', $value);
             $namespace = MODULES_DIR . '\\' . $tokens[0] . '\\' . $tokens[1];

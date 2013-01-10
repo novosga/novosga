@@ -8,7 +8,7 @@ namespace core\util;
 class DateUtil {
     
     public static function now($format) {
-        return date($format);
+        return date($format, self::getDate());
     }
     
     public static function nowSQL() {
@@ -24,6 +24,12 @@ class DateUtil {
     }
     
     public static function milis() {
+        return self::getDate();
+    }
+    
+    // centralizando origem da data para facilitar mudanca
+    private static function getDate() {
+        // date from php
         return time();
     }
     

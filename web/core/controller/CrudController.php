@@ -83,7 +83,7 @@ abstract class CrudController extends ModuleController {
             $this->model = $this->findById($id);
             // invalid id
             if (!$this->model) {
-                SGA::redirect(array(SGA::K_MODULE => $context->getModule()->getChave()));
+                SGA::redirect(array(SGA::K_MODULE => $context->getModulo()->getChave()));
             }
         } else {
             $this->model = $this->createModel();
