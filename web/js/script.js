@@ -126,7 +126,10 @@ var SGA = {
                         SGA.paused = true;
                         SGA.dialogs.error.create({message: SGA.invalidSession, close: function() { SGA.reload(); }});
                     } else {
-                        SGA.dialogs.error.create({message: response.message});
+                        SGA.dialogs.error.create({
+                            message: response.message,
+                            close: arg.error
+                        });
                     }
                 }
             },

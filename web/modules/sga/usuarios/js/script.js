@@ -8,6 +8,7 @@ SGA.Usuarios = {
 
     labelAdd: '',
     labelVisualizarPermissoes: '',
+    labelSenhaAlterada: '',
     multiDeleteLabel: '',
     
     multiCheck: function(check, btn) {
@@ -130,6 +131,38 @@ SGA.Usuarios = {
                 }
             });
         }
+    },
+    
+    dialogSenha: function(label) {
+        var buttons = {};
+        buttons[label] = SGA.Usuarios.alterarSenha;
+        SGA.dialogs.modal('#dialog-senha', {
+            width: 500,
+            buttons: buttons
+        });
+        return false;
+    },
+    
+    alterarSenha: function() {
+        SGA.ajax({
+            url: SGA.url('alterar_senha'),
+            data: {
+                id: $('#senha_id').val(),
+                senha: $('#senha_senha').val(), 
+                confirmacao: $('#senha_confirmacao').val()
+            },
+            success: function() {
+                $('#senha_senha').val('');
+                $('#senha_confirmacao').val('');
+                alert(SGA.Usuarios.labelSenhaAlterada);
+                $('#dialog-senha').dialog('close');
+            },
+            error: function() {
+                $('#senha_senha').val('');
+                $('#senha_confirmacao').val('');
+            }
+        });
+        return false;
     }
     
 };
