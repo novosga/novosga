@@ -50,7 +50,7 @@ class UsuarioSessao {
 
     /**
      * Retorna a lotacao do usuario na unidade atual
-     * @return Locatacao
+     * @return \core\model\Lotacao
      */
     public function getLotacao() {
         if (!$this->lotacao) {
@@ -59,8 +59,14 @@ class UsuarioSessao {
             $query->setParameter('usuario', $this->getId());
             $lotacoes = $query->getResult();
             foreach ($lotacoes as $lotacao) {
-                // verifica se a lotacao eh do mesmo grupo ou um grupo pai do grupo da unidade
-                if ($lotacao->getGrupo()->getId() == $this->getUnidade()->getGrupo()->getId() || $this->getUnidade()->getGrupo()->isChild($lotacao->getGrupo())) {
+                // se o usuario esta ligado a alguma unidade
+                if ($this->getUnidade()) {
+                    // verifica se a lotacao eh do mesmo grupo ou um grupo pai do grupo da unidade
+                    if ($lotacao->getGrupo()->getId() == $this->getUnidade()->getGrupo()->getId() || $this->getUnidade()->getGrupo()->isChild($lotacao->getGrupo())) {
+                        $this->lotacao = $lotacao;
+                        break;
+                    }
+                } else {
                     $this->lotacao = $lotacao;
                     break;
                 }

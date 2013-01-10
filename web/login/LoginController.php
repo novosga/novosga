@@ -4,6 +4,7 @@ namespace login;
 use \core\SGA;
 use \core\SGAContext;
 use \core\db\DB;
+use \core\business\AcessoBusiness;
 use \core\controller\InternalController;
 
 /**
@@ -20,12 +21,12 @@ class LoginController extends InternalController {
     }
     
     public function index(SGAContext $context) {
-        if (SGA::isLogged()) {
-            if (SGA::isValidSession()) {
-                if (!$context->getModule()) {
+        if (AcessoBusiness::isLogged()) {
+            if (AcessoBusiness::isValidSession()) {
+                if (!$context->getModulo()) {
                     SGA::redirect('/' . SGA::K_HOME);
                 } else {
-                    SGA::redirect(array(SGA::K_MODULE => $context->getModule()->getChave()));
+                    SGA::redirect(array(SGA::K_MODULE => $context->getModulo()->getChave()));
                 }
             } else {
                 $user = $context->getUser();

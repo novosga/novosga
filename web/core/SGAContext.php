@@ -23,7 +23,7 @@ class SGAContext {
     private $response;
     private $cookie;
     private $user;
-    private $module;
+    private $modulo;
     private $parameters = array();
     
     public function __construct() {
@@ -96,17 +96,20 @@ class SGAContext {
     /**
      * @return Modulo
      */
-    public function getModule() {
-        if ($this->module == null && defined('MODULE')) {
+    public function getModulo() {
+        if ($this->modulo == null && defined('MODULE')) {
             $query = \core\db\DB::getEntityManager()->createQuery("SELECT m FROM \core\model\Modulo m WHERE m.chave = :chave");
             $query->setParameter('chave', MODULE);
-            $this->module = $query->getOneOrNullResult();
+            $this->modulo = $query->getOneOrNullResult();
+            if (!$this->modulo) {
+                throw new \Exception(sprintf(_('Módulo "%s" não econtrado.'), MODULE));
+            }
         }
-        return $this->module;
+        return $this->modulo;
     }
 
-    public function setModule(Modulo $module = null) {
-        $this->module = $module;
+    public function setModule(Modulo $modulo = null) {
+        $this->modulo = $modulo;
     }
     
     public function getParameters() {

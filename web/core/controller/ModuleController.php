@@ -17,7 +17,7 @@ abstract class ModuleController extends SGAController {
     protected $subtitle = 'SUBTITLE';
     
     public function __construct() {
-        $modulo = SGA::getContext()->getModule();
+        $modulo = SGA::getContext()->getModulo();
         $this->title = _($modulo->getNome());
         $this->subtitle = _($modulo->getDescricao());
     }

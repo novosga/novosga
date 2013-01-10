@@ -222,12 +222,9 @@ var SGA = {
             SGA.ajax({
                 url: url,
                 data: { unidade: $('#unidade').val() },
-                dataType: 'json',
                 type: 'post',
                 success: function(response) {
-                    if (response.success) {
-                        SGA.reload();
-                    }
+                    SGA.reload();
                 }
             })
         }
