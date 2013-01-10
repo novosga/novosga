@@ -40,15 +40,25 @@ echo $this->editMessages();
                     ));
                 ?>
             </div>
+            <div class="field">
+                <?php
+                    echo $builder->button(array(
+                        'id' => 'btn-altera-senha',
+                        'label' => _('Alterar senha do usuário'),
+                        'icon' => 'ui-icon-alert',
+                        'onclick' => "return SGA.Usuarios.dialogSenha('" . _('Alterar') . "')"
+                    ));
+                ?>
+            </div>
             <?php endif; ?>
             <?php if (!$id): // criando usuario, entao pede senha ?>
                 <div class="field required">
-                    <label class="w125"><?php SGA::out(_('Senha')) ?></label>
-                    <input type="password" name="senha" />
+                    <label for="senha" class="w125"><?php SGA::out(_('Senha')) ?></label>
+                    <input id="senha" type="password" name="senha" />
                 </div>
                 <div class="field required">
-                    <label class="w125"><?php SGA::out(_('Confirmar senha')) ?></label>
-                    <input type="password" name="senha2" />
+                    <label for="confirmacao" class="w125"><?php SGA::out(_('Confirmar senha')) ?></label>
+                    <input id="confirmacao" type="password" name="senha2" />
                 </div>
             <?php endif; ?>
         </div>
@@ -154,6 +164,7 @@ echo $this->editMessages();
     SGA.Form.validate('crud-form');
     $('#tabs').tabs();
     SGA.Usuarios.labelAdd = "<?php SGA::out(_('Adicionar')) ?>";
+    SGA.Usuarios.labelSenhaAlterada = "<?php SGA::out(_('Senha alterada com sucesso')) ?>";
     SGA.Usuarios.labelVisualizarPermissoes = "<?php SGA::out(_('Visualizar permissões')) ?>";
     SGA.Usuarios.multiDeleteLabel = "<?php SGA::out(_('Realmente deseja excluir?')) ?>";
 </script>
@@ -209,3 +220,16 @@ echo $this->editMessages();
     <h3><?php SGA::out(_('Módulos')) ?></h3>
     <ul></ul>
 </div>
+<?php if ($id > 0): // dialog mudar senha apenas para usuarios ja cadastrados ?>
+<div id="dialog-senha" title="<?php SGA::out(_('Alterar senha')) ?>" style="display:none">
+    <input id="senha_id" type="hidden" value="<?php echo $id ?>" />
+    <div class="field required">
+        <label for="senha_senha" class="w125"><?php SGA::out(_('Senha')) ?></label>
+        <input id="senha_senha" type="password" />
+    </div>
+    <div class="field required">
+        <label for="senha_confirmacao" class="w125"><?php SGA::out(_('Confirmar senha')) ?></label>
+        <input id="senha_confirmacao" type="password" />
+    </div>
+</div>
+<?php endif; ?>
