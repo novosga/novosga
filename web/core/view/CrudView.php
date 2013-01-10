@@ -30,7 +30,7 @@ class CrudView extends ModuleView {
                     $this->getBuilder()->button(array(
                         'type' => 'link',
                         'label' => _('Novo'),
-                        'href' => $context->getModule()->link('edit'),
+                        'href' => $context->getModulo()->link('edit'),
                         'class' => 'ui-button-primary btn-add'
                     ))
                 .'
@@ -94,7 +94,7 @@ class CrudView extends ModuleView {
             'id' => "btn-edit-$id",
             'type' => 'link',
             'label' => _('Editar'),
-            'href' => $context->getModule()->link('edit', array('id' => $id))
+            'href' => $context->getModulo()->link('edit', array('id' => $id))
         ));
     }
 

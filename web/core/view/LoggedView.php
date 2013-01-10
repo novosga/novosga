@@ -6,6 +6,7 @@ use \core\db\DB;
 use \core\view\PageView;
 use \core\SGAContext;
 use \core\util\Arrays;
+use \core\business\AcessoBusiness;
 
 /**
  * LoggedView
@@ -25,16 +26,14 @@ abstract class LoggedView extends PageView {
     }
     
     public function navbar(SGAContext $context) {
-        // montando o menu
+        // montando o menu com os modulos disponiveis
         $navbar = '<div id="navbar" class="ui-helper-reset ui-state-default ui-corner-all">';
         $navbar .= '<h1 class="home">' . $this->builder->link(array('href' => './', 'label' => 'Início')) . '</h1>';
         $navbar .= '<ul id="navbar-menu">';
         // montando o menu dos modulos da unidade
         $unidade = $context->getUser()->getUnidade();
-        $queryModulos = DB::getEntityManager()->createQuery("SELECT m FROM \core\model\Modulo m WHERE m.status = 1 AND m.tipo = :tipo");
         if ($unidade) {
-            $queryModulos->setParameter('tipo', \core\model\Modulo::MODULO_UNIDADE);
-            $modulos = $queryModulos->getResult();
+            $modulos = AcessoBusiness::modulos($context->getUser(), \core\model\Modulo::MODULO_UNIDADE);
             $navbar .= '<li class="first">' . $this->builder->link(array('class' => 'module-menu', 'label' => $unidade->getNome()));
             $change = '<li class="separator">' . $this->builder->link(array('onclick' => $this->jsShowDialogUnidade(), 'label' => _('Trocar Unidade'))) . '</li>';
             $navbar .= $this->navbarModulosMenu($modulos, $change);
@@ -42,12 +41,12 @@ abstract class LoggedView extends PageView {
         } else {
             $navbar .= '<li class="first">' . $this->builder->link(array('onclick' => $this->jsShowDialogUnidade(), 'label' => _('Escolher Unidade')));
         }
-        $navbar .= '<li>' . $this->builder->link(array('label' => _('Global'), 'class' => 'modules'));
-        // menu com os modulos disponiveis
-        $queryModulos->setParameter('tipo', \core\model\Modulo::MODULO_GLOBAL);
-        $modulos = $queryModulos->getResult();
-        $navbar .= $this->navbarModulosMenu($modulos);
-        $navbar .= '</li>';
+        $modulos = AcessoBusiness::modulos($context->getUser(), \core\model\Modulo::MODULO_GLOBAL);
+        if (!empty($modulos)) {
+            $navbar .= '<li>' . $this->builder->link(array('label' => _('Global'), 'class' => 'modules'));
+            $navbar .= $this->navbarModulosMenu($modulos);
+            $navbar .= '</li>';
+        }
         $navbar .= '<li class="logout">' . $this->builder->link(array('href' => '?logout', 'label' => 'Sair')) . '</li>';
         $navbar .= '</ul>';
         $navbar .= '</div>';
@@ -79,7 +78,7 @@ abstract class LoggedView extends PageView {
         $unidades = $query->getResult();
         $items = Arrays::toArray($unidades, array('nome'), 'id');
         // exibe a dialog para escolher a unidade se estiver na home
-        $show = (!$unidade && !$context->getModule());
+        $show = (!$unidade && !$context->getModulo());
         $style = (!$show) ? 'style="display:none"' : '';
         $content = '<div id="dialog-unidade" ' . $style . ' title="' . _('Unidade') . '"><div class="field">';
         $content .= '<label for="unidade" class="w175">' . _('Favor escolher a unidade') . '</label>';

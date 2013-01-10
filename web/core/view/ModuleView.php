@@ -20,12 +20,12 @@ class ModuleView extends LoggedView {
     }
 
     protected function basePath(SGAContext $context) {
-        return $context->getModule()->getFullPath();
+        return $context->getModulo()->getFullPath();
     }
         
     public function header(SGAContext $context) {
         $arg = $context->getParameters();
-        $dir = MODULES_DIR . '/' . str_replace('.', '/', $context->getModule()->getChave());
+        $dir = MODULES_DIR . '/' . str_replace('.', '/', $context->getModulo()->getChave());
         // appending module js script
         $arg['js'] = Arrays::value($arg, 'js', array());
         $arg['js'][] = $dir . '/js/script.js';
@@ -40,7 +40,7 @@ class ModuleView extends LoggedView {
         $content = parent::content($context);
         if ($context->getResponse()->renderView()) {
             $header = '<div class="module-content"><div class="header">';
-            $header .= $this->builder->tag('img', array('src' => $context->getModule()->getPath() . DS . 'icon.png'));
+            $header .= $this->builder->tag('img', array('src' => $context->getModulo()->getPath() . DS . 'icon.png'));
             $header .= $this->builder->tag('h2', $this->title);
             $header .= $this->builder->tag('p', $this->subtitle);
             $header .= '</div>';

@@ -27,10 +27,12 @@ function printModulos($builder, $modulos) {
             <?php printModulos($builder, $modulosUnidade) ?>
         </div>
         <?php endif; ?>
+        <?php if (sizeof($modulosGlobal)): ?>
         <div class="list global">
             <h2><?php SGA::out(_('Global')) ?></h2>
             <p><?php SGA::out(_('Visualize abaixo os módulos globais disponíveis que você possui acesso')) ?></p>
             <?php printModulos($builder, $modulosGlobal) ?>
         </div>
+        <?php endif; ?>
     </div>
 </div>

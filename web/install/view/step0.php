@@ -1,5 +1,6 @@
 <?php
 use \core\SGA;
+use \core\util\DateUtil;
 use \install\InstallView;
 
 $context = SGA::getContext();
@@ -44,7 +45,7 @@ foreach ($files as $file) {
             <label for="<?php SGA::out($script['id']) ?>">
                 <span class="adapter"><?php SGA::out($script['adapter']) ?></span>
                 <span class="info author"><?php SGA::out(_('Autor') . ': ' . $script['author']) ?></span>
-                <span class="info date"><?php SGA::out(_('Data de criação') . ': ' . date('d/m/Y', strtotime($script['date']))) ?></span>
+                <span class="info date"><?php SGA::out(_('Data de criação') . ': ' . DateUtil::format('d/m/Y', $script['date'])) ?></span>
             </label>
         </li>
         <?php endforeach; ?>
