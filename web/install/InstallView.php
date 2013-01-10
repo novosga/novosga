@@ -65,7 +65,7 @@ class InstallView extends SGAView {
             </div>
         </div>
         <div id="install_title" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all">
-            <div class="buttons">
+            <div class="navegation">
                 <?php
                     if ($index > 0) {
                         $prev = $steps[$index - 1];

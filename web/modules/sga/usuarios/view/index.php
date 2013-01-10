@@ -1,16 +1,16 @@
 <?php
 
-echo $this->searchBar();
+echo $view->searchBar();
 
 $login = function($model) {
     return '<span class="strong">' . $model->getLogin() . '</span>';
 };
 
-$status = function($model) {
-    return $this->statusLabel($model->getStatus());
+$status = function($model) use ($view) {
+    return $view->statusLabel($model->getStatus());
 };
 
-echo $this->table(
+echo $view->table(
     array(_('Login'), _('Nome'), _('Status')),
     array($login, 'nome', $status),
     $items

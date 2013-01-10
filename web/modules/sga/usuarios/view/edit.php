@@ -1,7 +1,7 @@
 <?php
 use \core\SGA;
 
-echo $this->editMessages();
+echo $view->editMessages();
 
 ?>
 <form id="crud-form" method="post" action="<?php SGA::out(SGA::url()) ?>">
@@ -157,7 +157,7 @@ echo $this->editMessages();
         </div>
     </div>
     <?php
-        echo $this->editButtonsBar();
+        echo $view->editButtonsBar();
     ?>
 </form>
 <script type="text/javascript">

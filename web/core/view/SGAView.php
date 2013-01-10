@@ -163,6 +163,7 @@ abstract class SGAView implements View {
      */
     public function render(SGAContext $context) {
         try {
+            $this->assign('view', $this);
             $content = $this->content($context);
             if (!$context->getResponse()->renderView()) {
                 return $content;
