@@ -118,13 +118,13 @@ use \core\util\Strings;
         <?php 
             echo $builder->button(array(
                 'id' => 'btn-transferir',
-                'label' => _('Transferir'),
+                'label' => _('Transferir senha'),
                 'onclick' => "SGA.Monitor.Senha.transfere($('#senha_id').val(), $('#senha_numero').text())"
             ));
             echo $builder->button(array(
                 'id' => 'btn-cancelar',
                 'class' => 'ui-button-error',
-                'label' => _('Cancelar'),
+                'label' => _('Cancelar senha'),
                 'onclick' => "SGA.Monitor.Senha.cancelar($('#senha_id').val())"
             ));
         ?>
@@ -161,7 +161,7 @@ use \core\util\Strings;
     });
     SGA.Clock.init("sga-clock", <?php echo (time() * 1000) ?>);
     SGA.Monitor.labelTransferir = '<?php SGA::out(_('Transferir')) ?>';
-    SGA.Monitor.alertCancelar = '<?php SGA::out(_('Deseja realmente cancelar?')) ?>';
+    SGA.Monitor.alertCancelar = '<?php SGA::out(_('Deseja realmente cancelar essa senha?')) ?>';
     SGA.Monitor.Senha.situacoes = <?php echo json_encode($situacoes) ?>;
     SGA.Monitor.init();
 </script>
