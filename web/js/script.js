@@ -13,6 +13,8 @@ var SGA = {
     
     dialogs: {
         
+        opened: 0,
+        
         modal: function(target, prop) {
             if (typeof(target) == 'string') {
                 target = $(target);
@@ -35,13 +37,18 @@ var SGA = {
                         prop.open(event, ui);
                     }
                     SGA.paused = true;
+                    SGA.dialogs.opened++;
                 },
                 close: function(event, ui) {
                     if (typeof(prop.close) == 'function') {
                         prop.close(event, ui);
                     }
                     target.prop('title', prop.title);
-                    SGA.paused = false;
+                    SGA.dialogs.opened--;
+                    if (SGA.dialogs.opened <= 0) {
+                        SGA.paused = false;
+                        SGA.dialogs.opened = 0;
+                    }
                 }
             });
         },
