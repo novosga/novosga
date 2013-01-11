@@ -2,6 +2,7 @@
 namespace core;
 /* Arquivo de configuracao gerado automaticamente via ConfigWriter */
 class Config {
+    const IS_DEV = false;
     const SGA_INSTALLED = true;
     const DB_TYPE = "mysql";
     const DB_HOST = "localhost";
