@@ -14,6 +14,7 @@ class ConfigWriter {
 namespace {namespace};
 /* Arquivo de configuracao gerado automaticamente via {generator} */
 class Config {
+    const IS_DEV = false;
     const SGA_INSTALLED = true;
     const DB_TYPE = "{db_type}";
     const DB_HOST = "{db_host}";

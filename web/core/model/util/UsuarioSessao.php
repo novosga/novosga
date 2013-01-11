@@ -19,6 +19,7 @@ class UsuarioSessao {
     private $lotacao;
     private $servicos;
     private $sessionId;
+    private $permissoes;
     private $wrapped;
     
     public function __construct(Usuario $usuario) {
@@ -46,6 +47,57 @@ class UsuarioSessao {
     
     public function getSessionId() {
         return $this->sessionId;
+    }
+
+    /**
+     * Retorna todas as permissoes do usuario
+     */
+    public function getPermissoes() {
+        if (!$this->permissoes) {
+            $this->permissoes = array();
+            $query = DB::getEntityManager()->createQuery("
+                SELECT 
+                   p
+                FROM 
+                    \core\model\Lotacao l,
+                    \core\model\Permissao p
+                WHERE
+                    l.cargo = p.cargo AND
+                    l.usuario = :usuario
+            ");
+            $query->setParameter('usuario', $this->getId());
+            $permissoes = $query->getResult();
+            foreach ($permissoes as $permissao) {
+                $this->permissoes[] = new PermissaoSessao($this->getId(), $permissao);
+            }
+        }
+        return $this->permissoes;
+    }
+    
+    /**
+     * Verifica se o usuaro tem permissao no modulo informado. Filtrando tambem
+     * por cargo, caso seja informado.
+     * @param \core\model\Modulo $modulo
+     * @param \core\model\util\Cargo $cargo
+     * @return boolean
+     */
+    public function hasPermissao($modulo, $cargo = null) {
+        $permissoes = $this->getPermissoes();
+        // fazendo dois for para evitar de colocar outro if dentro do loop
+        if ($cargo == null) {
+            foreach ($permissoes as $permissao) {
+                if ($modulo->getId() == $permissao->getModuloId()) {
+                    return true;
+                }
+            }
+        } else {
+            foreach ($permissoes as $permissao) {
+                if ($modulo->getId() == $permissao->getModuloId() && $cargo->getId() == $permissao->getCargoId()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -117,7 +169,7 @@ class UsuarioSessao {
     }
     
     public function __sleep() {
-        return array('id', 'unidadeId', 'sessionId', 'ativo', 'guiche');
+        return array('id', 'unidadeId', 'sessionId', 'ativo', 'guiche', 'permissoes');
     }
     
     /**

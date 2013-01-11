@@ -27,11 +27,12 @@ abstract class LoggedView extends PageView {
     
     public function navbar(SGAContext $context) {
         // montando o menu com os modulos disponiveis
-        $navbar = '<div id="navbar" class="ui-helper-reset ui-state-default ui-corner-all">';
+        $navbar = '<div id="navbar">';
         $navbar .= '<h1 class="home">' . $this->builder->link(array('href' => './', 'label' => 'Início')) . '</h1>';
         $navbar .= '<ul id="navbar-menu">';
         // montando o menu dos modulos da unidade
-        $unidade = $context->getUser()->getUnidade();
+        $usuario = $context->getUser();
+        $unidade = $context->getUnidade();
         if ($unidade) {
             $modulos = AcessoBusiness::modulos($context->getUser(), \core\model\Modulo::MODULO_UNIDADE);
             $navbar .= '<li class="first">' . $this->builder->link(array('class' => 'module-menu', 'label' => $unidade->getNome()));
@@ -48,6 +49,7 @@ abstract class LoggedView extends PageView {
             $navbar .= '</li>';
         }
         $navbar .= '<li class="logout">' . $this->builder->link(array('href' => '?logout', 'label' => 'Sair')) . '</li>';
+        $navbar .= '<li class="user">' . sprintf(_('acessando como <strong>%s</strong>'), $usuario->getLogin()) . '</li>';
         $navbar .= '</ul>';
         $navbar .= '</div>';
         $navbar .= '<script type="text/javascript">SGA.Menu.init("#navbar-menu")</script>';
