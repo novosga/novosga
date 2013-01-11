@@ -274,7 +274,7 @@ class AtendimentoController extends ModuleController {
                     $stmt->bindValue('servico', $s);
                     $stmt->execute();
                 }
-                $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
+                $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
             }
         } else {
             $response = new AjaxResponse(false, _('Nenhum atendimento em andamento'));

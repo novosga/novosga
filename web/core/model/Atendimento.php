@@ -258,12 +258,12 @@ class Atendimento extends SequencialModel {
         );
         if (!$minimal) {
             $arr['numero'] = $this->getSenha()->toString();
-            $arr['chegada'] = DateUtil::formatToSQL($this->getDataChegada());
+            $arr['chegada'] = $this->getDataChegada();
             if ($this->getDataInicio()) {
-                $arr['inicio'] = DateUtil::formatToSQL($this->getDataInicio());
+                $arr['inicio'] = $this->getDataInicio();
             }
             if ($this->getDataFim()) {
-                $arr['fim'] = DateUtil::formatToSQL($this->getDataFim());
+                $arr['fim'] = $this->getDataFim();
             }
             $arr['status'] = $this->getStatus();
             $arr['cliente'] = array(

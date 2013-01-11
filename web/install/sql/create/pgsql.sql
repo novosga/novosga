@@ -96,7 +96,6 @@ CREATE TABLE modulos (
     nm_mod character varying(25) NOT NULL,
     desc_mod character varying(100) NOT NULL,
     autor_mod character varying(25) NOT NULL,
-    img_mod character varying(150) DEFAULT NULL::character varying,
     tipo_mod smallint NOT NULL,
     stat_mod smallint NOT NULL
 );
