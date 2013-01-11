@@ -123,7 +123,7 @@ abstract class AcessoBusiness {
                 e.tipo = :tipo AND
                 e.id IN (:ids)
             ORDER BY
-                e.nome
+                e.id
         ");
         $ids = array(0);
         $permissoes = $usuario->getPermissoes();

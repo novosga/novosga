@@ -12,7 +12,7 @@ class SGA {
     
     const NAME = "Novo SGA";
     const FULL_NAME = "Sistema de Gerenciamento de Atendimento";
-    const VERSION = "0.1.1";
+    const VERSION = "0.1.2";
     const CHARSET = "utf-8";
     
     // SESSION KEYS
@@ -196,7 +196,7 @@ class SGA {
         // try module dir
         $modulo = SGA::getContext()->getModulo();
         if ($modulo) {
-            $filename = $modulo->getFullPath() . DS . $filename;
+            $filename = $modulo->getFullPath() . DS . str_replace("\\", DS, $className);
             if (file_exists($filename)) {
                 require_once($filename);
                 return true;
