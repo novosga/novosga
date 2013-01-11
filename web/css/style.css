@@ -567,6 +567,10 @@ table.ui-data-table tbody tr td.btns .ui-button {
     margin-left: 5px;
 }
 
+table.ui-data-table table { 
+    width: 100%;
+}
+
 table.ui-tree-view .num { 
     width: 110px;
 }

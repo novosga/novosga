@@ -20,7 +20,24 @@ class DateUtil {
     }
     
     public static function formatToSQL($date) {
-        return self::format($date, 'Y-m-d H:i:s');
+        return self::format(self::parseDate($date), 'Y-m-d H:i:s');
+    }
+    
+    public static function diff($time1, $time2) {
+        return strtotime($time2) - strtotime($time1);
+    }
+    
+    public static function secToTime($seconds) {
+        $hours = floor($seconds / 3600);
+        $mins = floor(($seconds - ($hours * 3600)) / 60);
+        $secs = floor(($seconds - ($hours * 3600) - ($mins * 60)));
+        return str_pad($hours, 2, '0', STR_PAD_LEFT) . ":" . str_pad($mins, 2, '0', STR_PAD_LEFT) . ":" . str_pad($secs, 2, '0', STR_PAD_LEFT);
+    }
+    
+    public static function parseDate($date) {
+        // TODO: date i18n
+        // pt-br
+        return join('-', array_reverse(explode('/', $date)));
     }
     
     public static function milis() {

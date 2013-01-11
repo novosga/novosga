@@ -6,6 +6,21 @@ var SGA = SGA || {};
 
 SGA.Estatisticas = {
     
+    Relatorio: {
+        
+        change: function(elem) {
+            var elems = $('#tab-relatorios .date');
+            if (elem.val() > 2) {
+                elems.show();
+                elems.find('input').prop('disabled', false);
+            } else {
+                elems.hide();
+                elems.find('input').prop('disabled', true);
+            }
+        }
+        
+    }
+    
 };
 
 

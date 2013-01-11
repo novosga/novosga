@@ -97,7 +97,6 @@ CREATE TABLE modulos (
     nm_mod varchar(25) NOT NULL,
     desc_mod varchar(100) NOT NULL,
     autor_mod varchar(25) NOT NULL,
-    img_mod varchar(150) DEFAULT NULL,
     tipo_mod smallint NOT NULL,
     stat_mod smallint NOT NULL,
     PRIMARY KEY (id_mod)
