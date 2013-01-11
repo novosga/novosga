@@ -32,6 +32,13 @@ Testado no seguintes bancos:
 - MS SQL
 
 
+## Demo
+
+Versão de desenvolvimento disponível online através do link: http://novosga.rogeriolino.com
+
+- **Usuário**: admin
+- **Senha**: 123456
+
 ## Instalação
 
 Os pacotes de distribuíção são gerados via [Ant Script](http://ant.apache.org/). Bastando apenas executar dentro do diretório de cada aplicação: web ou painel (client e server).
