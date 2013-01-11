@@ -8,8 +8,6 @@ use \core\Config;
  */
 class DB {
     
-    const IS_DEV = true;
-
     protected static $conn;
     protected static $em;
     
@@ -40,8 +38,8 @@ class DB {
             if (!self::$conn) {
                 self::createConn(Config::DB_USER, Config::DB_PASS, Config::DB_HOST, Config::DB_PORT, Config::DB_NAME, Config::DB_TYPE);
             }
-            $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(self::$conn, self::IS_DEV);
-            $config->setAutoGenerateProxyClasses(self::IS_DEV);
+            $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(self::$conn, Config::IS_DEV);
+            $config->setAutoGenerateProxyClasses(Config::IS_DEV);
             self::$em = \Doctrine\ORM\EntityManager::create(self::$conn, $config);
         }
         return self::$em;

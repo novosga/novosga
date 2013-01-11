@@ -96,43 +96,16 @@ abstract class AcessoBusiness {
      * @param \core\model\Modulo $modulo
      */
     public static function hasAccess(UsuarioSessao $usuario, Modulo $modulo) {
-        $em = DB::getEntityManager();
         if ($modulo->isGlobal()) {
             // para modulos globais
-            $query = $em->createQuery("
-                SELECT 
-                   COUNT(p) as total
-                FROM 
-                    \core\model\Lotacao l,
-                    \core\model\Permissao p
-                WHERE
-                    l.cargo = p.cargo AND
-                    l.usuario = :usuario AND
-                    p.modulo = :modulo 
-            ");
-            $query->setParameter('usuario', $usuario->getId());
-            $query->setParameter('modulo', $modulo->getId());
-            $rs = $query->getSingleResult();
-            return $rs['total'] > 0;
+            return $usuario->hasPermissao($modulo);
         } else {
             if (!$usuario->getUnidade()) {
                 throw new Exception(_('Para acessar esse módulo primeiro é necessário escolher uma unidade.'));
             }
             // verificando se existe permissao para a lotacao atual do usuario
             $lotacao = $usuario->getLotacao();
-            $query = $em->createQuery("
-                SELECT 
-                   COUNT(p) as total
-                FROM 
-                    \core\model\Permissao p
-                WHERE
-                    p.cargo = :cargo AND
-                    p.modulo = :modulo 
-            ");
-            $query->setParameter('cargo', $lotacao->getCargo()->getId());
-            $query->setParameter('modulo', $modulo->getId());
-            $rs = $query->getSingleResult();
-            return $rs['total'] > 0;
+            return $usuario->hasPermissao($modulo, $lotacao->getCargo());
         }
     }
     
@@ -147,18 +120,19 @@ abstract class AcessoBusiness {
             FROM 
                 \core\model\Modulo e
             WHERE 
-                e.tipo = :tipo
+                e.tipo = :tipo AND
+                e.id IN (:ids)
             ORDER BY
                 e.nome
         ");
-        $query->setParameter('tipo', $tipo);
-        $rs = $query->getResult();
-        $modulos = array();
-        foreach ($rs as $modulo) {
-            if (self::hasAccess($usuario, $modulo)) {
-                $modulos[] = $modulo;
-            }
+        $ids = array(0);
+        $permissoes = $usuario->getPermissoes();
+        foreach ($permissoes as $permissao) {
+            $ids[] = $permissao->getModuloId();
         }
+        $query->setParameter('tipo', $tipo);
+        $query->setParameter('ids', $ids);
+        $modulos = $query->getResult();
         self::$modulos[$tipo] = $modulos;
         return $modulos;
     }

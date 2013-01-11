@@ -16,7 +16,7 @@ function printModulos($builder, $modulos) {
 ?>
 <div id="home">
     <div class="welcome">
-        <h1><?php SGA::out(_('Bem-vindo')) ?></h1>
+        <h1><?php SGA::out(sprintf(_('Bem-vindo, %s'), $usuario->getNome())) ?></h1>
         <p><?php SGA::out(_('Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código aberto e gratuito.')) ?></p>
     </div>
     <div id="modules">
