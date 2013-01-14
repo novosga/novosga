@@ -8,7 +8,6 @@ use \core\model\Prioridade;
  * Classe Senha
  * Responsavel pelas informacoes do Senha
  * 
- * @EmbeddedDocument
  */
  class Senha extends Model {
      
@@ -31,7 +30,7 @@ use \core\model\Prioridade;
         if (is_string($sigla) && strlen($sigla) == 1) {
             $this->sigla = $sigla;
         } else {
-            throw new Exception(_('A sigla da senha deve ser um char'));
+            throw new \Exception(_('A sigla da senha deve ser um char'));
         }
     }
 
@@ -51,7 +50,7 @@ use \core\model\Prioridade;
         if (is_int($numero) && $numero > 0) {
             $this->numero = $numero;
         } else {
-            throw new Exception(_("O numero da senha deve ser um inteiro maior que zero"));
+            throw new \Exception(_("O numero da senha deve ser um inteiro maior que zero"));
         }
     }
 

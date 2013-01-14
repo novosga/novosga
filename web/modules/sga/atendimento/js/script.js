@@ -8,6 +8,7 @@ SGA.Atendimento = {
     
     filaVazia: '',
     remover: '',
+    labelRedirecionar: '',
     marcarNaoCompareceu: '',
     marcarErroTriagem: '',
     nenhumServicoSelecionado: '',
@@ -83,6 +84,11 @@ SGA.Atendimento = {
         case 3: // atendimento iniciado
             $('#encerrar').show();
             break;
+        case 4: // atendimento encerrado (faltando codificar)
+            $("#codificar").show();
+            $("#macro-servicos li").show();
+            $("#servicos-realizados").html('');
+            break;
         }
     },
     
@@ -141,18 +147,20 @@ SGA.Atendimento = {
     },
     
     encerrar: function() {
-        $("#encerrar").hide();
-        $("#encerrar-servicos").show();
-        $("#macro-servicos li").show();
-        $("#servicos-realizados").html('');
+        SGA.Atendimento.control({
+            action: 'encerrar', 
+            success: function(response) {
+                SGA.Atendimento.updateControls(4, response.data)
+            }
+        });
     },
     
     encerrar_voltar: function() {
         $("#encerrar").show();
-        $("#encerrar-servicos").hide();
+        $("#codificar").hide();
     },
     
-    encerrar_servicos: function() {
+    codificar: function() {
         var servicos = [];
         $('#servicos-realizados input.servicos').each(function(i, e) {
             servicos.push($(e).val());
@@ -162,7 +170,7 @@ SGA.Atendimento = {
             return false;
         }
         SGA.Atendimento.control({
-            action: 'encerrar', 
+            action: 'codificar', 
             data: {servicos: servicos.join(',')},
             success: function() {
                 SGA.Atendimento.updateControls(1)
@@ -171,11 +179,25 @@ SGA.Atendimento = {
     },
     
     erro_triagem: function() {
-        if (window.confirm(SGA.Atendimento.marcarErroTriagem)) {
+        var buttons = {};
+        buttons[SGA.Atendimento.labelRedirecionar] = function() {
+            SGA.Atendimento.redirecionar();
+        }
+        SGA.dialogs.modal('#dialog-redirecionar', {
+            width: 500,
+            buttons: buttons
+        });
+    },
+    
+    redirecionar: function() {
+        var servico = $('#redirecionar_servico').val();
+        if (servico > 0 && window.confirm(SGA.Atendimento.marcarErroTriagem)) {
             SGA.Atendimento.control({
-                action: 'erro_triagem', 
+                action: 'redirecionar', 
+                data: {servico: servico},
                 success: function() {
                     SGA.Atendimento.updateControls(1)
+                    $('#dialog-redirecionar').dialog('close');
                 }
             });
         }

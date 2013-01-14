@@ -84,34 +84,34 @@
 #atendimento #controls .btn-control.chamar span { background-image: url(../images/icon-chamar.png); }
 #atendimento #controls .btn-control.iniciar span { background-image: url(../images/icon-iniciar.png); }
 #atendimento #controls .btn-control.encerrar span,
-#atendimento #controls .btn-control.encerrar_servicos span { background-image: url(../images/icon-encerrar.png); }
+#atendimento #controls .btn-control.codificar span { background-image: url(../images/icon-encerrar.png); }
 #atendimento #controls .btn-control.encerrar_voltar span { background-image: url(../images/icon-voltar.png); }
 #atendimento #controls .btn-control.nao_compareceu span { background-image: url(../images/icon-naocompareceu.png); }
 #atendimento #controls .btn-control.erro_triagem span { background-image: url(../images/icon-errotriagem.png); }
 
-#atendimento #controls #encerrar-servicos .left {
+#atendimento #controls #codificar .left {
     width: 400px;
     margin: 0 5px;
 }
 
-#atendimento #controls #encerrar-servicos h3 {
+#atendimento #controls #codificar h3 {
     padding-bottom: 10px;
 }
 
-#atendimento #controls #encerrar-servicos .items {
+#atendimento #controls #codificar .items {
     padding: 10px;
     border-radius: 3px;
     background-color: #F7F9FE;
     border: 1px solid #E1E1E8;
 }
 
-#atendimento #controls #encerrar-servicos .items ul { padding: 5px 10px; }
+#atendimento #controls #codificar .items ul { padding: 5px 10px; }
 
-#atendimento #controls #encerrar-servicos #macro-servicos {
+#atendimento #controls #codificar #macro-servicos {
     height: 300px;
 }
 
-#atendimento #controls #encerrar-servicos #servicos-realizados {
+#atendimento #controls #codificar #servicos-realizados {
     height: 150px;
 }
 

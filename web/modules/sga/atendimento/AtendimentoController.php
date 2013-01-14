@@ -1,13 +1,14 @@
 <?php
 namespace modules\sga\atendimento;
 
+use \Exception;
 use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
 use core\util\DateUtil;
+use \core\business\AtendimentoBusiness;
 use \core\controller\ModuleController;
 use \core\model\Atendimento;
-use \core\model\Unidade;
 use \core\model\util\UsuarioSessao;
 use \core\http\AjaxResponse;
 
@@ -29,6 +30,7 @@ class AtendimentoController extends ModuleController {
         $this->view()->assign('unidade', $unidade);
         $this->view()->assign('atendimento', $this->atendimentoAndamento($usuario));
         $this->view()->assign('servicos', $usuario->getServicos());
+        $this->view()->assign('servicosIndisponiveis', $usuario->getServicosIndisponiveis());
     }
     
     public function set_guiche(SGAContext $context) {
@@ -79,10 +81,14 @@ class AtendimentoController extends ModuleController {
     
     private function atendimentoAndamento(UsuarioSessao $usuario) {
         if (!$this->_atendimentoAtual) {
-            $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e WHERE e.usuario = :usuario AND (e.status = :status1 OR e.status = :status2)");
+            $status = array(
+                Atendimento::CHAMADO_PELA_MESA,
+                Atendimento::ATENDIMENTO_INICIADO,
+                Atendimento::ATENDIMENTO_ENCERRADO
+            );
+            $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)");
             $query->setParameter('usuario', $usuario->getId());
-            $query->setParameter('status1', Atendimento::CHAMADO_PELA_MESA);
-            $query->setParameter('status2', Atendimento::ATENDIMENTO_INICIADO);
+            $query->setParameter('status', $status);
             $this->_atendimentoAtual = $query->getOneOrNullResult();
         }
         return $this->_atendimentoAtual;
@@ -101,24 +107,6 @@ class AtendimentoController extends ModuleController {
             $response->success = true;
         }
         $context->getResponse()->jsonResponse($response);
-    }
-    
-    private function chamaSenha(Unidade $unidade, Atendimento $atendimento) {
-        $conn = $this->em()->getConnection();
-    	$stmt = $conn->prepare("
-            INSERT INTO painel_senha 
-            (id_uni, id_serv, num_senha, sig_senha, msg_senha, nm_local, num_guiche) 
-            VALUES 
-            (:id_uni, :id_serv, :num_senha, :sig_senha, :msg_senha, :nm_local, :num_guiche)
-        ");
-        $stmt->bindValue('id_uni', $unidade->getId());
-        $stmt->bindValue('id_serv', $atendimento->getServicoUnidade()->getServico()->getId());
-        $stmt->bindValue('num_senha', $atendimento->getSenha()->getNumero());
-        $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
-        $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
-        $stmt->bindValue('nm_local', _('Guichê')); // TODO: pegar o nome do local de atendimento (guiche, sala, etc)
-        $stmt->bindValue('num_guiche', $atendimento->getGuiche());
-        $stmt->execute();
     }
     
     /**
@@ -188,7 +176,7 @@ class AtendimentoController extends ModuleController {
         // response
         $response->success = $success;
         if ($success) {
-            $this->chamaSenha($unidade, $proximo);
+            AtendimentoBusiness::chamarSenha($unidade, $proximo);
             $response->data = $proximo->toArray();
         } else {
             if (!$proximo) {
@@ -215,19 +203,7 @@ class AtendimentoController extends ModuleController {
         $atual = $this->atendimentoAndamento($usuario);
         if ($atual) {
             // atualizando atendimento
-            $query = $this->em()->createQuery("
-                UPDATE 
-                    \core\model\Atendimento e 
-                SET 
-                    e.$campoData = :data, e.status = :novoStatus
-                WHERE 
-                    e.id = :id AND e.status = :statusAtual
-            ");
-            $query->setParameter('data', DateUtil::nowSQL());
-            $query->setParameter('novoStatus', $novoStatus);
-            $query->setParameter('id', $atual->getId());
-            $query->setParameter('statusAtual', $statusAtual);
-            $response->success = $query->execute() > 0;
+            $response->success = $this->mudaStatusAtendimento($atual, $statusAtual, $novoStatus, $campoData);
         }
         if ($response->success) {
             $response->data = $atual->toArray();
@@ -235,6 +211,27 @@ class AtendimentoController extends ModuleController {
             $response->message = _('Nenhum atendimento disponível');
         }
         $context->getResponse()->jsonResponse($response);
+    }
+    
+    private function mudaStatusAtendimento(Atendimento $atendimento, $statusAtual, $novoStatus, $campoData) {
+        // atualizando atendimento
+        $query = $this->em()->createQuery("
+            UPDATE 
+                \core\model\Atendimento e 
+            SET 
+                e.$campoData = :data, e.status = :novoStatus
+            WHERE 
+                e.id = :id AND 
+                e.status IN (:statusAtual)
+        ");
+        if (!is_array($statusAtual)) {
+            $statusAtual = array($statusAtual);
+        }
+        $query->setParameter('data', DateUtil::nowSQL());
+        $query->setParameter('novoStatus', $novoStatus);
+        $query->setParameter('id', $atendimento->getId());
+        $query->setParameter('statusAtual', $statusAtual);
+        return $query->execute() > 0;
     }
     
     /**
@@ -254,10 +251,18 @@ class AtendimentoController extends ModuleController {
     }
     
     /**
-     * Marca o atendimento como nao compareceu
+     * Marca o atendimento como encerrado
      * @param \core\SGAContext $context
      */
     public function encerrar(SGAContext $context) {
+        $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
+    }
+    
+    /**
+     * Marca o atendimento como encerrado e codificado
+     * @param \core\SGAContext $context
+     */
+    public function codificar(SGAContext $context) {
         $atual = $this->atendimentoAndamento($context->getUser());
         if ($atual) {
             $servicos = $context->getRequest()->getParameter('servicos');
@@ -274,7 +279,7 @@ class AtendimentoController extends ModuleController {
                     $stmt->bindValue('servico', $s);
                     $stmt->execute();
                 }
-                $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
+                $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_ENCERRADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
             }
         } else {
             $response = new AjaxResponse(false, _('Nenhum atendimento em andamento'));
@@ -283,11 +288,44 @@ class AtendimentoController extends ModuleController {
     }
     
     /**
-     * Marca o atendimento como erro de triagem
+     * Marca o atendimento como erro de triagem. E gera um novo atendimento para
+     * o servico informado.
      * @param \core\SGAContext $context
      */
-    public function erro_triagem(SGAContext $context) {
-        $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ERRO_TRIAGEM, 'dataFim');
+    public function redirecionar(SGAContext $context) {
+        $unidade = $context->getUnidade();
+        try {
+            if (!$unidade) {
+                throw new Exception(_('Nenhum unidade escolhida'));
+            }
+            $usuario = $context->getUser();
+            $servico = (int) $context->getRequest()->getParameter('servico');
+            $atual = $this->atendimentoAndamento($usuario);
+            if (!$atual) {
+                throw new Exception(_('Nenhum atendimento em andamento'));
+            }
+            $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade");
+            $query->setParameter('servico', $servico);
+            $query->setParameter('unidade', $unidade->getId());
+            $servicoUnidade = $query->getOneOrNullResult();
+            if (!$servicoUnidade) {
+                throw new Exception(_('Serviço inválido'));
+            }
+            // copiando a senha do atendimento atual
+            $novo = new Atendimento();
+            $novo->setGuiche(0);
+            $novo->setNumeroSenha($atual->getSenha()->getNumero());
+            $novo->setPrioridadeSenha($atual->getSenha()->getPrioridade());
+            $novo->setServicoUnidade($servicoUnidade);
+            $novo->setDataChegada($atual->getDataChegada());
+            $novo->setStatus(Atendimento::SENHA_EMITIDA);
+            $this->em()->persist($novo);
+            $this->em()->flush();
+            $this->mudaStatusAtual($context, array(Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO), Atendimento::ERRO_TRIAGEM, 'dataFim');
+        } catch (Exception $e) {
+            $response = new AjaxResponse(false, $e->getMessage());
+            $context->getResponse()->jsonResponse($response);
+        }
     }
     
 }
