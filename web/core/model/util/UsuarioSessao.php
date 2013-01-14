@@ -18,6 +18,7 @@ class UsuarioSessao {
     private $ativo;
     private $lotacao;
     private $servicos;
+    private $servicosIndisponiveis;
     private $sessionId;
     private $permissoes;
     private $wrapped;
@@ -139,6 +140,32 @@ class UsuarioSessao {
             $this->servicos = $query->getResult();
         }
         return $this->servicos;
+    }
+    
+    /**
+     * Retorna os servicos que o usuario nao atende na unidade atual
+     * @return Locatacao
+     */
+    public function getServicosIndisponiveis() {
+        if (!$this->servicosIndisponiveis && $this->getUnidade()) {
+            $query = DB::getEntityManager()->createQuery("
+                SELECT 
+                    e 
+                FROM 
+                    \core\model\ServicoUnidade e
+                    JOIN e.servico s
+                WHERE 
+                    e.status = 1 AND
+                    e.unidade = :unidade AND
+                    s.id NOT IN (
+                        SELECT s2.id FROM \core\model\ServicoUsuario a JOIN a.servico s2 WHERE a.usuario = :usuario AND a.unidade = :unidade
+                    )
+            ");
+            $query->setParameter('usuario', $this->getId());
+            $query->setParameter('unidade', $this->getUnidade()->getId());
+            $this->servicosIndisponiveis = $query->getResult();
+        }
+        return $this->servicosIndisponiveis;
     }
     
     /**
