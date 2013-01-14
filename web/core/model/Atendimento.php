@@ -74,7 +74,7 @@ class Atendimento extends SequencialModel {
     // transient
     protected $cliente;
     protected $senha;
-
+    
     /**
      * Retorna o servico inicial do atendimento na unidade.
      * @return ServicoUnidade
@@ -230,7 +230,16 @@ class Atendimento extends SequencialModel {
         }
         return $this->senha;
     }
+    
+    public function setNumeroSenha($numeroSenha) {
+        $this->numeroSenha = $numeroSenha;
+    }
 
+    public function setPrioridadeSenha($prioridadeSenha) {
+        $this->prioridadeSenha = $prioridadeSenha;
+    }
+
+    
     public function toString() {
         return "Atendimento[id:{$this->getId()},senha:{$this->getSenha()},status: {$this->getStatus()}]";
     }

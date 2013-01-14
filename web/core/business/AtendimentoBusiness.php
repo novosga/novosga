@@ -4,6 +4,8 @@ namespace core\business;
 use \PDO;
 use \Exception;
 use \core\util\DateUtil;
+use \core\model\Unidade;
+use \core\model\Atendimento;
 use \core\db\DB;
 
 /**
@@ -12,6 +14,25 @@ use \core\db\DB;
  * @author rogeriolino
  */
 abstract class AtendimentoBusiness {
+    
+    public static function chamarSenha(Unidade $unidade, Atendimento $atendimento) {
+        $em = DB::getEntityManager();
+        $conn = $em->getConnection();
+    	$stmt = $conn->prepare("
+            INSERT INTO painel_senha 
+            (id_uni, id_serv, num_senha, sig_senha, msg_senha, nm_local, num_guiche) 
+            VALUES 
+            (:id_uni, :id_serv, :num_senha, :sig_senha, :msg_senha, :nm_local, :num_guiche)
+        ");
+        $stmt->bindValue('id_uni', $unidade->getId());
+        $stmt->bindValue('id_serv', $atendimento->getServicoUnidade()->getServico()->getId());
+        $stmt->bindValue('num_senha', $atendimento->getSenha()->getNumero());
+        $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
+        $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
+        $stmt->bindValue('nm_local', _('Guichê')); // TODO: pegar o nome do local de atendimento (guiche, sala, etc)
+        $stmt->bindValue('num_guiche', $atendimento->getGuiche());
+        $stmt->execute();
+    }
 
     /**
      * Move os registros da tabela atendimento para a tabela de historico de atendimentos.

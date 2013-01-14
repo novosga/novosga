@@ -88,10 +88,10 @@ else {
                 <?php 
                     atendimentoInfo($atendimento); 
                     btnControl('Encerrar atendimento', 'encerrar');
-                    btnControl('Erro de triagem', 'erro_triagem') ;
+                    btnControl('Erro de triagem', 'erro_triagem');
                 ?>
             </div>
-            <div id="encerrar-servicos" class="control" style="display:none">
+            <div id="codificar" class="control" style="display:none">
                 <div class="left servicos-usuario">
                     <h3><?php SGA::out(_('Macro serviços')) ?></h3>
                     <ul id="macro-servicos" class="items">
@@ -122,8 +122,8 @@ else {
                     <ul id="servicos-realizados" class="items">
                     </ul>
                     <?php 
-                        btnControl('Voltar', 'encerrar_voltar');
-                        btnControl('Encerrar atendimento', 'encerrar_servicos');
+                        btnControl('Encerrar atendimento', 'codificar');
+                        btnControl('Erro de triagem', 'erro_triagem');
                     ?>
                 </div>
             </div>
@@ -131,6 +131,17 @@ else {
         <div id="fila">
             <span><?php SGA::out(_('Minha fila')) ?>:</span>
             <ul></ul>
+        </div>
+    </div>
+    <div id="dialog-redirecionar" title="<?php SGA::out(_('Redirecionar')) ?>" style="display:none">
+        <div class="field">
+            <label for="redirecionar_servico"><?php SGA::out(_('Novo Serviço')) ?></label>
+            <select id="redirecionar_servico" class="w300">
+                <option value=""><?php SGA::out(_('Selecione')) ?></option>
+                <?php foreach ($servicosIndisponiveis as $servico): ?>
+                <option value="<?php echo $servico->getServico()->getId() ?>"><?php SGA::out($servico->getNome()) ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
     </div>
     <div id="sga-clock" title="<?php echo Strings::doubleQuoteSlash(_('Data e hora no servidor')) ?>"></div>
@@ -143,6 +154,7 @@ else {
         SGA.Clock.init("sga-clock", <?php echo (time() * 1000) ?>);
         SGA.Atendimento.filaVazia = '<?php SGA::out(_('Fila Vazia')) ?>';
         SGA.Atendimento.remover = '<?php SGA::out(_('Remover')) ?>';
+        SGA.Atendimento.labelRedirecionar = '<?php SGA::out(_('Redirecionar')) ?>';
         SGA.Atendimento.marcarErroTriagem = '<?php SGA::out(_('Realmente deseja marcar como erro de triagem?')) ?>';
         SGA.Atendimento.marcarNaoCompareceu = '<?php SGA::out(_('Realmente deseja marcar como não compareceu?')) ?>';
         SGA.Atendimento.nenhumServicoSelecionado = '<?php SGA::out(_('Nenhum serviço selecionado')) ?>';
