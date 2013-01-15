@@ -139,6 +139,11 @@ class SGA {
     public static function reload() {
         self::redirect(SGA::url());
     }
+    
+    public static function close() {
+        echo '<script type="text/javascript">window.close()</script>';
+        exit();
+    }
 
     public static function hasUnidade() {
         return SGA::getContext()->getUnidade() != null;

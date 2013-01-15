@@ -33,14 +33,21 @@ class TriagemController extends ModuleController {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Prioridade e ORDER BY e.nome");
         $this->view()->assign('prioridades', $query->getResult());
     }
+
+    /**
+     * Versao do index do Triagem para monitores touchscreen
+     * @param \core\SGAContext $context
+     */
+    public function touchscreen(SGAContext $context) {
+        $this->index($context);
+        $context->getResponse()->setRenderView(false);
+    }
     
     public function imprimir(SGAContext $context) {
         $id = (int) Arrays::value($_GET, 'id');
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e WHERE e.id = :id");
-        $query->setParameter('id', $id);
-        $atendimento = $query->getOneOrNullResult();
+        $atendimento = $this->em()->find("\core\model\Atendimento", $id);
         if (!$atendimento) {
-            SGA::redirect('index');
+            SGA::close();
         }
         $context->getResponse()->setRenderView(false);
         $this->view()->assign('atendimento', $atendimento);
@@ -167,7 +174,12 @@ class TriagemController extends ModuleController {
             if (!$response->success) {
                 throw new Exception(_('Erro ao tentar gerar nova senha'));
             }
-            $response->data['id'] = $conn->lastInsertId();
+            $id = $conn->lastInsertId('atendimentos_id_atend_seq');
+            if (!$id) {
+                throw new \Exception(_('Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de desenvolvimento informando esse problema, e o banco de dados que está usando'));
+            }
+            $response->data['id'] = $id;
+            $response->data['atendimento'] = $this->em()->find("\core\model\Atendimento", $id)->toArray();
         } catch (Exception $e) {
             $response->success = false;
             $response->message = $e->getMessage();
