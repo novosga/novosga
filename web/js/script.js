@@ -398,6 +398,52 @@ var SGA = {
             item.find(".ui-icon").addClass("ui-icon-triangle-1-e");
         }
         
+    },
+    
+    FullScreen: {
+        
+        request: function(elem) {
+            if (elem.requestFullScreen) {
+                elem.requestFullScreen();
+            }
+            if (elem.webkitRequestFullScreen) {
+                elem.webkitRequestFullScreen();
+            }
+            if (elem.mozRequestFullScreen) {
+                elem.mozRequestFullScreen();
+            }
+            if (elem.msRequestFullScreen) {
+                elem.msRequestFullScreen();
+            }
+        },
+        
+        enabled: function() {
+            if (document.fullscreenEnabled) {
+                document.fullscreenEnabled();
+            }
+            if (document.mozFullScreenEnabled) {
+                document.mozFullScreenEnabled();
+            }
+            if (document.webkitFullscreenEnabled) {
+                document.webkitFullscreenEnabled();
+            }
+            if (document.msFullscreenEnabled) {
+                document.msFullscreenEnabled();
+            }
+        },
+        
+        change: function(evt) {
+            document.addEventListener("fullscreenchange", evt, false);
+            document.addEventListener("mozfullscreenchange", evt, false);
+            document.addEventListener("webkitfullscreenchange", evt, false);
+        },
+        
+        element: function() {
+            return document.fullScreenElement || 
+                   document.webkitCurrentFullScreenElement || 
+                   document.mozFullScreenElement || 
+                   document.msFullScreenElement;
+        }
     }
     
 }
