@@ -1,0 +1,80 @@
+/**
+ * Novo SGA - Triagem Impressão de senha
+ * @author rogeriolino
+ */
+ 
+#touchscreen {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    overflow: auto;
+    background-color: #e6e6e6;
+    background-repeat: no-repeat;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
+    background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+    background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);
+    background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+    background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+    background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+}
+
+#touchscreen #touchscreen-header {
+    color: #000;
+    text-align: center;
+    padding: 10px 0;
+}
+
+#touchscreen #touchscreen-header #btn-fullscreen {
+    top: 10px;
+    right: 30px;
+    width: 48px;
+    height: 48px;
+    text-indent: -900px;
+    overflow: hidden;
+    background: url(../images/fullscreen.png) no-repeat center center;
+    position: fixed;
+    display: block;
+}
+
+#touchscreen #touchscreen-header h1 {
+    padding: 5px 0;
+}
+
+#touchscreen #touchscreen-body {
+}
+
+#touchscreen #touchscreen-body .btn-touch {
+    float: left;
+    margin: 5px 0;
+    text-align: center;
+}
+
+#touchscreen #touchscreen-body .btn-touch.col-2 { width: 50%; }
+#touchscreen #touchscreen-body .btn-touch.col-3 { width: 33%; }
+
+#touchscreen #touchscreen-body .btn-touch button {
+    width: 90%;
+    font-size: 18pt;
+    padding: 15px 0;
+}
+
+#touchscreen #touchscreen-body #page-tipo {
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    position: fixed;
+}
+
+#touchscreen #touchscreen-body #senha-gerada span {
+    font-size: 40pt;
+    line-height: 50pt;
+    text-align: center;
+    display: block;
+}
+
+#touchscreen #touchscreen-body #senha-gerada #senha-numero {
+    font-weight: bold;
+    font-size: 65pt;
+    line-height: 85pt;
+}

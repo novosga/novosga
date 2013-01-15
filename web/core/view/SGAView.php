@@ -106,6 +106,25 @@ abstract class SGAView implements View {
             $title .= ' | ';
         }
         $title .= SGA::NAME;
+        ob_start();
+        ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title><?php SGA::out($title) ?></title>
+    <?php $this->headerDependencies($context); ?>
+</head>
+<body class="<?php SGA::out($bodyClass) ?>">
+    <div id="geral">
+        <?php
+        $html = ob_get_contents();
+        ob_end_clean();
+        return $html;
+    }
+    
+    protected function headerDependencies(SGAContext $context) {
+        $arg = $context->getParameters();
         $scripts = Arrays::value($arg, 'js', array());
         $scripts = array_merge(self::$dependencies['js'], $scripts);
         $styles = Arrays::value($arg, 'css', array());
@@ -114,37 +133,24 @@ abstract class SGAView implements View {
         $theme = 'bootstrap';
 //        $theme = 'lightness';
         $styles[] = "themes/$theme/style.css";
-        ob_start();
-        ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title><?php SGA::out($title) ?></title>
-    <?php foreach ($styles as $style): ?>
-    <link type="text/css" rel="stylesheet" href="<?php SGA::out($style . '?v=' . SGA::VERSION) ?>" />
-    <?php endforeach; ?>
-    <!--[if lt IE 9]>
-    <script src="js/html5.js"></script>
-    <![endif]-->
-    <?php foreach ($scripts as $script): ?>
-    <script type="text/javascript" src="<?php SGA::out($script . '?v=' . SGA::VERSION) ?>"></script>
-    <?php endforeach; ?>
-    <script type="text/javascript">
-        SGA.K_MODULE = '<?php SGA::out(SGA::K_MODULE) ?>'; 
-        SGA.K_PAGE = '<?php SGA::out(SGA::K_PAGE) ?>'; 
-        SGA.module = '<?php SGA::out(defined('MODULE') ? MODULE : '') ?>';
-        SGA.invalidSession = '<?php SGA::out(_('Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.')); ?>';
-        SGA.dialogs.error.title = '<?php SGA::out(_('Erro')) ?>';
-    </script>
-    <link rel="shortcut icon" href="images/favicon.png" />
-</head>
-<body class="<?php SGA::out($bodyClass) ?>">
-    <div id="geral">
+        foreach ($styles as $style): ?>
+        <link type="text/css" rel="stylesheet" href="<?php SGA::out($style . '?v=' . SGA::VERSION) ?>" />
+        <?php endforeach; ?>
+        <!--[if lt IE 9]>
+        <script src="js/html5.js"></script>
+        <![endif]-->
+        <?php foreach ($scripts as $script): ?>
+        <script type="text/javascript" src="<?php SGA::out($script . '?v=' . SGA::VERSION) ?>"></script>
+        <?php endforeach; ?>
+        <script type="text/javascript">
+            SGA.K_MODULE = '<?php SGA::out(SGA::K_MODULE) ?>'; 
+            SGA.K_PAGE = '<?php SGA::out(SGA::K_PAGE) ?>'; 
+            SGA.module = '<?php SGA::out(defined('MODULE') ? MODULE : '') ?>';
+            SGA.invalidSession = '<?php SGA::out(_('Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.')); ?>';
+            SGA.dialogs.error.title = '<?php SGA::out(_('Erro')) ?>';
+        </script>
+        <link rel="shortcut icon" href="images/favicon.png" />
         <?php
-        $html = ob_get_contents();
-        ob_end_clean();
-        return $html;
     }
     
     /**

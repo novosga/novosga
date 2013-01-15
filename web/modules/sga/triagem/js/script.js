@@ -79,7 +79,7 @@ SGA.Triagem = {
         }
     },
     
-    distribuiSenha: function(servico, prioridade, complete) {
+    distribuiSenha: function(servico, prioridade, success) {
         SGA.ajax({
             url: SGA.url('distribui_senha'),
             data: {
@@ -90,15 +90,15 @@ SGA.Triagem = {
             },
             type: 'post',
             success: function(response) {
-                if (response.success) {
-                    if (SGA.Triagem.imprimir) {
-                        window.open(SGA.url('imprimir') + "&id=" + response.data.id);
-                    }
-                    // TODO: atualizar pelo response, ao inves de fazer outro request
-                    SGA.Triagem.ajaxUpdate();
+                if (SGA.Triagem.imprimir) {
+                    window.open(SGA.url('imprimir') + "&id=" + response.data.id, 'atendimento-' + response.data.id, "width=300,height=150");
                 }
-            },
-            complete: complete
+                // TODO: atualizar pelo response, ao inves de fazer outro request
+                SGA.Triagem.ajaxUpdate();
+                if (typeof(success) == 'function') {
+                    success(response);
+                }
+            }
         });
         $('#cli_nome, #cli_doc').val('');
     },
@@ -111,6 +111,67 @@ SGA.Triagem = {
     senhaPrioridade: function(btn, complete) {
         btn = $(btn);
         SGA.Triagem.distribuiSenha(btn.data('id'), $('input:radio[name=prioridade]:checked').val(), complete);
+    },
+    
+    Touchscreen: {
+        
+        servico: 0,
+        prioridade: 0,
+        
+        inicio: function(id) {
+            SGA.Triagem.Touchscreen.servico = 0;
+            SGA.Triagem.Touchscreen.prioriade = 0;
+            $('.page').hide();
+            $('#page-servicos').show();
+        },
+        
+        chooseServico: function(id) {
+            SGA.Triagem.Touchscreen.servico = id;
+            SGA.Triagem.Touchscreen.tipoAtendimento();
+        },
+        
+        tipoAtendimento: function() {
+            $('.page').hide();
+            $('#page-tipo').show();
+        },
+        
+        chooseAtendimentoNormal: function() {
+            SGA.Triagem.Touchscreen.prioridade = 1;
+            SGA.Triagem.Touchscreen.fim();
+        },
+        
+        chooseAtendimentoPrioridade: function() {
+            $('.page').hide();
+            $('#page-prioridades').show();
+        },
+        
+        choosePrioridade: function(id) {
+            SGA.Triagem.Touchscreen.prioridade = id;
+            SGA.Triagem.Touchscreen.fim();
+        },
+        
+        fim: function() {
+            if (!SGA.Triagem.Touchscreen.servico || SGA.Triagem.Touchscreen.servico <= 0) {
+                SGA.Triagem.Touchscreen.inicio();
+            }
+            if (!SGA.Triagem.Touchscreen.prioridade || SGA.Triagem.Touchscreen.prioridade <= 0) {
+                SGA.Triagem.Touchscreen.tipoAtendimento();
+            }
+            SGA.Triagem.distribuiSenha(
+                SGA.Triagem.Touchscreen.servico, 
+                SGA.Triagem.Touchscreen.prioridade, 
+                function(response) {
+                    var atendimento = response.data.atendimento;
+                    $('.page').hide();
+                    $('#senha-numero').text(atendimento.senha);
+                    $('#senha-servico').text(atendimento.servico);
+                    $('#senha-tipo').text(atendimento.nomePrioridade);
+                    $('#page-fim').show();
+                    window.setTimeout(SGA.Triagem.Touchscreen.inicio, 3000);
+                }
+            );
+        }
+        
     }
     
 };
