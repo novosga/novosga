@@ -20,12 +20,12 @@ SGA.Triagem = {
             data: {id: servico},
             success: function(response) {
                 var dialog = $("#dialog-servico");
-                dialog.find('p.descricao').text(response.descricao);
+                dialog.find('p.descricao').text(response.data.descricao);
                 var subservicos = dialog.find('ul.subservicos.notempty');
-                if (response.subservicos && response.subservicos.length > 0) {
+                if (response.data.subservicos && response.data.subservicos.length > 0) {
                     subservicos.html('');
-                    for (var i = 0; i < response.subservicos.length; i++) {
-                        subservicos.append('<li>' + response.subservicos[i] + '</li>');
+                    for (var i = 0; i < response.data.subservicos.length; i++) {
+                        subservicos.append('<li>' + response.data.subservicos[i] + '</li>');
                     }
                     subservicos.show();
                     dialog.find('ul.subservicos.empty').hide();
@@ -33,7 +33,7 @@ SGA.Triagem = {
                     subservicos.hide();
                     dialog.find('ul.subservicos.empty').show();
                 }
-                SGA.dialogs.modal('#dialog-guiche', { title: title, width: 650 });
+                SGA.dialogs.modal(dialog, { title: title, width: 650 });
             }
         });
     },
