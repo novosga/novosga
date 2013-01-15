@@ -201,14 +201,26 @@ class EstatisticasController extends ModuleController {
         $query->setParameter('inicio', $dataInicial);
         $query->setParameter('fim', $dataFinal);
         $rs = $query->getResult();
+        $tempos = array(
+            'espera' => _('Tempo de Espera'),
+            'deslocamento' => _('Tempo de Deslocamento'),
+            'atendimento' => _('Tempo de Atendimento'),
+            'total' => _('Tempo Total')
+        );
         foreach ($rs as $r) {
             if (!isset($atendimentos[$r['id']])) {
                 $atendimentos[$r['id']] = array();
             }
-            $atendimentos[$r['id']][_('Tempo de Espera')] = DateUtil::timeToSec($r['espera']);
-            $atendimentos[$r['id']][_('Tempo de Deslocamento')] = DateUtil::timeToSec($r['deslocamento']);
-            $atendimentos[$r['id']][_('Tempo de Atendimento')] = DateUtil::timeToSec($r['atendimento']);
-            $atendimentos[$r['id']][_('Tempo Total')] = DateUtil::timeToSec($r['total']);
+            try {
+                // se der erro tentando converter a data do banco para segundos, assume que ja esta em segundos
+                foreach ($tempos as $k => $v) {
+                    $atendimentos[$r['id']][$v] = DateUtil::timeToSec($r[$k]);
+                }
+            } catch (\Exception $e) {
+                foreach ($tempos as $k => $v) {
+                    $atendimentos[$r['id']][$v] = (int) $r[$k];
+                }
+            }
         }
         return $atendimentos;
     }
