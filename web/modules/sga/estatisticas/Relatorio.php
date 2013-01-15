@@ -8,9 +8,9 @@ namespace modules\sga\estatisticas;
  */
 class Relatorio {
     
-    private $titulo;
-    private $dados;
-    private $arquivo;
+    protected $titulo;
+    protected $dados;
+    protected $arquivo;
     
     public function __construct($titulo, $arquivo) {
         $this->titulo = $titulo;
@@ -32,6 +32,13 @@ class Relatorio {
 
     public function setDados($dados) {
         $this->dados = $dados;
+    }
+    
+    public function toArray() {
+        return array(
+            'titulo' => $this->titulo,
+            'dados' => $this->dados,
+        );
     }
 
 }

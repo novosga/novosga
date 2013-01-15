@@ -93,6 +93,15 @@ var SGA = {
         window.location = window.location;
     },
     
+    secToTime: function(seconds) {
+        var hours = Math.floor(seconds / 3600);
+        var mins = Math.floor((seconds - (hours * 3600)) / 60);
+        mins = mins < 10 ? '0' + mins : mins;
+        var secs = Math.floor((seconds - (hours * 3600) - (mins * 60)));
+        secs = secs < 10 ? '0' + secs : secs;
+        return hours + ":" + mins + ":" + secs;
+    },
+    
     formatDate: function(sqlDate) {
         if (sqlDate && sqlDate != "") {
             var d = sqlDate.split(' ');
