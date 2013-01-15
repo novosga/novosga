@@ -6,6 +6,113 @@ var SGA = SGA || {};
 
 SGA.Estatisticas = {
     
+    unidades: {},
+    
+    Grafico: {
+        
+        gerar: function() {
+            var id = $('#chart-id').val();
+            if (id > 0) {
+                SGA.ajax({
+                    url: SGA.url('grafico'),
+                    data: {
+                        grafico: id, 
+                        inicial: $('#chart-dataInicial').val(), 
+                        'final': $('#chart-dataFinal').val()
+                    },
+                    success: function(response) {
+                        var result = $('#chart-result');
+                        result.html('');
+                        var dados = response.data.dados;
+                        for (var i in dados) {
+                            if (SGA.Estatisticas.unidades[i]) {
+                                var id = 'chart-result-' + i;
+                                result.append('<div id="' + id + '"></div>');
+                                var prop = {
+                                    id: id, 
+                                    dados: response.data.dados[i],
+                                    legendas: response.data.legendas,
+                                    titulo: response.data.titulo + ' - ' + SGA.Estatisticas.unidades[i]
+                                };
+                                switch (response.data.tipo) {
+                                case 'pie':
+                                    SGA.Estatisticas.Grafico.pie(prop);
+                                    break;
+                                case 'bar':
+                                    SGA.Estatisticas.Grafico.bar(prop);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        },
+        
+        pie: function(prop) {
+            var series = [];
+            for (var j in prop.dados) {
+                var legenda = prop.legendas && prop.legendas[j] ? prop.legendas[j] : j;
+                series.push([legenda, parseInt(prop.dados[j])]);
+            }
+            new Highcharts.Chart({
+                chart: {
+                    renderTo: prop.id,
+                    type: 'pie'
+                },
+                title: { 
+                    text: prop.titulo 
+                },
+                plotOptions: {
+                    pie: {
+                        showInLegend: true
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: prop.titulo,
+                    data: series
+                }]
+            });
+        },
+        
+        bar: function(prop) {
+            var series = [];
+            var categories = [];
+            for (var j in prop.dados) {
+                var legenda = prop.legendas && prop.legendas[j] ? prop.legendas[j] : j;
+                series.push({
+                    name: legenda, 
+                    data: [parseInt(prop.dados[j])]
+                });
+                categories.push(legenda);
+            }
+            new Highcharts.Chart({
+                chart: {
+                    renderTo: prop.id,
+                    type: 'bar'
+                },
+                title: { 
+                    text: prop.titulo 
+                },
+                xAxis: {
+                    categories: categories,
+                    title: {
+                        text: null
+                    }
+                },
+                // TODO: informar no response o tipo de tooltip (abaixo esta fixo formatando tempo)
+                tooltip: {
+                    formatter: function() {
+                        return this.series.name + ': ' + SGA.secToTime(this.y);
+                    }
+                },
+                series: series
+            });
+        }
+        
+    },
+    
     Relatorio: {
         
         change: function(elem) {

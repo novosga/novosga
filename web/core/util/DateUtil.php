@@ -34,6 +34,14 @@ class DateUtil {
         return str_pad($hours, 2, '0', STR_PAD_LEFT) . ":" . str_pad($mins, 2, '0', STR_PAD_LEFT) . ":" . str_pad($secs, 2, '0', STR_PAD_LEFT);
     }
     
+    public static function timeToSec($time) {
+        $t = explode(':', $time);
+        $hours = (int) $t[0];
+        $mins = (int) $t[1];
+        $secs = (int) $t[2];
+        return ($hours * 3600) + ($mins * 60) + $secs;
+    }
+    
     public static function parseDate($date) {
         // TODO: date i18n
         // pt-br

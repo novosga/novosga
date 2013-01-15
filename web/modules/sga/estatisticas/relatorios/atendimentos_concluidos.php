@@ -23,13 +23,13 @@ use \core\util\DateUtil;
     <tbody>
         <?php foreach ($dado['atendimentos'] as $a): ?>
         <tr>
-            <td class=""><?php echo $a->getSenha() ?></td>
+            <td class=""><?php echo $a->getNumeroSenha() ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataChegada(), _('d/m/Y')) ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataChamada(), _('H:i:s')) ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataInicio(), _('H:i:s')) ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataFim(), _('H:i:s')) ?></td>
             <td class=""><?php echo DateUtil::secToTime(DateUtil::diff($a->getDataInicio(), $a->getDataFim())) ?></td>
-            <td class=""><?php echo $a->getServicoUnidade()->getNome() ?></td>
+            <td class=""><?php echo $a->getServico()->getNome() ?></td>
             <td class=""><?php echo $a->getUsuario()->getLogin() ?></td>
         </tr>
         <?php endforeach; ?>
