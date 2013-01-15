@@ -16,6 +16,7 @@ class Highcharts {
     private $tooltip;
     private $axis = array();
     private $series = array();
+    private $plotOptions = array();
     
     public function __construct($id, $title = '') {
         $this->id = $id;
@@ -33,6 +34,7 @@ class Highcharts {
 
     public function setType($type) {
         $this->type = $type;
+        $this->plotOptions = array($this->type => array());
     }
 
     public function getTitle() {
@@ -59,6 +61,14 @@ class Highcharts {
         $this->height = $height;
     }
     
+    public function getPlotOptions() {
+        return $this->plotOptions;
+    }
+    
+    public function setPlotOption($option, $value) {
+        $this->plotOptions[$this->type][$option] = $value;
+    }
+    
     /**
      * @return Tooltip
      */
@@ -78,6 +88,9 @@ class Highcharts {
     }
     
     public function toString() {
+        if ($this->type == 'pie') {
+            $this->setPlotOption('showInLegend', true);
+        }
         $html = '';
         $html .= '<div id="'. $this->id .'" style="width: '. $this->width .'px; height: '. $this->height .'px;"></div>';
         $js = '<script type="text/javascript">';
@@ -88,6 +101,7 @@ class Highcharts {
         foreach ($this->axis as $i => $axis) {
             $js .= "{$i}Axis: " . json_encode($axis) . ", ";
         }
+        $js .= "plotOptions: " . json_encode($this->plotOptions) . ", ";
         $series = array();
         foreach ($this->series as $s) {
             $series[] = $s->toJson();
