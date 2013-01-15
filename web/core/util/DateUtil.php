@@ -36,6 +36,9 @@ class DateUtil {
     
     public static function timeToSec($time) {
         $t = explode(':', $time);
+        if (sizeof($t) != 3) {
+            throw new \Exception(_(sprintf('Formato de tempo inválido: %s', $time)));
+        }
         $hours = (int) $t[0];
         $mins = (int) $t[1];
         $secs = (int) $t[2];
