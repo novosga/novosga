@@ -79,6 +79,37 @@ SGA.Triagem = {
         }
     },
     
+    Impressao: {
+        
+        iframe: null,
+        
+        imprimir: function(atendimento) {
+            if (SGA.Triagem.imprimir) {
+                if (SGA.Triagem.Impressao.iframe) {
+                    SGA.Triagem.Impressao.loadIframe(atendimento);
+                } else {
+                    SGA.Triagem.Impressao.showPopup(atendimento);
+                }
+            }
+        },
+        
+        url: function(atendimento) {
+            return SGA.url('imprimir') + "&id=" + atendimento.id;
+        },
+        
+        showPopup: function(atendimento) {
+            window.open(SGA.Triagem.Impressao.url(atendimento), 'atendimento-' + atendimento.id, "width=300,height=150");
+        },
+        
+        loadIframe: function(atendimento) {
+            var iframe = document.getElementById(SGA.Triagem.Impressao.iframe);
+            if (iframe) {
+                iframe.src = SGA.Triagem.Impressao.url(atendimento);
+            }
+        }
+        
+    },
+    
     distribuiSenha: function(servico, prioridade, success) {
         SGA.ajax({
             url: SGA.url('distribui_senha'),
@@ -90,10 +121,7 @@ SGA.Triagem = {
             },
             type: 'post',
             success: function(response) {
-                if (SGA.Triagem.imprimir) {
-                    window.open(SGA.url('imprimir') + "&id=" + response.data.id, 'atendimento-' + response.data.id, "width=300,height=150");
-                }
-                // TODO: atualizar pelo response, ao inves de fazer outro request
+                SGA.Triagem.Impressao.imprimir(response.data);
                 SGA.Triagem.ajaxUpdate();
                 if (typeof(success) == 'function') {
                     success(response);
