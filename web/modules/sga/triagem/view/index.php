@@ -52,7 +52,15 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
     <?php endforeach; ?>
 </div>
 <p class="links clear">
-    <a href="<?php echo SGA::url('touchscreen') ?>" target="_blank"><?php echo _('Versão para touchscreen') ?></a>
+    <?php
+        echo $builder->button(array(
+            'type' => 'link',
+            'href' => SGA::url('touchscreen'),
+            'target' => '_blank',
+            'icon' => 'ui-icon-person',
+            'label' => _('Versão para auto triagem')
+        ));
+    ?>
 </p>
 <!-- dialog para exibir informacoes do servico -->
 <div id="dialog-servico" title="<?php SGA::out(_('Serviço')) ?>" style="display:none">
