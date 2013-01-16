@@ -46,6 +46,15 @@ $unidade = SGA::getContext()->getUnidade();
                 )) . '</div>';
                 
                 ?>
+                <div class="btn-voltar">
+                    <?php
+                        echo $builder->button(array(
+                            'label' => _('Voltar'),
+                            'onclick' => 'SGA.Triagem.Touchscreen.inicio()',
+                            'icon' => 'ui-icon-arrowreturnthick-1-w'
+                        ));
+                    ?>
+                </div>
             </div>
             <div id="page-prioridades" class="page" style="display:none">
                 <?php 
@@ -57,24 +66,38 @@ $unidade = SGA::getContext()->getUnidade();
                         )) . '</div>';
                     }
                 ?>
+                <div class="btn-voltar">
+                    <?php
+                        echo $builder->button(array(
+                            'label' => _('Voltar'),
+                            'onclick' => 'SGA.Triagem.Touchscreen.inicio()',
+                            'icon' => 'ui-icon-arrowreturnthick-1-w'
+                        ));
+                    ?>
+                </div>
             </div>
             <div id="page-fim" class="page" style="display:none">
                 <div id="senha-gerada">
-                    <span id="senha-servico"></span>
-                    <span id="senha-numero"></span>
-                    <span id="senha-tipo"></span>
+                    <span id="senha-servico">Macro 1</span>
+                    <span id="senha-numero">A0024</span>
+                    <span id="senha-tipo">Sem prioridade</span>
                 </div>
-                <?php
-                    echo $builder->button(array(
-                        'label' => _('Voltar'),
-                        'onclick' => 'SGA.Triagem.Touchscreen.inicio()'
-                    ));
-                ?>
+                <div class="btn-voltar">
+                    <?php
+                        echo $builder->button(array(
+                            'label' => _('Voltar'),
+                            'onclick' => 'SGA.Triagem.Touchscreen.inicio()',
+                            'icon' => 'ui-icon-arrowreturnthick-1-w'
+                        ));
+                    ?>
+                </div>
             </div>
         </div>
     </div>
+    <iframe id="frame-impressao" width="300" height="150"></iframe>
     <script type="text/javascript">
         SGA.Triagem.imprimir = <?php echo ($unidade->getStatusImpressao() ? 'true' : 'false') ?>;
+        SGA.Triagem.Impressao.iframe = 'frame-impressao';
         function fullscreen() {
             SGA.FullScreen.change(function() {
                 if (SGA.FullScreen.element()) {

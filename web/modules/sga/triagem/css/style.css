@@ -114,11 +114,3 @@ p.links {
     padding-top: 20px;
     text-align: center;
 }
-
-p.links a {
-    color: #666;
-}
-
-p.links a:hover {
-    color: #000;
-}
