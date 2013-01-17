@@ -21,23 +21,25 @@ use \core\SGA;
         </div>
         <div id="tab-paineis">
             <?php foreach ($unidades as $unidade): ?>
-                <h3><?php SGA::out($unidade->getNome()) ?></h3>
-                <ul class="paineis">
-                    <?php 
-                        if (isset($paineis[$unidade->getId()])):
-                            foreach ($paineis[$unidade->getId()] as $painel): 
-                            ?>
-                            <li>
-                                <a href="javascript:void(0)" onclick="SGA.Admin.painelInfo(<?php echo $unidade->getId() ?>, <?php echo $painel->getHost() ?>)" title="<?php SGA::out(_('Visualizar serviços')) ?>">
-                                    <span>IP</span>
-                                    <span class="ip"><?php echo $painel->getIp() ?></span>
-                                </a>
-                            </li>
+                <div class="clear">
+                    <h3><?php SGA::out($unidade->getNome()) ?></h3>
+                    <ul class="paineis">
                         <?php 
-                            endforeach; 
-                        endif; 
-                    ?>
-                </ul>
+                            if (isset($paineis[$unidade->getId()])):
+                                foreach ($paineis[$unidade->getId()] as $painel): 
+                                ?>
+                                <li>
+                                    <a href="javascript:void(0)" onclick="SGA.Admin.painelInfo(<?php echo $unidade->getId() ?>, <?php echo $painel->getHost() ?>)" title="<?php SGA::out(_('Visualizar serviços')) ?>">
+                                        <span>IP</span>
+                                        <span class="ip"><?php echo $painel->getIp() ?></span>
+                                    </a>
+                                </li>
+                            <?php 
+                                endforeach; 
+                            endif; 
+                        ?>
+                    </ul>
+                </div>
             <?php endforeach; ?>
         </div>
     </div>

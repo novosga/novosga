@@ -12,7 +12,7 @@ class SGA {
     
     const NAME = "Novo SGA";
     const FULL_NAME = "Sistema de Gerenciamento de Atendimento";
-    const VERSION = "0.1.4";
+    const VERSION = "0.1.5";
     const CHARSET = "utf-8";
     
     // SESSION KEYS
@@ -66,7 +66,7 @@ class SGA {
                 return $user;
             }
             return null;
-        } catch (\Exception $e) { // no result
+        } catch (\Doctrine\ORM\NoResultException $e) {
             return false;
         }
     }

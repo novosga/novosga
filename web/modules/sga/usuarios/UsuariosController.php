@@ -6,7 +6,7 @@ use \core\db\DB;
 use \core\SGAContext;
 use \core\util\Arrays;
 use \core\http\AjaxResponse;
-use \core\Security;
+use \core\business\AcessoBusiness;
 use \core\model\SequencialModel;
 use \core\model\Usuario;
 use \core\controller\CrudController;
@@ -97,23 +97,6 @@ class UsuariosController extends CrudController {
         $context->getResponse()->jsonResponse($response);
     }
     
-    /**
-     * Verifica se a senha informada é válida e a retorna encriptada.
-     * @param type $senha
-     * @param type $confirmacao
-     * @return type
-     * @throws Exception
-     */
-    private function verificaSenha($senha, $confirmacao) {
-        if (strlen($senha) < 6) {
-            throw new Exception(_('A senha deve possuir no mínimo 6 caracteres.'));
-        }
-        if ($senha != $confirmacao) {
-            throw new Exception(_('A confirmação de senha não confere com a senha.'));
-        }
-        return Security::passEncode($senha);
-    }
-    
     protected function preSave(SGAContext $context, SequencialModel $model) {
         if ($model->getId() == 0) {
             // para novos usuarios, tem que informar a senha
@@ -127,7 +110,7 @@ class UsuariosController extends CrudController {
             $senha = Arrays::value($_POST, 'senha');
             $confirmacao = Arrays::value($_POST, 'senha2');
             
-            $model->setSenha($this->verificaSenha($senha, $confirmacao));
+            $model->setSenha(AcessoBusiness::verificaSenha($senha, $confirmacao));
             $model->setStatus(1);
             $model->setSessionId('');
         } else {
@@ -191,9 +174,10 @@ class UsuariosController extends CrudController {
         $usuario = $this->findById($id);
         if ($usuario) {
             try {
-                $hash = $this->verificaSenha($senha, $confirmacao);
-                $query = $this->em()->createQuery("UPDATE \core\model\Usuario u SET u.senha = :senha");
+                $hash = AcessoBusiness::verificaSenha($senha, $confirmacao);
+                $query = $this->em()->createQuery("UPDATE \core\model\Usuario u SET u.senha = :senha WHERE u.id = :id");
                 $query->setParameter('senha', $hash);
+                $query->setParameter('id', $usuario->getId());
                 $query->execute();
                 $response->success = true;
             } catch (Exception $e) {

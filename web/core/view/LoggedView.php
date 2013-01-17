@@ -49,7 +49,14 @@ abstract class LoggedView extends PageView {
             $navbar .= '</li>';
         }
         $navbar .= '<li class="logout">' . $this->builder->link(array('href' => '?logout', 'label' => 'Sair')) . '</li>';
-        $navbar .= '<li class="user">' . sprintf(_('acessando como <strong>%s</strong>'), $usuario->getLogin()) . '</li>';
+        $navbar .= '<li class="user">';
+        $navbar .= $this->builder->link(array(
+            'href' => '?home&page=perfil',
+            'label' => sprintf(_('acessando como <strong>%s</strong>'), $usuario->getLogin()), 
+            'class' => 'profile',
+            'title' => _('Visualizar perfil')
+        ));
+        $navbar .= '</li>';
         $navbar .= '</ul>';
         $navbar .= '</div>';
         $navbar .= '<script type="text/javascript">SGA.Menu.init("#navbar-menu")</script>';

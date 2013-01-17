@@ -3,12 +3,14 @@
  * icon(s) by pixel-mixer.com
  * @author rogeriolino
  */
- 
+
 .paineis {
-    padding: 30px;
+    padding: 10px 0 20px 0;
+    float: left;
 }
 
 .paineis li {
+    padding: 0 15px;
     list-style: none;
     float: left;
 }
