@@ -66,11 +66,19 @@ abstract class TreeModel extends SequencialModel {
     }
     
     /**
-     * Retorna se o model é a raiz da arvore
+     * Retorna se o model é a raíz da árvore
      * @return boolean
      */
     public function isRoot() {
         return $this->left == 1;
+    }
+    
+    /**
+     * Retorna se o model é uma folha da árvore
+     * @return boolean
+     */
+    public function isLeaf() {
+        return $this->right == $this->left + 1;
     }
 
     /**

@@ -3,6 +3,7 @@ namespace modules\sga\prioridades;
 
 use \core\SGAContext;
 use \core\model\Prioridade;
+use \core\model\SequencialModel;
 use \core\controller\CrudController;
 
 /**
@@ -28,6 +29,12 @@ class PrioridadesController extends CrudController {
 
     public function edit(SGAContext $context) {
         parent::edit($context);
+    }
+    
+    protected function preDelete(SGAContext $context, SequencialModel $model) {
+        if ($model->getId() == 1) {
+            throw new \Exception(_('Não pode remover essa prioridade'));
+        }
     }
     
 }

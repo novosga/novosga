@@ -390,6 +390,8 @@
     float: left;
 }
 
+.module-content div.messages { padding-top: 10px; }
+
 /* search */
 .search {
     padding: 0 10px 0 0;
