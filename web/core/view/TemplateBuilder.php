@@ -177,10 +177,7 @@ class TemplateBuilder {
             $arg = array();
         }
         $select = $arg;
-        $itemsProp = array('items', 'label', 'default');
-        foreach ($itemsProp as $prop) {
-            Arrays::removeKey($select, $prop);
-        }
+        Arrays::removeKeys($select, array('items', 'label', 'default'));
         return $this->tag('select', $select, $this->items($arg));
     }
     
@@ -203,7 +200,7 @@ class TemplateBuilder {
                 if ($v instanceof \core\model\SequencialModel) {
                     $k = $v->getId();
                 }
-                $selected = ($default === $k) ? ' selected="selected"' : '';
+                $selected = ("$default" === "$k") ? ' selected="selected"' : '';
                 $content .= '<option value="' . Strings::doubleQuoteSlash($k) . '"' . $selected . '>' . $v . '</option>';
             }
         }

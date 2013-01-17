@@ -61,6 +61,23 @@ class Arrays {
         }
     }
     
+    public static function removeKeys(array &$arr, array $keys) {
+        $tmp = self::copy($arr);
+        $arr = array();
+        foreach ($tmp as $k => $v) {
+            $exists = false;
+            foreach ($keys as $rk) {
+                if ($k == $rk) {
+                    $exists = true;
+                    break;
+                }
+            }
+            if (!$exists) {
+                $arr[$k] = $v;
+            }
+        }
+    }
+    
     public static function toArray($value, $items = array(), $key = null) {
         if (is_array($value)) {
             $arr = array();
