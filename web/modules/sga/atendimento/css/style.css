@@ -167,8 +167,8 @@
 }
 
 #atendimento #fila ul {
-    min-height: 50px;
-    padding: 0 0 0 45px;
+    min-height: 40px;
+    padding: 0 0 10px 45px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
@@ -183,7 +183,7 @@
     list-style: none;
     display: inline;
     padding: 12px 6px 0 6px;
-    float: left;
+    display: inline-block;
 }
 
 #atendimento #fila ul li.proximo {
