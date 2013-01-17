@@ -70,11 +70,13 @@ abstract class SGAView implements View {
     public function showMessages() {
         $messages = $this->getMessages();
         if (!empty($messages)) {
-            $html = '<ul>';
+            $html = '<div class="messages">';
             foreach ($messages as $message) {
-                $html .= '<li class="' . $message['class'] . '">' . $message['text'] . '</li>';
+                if ($message['class'] == 'error') {
+                    $html .= $this->builder->error($message['text']);
+                }
             }
-            return $html . '</ul>';
+            return $html . '</div>';
         }
         return '';
     }

@@ -224,7 +224,17 @@ var SGA = {
             btns[btnLabel] = function() {
                 SGA.Unidades.set(postUrl);
             }
-            SGA.dialogs.modal("#" + id, { width: 450, buttons: btns });
+            SGA.dialogs.modal("#" + id, { 
+                width: 450, 
+                buttons: btns,
+                create: function() {
+                    $('#' + id).keyup(function(e){
+                        if (e.keyCode == 13) {                
+                             $('.ui-dialog').find('button:first').trigger('click');
+                        }
+                   });
+                }
+            });
         },
         
         set: function(url) {
