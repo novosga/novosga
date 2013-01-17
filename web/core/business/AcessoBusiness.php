@@ -6,6 +6,7 @@ use \core\SGA;
 use \core\db\DB;
 use \core\model\Modulo;
 use \core\model\util\UsuarioSessao;
+use \core\Security;
 
 /**
  * AcessoBusiness
@@ -37,6 +38,23 @@ abstract class AcessoBusiness {
     
     public static function isProtectedPage($key) {
         return self::isHomePage($key) || self::isModulePage($key);
+    }
+    
+    /**
+     * Verifica se a senha informada é válida e a retorna encriptada.
+     * @param type $senha
+     * @param type $confirmacao
+     * @return type
+     * @throws Exception
+     */
+    public static function verificaSenha($senha, $confirmacao) {
+        if (strlen($senha) < 6) {
+            throw new Exception(_('A senha deve possuir no mínimo 6 caracteres.'));
+        }
+        if ($senha != $confirmacao) {
+            throw new Exception(_('A confirmação de senha não confere com a senha.'));
+        }
+        return Security::passEncode($senha);
     }
     
     public static function isValidSession() {

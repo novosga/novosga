@@ -12,7 +12,7 @@ UPDATE unidades u SET u.stat_imp = s.stat_imp, u.msg_imp = s.msg_imp FROM senha_
 ALTER TABLE modulos DROP COLUMN img_mod;
 
 -- usuarios
-ALTER TABLE unidades ADD COLUMN session_id character varying(40) NOT NULL;
+ALTER TABLE usuarios ADD COLUMN session_id varchar(40) NOT NULL;
 
 DROP TABLE menus;
 DROP TABLE senha_uni_msg;
