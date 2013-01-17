@@ -1,25 +1,11 @@
 <?php
 namespace core\http;
 
-
 /**
  * Session Wrapper
  *
  */
 class Session {
-    
-    /** Sessão encerrada: Usuário deslogado. */
-    const SESSION_ENCERRADA = 0;
-
-    /** Sessão ativa: Usuário logado. */
-    const SESSION_ATIVA = 1;
-
-    /**
-     * Sessão com dados fora de sincronia com o Banco de Dados,
-     * o próximo acesso a qualquer página do sistema irá efetuar
-     * uma recarga transparente da Sessão e retornar ao status SESSION_ATIVA.
-     */
-    const SESSION_DESATUALIZADA = 2;
 
     public function __construct() {
         session_start();
@@ -95,21 +81,7 @@ class Session {
     public function del($key) {
         SessionCache::del($this->key($key));
     }
-
-    /**
-     * Marca os dados da Session do usuário especificado como desatualizados.<br>
-     * Os dados da Session serão recarregados de forma transparente ao usuário.<br>
-     * Este método deve ser invocado quando houver alguma alteração no usuário que faça os dados
-     * armazenados na session saírem de sincronia com os dados do Banco de Dados.<br>
-     * <br>
-     * Caso a session não exista(o usuário especificado não esteja logado) esse método não tem efeito.<br>
-     *
-     * @param int $id_usu O ID do usuario da Session a ser invalidada.
-     */
-    public static function invalidate($id_usu) {
-        DB::getAdapter()->set_session_status($id_usu, Session::SESSION_DESATUALIZADA);
-    }
-
+    
     /**
      * Remove todos valores armazenados, mas mantem a session viva
      */

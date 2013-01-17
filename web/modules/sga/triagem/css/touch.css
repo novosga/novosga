@@ -51,8 +51,10 @@
 
 #touchscreen #touchscreen-body .btn-touch button {
     width: 90%;
+    height: 100px;
     font-size: 18pt;
     padding: 20px 0;
+    overflow: hidden;
 }
 
 #touchscreen #touchscreen-body #page-tipo {

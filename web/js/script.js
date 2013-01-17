@@ -410,6 +410,48 @@ var SGA = {
         
     },
     
+    Perfil: {
+        
+        labelSenhaAlterada: '',
+        
+        dialogSenha: function(label) {
+            var buttons = {};
+            buttons[label] = SGA.Perfil.alterarSenha;
+            SGA.dialogs.modal('#dialog-senha', {
+                width: 500,
+                buttons: buttons
+            });
+            return false;
+        },
+
+        alterarSenha: function() {
+            SGA.ajax({
+                url: '?home&' + SGA.K_PAGE + '=alterar_senha',
+                data: {
+                    atual: $('#senha_atual').val(), 
+                    senha: $('#senha_nova').val(), 
+                    confirmacao: $('#senha_confirmacao').val()
+                },
+                success: function() {
+                    SGA.Perfil.clear();
+                    alert(SGA.Perfil.labelSenhaAlterada);
+                    $('#dialog-senha').dialog('close');
+                },
+                error: function() {
+                    SGA.Perfil.clear();
+                }
+            });
+            return false;
+        },
+        
+        clear: function() {
+            $('#senha_atual').val('');
+            $('#senha_nova').val('');
+            $('#senha_confirmacao').val('');
+        }
+        
+    },
+    
     FullScreen: {
         
         request: function(elem) {
