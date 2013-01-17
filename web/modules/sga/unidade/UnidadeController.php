@@ -26,7 +26,7 @@ class UnidadeController extends ModuleController {
             $conn = $this->em()->getConnection();
             $conn->executeUpdate("
                 INSERT INTO uni_serv 
-                SELECT :unidade, id_serv, 1, nm_serv, '', 0 FROM servicos 
+                SELECT :unidade, id_serv, 1, nm_serv, 'A', 0 FROM servicos 
                 WHERE 
                     id_macro IS NULL AND
                     id_serv NOT IN (SELECT id_serv FROM uni_serv WHERE id_uni = :unidade)
