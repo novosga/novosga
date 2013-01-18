@@ -12,10 +12,21 @@ use \core\util\Strings;
  * @author rogeriolino
  */
 class CrudView extends ModuleView {
+    
+    protected $canAdd;
+    protected $canEdit;
+    protected $canDelete;
+    
+    public function __construct($title, $subtitle = '', $canAdd = true, $canEdit = true, $canDelete) {
+        parent::__construct($title, $subtitle);
+        $this->canAdd = $canAdd; 
+        $this->canEdit = $canEdit; 
+        $this->canDelete = $canDelete;
+    }
 
     public function searchBar() {
         $context = SGA::getContext();
-        return '<div class="search">
+        $html = '<div class="search">
             <form method="post" action="'. SGA::url() . '">
                 <span>
                     <input id="search-box" type="text" name="s" value="'. Strings::doubleQuoteSlash($context->getRequest()->getParameter('s')) .'" placeholder="'. _('buscar') .'" />
@@ -26,17 +37,20 @@ class CrudView extends ModuleView {
                         'type' => 'submit',
                         'label' => _('Buscar'),
                         'icon' => 'ui-icon-search'
-                    )) .
-                    $this->getBuilder()->button(array(
-                        'type' => 'link',
-                        'label' => _('Novo'),
-                        'href' => $context->getModulo()->link('edit'),
-                        'class' => 'ui-button-primary btn-add'
-                    ))
-                .'
+                    ));
+        if ($this->canAdd) {
+            $html .= $this->getBuilder()->button(array(
+                'type' => 'link',
+                'label' => _('Novo'),
+                'href' => $context->getModulo()->link('edit'),
+                'class' => 'ui-button-primary btn-add'
+            ));
+        }
+        $html .= '
             </form>
         </div>
         ';
+        return $html;
     }
     
     private function deleteForm() {
@@ -48,8 +62,17 @@ class CrudView extends ModuleView {
         array_unshift($header, '#');
         array_push($header, '');
         array_unshift($columns, 'id');
-        array_push($columns, $this->buttonEdit() . $this->buttonDelete());
-        $classes[sizeof($columns) - 1] = 'btns';
+        $buttons = '';
+        if ($this->canEdit) {
+            $buttons .= $this->buttonEdit();
+        }
+        if ($this->canDelete) {
+            $buttons .= $this->buttonDelete();
+        }
+        if (!empty($buttons)) {
+            array_push($columns, $buttons);
+            $classes[sizeof($columns) - 1] = 'btns';
+        }
         return $this->showMessages() . $this->getBuilder()->table(array(
             'id' => 'table-list',
             'header' => $header,
