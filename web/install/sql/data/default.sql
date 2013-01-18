@@ -17,6 +17,7 @@ INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod)
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.unidades', 'Unidades', 'Gerencie as unidades do sistema', 'rogeriolino', 1, 1);
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.cargos', 'Cargos', 'Gerencie os cargos do sistema', 'rogeriolino', 1, 1);
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.usuarios', 'Usuários', 'Gerencie os usuários do sistema', 'rogeriolino', 1, 1);
+INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.modulos', 'Módulos', 'Gerencie os módulos instalados', 'rogeriolino', 1, 1);
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.admin', 'Administração', 'Configurações gerais do sistema', 'rogeriolino', 1, 1);
 -- modulos locais
 INSERT INTO modulos (chave_mod, nm_mod, desc_mod, autor_mod, tipo_mod, stat_mod) VALUES ('sga.triagem', 'Triagem', 'Gerencie a distribuíção das senhas da unidade atual', 'rogeriolino', 0, 1);
@@ -51,6 +52,7 @@ INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, 9, 3);
 INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, 10, 3);
 INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, 11, 3);
 INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, 12, 3);
+INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, 13, 3);
 
 -- grupo raiz
 INSERT INTO grupos_aninhados (nm_grupo, desc_grupo, esquerda, direita) VALUES ('Raíz', 'Grupo Raíz', 1, 2);

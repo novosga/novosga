@@ -41,8 +41,6 @@
                 <exclude name="**/.git/**" />
             </fileset>
         </copy>
-        <copy overwrite="true" file="${build.dist}/core/Config.dev.php" tofile="${build.dist}/core/Config.php" />
-        <delete file="${build.dist}/core/Config.dev.php" />
     </target>
 
     <!--
