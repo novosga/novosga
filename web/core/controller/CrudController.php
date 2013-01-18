@@ -28,7 +28,7 @@ abstract class CrudController extends ModuleController {
      * @return CrudView
      */
     protected function createView() {
-        return new CrudView($this->title, $this->subtitle);
+        return new CrudView($this->title, $this->subtitle, true, true, true);
     }
     
     /**
