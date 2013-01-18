@@ -71,4 +71,29 @@ class UnidadesController extends CrudController {
         return $query->getResult();
     }
     
+    // TODO: remover servicos. verificar se ja tem atendimento para o servico+unidade
+    protected function doDelete(SGAContext $context, SequencialModel $model) {
+        // verificando se ja tem atendimentos
+        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM \core\model\ViewAtendimento e WHERE e.unidade = :unidade");
+        $query->setParameter('unidade', $model->getId());
+        $rs = $query->getSingleResult();
+        if ($rs['total'] > 0) {
+            throw new \Exception(_('Não pode excluir essa unidade porque a mesma já possui atendimentos.'));
+        }
+        $this->em()->beginTransaction();
+        try {
+            // removendo servicos
+            $query = $this->em()->createQuery("DELETE FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade");
+            $query->setParameter('unidade', $model->getId());
+            $query->execute();
+            // removendo a unidade
+            $this->em()->remove($model);
+            $this->em()->commit();
+            $this->em()->flush();
+        } catch (\Exception $e) {
+            $this->em()->rollback();
+            throw $e;
+        }
+    }
+    
 }
