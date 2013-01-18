@@ -508,6 +508,7 @@ div.buttons .ui-button {
 .w500 { width: 500px !important; }
 .w600 { width: 600px !important; }
 .w700 { width: 700px !important; }
+.w100pct { width: 100% !important; }
 
 .h25 { height: 25px !important; }
 .h50 { height: 50px !important; }

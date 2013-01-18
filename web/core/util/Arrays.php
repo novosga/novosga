@@ -108,4 +108,8 @@ class Arrays {
         return null;
     }
     
+    public static function contains($arr, $value) {
+        return in_array($value, $arr);
+    }
+    
 }
