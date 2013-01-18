@@ -71,7 +71,14 @@ class UnidadesController extends CrudController {
         return $query->getResult();
     }
     
-    // TODO: remover servicos. verificar se ja tem atendimento para o servico+unidade
+    /**
+     * Remove a unidade caso a mesma não possua atendimento. Se possuir uma 
+     * exceção será lançada.
+     * @param \core\SGAContext $context
+     * @param \core\model\SequencialModel $model
+     * @throws \Exception
+     * @throws \modules\sga\unidades\Exception
+     */
     protected function doDelete(SGAContext $context, SequencialModel $model) {
         // verificando se ja tem atendimentos
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM \core\model\ViewAtendimento e WHERE e.unidade = :unidade");
