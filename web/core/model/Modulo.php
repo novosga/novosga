@@ -17,13 +17,6 @@ use \core\model\SequencialModel;
  * })
  */
  class Modulo extends SequencialModel {
-     
-     /** @Id @GeneratedValue @Column(type="integer", name="id_mod", nullable=false) */
-    protected $id = 0;
-
-    // status
-    const MODULO_INATIVO = 0;
-    const MODULO_ATIVO = 1;
 
     // TIPO
     const MODULO_UNIDADE = 0;
