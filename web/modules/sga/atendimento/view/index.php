@@ -30,7 +30,7 @@ function atendimentoInfo($atendimento) {
 
 function btnControl($label, $action) {
     ?>
-    <button class="btn-control <?php SGA::out($action) ?>" onclick="SGA.Atendimento.<?php SGA::out($action) ?>()" title="<?php SGA::out(_($label)) ?>"><?php SGA::out(_($label)) ?></button>
+    <button class="btn-control <?php SGA::out($action) ?>" onclick="SGA.Atendimento.<?php SGA::out($action) ?>(this)" title="<?php SGA::out(_($label)) ?>"><?php SGA::out(_($label)) ?></button>
     <?php
 }
 
