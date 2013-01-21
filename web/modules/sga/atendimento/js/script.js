@@ -94,6 +94,7 @@ SGA.Atendimento = {
     
     control: function(prop) {
         prop = prop || {};
+        $(prop.button).button('disable');
         SGA.ajax({
             url: SGA.url(prop.action),
             data: prop.data || {},
@@ -101,12 +102,20 @@ SGA.Atendimento = {
                 if (response.success) {
                     prop.success(response);
                 }
+            },
+            complete: function() {
+                var delay = prop.enableDelay || 0;
+                window.setTimeout(function() {
+                    $(prop.button).button('enable');
+                }, delay);
             }
         });
     },
     
-    chamar: function() {
+    chamar: function(btn) {
         SGA.Atendimento.control({
+            button: btn,
+            enableDelay: 3000,
             action: 'chamar', 
             success: function(response) {
                 // remove o proximo da lista se for o mesmo do atendimento
@@ -126,8 +135,9 @@ SGA.Atendimento = {
         });
     },
     
-    iniciar: function() {
+    iniciar: function(btn) {
         SGA.Atendimento.control({
+            button: btn,
             action: 'iniciar', 
             success: function(response) {
                 SGA.Atendimento.updateControls(3, response.data)
@@ -135,9 +145,10 @@ SGA.Atendimento = {
         });
     },
     
-    nao_compareceu: function() {
+    nao_compareceu: function(btn) {
         if (window.confirm(SGA.Atendimento.marcarNaoCompareceu)) {
             SGA.Atendimento.control({
+                button: btn,
                 action: 'nao_compareceu', 
                 success: function(response) {
                     SGA.Atendimento.updateControls(1, response.data)
@@ -146,8 +157,9 @@ SGA.Atendimento = {
         }
     },
     
-    encerrar: function() {
+    encerrar: function(btn) {
         SGA.Atendimento.control({
+            button: btn,
             action: 'encerrar', 
             success: function(response) {
                 SGA.Atendimento.updateControls(4, response.data)
@@ -160,16 +172,17 @@ SGA.Atendimento = {
         $("#codificar").hide();
     },
     
-    codificar: function() {
+    codificar: function(btn) {
         var servicos = [];
         $('#servicos-realizados input.servicos').each(function(i, e) {
             servicos.push($(e).val());
         });
         if (servicos.length == 0) {
             alert(SGA.Atendimento.nenhumServicoSelecionado);
-            return false;
+            return;
         }
         SGA.Atendimento.control({
+            button: btn,
             action: 'codificar', 
             data: {servicos: servicos.join(',')},
             success: function() {
@@ -189,10 +202,11 @@ SGA.Atendimento = {
         });
     },
     
-    redirecionar: function() {
+    redirecionar: function(btn) {
         var servico = $('#redirecionar_servico').val();
         if (servico > 0 && window.confirm(SGA.Atendimento.marcarErroTriagem)) {
             SGA.Atendimento.control({
+                button: btn,
                 action: 'redirecionar', 
                 data: {servico: servico},
                 success: function() {
