@@ -1,36 +1,8 @@
-/**
- *
- * Copyright (C) 2009 DATAPREV - Empresa de Tecnologia e Informações da
- * Previdência Social - Brasil
- *
- * Este arquivo é parte do programa SGA Livre - Sistema de Gerenciamento do
- * Atendimento - Versão Livre
- *
- * O SGA é um software livre; você pode redistribuí­-lo e/ou modificá-lo dentro
- * dos termos da Licença Pública Geral GNU como publicada pela Fundação do
- * Software Livre (FSF); na versão 2 da Licença, ou (na sua opnião) qualquer
- * versão.
- *
- * Este programa é distribuído na esperança que possa ser útil, mas SEM NENHUMA
- * GARANTIA; sem uma garantia implícita de ADEQUAÇÃO a qualquer MERCADO ou
- * APLICAÇÃO EM PARTICULAR. Veja a Licença Pública Geral GNU para maiores
- * detalhes.
- *
- * Você deve ter recebido uma cópia da Licença Pública Geral GNU, sob o título
- * "LICENCA.txt", junto com este programa, se não, escreva para a Fundação do
- * Software Livre(FSF) Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
- * USA.
- *
- *
- */
-package br.gov.dataprev.userinterface;
+
+package br.gov.dataprev.userinterface.network;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.SocketException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
@@ -42,15 +14,13 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import br.gov.dataprev.estruturadados.ConfiguracaoGlobal;
 import br.gov.dataprev.userinterface.SenhaPainel;
+import br.gov.dataprev.userinterface.Web;
 
-public class UDPListener implements Runnable {
+public abstract class PacketListener implements Runnable {
 
-    private static final Logger LOG = Logger.getLogger(UDPListener.class.getName());
-    private static final UDPListener INSTANCE = new UDPListener();
-    private DatagramSocket _socket;
+    private static final Logger LOG = Logger.getLogger(PacketListener.class.getName());
     private Thread _thread;
     private Thread _tarefaDesligamento;
     private final ScheduledExecutorService _ses = Executors.newScheduledThreadPool(1);
@@ -66,29 +36,6 @@ public class UDPListener implements Runnable {
      */
     public static final int VERSAO_PROTOCOLO = 1;
 
-    public static enum TipoPacoteRecebido {
-
-        MSG_SENHA, // 0
-        MSG_CONFIRMA_CADASTRO, // 1
-        MSG_URLS,              // 2
-    }
-
-    public static enum TipoPacoteEnviado {
-
-        MSG_CADASTRO_PAINEL, // 0
-        MSG_PAINEL_VIVO, // 1
-        MSG_SOLICITAR_URLS, // 2
-        MSG_DESATIVAR_PAINEL,	// 3
-    }
-
-    /**
-     * Singleton
-     *
-     * @return O Singleton UDPListener
-     */
-    public static UDPListener getInstance() {
-        return INSTANCE;
-    }
 
     /**
      * Inicia o processo de escuta/recebimento na porta UDP.<br>
@@ -96,54 +43,13 @@ public class UDPListener implements Runnable {
      * @throws SocketException Se não foi possivél abrir o socket UDP
      * (possivelmente já existe outro painel usando a porta).
      */
-    public void inicia() throws SocketException {
-        _socket = new DatagramSocket(8888);
-        _thread = new Thread(this, "UDPSocketThread");
+    public void inicia() throws Exception {
+        doStart();
+        _thread = new Thread(this, "PacketListennerThread");
         _thread.start();
     }
-
-    /**
-     * Implementação do Thread servidor UDP
-     */
-    @Override
-    public void run() {
-        if (_socket != null) {
-            byte[] buffer = new byte[4096];
-            DatagramPacket dp = new DatagramPacket(buffer, 4096);
-            ByteBuffer buf = ByteBuffer.wrap(buffer);
-            ExecutorService executor = Executors.newFixedThreadPool(1);
-            try {
-                while (true) {
-                    try {
-                        buf.clear();
-                        _socket.receive(dp);
-                        InetSocketAddress sa = (InetSocketAddress) dp.getSocketAddress();
-                        LOG.fine("Pacote recebido (Tamanho: " + dp.getLength() + " Origem: " + dp.getSocketAddress() + ")");
-
-                        InetAddress serverAddress = InetAddress.getByName(ConfiguracaoGlobal.getInstance().getIPServer());
-
-                        // só aceitar pacotes originados do servidor
-                        if (sa.getAddress().equals(serverAddress)) {
-                            try {
-                                this.lePacote(executor, buf);
-                            } catch (Throwable t) {
-                                LOG.log(Level.SEVERE, "Pacote recebido (Tamanho: " + dp.getLength() + " Origem: " + dp.getSocketAddress() + ")", t);
-                            }
-                        } else {
-
-                            LOG.warning("Descartando pacote recebido de origem diferente a do controlador: Origem: [" + sa.getAddress().toString() + "] Controlador: [" + ConfiguracaoGlobal.getInstance().getIPServer() + "]");
-                        }
-                    } catch (IOException e) {
-                        LOG.log(Level.SEVERE, "Erro recebendo pacote", e);
-                    }
-                }
-            } finally {
-                executor.shutdownNow();
-                LOG.fine("Processador de senhas encerrado");
-            }
-        }
-    }
-
+    
+    protected abstract void doStart() throws Exception;
     /**
      * Processa as mensagens recebidas via UDP.<br> <br> <ul> <li>O tipo da
      * mensagem é definido pelo primeiro byte.</li> <li>Em seguida o resto da
@@ -153,15 +59,13 @@ public class UDPListener implements Runnable {
      * @param executor Thread que irá executar a ação recebida (se necessário)
      * @param buf Buffer com os dados da mensagem recebida
      */
-    private void lePacote(ExecutorService executor, ByteBuffer buf) {
-        int tipoPacote = UDPListener.leByte(buf);
-
+    protected void lePacote(ExecutorService executor, ByteBuffer buf) {
+        int tipoPacote = PacketListener.leByte(buf);
         // obtem o tipo do pacote
         TipoPacoteRecebido tpr = null;
         if (tipoPacote < TipoPacoteRecebido.values().length) {
             tpr = TipoPacoteRecebido.values()[tipoPacote];
         }
-
         // executa uma acao de acordo com o tipo do pacote
         if (tipoPacote == TipoPacoteRecebido.MSG_SENHA.ordinal()) {
             this.leMessageSenha(executor, buf);
@@ -184,14 +88,14 @@ public class UDPListener implements Runnable {
      * @param executor Thread que irá executar a ação recebida
      * @param buf Buffer com os dados da mensagem recebida
      */
-    private void leMessageSenha(ExecutorService executor, ByteBuffer buf) {
+    protected void leMessageSenha(ExecutorService executor, ByteBuffer buf) {
         try {
-            String msgEspecial = UDPListener.leString(buf);
-            char charServico = (char) UDPListener.leByte(buf);
-            int senha = UDPListener.leShort(buf);
+            String msgEspecial = PacketListener.leString(buf);
+            char charServico = (char) PacketListener.leByte(buf);
+            int senha = PacketListener.leShort(buf);
 
-            String guiche = UDPListener.leString(buf);
-            int numeroGuiche = UDPListener.leByte(buf);
+            String guiche = PacketListener.leString(buf);
+            int numeroGuiche = PacketListener.leByte(buf);
 
             SenhaPainel senhaPainel = new SenhaPainel(Web.getInstance(), msgEspecial, charServico, senha, guiche, numeroGuiche);
             executor.execute(senhaPainel);
@@ -209,9 +113,9 @@ public class UDPListener implements Runnable {
      * @param executor Thread que irá executar a ação recebida
      * @param buf Buffer com os dados da mensagem recebida
      */
-    private void leMsgConfirmaCadastro(ExecutorService executor, ByteBuffer buf) {
+    protected void leMsgConfirmaCadastro(ExecutorService executor, ByteBuffer buf) {
         try {
-            _intervaloSinalDeVida = UDPListener.leShort(buf);
+            _intervaloSinalDeVida = PacketListener.leShort(buf);
             this.agendarSinalDeVida();
 
             if (_tarefaDesligamento == null) {
@@ -236,10 +140,10 @@ public class UDPListener implements Runnable {
      * @param executor Thread que irá executar a ação recebida
      * @param buf Buffer com os dados da mensagem recebida
      */
-    private void leMsgUrls(ExecutorService executor, ByteBuffer buf) {
+    protected void leMsgUrls(ExecutorService executor, ByteBuffer buf) {
         try {
-            String urlUnidades = UDPListener.leString(buf);
-            String urlServicos = UDPListener.leString(buf);
+            String urlUnidades = PacketListener.leString(buf);
+            String urlServicos = PacketListener.leString(buf);
 
             LOG.info("RECEBIDO: URL Unidades: " + urlUnidades);
             LOG.info("RECEBIDO: URL Serviços: " + urlUnidades);
@@ -286,7 +190,7 @@ public class UDPListener implements Runnable {
     public static String leString(ByteBuffer buf) {
         StringBuilder sb = new StringBuilder();
         char b;
-        while ((b = (char) UDPListener.leByte(buf)) != 0) {
+        while ((b = (char) PacketListener.leByte(buf)) != 0) {
             sb.append(b);
         }
 
@@ -303,16 +207,15 @@ public class UDPListener implements Runnable {
     public static Color leCor(ByteBuffer buf) {
         return new Color(leByte(buf), leByte(buf), leByte(buf));
     }
+    
+    protected abstract void send(ByteBuffer buffer) throws Exception;
 
-    public synchronized void obterURLs() throws IOException {
+    public synchronized void obterURLs() throws Exception {
         ByteBuffer buf = ByteBuffer.wrap(new byte[1]);
         buf.put((byte) TipoPacoteEnviado.MSG_SOLICITAR_URLS.ordinal());
-        byte[] data = buf.array();
-        InetAddress serverAddress = InetAddress.getByName(ConfiguracaoGlobal.getInstance().getIPServer());
-        DatagramPacket dp = new DatagramPacket(data, 0, buf.position(), new InetSocketAddress(serverAddress, 9999));
 
         _latchObterURLs = new CountDownLatch(1);
-        _socket.send(dp);
+        send(buf);
 
         int timeout = ConfiguracaoGlobal.getInstance().getTimeoutOperacoesUDP();
         boolean ok = false;
@@ -321,7 +224,6 @@ public class UDPListener implements Runnable {
         } catch (InterruptedException e) {
             // nada
         }
-
         // timeout?
         if (!ok) {
             throw new IOException("Tempo de espera pela resposta (" + timeout + " segundos) esgotado.");
@@ -341,21 +243,18 @@ public class UDPListener implements Runnable {
      * @throws IOException Se ocorreu um erro de I/O no processo de envio do
      * cadastro.
      */
-    public synchronized void cadastrarPainel(int idUnidade, int[] servicos) throws TimeoutException, IOException {
+    public synchronized void cadastrarPainel(int idUnidade, int[] servicos) throws TimeoutException, Exception {
         ByteBuffer buf = ByteBuffer.wrap(new byte[4096]);
         buf.put((byte) TipoPacoteEnviado.MSG_CADASTRO_PAINEL.ordinal());
-        buf.putInt(UDPListener.VERSAO_PROTOCOLO);
+        buf.putInt(PacketListener.VERSAO_PROTOCOLO);
         buf.putInt(idUnidade);
         buf.put((byte) servicos.length);
         for (int s : servicos) {
             buf.put((byte) s);
         }
 
-        byte[] data = buf.array();
-        InetAddress serverAddress = InetAddress.getByName(ConfiguracaoGlobal.getInstance().getIPServer());
-        DatagramPacket dp = new DatagramPacket(data, 0, buf.position(), new InetSocketAddress(serverAddress, 9999));
         _latchCadastro = new CountDownLatch(1);
-        _socket.send(dp);
+        send(buf);
 
         int timeout = ConfiguracaoGlobal.getInstance().getTimeoutOperacoesUDP();
         boolean ok = false;
@@ -381,16 +280,11 @@ public class UDPListener implements Runnable {
      * @throws IOException Se ocorreu um erro de I/O no processo de envio do
      * Sinal de Vida.
      */
-    public void enviarSinalDeVida() throws IOException {
+    public void enviarSinalDeVida() throws Exception {
         ByteBuffer buf = ByteBuffer.wrap(new byte[3]);
         buf.put((byte) TipoPacoteEnviado.MSG_PAINEL_VIVO.ordinal());
         buf.putShort((short) _intervaloSinalDeVida);
-
-        byte[] data = buf.array();
-        InetAddress serverAddress = InetAddress.getByName(ConfiguracaoGlobal.getInstance().getIPServer());
-        DatagramPacket dp = new DatagramPacket(data, 0, buf.position(), new InetSocketAddress(serverAddress, 9999));
-
-        _socket.send(dp);
+        send(buf);
     }
 
     /**
@@ -400,15 +294,10 @@ public class UDPListener implements Runnable {
      * @throws IOException Se ocorreu um erro de I/O no processo de envio da
      * mensagem.
      */
-    private void desregistrarDoServidor() throws IOException {
+    private void desregistrarDoServidor() throws Exception {
         ByteBuffer buf = ByteBuffer.wrap(new byte[1]);
         buf.put((byte) TipoPacoteEnviado.MSG_DESATIVAR_PAINEL.ordinal());
-
-        byte[] data = buf.array();
-        InetAddress serverAddress = InetAddress.getByName(ConfiguracaoGlobal.getInstance().getIPServer());
-        DatagramPacket dp = new DatagramPacket(data, 0, buf.position(), new InetSocketAddress(serverAddress, 9999));
-
-        _socket.send(dp);
+        send(buf);
     }
 
     /**
@@ -423,19 +312,17 @@ public class UDPListener implements Runnable {
             // cancelar agendamento anterior
             future.cancel(false);
         }
-
         final Runnable r = new Runnable() {
             @Override
             public void run() {
                 try {
-                    UDPListener.this.enviarSinalDeVida();
+                    PacketListener.this.enviarSinalDeVida();
                 } catch (Throwable e) {
                     e.printStackTrace();
                     // ?
                 }
             }
         };
-
         // agendar tarefa continua com intervalos de (_intervaloSinalDeVida - 10) segundos
         //_future = _ses.scheduleAtFixedRate(r, 0, _intervaloSinalDeVida - 10, TimeUnit.SECONDS);
 		/* 
@@ -458,8 +345,8 @@ public class UDPListener implements Runnable {
         @Override
         public void run() {
             try {
-                UDPListener.this.desregistrarDoServidor();
-            } catch (IOException e) {
+                PacketListener.this.desregistrarDoServidor();
+            } catch (Exception e) {
                 // Painel sendo fechado, ignorar erro
             }
         }
@@ -481,4 +368,19 @@ public class UDPListener implements Runnable {
             super(message);
         }
     }
+    
+    public static enum TipoPacoteRecebido {
+        MSG_SENHA, // 0
+        MSG_CONFIRMA_CADASTRO, // 1
+        MSG_URLS,              // 2
+    }
+
+    public static enum TipoPacoteEnviado {
+
+        MSG_CADASTRO_PAINEL, // 0
+        MSG_PAINEL_VIVO, // 1
+        MSG_SOLICITAR_URLS, // 2
+        MSG_DESATIVAR_PAINEL,	// 3
+    }
+    
 }

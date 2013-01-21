@@ -11,7 +11,7 @@ import javax.swing.SwingUtilities;
  * @version 1.0
  * @category Interface
  */
-class SenhaPainel implements Runnable {
+public class SenhaPainel implements Runnable {
     
     private static final Logger LOG = Logger.getLogger(Web.class.getName());
 
