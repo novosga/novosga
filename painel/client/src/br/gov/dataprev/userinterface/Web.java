@@ -25,6 +25,7 @@
  */
 package br.gov.dataprev.userinterface;
 
+import br.gov.dataprev.userinterface.network.UDPListener;
 import java.awt.AWTException;
 import java.awt.Cursor;
 import java.awt.DisplayMode;
