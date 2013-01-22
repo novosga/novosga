@@ -29,7 +29,11 @@ class LoginController extends InternalController {
                     SGA::redirect(array(SGA::K_MODULE => $context->getModulo()->getChave()));
                 }
             } else {
-                $this->view()->assign('error', _('Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.'));
+                $user = $context->getUser();
+                if ($user != null) {
+                    $this->view()->assign('error', _('Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.'));
+                    $context->setUser(null);
+                }
             }
         }
     }
