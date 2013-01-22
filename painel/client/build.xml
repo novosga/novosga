@@ -43,6 +43,8 @@
         <copy todir="${build.dist}">
             <fileset dir="${dist-files}" />
         </copy>
+        <replace file="${build.dist}/painel.bat" token="{distname}" value="${distname}" />
+        <replace file="${build.dist}/painel.sh" token="{distname}" value="${distname}" />
         <copy todir="${build.classes}/br/gov/dataprev/userinterface/fonts/">
             <fileset dir="${src}/br/gov/dataprev/userinterface/fonts/">
                 <include name="*.ttf" />

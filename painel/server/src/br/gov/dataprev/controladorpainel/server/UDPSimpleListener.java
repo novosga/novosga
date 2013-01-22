@@ -19,7 +19,6 @@ import br.gov.dataprev.controladorpainel.server.ServerStatus;
 public class UDPSimpleListener extends UDPServer implements Runnable {
 
     private static final Logger LOG = Logger.getLogger(UDPSimpleListener.class.getName());
-    
     private final ByteBuffer _bufferLeitura;
     private final ByteBuffer _bufferEscrita;
     private final Thread _thread;
@@ -44,23 +43,19 @@ public class UDPSimpleListener extends UDPServer implements Runnable {
 
     public void run() {
         try {
-            _ds = new DatagramSocket(9999);
+            _ds = new DatagramSocket(_port);
         } catch (SocketException e) {
             LOG.log(Level.SEVERE, "Falha inicializando socket: " + e.getMessage(), e);
             System.exit(2);
         }
-
         this.setStatus(ServerStatus.RUNNING);
-
         InetSocketAddress origem = null;
         for (;;) {
             DatagramPacket packet = new DatagramPacket(_bufferLeitura.array(), _bufferLeitura.capacity());
             try {
                 // reinicia o buffer
                 _bufferLeitura.clear();
-
                 _ds.receive(packet);
-
                 // se o pacote cabe no buffer de leitura
                 if (packet.getLength() <= _bufferLeitura.capacity()) {
                     // limita o buffer ao conteudo recebido
@@ -89,15 +84,11 @@ public class UDPSimpleListener extends UDPServer implements Runnable {
         // envia no current thread
         synchronized (this) {
             _bufferEscrita.clear();
-
             if (msg.writeTo(_bufferEscrita)) {
                 _bufferEscrita.flip();
-
-
                 DatagramPacket packet;
                 try {
                     packet = new DatagramPacket(_bufferEscrita.array(), _bufferEscrita.limit(), msg.getSocketAddress());
-
                     _ds.send(packet);
                 } catch (SocketException e) {
                     LOG.log(Level.SEVERE, "Falha criando pacote. Motivo: " + e.getMessage(), e);

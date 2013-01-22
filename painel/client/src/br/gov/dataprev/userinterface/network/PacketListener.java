@@ -1,4 +1,3 @@
-
 package br.gov.dataprev.userinterface.network;
 
 import java.awt.Color;
@@ -6,7 +5,6 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -25,10 +23,8 @@ public abstract class PacketListener implements Runnable {
     private Thread _tarefaDesligamento;
     private final ScheduledExecutorService _ses = Executors.newScheduledThreadPool(1);
     private ScheduledFuture<?> _future;
+    protected int _port;
     private int _intervaloSinalDeVida;
-    // Semaphoros
-    private CountDownLatch _latchCadastro;
-    private CountDownLatch _latchObterURLs;
     /**
      * Versão do protocolo, independe da versão do programa.<br> Deve ser
      * incrementada se houver uma modificação no formato de alguma das
@@ -36,6 +32,9 @@ public abstract class PacketListener implements Runnable {
      */
     public static final int VERSAO_PROTOCOLO = 1;
 
+    public PacketListener(int port) {
+        _port = port;
+    }
 
     /**
      * Inicia o processo de escuta/recebimento na porta UDP.<br>
@@ -96,10 +95,18 @@ public abstract class PacketListener implements Runnable {
 
             String guiche = PacketListener.leString(buf);
             int numeroGuiche = PacketListener.leByte(buf);
-
+            // verificando integridade dos dados
             SenhaPainel senhaPainel = new SenhaPainel(Web.getInstance(), msgEspecial, charServico, senha, guiche, numeroGuiche);
-            executor.execute(senhaPainel);
-
+            if (senha > 0 && numeroGuiche > 0 && guiche != null && !guiche.isEmpty()) {
+                executor.execute(senhaPainel);
+                try {
+                    //  colocando o executor para aguardar, para em caso de multiplas chamadas, dar tempo de ver a senha atual
+                    executor.awaitTermination(3, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                }
+            } else {
+                LOG.severe("[MSG_SENHA] Ignorando senha a seguir: Dados inválidos.");
+            }
             LOG.info("[MSG_SENHA] Senha recebida para exibição: " + senhaPainel.toString());
         } catch (BufferUnderflowException e) {
             LOG.log(Level.SEVERE, "Erro lendo pacote MSG_SENHA, não havia dados suficientes na mensagem recebida.", e);
@@ -117,20 +124,18 @@ public abstract class PacketListener implements Runnable {
         try {
             _intervaloSinalDeVida = PacketListener.leShort(buf);
             this.agendarSinalDeVida();
-
             if (_tarefaDesligamento == null) {
                 _tarefaDesligamento = new TarefaDesligamento();
                 Runtime.getRuntime().addShutdownHook(_tarefaDesligamento);
             }
-
-            // sinaliza recebimento de confirmação de cadastro
-            _latchCadastro.countDown();
-
+            postLeMsgConfirmaCadastro();
             LOG.info("[MSG_CONFIRMA_CADASTRO] Confirmação de cadastro no controlador recebida.");
         } catch (BufferUnderflowException e) {
             LOG.log(Level.SEVERE, "Erro lendo pacote MSG_CONFIRMA_CADASTRO, não havia dados suficientes na mensagem recebida.", e);
         }
     }
+    
+    protected void postLeMsgConfirmaCadastro() {}
 
     /**
      * Le a mensagem contendo as urls. O Executor e o buffer não são
@@ -150,12 +155,14 @@ public abstract class PacketListener implements Runnable {
 
             ConfiguracaoGlobal.getInstance().setUrlUnidades(urlUnidades);
             ConfiguracaoGlobal.getInstance().setUrlServicos(urlServicos);
-
-            _latchObterURLs.countDown();
+            
+            postLeMsgUrls();
         } catch (BufferUnderflowException e) {
             LOG.log(Level.SEVERE, "Erro lendo pacote MSG_URLS, não havia dados suficientes na mensagem recebida.", e);
         }
     }
+    
+    protected void postLeMsgUrls() {}
 
     /**
      * Le um byte do buffer passado e o retorna como um inteiro sem sinal
@@ -193,7 +200,6 @@ public abstract class PacketListener implements Runnable {
         while ((b = (char) PacketListener.leByte(buf)) != 0) {
             sb.append(b);
         }
-
         return sb.toString();
     }
 
@@ -214,21 +220,13 @@ public abstract class PacketListener implements Runnable {
         ByteBuffer buf = ByteBuffer.wrap(new byte[1]);
         buf.put((byte) TipoPacoteEnviado.MSG_SOLICITAR_URLS.ordinal());
 
-        _latchObterURLs = new CountDownLatch(1);
+        preObterUrls();
         send(buf);
-
-        int timeout = ConfiguracaoGlobal.getInstance().getTimeoutOperacoesUDP();
-        boolean ok = false;
-        try {
-            ok = _latchObterURLs.await(timeout, TimeUnit.SECONDS);
-        } catch (InterruptedException e) {
-            // nada
-        }
-        // timeout?
-        if (!ok) {
-            throw new IOException("Tempo de espera pela resposta (" + timeout + " segundos) esgotado.");
-        }
+        postObterUrls();
     }
+    
+    protected void preObterUrls() { }
+    protected void postObterUrls() { }
 
     /**
      * Cadastra um painel no servidor.<br> Este método bloqueia até que a
@@ -252,24 +250,13 @@ public abstract class PacketListener implements Runnable {
         for (int s : servicos) {
             buf.put((byte) s);
         }
-
-        _latchCadastro = new CountDownLatch(1);
+        preCadastrarPainel();
         send(buf);
-
-        int timeout = ConfiguracaoGlobal.getInstance().getTimeoutOperacoesUDP();
-        boolean ok = false;
-        try {
-            ok = _latchCadastro.await(timeout, TimeUnit.SECONDS);
-            System.err.println("LATCH CADASTRO OK");
-        } catch (InterruptedException e) {
-            // nada
-        }
-
-        // timeout?
-        if (!ok) {
-            throw new TimeoutException("Tempo de espera pela resposta (" + timeout + " segundos) esgotado.");
-        }
+        postCadastrarPainel();
     }
+    
+    protected void preCadastrarPainel() {}
+    protected void postCadastrarPainel() {}
 
     /**
      * Envia um pacote de sinal de vida para o servidor.<BR> Se o painel falhar

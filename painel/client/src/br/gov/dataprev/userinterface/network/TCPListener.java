@@ -7,7 +7,8 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import br.gov.dataprev.estruturadados.ConfiguracaoGlobal;
-import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
@@ -17,13 +18,17 @@ import java.net.Socket;
 public class TCPListener extends PacketListener {
 
     private static final Logger LOG = Logger.getLogger(TCPListener.class.getName());
-    private Socket _socket;
+    private static final int BUFFER_SIZE = 8192;
+    private ServerSocket _server;
+
+    public TCPListener(int port) {
+        super(port);
+    }
     
     @Override
     public void doStart() throws Exception {
-        String serverName = ConfiguracaoGlobal.getInstance().getIPServer();
-        int serverPort = ConfiguracaoGlobal.getInstance().getPort();
-        _socket = new Socket(serverName, serverPort);
+        // inicia um servidor local para receber mensagens do controlador de paineis
+        _server = new ServerSocket(_port);
     }
 
     /**
@@ -31,41 +36,62 @@ public class TCPListener extends PacketListener {
      */
     @Override
     public void run() {
-        if (_socket != null) {
-            byte[] buffer = new byte[4096];
-            ByteBuffer buf = ByteBuffer.wrap(buffer);
-            ExecutorService executor = Executors.newFixedThreadPool(1);
-            try {
-                while (true) {
-                    try {
-                        buf.clear();
+        ByteBuffer buffer = ByteBuffer.wrap(new byte[BUFFER_SIZE]);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        try {
+            while (true) {
+                try {
+                    Socket client = _server.accept();
+                    if (client != null) {
                         int read;
                         int totalRead = 0;
-                        InputStream clientInputStream = _socket.getInputStream();
-                        while ((read = clientInputStream.read(buf.array())) != -1) {
+                        buffer.clear();
+                        while ((read = client.getInputStream().read(buffer.array())) != -1) {
                             totalRead += read;
                         }
-                        LOG.fine("Pacote recebido (Tamanho: " + totalRead);
-
+                        LOG.fine("Pacote recebido (Tamanho: " + totalRead + ")");
                         try {
-                            this.lePacote(executor, buf);
+                            this.lePacote(executor, buffer);
                         } catch (Throwable t) {
-                            LOG.log(Level.SEVERE, "Pacote recebido (Tamanho: " + totalRead, t);
+                            LOG.log(Level.SEVERE, "Pacote recebido (Tamanho: " + totalRead + ")", t);
                         }
-                    } catch (IOException e) {
-                        LOG.log(Level.SEVERE, "Erro recebendo pacote", e);
+                        client.close();
                     }
+                } catch (IOException e) {
+                    LOG.log(Level.SEVERE, "Erro recebendo pacote", e);
                 }
-            } finally {
-                executor.shutdownNow();
-                LOG.fine("Processador de senhas encerrado");
             }
+        } catch (Exception e) {
+            executor.shutdownNow();
+            LOG.fine("Processador de senhas encerrado");
         }
     }
     
     @Override
     protected void send(ByteBuffer buffer) throws Exception {
-        _socket.getOutputStream().write(buffer.array());
+        int attempts = 0;
+        int maxAttempts = 5;
+        while (attempts < maxAttempts) {
+            try {
+                String serverName = ConfiguracaoGlobal.getInstance().getIPServer();
+                int serverPort = ConfiguracaoGlobal.getInstance().getPort();
+                Socket socket = new Socket();
+                socket.connect(new InetSocketAddress(serverName, serverPort));
+                socket.getOutputStream().write(buffer.array());
+                socket.close();
+                // sai do loop em caso de sucesso
+                break; 
+            } catch (IOException e) {
+                // erro ao tentar enviar, incrementa tentativas
+                attempts++;
+                LOG.log(Level.SEVERE, "Falha enviando pacote. Motivo: " + e.getMessage(), e);
+            }
+        }
+        if (attempts >= maxAttempts) {
+            String message = "Erro ao tentar enviar pacote TCP. Número máximo de tentativas esgotados";
+            LOG.log(Level.SEVERE, message);
+            throw new Exception(message);
+        }
     }
 
 }

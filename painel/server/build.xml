@@ -68,7 +68,9 @@
         <copy todir="${build.dist}">
             <fileset dir="${dist-files}" />
         </copy>
+        <replace file="${build.dist}/server.bat" token="{distname}" value="${distname}" />
         <replace file="${build.dist}/server.sh" token="{distname}" value="${distname}" />
+        <chmod file="${build.dist}/server.sh" perm="755" />
     </target>
 
     <!--
