@@ -38,6 +38,10 @@
     margin: 0;
 }
 
+#geral {
+    background: #fff;
+}
+
 /* login */
 .login #logo {
     top: 50%;
