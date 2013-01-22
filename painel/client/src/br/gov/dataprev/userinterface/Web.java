@@ -25,7 +25,6 @@
  */
 package br.gov.dataprev.userinterface;
 
-import br.gov.dataprev.userinterface.network.UDPListener;
 import java.awt.AWTException;
 import java.awt.Cursor;
 import java.awt.DisplayMode;
@@ -52,6 +51,7 @@ import br.gov.dataprev.estruturadados.VetSenhas;
 import br.gov.dataprev.painel.event.PainelMouseListener;
 import br.gov.dataprev.userinterface.display.Display;
 import br.gov.dataprev.userinterface.display.Label;
+import br.gov.dataprev.userinterface.network.PacketListenerFactory;
 
 /**
  * @author DATAPREV
@@ -302,7 +302,8 @@ public class Web {
     }
 
     private void contadorDeTempo() {
-        this.contadorDePulso = new Thread(new UDPListener(), "UDP Receptor");
+        String protocol = ConfiguracaoGlobal.getInstance().getProtocol();
+        this.contadorDePulso = new Thread(PacketListenerFactory.create(protocol), protocol + " Receptor");
         this.contadorDePulso.setDaemon(true);
         this.contadorDePulso.start();
     }

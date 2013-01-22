@@ -37,11 +37,13 @@ import br.gov.dataprev.userinterface.Loader;
 import br.gov.dataprev.userinterface.Mensagem;
 import br.gov.dataprev.userinterface.SysTray;
 import br.gov.dataprev.userinterface.network.PacketListener;
+import br.gov.dataprev.userinterface.network.PacketListenerFactory;
 import br.gov.dataprev.userinterface.network.TCPListener;
 import br.gov.dataprev.userinterface.network.UDPListener;
 
 public class Painel {
     
+    public static final int PORT = 8888;
     private static PacketListener listener;
 
     private static final String[] LOG_PROPERTIES = {"java.runtime.name", "java.vm.name", "java.vm.version", "java.vm.vendor", "java.runtime.version", "user.country", "os.name", "os.arch", "os.version", "java.awt.graphicsenv"};
@@ -83,14 +85,10 @@ public class Painel {
         // Inicia o servidor para receber mensagens
         String protocol = ConfiguracaoGlobal.getInstance().getProtocol();
         try {
-            if (protocol.equalsIgnoreCase("TCP")) {
-                listener = new TCPListener();
-            } else {
-                listener = new UDPListener();
-            }
+            listener = PacketListenerFactory.create(protocol);
             listener.inicia();
         } catch (Exception e) {
-            Mensagem.showMensagem("Erro abrindo socket " + protocol + ", verifique se outro painel não está aberto.", "ERRO", 0, e);
+            Mensagem.showMensagem(e.getMessage(), "ERRO", 0, e);
             System.exit(1);
         }
         // Adiciona o painel na banjeida do sistema

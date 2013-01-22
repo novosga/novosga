@@ -41,6 +41,7 @@ import br.gov.dataprev.controladorpainel.enviados.ConfirmaMsg;
 public class Painel {
 
     private static final Logger LOG = Logger.getLogger(Painel.class.getName());
+    public static final int PORT = 8888;
     private int _apsId;
     private final InetSocketAddress _host;
     private byte[] _servicos;
@@ -53,7 +54,7 @@ public class Painel {
 
     public Painel(int apsId, InetAddress host, byte[] servicos, boolean existeNoBanco) {
         _apsId = apsId;
-        _host = new InetSocketAddress(host, 8888);
+        _host = new InetSocketAddress(host, PORT);
         _painelDAO = new PainelDAO(this, existeNoBanco);
         this.setServicos(servicos);
         if (existeNoBanco) {
