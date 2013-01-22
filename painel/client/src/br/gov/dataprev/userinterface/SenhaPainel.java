@@ -12,9 +12,8 @@ import javax.swing.SwingUtilities;
  * @category Interface
  */
 public class SenhaPainel implements Runnable {
-    
-    private static final Logger LOG = Logger.getLogger(Web.class.getName());
 
+    private static final Logger LOG = Logger.getLogger(Web.class.getName());
     private final Web web;
     private final String _msgEspecial;
     private final String _senha;
@@ -25,16 +24,13 @@ public class SenhaPainel implements Runnable {
     public SenhaPainel(Web web, String msgEspecial, char charServico, int senha, String guiche, int numeroGuiche) {
         this.web = web;
         _msgEspecial = msgEspecial;
-
         String senhaStr = String.valueOf(senha);
         // completa com os zeros necessarios
         for (int i = senhaStr.length(); i < 4; i++) {
             senhaStr = "0" + senhaStr;
         }
-
         _senha = charServico + senhaStr;
         _guiche = guiche + ':';
-
         String numGuicheStr = String.valueOf(numeroGuiche);
         // completa com os zeros necessarios
         for (int i = numGuicheStr.length(); i < 3; i++) {
@@ -49,26 +45,20 @@ public class SenhaPainel implements Runnable {
     @Override
     public void run() {
         web.exibirSenha(_msgEspecial, _guiche, _numeroGuiche, _senha);
-
         PiscaLayout t = new PiscaLayout();
         t.start();
-
         try {
             AudioPlayer.getInstance().play(AudioPlayer.ALERTS_PATH, ConfLayout.getInstance().getSom());
         } catch (Throwable tw) {
             LOG.log(Level.SEVERE, "Erro tocando som: " + ConfLayout.getInstance().getSom(), tw);
         }
-
         if (ConfLayout.getInstance().isVocalizarSenhas()) {
             try {
                 AudioPlayer.getInstance().getVocalizador().vocalizar("senha", true);
-
                 for (int i = 0; i < _senha.length(); i++) {
                     AudioPlayer.getInstance().getVocalizador().vocalizar(String.valueOf(_senha.charAt(i)), true);
                 }
-
                 AudioPlayer.getInstance().getVocalizador().vocalizar("guiche", true);
-
                 for (int i = 0; i < _numeroGuiche.length(); i++) {
                     AudioPlayer.getInstance().getVocalizador().vocalizar(String.valueOf(_numeroGuiche.charAt(i)), true);
                 }
@@ -76,7 +66,6 @@ public class SenhaPainel implements Runnable {
                 LOG.log(Level.SEVERE, "Erro durante vocalização de senha", e1);
             }
         }
-
         try {
             // Adormece o  thread para garantir que a senha atual terá tempo suficiente de exibição
             Thread.sleep(intervalo * 1000);
@@ -84,14 +73,13 @@ public class SenhaPainel implements Runnable {
             // nunca deverá acontecer
             e.printStackTrace();
         }
-
     }
 
     @Override
     public String toString() {
         return "Senha[Msg: " + _msgEspecial + " Senha: " + _senha + " GuicheMsg: " + _guiche + " GuicheNum: " + _numeroGuiche + "]";
     }
-    
+
     // metodo que faz a senha piscar
     private class PiscaLayout extends Thread {
 
@@ -118,4 +106,5 @@ public class SenhaPainel implements Runnable {
             }
         }
     }
+    
 }

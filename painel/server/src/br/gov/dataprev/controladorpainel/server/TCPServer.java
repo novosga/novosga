@@ -1,17 +1,15 @@
 package br.gov.dataprev.controladorpainel.server;
 
+import br.gov.dataprev.controladorpainel.Painel;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import br.gov.dataprev.controladorpainel.enviados.ServerMsg;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 
 /**
  * @author ulysses
@@ -27,7 +25,6 @@ public class TCPServer extends PacketServer implements Runnable {
     private ServerSocket _socket;
     private ByteBuffer _bufferLeitura;
     private ByteBuffer _bufferEscrita;
-    private static final HashMap<String, Socket> _clients = new HashMap<String, Socket>();
 
     public TCPServer(int port) {
         super(port, MIN_THREADS);      
@@ -48,33 +45,17 @@ public class TCPServer extends PacketServer implements Runnable {
     public void run() {
         try {
             _socket = new ServerSocket(_port);
-            _socket.setSoTimeout(0);
-            //_socket.getChannel().configureBlocking(false);
         } catch (Exception e) {
             LOG.log(Level.SEVERE, "Falha inicializando socket: " + e.getMessage(), e);
             System.exit(2);
         }
-        final TCPServer server = this;
         this.setStatus(ServerStatus.RUNNING);
-        Runnable t = new Runnable() {
-
-            @Override
-            public void run() {
-                server.liten();
-            }
-            
-        };
-        t.run();
-    }
-    
-    public void liten() {
         InetSocketAddress origem = null;
         while (true) {
             try {
                 _bufferLeitura.clear();
                 Socket client = _socket.accept();
                 if (client != null) {
-                    client.getInputStream();
                     int read;
                     int totalRead = 0;
                     InputStream clientInputStream = client.getInputStream();
@@ -84,7 +65,7 @@ public class TCPServer extends PacketServer implements Runnable {
                     String host = client.getLocalAddress().getHostAddress();
                     origem = new InetSocketAddress(host, client.getPort());
                     this.getPacketHandler().processaDados(origem, _bufferLeitura);
-                    _clients.put(host, client);
+                    client.close();
                 }
             } catch (IOException e) {
                 LOG.log(Level.SEVERE, "Erro tentando receber pacote TCP", e);
@@ -96,18 +77,24 @@ public class TCPServer extends PacketServer implements Runnable {
     public void envia(ServerMsg msg) {
         // envia no current thread
         synchronized (this) {
-            _bufferEscrita.clear();
-            String host = msg.getHostRemotoStr();
-            if (_clients.containsKey(host)) {
-                Socket client = _clients.get(host);
-                if (msg.writeTo(_bufferEscrita)) {
-                    _bufferEscrita.flip();
-                    try {
-                        OutputStream clientOutputStream = client.getOutputStream();
-                        clientOutputStream.write(_bufferEscrita.array());
-                    } catch (IOException e) {
-                        LOG.log(Level.SEVERE, "Falha enviando pacote. Motivo: " + e.getMessage(), e);
+            int attempts = 0;
+            int maxAttempts = 5;
+            while (attempts < maxAttempts) {
+                try {
+                    _bufferEscrita.clear();
+                    String host = msg.getHostRemotoStr();
+                    Socket socket = new Socket();
+                    socket.connect(new InetSocketAddress(host, Painel.PORT));
+                    if (msg.writeTo(_bufferEscrita)) {
+                        _bufferEscrita.flip();
+                        socket.getOutputStream().write(_bufferEscrita.array());
                     }
+                    socket.close();
+                    break;
+                } catch (IOException e) {
+                    // erro ao tentar enviar, incrementa tentativas
+                    attempts++;
+                    LOG.log(Level.SEVERE, "Falha enviando pacote. Motivo: " + e.getMessage(), e);
                 }
             }
         }

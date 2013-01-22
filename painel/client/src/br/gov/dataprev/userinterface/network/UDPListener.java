@@ -37,11 +37,20 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import br.gov.dataprev.estruturadados.ConfiguracaoGlobal;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class UDPListener extends PacketListener {
 
     private static final Logger LOG = Logger.getLogger(UDPListener.class.getName());
     private DatagramSocket _socket;
+    // Semaphoros
+    private CountDownLatch _latchCadastro;
+    private CountDownLatch _latchObterURLs;
+
+    public UDPListener(int port) {
+        super(port);
+    }
     
     /**
      * Inicia o processo de escuta/recebimento na porta UDP.<br>
@@ -49,8 +58,9 @@ public class UDPListener extends PacketListener {
      * @throws SocketException Se não foi possivél abrir o socket UDP
      * (possivelmente já existe outro painel usando a porta).
      */
+    @Override
     public void doStart() throws Exception {
-        _socket = new DatagramSocket(8888);
+        _socket = new DatagramSocket(_port);
     }
 
     /**
@@ -81,7 +91,6 @@ public class UDPListener extends PacketListener {
                                 LOG.log(Level.SEVERE, "Pacote recebido (Tamanho: " + dp.getLength() + " Origem: " + dp.getSocketAddress() + ")", t);
                             }
                         } else {
-
                             LOG.warning("Descartando pacote recebido de origem diferente a do controlador: Origem: [" + sa.getAddress().toString() + "] Controlador: [" + ConfiguracaoGlobal.getInstance().getIPServer() + "]");
                         }
                     } catch (IOException e) {
@@ -101,6 +110,58 @@ public class UDPListener extends PacketListener {
         int serverPort = ConfiguracaoGlobal.getInstance().getPort();
         DatagramPacket dp = new DatagramPacket(buffer.array(), 0, buffer.position(), new InetSocketAddress(serverName, serverPort));
         _socket.send(dp);
+    }
+    
+    @Override
+    protected void postLeMsgConfirmaCadastro() {
+        // sinaliza recebimento de confirmação de cadastro
+        _latchCadastro.countDown();
+    }
+    
+    @Override
+    protected void postLeMsgUrls() {
+        _latchObterURLs.countDown();
+    }
+    
+    @Override
+    protected void preObterUrls() {
+        _latchObterURLs = new CountDownLatch(1);
+    }
+    
+    @Override
+    protected void postObterUrls() {
+        int timeout = ConfiguracaoGlobal.getInstance().getTimeoutOperacoesUDP();
+        boolean ok = false;
+        try {
+            ok = _latchObterURLs.await(timeout, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            // nada
+        }
+        // timeout?
+        if (!ok) {
+            throw new RuntimeException("Tempo de espera pela resposta (" + timeout + " segundos) esgotado.");
+        }
+    }
+    
+    @Override
+    protected void preCadastrarPainel() {
+        _latchCadastro = new CountDownLatch(1);
+    }
+    
+    @Override
+    protected void postCadastrarPainel() {
+        int timeout = ConfiguracaoGlobal.getInstance().getTimeoutOperacoesUDP();
+        boolean ok = false;
+        try {
+            ok = _latchCadastro.await(timeout, TimeUnit.SECONDS);
+            System.err.println("LATCH CADASTRO OK");
+        } catch (InterruptedException e) {
+            // nada
+        }
+        // timeout?
+        if (!ok) {
+            throw new RuntimeException("Tempo de espera pela resposta (" + timeout + " segundos) esgotado.");
+        }
     }
 
 }
