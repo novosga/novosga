@@ -4,8 +4,8 @@
 
     <property name="project" value="novosga" />
     <property name="appname" value="${project}-web" />
-    <property name="version" value="0.1.1" />
-
+    <property name="version" value="0.1.6" />
+    <property name="distname" value="${appname}-client-${version}" />
     <property name="src" location="." />
     <property name="lib" location="lib" />
     <property name="dist" location="dist" />
@@ -41,6 +41,7 @@
                 <exclude name="**/.git/**" />
             </fileset>
         </copy>
+        <replace file="${build.dist}/core/SGA.php" token="{version}" value="${version}" />
     </target>
 
     <!--
@@ -55,7 +56,7 @@
         dist-zip: gera arquivo compactado para distribuicao no formato zip
     -->
     <target name="dist-zip" depends="pre-dist" description="Gera um arquivo ZIP da aplicacao">
-        <zip destfile="${build}/${appname}_${version}.zip">
+        <zip destfile="${build}/${distname}.zip">
             <zipfileset dir="${build.dist}" prefix="${project}/">
             </zipfileset>
         </zip>
@@ -65,7 +66,7 @@
         dist-tgz: gera arquivo compactado para distribuicao no formato tgz
     -->
     <target name="dist-tgz" depends="pre-dist" description="Gera um arquivo TGZ da aplicacao">
-        <tar destfile="${build}/${appname}_${version}.tgz" compression="gzip">
+        <tar destfile="${build}/${distname}.tgz" compression="gzip">
             <tarfileset dir="${build.dist}" prefix="${project}/">
             </tarfileset>
         </tar>
