@@ -91,7 +91,6 @@ public class TCPServer extends PacketServer implements Runnable {
                     socket.connect(remoteAddress);
                     if (msg.writeTo(_bufferEscrita)) {
                         _bufferEscrita.flip();
-                        System.out.println("ENVIADO: " + new String(_bufferEscrita.array()));
                         socket.getOutputStream().write(_bufferEscrita.array());
                         socket.getOutputStream().flush();
                     }
