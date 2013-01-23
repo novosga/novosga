@@ -235,7 +235,9 @@ public class CPanel extends JFrame implements ActionListener {
                 try {
                     Painel.getListener().obterURLs();
                     String urlUnidades = ConfiguracaoGlobal.getInstance().getUrlUnidades();
-                    CPanel.getInstance().preencheUnidades(urlUnidades);
+                    if (urlUnidades != null) {
+                        CPanel.getInstance().preencheUnidades(urlUnidades);
+                    }
                 } catch (Exception e) {
                     LOG.log(Level.SEVERE, "Falha obtendo unidades.", e);
                     Mensagem.showMensagem("Falha obtendo unidades.\nMotivo: " + e.getMessage(), "ERRO", 0, e);
