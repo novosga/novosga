@@ -12,7 +12,7 @@ class SGA {
     
     const NAME = "Novo SGA";
     const FULL_NAME = "Sistema de Gerenciamento de Atendimento";
-    const VERSION = "0.1.5";
+    const VERSION = "{version}";
     const CHARSET = "utf-8";
     
     // SESSION KEYS
