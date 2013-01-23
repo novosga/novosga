@@ -26,9 +26,7 @@
 package br.gov.dataprev.controladorpainel.enviados;
 
 import java.nio.ByteBuffer;
-
 import br.gov.dataprev.controladorpainel.Painel;
-import br.gov.dataprev.controladorpainel.server.PacketServer;
 
 /**
  * Mensagem enviada para o Painel para chamar uma senha.
