@@ -63,6 +63,7 @@ public abstract class ServerMsg extends NetMsg {
     public final boolean writeTo(ByteBuffer buf) {
         try {
             this.writeDataTo(buf);
+            buf.limit(buf.position());
             return true;
         } catch (Throwable t) {
             LOG.log(Level.SEVERE, "Erro escrevendo conteudo do pacote a ser enviado: " + this, t);

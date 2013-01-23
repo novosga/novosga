@@ -38,8 +38,6 @@ import br.gov.dataprev.userinterface.Mensagem;
 import br.gov.dataprev.userinterface.SysTray;
 import br.gov.dataprev.userinterface.network.PacketListener;
 import br.gov.dataprev.userinterface.network.PacketListenerFactory;
-import br.gov.dataprev.userinterface.network.TCPListener;
-import br.gov.dataprev.userinterface.network.UDPListener;
 
 public class Painel {
     

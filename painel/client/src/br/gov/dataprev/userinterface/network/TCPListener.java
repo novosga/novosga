@@ -7,9 +7,11 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import br.gov.dataprev.estruturadados.ConfiguracaoGlobal;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 /**
  * 
@@ -19,7 +21,7 @@ public class TCPListener extends PacketListener {
 
     private static final Logger LOG = Logger.getLogger(TCPListener.class.getName());
     private static final int BUFFER_SIZE = 8192;
-    private ServerSocket _server;
+    private static ServerSocket _server;
 
     public TCPListener(int port) {
         super(port);
@@ -39,6 +41,7 @@ public class TCPListener extends PacketListener {
         ByteBuffer buffer = ByteBuffer.wrap(new byte[BUFFER_SIZE]);
         ExecutorService executor = Executors.newFixedThreadPool(1);
         try {
+            InetAddress serverAddress = InetAddress.getByName(ConfiguracaoGlobal.getInstance().getIPServer());
             while (true) {
                 try {
                     Socket client = _server.accept();
@@ -46,14 +49,15 @@ public class TCPListener extends PacketListener {
                         int read;
                         int totalRead = 0;
                         buffer.clear();
-                        while ((read = client.getInputStream().read(buffer.array())) != -1) {
-                            totalRead += read;
-                        }
-                        LOG.fine("Pacote recebido (Tamanho: " + totalRead + ")");
-                        try {
+                        if (client.getInetAddress().equals(serverAddress)) {
+                            while ((read = client.getInputStream().read(buffer.array())) != -1) {
+                                totalRead += read;
+                            }
+                            buffer.limit(totalRead);
+                            LOG.fine("Pacote recebido (Tamanho: " + totalRead + ")");
                             this.lePacote(executor, buffer);
-                        } catch (Throwable t) {
-                            LOG.log(Level.SEVERE, "Pacote recebido (Tamanho: " + totalRead + ")", t);
+                        } else {
+                            LOG.log(Level.SEVERE, "Pacote recebido de host diferente do servidor: " + client.getInetAddress().getHostAddress());
                         }
                         client.close();
                     }
@@ -76,8 +80,10 @@ public class TCPListener extends PacketListener {
                 String serverName = ConfiguracaoGlobal.getInstance().getIPServer();
                 int serverPort = ConfiguracaoGlobal.getInstance().getPort();
                 Socket socket = new Socket();
+                socket.setTcpNoDelay(true);
                 socket.connect(new InetSocketAddress(serverName, serverPort));
                 socket.getOutputStream().write(buffer.array());
+                socket.getOutputStream().flush();
                 socket.close();
                 // sai do loop em caso de sucesso
                 break; 

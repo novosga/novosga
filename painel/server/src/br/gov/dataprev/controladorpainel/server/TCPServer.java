@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 
 /**
  * @author ulysses
@@ -62,6 +63,7 @@ public class TCPServer extends PacketServer implements Runnable {
                     while ((read = clientInputStream.read(_bufferLeitura.array())) != -1) {
                         totalRead += read;
                     }
+                    _bufferLeitura.limit(totalRead);
                     String host = client.getLocalAddress().getHostAddress();
                     origem = new InetSocketAddress(host, client.getPort());
                     this.getPacketHandler().processaDados(origem, _bufferLeitura);
@@ -79,23 +81,30 @@ public class TCPServer extends PacketServer implements Runnable {
         synchronized (this) {
             int attempts = 0;
             int maxAttempts = 5;
+            String host = msg.getHostRemotoStr();
+            InetSocketAddress remoteAddress = new InetSocketAddress(host, Painel.PORT);
+            _bufferEscrita.clear();
             while (attempts < maxAttempts) {
                 try {
-                    _bufferEscrita.clear();
-                    String host = msg.getHostRemotoStr();
                     Socket socket = new Socket();
-                    socket.connect(new InetSocketAddress(host, Painel.PORT));
+                    socket.setTcpNoDelay(true);
+                    socket.connect(remoteAddress);
                     if (msg.writeTo(_bufferEscrita)) {
                         _bufferEscrita.flip();
+                        System.out.println("ENVIADO: " + new String(_bufferEscrita.array()));
                         socket.getOutputStream().write(_bufferEscrita.array());
+                        socket.getOutputStream().flush();
                     }
                     socket.close();
                     break;
-                } catch (IOException e) {
+                } catch (Exception e) {
                     // erro ao tentar enviar, incrementa tentativas
                     attempts++;
-                    LOG.log(Level.SEVERE, "Falha enviando pacote. Motivo: " + e.getMessage(), e);
+//                    LOG.log(Level.SEVERE, "Falha enviando pacote. Motivo: " + e.getMessage(), e);
                 }
+            }
+            if (attempts >= maxAttempts) {
+                LOG.log(Level.SEVERE, "Falha enviando pacote. Atingido o número máximo de tentativas");
             }
         }
     }
