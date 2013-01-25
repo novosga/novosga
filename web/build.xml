@@ -4,7 +4,7 @@
 
     <property name="project" value="novosga" />
     <property name="appname" value="${project}-web" />
-    <property name="version" value="0.1.6" />
+    <property name="version" value="0.1.7" />
     <property name="distname" value="${appname}-client-${version}" />
     <property name="src" location="." />
     <property name="lib" location="lib" />

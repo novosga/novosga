@@ -13,6 +13,7 @@ SGA.Install = {
     adapter: '',
     dbData: {},
     adminData: {},
+    isMigration: false,
     
     prevStep: function() {
         if (SGA.Install.currStep > 0) {
@@ -27,7 +28,11 @@ SGA.Install = {
             SGA.Install.setDatabaseAdapter();
             break;
         case 4: // set admin
-            SGA.Install.setAdminData();
+            if (!SGA.Install.isMigration) {
+                SGA.Install.setAdminData();
+            } else {
+                SGA.Install.gotoStep(SGA.Install.currStep + 1);
+            }
             break;
         default:
             if (SGA.Install.currStep < SGA.Install.totalSteps) {

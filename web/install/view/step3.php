@@ -74,7 +74,7 @@ $builder = new TemplateBuilder();
     <?php
         echo $builder->highlight(
             $builder->icon('ui-icon-alert') .
-            '<strong>Atenção:</strong> O banco de dados especificado na instalação será criado automaticamente, se não existir. Caso exista, será recriado e todos os dados existentes no banco antigo serão PERMANENTEMENTE PERDIDOS.'
+            _('<strong>Atenção:</strong> O banco de dados especificado precisa existir. A aplicação procurará por versões anteriores para atualizar o banco. Caso não exista uma versão, ou não queira atualizar, certifique-se que a banco esteja vazio.')
         );
     ?>
 </div>
