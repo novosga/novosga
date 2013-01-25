@@ -18,7 +18,9 @@ use \core\util\Strings;
 use \core\controller\InternalController;
 
 /**
+ * InstallController
  * 
+ * @author rogeriolino
  */
 class InstallController extends InternalController {
     
@@ -28,6 +30,7 @@ class InstallController extends InternalController {
     const TOTAL_STEPS = 'totalSteps';
     const CURR_STEP_IDX = 'currStepIdx';
     const CURR_STEP = 'currStep';
+    const SGALIVRE = 'sgalivre';
     
     public function __construct() {
     }
@@ -49,8 +52,15 @@ class InstallController extends InternalController {
     }
     
     public function index(SGAContext $context) {
+        if (Config::SGA_INSTALLED) {
+            SGA::redirect('/');
+        }
         $steps = $this->getSteps();
         $index = (int) $context->getRequest()->getParameter(SGA::K_INSTALL);
+        // após o step 3 (banco de dados) verifica se já tem uma versão do sga instalada
+        if ($index == 4) {
+            $this->checkMigration($context);
+        }
         $context->setParameter(self::STEPS, $steps);
         $context->setParameter(self::TOTAL_STEPS, sizeof($steps));
         $context->setParameter(self::CURR_STEP_IDX, $index);
@@ -91,6 +101,15 @@ class InstallController extends InternalController {
          return dirname(__FILE__). DS . 'sql' . DS . 'data' . DS . 'default.sql';
     }
     
+    private function script_migration($from) {
+        $path = dirname(__FILE__). DS . 'sql' . DS . 'migrate' . DS;
+        if ($from == self::SGALIVRE) {
+            return $path . self::SGALIVRE . ".sql";
+        }
+        // sql format "from:to.sql"
+        return $path . $from . ':' . SGA::VERSION . '.sql';
+    }
+    
     public function test_db(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
             $response = new AjaxResponse(true, _('Banco de Dados testado com sucesso!'));
@@ -126,6 +145,29 @@ class InstallController extends InternalController {
             $response = $this->postErrorResponse();
         }
         $context->getResponse()->jsonResponse($response);
+    }
+    
+    private function checkMigration(SGAContext $context) {
+        $version = $this->getCurrentVersion($context);
+        if ($version) {
+            //$script = 
+        }
+        $context->setParameter('currVersion', "$version");
+    }
+    
+    private function getCurrentVersion(SGAContext $context) {
+        $data = $context->getSession()->get(InstallData::SESSION_KEY);
+        $db = $data->database;
+        DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
+        $conn = DB::getEntityManager()->getConnection();
+        // is sgalivre
+        try {
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM menus");
+            $stmt->execute();
+            return 'sgalivre';
+        } catch (\Exception $e) {
+        }
+        return null;
     }
     
     public function set_admin(SGAContext $context) {
@@ -191,41 +233,52 @@ class InstallController extends InternalController {
                 }
                 $db = $data->database;
                 $db_type = $db['db_type'];
-
+                
                 $configFile = ConfigWriter::filename();
-                $sqlInitFile = $this->script_create($db_type);
-                $sqlDataFile = $this->script_data();
-
                 // verifica se será possível escrever a configuração no arquivo Config.php
                 if (!is_writable($configFile)) {
                     $msg = _('Arquivo de configuação (%s) somente leitura');
                     throw new Exception(sprintf($msg, $configFile));
                 }
-                // verifica se consegue ler o arquivo de criacao do banco
-                if (!is_readable($sqlInitFile)) {
-                    $msg = _('Script SQL de instalação não encontrado (%s)');
-                    throw new Exception(sprintf($msg, $sqlInitFile));
-                }
-                // verifica se consegue ler o arquivo dos dados iniciais
-                if (!is_readable($sqlDataFile)) {
-                    $msg = _('Script SQL de instalação não encontrado (%s)');
-                    throw new Exception(sprintf($msg, $sqlDataFile));
-                }
                 
                 DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
                 $em = DB::getEntityManager();
                 $conn = $em->getConnection();
-                
                 $conn->beginTransaction();
-
-                // executando arquivo sql de criacao
-                $conn->exec(file_get_contents($sqlInitFile));
                 
-                // executando arquivo sql de dados iniciais
-                $adm = $data->admin;
-                $adm['senha_usu'] = Security::passEncode($adm['senha_usu']);
-                $sql = Strings::format(file_get_contents($sqlDataFile), $adm);
-                $conn->exec($sql);
+                $version = $this->getCurrentVersion($context);
+                // atualizando/migrando
+                if ($version) {
+                    $sql = $this->script_migration($version);
+                    if (!is_readable($sql)) {
+                        $msg = _('Script SQL de instalação não encontrado (%s)');
+                        throw new Exception(sprintf($msg, $sql));
+                    }
+                    // executando arquivo sql de migracao
+                    $conn->exec(file_get_contents($sql));
+                } 
+                // nova instalacao
+                else {
+                    $sqlInitFile = $this->script_create($db_type);
+                    $sqlDataFile = $this->script_data();
+                    // verifica se consegue ler o arquivo de criacao do banco
+                    if (!is_readable($sqlInitFile)) {
+                        $msg = _('Script SQL de instalação não encontrado (%s)');
+                        throw new Exception(sprintf($msg, $sqlInitFile));
+                    }
+                    // verifica se consegue ler o arquivo dos dados iniciais
+                    if (!is_readable($sqlDataFile)) {
+                        $msg = _('Script SQL de instalação não encontrado (%s)');
+                        throw new Exception(sprintf($msg, $sqlDataFile));
+                    }
+                    // executando arquivo sql de criacao
+                    $conn->exec(file_get_contents($sqlInitFile));
+                    // executando arquivo sql de dados iniciais
+                    $adm = $data->admin;
+                    $adm['senha_usu'] = Security::passEncode($adm['senha_usu']);
+                    $sql = Strings::format(file_get_contents($sqlDataFile), $adm);
+                    $conn->exec($sql);
+                }
                 
                 $conn->commit();
                 

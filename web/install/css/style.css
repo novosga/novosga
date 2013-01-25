@@ -143,6 +143,11 @@
     font-weight: bold;
 }
 
+/* step 4: admin / migration */
+#step_4 h2 {
+    padding-bottom: 15px;
+}
+
 /* step 5: install */
 #step_5 h1 {
     padding-bottom: 15px;
