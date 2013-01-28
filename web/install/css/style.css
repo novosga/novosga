@@ -143,6 +143,11 @@
     font-weight: bold;
 }
 
+.step span.ui-icon-alert {
+    margin: 2px 5px 0 0;
+    float: left;
+}
+
 /* step 4: admin / migration */
 #step_4 h2 {
     padding-bottom: 15px;
