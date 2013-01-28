@@ -92,8 +92,8 @@ else {
                 ?>
             </div>
             <div id="codificar" class="control" style="display:none">
-                <div class="left servicos-usuario">
-                    <h3><?php SGA::out(_('Macro serviços')) ?></h3>
+                <div class="left">
+                    <h3><?php SGA::out(_('Serviços disponíveis')) ?></h3>
                     <ul id="macro-servicos" class="items">
                         <?php 
                             foreach ($servicos as $usuarioServico): 
@@ -117,10 +117,14 @@ else {
                         ?>
                     </ul>
                 </div>
-                <div class="left servicos-escolhidos">
+                <div class="left">
                     <h3><?php SGA::out(_('Serviços realizados')) ?></h3>
                     <ul id="servicos-realizados" class="items">
                     </ul>
+                    <div class="redirecionar">
+                        <input id="encerrar-redirecionar" type="checkbox" value="1" />
+                        <label for="encerrar-redirecionar" title="<?php echo _('Marque para codificar e redirecionar o atendimento atual') ?>"><?php echo _('Redirecionar atendimento ao encerrar') ?></label>
+                    </div>
                     <?php 
                         btnControl('Encerrar atendimento', 'codificar');
                         btnControl('Erro de triagem', 'erro_triagem');
