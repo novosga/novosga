@@ -115,6 +115,14 @@
     height: 150px;
 }
 
+#atendimento #controls #codificar div.redirecionar {
+    padding: 20px 0 5px 10px;
+}
+
+#atendimento #controls #codificar div.redirecionar input {
+    margin-right: 5px;
+}
+
 /* controls - atendimento info */
 
 #atendimento #controls .senha {
