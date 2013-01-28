@@ -94,7 +94,7 @@ SGA.Monitor = {
                 numero = parseInt(numero);
                 if (numero > 0) {
                     SGA.dialogs.modal(SGA.Monitor.Senha.dialogSearch, { 
-                        width: 800,
+                        width: 900,
                         open: function() {
                             $('#numero_busca').val(numero);
                             SGA.Monitor.Senha.consultar();

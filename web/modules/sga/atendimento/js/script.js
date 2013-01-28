@@ -172,7 +172,7 @@ SGA.Atendimento = {
         $("#codificar").hide();
     },
     
-    codificar: function(btn) {
+    codificar: function(btn, isRedirect) {
         var servicos = [];
         $('#servicos-realizados input.servicos').each(function(i, e) {
             servicos.push($(e).val());
@@ -181,12 +181,42 @@ SGA.Atendimento = {
             alert(SGA.Atendimento.nenhumServicoSelecionado);
             return;
         }
+        var data = {
+            servicos: servicos.join(',')
+        };
+        // se foi submetido via modal de redirecionamento
+        if (isRedirect) {
+            var servico = $('#redirecionar_servico').val();
+            if (isNaN(servico) || servico <= 0) {
+                alert(SGA.Atendimento.nenhumServicoSelecionado);
+                return;
+            }
+            data.redirecionar = true;
+            data.novoServico = servico;
+        } else {
+            // verifica se checkbox redirecionar esta marcado, para abrir a modal
+            var redirecionar = $('#encerrar-redirecionar').is(':checked');
+            if (redirecionar) {
+                var buttons = {};
+                buttons[SGA.Atendimento.labelRedirecionar] = function() {
+                    SGA.Atendimento.codificar(btn, true);
+                }
+                SGA.dialogs.modal('#dialog-redirecionar', {
+                    width: 500,
+                    buttons: buttons
+                });
+                return;
+            }
+        }
         SGA.Atendimento.control({
             button: btn,
             action: 'codificar', 
-            data: {servicos: servicos.join(',')},
+            data: data,
             success: function() {
-                SGA.Atendimento.updateControls(1)
+                SGA.Atendimento.updateControls(1);
+                if (isRedirect) {
+                    $('#dialog-redirecionar').dialog('close');
+                }
             }
         });
     },

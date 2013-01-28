@@ -263,8 +263,15 @@ class AtendimentoController extends ModuleController {
      * @param \core\SGAContext $context
      */
     public function codificar(SGAContext $context) {
-        $atual = $this->atendimentoAndamento($context->getUser());
-        if ($atual) {
+        $unidade = $context->getUnidade();
+        try {
+            if (!$unidade) {
+                throw new Exception(_('Nenhum unidade escolhida'));
+            }
+            $atual = $this->atendimentoAndamento($context->getUser());
+            if (!$atual) {
+                throw new Exception(_('Nenhum atendimento em andamento'));
+            }
             $servicos = $context->getRequest()->getParameter('servicos');
             $servicos = Arrays::valuesToInt(explode(',', $servicos));
             if (empty($servicos)) {
@@ -279,10 +286,16 @@ class AtendimentoController extends ModuleController {
                     $stmt->bindValue('servico', $s);
                     $stmt->execute();
                 }
+                // verifica se esta encerrando e redirecionando
+                $redirecionar = $context->getRequest()->getParameter('redirecionar');
+                if ($redirecionar) {
+                    $servico = $context->getRequest()->getParameter('novoServico');
+                    $this->redireciona_atendimento($atual, $servico, $unidade);
+                }
                 $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_ENCERRADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
             }
-        } else {
-            $response = new AjaxResponse(false, _('Nenhum atendimento em andamento'));
+        } catch (\Exception $e) {
+            $response = new AjaxResponse(false, $e->getMessage());
             $context->getResponse()->jsonResponse($response);
         }
     }
@@ -304,28 +317,32 @@ class AtendimentoController extends ModuleController {
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
             }
-            $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade");
-            $query->setParameter('servico', $servico);
-            $query->setParameter('unidade', $unidade->getId());
-            $servicoUnidade = $query->getOneOrNullResult();
-            if (!$servicoUnidade) {
-                throw new Exception(_('Serviço inválido'));
-            }
-            // copiando a senha do atendimento atual
-            $novo = new Atendimento();
-            $novo->setGuiche(0);
-            $novo->setNumeroSenha($atual->getSenha()->getNumero());
-            $novo->setPrioridadeSenha($atual->getSenha()->getPrioridade());
-            $novo->setServicoUnidade($servicoUnidade);
-            $novo->setDataChegada($atual->getDataChegada());
-            $novo->setStatus(Atendimento::SENHA_EMITIDA);
-            $this->em()->persist($novo);
-            $this->em()->flush();
+            $this->redireciona_atendimento($atual, $servico, $unidade);
             $this->mudaStatusAtual($context, array(Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO), Atendimento::ERRO_TRIAGEM, 'dataFim');
         } catch (Exception $e) {
             $response = new AjaxResponse(false, $e->getMessage());
             $context->getResponse()->jsonResponse($response);
         }
+    }
+    
+    private function redireciona_atendimento($atendimento, $servico, $unidade) {
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade");
+        $query->setParameter('servico', $servico);
+        $query->setParameter('unidade', $unidade->getId());
+        $servicoUnidade = $query->getOneOrNullResult();
+        if (!$servicoUnidade) {
+            throw new Exception(_('Serviço inválido'));
+        }
+        // copiando a senha do atendimento atual
+        $novo = new Atendimento();
+        $novo->setGuiche(0);
+        $novo->setNumeroSenha($atendimento->getSenha()->getNumero());
+        $novo->setPrioridadeSenha($atendimento->getSenha()->getPrioridade());
+        $novo->setServicoUnidade($servicoUnidade);
+        $novo->setDataChegada($atendimento->getDataChegada());
+        $novo->setStatus(Atendimento::SENHA_EMITIDA);
+        $this->em()->persist($novo);
+        $this->em()->flush();
     }
     
 }
