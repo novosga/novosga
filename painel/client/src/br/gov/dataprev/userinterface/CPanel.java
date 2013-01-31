@@ -72,6 +72,7 @@ public class CPanel extends JFrame implements ActionListener {
 
     private static final Logger LOG = Logger.getLogger(CPanel.class.getName());
     private static final long serialVersionUID = 2833342489278580235L;
+    private static final String DEFAULT_UNIDADE_LABEL = "Selecione";
     private static CPanel _Instance;
     private JPanel caixa;
     private JButton _salvarButton;
@@ -135,7 +136,7 @@ public class CPanel extends JFrame implements ActionListener {
         _comboUnidades = new JComboBox();
         _comboUnidades.setEditable(false);
         _comboUnidades.setToolTipText("Selecione a unidade");
-        _comboUnidades.addItem("Selecione unidade");
+        _comboUnidades.addItem(DEFAULT_UNIDADE_LABEL);
 
 
 
@@ -207,9 +208,9 @@ public class CPanel extends JFrame implements ActionListener {
                     if (ci.getUnidadeId() == ConfiguracaoGlobal.getInstance().getUnidadeId()) {
                         _comboUnidades.setSelectedIndex(i);
                         unidadeEncontrada = true;
-                        Mensagem.showMensagem("ENCONTRIE: " + ci.getNomeUnidade(), "ASD");
+                        Mensagem.showMensagem("Unidade: " + ci.getNomeUnidade(), "Unidade");
                     }
-                    Mensagem.showMensagem(ci.getNomeUnidade() + ": " + ci.getUnidadeId() + " != " + ConfiguracaoGlobal.getInstance().getUnidadeId(), "ASD");
+                    Mensagem.showMensagem(ci.getNomeUnidade() + ": " + ci.getUnidadeId() + " != " + ConfiguracaoGlobal.getInstance().getUnidadeId(), "Unidade");
                 }
             }
 
@@ -228,24 +229,24 @@ public class CPanel extends JFrame implements ActionListener {
 
     private void obterUnidades() {
         ConfiguracaoGlobal.getInstance().setIPServer(_IPServerField.getText());
-
-        Runnable operacao = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Painel.getListener().obterURLs();
-                    String urlUnidades = ConfiguracaoGlobal.getInstance().getUrlUnidades();
-                    if (urlUnidades != null) {
-                        CPanel.getInstance().preencheUnidades(urlUnidades);
+        if (!ConfiguracaoGlobal.getInstance().getIPServer().isEmpty()) {
+            Runnable operacao = new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Painel.getListener().obterURLs();
+                        String urlUnidades = ConfiguracaoGlobal.getInstance().getUrlUnidades();
+                        if (urlUnidades != null) {
+                            CPanel.getInstance().preencheUnidades(urlUnidades);
+                        }
+                    } catch (Exception e) {
+                        LOG.log(Level.SEVERE, "Falha obtendo unidades.", e);
+                        Mensagem.showMensagem("Falha obtendo unidades.\nMotivo: " + e.getMessage(), "ERRO", 0, e);
                     }
-                } catch (Exception e) {
-                    LOG.log(Level.SEVERE, "Falha obtendo unidades.", e);
-                    Mensagem.showMensagem("Falha obtendo unidades.\nMotivo: " + e.getMessage(), "ERRO", 0, e);
                 }
-            }
-        };
-
-        CPanel.this.executaOperacaoBloqueante(operacao, "Contactando servidor.");
+            };
+            CPanel.this.executaOperacaoBloqueante(operacao, "Contactando servidor.");
+        }
     }
 
     private void selecionarUnidade(final ComboItem ci, boolean force) {
@@ -356,7 +357,7 @@ public class CPanel extends JFrame implements ActionListener {
                 }
 
                 _comboUnidades.removeAllItems();
-
+                _comboUnidades.addItem(DEFAULT_UNIDADE_LABEL);
                 _comboUnidades.setEnabled(true);
                 while ((linha = br.readLine()) != null) {
                     String[] parts = linha.split("#");
