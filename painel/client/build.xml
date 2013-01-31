@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="novosga-painel-client" default="dist" basedir=".">
     <description>Novo SGA Ant tasks - Painel Client</description>
-    
-    <property name="version" value="0.1.8" />
-    <property name="project" value="novosga" />
+
+    <property name="project" value="novosga" />    
     <property name="appname" value="${project}-painel" />
-    <property name="distname" value="${appname}-client-${version}" />
     <property name="src" location="src" />
     <property name="dist-files" location="dist-files" />
+    <property name="dist" location="dist" />
     <property name="build" location="build" />
-    <property name="build.classes" location="${build}/classes" />
-    <property name="build.dist" location="${build}/dist" />
-    <property name="build.dist.deb" location="${build.dist}/deb" />
+    <property name="build.classes" value="${build}/classes" />
+    <property name="build.dist" value="${build}/dist" />
+    <property name="build.dist.deb" value="${build.dist}/deb" />
 
     <!--
         init
     -->
     <target name="init" depends="clean" description="Cria pastas destino.">
+        <mkdir dir="${dist}" />
         <mkdir dir="${build}" />
         <mkdir dir="${build.classes}" />
         <mkdir dir="${build.dist}" />
@@ -62,12 +62,23 @@
             </fileset>
         </copy>
     </target>
+    
+    <!--
+        dist: gera arquivo compactado para distribuicao no formato escolhido
+    -->
+    <target name="dist" description="Gera um arquivo compactado da aplicacao">
+        <input message="Informe a versão:" addproperty="version" />
+        <input message="Gerar arquivo em qual formato?" addproperty="dist-format" validargs="zip,tgz" defaultvalue="tgz" />
+        <property name="distname" value="${appname}-client-${version}" />
+        <antcall target="dist-${dist-format}" />
+        <delete dir="${build}" />
+    </target>
 
     <!--
         dist
     -->
-    <target name="dist" depends="jar" description="Gera uma tgz do painel">
-        <tar destfile="${build}/${distname}.tgz" compression="gzip">
+    <target name="dist-tgz" depends="jar" description="Gera uma tgz do painel">
+        <tar destfile="${dist}/${distname}.tgz" compression="gzip">
             <tarfileset dir="${build.dist}" mode="755" username="root" group="root" prefix="${distname}/">
             </tarfileset>
         </tar>
@@ -77,7 +88,7 @@
         dist-zip
     -->
     <target name="dist-zip" depends="jar" description="Gera uma zip do painel">
-        <zip destfile="${build}/${distname}.zip">
+        <zip destfile="${dist}/${distname}.zip">
             <zipfileset dir="${build.dist}" prefix="${distname}">
             </zipfileset>
         </zip>
@@ -122,6 +133,7 @@
         clean
     -->
     <target name="clean" description="Limpa arquivos de saida">
+        <delete dir="${dist}" />
         <delete dir="${build}" />
     </target>
 </project>

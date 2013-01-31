@@ -4,51 +4,49 @@
 
     <property name="project" value="novosga" />
     <property name="appname" value="${project}-web" />
-    <property name="version" value="0.1.8" />
-    <property name="distname" value="${appname}-client-${version}" />
     <property name="src" location="." />
     <property name="lib" location="lib" />
     <property name="dist" location="dist" />
-    <property name="build" location="build" />
-    <property name="build.dist" location="${build}/dist" />
-
+    <property name="dist.src" value="${dist}/src" />
+    
     <!--
         init: apaga e cria diretorios para distribuicao
     -->
     <target name="init" depends="clean" description="Cria pastas destino.">
-        <mkdir dir="${build}" />
-        <mkdir dir="${build.dist}" />
+        <mkdir dir="${dist}" />
+        <mkdir dir="${dist.src}" />
     </target>
 
     <!--
-        clean: apaga diretorio do build anterior
+        clean: apaga diretorio do dist anterior
     -->
     <target name="clean" description="Limpa arquivos de saida">
-        <delete dir="${build}" />
+        <delete dir="${dist}" />
     </target>
 
     <!--
         pre-dist: copia os arquivos fonte para o diretorio dist, ignorando arquivos do netbeans e svn
     -->
     <target name="pre-dist" depends="init" description="Prepara os arquivos para (re)distribuição">
-        <copy todir="${build.dist}">
+        <copy todir="${dist.src}">
             <fileset dir="${src}">
                 <exclude name="**/nbproject/**" />
-                <exclude name="**/build/**" />
                 <exclude name="**/build.xml**" />
                 <exclude name="**/.buildpath**" />
                 <exclude name="**/.svn/**" />
                 <exclude name="**/.git/**" />
             </fileset>
         </copy>
-        <replace file="${build.dist}/core/SGA.php" token="{version}" value="${version}" />
+        <replace file="${dist.src}/core/SGA.php" token="{version}" value="${version}" />
     </target>
 
     <!--
         dist: gera arquivo compactado para distribuicao no formato escolhido
     -->
     <target name="dist" description="Gera um arquivo compactado da aplicacao">
+        <input message="Informe a versão:" addproperty="version" />
         <input message="Gerar arquivo em qual formato?" addproperty="dist-format" validargs="zip,tgz" defaultvalue="tgz" />
+        <property name="distname" value="${appname}-${version}" />
         <antcall target="dist-${dist-format}" />
     </target>
 
@@ -56,8 +54,8 @@
         dist-zip: gera arquivo compactado para distribuicao no formato zip
     -->
     <target name="dist-zip" depends="pre-dist" description="Gera um arquivo ZIP da aplicacao">
-        <zip destfile="${build}/${distname}.zip">
-            <zipfileset dir="${build.dist}" prefix="${project}/">
+        <zip destfile="${dist}/${distname}.zip">
+            <zipfileset dir="${dist.src}" prefix="${distname}/">
             </zipfileset>
         </zip>
     </target>
@@ -66,8 +64,8 @@
         dist-tgz: gera arquivo compactado para distribuicao no formato tgz
     -->
     <target name="dist-tgz" depends="pre-dist" description="Gera um arquivo TGZ da aplicacao">
-        <tar destfile="${build}/${distname}.tgz" compression="gzip">
-            <tarfileset dir="${build.dist}" prefix="${project}/">
+        <tar destfile="${dist}/${distname}.tgz" compression="gzip">
+            <tarfileset dir="${dist.src}" prefix="${distname}/">
             </tarfileset>
         </tar>
     </target>
