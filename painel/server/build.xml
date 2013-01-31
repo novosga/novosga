@@ -2,7 +2,7 @@
 <project name="novosga-painel-server" default="dist" basedir=".">
     <description>Novo SGA Ant tasks - Painel Server</description>
     
-    <property name="version" value="1.0.0" />
+    <property name="version" value="0.1.8" />
     <property name="project" value="novosga" />
     <property name="appname" value="${project}-painel" />
     <property name="distname" value="${appname}-server-${version}" />
