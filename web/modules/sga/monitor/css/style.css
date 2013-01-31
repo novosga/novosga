@@ -9,26 +9,27 @@
 }
  
 #monitor .servico {
+    width: 100%;
     margin: 5px 0;
-    padding: 5px;
+    float: left;
+    clear: both;
 }
 
 #monitor .servico .title {
     font-size: 14px;
     font-weight: bold;
-    padding: 5px 0 0 5px;
+    padding: 5px 0 0 10px;
     display: block;
 }
 
 #monitor .servico.empty { display: none; }
 
 #monitor .servico .fila {
-    height: 20px;
-    margin: 0;
-    padding: 2px 0 2px 25px;
+    padding: 5px 0 5px 30px;
     background-image: url(../images/client-16.png);
     background-repeat: no-repeat;
-    background-position: 5px center;
+    background-position: 10px center;
+    float: left;
 }
 
 #monitor .servico .fila li {
