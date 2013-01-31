@@ -88,9 +88,13 @@ public class ConfiguracaoGlobal {
      */
     private void carregaConfiguracao() throws FileNotFoundException, IOException {
         Properties config = new Properties();
-        config.load(new FileInputStream(new File(Painel.getWorkingDirectory(), ARQUIVO_CONFIG_GLOBAL)));
+        File file = new File(Painel.getWorkingDirectory(), ARQUIVO_CONFIG_GLOBAL);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        config.load(new FileInputStream(file));
 
-        _unidadeId = Integer.parseInt(config.getProperty("UnidadeId"));
+        _unidadeId = Integer.parseInt(config.getProperty("UnidadeId", "0"));
         _protocol = config.getProperty("Protocolo", "UDP");
         _port = Integer.parseInt(config.getProperty("Porta", "9999"));
 
