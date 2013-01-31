@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="novosga" default="dist" basedir=".">
+    <description>Novo SGA Ant tasks - Main</description>
+    
+    <property name="version" value="0.1.8" />
+    <property name="project" value="novosga" />
+    <property name="dir.dist" value="dist" />
+    <property name="dir.build" value="build" />
+    <property name="novosga.dist" location="dist" />
+    <property name="novosga.web" location="web" />
+    <property name="novosga.painel" location="painel" />
+    <property name="novosga.painel.client" value="${novosga.painel}/client" />
+    <property name="novosga.painel.server" value="${novosga.painel}/server" />
+    
+    <target name="dist">
+        <input message="Gerar arquivo em qual formato?" addproperty="dist-format" validargs="zip,tgz" defaultvalue="tgz" />
+        <delete dir="${novosga.dist}" />
+        <mkdir dir="${novosga.dist}" />
+        
+        <antcall target="callsub">
+            <param name="dir" value="${novosga.web}" />
+        </antcall>
+        <antcall target="callsub">
+            <param name="dir" value="${novosga.painel.client}" />
+        </antcall>
+        <antcall target="callsub">
+            <param name="dir" value="${novosga.painel.server}" />
+        </antcall>
+        
+        <copy todir="${novosga.dist}">
+            <fileset dir="${novosga.web}/${dir.dist}/">
+                <include name="**/*.${dist-format}" />
+            </fileset>
+            <fileset dir="${novosga.painel.client}/${dir.dist}/">
+                <include name="**/*.${dist-format}" />
+            </fileset>
+            <fileset dir="${novosga.painel.server}/${dir.dist}/">
+                <include name="**/*.${dist-format}" />
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="callsub">
+        <subant target="dist">
+            <property name="version" value="${version}" />
+            <property name="project" value="${project}" />
+            <property name="dist-format" value="${dist-format}" />
+            <property name="dist" value="${dir}/${dir.dist}" />
+            <property name="build" value="${dir}/${dir.build}" />
+            <fileset dir="${dir}" includes="build.xml"/>
+        </subant>
+    </target>
+</project>
