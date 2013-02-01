@@ -70,6 +70,15 @@ CREATE TABLE [dbo].[grupos_aninhados](
 
 GO
 
+/* Object:  Table [dbo].[config] */
+CREATE TABLE [dbo].[config](
+	[chave] [varchar](150) NOT NULL,
+	[valor] [text] NOT NULL
+) ON [PRIMARY]
+
+GO
+
+
 /* Object:  Table [dbo].[historico_atend_codif]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[historico_atend_codif](
 	[id_atend] [bigint] NOT NULL,
@@ -269,6 +278,10 @@ go
 
 ALTER TABLE grupos_aninhados
     WITH NOCHECK ADD CONSTRAINT PK_grupos_aninhados_pkey PRIMARY KEY CLUSTERED (id_grupo);
+go
+
+ALTER TABLE config
+    WITH NOCHECK ADD CONSTRAINT config_pkey PRIMARY KEY CLUSTERED (chave);
 go
 
 ALTER TABLE historico_atend_codif

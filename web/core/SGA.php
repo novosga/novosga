@@ -50,25 +50,15 @@ class SGA {
      * @return Usuario|null
      */
     public static function auth($login, $pass) {
-        $pass = Security::passEncode($pass);
-        $em = \core\db\DB::getEntityManager();
-        $query = $em->createQuery("SELECT u FROM core\model\Usuario u WHERE u.login = :login");
-        $query->setParameter('login', $login);
-        try {
-            $user = $query->getSingleResult();
-            $success = ($user && $user->getSenha() == $pass);
-            if ($success) {
-                // atualizando o session id
-                $user->setSessionId(session_id());
-                $user->setAtivo(true);
-                $em->merge($user);
-                $em->flush();
+        $authMethods = array('\core\auth\LdapAuthentication', '\core\auth\DatabaseAuthentication');
+        foreach ($authMethods as $method) {
+            $auth = new $method;
+            $user = $auth->auth($login, $pass);
+            if ($user) {
                 return $user;
             }
-            return null;
-        } catch (\Doctrine\ORM\NoResultException $e) {
-            return false;
         }
+        return false;
     }
     
     /**
@@ -119,7 +109,6 @@ class SGA {
         return true;
     }
     
-    
     public static function defaultClientLanguage() {
         $langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         return current(explode('-', $langs[0]));
@@ -127,7 +116,7 @@ class SGA {
     
     public static function redirect($arg) {
         // se passou uma url completa
-        if (substr($arg, 0, 7) == 'http://' || substr($arg, 0, 7) == 'https://') {
+        if (is_string($arg) && (substr($arg, 0, 7) == 'http://' || substr($arg, 0, 7) == 'https://')) {
             $url = $arg;
         } else {
             $url = SGA::url($arg);
@@ -227,11 +216,14 @@ class SGA {
      * @param \Exception $exception
      */
     public static function onError($number, $message, $file, $line) {
-        $view = new \core\view\ErrorView();
-        $context = SGA::getContext();
-        $context->setParameter('error', array($number, $message, $file, $line));
-        echo $view->render($context);
-        exit();
+        // só exibe a página de erro se for causado por uma expressão sem o error control (@)
+        if (error_reporting() > 0) {
+            $view = new \core\view\ErrorView();
+            $context = SGA::getContext();
+            $context->setParameter('error', array($number, $message, $file, $line));
+            echo $view->render($context);
+            exit();
+        }
     }
 
     /**

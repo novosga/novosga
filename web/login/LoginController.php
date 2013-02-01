@@ -45,6 +45,12 @@ class LoginController extends InternalController {
             $password = $_POST['pass'];
             $user = SGA::auth($username, $password);
             if ($user) {
+                // atualizando o session id
+                $em = \core\db\DB::getEntityManager();
+                $user->setSessionId(session_id());
+                $user->setAtivo(true);
+                $em->merge($user);
+                $em->flush();
                 $context->setUser(new \core\model\util\UsuarioSessao($user));
                 SGA::redirect('/' . SGA::K_HOME);
             } else {
