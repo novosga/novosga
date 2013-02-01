@@ -40,16 +40,18 @@ echo $view->editMessages();
                     ));
                 ?>
             </div>
-            <div class="field">
-                <?php
-                    echo $builder->button(array(
-                        'id' => 'btn-altera-senha',
-                        'label' => _('Alterar senha do usuário'),
-                        'icon' => 'ui-icon-alert',
-                        'onclick' => "return SGA.Usuarios.dialogSenha('" . _('Alterar') . "')"
-                    ));
-                ?>
-            </div>
+            <?php if (strlen($model->getSenha())): // nao exibe opcao para alterar senha de usuarios do LDAP ?>
+                <div class="field">
+                    <?php
+                        echo $builder->button(array(
+                            'id' => 'btn-altera-senha',
+                            'label' => _('Alterar senha do usuário'),
+                            'icon' => 'ui-icon-alert',
+                            'onclick' => "return SGA.Usuarios.dialogSenha('" . _('Alterar') . "')"
+                        ));
+                    ?>
+                </div>
+                <?php endif; ?>
             <?php endif; ?>
             <?php if (!$id): // criando usuario, entao pede senha ?>
                 <div class="field required">

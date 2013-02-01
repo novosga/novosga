@@ -67,6 +67,11 @@ CREATE TABLE grupos_aninhados (
     direita integer NOT NULL
 );
 
+CREATE TABLE config (
+    chave varchar(150) NOT NULL,
+    valor TEXT
+);
+
 CREATE TABLE historico_atend_codif (
     id_atend bigint NOT NULL,
     id_serv integer NOT NULL,
@@ -205,6 +210,8 @@ ALTER TABLE ONLY cargos_aninhados ADD CONSTRAINT cargos_aninhados_pkey PRIMARY K
 ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_pkey PRIMARY KEY (id_cargo, id_mod);
 
 ALTER TABLE ONLY grupos_aninhados ADD CONSTRAINT grupos_aninhados_pkey PRIMARY KEY (id_grupo);
+
+ALTER TABLE ONLY config ADD CONSTRAINT config_pkey PRIMARY KEY (chave);
 
 ALTER TABLE ONLY historico_atend_codif ADD CONSTRAINT historico_atend_codif_pkey PRIMARY KEY (id_atend, id_serv);
 

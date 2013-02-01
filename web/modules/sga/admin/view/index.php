@@ -1,12 +1,54 @@
 <?php
 use \core\SGA;
+use \core\util\Arrays;
 ?>
 <div>
     <div id="tabs">
         <ul>
+            <li><a href="#tab-geral"><?php SGA::out(_('Sistema')) ?></a></li>
             <li><a href="#tab-triagem"><?php SGA::out(_('Triagem')) ?></a></li>
             <li><a href="#tab-paineis"><?php SGA::out(_('Painéis')) ?></a></li>
         </ul>
+        <div id="tab-geral">
+            <fieldset>
+                <legend><?php echo _('Autenticação') ?></legend>
+                <div class="field">
+                    <label for="auth_type" class="w150"><?php echo _('Tipo') ?></label>
+                    <?php
+                        echo $builder->select(array(
+                            'id' => 'auth_type',
+                            'default' => Arrays::value($auth, 'type'),
+                            'items' => array(
+                                'db' => _('Banco de Dados'),
+                                'ldap' => _('LDAP e Banco de Dados')
+                            )
+                        ));
+                    ?>
+                </div>
+                <div class="ldap" <?php echo ($auth['type'] == 'ldap') ? '' : 'style="display:none"' ?>>
+                    <div class="field">
+                        <label for="auth_ldap_host" class="w150"><?php echo _('Servidor') ?></label>
+                        <input id="auth_ldap_host" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'host') ?>" />
+                    </div>
+                    <div class="field">
+                        <label for="auth_ldap_host" class="w150"><?php echo _('Base DN') ?></label>
+                        <input id="auth_ldap_baseDn" class="w300" type="text" value="<?php echo Arrays::value($auth['ldap'], 'baseDn') ?>" />
+                    </div>
+                    <div class="field">
+                        <label for="auth_ldap_loginAttribute" class="w150"><?php echo _('Login Attribute') ?></label>
+                        <input id="auth_ldap_loginAttribute" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'loginAttribute') ?>" />
+                    </div>
+                    <div class="field">
+                        <label for="auth_ldap_user" class="w150"><?php echo _('Usuário') ?></label>
+                        <input id="auth_ldap_user" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'username') ?>" />
+                    </div>
+                    <div class="field">
+                        <label for="auth_ldap_pass" class="w150"><?php echo _('Senha') ?></label>
+                        <input id="auth_ldap_pass" class="w150" type="password" value="<?php echo Arrays::value($auth['ldap'], 'password') ?>" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
         <div id="tab-triagem">
             <div class="field">
                 <label><?php SGA::out(_('Reiniciar senhas')) ?></label>
@@ -15,7 +57,7 @@ use \core\SGA;
                         'label' => 'Reiniciar', 
                         'class' => 'ui-button-error',
                         'onclick' => "return SGA.Admin.reiniciarSenhas('". _('Deseja realmente reiniciar as senhas de todas unidades?') ."')"
-                    )) 
+                    ))  
                 ?>
             </div>
         </div>
@@ -43,7 +85,10 @@ use \core\SGA;
             <?php endforeach; ?>
         </div>
     </div>
-    <script type="text/javascript"> $('#tabs').tabs(); </script>
+    <script type="text/javascript"> 
+        $('#tabs').tabs(); 
+        SGA.Admin.Autenticacao.init();
+    </script>
 </div>
 <div id="dialog-reiniciar" title="<?php SGA::out(_('Configuração')) ?>" style="display:none">
     <p><?php SGA::out(_('Senhas reiniciadas com sucesso')) ?></p>

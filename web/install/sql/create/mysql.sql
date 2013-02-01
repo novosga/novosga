@@ -64,6 +64,12 @@ CREATE TABLE grupos_aninhados (
     PRIMARY KEY (id_grupo)
 ) ENGINE = INNODB;
 
+CREATE TABLE config (
+    chave varchar(150) NOT NULL,
+    valor TEXT,
+    PRIMARY KEY (chave)
+) ENGINE = INNODB;
+
 
 CREATE TABLE historico_atend_codif (
     id_atend bigint NOT NULL,

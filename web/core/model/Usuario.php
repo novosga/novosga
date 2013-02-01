@@ -38,14 +38,13 @@ class Usuario extends SequencialModel {
     
     protected $guiche;
     protected $unidade;
-    protected $lotacao;
     protected $ativo = false;
 
     public function __construct() {
     }
     
-    public function setLogin($mat) {
-        $this->login = $mat;
+    public function setLogin($login) {
+        $this->login = $login;
     }
     
     public function getLogin() {
@@ -118,13 +117,6 @@ class Usuario extends SequencialModel {
 
     public function setUnidade(Unidade $unidade = null) {
         $this->unidade = $unidade;
-        if ($unidade != null) {
-//            $db = DB::getAdapter();
-//            $this->setLotacao($db->getLotacao_valida($this->getId(), $unidade->getGrupo()->getId()));
-//            $this->setServicos($db->get_usuario_servicos_unidade($this->getId(), $unidade->getId()));
-        } else {
-            $this->setServicos(array());
-        }
     }
     
     public function setServicos(array $servicos) {
@@ -175,7 +167,7 @@ class Usuario extends SequencialModel {
         $this->ativo = ($ativo == true);
     }
     
-    public function tostring() {
+    public function toString() {
         return $this->getLogin();
     }
 
