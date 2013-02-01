@@ -3,6 +3,8 @@ namespace modules\sga\admin;
 
 use \core\SGAContext;
 use \core\http\AjaxResponse;
+use \core\model\Configuracao;
+use \core\auth\Authentication;
 use \core\controller\ModuleController;
 use \core\business\PainelBusiness;
 use \core\business\AtendimentoBusiness;
@@ -20,8 +22,25 @@ class AdminController extends ModuleController {
         foreach ($unidades as $unidade) {
             $paineis[$unidade->getId()] = PainelBusiness::paineis($unidade);
         }
+        $auth = Configuracao::get(Authentication::KEY);
+        if ($auth) {
+            $auth = $auth->getValor();
+        } else {
+            $auth = array(
+                'type' => 'db',
+                'ldap' => array(
+                    'host' => '',
+                    'baseDn' => '',
+                    'loginAttribute' => '',
+                    'username' => '',
+                    'password' => ''
+                )
+            );
+            Configuracao::set(Authentication::KEY, $auth);
+        }
         $this->view()->assign('unidades', $unidades);
         $this->view()->assign('paineis', $paineis);
+        $this->view()->assign('auth', $auth);
     }
     
     public function acumular_atendimentos(SGAContext $context) {

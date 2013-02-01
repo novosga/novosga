@@ -6,6 +6,11 @@ var SGA = SGA || {};
 
 SGA.Admin = {
     
+    Autenticacao: {
+        init: function() {
+        }
+    },
+    
     reiniciarSenhas: function(alert) {
         if (confirm(alert)) {
             SGA.ajax({
