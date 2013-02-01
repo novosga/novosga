@@ -60,7 +60,7 @@ Tanto para o cliente quanto servidor são gerados arquivos JARs e lançadores de
 O autor e responsável por esta versão, [Rogério Alencar Lino Filho](http://rogeriolino.com), foi um dos principais colaboradores para a versão Livre do SGA. Fazendo parte do time de desenvolvedores de 2007 a 2008.
 
 
-## Contribuíções
+## Contribuições
 
 Gostou dessa nova versão? Necessita de alguma funcionalidade ou quer apenas contribuir para manter o projeto a todo vapor?
 
