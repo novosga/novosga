@@ -18,7 +18,7 @@ use \core\util\Strings;
     <?php $id  = $su->getServico()->getId(); ?>
     <?php $empty  = $su->getFila()->size() == 0; ?>
     <div id="servico-<?php echo $id ?>" class="servico ui-corner-all ui-state-default <?php echo ($empty) ? 'empty' : '' ?>" data-id="<?php echo $id ?>">
-        <span class="title"><?php SGA::out($su->getServico()->getNome()) ?></span>
+        <span class="title"><?php SGA::out($su->getNome()) ?></span>
         <ul class="fila">
             <?php 
                 if (!$empty):

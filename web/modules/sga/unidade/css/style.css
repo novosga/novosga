@@ -3,7 +3,20 @@
  * icon(s) by pixel-mixer.com
  * @author rogeriolino
  */
+#servicos td.nome span.all {
+    position: relative;
+    display: block;
+}
 
+#servicos td.nome input {
+    width: 100%;
+}
+
+#servicos td.nome button {
+    top: 0;
+    right: -10px;
+    position: absolute;
+}
 
 .paineis {
     padding: 10px 0 20px 0;

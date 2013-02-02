@@ -8,7 +8,7 @@ namespace core\auth;
  */
 class DatabaseAuthentication extends Authentication {
     
-    public function init(array $config) {
+    public function init(array $config = null) {
     }
     
     /**

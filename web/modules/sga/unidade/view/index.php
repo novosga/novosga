@@ -44,11 +44,23 @@ use \core\SGA;
             </form>
         </div>
         <div id="tab-servicos">
+            <p><?php echo _('As modificações na sigla e nome do serviço são salvas automaticamente ao sair do campo.') ?></p>
             <?php
             $sigla = function($model) {
                 $id = $model->getServico()->getId();
                 $disabled = ($model->getStatus() != 1) ? 'disabled="disabled"' : '';
                 return '<input id="sigla-'. $id .'" type="text" class="w25 center" value="' . $model->getSigla() . '" data-id="' . $id .'" onclick="this.select()" onkeyup="this.value=this.value.toUpperCase()" onchange="SGA.Unidade.Servicos.updateSigla(this)" onblur="SGA.Unidade.Servicos.updateSigla(this)" maxlength="1" ' . $disabled . '/>';
+            };
+            $nome = function($model) use ($builder) {
+                $id = $model->getServico()->getId();
+                $disabled = ($model->getStatus() != 1) ? 'disabled="disabled"' : '';
+                $input = '<input id="nome-'. $id .'" type="text" value="' . $model->getNome() . '" data-id="' . $id .'" onchange="SGA.Unidade.Servicos.updateNome(this)" onblur="SGA.Unidade.Servicos.updateNome(this)" maxlength="50" ' . $disabled . '/>';
+                $btn = $builder->button(array(
+                    'icon' => 'ui-icon-arrowrefresh-1-w',
+                    'onclick' => 'SGA.Unidade.Servicos.reverteNome('. $id .')',
+                    'title' => _('Reverter nome para nome original')
+                ));
+                return '<span class="all">' . $input . $btn . '</span>';
             };
             $status = function($model) use ($builder) {
                 $id = $model->getServico()->getId();
@@ -74,14 +86,15 @@ use \core\SGA;
                 return '<span class="btns-status">' . $builder->button($ativar) . $builder->button($desativar) . '</span>';
             };
             $table = $builder->table(array(
+                'id' => 'servicos',
                 'header' => array(
                     _('Sigla'), _('Serviço'), _('Status')
                 ),
                 'classes' => array(
-                    'sigla', '', 'btns'
+                    'sigla w50', 'nome', 'btns'
                 ),
                 'columns' => array(
-                    $sigla, 'nome', $status
+                    $sigla, $nome, $status
                 ),
                 'items' => $servicos
             ));

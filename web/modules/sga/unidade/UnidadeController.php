@@ -96,16 +96,41 @@ class UnidadeController extends ModuleController {
     }
     
     public function update_sigla(SGAContext $context) {
-        $response = new AjaxResponse();
-        $response->success = true;
-        $sigla = Arrays::value($_POST, 'sigla');
-        $id_serv = Arrays::value($_POST, 'id');
-        $id_uni = $context->getUser()->getUnidade()->getId();
-        $query = $this->em()->createQuery("UPDATE \core\model\ServicoUnidade e SET e.sigla = :sigla WHERE e.unidade = :unidade AND e.servico = :servico");
-        $query->setParameter('sigla', $sigla);
-        $query->setParameter('servico', $id_serv);
-        $query->setParameter('unidade', $id_uni);
+        $sigla = $context->getRequest()->getParameter('sigla');
+        $this->update_field($context, 'sigla', strtoupper($sigla));
+    }
+    
+    public function update_nome(SGAContext $context) {
+        $value = $context->getRequest()->getParameter('nome');
+        $this->update_field($context, 'nome', $value);
+    }
+    
+    private function update_field(SGAContext $context, $field, $value) {
+        $response = new AjaxResponse(true);
+        $id = (int) $context->getRequest()->getParameter('id');
+        $query = $this->em()->createQuery("UPDATE \core\model\ServicoUnidade e SET e.{$field} = :value WHERE e.unidade = :unidade AND e.servico = :servico");
+        $query->setParameter('value', $value);
+        $query->setParameter('servico', $id);
+        $query->setParameter('unidade', $context->getUser()->getUnidade()->getId());
         $query->execute();
+        $context->getResponse()->jsonResponse($response);
+    }
+    
+    public function reverte_nome(SGAContext $context) {
+        $response = new AjaxResponse();
+        $id = (int) $context->getRequest()->getParameter('id');
+        $servico = $this->em()->find('\core\model\Servico', $id);
+        if ($servico) {
+            $query = $this->em()->createQuery("UPDATE \core\model\ServicoUnidade e SET e.nome = :nome WHERE e.unidade = :unidade AND e.servico = :servico");
+            $query->setParameter('nome', $servico->getNome());
+            $query->setParameter('servico', $servico->getId());
+            $query->setParameter('unidade', $context->getUser()->getUnidade()->getId());
+            $query->execute();
+            $response->data['nome'] = $servico->getNome();
+            $response->success = true;
+        } else {
+            $response->message = _('Serviço inválido');
+        }
         $context->getResponse()->jsonResponse($response);
     }
     

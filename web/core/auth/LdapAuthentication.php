@@ -17,8 +17,8 @@ class LdapAuthentication extends Authentication {
     private $username;
     private $password;
     
-    public function init(array $auth) {
-        if (isset($auth['ldap'])) {
+    public function init(array $auth = null) {
+        if ($auth && isset($auth['ldap'])) {
             $ldap = $auth['ldap'];
             $this->host = $ldap['host'];
             $this->baseDn = $ldap['baseDn'];
