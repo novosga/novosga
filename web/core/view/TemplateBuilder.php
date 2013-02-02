@@ -123,6 +123,9 @@ class TemplateBuilder {
         }
         
         $props = array();
+        if (empty($label)) {
+            $props['text'] = false;
+        }
         $icon = Arrays::value($arg, 'icon');
         Arrays::removeKey($arg, 'icon');
         if (!empty($icon)) {

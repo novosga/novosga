@@ -99,6 +99,7 @@ class TriagemController extends ModuleController {
             $id = (int) $context->getRequest()->getParameter('id');
             $servico = $this->em()->find("\core\model\Servico", $id);
             if ($servico) {
+                $response->data['nome'] = $servico->getNome();
                 $response->data['descricao'] = $servico->getDescricao();
                 $response->data['subservicos'] = array();
                 $query = $this->em()->createQuery("SELECT e FROM \core\model\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
