@@ -15,7 +15,7 @@ abstract class Authentication {
         $this->init($config);
     }
     
-    public abstract function init(array $config);
+    public abstract function init(array $config = null);
     
     public abstract function auth($username, $password);
     

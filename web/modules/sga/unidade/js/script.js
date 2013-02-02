@@ -7,6 +7,12 @@ var SGA = SGA || {};
 SGA.Unidade = {
         
     Servicos: {
+        init: function() {
+            $('#servicos td.nome input').each(function(i,v) {
+                var input = $(v);
+                input.width(input.parent().width() - 60);
+            });
+        },
         request: function(method, btn, complete) {
             btn = $(btn);
             SGA.ajax({
@@ -41,11 +47,37 @@ SGA.Unidade = {
         
         updateSigla: function(input) {
             input = $(input);
-            SGA.ajax({
-                url: SGA.url('update_sigla'),
-                data: {id: input.data('id'), sigla: input.val()},
-                type: 'post'
-            });
+            if (input.val().length > 0) {
+                SGA.ajax({
+                    url: SGA.url('update_sigla'),
+                    data: {id: input.data('id'), sigla: input.val()},
+                    type: 'post'
+                });
+            }
+        },
+        
+        updateNome: function(input) {
+            input = $(input);
+            if (input.val().length > 0) {
+                SGA.ajax({
+                    url: SGA.url('update_nome'),
+                    data: {id: input.data('id'), nome: input.val()},
+                    type: 'post'
+                });
+            }
+        },
+        
+        reverteNome: function(id) {
+            if (id > 0) {
+                SGA.ajax({
+                    url: SGA.url('reverte_nome'),
+                    data: {id: id},
+                    type: 'post',
+                    success: function(response) {
+                        $('#nome-' + id).val(response.data.nome);
+                    }
+                });
+            }
         }
     },
     

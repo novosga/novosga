@@ -18,8 +18,8 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         'title' => _('Distribuir senha com prioridade'),
     ));
     $buttons = '<span class="buttons">' . $btnNormal . $btnPrioridade . '</span>';
-    $link = '<a href="javascript:void(0)" onclick="SGA.Triagem.servicoInfo(' . $servico->getId() . ', \'' . $servico->getNome() . '\')">' . $servico->getNome() . '</a>';
-    $name = '<span class="servico" title="' . $servicoUnidade->getSigla() . ' - ' . $servico->getNome() . '">' . $link . '</span>';
+    $link = '<a href="javascript:void(0)" onclick="SGA.Triagem.servicoInfo(' . $servico->getId() . ', \'' . $servicoUnidade->getNome() . '\')">' . $servicoUnidade->getNome() . '</a>';
+    $name = '<span class="servico" title="' . $servicoUnidade->getSigla() . ' - ' . $servicoUnidade->getNome() . '">' . $link . '</span>';
     $total = '<span class="fila">
                 <abbr id="total-aguardando-' . $servico->getId() . '" title="' . _('Aguardando atendimento') . '">-</abbr> / 
                 <abbr id="total-senhas-' . $servico->getId() . '" title="' . _('Total de senhas do serviço') . '">-</abbr>
@@ -64,6 +64,10 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
 </p>
 <!-- dialog para exibir informacoes do servico -->
 <div id="dialog-servico" title="<?php SGA::out(_('Serviço')) ?>" style="display:none">
+    <div>
+        <h3><?php SGA::out(_('Nome original do seriço')) ?></h3>
+        <p class="nome"></p>
+    </div>
     <div>
         <h3><?php SGA::out(_('Descrição')) ?></h3>
         <p class="descricao"></p>
