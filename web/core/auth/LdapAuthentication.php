@@ -1,6 +1,7 @@
 <?php
 namespace core\auth;
 
+use \core\util\Arrays;
 /**
  * LDAP Authentication
  *
@@ -17,14 +18,13 @@ class LdapAuthentication extends Authentication {
     private $username;
     private $password;
     
-    public function init(array $auth = null) {
-        if ($auth && isset($auth['ldap'])) {
-            $ldap = $auth['ldap'];
-            $this->host = $ldap['host'];
-            $this->baseDn = $ldap['baseDn'];
-            $this->loginAttribute = $ldap['loginAttribute'];
-            $this->username = $ldap['username'];
-            $this->password = $ldap['password'];
+    public function init(array $config) {
+        if (!empty($config)) {
+            $this->host = Arrays::value($config, 'host');
+            $this->baseDn = Arrays::value($config, 'baseDn');
+            $this->loginAttribute = Arrays::value($config, 'loginAttribute');
+            $this->username = Arrays::value($config, 'username');
+            $this->password = Arrays::value($config, 'password');
         }
     }
     

@@ -20,7 +20,7 @@ function printModulos($builder, $modulos) {
         <p><?php SGA::out(_('Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código aberto e gratuito.')) ?></p>
     </div>
     <div id="modules">
-        <?php if ($unidade): ?>
+        <?php if ($unidade && $modulosUnidade): ?>
         <div class="list unidade">
             <h2><?php SGA::out(_('Unidade')) ?></h2>
             <p><?php SGA::out(_('Visualize abaixo os módulos disponíveis para a sua unidade')) ?></p>

@@ -28,8 +28,10 @@ class AdminController extends ModuleController {
         } else {
             $auth = array(
                 'type' => 'db',
+                'db' => array(),
                 'ldap' => array(
                     'host' => '',
+                    'port' => '',
                     'baseDn' => '',
                     'loginAttribute' => '',
                     'username' => '',
@@ -41,6 +43,27 @@ class AdminController extends ModuleController {
         $this->view()->assign('unidades', $unidades);
         $this->view()->assign('paineis', $paineis);
         $this->view()->assign('auth', $auth);
+    }
+    
+    public function auth_save(SGAContext $context) {
+        $response = new AjaxResponse();
+        try {
+            $auth = Configuracao::get(Authentication::KEY);
+            $value = $auth->getValor();
+            $type = $context->getRequest()->getParameter('type');
+            $value['type'] = $type;
+            if (!isset($value[$type])) {
+                $value[$type] = array();
+            }
+            foreach ($value[$type] as $k => $v) {
+                $value[$type][$k] = $context->getRequest()->getParameter($k);
+            }
+            Configuracao::set(Authentication::KEY, $value);
+            $response->success = true;
+        } catch (\Exception $e) {
+            $response->message = $e->getMessage();
+        }
+        $context->getResponse()->jsonResponse($response);
     }
     
     public function acumular_atendimentos(SGAContext $context) {

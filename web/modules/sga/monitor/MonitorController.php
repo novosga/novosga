@@ -5,6 +5,7 @@ use \core\SGAContext;
 use \core\util\Arrays;
 use \core\util\DateUtil;
 use \core\model\Unidade;
+use \core\model\Atendimento;
 use \core\http\AjaxResponse;
 use \core\controller\ModuleController;
 
@@ -136,7 +137,7 @@ class MonitorController extends ModuleController {
                 $servico = (int) $context->getRequest()->getParameter('servico');
                 $prioridade = (int) $context->getRequest()->getParameter('prioridade');
                 $conn = $this->em()->getConnection();
-                // transfere apenas se a data fim for nula
+                // transfere apenas se a data fim for nula (nao finalizados)
                 $stmt = $conn->prepare("
                     UPDATE 
                         atendimentos
@@ -152,6 +153,43 @@ class MonitorController extends ModuleController {
                 $stmt->bindValue('servico', $servico);
                 $stmt->bindValue('prioridade', $prioridade);
                 $stmt->bindValue('id', $id);
+                $stmt->bindValue('unidade', $unidade->getId());
+                $response->success = $stmt->execute() > 0;
+            } catch (\Exception $e) {
+                $response->message = $e->getMessage();
+            }
+        } else{
+            $response->message = _('Nenhuma unidade selecionada');
+        }
+        $context->getResponse()->jsonResponse($response);
+    }
+    
+    /**
+     * Reativa o atendimento para o mesmo serviço e mesma prioridade
+     * @param \core\SGAContext $context
+     */
+    public function reativar(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            try {
+                $id = (int) $context->getRequest()->getParameter('id');
+                $conn = $this->em()->getConnection();
+                // reativa apenas se estiver finalizada (data fim diferente de nulo)
+                $stmt = $conn->prepare("
+                    UPDATE 
+                        atendimentos
+                    SET 
+                        id_stat = :status,
+                        dt_fim = NULL
+                    WHERE 
+                        id_atend = :id AND 
+                        id_uni = :unidade AND
+                        dt_fim IS NOT NULL
+                        
+                ");
+                $stmt->bindValue('id', $id);
+                $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
                 $stmt->bindValue('unidade', $unidade->getId());
                 $response->success = $stmt->execute() > 0;
             } catch (\Exception $e) {

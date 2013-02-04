@@ -177,26 +177,33 @@ var SGA = {
             var form = $('#' + formId);
             form.find(":input:visible:enabled:first").focus();
             form.on('submit', function() {
-                var success = true;
-                form.find('div.required>:input, :input.required').each(function(i, v) {
-                    var input = $(v);
-                    if ((input.val() + '').trim() == '') {
-                        success = false;
-                        var error = input.parent().find('span.error');
-                        if (error.length == 0) {
-                            error = $('<span class="error"></span>');
-                            input.parent().append(error);
-                            input.on('change', function() { 
-                                if ((input.val() + '').trim() != '') {
-                                    error.text('');
-                                }
-                            });
-                        }
-                        error.text('Campo obrigatório');
-                    }
-                });
-                return success;
+                return SGA.Form.checkRequireds(form);
             });
+        },
+        
+        checkRequireds: function(main) {
+            if (typeof(main) == 'string') {
+                main = $(main);
+            }
+            var success = true;
+            main.find('div.required>:input, :input.required').each(function(i, v) {
+                var input = $(v);
+                if ((input.val() + '').trim() == '') {
+                    success = false;
+                    var error = input.parent().find('span.error');
+                    if (error.length == 0) {
+                        error = $('<span class="error"></span>');
+                        input.parent().append(error);
+                        input.on('change', function() { 
+                            if ((input.val() + '').trim() != '') {
+                                error.text('');
+                            }
+                        });
+                    }
+                    error.text('Campo obrigatório');
+                }
+            });
+            return success;
         },
         
         confirm: function(message, success, failure) {
