@@ -6,8 +6,6 @@ use \core\model\util\Cliente;
 use \core\model\util\Senha;
 use \core\model\ServicoUnidade;
 use \core\model\Usuario;
-use \core\model\Prioridade;
-use \core\util\DateUtil;
 
 /**
  * Classe Atendimento

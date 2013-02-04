@@ -1242,6 +1242,7 @@ table.ui-data-table thead tr th {
     padding: 10px 5px;
     border-width: 0 !important;
     background: #4571A4 !important;
+    filter: none !important;
 }
 table.ui-data-table thead tr th:first-child { border-top-left-radius: 5px !important; }
 table.ui-data-table thead tr th:last-child { border-top-right-radius: 5px !important; }

@@ -13,8 +13,8 @@ use \core\controller\SGAController;
  */
 abstract class ModuleController extends SGAController {
     
-    protected $title = 'TITLE';
-    protected $subtitle = 'SUBTITLE';
+    protected $title;
+    protected $subtitle;
     
     public function __construct() {
         $modulo = SGA::getContext()->getModulo();

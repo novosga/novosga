@@ -50,9 +50,10 @@ class SGA {
      * @return Usuario|null
      */
     public static function auth($login, $pass) {
-        $authMethods = array('\core\auth\LdapAuthentication', '\core\auth\DatabaseAuthentication');
-        foreach ($authMethods as $method) {
-            $auth = new $method;
+        $config = \core\model\Configuracao::get(\core\auth\Authentication::KEY);
+        $auth = ($config) ? $config->getValor() : array();
+        $authMethods = \core\auth\AuthFactory::create($auth);
+        foreach ($authMethods as $auth) {
             $user = $auth->auth($login, $pass);
             if ($user) {
                 return $user;

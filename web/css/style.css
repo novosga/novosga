@@ -232,6 +232,7 @@
 
 #navbar .home a:hover {
     background-color: transparent;
+    filter: none;
 }
 
 #navbar li, #navbar a {
@@ -241,6 +242,7 @@
 
 #navbar ul>li {
     background: none !important;
+    filter: none;
 }
 
 #navbar li.first {

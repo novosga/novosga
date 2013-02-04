@@ -10,6 +10,7 @@ SGA.Monitor = {
     ajaxInterval: 3000,
     labelTransferir: '',
     alertCancelar: '',
+    alertReativar: '',
     
     init: function() {
         setInterval(SGA.Monitor.ajaxUpdate, SGA.updateInterval);
@@ -79,9 +80,13 @@ SGA.Monitor = {
                         dialog.find('#cliente_nome').text(response.data.cliente.nome);
                         dialog.find('#cliente_documento').text(response.data.cliente.documento);
                         // so pode transferir ou cancelar se o status for 1 (senha emitida)
-                        var status = response.data.status == 1 ? 'enable' : 'disable';
-                        $('#btn-transferir').button(status);
-                        $('#btn-cancelar').button(status);
+                        if (response.data.status == 1) {
+                            $('#btn-transferir, #btn-cancelar').show();
+                            $('#btn-reativar').hide();
+                        } else {
+                            $('#btn-transferir, #btn-cancelar').hide();
+                            $('#btn-reativar').show();
+                        }
                         SGA.dialogs.modal(dialog, { width: 600 });
                     }
                 }
@@ -158,8 +163,17 @@ SGA.Monitor = {
             });
         },
 
-        reativar: function() {
-
+        reativar: function(id) {
+            if (window.confirm(SGA.Monitor.alertCancelar)) {
+                SGA.ajax({
+                    url: SGA.url('reativar'),
+                    data: { id: id },
+                    complete: function() {
+                        $(SGA.Monitor.Senha.dialogView).dialog('close');
+                        $(SGA.Monitor.Senha.dialogSearch).dialog('close');
+                    }
+                });
+            }
         },
 
         cancelar: function(id) {
@@ -169,7 +183,6 @@ SGA.Monitor = {
                     data: { id: id },
                     complete: function() {
                         $(SGA.Monitor.Senha.dialogView).dialog('close');
-                        $(SGA.Monitor.Senha.dialogTransfere).dialog('close');
                     }
                 });
             }

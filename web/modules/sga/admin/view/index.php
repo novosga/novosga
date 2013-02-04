@@ -25,27 +25,41 @@ use \core\util\Arrays;
                         ));
                     ?>
                 </div>
-                <div class="ldap" <?php echo ($auth['type'] == 'ldap') ? '' : 'style="display:none"' ?>>
-                    <div class="field">
+                <div id="auth-ldap" class="auth-config" <?php echo ($auth['type'] == 'ldap') ? '' : 'style="display:none"' ?>>
+                    <div class="field required">
                         <label for="auth_ldap_host" class="w150"><?php echo _('Servidor') ?></label>
-                        <input id="auth_ldap_host" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'host') ?>" />
+                        <input id="auth_ldap_host" name="host" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'host') ?>" />
                     </div>
-                    <div class="field">
+                    <div class="field required">
+                        <label for="auth_ldap_port" class="w150"><?php echo _('Porta') ?></label>
+                        <input id="auth_ldap_port" name="port" class="w50" type="text" maxlength="6" value="<?php echo Arrays::value($auth['ldap'], 'port') ?>" />
+                    </div>
+                    <div class="field required">
                         <label for="auth_ldap_host" class="w150"><?php echo _('Base DN') ?></label>
-                        <input id="auth_ldap_baseDn" class="w300" type="text" value="<?php echo Arrays::value($auth['ldap'], 'baseDn') ?>" />
+                        <input id="auth_ldap_baseDn" name="baseDn" class="w300" type="text" value="<?php echo Arrays::value($auth['ldap'], 'baseDn') ?>" />
                     </div>
-                    <div class="field">
+                    <div class="field required">
                         <label for="auth_ldap_loginAttribute" class="w150"><?php echo _('Login Attribute') ?></label>
-                        <input id="auth_ldap_loginAttribute" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'loginAttribute') ?>" />
+                        <input id="auth_ldap_loginAttribute" name="loginAttribute" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'loginAttribute') ?>" />
                     </div>
                     <div class="field">
                         <label for="auth_ldap_user" class="w150"><?php echo _('Usuário') ?></label>
-                        <input id="auth_ldap_user" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'username') ?>" />
+                        <input id="auth_ldap_user" name="username" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'username') ?>" />
                     </div>
                     <div class="field">
                         <label for="auth_ldap_pass" class="w150"><?php echo _('Senha') ?></label>
-                        <input id="auth_ldap_pass" class="w150" type="password" value="<?php echo Arrays::value($auth['ldap'], 'password') ?>" />
+                        <input id="auth_ldap_pass" name="password" class="w150" type="password" value="<?php echo Arrays::value($auth['ldap'], 'password') ?>" />
                     </div>
+                </div>
+                <div class="buttons">
+                    <?php
+                        echo $builder->button(array(
+                            'id' => 'auth_save',
+                            'class' => 'ui-button-primary',
+                            'label' => _('Salvar'),
+                            'onclick' => 'SGA.Admin.Autenticacao.save()'
+                        ));
+                    ?>
                 </div>
             </fieldset>
         </div>

@@ -8,6 +8,28 @@ SGA.Admin = {
     
     Autenticacao: {
         init: function() {
+            $('#auth_type').on('change', function() {
+                var value = $(this).val();
+                $('.auth-config, #auth-' + value + ' span.error').hide();
+                $('#auth-' + value).show();
+            });
+        },
+        save: function() {
+            var data = {type: $('#auth_type').val()};
+            if (SGA.Form.checkRequireds('#auth-' + data.type)) {
+                $('#auth-' + data.type + ' input').each(function(i,e) {
+                    var input = $(e);
+                    data[input.prop('name')] = input.val();
+                });
+                SGA.ajax({
+                    url: SGA.url('auth_save'),
+                    data: data,
+                    success: function(response) {
+
+                    }
+                });
+            }
+            return false;
         }
     },
     
