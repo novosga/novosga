@@ -117,6 +117,12 @@ use \core\util\Strings;
     <div class="btns">
         <?php 
             echo $builder->button(array(
+                'id' => 'btn-reativar',
+                'class' => 'ui-button-primary',
+                'label' => _('Reativar senha'),
+                'onclick' => "SGA.Monitor.Senha.reativar($('#senha_id').val())"
+            ));
+            echo $builder->button(array(
                 'id' => 'btn-transferir',
                 'label' => _('Transferir senha'),
                 'onclick' => "SGA.Monitor.Senha.transfere($('#senha_id').val(), $('#senha_numero').text())"
@@ -140,15 +146,15 @@ use \core\util\Strings;
         <label for="transfere_servico"><?php SGA::out(_('Novo serviço')) ?></label>
         <select id="transfere_servico">
             <?php foreach ($servicos as $su): ?>
-            <option value="<?php echo $su->getServico()->getId() ?>"><?php echo $su->getServico()->getNome() ?></option>
+            <option value="<?php echo $su->getServico()->getId() ?>"><?php echo $su->getNome() ?></option>
             <?php endforeach; ?>
         </select>
     </div>
     <div>
         <label><?php SGA::out(_('Nova prioridade')) ?></label>
         <select id="transfere_prioridade">
-            <?php foreach ($prioridades as $su): ?>
-            <option value="<?php echo $su->getId() ?>"><?php echo $su->getNome() ?></option>
+            <?php foreach ($prioridades as $prioridade): ?>
+            <option value="<?php echo $prioridade->getId() ?>"><?php echo $prioridade->getNome() ?></option>
             <?php endforeach; ?>
         </select>
     </div>
@@ -162,6 +168,7 @@ use \core\util\Strings;
     SGA.Clock.init("sga-clock", <?php echo (time() * 1000) ?>);
     SGA.Monitor.labelTransferir = '<?php SGA::out(_('Transferir')) ?>';
     SGA.Monitor.alertCancelar = '<?php SGA::out(_('Deseja realmente cancelar essa senha?')) ?>';
+    SGA.Monitor.alertReativar = '<?php SGA::out(_('Deseja realmente reativar essa senha?')) ?>';
     SGA.Monitor.Senha.situacoes = <?php echo json_encode($situacoes) ?>;
     SGA.Monitor.init();
 </script>

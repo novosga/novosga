@@ -9,13 +9,12 @@ namespace core\auth;
 abstract class Authentication {
     
     const KEY = 'auth';
-
-    public function __construct() {
-        $config = \core\model\Configuracao::get(self::KEY);
+    
+    public function __construct(array $config) {
         $this->init($config);
     }
     
-    public abstract function init(array $config = null);
+    public abstract function init(array $config);
     
     public abstract function auth($username, $password);
     

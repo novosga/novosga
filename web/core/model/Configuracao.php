@@ -12,6 +12,9 @@ class Configuracao extends Model {
     protected $chave;
     /** @Column(type="string", name="valor", length=20, nullable=false) */
     protected $valor;
+    
+    // transient
+    private $_valor;
 
     public function __construct($chave, $valor) {
         $this->setChave($chave);
@@ -27,11 +30,15 @@ class Configuracao extends Model {
     }
 
     public function getValor() {
-        return $this->valor;
+        if (!$this->_valor) {
+            $this->_valor = unserialize($this->valor);
+        }
+        return $this->_valor;
     }
 
     public function setValor($valor) {
-        $this->valor = $valor;
+        $this->_valor = $valor;
+        $this->valor = serialize($valor);
     }
 
     public function toString() {
@@ -48,9 +55,6 @@ class Configuracao extends Model {
         $query = $em->createQuery("SELECT e FROM \core\model\Configuracao e WHERE e.chave = :key");
         $query->setParameter('key', $key);
         $config = $query->getOneOrNullResult();
-        if ($config) {
-            $config->setValor(unserialize($config->getValor()));
-        }
         return $config;
     }
     
@@ -61,10 +65,9 @@ class Configuracao extends Model {
      */
     public static function set($key, $value) {
         $em = \core\db\DB::getEntityManager();
-        $value = serialize($value);
         $query = $em->createQuery("UPDATE \core\model\Configuracao e SET e.valor = :value WHERE e.chave = :key");
         $query->setParameter('key', $key);
-        $query->setParameter('value', $value);
+        $query->setParameter('value', serialize($value));
         // se não afetou nenhum registro, cria a configuração
         if (!$query->execute()) {
             $config = new Configuracao($key, $value);

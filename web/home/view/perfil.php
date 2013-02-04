@@ -25,6 +25,7 @@ use \core\SGA;
                 <label for="sobrenome"><?php echo _('Sobrenome') ?></label>
                 <input id="sobrenome" type="text" name="sobrenome" class="w300" value="<?php SGA::out($usuario->getSobrenome())  ?>" />
             </div>
+            <?php if (strlen($usuario->getSenha())): // nao exibe opcao para alterar senha de usuarios do LDAP ?>
             <div class="field">
                 <?php
                     echo $builder->button(array(
@@ -35,6 +36,7 @@ use \core\SGA;
                     ));
                 ?>
             </div>
+            <?php endif; ?>
             <div class="buttons">
                 <?php
                     echo $builder->button(array(
