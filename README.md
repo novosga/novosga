@@ -2,6 +2,8 @@
 
 Versão do SGA Livre reformulada para o PHP 5.3+, utilizando ORM para abstração do banco e 100% compatível com a versão de origem.
 
+Visite o site e baixe a última versão estável: http://novosga.org
+
 ## Sobre
 
 SGA é o acrônimo de Sistema de Gerenciamento de Atendimento, sistema desenvolvido pela Dataprev e liberado como código aberto através da versão SGA Livre.
