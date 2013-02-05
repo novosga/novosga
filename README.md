@@ -36,7 +36,7 @@ Testado no seguintes bancos:
 
 ## Demo
 
-Versão de desenvolvimento disponível online através do link: http://novosga.rogeriolino.com
+Versão de desenvolvimento disponível online através do link: http://novosga.org/demo
 
 - **Usuário**: admin
 - **Senha**: 123456
