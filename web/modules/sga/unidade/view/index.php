@@ -49,14 +49,15 @@ use \core\SGA;
             $sigla = function($model) {
                 $id = $model->getServico()->getId();
                 $disabled = ($model->getStatus() != 1) ? 'disabled="disabled"' : '';
-                return '<input id="sigla-'. $id .'" type="text" class="w25 center" value="' . $model->getSigla() . '" data-id="' . $id .'" onclick="this.select()" onkeyup="this.value=this.value.toUpperCase()" onchange="SGA.Unidade.Servicos.updateSigla(this)" onblur="SGA.Unidade.Servicos.updateSigla(this)" maxlength="1" ' . $disabled . '/>';
+                return '<input id="sigla-'. $id .'" type="text" class="servico-'. $id .' w25 center" value="' . $model->getSigla() . '" data-id="' . $id .'" onclick="this.select()" onkeyup="this.value=this.value.toUpperCase()" onchange="SGA.Unidade.Servicos.updateSigla(this)" onblur="SGA.Unidade.Servicos.updateSigla(this)" maxlength="1" ' . $disabled . '/>';
             };
             $nome = function($model) use ($builder) {
                 $id = $model->getServico()->getId();
                 $disabled = ($model->getStatus() != 1) ? 'disabled="disabled"' : '';
-                $input = '<input id="nome-'. $id .'" type="text" value="' . $model->getNome() . '" data-id="' . $id .'" onchange="SGA.Unidade.Servicos.updateNome(this)" onblur="SGA.Unidade.Servicos.updateNome(this)" maxlength="50" ' . $disabled . '/>';
+                $input = '<input id="nome-'. $id .'" type="text" class="servico-'. $id .'" value="' . $model->getNome() . '" data-id="' . $id .'" onchange="SGA.Unidade.Servicos.updateNome(this)" onblur="SGA.Unidade.Servicos.updateNome(this)" maxlength="50" ' . $disabled . '/>';
                 $btn = $builder->button(array(
                     'icon' => 'ui-icon-arrowrefresh-1-w',
+                    'class' => 'servico-'. $id,
                     'onclick' => 'SGA.Unidade.Servicos.reverteNome('. $id .')',
                     'title' => _('Reverter nome para nome original')
                 ));

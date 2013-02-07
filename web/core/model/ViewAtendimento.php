@@ -57,6 +57,8 @@ class ViewAtendimento extends Model {
     protected $nomeCliente;
     /** @Column(type="string", name="ident_cli", length=11, nullable=true) */
     protected $documentoCliente;
+    /** @Column(type="string", name="sigla_senha", length=1, nullable=false) */
+    protected $siglaSenha;
     /** @Column(type="integer", name="num_senha", nullable=false) */
     protected $numeroSenha;
     
@@ -163,6 +165,14 @@ class ViewAtendimento extends Model {
 
     public function setDocumentoCliente($documentoCliente) {
         $this->documentoCliente = $documentoCliente;
+    }
+    
+    public function getSiglaSenha() {
+        return $this->siglaSenha;
+    }
+
+    public function setSiglaSenha($siglaSenha) {
+        $this->siglaSenha = $siglaSenha;
     }
 
     public function getNumeroSenha() {

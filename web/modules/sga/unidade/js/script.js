@@ -31,7 +31,7 @@ SGA.Unidade = {
             btn = $(btn);
             btn.button("disable");
             SGA.Unidade.Servicos.request('habilita_servico', btn, function() {
-                $('#sigla-' + btn.data('id')).prop('disabled', false).focus();
+                $('.servico-' + btn.data('id')).prop('disabled', false).focus();
                 $('#btn-disable-' + btn.data('id')).button("enable")
             });
         },
@@ -40,7 +40,7 @@ SGA.Unidade = {
             btn = $(btn);
             btn.button("disable");
             SGA.Unidade.Servicos.request('desabilita_servico', btn, function() {
-                $('#sigla-' + btn.data('id')).prop('disabled', true);
+                $('.servico-' + btn.data('id')).prop('disabled', true);
                 $('#btn-enable-' + btn.data('id')).button("enable")
             });
         },

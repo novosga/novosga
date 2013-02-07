@@ -244,7 +244,7 @@ class InstallController extends InternalController {
                 DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
                 $em = DB::getEntityManager();
                 $conn = $em->getConnection();
-                $conn->beginTransaction();
+                //$conn->beginTransaction();
                 
                 $version = $this->getCurrentVersion($context);
                 // atualizando/migrando
@@ -271,6 +271,7 @@ class InstallController extends InternalController {
                         $msg = _('Script SQL de instalação não encontrado (%s)');
                         throw new Exception(sprintf($msg, $sqlDataFile));
                     }
+                    
                     // executando arquivo sql de criacao
                     $conn->exec(file_get_contents($sqlInitFile));
                     // executando arquivo sql de dados iniciais
@@ -280,7 +281,7 @@ class InstallController extends InternalController {
                     $conn->exec($sql);
                 }
                 
-                $conn->commit();
+                //$conn->commit();
                 
                 // atualizando arquivo de configuracao
                 ConfigWriter::write($db);

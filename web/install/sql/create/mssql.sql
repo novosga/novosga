@@ -28,6 +28,7 @@ CREATE TABLE [dbo].[atendimentos](
 	[id_serv] [int] NOT NULL,
 	[id_pri] [int] NOT NULL,
 	[id_stat] [int] NOT NULL,
+	[sigla_senha] [char](1) NOT NULL,
 	[num_senha] [int] NOT NULL,
 	[nm_cli] [varchar](100) NULL,
 	[num_guiche] [smallint] NOT NULL,
@@ -96,6 +97,7 @@ CREATE TABLE [dbo].[historico_atendimentos](
 	[id_serv] [int] NOT NULL,
 	[id_pri] [int] NOT NULL,
 	[id_stat] [int] NOT NULL,
+        [sigla_senha] [char](1) NOT NULL,
 	[num_senha] [int] NOT NULL,
 	[nm_cli] [varchar](100) NULL,
 	[num_guiche] [smallint] NOT NULL,
@@ -257,430 +259,335 @@ GO
 /* PRIMARY KEYS */
 ------------------
 ALTER TABLE atend_codif
-    WITH NOCHECK ADD CONSTRAINT PK_atend_codif_pkey PRIMARY KEY CLUSTERED (id_atend, id_serv);
+    WITH NOCHECK ADD CONSTRAINT PK_atend_codif_pkey PRIMARY KEY CLUSTERED (id_atend, id_serv)
 GO
 
 ALTER TABLE atend_status
-    WITH NOCHECK ADD CONSTRAINT PK_atend_status_pkey PRIMARY KEY CLUSTERED (id_stat);
+    WITH NOCHECK ADD CONSTRAINT PK_atend_status_pkey PRIMARY KEY CLUSTERED (id_stat)
 go
 
 ALTER TABLE atendimentos
-    WITH NOCHECK ADD CONSTRAINT PK_atendimentos_pkey PRIMARY KEY CLUSTERED (id_atend);
+    WITH NOCHECK ADD CONSTRAINT PK_atendimentos_pkey PRIMARY KEY CLUSTERED (id_atend)
 go
 
 ALTER TABLE cargos_aninhados
-    WITH NOCHECK ADD CONSTRAINT PK_cargos_aninhados_pkey PRIMARY KEY CLUSTERED (id_cargo);
+    WITH NOCHECK ADD CONSTRAINT PK_cargos_aninhados_pkey PRIMARY KEY CLUSTERED (id_cargo)
 go
 
 ALTER TABLE cargos_mod_perm
-    WITH NOCHECK ADD CONSTRAINT PK_cargos_mod_perm_pkey PRIMARY KEY CLUSTERED (id_cargo, id_mod);
+    WITH NOCHECK ADD CONSTRAINT PK_cargos_mod_perm_pkey PRIMARY KEY CLUSTERED (id_cargo, id_mod)
 go
 
 ALTER TABLE grupos_aninhados
-    WITH NOCHECK ADD CONSTRAINT PK_grupos_aninhados_pkey PRIMARY KEY CLUSTERED (id_grupo);
+    WITH NOCHECK ADD CONSTRAINT PK_grupos_aninhados_pkey PRIMARY KEY CLUSTERED (id_grupo)
 go
 
 ALTER TABLE config
-    WITH NOCHECK ADD CONSTRAINT config_pkey PRIMARY KEY CLUSTERED (chave);
+    WITH NOCHECK ADD CONSTRAINT config_pkey PRIMARY KEY CLUSTERED (chave)
 go
 
 ALTER TABLE historico_atend_codif
-    WITH NOCHECK ADD CONSTRAINT PK_historico_atend_codif_pkey PRIMARY KEY CLUSTERED (id_atend, id_serv);
+    WITH NOCHECK ADD CONSTRAINT PK_historico_atend_codif_pkey PRIMARY KEY CLUSTERED (id_atend, id_serv)
 go
 
 ALTER TABLE historico_atendimentos
-    WITH NOCHECK ADD CONSTRAINT PK_historico_atendimentos_pkey PRIMARY KEY CLUSTERED (id_atend);
+    WITH NOCHECK ADD CONSTRAINT PK_historico_atendimentos_pkey PRIMARY KEY CLUSTERED (id_atend)
 go
 
 ALTER TABLE modulos
-    WITH NOCHECK ADD CONSTRAINT PK_modulos_pkey PRIMARY KEY CLUSTERED (id_mod);
+    WITH NOCHECK ADD CONSTRAINT PK_modulos_pkey PRIMARY KEY CLUSTERED (id_mod)
 go
 
 ALTER TABLE paineis
-    WITH NOCHECK ADD CONSTRAINT PK_paineis_pkey PRIMARY KEY CLUSTERED (host);
+    WITH NOCHECK ADD CONSTRAINT PK_paineis_pkey PRIMARY KEY CLUSTERED (host)
 go
 
 ALTER TABLE paineis_servicos
-    WITH NOCHECK ADD CONSTRAINT PK_paineis_servicos_pkey PRIMARY KEY CLUSTERED (host, id_serv);
+    WITH NOCHECK ADD CONSTRAINT PK_paineis_servicos_pkey PRIMARY KEY CLUSTERED (host, id_serv)
 go
 
 ALTER TABLE painel_senha
-    WITH NOCHECK ADD CONSTRAINT PK_painel_senha_pkey PRIMARY KEY CLUSTERED (contador);
+    WITH NOCHECK ADD CONSTRAINT PK_painel_senha_pkey PRIMARY KEY CLUSTERED (contador)
 go
 
 ALTER TABLE prioridades
-    WITH NOCHECK ADD CONSTRAINT PK_prioridades_pkey PRIMARY KEY CLUSTERED (id_pri);
+    WITH NOCHECK ADD CONSTRAINT PK_prioridades_pkey PRIMARY KEY CLUSTERED (id_pri)
 go
 
 ALTER TABLE senha_uni_msg
-    WITH NOCHECK ADD CONSTRAINT PK_senha_uni_msg_pkey PRIMARY KEY CLUSTERED (id_uni);
+    WITH NOCHECK ADD CONSTRAINT PK_senha_uni_msg_pkey PRIMARY KEY CLUSTERED (id_uni)
 go
 
 ALTER TABLE serv_local
-    WITH NOCHECK ADD CONSTRAINT PK_serv_local_pkey PRIMARY KEY CLUSTERED (id_loc);
+    WITH NOCHECK ADD CONSTRAINT PK_serv_local_pkey PRIMARY KEY CLUSTERED (id_loc)
 go
 
 ALTER TABLE serv_peso
-    WITH NOCHECK ADD CONSTRAINT PK_serv_peso_pkey PRIMARY KEY CLUSTERED (id_serv);
+    WITH NOCHECK ADD CONSTRAINT PK_serv_peso_pkey PRIMARY KEY CLUSTERED (id_serv)
 go
 
 ALTER TABLE servicos
-    WITH NOCHECK ADD CONSTRAINT PK_servicos_pkey PRIMARY KEY CLUSTERED (id_serv);
+    WITH NOCHECK ADD CONSTRAINT PK_servicos_pkey PRIMARY KEY CLUSTERED (id_serv)
 go
 
 ALTER TABLE uni_serv
-    WITH NOCHECK ADD CONSTRAINT PK_uni_serv_pkey PRIMARY KEY CLUSTERED (id_uni, id_serv);
+    WITH NOCHECK ADD CONSTRAINT PK_uni_serv_pkey PRIMARY KEY CLUSTERED (id_uni, id_serv)
 go
 
 ALTER TABLE unidades
-    WITH NOCHECK ADD CONSTRAINT PK_unidades_pkey PRIMARY KEY CLUSTERED (id_uni);
+    WITH NOCHECK ADD CONSTRAINT PK_unidades_pkey PRIMARY KEY CLUSTERED (id_uni)
 go
 
 ALTER TABLE usu_grup_cargo
-    WITH NOCHECK ADD CONSTRAINT PK_usu_grup_cargo_pkey PRIMARY KEY CLUSTERED (id_usu, id_grupo);
+    WITH NOCHECK ADD CONSTRAINT PK_usu_grup_cargo_pkey PRIMARY KEY CLUSTERED (id_usu, id_grupo)
 go
 
 ALTER TABLE usu_serv
-    WITH NOCHECK ADD CONSTRAINT PK_usu_serv_pkey PRIMARY KEY CLUSTERED (id_uni, id_serv, id_usu);
+    WITH NOCHECK ADD CONSTRAINT PK_usu_serv_pkey PRIMARY KEY CLUSTERED (id_uni, id_serv, id_usu)
 go
 
 ALTER TABLE usuarios
-    WITH NOCHECK ADD CONSTRAINT PK_usuarios_pkey PRIMARY KEY CLUSTERED (id_usu);
+    WITH NOCHECK ADD CONSTRAINT PK_usuarios_pkey PRIMARY KEY CLUSTERED (id_usu)
 go
 
 /* INDICES */
 -------------
-CREATE UNIQUE INDEX IX_cod_uni ON unidades(cod_uni);
+CREATE UNIQUE INDEX IX_cod_uni ON unidades(cod_uni)
 go
 
-CREATE INDEX IX_direita ON grupos_aninhados(direita);
+CREATE INDEX IX_direita ON grupos_aninhados(direita)
 go
 
-CREATE INDEX IX_esqdir ON grupos_aninhados(esquerda, direita);
+CREATE INDEX IX_esqdir ON grupos_aninhados(esquerda, direita)
 go
 
-CREATE INDEX IX_esquerda ON grupos_aninhados(esquerda);
+CREATE INDEX IX_esquerda ON grupos_aninhados(esquerda)
 go
 
-CREATE INDEX IX_fki_atend_codif_ibfk_2 ON atend_codif(id_serv);
+CREATE INDEX IX_fki_atend_codif_ibfk_2 ON atend_codif(id_serv)
 go
 
-CREATE INDEX IX_fki_atendimentos_ibfk_1 ON atendimentos(id_pri);
+CREATE INDEX IX_fki_atendimentos_ibfk_1 ON atendimentos(id_pri)
 go
 
-CREATE INDEX IX_fki_atendimentos_ibfk_2 ON atendimentos(id_uni, id_serv);
+CREATE INDEX IX_fki_atendimentos_ibfk_2 ON atendimentos(id_uni, id_serv)
 go
 
-CREATE INDEX IX_fki_atendimentos_ibfk_3 ON atendimentos(id_stat);
+CREATE INDEX IX_fki_atendimentos_ibfk_3 ON atendimentos(id_stat)
 go
 
-CREATE INDEX IX_fki_atendimentos_ibfk_4 ON atendimentos(id_usu);
+CREATE INDEX IX_fki_atendimentos_ibfk_4 ON atendimentos(id_usu)
 go
 
-CREATE INDEX IX_fki_id_grupo ON unidades(id_grupo);
+CREATE INDEX IX_fki_id_grupo ON unidades(id_grupo)
 go
 
-CREATE INDEX IX_fki_servicos_ibfk_1 ON servicos(id_macro);
+CREATE INDEX IX_fki_servicos_ibfk_1 ON servicos(id_macro)
 go
 
-CREATE INDEX IX_fki_uni_serv_ibfk_2 ON uni_serv(id_serv);
+CREATE INDEX IX_fki_uni_serv_ibfk_2 ON uni_serv(id_serv)
 go
 
-CREATE INDEX IX_fki_uni_serv_ibfk_3 ON uni_serv(id_loc);
+CREATE INDEX IX_fki_uni_serv_ibfk_3 ON uni_serv(id_loc)
 go
 
-CREATE INDEX IX_fki_usu_serv_ibfk_1 ON usu_serv(id_serv, id_uni);
+CREATE INDEX IX_fki_usu_serv_ibfk_1 ON usu_serv(id_serv, id_uni)
 go
 
-CREATE INDEX IX_fki_usu_serv_ibfk_2 ON usu_serv(id_usu);
+CREATE INDEX IX_fki_usu_serv_ibfk_2 ON usu_serv(id_usu)
 go
 
-CREATE UNIQUE INDEX IX_local_serv_nm ON serv_local(nm_loc);
+CREATE UNIQUE INDEX IX_local_serv_nm ON serv_local(nm_loc)
 go
 
-CREATE UNIQUE INDEX IX_login_usu ON usuarios(login_usu);
+CREATE UNIQUE INDEX IX_login_usu ON usuarios(login_usu)
 go
 
-CREATE UNIQUE INDEX IX_modulos_chave ON modulos(chave_mod);
+CREATE UNIQUE INDEX IX_modulos_chave ON modulos(chave_mod)
 go
 
 /* FOREIGN KEY */
 -----------------
 ALTER TABLE atend_codif
-    ADD CONSTRAINT FK_atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES atendimentos(id_atend);
+    ADD CONSTRAINT FK_atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES atendimentos(id_atend)
 go
 
 ALTER TABLE atend_codif
-    ADD CONSTRAINT FK_atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv);
+    ADD CONSTRAINT FK_atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv)
 go
 
 ALTER TABLE atendimentos
-    ADD CONSTRAINT FK_atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri);
+    ADD CONSTRAINT FK_atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri)
 go
 
 ALTER TABLE atendimentos
-    ADD CONSTRAINT FK_atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv);
+    ADD CONSTRAINT FK_atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv)
 go
 
 ALTER TABLE atendimentos
-    ADD CONSTRAINT FK_atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat);
+    ADD CONSTRAINT FK_atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat)
 go
 
 ALTER TABLE atendimentos
-    ADD CONSTRAINT FK_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu);
+    ADD CONSTRAINT FK_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
 go
 
 ALTER TABLE cargos_mod_perm
-    ADD CONSTRAINT FK_cargos_mod_perm_ibfk_1 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo);
+    ADD CONSTRAINT FK_cargos_mod_perm_ibfk_1 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo)
 go
 
 ALTER TABLE cargos_mod_perm
-    ADD CONSTRAINT FK_cargos_mod_perm_ibfk_2 FOREIGN KEY (id_mod) REFERENCES modulos(id_mod);
+    ADD CONSTRAINT FK_cargos_mod_perm_ibfk_2 FOREIGN KEY (id_mod) REFERENCES modulos(id_mod)
 go
 
 ALTER TABLE historico_atend_codif
-    ADD CONSTRAINT FK_historico_atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES historico_atendimentos(id_atend);
+    ADD CONSTRAINT FK_historico_atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES historico_atendimentos(id_atend)
 go
 
 ALTER TABLE historico_atend_codif
-    ADD CONSTRAINT FK_historico_atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv);
+    ADD CONSTRAINT FK_historico_atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv)
 go
 
 ALTER TABLE historico_atendimentos
-    ADD CONSTRAINT FK_historico_atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri);
+    ADD CONSTRAINT FK_historico_atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri)
 go
 
 ALTER TABLE historico_atendimentos
-    ADD CONSTRAINT FK_historico_atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv);
+    ADD CONSTRAINT FK_historico_atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv)
 go
 
 ALTER TABLE historico_atendimentos
-    ADD CONSTRAINT FK_historico_atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat);
+    ADD CONSTRAINT FK_historico_atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat)
 go
 
 ALTER TABLE historico_atendimentos
-    ADD CONSTRAINT FK_historico_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu);
+    ADD CONSTRAINT FK_historico_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
 go
 
 ALTER TABLE paineis
-    ADD CONSTRAINT FK_paineis_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni);
+    ADD CONSTRAINT FK_paineis_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni)
 go
 
 ALTER TABLE paineis_servicos
-    ADD CONSTRAINT FK_paineis_servicos_ibfk_1 FOREIGN KEY (host) REFERENCES paineis (host);
+    ADD CONSTRAINT FK_paineis_servicos_ibfk_1 FOREIGN KEY (host) REFERENCES paineis (host)
 go
 
 ALTER TABLE paineis_servicos
-    ADD CONSTRAINT FK_paineis_servicos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv (id_uni, id_serv);
+    ADD CONSTRAINT FK_paineis_servicos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv (id_uni, id_serv)
 go
 
 ALTER TABLE painel_senha
-    ADD CONSTRAINT FK_painel_senha_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni);
+    ADD CONSTRAINT FK_painel_senha_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni)
 go
 
 ALTER TABLE painel_senha
-    ADD CONSTRAINT FK_painel_senha_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv);
+    ADD CONSTRAINT FK_painel_senha_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv)
 go
 
 ALTER TABLE serv_peso
-    ADD CONSTRAINT FK_peso_ibfk_1 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv);
+    ADD CONSTRAINT FK_peso_ibfk_1 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv)
 go
 
 ALTER TABLE senha_uni_msg
-    ADD CONSTRAINT FK_senha_uni_msg_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni);
+    ADD CONSTRAINT FK_senha_uni_msg_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni)
 go
 
 ALTER TABLE servicos
-    ADD CONSTRAINT FK_servicos_ibfk_1 FOREIGN KEY (id_macro) REFERENCES servicos(id_serv);
+    ADD CONSTRAINT FK_servicos_ibfk_1 FOREIGN KEY (id_macro) REFERENCES servicos(id_serv)
 go
 
 ALTER TABLE uni_serv
-    ADD CONSTRAINT FK_uni_serv_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni);
+    ADD CONSTRAINT FK_uni_serv_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni)
 go
 
 ALTER TABLE uni_serv
-    ADD CONSTRAINT FK_uni_serv_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv);
+    ADD CONSTRAINT FK_uni_serv_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv)
 go
 
 ALTER TABLE uni_serv
-    ADD CONSTRAINT FK_uni_serv_ibfk_3 FOREIGN KEY (id_loc) REFERENCES serv_local(id_loc);
+    ADD CONSTRAINT FK_uni_serv_ibfk_3 FOREIGN KEY (id_loc) REFERENCES serv_local(id_loc)
 go
 
 ALTER TABLE unidades
-    ADD CONSTRAINT FK_unidades_id_grupo_fkey FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo);
+    ADD CONSTRAINT FK_unidades_id_grupo_fkey FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo)
 go
 
 ALTER TABLE usu_grup_cargo
-    ADD CONSTRAINT FK_usu_grup_cargo_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu);
+    ADD CONSTRAINT FK_usu_grup_cargo_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
 go
 
 ALTER TABLE usu_grup_cargo
-    ADD CONSTRAINT FK_usu_grup_cargo_ibfk_2 FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo);
+    ADD CONSTRAINT FK_usu_grup_cargo_ibfk_2 FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo)
 go
 
 ALTER TABLE usu_grup_cargo
-    ADD CONSTRAINT FK_usu_grup_cargo_ibfk_3 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo);
+    ADD CONSTRAINT FK_usu_grup_cargo_ibfk_3 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo)
 go
 
 ALTER TABLE usu_serv
-    ADD CONSTRAINT FK_usu_serv_ibfk_1 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv);
+    ADD CONSTRAINT FK_usu_serv_ibfk_1 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv)
 go
 
 ALTER TABLE usu_serv
-    ADD CONSTRAINT FK_usu_serv_ibfk_2 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu);
+    ADD CONSTRAINT FK_usu_serv_ibfk_2 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
 go
 
 /* VIEWS */
 -----------
 CREATE VIEW view_historico_atend_codif 
 AS
-SELECT atend_codif.id_atend, atend_codif.id_serv, atend_codif.valor_peso 
-  FROM atend_codif 
-UNION ALL 
-SELECT historico_atend_codif.id_atend, historico_atend_codif.id_serv, historico_atend_codif.valor_peso 
-  FROM historico_atend_codif;
+    SELECT 
+        atend_codif.id_atend, 
+        atend_codif.id_serv, 
+        atend_codif.valor_peso 
+    FROM 
+        atend_codif 
+    UNION ALL 
+    SELECT 
+        historico_atend_codif.id_atend, 
+        historico_atend_codif.id_serv, 
+        historico_atend_codif.valor_peso 
+    FROM 
+        historico_atend_codif
 go
 
 CREATE VIEW view_historico_atendimentos 
 AS
-SELECT atendimentos.id_atend, atendimentos.id_uni, atendimentos.id_usu, atendimentos.id_serv, atendimentos.id_pri, atendimentos.id_stat, atendimentos.num_senha, atendimentos.nm_cli, atendimentos.num_guiche, atendimentos.dt_cheg, atendimentos.dt_cha, atendimentos.dt_ini, atendimentos.dt_fim, atendimentos.ident_cli FROM atendimentos UNION ALL SELECT historico_atendimentos.id_atend, historico_atendimentos.id_uni, historico_atendimentos.id_usu, historico_atendimentos.id_serv, historico_atendimentos.id_pri, historico_atendimentos.id_stat, historico_atendimentos.num_senha, historico_atendimentos.nm_cli, historico_atendimentos.num_guiche, historico_atendimentos.dt_cheg, historico_atendimentos.dt_cha, historico_atendimentos.dt_ini, historico_atendimentos.dt_fim, historico_atendimentos.ident_cli 
-FROM historico_atendimentos;
+    SELECT 
+        atendimentos.id_atend, 
+        atendimentos.id_uni, 
+        atendimentos.id_usu, 
+        atendimentos.id_serv, 
+        atendimentos.id_pri, 
+        atendimentos.id_stat, 
+        atendimentos.sigla_senha, 
+        atendimentos.num_senha, 
+        atendimentos.nm_cli, 
+        atendimentos.num_guiche, 
+        atendimentos.dt_cheg, 
+        atendimentos.dt_cha, 
+        atendimentos.dt_ini, 
+        atendimentos.dt_fim, 
+        atendimentos.ident_cli 
+    FROM 
+        atendimentos 
+    UNION ALL 
+    SELECT 
+        historico_atendimentos.id_atend, 
+        historico_atendimentos.id_uni, 
+        historico_atendimentos.id_usu, 
+        historico_atendimentos.id_serv, 
+        historico_atendimentos.id_pri, 
+        historico_atendimentos.id_stat, 
+        historico_atendimentos.sigla_senha, 
+        historico_atendimentos.num_senha, 
+        historico_atendimentos.nm_cli, 
+        historico_atendimentos.num_guiche, 
+        historico_atendimentos.dt_cheg, 
+        historico_atendimentos.dt_cha, 
+        historico_atendimentos.dt_ini, 
+        historico_atendimentos.dt_fim, 
+        historico_atendimentos.ident_cli 
+    FROM 
+        historico_atendimentos
 go
-
-
-/* STORED PROCEDURES */
------------------------
-CREATE PROCEDURE dbo.sp_acumular_atendimentos 
-	@p_dt_max datetime
-AS
-/*
- Move atendimentos da tabela "atendimentos" para a tabela "historico_atendimentos" e todas as
- respectivas codificações da tabela "atend_codif" para a tabela "historico_atend_codif"
- Somente atendimentos com "dt_cheg" anteriores ao parametro(p_dt_max) especificado serão movidos, use now() ou
- uma data no futuro para mover todos os atendimentos existentes
-*/
-BEGIN TRANSACTION
-    -- salva atendimentos
-    INSERT INTO historico_atendimentos
-    SELECT a.id_atend, a.id_uni, a.id_usu, a.id_serv, a.id_pri, a.id_stat, a.num_senha, a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli
-    FROM atendimentos a
-    WHERE dt_cheg <= @p_dt_max
-
-	If @@ERROR <> 0 Begin
-		Raiserror ( 'Erro ao inserir na tabela historico_atendimentos.', 18,1)
-		Rollback Transaction
-		return
-	end
-	
-    -- salva atendimentos codificados
-    INSERT INTO historico_atend_codif
-    SELECT ac.id_atend, ac.id_serv, ac.valor_peso
-    FROM atend_codif ac
-    WHERE id_atend IN (
-        SELECT a.id_atend
-        FROM atendimentos a
-        WHERE dt_cheg <= @p_dt_max
-    )
-
-	If @@ERROR <> 0 Begin
-		Raiserror ( 'Erro ao inserir na tabela historico_atend_codif.', 18,1)
-		Rollback Transaction
-		return
-	end
-
-    -- limpa atendimentos codificados
-    DELETE ac
-      FROM atend_codif ac
-     WHERE ac.id_atend IN (
-        SELECT a.id_atend
-        FROM atendimentos a
-        WHERE dt_cheg <= @p_dt_max
-    )
-
-	If @@ERROR <> 0 Begin
-		Raiserror ( 'Erro ao apagar registros na tabela atend_codif.', 18,1)
-		Rollback Transaction
-		return
-	end
-
-    -- limpa atendimentos
-    DELETE FROM atendimentos
-    WHERE dt_cheg <= @p_dt_max
-
-	If @@ERROR <> 0 Begin
-		Raiserror ( 'Erro ao apagar registros na tabela atendimentos.', 18,1)
-		Rollback Transaction
-		return
-	end
-COMMIT TRANSACTION
-GO
-
-
-CREATE PROCEDURE dbo.sp_acumular_atendimentos_unidade
-	@p_id_uni integer, 
-	@p_dt_max datetime
-AS
-/*
- Equivalente ao sp_acumular_atendimentos(), mas se limita a mover os atendimentos de uma determinada unidade
-*/
-BEGIN TRANSACTION
-    -- salva atendimentos da unidade
-    INSERT INTO historico_atendimentos
-    SELECT a.id_atend, a.id_uni, a.id_usu, a.id_serv, a.id_pri, a.id_stat, a.num_senha, a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli
-    FROM atendimentos a
-    WHERE a.dt_cheg <= @p_dt_max
-    AND a.id_uni = @p_id_uni
-
-	If @@ERROR <> 0 Begin
-		Raiserror ( 'Erro ao apagar registros na tabela historico_atendimentos.', 18,1)
-		Rollback Transaction
-		return
-	end
-
-    -- salva atendimentos codificados da unidade
-    INSERT INTO historico_atend_codif
-    SELECT ac.id_atend, ac.id_serv, ac.valor_peso
-    FROM atend_codif ac
-    WHERE id_atend IN (
-        SELECT a.id_atend
-        FROM atendimentos a
-        WHERE dt_cheg <= @p_dt_max
-            AND a.id_uni = @p_id_uni
-    )
-
-	If @@ERROR <> 0 Begin
-		Raiserror ( 'Erro ao apagar registros na tabela historico_atend_codif.', 18,1)
-		Rollback Transaction
-		return
-	end
-
-    -- limpa atendimentos codificados da unidade
-    DELETE ac
-      FROM atend_codif ac
-     WHERE ac.id_atend IN (
-        SELECT id_atend
-        FROM atendimentos a
-        WHERE a.dt_cheg <= @p_dt_max
-        AND a.id_uni = @p_id_uni
-    )
-
-	If @@ERROR <> 0 Begin
-		Raiserror ( 'Erro ao apagar registros na tabela atend_codif.', 18,1)
-		Rollback Transaction
-		return
-	end
-
-    -- limpa atendimentos da unidade
-    DELETE a
-      FROM atendimentos a
-     WHERE dt_cheg <= @p_dt_max
-       AND a.id_uni = @p_id_uni
-
-	If @@ERROR <> 0 Begin
-		Raiserror ( 'Erro ao apagar registros na tabela atendimentos.', 18,1)
-		Rollback Transaction
-		return
-	end
-
-COMMIT TRANSACTION
-GO
