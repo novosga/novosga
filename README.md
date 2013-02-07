@@ -1,6 +1,6 @@
 # Novo SGA
 
-Versão do SGA Livre reformulada para o PHP 5.3+, utilizando ORM para abstração do banco e 100% compatível com a versão de origem.
+Versão do SGA Livre reformulada para o PHP 5.3+, utilizando ORM para abstração do banco e compatível com a versão de origem.
 
 Visite o site e baixe a última versão estável: http://novosga.org
 
