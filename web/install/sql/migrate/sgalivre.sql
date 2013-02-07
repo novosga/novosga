@@ -32,6 +32,13 @@ INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, (SELECT id_
 INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, (SELECT id_mod FROM modulos WHERE chave_mod = 'sga.cargos'), 3);
 INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, (SELECT id_mod FROM modulos WHERE chave_mod = 'sga.modulos'), 3);
 
+-- config
+CREATE TABLE config (
+    chave varchar(150) NOT NULL,
+    valor TEXT,
+    PRIMARY KEY (chave)
+);
+
 -- usuarios
 ALTER TABLE usuarios ADD COLUMN session_id varchar(40) NOT NULL DEFAULT '';
 
