@@ -61,6 +61,8 @@ class Atendimento extends SequencialModel {
     protected $nomeCliente;
     /** @Column(type="string", name="ident_cli", length=11, nullable=true) */
     protected $documentoCliente;
+    /** @Column(type="string", name="sigla_senha", length=1, nullable=false) */
+    protected $siglaSenha;
     /** @Column(type="integer", name="num_senha", nullable=false) */
     protected $numeroSenha;
     /** 
@@ -222,13 +224,21 @@ class Atendimento extends SequencialModel {
     public function getSenha() {
         if (!$this->senha) {
             $this->senha = new Senha();
-            $this->senha->setSigla($this->servicoUnidade->getSigla());
+            $this->senha->setSigla($this->siglaSenha);
             $this->senha->setNumero((int) $this->numeroSenha);
             $this->senha->setPrioridade($this->prioridadeSenha);
         }
         return $this->senha;
     }
     
+    public function getSiglaSenha() {
+        return $this->siglaSenha;
+    }
+
+    public function setSiglaSenha($siglaSenha) {
+        $this->siglaSenha = $siglaSenha;
+    }
+        
     public function setNumeroSenha($numeroSenha) {
         $this->numeroSenha = $numeroSenha;
     }

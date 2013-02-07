@@ -336,6 +336,7 @@ class AtendimentoController extends ModuleController {
         // copiando a senha do atendimento atual
         $novo = new Atendimento();
         $novo->setGuiche(0);
+        $novo->setSiglaSenha($atendimento->getSenha()->getSigla());
         $novo->setNumeroSenha($atendimento->getSenha()->getNumero());
         $novo->setPrioridadeSenha($atendimento->getSenha()->getPrioridade());
         $novo->setServicoUnidade($servicoUnidade);
