@@ -124,7 +124,7 @@ use \core\util\Strings;
             ));
             echo $builder->button(array(
                 'id' => 'btn-transferir',
-                'label' => _('Transferir senha'),
+                'label' => _('Transferir / Alterar senha'),
                 'onclick' => "SGA.Monitor.Senha.transfere($('#senha_id').val(), $('#senha_numero').text())"
             ));
             echo $builder->button(array(

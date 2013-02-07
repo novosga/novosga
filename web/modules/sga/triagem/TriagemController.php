@@ -132,11 +132,11 @@ class TriagemController extends ModuleController {
             
             // verificando se o servico esta disponivel na unidade
             $servico = (int) Arrays::value($_POST, 'servico');
-            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
+            $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
             $query->setParameter('unidade', $unidade->getId());
             $query->setParameter('servico', $servico);
-            $rs = $query->getSingleResult();
-            if ($rs['total'] == 0) {
+            $su = $query->getOneOrNullResult();
+            if (!$su) {
                 throw new Exception(_('Serviço não disponível para a unidade atual'));
             }
             $innerQuery = "
@@ -153,10 +153,10 @@ class TriagemController extends ModuleController {
             $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1);
             $stmt = $conn->prepare(" 
                 INSERT INTO atendimentos
-                (id_uni, id_serv, id_pri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, num_senha)
+                (id_uni, id_serv, id_pri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha)
                 -- select dentro do insert para garantir atomicidade
                 SELECT
-                    :id_uni, :id_serv, :id_pri, :id_stat, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, 
+                    :id_uni, :id_serv, :id_pri, :id_stat, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, :sigla_senha, 
                     COALESCE(
                         (
                             $innerQuery
@@ -170,6 +170,7 @@ class TriagemController extends ModuleController {
             $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
             $stmt->bindValue('num_guiche', 0, PDO::PARAM_INT);
             $stmt->bindValue('dt_cheg', DateUtil::nowSQL(), PDO::PARAM_STR);
+            $stmt->bindValue('sigla_senha', $su->getSigla(), PDO::PARAM_STR);
             
             $response->success = ($stmt->execute() == true);
             if (!$response->success) {
