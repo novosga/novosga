@@ -8,6 +8,7 @@ use \core\auth\Authentication;
 use \core\controller\ModuleController;
 use \core\business\PainelBusiness;
 use \core\business\AtendimentoBusiness;
+use \cron\CronController;
 
 /**
  * AdminView
@@ -43,6 +44,7 @@ class AdminController extends ModuleController {
         $this->view()->assign('unidades', $unidades);
         $this->view()->assign('paineis', $paineis);
         $this->view()->assign('auth', $auth);
+        $this->view()->assign('cronReiniciarSenhas', CronController::cronUrl('reiniciar_senhas', $context->getUser()));
     }
     
     public function auth_save(SGAContext $context) {

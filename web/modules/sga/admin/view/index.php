@@ -74,6 +74,10 @@ use \core\util\Arrays;
                     ))  
                 ?>
             </div>
+            <div class="field">
+                <label><?php echo _('Cron URL') ?></label>
+                <code><?php echo $cronReiniciarSenhas ?></code>
+            </div>
         </div>
         <div id="tab-paineis">
             <?php foreach ($unidades as $unidade): ?>
