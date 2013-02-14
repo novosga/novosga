@@ -25,6 +25,7 @@ class SGA {
     const K_LOGIN    = "login";
     const K_HOME     = "home";
     const K_PANEL    = "painel";
+    const K_CRON     = "cron";
     const K_MODULE   = "module";
     const K_PAGE     = "page";
     const K_LOGOUT   = "logout";
