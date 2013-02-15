@@ -1,8 +1,8 @@
 #!/bin/sh
 #
 # NovoSGA - Painel Server
-#
 # @author rogeriolino <rogeriolino.com>
 #
 
-java -Xmx256m -cp libs/*:{distname}.jar br.gov.dataprev.controladorpainel.ControladorPainel
+java -jar {distname}.jar -Xmx256m -cp lib/* &
+echo $! > pid.txt
