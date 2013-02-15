@@ -43,6 +43,7 @@ goto fim
 
 :sucesso
 echo Rede OK! Chamando jar
-javaw -jar {distname}.jar
+start javaw -jar {distname}.jar
+exit 0
 
 :fim
