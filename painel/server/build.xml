@@ -45,7 +45,7 @@
         <jar destfile="${build}/${distname}.jar">
             <fileset dir="${build.classes}" />
             <manifest>
-                <attribute name="Main-Class" value="br.gov.dataprev.controladorpaineis.ControladorPaineis" />
+                <attribute name="Main-Class" value="br.gov.dataprev.controladorpainel.ControladorPainel" />
             </manifest>
         </jar>
         <copy todir="${build.dist}">
@@ -59,7 +59,7 @@
         pre-dist
     -->
     <target name="pre-dist" depends="jar">
-        <copy todir="${build.dist}/libs">
+        <copy todir="${build.dist}/lib">
             <fileset dir="${lib}">
                 <include name="*.jar" />
             </fileset>
