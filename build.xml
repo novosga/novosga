@@ -2,7 +2,7 @@
 <project name="novosga" default="dist" basedir=".">
     <description>Novo SGA Ant tasks - Main</description>
     
-    <property name="version" value="0.1.8" />
+    <property name="version" value="0.2.1" />
     <property name="project" value="novosga" />
     <property name="dir.dist" value="dist" />
     <property name="dir.build" value="build" />
