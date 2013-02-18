@@ -38,6 +38,10 @@
                 <include name="**/*.${dist-format}" />
             </fileset>
         </copy>
+        
+        <delete dir="${novosga.web}/${dir.dist}" />
+        <delete dir="${novosga.painel.client}/${dir.dist}" />
+        <delete dir="${novosga.painel.server}/${dir.dist}" />
     </target>
     
     <target name="callsub">
