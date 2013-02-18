@@ -128,7 +128,7 @@ use \core\contrib\Serie;
         // tab graficos
         
         // tab relatorios
-        $("#relatorio").on('change', function() {
+        $("#report-id").on('change', function() {
             SGA.Estatisticas.Relatorio.change($(this));
         });
         $(".datepicker" ).datepicker({dateFormat: '<?php echo _('dd/mm/yy') ?>'});
