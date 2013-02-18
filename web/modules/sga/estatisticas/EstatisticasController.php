@@ -56,7 +56,7 @@ class EstatisticasController extends ModuleController {
             $dataInicial = $context->getRequest()->getParameter('inicial');
             $dataFinal = $context->getRequest()->getParameter('final');
             $dataInicial = DateUtil::formatToSQL($dataInicial);
-            $dataFinal = DateUtil::formatToSQL($dataFinal);
+            $dataFinal = DateUtil::format(DateUtil::parseDate($dataFinal), 'Y-m-d') . ' 23:59:59';
             if (!isset($this->graficos[$id])) {
                 throw new Exception(_('Gráfico inválido'));
             }
@@ -87,9 +87,11 @@ class EstatisticasController extends ModuleController {
         $dataFinal = $context->getRequest()->getParameter('final');
         if (isset($this->relatorios[$id])) {
             $relatorio = $this->relatorios[$id];
-            //DateUtils::formatToSQL();
             $this->view()->assign('dataInicial', $dataInicial);
             $this->view()->assign('dataFinal', $dataFinal);
+            // formatando
+            $dataInicial = DateUtil::formatToSQL($dataInicial);
+            $dataFinal = DateUtil::format(DateUtil::parseDate($dataFinal), 'Y-m-d') . ' 23:59:59';
             switch ($id) {
             case 1:
                 $relatorio->setDados($this->servicos_disponiveis_global());
