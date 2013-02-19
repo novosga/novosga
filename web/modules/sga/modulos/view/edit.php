@@ -6,8 +6,8 @@ use \core\SGA;
     <div id="tabs">
         <ul>
             <li><a href="#tab-sobre"><?php SGA::out(_('Sobre')) ?></a></li>
-            <li><a href="#tab-css"><?php SGA::out(_('CSS')) ?></a></li>
-            <li><a href="#tab-javascript"><?php SGA::out(_('Javascript')) ?></a></li>
+            <li><a href="#tab-css">CSS</a></li>
+            <li><a href="#tab-javascript">Javascript</a></li>
         </ul>
         <div id="tab-sobre">
             <div class="info">

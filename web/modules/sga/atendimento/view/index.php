@@ -8,7 +8,7 @@ function atendimentoInfo($atendimento) {
         <h3 class="title"><?php SGA::out(_('Atendimento')) ?></h3>
         <ul class="info <?php SGA::out(($atendimento && $atendimento->getSenha()->isPrioridade()) ? ' prioridade' : '') ?>">
             <li class="numero">
-                <span class="label"><?php SGA::out(_('Senha')) ?></span>
+                <span class="label"><?php SGA::out(_('Senha|Bilhete')) ?></span>
                 <span class="value"><?php SGA::out(($atendimento) ? $atendimento->getSenha()->toString() : '') ?></span>
             </li>
             <li class="servico">
@@ -30,7 +30,7 @@ function atendimentoInfo($atendimento) {
 
 function btnControl($label, $action) {
     ?>
-    <button class="btn-control <?php SGA::out($action) ?>" onclick="SGA.Atendimento.<?php SGA::out($action) ?>(this)" title="<?php SGA::out(_($label)) ?>"><?php SGA::out(_($label)) ?></button>
+    <button class="btn-control <?php SGA::out($action) ?>" onclick="SGA.Atendimento.<?php SGA::out($action) ?>(this)" title="<?php SGA::out($label) ?>"><?php SGA::out($label) ?></button>
     <?php
 }
 
@@ -74,21 +74,21 @@ else {
         </div>
         <div id="controls">
             <div id="chamar" class="control" style="display:none">
-                <?php btnControl('Chamar próximo', 'chamar') ?>
+                <?php btnControl(_('Chamar próximo'), 'chamar') ?>
             </div>
             <div id="iniciar" class="control" style="display:none">
                 <?php 
                     atendimentoInfo($atendimento);
-                    btnControl('Chamar novamente', 'chamar');
-                    btnControl('Iniciar atendimento', 'iniciar') ;
-                    btnControl('Não compareceu', 'nao_compareceu') ;
+                    btnControl(_('Chamar novamente'), 'chamar');
+                    btnControl(_('Iniciar atendimento'), 'iniciar') ;
+                    btnControl(_('Não compareceu'), 'nao_compareceu') ;
                 ?>
             </div>
             <div id="encerrar" class="control" style="display:none">
                 <?php 
                     atendimentoInfo($atendimento); 
-                    btnControl('Encerrar atendimento', 'encerrar');
-                    btnControl('Erro de triagem', 'erro_triagem');
+                    btnControl(_('Encerrar atendimento'), 'encerrar');
+                    btnControl(_('Erro de triagem'), 'erro_triagem');
                 ?>
             </div>
             <div id="codificar" class="control" style="display:none">
@@ -156,7 +156,7 @@ else {
             $status = ($atendimento) ? $atendimento->getStatus() : 1;
         ?>
         SGA.Clock.init("sga-clock", <?php echo (time() * 1000) ?>);
-        SGA.Atendimento.filaVazia = '<?php SGA::out(_('Fila Vazia')) ?>';
+        SGA.Atendimento.filaVazia = '<?php SGA::out(_('Fila vazia')) ?>';
         SGA.Atendimento.remover = '<?php SGA::out(_('Remover')) ?>';
         SGA.Atendimento.labelRedirecionar = '<?php SGA::out(_('Redirecionar')) ?>';
         SGA.Atendimento.marcarErroTriagem = '<?php SGA::out(_('Realmente deseja marcar como erro de triagem?')) ?>';

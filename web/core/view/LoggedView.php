@@ -94,7 +94,7 @@ abstract class LoggedView extends PageView {
         $content .= $this->builder->select(array(
             'id' => 'unidade',
             'items' => $items,
-            'label' => _('Selectione'),
+            'label' => _('Selecione'),
             'class' => 'w200',
             'default' => ($unidade ? $unidade->getId() : 0)
         ));

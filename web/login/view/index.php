@@ -32,8 +32,8 @@ $dialog = $this->builder->dialog(array(
     'buttons' => $button,
     'draggable' => false,
     'closeble' => false
-))
-        ;
+));
+
 ?>
 <form id="login-form" action="?login&<?php SGA::out(SGA::K_PAGE) ?>=validate" method="post">
     <div id="logo"></div>

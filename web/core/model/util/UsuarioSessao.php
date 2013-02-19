@@ -26,7 +26,7 @@ class UsuarioSessao {
     public function __construct(Usuario $usuario) {
         $this->id = $usuario->getId();
         $this->sessionId = $usuario->getSessionId();
-        $this->ativo = $usuario->isAtivo();
+        $this->ativo = true;
         $this->wrapped = $usuario;
     }
     
@@ -34,16 +34,29 @@ class UsuarioSessao {
         return $this->id;
     }
     
+    /**
+     * Retorna o número do guiche para atendimento na unidade atual
+     * @return type
+     */
     public function getGuiche() {
         return $this->guiche;
     }
 
     public function setGuiche($guiche) {
-        $this->guiche = $guiche;
+        $guiche = (int) $guiche;
+        if ($guiche > 0) {
+            $this->guiche = $guiche;
+        } else {
+            throw new Exception(_('Erro ao definir guiche do Usuário. Deve ser um número maior que zero.'));
+        }
     }
 
     public function isAtivo() {
         return $this->ativo == true;
+    }
+
+    public function setAtivo($ativo) {
+        $this->ativo = ($ativo == true);
     }
     
     public function getSessionId() {
