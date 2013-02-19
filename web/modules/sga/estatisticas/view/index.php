@@ -64,11 +64,11 @@ use \core\contrib\Serie;
                     </select>
                 </div>
                 <div class="field required date">
-                    <label for="chart-dataInicial"><?php SGA::out(_('Data Inicial')) ?></label>
+                    <label for="chart-dataInicial"><?php SGA::out(_('Data inicial')) ?></label>
                     <input id="chart-dataInicial" name="inicial" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
                 <div class="field required date">
-                    <label for="chart-dataFinal"><?php SGA::out(_('Data Final')) ?></label>
+                    <label for="chart-dataFinal"><?php SGA::out(_('Data final')) ?></label>
                     <input id="chart-dataFinal" name="final" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
                 <div class="field">
@@ -98,11 +98,11 @@ use \core\contrib\Serie;
                     </select>
                 </div>
                 <div class="field required date" style="display:none">
-                    <label for="report-dataInicial"><?php SGA::out(_('Data Inicial')) ?></label>
+                    <label for="report-dataInicial"><?php SGA::out(_('Data inicial')) ?></label>
                     <input id="report-dataInicial" name="inicial" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
                 <div class="field required date" style="display:none">
-                    <label for="report-dataFinal"><?php SGA::out(_('Data Final')) ?></label>
+                    <label for="report-dataFinal"><?php SGA::out(_('Data final')) ?></label>
                     <input id="report-dataFinal" name="final" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
                 <div class="field">
