@@ -17,8 +17,8 @@ SGA.Estatisticas = {
                     url: SGA.url('grafico'),
                     data: {
                         grafico: id, 
-                        inicial: $('#chart-dataInicial').val(), 
-                        'final': $('#chart-dataFinal').val()
+                        inicial: SGA.dateToSql($('#chart-dataInicial').val()), 
+                        'final': SGA.dateToSql($('#chart-dataFinal').val())
                     },
                     success: function(response) {
                         var result = $('#chart-result');
@@ -114,6 +114,12 @@ SGA.Estatisticas = {
     },
     
     Relatorio: {
+        
+        gerar: function() {
+            $('#report-hidden-inicial').val(SGA.dateToSql($('#report-dataInicial').val()));
+            $('#report-hidden-final').val(SGA.dateToSql($('#report-dataFinal').val()));
+            return true;
+        },
         
         change: function(elem) {
             var elems = $('#tab-relatorios .date');

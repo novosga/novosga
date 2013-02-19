@@ -151,6 +151,7 @@ abstract class SGAView implements View {
             SGA.invalidSession = '<?php SGA::out(_(\login\LoginController::INVALID_SESSION)); ?>';
             SGA.inactiveSession = '<?php SGA::out(_(\login\LoginController::INACTIVE_SESSION)); ?>';
             SGA.dialogs.error.title = '<?php SGA::out(_('Erro')) ?>';
+            SGA.dateFormat = '<?php echo _('d/m/Y') ?>';
         </script>
         <link rel="shortcut icon" href="images/favicon.png" />
         <?php

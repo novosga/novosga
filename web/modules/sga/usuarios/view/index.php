@@ -11,7 +11,7 @@ $status = function($model) use ($view) {
 };
 
 echo $view->table(
-    array(_('Login'), _('Nome'), _('Status')),
+    array(_('Nome de usuário'), _('Nome'), _('Status')),
     array($login, 'nome', $status),
     $items
 );

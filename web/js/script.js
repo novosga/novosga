@@ -10,6 +10,7 @@ var SGA = {
     page: '',
     paused: false,
     updateInterval: 5000,
+    dateFormat: '',
     
     dialogs: {
         
@@ -104,13 +105,58 @@ var SGA = {
     
     formatDate: function(sqlDate) {
         if (sqlDate && sqlDate != "") {
-            var d = sqlDate.split(' ');
+            var datetime = sqlDate.split(' ');
+            var date = datetime[0].split('-');
             var time = '';
-            var date = d[0].split('-').reverse().join('/'); // pt_br
-            if (d.length > 1) {
-                time = ' ' + d[1];
+            // date i18n
+            var format = SGA.dateFormat.toLowerCase().split("/");
+            var finalDate = [];
+            for (var i = 0; i < format.length; i++) {
+                switch (format[i]) {
+                case 'd':
+                    finalDate[i] = date[2];
+                    break;
+                case 'm':
+                    finalDate[i] = date[1];
+                    break;
+                case 'y':
+                    finalDate[i] = date[0];
+                    break;
+                }
             }
-            return date + time;
+            if (datetime.length > 1) {
+                time = ' ' + datetime[1];
+            }
+            return finalDate.join('/') + time;
+        }
+        return "";
+    },
+    
+    dateToSql: function(localeDate) {
+        if (localeDate && localeDate != "") {
+            var datetime = localeDate.split(' ');
+            var date = datetime[0].split('/');
+            var time = '';
+            // date i18n
+            var format = SGA.dateFormat.toLowerCase().split("/");
+            var sqlDate = [];
+            for (var i = 0; i < format.length; i++) {
+                switch (format[i]) {
+                case 'd':
+                    sqlDate[2] = date[i];
+                    break;
+                case 'm':
+                    sqlDate[1] = date[i];
+                    break;
+                case 'y':
+                    sqlDate[0] = date[i];
+                    break;
+                }
+            }
+            if (datetime.length > 1) {
+                time = ' ' + datetime[1];
+            }
+            return sqlDate.join('-') + time;
         }
         return "";
     },
@@ -294,6 +340,13 @@ var SGA = {
             var time = $('<div class="time"></div>');
             var date = $('<div class="date"></div>');
             SGA.Clock._createNodes(time, SGA.Clock.timeChilds, ':');
+            // i18n
+            if (SGA.dateFormat[0] == 'm') {
+                // swapping month and day
+                var a = SGA.Clock.dateChilds[0];
+                SGA.Clock.dateChilds[0] = SGA.Clock.dateChilds[1];
+                SGA.Clock.dateChilds[1] = a;
+            }
             SGA.Clock._createNodes(date, SGA.Clock.dateChilds, '/');
             SGA.Clock.target.append(time).append(date);
         },

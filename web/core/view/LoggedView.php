@@ -48,7 +48,7 @@ abstract class LoggedView extends PageView {
             $navbar .= $this->navbarModulosMenu($modulos);
             $navbar .= '</li>';
         }
-        $navbar .= '<li class="logout">' . $this->builder->link(array('href' => '?logout', 'label' => 'Sair')) . '</li>';
+        $navbar .= '<li class="logout">' . $this->builder->link(array('href' => '?logout', 'label' => _('Sair'))) . '</li>';
         $navbar .= '<li class="user">';
         $navbar .= $this->builder->link(array(
             'href' => '?home&page=perfil',
