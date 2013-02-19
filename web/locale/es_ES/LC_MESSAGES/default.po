@@ -2,22 +2,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Novo SGA\n"
 "POT-Creation-Date: 2013-02-19 15:06-0300\n"
-"PO-Revision-Date: 2013-02-19 15:06-0300\n"
+"PO-Revision-Date: 2013-02-19 15:09-0300\n"
 "Last-Translator: rogeriolino\n"
 "Language-Team: rogeriolino\n"
-"Language: en_US\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.5\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
 #: home/HomeController.php:42
 msgid "Somente via POST"
-msgstr "Only post"
+msgstr ""
 
 #: home/HomeController.php:93
 msgid "Nenhum usuário na sessão"
@@ -25,18 +25,18 @@ msgstr ""
 
 #: home/HomeController.php:105
 msgid "Senha atual não confere"
-msgstr "Current password don't match"
+msgstr ""
 
 #: home/HomeView.php:16 install/InstallController.php:40
 #: modules/sga/estatisticas/relatorios/atendimentos_status.php:16
 #: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:16
 msgid "Início"
-msgstr "Home"
+msgstr "Principal"
 
 #: home/view/index.php:19
 #, php-format
 msgid "Bem-vindo, %s"
-msgstr "Welcome, %s"
+msgstr "Bienvenido, %s"
 
 #: home/view/index.php:20
 msgid ""
@@ -66,7 +66,7 @@ msgstr ""
 
 #: home/view/perfil.php:7
 msgid "Perfil"
-msgstr "Profile"
+msgstr "Perfil"
 
 #: home/view/perfil.php:8
 msgid "Visualize e atualize o seu perfil"
@@ -80,7 +80,7 @@ msgstr ""
 #: login/view/index.php:30 modules/sga/usuarios/view/edit.php:16
 #: modules/sga/usuarios/view/index.php:14
 msgid "Login"
-msgstr "Username"
+msgstr ""
 
 #: home/view/perfil.php:21 install/view/step1.php:54
 #: modules/sga/prioridades/view/edit.php:10
@@ -95,21 +95,21 @@ msgstr "Username"
 #: modules/sga/usuarios/view/index.php:14 modules/sga/grupos/view/edit.php:10
 #: modules/sga/grupos/view/index.php:4 modules/sga/monitor/view/index.php:109
 msgid "Nome"
-msgstr "Name"
+msgstr "Nombre"
 
 #: home/view/perfil.php:25 modules/sga/usuarios/view/edit.php:24
 msgid "Sobrenome"
-msgstr "Lastname"
+msgstr "Apellido"
 
 #: home/view/perfil.php:33 home/view/perfil.php:52
 #: modules/sga/usuarios/view/edit.php:226
 msgid "Alterar senha"
-msgstr "Change password"
+msgstr ""
 
 #: home/view/perfil.php:35 modules/sga/atendimento/view/index.php:73
 #: modules/sga/usuarios/view/edit.php:50
 msgid "Alterar"
-msgstr "Edit"
+msgstr "Alterar"
 
 #: home/view/perfil.php:45 modules/sga/admin/view/index.php:59
 #: modules/sga/atendimento/view/index.php:63
@@ -117,15 +117,15 @@ msgstr "Edit"
 #: modules/sga/modulos/view/edit.php:41 modules/sga/modulos/view/edit.php:59
 #: core/view/CrudView.php:156
 msgid "Salvar"
-msgstr "Save"
+msgstr "Guardar"
 
 #: home/view/perfil.php:54
 msgid "Senha atual"
-msgstr "Current password"
+msgstr ""
 
 #: home/view/perfil.php:58
 msgid "Nova senha"
-msgstr "New password"
+msgstr ""
 
 #: home/view/perfil.php:62
 msgid "Confirmar nova senha"
@@ -137,7 +137,7 @@ msgstr ""
 
 #: install/InstallView.php:20
 msgid "Instalação"
-msgstr "Installation"
+msgstr "Instalación"
 
 #: install/InstallController.php:41
 msgid "Verificação de Requisitos"
@@ -145,7 +145,7 @@ msgstr ""
 
 #: install/InstallController.php:42
 msgid "Licença"
-msgstr "License"
+msgstr "Licencia"
 
 #: install/InstallController.php:43
 msgid "Configurar Banco de Dados"
@@ -157,12 +157,12 @@ msgstr ""
 
 #: install/InstallController.php:45
 msgid "Aplicar"
-msgstr "Apply"
+msgstr "Aplicar"
 
 #: install/InstallController.php:79
 #, php-format
 msgid "Opção inválida: %s"
-msgstr "Invalid option: %s"
+msgstr "Opción no válida: %s"
 
 #: install/InstallController.php:91
 msgid ""
@@ -229,28 +229,28 @@ msgstr ""
 
 #: install/view/step1.php:34
 msgid "Instalado"
-msgstr "Installed"
+msgstr "Instalado"
 
 #: install/view/step1.php:37
 msgid "Não instalado"
-msgstr "Not installed"
+msgstr ""
 
 #: install/view/step1.php:54
 msgid "Versão requerida"
-msgstr "Required version"
+msgstr ""
 
 #: install/view/step1.php:54
 msgid "Versão instalada"
-msgstr "Installed version"
+msgstr ""
 
 #: install/view/step1.php:72
 msgid "Configuração do SGA"
-msgstr "SGA Configuration"
+msgstr ""
 
 #: install/view/step1.php:72 install/view/step1.php:73
 #: install/view/step1.php:74 install/view/step1.php:78
 msgid "Escrita"
-msgstr "Write"
+msgstr ""
 
 #: install/view/step1.php:73
 msgid "Diretório utilizado para upload de arquivos"
@@ -258,7 +258,7 @@ msgstr ""
 
 #: install/view/step1.php:73
 msgid "Diretório temporário"
-msgstr "Temp directory"
+msgstr ""
 
 #: install/view/step1.php:74
 msgid "Diretório utilizado para guardar os arquivos de sessão"
@@ -266,27 +266,27 @@ msgstr ""
 
 #: install/view/step1.php:82
 msgid "Somente leitura"
-msgstr "Read only"
+msgstr ""
 
 #: install/view/step1.php:87
 msgid "Arquivo"
-msgstr "File"
+msgstr "Archivo"
 
 #: install/view/step1.php:87
 msgid "Permissão requerida"
-msgstr "Required permission"
+msgstr ""
 
 #: install/view/step1.php:87
 msgid "Permissão atual"
-msgstr "Current permission"
+msgstr ""
 
 #: install/view/step1.php:103
 msgid "Informações"
-msgstr "Info"
+msgstr ""
 
 #: install/view/step1.php:106
 msgid "Sistema Operacional"
-msgstr "Operating System"
+msgstr ""
 
 #: install/view/step1.php:107
 msgid "Banco de dados escolhido"
@@ -294,7 +294,7 @@ msgstr ""
 
 #: install/view/step1.php:110
 msgid "Visualizar"
-msgstr "View"
+msgstr ""
 
 #: install/view/step1.php:118
 msgid ""
@@ -312,7 +312,7 @@ msgstr ""
 
 #: install/view/step1.php:131
 msgid "Informações do Ambiente"
-msgstr "Environment info"
+msgstr ""
 
 #: install/view/step5.php:18
 msgid "Clique em Instalar para iniciar o processo de instalação do sistema."
@@ -320,7 +320,7 @@ msgstr ""
 
 #: install/view/step5.php:19
 msgid "Atenção"
-msgstr "Alert"
+msgstr ""
 
 #: install/view/step5.php:19
 msgid ""
@@ -343,46 +343,46 @@ msgstr ""
 #: install/view/step0.php:47 modules/sga/modulos/view/edit.php:22
 #: modules/sga/modulos/view/index.php:6
 msgid "Autor"
-msgstr "Author"
+msgstr ""
 
 #: install/view/step0.php:48
 msgid "Data de criação"
-msgstr "Creation date"
+msgstr ""
 
 #: cron/CronView.php:15
 msgid "Cron"
-msgstr "Cron"
+msgstr ""
 
 #: cron/CronController.php:40 modules/sga/usuarios/UsuariosController.php:187
 msgid "Usuário inválido"
-msgstr "Invalid user"
+msgstr ""
 
 #: cron/CronController.php:44
 msgid "Token de segurança inválido"
-msgstr "Invalid security token"
+msgstr ""
 
 #: login/LoginController.php:61
 msgid "Usuário Inválido. Por favor, tente novamente."
-msgstr "Invalid username and password. Please try again."
+msgstr ""
 
 #: login/view/index.php:16 modules/sga/admin/view/index.php:46
 msgid "Usuário"
-msgstr "User"
+msgstr ""
 
 #: login/view/index.php:20 modules/sga/admin/view/index.php:50
 #: modules/sga/usuarios/view/edit.php:58
 #: modules/sga/usuarios/view/edit.php:229
 msgid "Senha"
-msgstr "Password"
+msgstr "Contraseña"
 
 #: login/view/index.php:26
 msgid "Entrar"
-msgstr "Enter"
+msgstr ""
 
 #: painel/PainelView.php:15 modules/sga/admin/view/index.php:114
 #: modules/sga/unidade/view/index.php:123
 msgid "Painel"
-msgstr "Panel"
+msgstr ""
 
 #: modules/sga/prioridades/PrioridadesController.php:36
 msgid "Não pode remover essa prioridade"
@@ -393,17 +393,17 @@ msgstr ""
 #: modules/sga/modulos/view/edit.php:30 modules/sga/cargos/view/edit.php:29
 #: modules/sga/grupos/view/edit.php:14
 msgid "Descrição"
-msgstr "Description"
+msgstr ""
 
 #: modules/sga/prioridades/view/edit.php:18
 #: modules/sga/prioridades/view/index.php:10
 msgid "Peso"
-msgstr "Weight"
+msgstr ""
 
 #: modules/sga/prioridades/view/edit.php:24
 #: modules/sga/triagem/view/index.php:8
 msgid "Normal"
-msgstr "Normal"
+msgstr ""
 
 #: modules/sga/prioridades/view/edit.php:37
 #: modules/sga/prioridades/view/index.php:10
@@ -413,7 +413,7 @@ msgstr "Normal"
 #: modules/sga/usuarios/view/index.php:14
 #: modules/sga/unidade/view/index.php:92
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #: modules/sga/prioridades/view/edit.php:42
 #: modules/sga/atendimento/view/index.php:144
@@ -428,7 +428,7 @@ msgstr "Status"
 #: modules/sga/usuarios/view/edit.php:216 modules/sga/grupos/view/edit.php:24
 #: core/view/LoggedView.php:97
 msgid "Selecione"
-msgstr "Choose"
+msgstr ""
 
 #: modules/sga/prioridades/view/edit.php:44
 #: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:6
@@ -436,7 +436,7 @@ msgstr "Choose"
 #: modules/sga/servicos/view/edit.php:38 modules/sga/unidades/view/edit.php:35
 #: modules/sga/usuarios/view/edit.php:36 core/view/CrudView.php:104
 msgid "Ativo"
-msgstr "Active"
+msgstr ""
 
 #: modules/sga/prioridades/view/edit.php:45
 #: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:9
@@ -444,11 +444,11 @@ msgstr "Active"
 #: modules/sga/servicos/view/edit.php:39 modules/sga/unidades/view/edit.php:36
 #: modules/sga/usuarios/view/edit.php:37 core/view/CrudView.php:107
 msgid "Inativo"
-msgstr "Inactive"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:8
 msgid "Sistema"
-msgstr "System"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:9 modules/sga/unidade/view/index.php:7
 msgid "Triagem"
@@ -460,35 +460,35 @@ msgstr ""
 
 #: modules/sga/admin/view/index.php:14
 msgid "Autenticação"
-msgstr "Authentication"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:16
 msgid "Tipo"
-msgstr "Type"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:22
 msgid "Banco de Dados"
-msgstr "Database"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:23
 msgid "LDAP e Banco de Dados"
-msgstr "LDAP and Database"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:30
 msgid "Servidor"
-msgstr "Server"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:34
 msgid "Porta"
-msgstr "Port"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:38
 msgid "Base DN"
-msgstr "Base DN"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:42
 msgid "Login Attribute"
-msgstr "Login Attribute"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:68 modules/sga/unidade/view/index.php:31
 msgid "Reiniciar senhas"
@@ -500,15 +500,15 @@ msgstr ""
 
 #: modules/sga/admin/view/index.php:78
 msgid "Cron URL"
-msgstr "Cron URL"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:92 modules/sga/unidade/view/index.php:109
 msgid "Visualizar serviços"
-msgstr "Show services"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:111 modules/sga/unidade/view/index.php:120
 msgid "Configuração"
-msgstr "Configuration"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:112 modules/sga/unidade/view/index.php:121
 msgid "Senhas reiniciadas com sucesso"
@@ -517,11 +517,11 @@ msgstr ""
 #: modules/sga/admin/view/index.php:124 modules/sga/usuarios/view/edit.php:116
 #: modules/sga/unidade/view/index.php:8 modules/sga/unidade/view/index.php:133
 msgid "Serviços"
-msgstr "Services"
+msgstr ""
 
 #: modules/sga/admin/view/index.php:128 modules/sga/unidade/view/index.php:137
 msgid "Últimas senhas"
-msgstr "Last tickets"
+msgstr ""
 
 #: modules/sga/triagem/TriagemController.php:122
 #: modules/sga/atendimento/AtendimentoController.php:269
@@ -531,7 +531,7 @@ msgstr ""
 
 #: modules/sga/triagem/TriagemController.php:130
 msgid "Prioridade inválida"
-msgstr "Invalid priority"
+msgstr ""
 
 #: modules/sga/triagem/TriagemController.php:140
 msgid "Serviço não disponível para a unidade atual"
@@ -555,7 +555,7 @@ msgstr ""
 #: modules/sga/atendimento/view/index.php:19
 #: modules/sga/monitor/view/index.php:82
 msgid "Prioridade"
-msgstr "Priority"
+msgstr ""
 
 #: modules/sga/triagem/view/index.php:17
 msgid "Gerar prioridade"
@@ -576,12 +576,12 @@ msgstr ""
 #: modules/sga/triagem/view/index.php:39
 #: modules/sga/monitor/view/index.php:107
 msgid "Cliente"
-msgstr "Customer"
+msgstr ""
 
 #: modules/sga/triagem/view/index.php:45
 #: modules/sga/monitor/view/index.php:113
 msgid "Documento"
-msgstr "Document"
+msgstr ""
 
 #: modules/sga/triagem/view/index.php:61
 msgid "Versão para auto triagem"
@@ -597,7 +597,7 @@ msgstr ""
 #: modules/sga/unidade/view/index.php:92 modules/sga/monitor/view/index.php:61
 #: modules/sga/monitor/view/index.php:86
 msgid "Serviço"
-msgstr "Service"
+msgstr "Servicio"
 
 #: modules/sga/triagem/view/index.php:68
 msgid "Nome original do seriço"
@@ -632,13 +632,13 @@ msgstr ""
 #: modules/sga/triagem/view/touchscreen.php:88
 #: modules/sga/modulos/view/edit.php:76 core/view/CrudView.php:161
 msgid "Voltar"
-msgstr "Back"
+msgstr ""
 
 #: modules/sga/atendimento/AtendimentoController.php:183
 #: modules/sga/atendimento/view/index.php:159
 #: modules/sga/monitor/view/index.php:37
 msgid "Fila vazia"
-msgstr "Empty queue"
+msgstr ""
 
 #: modules/sga/atendimento/AtendimentoController.php:185
 msgid "Já existe um atendimento em andamento"
@@ -661,12 +661,12 @@ msgstr ""
 #: modules/sga/atendimento/AtendimentoController.php:334
 #: modules/sga/unidade/UnidadeController.php:132
 msgid "Serviço inválido"
-msgstr "Invalid service"
+msgstr ""
 
 #: modules/sga/atendimento/view/index.php:8
 #: modules/sga/monitor/view/index.php:73
 msgid "Atendimento"
-msgstr ""
+msgstr "Tratamiento"
 
 #: modules/sga/atendimento/view/index.php:11
 #: modules/sga/estatisticas/relatorios/atendimentos_status.php:13
@@ -674,7 +674,7 @@ msgstr ""
 #: modules/sga/monitor/view/index.php:76
 #: modules/sga/monitor/view/index.php:142 core/model/util/Senha.php:22
 msgid "Senha|Bilhete"
-msgstr "Ticket"
+msgstr "Billete"
 
 #: modules/sga/atendimento/view/index.php:40
 #: modules/sga/atendimento/view/index.php:71
@@ -686,15 +686,15 @@ msgstr ""
 #: modules/sga/monitor/view/index.php:45 modules/sga/monitor/view/index.php:60
 #: modules/sga/monitor/view/index.php:78
 msgid "Número"
-msgstr "Number"
+msgstr "Número"
 
 #: modules/sga/atendimento/view/index.php:77
 msgid "Chamar próximo"
-msgstr "Call next"
+msgstr ""
 
 #: modules/sga/atendimento/view/index.php:82
 msgid "Chamar novamente"
-msgstr "Call again"
+msgstr ""
 
 #: modules/sga/atendimento/view/index.php:83
 msgid "Iniciar atendimento"
@@ -722,7 +722,7 @@ msgstr ""
 #: modules/sga/usuarios/view/edit.php:121
 #: modules/sga/usuarios/view/edit.php:168
 msgid "Adicionar"
-msgstr "Add"
+msgstr ""
 
 #: modules/sga/atendimento/view/index.php:121
 msgid "Serviços realizados"
@@ -743,11 +743,11 @@ msgstr ""
 #: modules/sga/atendimento/view/index.php:140
 #: modules/sga/atendimento/view/index.php:161
 msgid "Redirecionar"
-msgstr "Redirect"
+msgstr ""
 
 #: modules/sga/atendimento/view/index.php:142
 msgid "Novo Serviço"
-msgstr "New service"
+msgstr ""
 
 #: modules/sga/atendimento/view/index.php:151
 #: modules/sga/monitor/view/index.php:162
@@ -756,7 +756,7 @@ msgstr ""
 
 #: modules/sga/atendimento/view/index.php:160
 msgid "Remover"
-msgstr "Remove"
+msgstr "Suprimir"
 
 #: modules/sga/atendimento/view/index.php:162
 msgid "Realmente deseja marcar como erro de triagem?"
@@ -824,7 +824,7 @@ msgstr ""
 #: modules/sga/estatisticas/relatorios/atendimentos_status.php:14
 #: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:14
 msgid "Data"
-msgstr "Date"
+msgstr ""
 
 #: modules/sga/estatisticas/relatorios/atendimentos_status.php:15
 #: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:15
@@ -884,7 +884,7 @@ msgstr ""
 #: modules/sga/estatisticas/view/index.php:102
 #: modules/sga/estatisticas/view/index.php:106
 msgid "d/m/Y"
-msgstr "m/d/Y"
+msgstr ""
 
 #: modules/sga/estatisticas/relatorios/atendimentos_status.php:28
 #: modules/sga/estatisticas/relatorios/atendimentos_status.php:29
@@ -893,26 +893,26 @@ msgstr "m/d/Y"
 #: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:29
 #: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:30
 msgid "H:i:s"
-msgstr "H:i:s"
+msgstr ""
 
 #: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:23
 #: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:19
 #: modules/sga/monitor/view/index.php:65
 #: modules/sga/monitor/view/index.php:102
 msgid "Situação"
-msgstr "Status"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:10
 msgid "Hoje"
-msgstr "Today"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:11
 msgid "Gráficos"
-msgstr "Charts"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:12
 msgid "Relatórios"
-msgstr "Reports"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:15
 #, php-format
@@ -925,35 +925,33 @@ msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:58
 msgid "Gráfico"
-msgstr "Chart"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:67
 #: modules/sga/estatisticas/view/index.php:101
-#, fuzzy
 msgid "Data inicial"
-msgstr "Start Date"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:71
 #: modules/sga/estatisticas/view/index.php:105
-#, fuzzy
 msgid "Data final"
-msgstr "End Date"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:79
 msgid "Gerar gráfico"
-msgstr "Generate chart"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:92
 msgid "Relatório"
-msgstr "Report"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:113
 msgid "Gerar relatório"
-msgstr "Generate report"
+msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:134
 msgid "dd/mm/yy"
-msgstr "mm/dd/yy"
+msgstr ""
 
 #: modules/sga/servicos/view/edit.php:18
 msgid "Macro"
@@ -962,7 +960,7 @@ msgstr ""
 #: modules/sga/modulos/ModulosController.php:76
 #: modules/sga/modulos/ModulosController.php:101
 msgid "Módulo inválido"
-msgstr "Invalid module"
+msgstr ""
 
 #: modules/sga/modulos/ModulosController.php:79
 #: modules/sga/modulos/ModulosController.php:104
@@ -971,11 +969,11 @@ msgstr ""
 
 #: modules/sga/modulos/ModulosController.php:98
 msgid "Permissão negada"
-msgstr "Permission denied"
+msgstr ""
 
 #: modules/sga/modulos/view/edit.php:8
 msgid "Sobre"
-msgstr "About"
+msgstr "Sobre"
 
 #: modules/sga/modulos/view/edit.php:26 modules/sga/modulos/view/index.php:6
 msgid "Chave"
@@ -983,7 +981,7 @@ msgstr ""
 
 #: modules/sga/modulos/view/edit.php:46 modules/sga/modulos/view/edit.php:64
 msgid "Recarregar"
-msgstr "Reload"
+msgstr ""
 
 #: modules/sga/unidades/UnidadesController.php:30
 msgid "Código de Unidade já existe"
@@ -991,7 +989,7 @@ msgstr ""
 
 #: modules/sga/unidades/UnidadesController.php:35
 msgid "Grupo inválido"
-msgstr "Invalid grupo"
+msgstr ""
 
 #: modules/sga/unidades/UnidadesController.php:88
 msgid "Não pode excluir essa unidade porque a mesma já possui atendimentos."
@@ -1000,14 +998,14 @@ msgstr ""
 #: modules/sga/unidades/view/edit.php:10
 #: modules/sga/unidades/view/index.php:10
 msgid "Código"
-msgstr "Code"
+msgstr ""
 
 #: modules/sga/unidades/view/edit.php:18
 #: modules/sga/unidades/view/index.php:10
 #: modules/sga/usuarios/view/edit.php:101
 #: modules/sga/usuarios/view/edit.php:175
 msgid "Grupo"
-msgstr "Group"
+msgstr ""
 
 #: modules/sga/cargos/CargosController.php:32
 msgid "Favor escolher o Cargo pai"
@@ -1015,7 +1013,7 @@ msgstr ""
 
 #: modules/sga/cargos/view/edit.php:20 modules/sga/usuarios/view/edit.php:11
 msgid "Geral"
-msgstr "General"
+msgstr ""
 
 #: modules/sga/cargos/view/edit.php:21 modules/sga/usuarios/view/edit.php:221
 msgid "Permissões"
@@ -1023,11 +1021,11 @@ msgstr ""
 
 #: modules/sga/cargos/view/edit.php:34 modules/sga/grupos/view/edit.php:19
 msgid "Pai"
-msgstr "Parent"
+msgstr ""
 
 #: modules/sga/cargos/view/edit.php:53 modules/sga/usuarios/view/edit.php:222
 msgid "Módulos"
-msgstr "Modules"
+msgstr ""
 
 #: modules/sga/usuarios/UsuariosController.php:125
 msgid "O login informado já está cadastrado para outro usuário."
@@ -1035,7 +1033,7 @@ msgstr ""
 
 #: modules/sga/usuarios/view/edit.php:12
 msgid "Acesso"
-msgstr "Access"
+msgstr ""
 
 #: modules/sga/usuarios/view/edit.php:48
 msgid "Alterar senha do usuário"
@@ -1097,7 +1095,7 @@ msgstr ""
 
 #: modules/sga/unidade/view/index.php:27
 msgid "Mensagem"
-msgstr "Message"
+msgstr ""
 
 #: modules/sga/unidade/view/index.php:36
 msgid "Deseja realmente reiniciar as senhas?"
@@ -1115,11 +1113,11 @@ msgstr ""
 
 #: modules/sga/unidade/view/index.php:72
 msgid "Habilitar"
-msgstr "Enable"
+msgstr ""
 
 #: modules/sga/unidade/view/index.php:79
 msgid "Desabilitar"
-msgstr "Disable"
+msgstr ""
 
 #: modules/sga/unidade/view/index.php:92
 msgid "Sigla"
@@ -1146,11 +1144,11 @@ msgstr ""
 
 #: modules/sga/monitor/view/index.php:11 modules/sga/monitor/view/index.php:50
 msgid "Consultar"
-msgstr "Search"
+msgstr ""
 
 #: modules/sga/monitor/view/index.php:43
 msgid "Busca"
-msgstr "Search"
+msgstr ""
 
 #: modules/sga/monitor/view/index.php:62 modules/sga/monitor/view/index.php:90
 msgid "Data chegada"
@@ -1161,9 +1159,8 @@ msgid "Data início"
 msgstr ""
 
 #: modules/sga/monitor/view/index.php:64 modules/sga/monitor/view/index.php:98
-#, fuzzy
 msgid "Data fim"
-msgstr "End Date"
+msgstr ""
 
 #: modules/sga/monitor/view/index.php:122
 msgid "Reativar senha"
@@ -1183,11 +1180,11 @@ msgstr ""
 
 #: modules/sga/monitor/view/index.php:146
 msgid "Novo serviço"
-msgstr "New service"
+msgstr ""
 
 #: modules/sga/monitor/view/index.php:154
 msgid "Nova prioridade"
-msgstr "New priority"
+msgstr ""
 
 #: modules/sga/monitor/view/index.php:169
 msgid "Transferir"
@@ -1357,11 +1354,11 @@ msgstr ""
 #: core/view/LoggedView.php:55
 #, php-format
 msgid "acessando como <strong>%s</strong>"
-msgstr "logged as <strong>%s</strong>"
+msgstr ""
 
 #: core/view/LoggedView.php:57
 msgid "Visualizar perfil"
-msgstr "Show profile"
+msgstr ""
 
 #: core/view/LoggedView.php:93
 msgid "Favor escolher a unidade"
@@ -1369,12 +1366,12 @@ msgstr ""
 
 #: core/view/LoggedView.php:110
 msgid "Enviar"
-msgstr "Send"
+msgstr "Enviar"
 
 #: core/view/PageView.php:35
 #, php-format
 msgid "Página não encontrada: %s"
-msgstr "Page not found: %s"
+msgstr "Página no encontrada: %s"
 
 #: core/view/ErrorView.php:15 core/view/SGAView.php:153
 msgid "Erro"
@@ -1387,34 +1384,28 @@ msgstr ""
 
 #: core/view/CrudView.php:32
 msgid "buscar"
-msgstr "search"
+msgstr "buscar"
 
 #: core/view/CrudView.php:38
 msgid "Buscar"
-msgstr "Search"
+msgstr "Buscar"
 
 #: core/view/CrudView.php:44
 msgid "Novo"
-msgstr "New"
+msgstr "Nuevo"
 
 #: core/view/CrudView.php:120
 msgid "Editar"
-msgstr "Edit"
+msgstr "Editar"
 
 #: core/view/CrudView.php:134
 msgid "Excluir"
-msgstr "Delete"
+msgstr "Suprimir"
 
 #: core/view/CrudView.php:135
 msgid "Deseja realmente excluir?"
-msgstr "Do you really want to delete?"
+msgstr ""
 
 #: core/view/CrudView.php:166
 msgid "Campos obrigatórios"
-msgstr "Required fields"
-
-#~ msgid "CSS"
-#~ msgstr "CSS"
-
-#~ msgid "Javascript"
-#~ msgstr "Javascript"
+msgstr "Campos requeridos"

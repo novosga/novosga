@@ -60,8 +60,8 @@ use \core\util\Strings;
                     <th><?php SGA::out(_('Número')) ?></th>
                     <th><?php SGA::out(_('Serviço')) ?></th>
                     <th><?php SGA::out(_('Data chegada')) ?></th>
-                    <th><?php SGA::out(_('Data Início')) ?></th>
-                    <th><?php SGA::out(_('Data Fim')) ?></th>
+                    <th><?php SGA::out(_('Data início')) ?></th>
+                    <th><?php SGA::out(_('Data fim')) ?></th>
                     <th><?php SGA::out(_('Situação')) ?></th>
                 </tr>
             </thead>
@@ -95,7 +95,7 @@ use \core\util\Strings;
             <span id="senha_inicio"></span>
         </div>
         <div>
-            <label><?php SGA::out(_('Data Fim')) ?></label>
+            <label><?php SGA::out(_('Data fim')) ?></label>
             <span id="senha_fim"></span>
         </div>
         <div>

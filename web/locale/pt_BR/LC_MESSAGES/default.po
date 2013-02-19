@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Novo SGA\n"
-"POT-Creation-Date: 2013-02-19 10:54-0300\n"
-"PO-Revision-Date: 2013-02-19 10:57-0300\n"
+"POT-Creation-Date: 2013-02-19 15:06-0300\n"
+"PO-Revision-Date: 2013-02-19 15:06-0300\n"
 "Last-Translator: rogeriolino\n"
 "Language-Team: rogeriolino\n"
 "Language: pt_BR\n"
@@ -44,9 +44,8 @@ msgid ""
 "aberto e gratuito."
 msgstr ""
 
-#: home/view/index.php:25 core_1/view/LoggedView.php:92
-#: modules/sga/admin/view/index.php:120 modules/sga/cargos/view/edit.php:51
-#: modules/sga/usuarios/view/edit.php:145
+#: home/view/index.php:25 modules/sga/admin/view/index.php:120
+#: modules/sga/cargos/view/edit.php:51 modules/sga/usuarios/view/edit.php:145
 #: modules/sga/usuarios/view/edit.php:199
 #: modules/sga/unidade/view/index.php:129 core/view/LoggedView.php:92
 msgid "Unidade"
@@ -56,8 +55,8 @@ msgstr ""
 msgid "Visualize abaixo os módulos disponíveis para a sua unidade"
 msgstr ""
 
-#: home/view/index.php:32 core_1/view/LoggedView.php:47
-#: modules/sga/cargos/view/edit.php:51 core/view/LoggedView.php:47
+#: home/view/index.php:32 modules/sga/cargos/view/edit.php:51
+#: core/view/LoggedView.php:47
 msgid "Global"
 msgstr ""
 
@@ -112,8 +111,7 @@ msgstr ""
 msgid "Alterar"
 msgstr ""
 
-#: home/view/perfil.php:45 core_1/view/CrudView.php:156
-#: modules/sga/admin/view/index.php:59
+#: home/view/perfil.php:45 modules/sga/admin/view/index.php:59
 #: modules/sga/atendimento/view/index.php:63
 #: modules/sga/atendimento/view/index.php:73
 #: modules/sga/modulos/view/edit.php:41 modules/sga/modulos/view/edit.php:59
@@ -371,8 +369,8 @@ msgstr ""
 msgid "Usuário"
 msgstr ""
 
-#: login/view/index.php:20 core_1/model/util/Senha.php:22
-#: modules/sga/admin/view/index.php:50 modules/sga/usuarios/view/edit.php:58
+#: login/view/index.php:20 modules/sga/admin/view/index.php:50
+#: modules/sga/usuarios/view/edit.php:58
 #: modules/sga/usuarios/view/edit.php:229
 msgid "Senha"
 msgstr ""
@@ -384,278 +382,6 @@ msgstr ""
 #: painel/PainelView.php:15 modules/sga/admin/view/index.php:114
 #: modules/sga/unidade/view/index.php:123
 msgid "Painel"
-msgstr ""
-
-#: core_1/SGA.php:109 core/SGA.php:109
-#, php-format
-msgid "Arquivo não encontrado: %s"
-msgstr ""
-
-#: core_1/SGA.php:201 core/SGA.php:201
-#, php-format
-msgid "Classe não encontrada: %s"
-msgstr ""
-
-#: core_1/SGAContext.php:105 core/SGAContext.php:105
-#, php-format
-msgid "Módulo \"%s\" não econtrado."
-msgstr ""
-
-#: core_1/business/AcessoBusiness.php:52 core/business/AcessoBusiness.php:52
-msgid "A senha deve possuir no mínimo 6 caracteres."
-msgstr ""
-
-#: core_1/business/AcessoBusiness.php:55 core/business/AcessoBusiness.php:55
-msgid "A confirmação de senha não confere com a senha."
-msgstr ""
-
-#: core_1/business/AcessoBusiness.php:127 core/business/AcessoBusiness.php:127
-msgid "Para acessar esse módulo primeiro é necessário escolher uma unidade."
-msgstr ""
-
-#: core_1/business/AtendimentoBusiness.php:32
-#: modules/sga/atendimento/view/index.php:40
-#: modules/sga/atendimento/view/index.php:71
-#: core/business/AtendimentoBusiness.php:32
-msgid "Guichê"
-msgstr ""
-
-#: core_1/business/PainelBusiness.php:73 core/business/PainelBusiness.php:73
-msgid "Painel inválido"
-msgstr ""
-
-#: core_1/controller/TreeModelController.php:31
-#: core/controller/TreeModelController.php:31
-#, php-format
-msgid ""
-"Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s"
-msgstr ""
-
-#: core_1/controller/TreeModelController.php:66
-#: core/controller/TreeModelController.php:66
-#, php-format
-msgid "Erro ao inserir o registro: %s"
-msgstr ""
-
-#: core_1/controller/TreeModelController.php:143
-#: core/controller/TreeModelController.php:143
-#, php-format
-msgid "Erro ao atualizar o registro: %s"
-msgstr ""
-
-#: core_1/controller/TreeModelController.php:150
-#: core/controller/TreeModelController.php:150
-msgid "Não pode remover a raiz"
-msgstr ""
-
-#: core_1/controller/TreeModelController.php:181
-#: core/controller/TreeModelController.php:181
-#, php-format
-msgid "Erro ao apagar o registro: %s"
-msgstr ""
-
-#: core_1/controller/CrudController.php:98
-#: core/controller/CrudController.php:98
-msgid "Preencha os campos obrigatórios"
-msgstr ""
-
-#: core_1/controller/CrudController.php:107
-#: core/controller/CrudController.php:107
-msgid "Registro alterado com sucesso"
-msgstr ""
-
-#: core_1/controller/CrudController.php:112
-#: core/controller/CrudController.php:112
-msgid "Novo registro adicionado com sucesso"
-msgstr ""
-
-#: core_1/controller/CrudController.php:114
-#: core/controller/CrudController.php:114
-msgid "Erro ao salvar o novo registro. Favor tentar novamente"
-msgstr ""
-
-#: core_1/auth/LdapAuthentication.php:54 core/auth/LdapAuthentication.php:54
-msgid ""
-"Não foi possível conectar ao servidor LDAP. Favor verificar se as "
-"configurações estão corretas."
-msgstr ""
-
-#: core_1/model/Modulo.php:168 core/model/Modulo.php:168
-#, php-format
-msgid "Não encontrada página \"%s\" no módulo \"%s\""
-msgstr ""
-
-#: core_1/model/Usuario.php:106 core/model/Usuario.php:106
-msgid "Erro ao definir status do Atendente, deve ser um inteiro."
-msgstr ""
-
-#: core_1/model/SequencialModel.php:27 core/model/SequencialModel.php:27
-#, php-format
-msgid ""
-"Erro ao definir id da entidade (\"%s\"): Deve ser maior que zero. Passado %s"
-msgstr ""
-
-#: core_1/model/Prioridade.php:50 core/model/Prioridade.php:50
-msgid "O peso da prioridade deve ser um inteiro positivo"
-msgstr ""
-
-#: core_1/model/Atendimento.php:203 core/model/Atendimento.php:203
-msgid "Erro ao definir status do atendimento. Deve ser maior que zero."
-msgstr ""
-
-#: core_1/model/Atendimento.php:257 core/model/Atendimento.php:257
-msgid "Senha emitida"
-msgstr ""
-
-#: core_1/model/Atendimento.php:258 core/model/Atendimento.php:258
-msgid "Chamado pela mesa"
-msgstr ""
-
-#: core_1/model/Atendimento.php:259 core/model/Atendimento.php:259
-msgid "Atendimento iniciado"
-msgstr ""
-
-#: core_1/model/Atendimento.php:260 core/model/Atendimento.php:260
-msgid "Atendimento encerrado"
-msgstr ""
-
-#: core_1/model/Atendimento.php:261 modules/sga/atendimento/view/index.php:84
-#: core/model/Atendimento.php:261
-msgid "Não compareceu"
-msgstr ""
-
-#: core_1/model/Atendimento.php:262 core/model/Atendimento.php:262
-msgid "Senha cancelada"
-msgstr ""
-
-#: core_1/model/Atendimento.php:263 core/model/Atendimento.php:263
-msgid "Erro triagem"
-msgstr ""
-
-#: core_1/model/Atendimento.php:264 core/model/Atendimento.php:264
-msgid "Atendimento encerrado e codificado"
-msgstr ""
-
-#: core_1/model/util/UsuarioSessao.php:50 core/model/util/UsuarioSessao.php:50
-msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
-msgstr ""
-
-#: core_1/model/util/Senha.php:33 core/model/util/Senha.php:33
-msgid "A sigla da senha deve ser um char"
-msgstr ""
-
-#: core_1/model/util/Senha.php:53 core/model/util/Senha.php:53
-msgid "O numero da senha deve ser um inteiro maior que zero"
-msgstr ""
-
-#: core_1/model/util/Senha.php:97 core/model/util/Senha.php:97
-msgid "A legenda da senha deve ser uma String"
-msgstr ""
-
-#: core_1/view/LoggedView.php:39 core/view/LoggedView.php:39
-msgid "Trocar Unidade"
-msgstr ""
-
-#: core_1/view/LoggedView.php:43 core/view/LoggedView.php:43
-msgid "Escolher Unidade"
-msgstr ""
-
-#: core_1/view/LoggedView.php:55 core/view/LoggedView.php:55
-#, php-format
-msgid "acessando como <strong>%s</strong>"
-msgstr ""
-
-#: core_1/view/LoggedView.php:57 core/view/LoggedView.php:57
-msgid "Visualizar perfil"
-msgstr ""
-
-#: core_1/view/LoggedView.php:93 core/view/LoggedView.php:93
-msgid "Favor escolher a unidade"
-msgstr ""
-
-#: core_1/view/LoggedView.php:97 modules/sga/prioridades/view/edit.php:42
-#: modules/sga/atendimento/view/index.php:144
-#: modules/sga/estatisticas/view/index.php:60
-#: modules/sga/estatisticas/view/index.php:94
-#: modules/sga/servicos/view/edit.php:23 modules/sga/servicos/view/edit.php:36
-#: modules/sga/unidades/view/edit.php:22 modules/sga/unidades/view/edit.php:33
-#: modules/sga/cargos/view/edit.php:39 modules/sga/usuarios/view/edit.php:34
-#: modules/sga/usuarios/view/edit.php:180
-#: modules/sga/usuarios/view/edit.php:191
-#: modules/sga/usuarios/view/edit.php:204
-#: modules/sga/usuarios/view/edit.php:216 modules/sga/grupos/view/edit.php:24
-#: core/view/LoggedView.php:97
-msgid "Selecione"
-msgstr ""
-
-#: core_1/view/LoggedView.php:110 core/view/LoggedView.php:110
-msgid "Enviar"
-msgstr ""
-
-#: core_1/view/PageView.php:35 core/view/PageView.php:35
-#, php-format
-msgid "Página não encontrada: %s"
-msgstr ""
-
-#: core_1/view/ErrorView.php:15 core_1/view/SGAView.php:153
-#: core/view/ErrorView.php:15 core/view/SGAView.php:153
-msgid "Erro"
-msgstr ""
-
-#: core_1/view/TemplateBuilder.php:384 core/view/TemplateBuilder.php:384
-#, php-format
-msgid "Valor informado não é instância de TreeModel: %s"
-msgstr ""
-
-#: core_1/view/CrudView.php:32 core/view/CrudView.php:32
-msgid "buscar"
-msgstr ""
-
-#: core_1/view/CrudView.php:38 core/view/CrudView.php:38
-msgid "Buscar"
-msgstr ""
-
-#: core_1/view/CrudView.php:44 core/view/CrudView.php:44
-msgid "Novo"
-msgstr ""
-
-#: core_1/view/CrudView.php:104 modules/sga/prioridades/view/edit.php:44
-#: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:6
-#: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:6
-#: modules/sga/servicos/view/edit.php:38 modules/sga/unidades/view/edit.php:35
-#: modules/sga/usuarios/view/edit.php:36 core/view/CrudView.php:104
-msgid "Ativo"
-msgstr ""
-
-#: core_1/view/CrudView.php:107 modules/sga/prioridades/view/edit.php:45
-#: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:9
-#: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:9
-#: modules/sga/servicos/view/edit.php:39 modules/sga/unidades/view/edit.php:36
-#: modules/sga/usuarios/view/edit.php:37 core/view/CrudView.php:107
-msgid "Inativo"
-msgstr ""
-
-#: core_1/view/CrudView.php:120 core/view/CrudView.php:120
-msgid "Editar"
-msgstr ""
-
-#: core_1/view/CrudView.php:134 core/view/CrudView.php:134
-msgid "Excluir"
-msgstr ""
-
-#: core_1/view/CrudView.php:135 core/view/CrudView.php:135
-msgid "Deseja realmente excluir?"
-msgstr ""
-
-#: core_1/view/CrudView.php:161 modules/sga/triagem/view/touchscreen.php:52
-#: modules/sga/triagem/view/touchscreen.php:72
-#: modules/sga/triagem/view/touchscreen.php:88
-#: modules/sga/modulos/view/edit.php:76 core/view/CrudView.php:161
-msgid "Voltar"
-msgstr ""
-
-#: core_1/view/CrudView.php:166 core/view/CrudView.php:166
-msgid "Campos obrigatórios"
 msgstr ""
 
 #: modules/sga/prioridades/PrioridadesController.php:36
@@ -687,6 +413,37 @@ msgstr ""
 #: modules/sga/usuarios/view/index.php:14
 #: modules/sga/unidade/view/index.php:92
 msgid "Status"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:42
+#: modules/sga/atendimento/view/index.php:144
+#: modules/sga/estatisticas/view/index.php:60
+#: modules/sga/estatisticas/view/index.php:94
+#: modules/sga/servicos/view/edit.php:23 modules/sga/servicos/view/edit.php:36
+#: modules/sga/unidades/view/edit.php:22 modules/sga/unidades/view/edit.php:33
+#: modules/sga/cargos/view/edit.php:39 modules/sga/usuarios/view/edit.php:34
+#: modules/sga/usuarios/view/edit.php:180
+#: modules/sga/usuarios/view/edit.php:191
+#: modules/sga/usuarios/view/edit.php:204
+#: modules/sga/usuarios/view/edit.php:216 modules/sga/grupos/view/edit.php:24
+#: core/view/LoggedView.php:97
+msgid "Selecione"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:44
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:6
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:6
+#: modules/sga/servicos/view/edit.php:38 modules/sga/unidades/view/edit.php:35
+#: modules/sga/usuarios/view/edit.php:36 core/view/CrudView.php:104
+msgid "Ativo"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:45
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:9
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:9
+#: modules/sga/servicos/view/edit.php:39 modules/sga/unidades/view/edit.php:36
+#: modules/sga/usuarios/view/edit.php:37 core/view/CrudView.php:107
+msgid "Inativo"
 msgstr ""
 
 #: modules/sga/admin/view/index.php:8
@@ -870,6 +627,13 @@ msgstr ""
 msgid "Atendimento Prioritário"
 msgstr ""
 
+#: modules/sga/triagem/view/touchscreen.php:52
+#: modules/sga/triagem/view/touchscreen.php:72
+#: modules/sga/triagem/view/touchscreen.php:88
+#: modules/sga/modulos/view/edit.php:76 core/view/CrudView.php:161
+msgid "Voltar"
+msgstr ""
+
 #: modules/sga/atendimento/AtendimentoController.php:183
 #: modules/sga/atendimento/view/index.php:159
 #: modules/sga/monitor/view/index.php:37
@@ -912,6 +676,12 @@ msgstr ""
 msgid "Senha|Bilhete"
 msgstr "Senha"
 
+#: modules/sga/atendimento/view/index.php:40
+#: modules/sga/atendimento/view/index.php:71
+#: core/business/AtendimentoBusiness.php:32
+msgid "Guichê"
+msgstr ""
+
 #: modules/sga/atendimento/view/index.php:43
 #: modules/sga/monitor/view/index.php:45 modules/sga/monitor/view/index.php:60
 #: modules/sga/monitor/view/index.php:78
@@ -928,6 +698,10 @@ msgstr ""
 
 #: modules/sga/atendimento/view/index.php:83
 msgid "Iniciar atendimento"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:84 core/model/Atendimento.php:261
+msgid "Não compareceu"
 msgstr ""
 
 #: modules/sga/atendimento/view/index.php:90
@@ -1155,12 +929,12 @@ msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:67
 #: modules/sga/estatisticas/view/index.php:101
-msgid "Data Inicial"
+msgid "Data inicial"
 msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:71
 #: modules/sga/estatisticas/view/index.php:105
-msgid "Data Final"
+msgid "Data final"
 msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:79
@@ -1380,16 +1154,12 @@ msgstr ""
 msgid "Data chegada"
 msgstr ""
 
-#: modules/sga/monitor/view/index.php:63
-msgid "Data Início"
+#: modules/sga/monitor/view/index.php:63 modules/sga/monitor/view/index.php:94
+msgid "Data início"
 msgstr ""
 
 #: modules/sga/monitor/view/index.php:64 modules/sga/monitor/view/index.php:98
-msgid "Data Fim"
-msgstr ""
-
-#: modules/sga/monitor/view/index.php:94
-msgid "Data início"
+msgid "Data fim"
 msgstr ""
 
 #: modules/sga/monitor/view/index.php:122
@@ -1426,4 +1196,216 @@ msgstr ""
 
 #: modules/sga/monitor/view/index.php:171
 msgid "Deseja realmente reativar essa senha?"
+msgstr ""
+
+#: core/SGA.php:109
+#, php-format
+msgid "Arquivo não encontrado: %s"
+msgstr ""
+
+#: core/SGA.php:201
+#, php-format
+msgid "Classe não encontrada: %s"
+msgstr ""
+
+#: core/SGAContext.php:105
+#, php-format
+msgid "Módulo \"%s\" não econtrado."
+msgstr ""
+
+#: core/business/AcessoBusiness.php:52
+msgid "A senha deve possuir no mínimo 6 caracteres."
+msgstr ""
+
+#: core/business/AcessoBusiness.php:55
+msgid "A confirmação de senha não confere com a senha."
+msgstr ""
+
+#: core/business/AcessoBusiness.php:127
+msgid "Para acessar esse módulo primeiro é necessário escolher uma unidade."
+msgstr ""
+
+#: core/business/PainelBusiness.php:73
+msgid "Painel inválido"
+msgstr ""
+
+#: core/controller/TreeModelController.php:31
+#, php-format
+msgid ""
+"Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s"
+msgstr ""
+
+#: core/controller/TreeModelController.php:66
+#, php-format
+msgid "Erro ao inserir o registro: %s"
+msgstr ""
+
+#: core/controller/TreeModelController.php:143
+#, php-format
+msgid "Erro ao atualizar o registro: %s"
+msgstr ""
+
+#: core/controller/TreeModelController.php:150
+msgid "Não pode remover a raiz"
+msgstr ""
+
+#: core/controller/TreeModelController.php:181
+#, php-format
+msgid "Erro ao apagar o registro: %s"
+msgstr ""
+
+#: core/controller/CrudController.php:98
+msgid "Preencha os campos obrigatórios"
+msgstr ""
+
+#: core/controller/CrudController.php:107
+msgid "Registro alterado com sucesso"
+msgstr ""
+
+#: core/controller/CrudController.php:112
+msgid "Novo registro adicionado com sucesso"
+msgstr ""
+
+#: core/controller/CrudController.php:114
+msgid "Erro ao salvar o novo registro. Favor tentar novamente"
+msgstr ""
+
+#: core/auth/LdapAuthentication.php:54
+msgid ""
+"Não foi possível conectar ao servidor LDAP. Favor verificar se as "
+"configurações estão corretas."
+msgstr ""
+
+#: core/model/Modulo.php:168
+#, php-format
+msgid "Não encontrada página \"%s\" no módulo \"%s\""
+msgstr ""
+
+#: core/model/Usuario.php:106
+msgid "Erro ao definir status do Atendente, deve ser um inteiro."
+msgstr ""
+
+#: core/model/SequencialModel.php:27
+#, php-format
+msgid ""
+"Erro ao definir id da entidade (\"%s\"): Deve ser maior que zero. Passado %s"
+msgstr ""
+
+#: core/model/Prioridade.php:50
+msgid "O peso da prioridade deve ser um inteiro positivo"
+msgstr ""
+
+#: core/model/Atendimento.php:203
+msgid "Erro ao definir status do atendimento. Deve ser maior que zero."
+msgstr ""
+
+#: core/model/Atendimento.php:257
+msgid "Senha emitida"
+msgstr ""
+
+#: core/model/Atendimento.php:258
+msgid "Chamado pela mesa"
+msgstr ""
+
+#: core/model/Atendimento.php:259
+msgid "Atendimento iniciado"
+msgstr ""
+
+#: core/model/Atendimento.php:260
+msgid "Atendimento encerrado"
+msgstr ""
+
+#: core/model/Atendimento.php:262
+msgid "Senha cancelada"
+msgstr ""
+
+#: core/model/Atendimento.php:263
+msgid "Erro triagem"
+msgstr ""
+
+#: core/model/Atendimento.php:264
+msgid "Atendimento encerrado e codificado"
+msgstr ""
+
+#: core/model/util/UsuarioSessao.php:50
+msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
+msgstr ""
+
+#: core/model/util/Senha.php:33
+msgid "A sigla da senha deve ser um char"
+msgstr ""
+
+#: core/model/util/Senha.php:53
+msgid "O numero da senha deve ser um inteiro maior que zero"
+msgstr ""
+
+#: core/model/util/Senha.php:97
+msgid "A legenda da senha deve ser uma String"
+msgstr ""
+
+#: core/view/LoggedView.php:39
+msgid "Trocar Unidade"
+msgstr ""
+
+#: core/view/LoggedView.php:43
+msgid "Escolher Unidade"
+msgstr ""
+
+#: core/view/LoggedView.php:55
+#, php-format
+msgid "acessando como <strong>%s</strong>"
+msgstr ""
+
+#: core/view/LoggedView.php:57
+msgid "Visualizar perfil"
+msgstr ""
+
+#: core/view/LoggedView.php:93
+msgid "Favor escolher a unidade"
+msgstr ""
+
+#: core/view/LoggedView.php:110
+msgid "Enviar"
+msgstr ""
+
+#: core/view/PageView.php:35
+#, php-format
+msgid "Página não encontrada: %s"
+msgstr ""
+
+#: core/view/ErrorView.php:15 core/view/SGAView.php:153
+msgid "Erro"
+msgstr ""
+
+#: core/view/TemplateBuilder.php:384
+#, php-format
+msgid "Valor informado não é instância de TreeModel: %s"
+msgstr ""
+
+#: core/view/CrudView.php:32
+msgid "buscar"
+msgstr ""
+
+#: core/view/CrudView.php:38
+msgid "Buscar"
+msgstr ""
+
+#: core/view/CrudView.php:44
+msgid "Novo"
+msgstr ""
+
+#: core/view/CrudView.php:120
+msgid "Editar"
+msgstr ""
+
+#: core/view/CrudView.php:134
+msgid "Excluir"
+msgstr ""
+
+#: core/view/CrudView.php:135
+msgid "Deseja realmente excluir?"
+msgstr ""
+
+#: core/view/CrudView.php:166
+msgid "Campos obrigatórios"
 msgstr ""
