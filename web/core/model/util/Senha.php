@@ -19,7 +19,7 @@ use \core\model\Prioridade;
     private $legenda;
 
     public function __construct() {
-        $this->setLegenda(_('Senha'));
+        $this->setLegenda(_('Senha|Bilhete'));
     }
 
     /**

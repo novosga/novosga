@@ -1,0 +1,1429 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Novo SGA\n"
+"POT-Creation-Date: 2013-02-19 10:54-0300\n"
+"PO-Revision-Date: 2013-02-19 10:57-0300\n"
+"Last-Translator: rogeriolino\n"
+"Language-Team: rogeriolino\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: ../../../\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: home/HomeController.php:42
+msgid "Somente via POST"
+msgstr ""
+
+#: home/HomeController.php:93
+msgid "Nenhum usuário na sessão"
+msgstr ""
+
+#: home/HomeController.php:105
+msgid "Senha atual não confere"
+msgstr ""
+
+#: home/HomeView.php:16 install/InstallController.php:40
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:16
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:16
+msgid "Início"
+msgstr ""
+
+#: home/view/index.php:19
+#, php-format
+msgid "Bem-vindo, %s"
+msgstr ""
+
+#: home/view/index.php:20
+msgid ""
+"Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código "
+"aberto e gratuito."
+msgstr ""
+
+#: home/view/index.php:25 core_1/view/LoggedView.php:92
+#: modules/sga/admin/view/index.php:120 modules/sga/cargos/view/edit.php:51
+#: modules/sga/usuarios/view/edit.php:145
+#: modules/sga/usuarios/view/edit.php:199
+#: modules/sga/unidade/view/index.php:129 core/view/LoggedView.php:92
+msgid "Unidade"
+msgstr ""
+
+#: home/view/index.php:26
+msgid "Visualize abaixo os módulos disponíveis para a sua unidade"
+msgstr ""
+
+#: home/view/index.php:32 core_1/view/LoggedView.php:47
+#: modules/sga/cargos/view/edit.php:51 core/view/LoggedView.php:47
+msgid "Global"
+msgstr ""
+
+#: home/view/index.php:33
+msgid "Visualize abaixo os módulos globais disponíveis que você possui acesso"
+msgstr ""
+
+#: home/view/perfil.php:7
+msgid "Perfil"
+msgstr ""
+
+#: home/view/perfil.php:8
+msgid "Visualize e atualize o seu perfil"
+msgstr ""
+
+#: home/view/perfil.php:13
+msgid "Perfil atualizado com sucesso"
+msgstr ""
+
+#: home/view/perfil.php:17 login/LoginController.php:22
+#: login/view/index.php:30 modules/sga/usuarios/view/edit.php:16
+#: modules/sga/usuarios/view/index.php:14
+msgid "Login"
+msgstr ""
+
+#: home/view/perfil.php:21 install/view/step1.php:54
+#: modules/sga/prioridades/view/edit.php:10
+#: modules/sga/prioridades/view/index.php:10
+#: modules/sga/triagem/view/index.php:41
+#: modules/sga/atendimento/view/index.php:23
+#: modules/sga/servicos/view/edit.php:10
+#: modules/sga/servicos/view/index.php:22 modules/sga/modulos/view/edit.php:18
+#: modules/sga/modulos/view/index.php:6 modules/sga/unidades/view/edit.php:14
+#: modules/sga/unidades/view/index.php:10 modules/sga/cargos/view/edit.php:25
+#: modules/sga/cargos/view/index.php:4 modules/sga/usuarios/view/edit.php:20
+#: modules/sga/usuarios/view/index.php:14 modules/sga/grupos/view/edit.php:10
+#: modules/sga/grupos/view/index.php:4 modules/sga/monitor/view/index.php:109
+msgid "Nome"
+msgstr ""
+
+#: home/view/perfil.php:25 modules/sga/usuarios/view/edit.php:24
+msgid "Sobrenome"
+msgstr ""
+
+#: home/view/perfil.php:33 home/view/perfil.php:52
+#: modules/sga/usuarios/view/edit.php:226
+msgid "Alterar senha"
+msgstr ""
+
+#: home/view/perfil.php:35 modules/sga/atendimento/view/index.php:73
+#: modules/sga/usuarios/view/edit.php:50
+msgid "Alterar"
+msgstr ""
+
+#: home/view/perfil.php:45 core_1/view/CrudView.php:156
+#: modules/sga/admin/view/index.php:59
+#: modules/sga/atendimento/view/index.php:63
+#: modules/sga/atendimento/view/index.php:73
+#: modules/sga/modulos/view/edit.php:41 modules/sga/modulos/view/edit.php:59
+#: core/view/CrudView.php:156
+msgid "Salvar"
+msgstr ""
+
+#: home/view/perfil.php:54
+msgid "Senha atual"
+msgstr ""
+
+#: home/view/perfil.php:58
+msgid "Nova senha"
+msgstr ""
+
+#: home/view/perfil.php:62
+msgid "Confirmar nova senha"
+msgstr ""
+
+#: home/view/perfil.php:67 modules/sga/usuarios/view/edit.php:169
+msgid "Senha alterada com sucesso"
+msgstr ""
+
+#: install/InstallView.php:20
+msgid "Instalação"
+msgstr ""
+
+#: install/InstallController.php:41
+msgid "Verificação de Requisitos"
+msgstr ""
+
+#: install/InstallController.php:42
+msgid "Licença"
+msgstr ""
+
+#: install/InstallController.php:43
+msgid "Configurar Banco de Dados"
+msgstr ""
+
+#: install/InstallController.php:44
+msgid "Configurar Administrador"
+msgstr ""
+
+#: install/InstallController.php:45
+msgid "Aplicar"
+msgstr ""
+
+#: install/InstallController.php:79
+#, php-format
+msgid "Opção inválida: %s"
+msgstr ""
+
+#: install/InstallController.php:91
+msgid ""
+"Por questões de segurança as informações sobre o ambiente são desabilitadas "
+"após a instalação."
+msgstr ""
+
+#: install/InstallController.php:115
+msgid "Banco de Dados testado com sucesso!"
+msgstr ""
+
+#: install/InstallController.php:131
+msgid "Não foi encontrado arquivo SQL para o tipo de banco escolhido"
+msgstr ""
+
+#: install/InstallController.php:175
+msgid "Dados do usuário informados com sucesso"
+msgstr ""
+
+#: install/InstallController.php:196
+#: modules/sga/usuarios/UsuariosController.php:105
+msgid "O login deve conter somente letras e números."
+msgstr ""
+
+#: install/InstallController.php:199
+#: modules/sga/usuarios/UsuariosController.php:108
+msgid "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
+msgstr ""
+
+#: install/InstallController.php:202
+msgid "A senha deve possuir 6 ou mais letras/números."
+msgstr ""
+
+#: install/InstallController.php:205
+msgid "A senha não confere com a confirmação de senha."
+msgstr ""
+
+#: install/InstallController.php:223
+msgid "Instalação concluída com sucesso"
+msgstr ""
+
+#: install/InstallController.php:228
+msgid "O SGA já está instalado"
+msgstr ""
+
+#: install/InstallController.php:232
+msgid "Os dados da instalação não foram encontrados. Favor iniciar novamente"
+msgstr ""
+
+#: install/InstallController.php:240
+#, php-format
+msgid "Arquivo de configuação (%s) somente leitura"
+msgstr ""
+
+#: install/InstallController.php:254 install/InstallController.php:266
+#: install/InstallController.php:271
+#, php-format
+msgid "Script SQL de instalação não encontrado (%s)"
+msgstr ""
+
+#: install/InstallController.php:304
+msgid "Requisição inválida"
+msgstr ""
+
+#: install/view/step1.php:34
+msgid "Instalado"
+msgstr ""
+
+#: install/view/step1.php:37
+msgid "Não instalado"
+msgstr ""
+
+#: install/view/step1.php:54
+msgid "Versão requerida"
+msgstr ""
+
+#: install/view/step1.php:54
+msgid "Versão instalada"
+msgstr ""
+
+#: install/view/step1.php:72
+msgid "Configuração do SGA"
+msgstr ""
+
+#: install/view/step1.php:72 install/view/step1.php:73
+#: install/view/step1.php:74 install/view/step1.php:78
+msgid "Escrita"
+msgstr ""
+
+#: install/view/step1.php:73
+msgid "Diretório utilizado para upload de arquivos"
+msgstr ""
+
+#: install/view/step1.php:73
+msgid "Diretório temporário"
+msgstr ""
+
+#: install/view/step1.php:74
+msgid "Diretório utilizado para guardar os arquivos de sessão"
+msgstr ""
+
+#: install/view/step1.php:82
+msgid "Somente leitura"
+msgstr ""
+
+#: install/view/step1.php:87
+msgid "Arquivo"
+msgstr ""
+
+#: install/view/step1.php:87
+msgid "Permissão requerida"
+msgstr ""
+
+#: install/view/step1.php:87
+msgid "Permissão atual"
+msgstr ""
+
+#: install/view/step1.php:103
+msgid "Informações"
+msgstr ""
+
+#: install/view/step1.php:106
+msgid "Sistema Operacional"
+msgstr ""
+
+#: install/view/step1.php:107
+msgid "Banco de dados escolhido"
+msgstr ""
+
+#: install/view/step1.php:110
+msgid "Visualizar"
+msgstr ""
+
+#: install/view/step1.php:118
+msgid ""
+"A instalação não pode continuar enquanto os requisitos abaixos não forem "
+"satisfeitos. Favor verificar os itens em destaque."
+msgstr ""
+
+#: install/view/step1.php:123
+msgid "Requerimentos Mínimos"
+msgstr ""
+
+#: install/view/step1.php:127
+msgid "Permissões Requeridas"
+msgstr ""
+
+#: install/view/step1.php:131
+msgid "Informações do Ambiente"
+msgstr ""
+
+#: install/view/step5.php:18
+msgid "Clique em Instalar para iniciar o processo de instalação do sistema."
+msgstr ""
+
+#: install/view/step5.php:19
+msgid "Atenção"
+msgstr ""
+
+#: install/view/step5.php:19
+msgid ""
+"Ao clicar em instalar, caso exista uma instalação do SGA Livre no banco "
+"especificado a mesma será sobrescrita."
+msgstr ""
+
+#: install/view/step3.php:40
+msgid "Escolhido no passo 1"
+msgstr ""
+
+#: install/view/step3.php:77
+msgid ""
+"<strong>Atenção:</strong> O banco de dados especificado precisa existir. A "
+"aplicação procurará por versões anteriores para atualizar o banco. Caso não "
+"exista uma versão, ou não queira atualizar, certifique-se que a banco esteja "
+"vazio."
+msgstr ""
+
+#: install/view/step0.php:47 modules/sga/modulos/view/edit.php:22
+#: modules/sga/modulos/view/index.php:6
+msgid "Autor"
+msgstr ""
+
+#: install/view/step0.php:48
+msgid "Data de criação"
+msgstr ""
+
+#: cron/CronView.php:15
+msgid "Cron"
+msgstr ""
+
+#: cron/CronController.php:40 modules/sga/usuarios/UsuariosController.php:187
+msgid "Usuário inválido"
+msgstr ""
+
+#: cron/CronController.php:44
+msgid "Token de segurança inválido"
+msgstr ""
+
+#: login/LoginController.php:61
+msgid "Usuário Inválido. Por favor, tente novamente."
+msgstr ""
+
+#: login/view/index.php:16 modules/sga/admin/view/index.php:46
+msgid "Usuário"
+msgstr ""
+
+#: login/view/index.php:20 core_1/model/util/Senha.php:22
+#: modules/sga/admin/view/index.php:50 modules/sga/usuarios/view/edit.php:58
+#: modules/sga/usuarios/view/edit.php:229
+msgid "Senha"
+msgstr ""
+
+#: login/view/index.php:26
+msgid "Entrar"
+msgstr ""
+
+#: painel/PainelView.php:15 modules/sga/admin/view/index.php:114
+#: modules/sga/unidade/view/index.php:123
+msgid "Painel"
+msgstr ""
+
+#: core_1/SGA.php:109 core/SGA.php:109
+#, php-format
+msgid "Arquivo não encontrado: %s"
+msgstr ""
+
+#: core_1/SGA.php:201 core/SGA.php:201
+#, php-format
+msgid "Classe não encontrada: %s"
+msgstr ""
+
+#: core_1/SGAContext.php:105 core/SGAContext.php:105
+#, php-format
+msgid "Módulo \"%s\" não econtrado."
+msgstr ""
+
+#: core_1/business/AcessoBusiness.php:52 core/business/AcessoBusiness.php:52
+msgid "A senha deve possuir no mínimo 6 caracteres."
+msgstr ""
+
+#: core_1/business/AcessoBusiness.php:55 core/business/AcessoBusiness.php:55
+msgid "A confirmação de senha não confere com a senha."
+msgstr ""
+
+#: core_1/business/AcessoBusiness.php:127 core/business/AcessoBusiness.php:127
+msgid "Para acessar esse módulo primeiro é necessário escolher uma unidade."
+msgstr ""
+
+#: core_1/business/AtendimentoBusiness.php:32
+#: modules/sga/atendimento/view/index.php:40
+#: modules/sga/atendimento/view/index.php:71
+#: core/business/AtendimentoBusiness.php:32
+msgid "Guichê"
+msgstr ""
+
+#: core_1/business/PainelBusiness.php:73 core/business/PainelBusiness.php:73
+msgid "Painel inválido"
+msgstr ""
+
+#: core_1/controller/TreeModelController.php:31
+#: core/controller/TreeModelController.php:31
+#, php-format
+msgid ""
+"Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s"
+msgstr ""
+
+#: core_1/controller/TreeModelController.php:66
+#: core/controller/TreeModelController.php:66
+#, php-format
+msgid "Erro ao inserir o registro: %s"
+msgstr ""
+
+#: core_1/controller/TreeModelController.php:143
+#: core/controller/TreeModelController.php:143
+#, php-format
+msgid "Erro ao atualizar o registro: %s"
+msgstr ""
+
+#: core_1/controller/TreeModelController.php:150
+#: core/controller/TreeModelController.php:150
+msgid "Não pode remover a raiz"
+msgstr ""
+
+#: core_1/controller/TreeModelController.php:181
+#: core/controller/TreeModelController.php:181
+#, php-format
+msgid "Erro ao apagar o registro: %s"
+msgstr ""
+
+#: core_1/controller/CrudController.php:98
+#: core/controller/CrudController.php:98
+msgid "Preencha os campos obrigatórios"
+msgstr ""
+
+#: core_1/controller/CrudController.php:107
+#: core/controller/CrudController.php:107
+msgid "Registro alterado com sucesso"
+msgstr ""
+
+#: core_1/controller/CrudController.php:112
+#: core/controller/CrudController.php:112
+msgid "Novo registro adicionado com sucesso"
+msgstr ""
+
+#: core_1/controller/CrudController.php:114
+#: core/controller/CrudController.php:114
+msgid "Erro ao salvar o novo registro. Favor tentar novamente"
+msgstr ""
+
+#: core_1/auth/LdapAuthentication.php:54 core/auth/LdapAuthentication.php:54
+msgid ""
+"Não foi possível conectar ao servidor LDAP. Favor verificar se as "
+"configurações estão corretas."
+msgstr ""
+
+#: core_1/model/Modulo.php:168 core/model/Modulo.php:168
+#, php-format
+msgid "Não encontrada página \"%s\" no módulo \"%s\""
+msgstr ""
+
+#: core_1/model/Usuario.php:106 core/model/Usuario.php:106
+msgid "Erro ao definir status do Atendente, deve ser um inteiro."
+msgstr ""
+
+#: core_1/model/SequencialModel.php:27 core/model/SequencialModel.php:27
+#, php-format
+msgid ""
+"Erro ao definir id da entidade (\"%s\"): Deve ser maior que zero. Passado %s"
+msgstr ""
+
+#: core_1/model/Prioridade.php:50 core/model/Prioridade.php:50
+msgid "O peso da prioridade deve ser um inteiro positivo"
+msgstr ""
+
+#: core_1/model/Atendimento.php:203 core/model/Atendimento.php:203
+msgid "Erro ao definir status do atendimento. Deve ser maior que zero."
+msgstr ""
+
+#: core_1/model/Atendimento.php:257 core/model/Atendimento.php:257
+msgid "Senha emitida"
+msgstr ""
+
+#: core_1/model/Atendimento.php:258 core/model/Atendimento.php:258
+msgid "Chamado pela mesa"
+msgstr ""
+
+#: core_1/model/Atendimento.php:259 core/model/Atendimento.php:259
+msgid "Atendimento iniciado"
+msgstr ""
+
+#: core_1/model/Atendimento.php:260 core/model/Atendimento.php:260
+msgid "Atendimento encerrado"
+msgstr ""
+
+#: core_1/model/Atendimento.php:261 modules/sga/atendimento/view/index.php:84
+#: core/model/Atendimento.php:261
+msgid "Não compareceu"
+msgstr ""
+
+#: core_1/model/Atendimento.php:262 core/model/Atendimento.php:262
+msgid "Senha cancelada"
+msgstr ""
+
+#: core_1/model/Atendimento.php:263 core/model/Atendimento.php:263
+msgid "Erro triagem"
+msgstr ""
+
+#: core_1/model/Atendimento.php:264 core/model/Atendimento.php:264
+msgid "Atendimento encerrado e codificado"
+msgstr ""
+
+#: core_1/model/util/UsuarioSessao.php:50 core/model/util/UsuarioSessao.php:50
+msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
+msgstr ""
+
+#: core_1/model/util/Senha.php:33 core/model/util/Senha.php:33
+msgid "A sigla da senha deve ser um char"
+msgstr ""
+
+#: core_1/model/util/Senha.php:53 core/model/util/Senha.php:53
+msgid "O numero da senha deve ser um inteiro maior que zero"
+msgstr ""
+
+#: core_1/model/util/Senha.php:97 core/model/util/Senha.php:97
+msgid "A legenda da senha deve ser uma String"
+msgstr ""
+
+#: core_1/view/LoggedView.php:39 core/view/LoggedView.php:39
+msgid "Trocar Unidade"
+msgstr ""
+
+#: core_1/view/LoggedView.php:43 core/view/LoggedView.php:43
+msgid "Escolher Unidade"
+msgstr ""
+
+#: core_1/view/LoggedView.php:55 core/view/LoggedView.php:55
+#, php-format
+msgid "acessando como <strong>%s</strong>"
+msgstr ""
+
+#: core_1/view/LoggedView.php:57 core/view/LoggedView.php:57
+msgid "Visualizar perfil"
+msgstr ""
+
+#: core_1/view/LoggedView.php:93 core/view/LoggedView.php:93
+msgid "Favor escolher a unidade"
+msgstr ""
+
+#: core_1/view/LoggedView.php:97 modules/sga/prioridades/view/edit.php:42
+#: modules/sga/atendimento/view/index.php:144
+#: modules/sga/estatisticas/view/index.php:60
+#: modules/sga/estatisticas/view/index.php:94
+#: modules/sga/servicos/view/edit.php:23 modules/sga/servicos/view/edit.php:36
+#: modules/sga/unidades/view/edit.php:22 modules/sga/unidades/view/edit.php:33
+#: modules/sga/cargos/view/edit.php:39 modules/sga/usuarios/view/edit.php:34
+#: modules/sga/usuarios/view/edit.php:180
+#: modules/sga/usuarios/view/edit.php:191
+#: modules/sga/usuarios/view/edit.php:204
+#: modules/sga/usuarios/view/edit.php:216 modules/sga/grupos/view/edit.php:24
+#: core/view/LoggedView.php:97
+msgid "Selecione"
+msgstr ""
+
+#: core_1/view/LoggedView.php:110 core/view/LoggedView.php:110
+msgid "Enviar"
+msgstr ""
+
+#: core_1/view/PageView.php:35 core/view/PageView.php:35
+#, php-format
+msgid "Página não encontrada: %s"
+msgstr ""
+
+#: core_1/view/ErrorView.php:15 core_1/view/SGAView.php:153
+#: core/view/ErrorView.php:15 core/view/SGAView.php:153
+msgid "Erro"
+msgstr ""
+
+#: core_1/view/TemplateBuilder.php:384 core/view/TemplateBuilder.php:384
+#, php-format
+msgid "Valor informado não é instância de TreeModel: %s"
+msgstr ""
+
+#: core_1/view/CrudView.php:32 core/view/CrudView.php:32
+msgid "buscar"
+msgstr ""
+
+#: core_1/view/CrudView.php:38 core/view/CrudView.php:38
+msgid "Buscar"
+msgstr ""
+
+#: core_1/view/CrudView.php:44 core/view/CrudView.php:44
+msgid "Novo"
+msgstr ""
+
+#: core_1/view/CrudView.php:104 modules/sga/prioridades/view/edit.php:44
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:6
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:6
+#: modules/sga/servicos/view/edit.php:38 modules/sga/unidades/view/edit.php:35
+#: modules/sga/usuarios/view/edit.php:36 core/view/CrudView.php:104
+msgid "Ativo"
+msgstr ""
+
+#: core_1/view/CrudView.php:107 modules/sga/prioridades/view/edit.php:45
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:9
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:9
+#: modules/sga/servicos/view/edit.php:39 modules/sga/unidades/view/edit.php:36
+#: modules/sga/usuarios/view/edit.php:37 core/view/CrudView.php:107
+msgid "Inativo"
+msgstr ""
+
+#: core_1/view/CrudView.php:120 core/view/CrudView.php:120
+msgid "Editar"
+msgstr ""
+
+#: core_1/view/CrudView.php:134 core/view/CrudView.php:134
+msgid "Excluir"
+msgstr ""
+
+#: core_1/view/CrudView.php:135 core/view/CrudView.php:135
+msgid "Deseja realmente excluir?"
+msgstr ""
+
+#: core_1/view/CrudView.php:161 modules/sga/triagem/view/touchscreen.php:52
+#: modules/sga/triagem/view/touchscreen.php:72
+#: modules/sga/triagem/view/touchscreen.php:88
+#: modules/sga/modulos/view/edit.php:76 core/view/CrudView.php:161
+msgid "Voltar"
+msgstr ""
+
+#: core_1/view/CrudView.php:166 core/view/CrudView.php:166
+msgid "Campos obrigatórios"
+msgstr ""
+
+#: modules/sga/prioridades/PrioridadesController.php:36
+msgid "Não pode remover essa prioridade"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:14
+#: modules/sga/triagem/view/index.php:72 modules/sga/servicos/view/edit.php:14
+#: modules/sga/modulos/view/edit.php:30 modules/sga/cargos/view/edit.php:29
+#: modules/sga/grupos/view/edit.php:14
+msgid "Descrição"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:18
+#: modules/sga/prioridades/view/index.php:10
+msgid "Peso"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:24
+#: modules/sga/triagem/view/index.php:8
+msgid "Normal"
+msgstr ""
+
+#: modules/sga/prioridades/view/edit.php:37
+#: modules/sga/prioridades/view/index.php:10
+#: modules/sga/servicos/view/edit.php:31
+#: modules/sga/servicos/view/index.php:22
+#: modules/sga/unidades/view/index.php:10
+#: modules/sga/usuarios/view/index.php:14
+#: modules/sga/unidade/view/index.php:92
+msgid "Status"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:8
+msgid "Sistema"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:9 modules/sga/unidade/view/index.php:7
+msgid "Triagem"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:10 modules/sga/unidade/view/index.php:9
+msgid "Painéis"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:14
+msgid "Autenticação"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:16
+msgid "Tipo"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:22
+msgid "Banco de Dados"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:23
+msgid "LDAP e Banco de Dados"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:30
+msgid "Servidor"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:34
+msgid "Porta"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:38
+msgid "Base DN"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:42
+msgid "Login Attribute"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:68 modules/sga/unidade/view/index.php:31
+msgid "Reiniciar senhas"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:73
+msgid "Deseja realmente reiniciar as senhas de todas unidades?"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:78
+msgid "Cron URL"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:92 modules/sga/unidade/view/index.php:109
+msgid "Visualizar serviços"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:111 modules/sga/unidade/view/index.php:120
+msgid "Configuração"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:112 modules/sga/unidade/view/index.php:121
+msgid "Senhas reiniciadas com sucesso"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:124 modules/sga/usuarios/view/edit.php:116
+#: modules/sga/unidade/view/index.php:8 modules/sga/unidade/view/index.php:133
+msgid "Serviços"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:128 modules/sga/unidade/view/index.php:137
+msgid "Últimas senhas"
+msgstr ""
+
+#: modules/sga/triagem/TriagemController.php:122
+#: modules/sga/atendimento/AtendimentoController.php:269
+#: modules/sga/atendimento/AtendimentoController.php:312
+msgid "Nenhum unidade escolhida"
+msgstr ""
+
+#: modules/sga/triagem/TriagemController.php:130
+msgid "Prioridade inválida"
+msgstr ""
+
+#: modules/sga/triagem/TriagemController.php:140
+msgid "Serviço não disponível para a unidade atual"
+msgstr ""
+
+#: modules/sga/triagem/TriagemController.php:177
+msgid "Erro ao tentar gerar nova senha"
+msgstr ""
+
+#: modules/sga/triagem/TriagemController.php:181
+msgid ""
+"Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de "
+"desenvolvimento informando esse problema, e o banco de dados que está usando"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:9
+msgid "Distribuir senha normal"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:15 modules/sga/triagem/view/index.php:82
+#: modules/sga/atendimento/view/index.php:19
+#: modules/sga/monitor/view/index.php:82
+msgid "Prioridade"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:17
+msgid "Gerar prioridade"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:18
+msgid "Distribuir senha com prioridade"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:24
+msgid "Aguardando atendimento"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:25
+msgid "Total de senhas do serviço"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:39
+#: modules/sga/monitor/view/index.php:107
+msgid "Cliente"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:45
+#: modules/sga/monitor/view/index.php:113
+msgid "Documento"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:61
+msgid "Versão para auto triagem"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:66
+#: modules/sga/atendimento/view/index.php:15
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:22
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:18
+#: modules/sga/usuarios/view/edit.php:145
+#: modules/sga/usuarios/view/edit.php:197
+#: modules/sga/usuarios/view/edit.php:211
+#: modules/sga/unidade/view/index.php:92 modules/sga/monitor/view/index.php:61
+#: modules/sga/monitor/view/index.php:86
+msgid "Serviço"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:68
+msgid "Nome original do seriço"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:76
+msgid "Subserviços"
+msgstr ""
+
+#: modules/sga/triagem/view/index.php:78
+msgid "Não há subserviços"
+msgstr ""
+
+#: modules/sga/triagem/view/touchscreen.php:18
+msgid "Escolha abaixo o serviço que deseja ser atendido"
+msgstr ""
+
+#: modules/sga/triagem/view/touchscreen.php:19
+msgid "Alterar para modo tela cheia"
+msgstr ""
+
+#: modules/sga/triagem/view/touchscreen.php:38
+msgid "Atendimento Normal"
+msgstr ""
+
+#: modules/sga/triagem/view/touchscreen.php:44
+msgid "Atendimento Prioritário"
+msgstr ""
+
+#: modules/sga/atendimento/AtendimentoController.php:183
+#: modules/sga/atendimento/view/index.php:159
+#: modules/sga/monitor/view/index.php:37
+msgid "Fila vazia"
+msgstr ""
+
+#: modules/sga/atendimento/AtendimentoController.php:185
+msgid "Já existe um atendimento em andamento"
+msgstr ""
+
+#: modules/sga/atendimento/AtendimentoController.php:211
+msgid "Nenhum atendimento disponível"
+msgstr ""
+
+#: modules/sga/atendimento/AtendimentoController.php:273
+#: modules/sga/atendimento/AtendimentoController.php:318
+msgid "Nenhum atendimento em andamento"
+msgstr ""
+
+#: modules/sga/atendimento/AtendimentoController.php:278
+#: modules/sga/atendimento/view/index.php:164
+msgid "Nenhum serviço selecionado"
+msgstr ""
+
+#: modules/sga/atendimento/AtendimentoController.php:334
+#: modules/sga/unidade/UnidadeController.php:132
+msgid "Serviço inválido"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:8
+#: modules/sga/monitor/view/index.php:73
+msgid "Atendimento"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:11
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:13
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:13
+#: modules/sga/monitor/view/index.php:76
+#: modules/sga/monitor/view/index.php:142 core/model/util/Senha.php:22
+msgid "Senha|Bilhete"
+msgstr "Senha"
+
+#: modules/sga/atendimento/view/index.php:43
+#: modules/sga/monitor/view/index.php:45 modules/sga/monitor/view/index.php:60
+#: modules/sga/monitor/view/index.php:78
+msgid "Número"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:77
+msgid "Chamar próximo"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:82
+msgid "Chamar novamente"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:83
+msgid "Iniciar atendimento"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:90
+msgid "Encerrar atendimento"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:91
+msgid "Erro de triagem"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:96
+msgid "Serviços disponíveis"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:104
+#: modules/sga/atendimento/view/index.php:109
+#: modules/sga/usuarios/view/edit.php:74
+#: modules/sga/usuarios/view/edit.php:121
+#: modules/sga/usuarios/view/edit.php:168
+msgid "Adicionar"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:121
+msgid "Serviços realizados"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:126
+msgid "Marque para codificar e redirecionar o atendimento atual"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:126
+msgid "Redirecionar atendimento ao encerrar"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:136
+msgid "Minha fila"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:140
+#: modules/sga/atendimento/view/index.php:161
+msgid "Redirecionar"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:142
+msgid "Novo Serviço"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:151
+#: modules/sga/monitor/view/index.php:162
+msgid "Data e hora no servidor"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:160
+msgid "Remover"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:162
+msgid "Realmente deseja marcar como erro de triagem?"
+msgstr ""
+
+#: modules/sga/atendimento/view/index.php:163
+msgid "Realmente deseja marcar como não compareceu?"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:27
+msgid "Atendimentos por status"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:28
+#: modules/sga/estatisticas/view/index.php:34
+msgid "Atendimentos por serviço"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:29
+msgid "Tempo médio do atendimento"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:32
+msgid "Serviços Disponíveis - Global"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:33
+msgid "Serviços Disponíveis - Unidade"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:34
+msgid "Atendimentos Concluídos"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:35
+msgid "Atendimentos em todos os status"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:61
+msgid "Gráfico inválido"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:207
+msgid "Tempo de Espera"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:208
+msgid "Tempo de Deslocamento"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:209
+msgid "Tempo de Atendimento"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:210
+msgid "Tempo Total"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:8
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:8
+#, php-format
+msgid "Período de %s a %s"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:14
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:14
+msgid "Data"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:15
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:15
+msgid "Hora de Chamada"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:15
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:15
+msgid "Chamada"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:16
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:16
+msgid "Hora do Início do atendimento"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:17
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:17
+msgid "Hora do Fim do atendimento"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:17
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:17
+msgid "Fim"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:18
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:18
+msgid "Tempo total de duração (Fim - Início)"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:18
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:18
+msgid "Duração"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:19
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:19
+msgid "Serviço escolhido na triagem"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:19
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:19
+msgid "Serviço Triado"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:20
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:20
+msgid "Atendente"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:27
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:27
+#: modules/sga/estatisticas/view/index.php:15
+#: modules/sga/estatisticas/view/index.php:68
+#: modules/sga/estatisticas/view/index.php:72
+#: modules/sga/estatisticas/view/index.php:102
+#: modules/sga/estatisticas/view/index.php:106
+msgid "d/m/Y"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:28
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:29
+#: modules/sga/estatisticas/relatorios/atendimentos_status.php:30
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:28
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:29
+#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:30
+msgid "H:i:s"
+msgstr ""
+
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:23
+#: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:19
+#: modules/sga/monitor/view/index.php:65
+#: modules/sga/monitor/view/index.php:102
+msgid "Situação"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:10
+msgid "Hoje"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:11
+msgid "Gráficos"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:12
+msgid "Relatórios"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:15
+#, php-format
+msgid "Atendimentos realizados em %s"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:21
+msgid "Atendimentos por situação"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:58
+msgid "Gráfico"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:67
+#: modules/sga/estatisticas/view/index.php:101
+msgid "Data Inicial"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:71
+#: modules/sga/estatisticas/view/index.php:105
+msgid "Data Final"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:79
+msgid "Gerar gráfico"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:92
+msgid "Relatório"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:113
+msgid "Gerar relatório"
+msgstr ""
+
+#: modules/sga/estatisticas/view/index.php:134
+msgid "dd/mm/yy"
+msgstr ""
+
+#: modules/sga/servicos/view/edit.php:18
+msgid "Macro"
+msgstr ""
+
+#: modules/sga/modulos/ModulosController.php:76
+#: modules/sga/modulos/ModulosController.php:101
+msgid "Módulo inválido"
+msgstr ""
+
+#: modules/sga/modulos/ModulosController.php:79
+#: modules/sga/modulos/ModulosController.php:104
+msgid "Tipo de recurso inválido"
+msgstr ""
+
+#: modules/sga/modulos/ModulosController.php:98
+msgid "Permissão negada"
+msgstr ""
+
+#: modules/sga/modulos/view/edit.php:8
+msgid "Sobre"
+msgstr ""
+
+#: modules/sga/modulos/view/edit.php:26 modules/sga/modulos/view/index.php:6
+msgid "Chave"
+msgstr ""
+
+#: modules/sga/modulos/view/edit.php:46 modules/sga/modulos/view/edit.php:64
+msgid "Recarregar"
+msgstr ""
+
+#: modules/sga/unidades/UnidadesController.php:30
+msgid "Código de Unidade já existe"
+msgstr ""
+
+#: modules/sga/unidades/UnidadesController.php:35
+msgid "Grupo inválido"
+msgstr ""
+
+#: modules/sga/unidades/UnidadesController.php:88
+msgid "Não pode excluir essa unidade porque a mesma já possui atendimentos."
+msgstr ""
+
+#: modules/sga/unidades/view/edit.php:10
+#: modules/sga/unidades/view/index.php:10
+msgid "Código"
+msgstr ""
+
+#: modules/sga/unidades/view/edit.php:18
+#: modules/sga/unidades/view/index.php:10
+#: modules/sga/usuarios/view/edit.php:101
+#: modules/sga/usuarios/view/edit.php:175
+msgid "Grupo"
+msgstr ""
+
+#: modules/sga/cargos/CargosController.php:32
+msgid "Favor escolher o Cargo pai"
+msgstr ""
+
+#: modules/sga/cargos/view/edit.php:20 modules/sga/usuarios/view/edit.php:11
+msgid "Geral"
+msgstr ""
+
+#: modules/sga/cargos/view/edit.php:21 modules/sga/usuarios/view/edit.php:221
+msgid "Permissões"
+msgstr ""
+
+#: modules/sga/cargos/view/edit.php:34 modules/sga/grupos/view/edit.php:19
+msgid "Pai"
+msgstr ""
+
+#: modules/sga/cargos/view/edit.php:53 modules/sga/usuarios/view/edit.php:222
+msgid "Módulos"
+msgstr ""
+
+#: modules/sga/usuarios/UsuariosController.php:125
+msgid "O login informado já está cadastrado para outro usuário."
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:12
+msgid "Acesso"
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:48
+msgid "Alterar senha do usuário"
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:62
+#: modules/sga/usuarios/view/edit.php:233
+msgid "Confirmar senha"
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:69
+msgid "Lotações"
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:79
+msgid ""
+"Lotação é o par de grupo e cargo, utilizado para definir o papel e acesso do "
+"usuário às unidades."
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:97
+#: modules/sga/usuarios/view/edit.php:170
+msgid "Visualizar permissões"
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:101
+#: modules/sga/usuarios/view/edit.php:186
+msgid "Cargo"
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:108
+#: modules/sga/usuarios/view/edit.php:152
+msgid "Remover selecionados"
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:126
+msgid "Serviços que o usuário (atendente) atende em cada lotação."
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:171
+msgid "Realmente deseja excluir?"
+msgstr ""
+
+#: modules/sga/usuarios/view/edit.php:173
+msgid "Lotação"
+msgstr ""
+
+#: modules/sga/unidade/UnidadeController.php:148
+msgid "Nenhum unidade definida"
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:14
+msgid "Impressão"
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:24
+msgid "Ativar impressão de senha"
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:27
+msgid "Mensagem"
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:36
+msgid "Deseja realmente reiniciar as senhas?"
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:47
+msgid ""
+"As modificações na sigla e nome do serviço são salvas automaticamente ao "
+"sair do campo."
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:62
+msgid "Reverter nome para nome original"
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:72
+msgid "Habilitar"
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:79
+msgid "Desabilitar"
+msgstr ""
+
+#: modules/sga/unidade/view/index.php:92
+msgid "Sigla"
+msgstr ""
+
+#: modules/sga/grupos/GruposController.php:36
+msgid "Favor escolher o Grupo pai"
+msgstr ""
+
+#: modules/sga/monitor/MonitorController.php:96
+msgid "Atendimento inválido"
+msgstr ""
+
+#: modules/sga/monitor/MonitorController.php:118
+#: modules/sga/monitor/MonitorController.php:162
+#: modules/sga/monitor/MonitorController.php:199
+#: modules/sga/monitor/MonitorController.php:236
+msgid "Nenhuma unidade selecionada"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:7
+msgid "buscar senha"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:11 modules/sga/monitor/view/index.php:50
+msgid "Consultar"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:43
+msgid "Busca"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:62 modules/sga/monitor/view/index.php:90
+msgid "Data chegada"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:63
+msgid "Data Início"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:64 modules/sga/monitor/view/index.php:98
+msgid "Data Fim"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:94
+msgid "Data início"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:122
+msgid "Reativar senha"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:127
+msgid "Transferir / Alterar senha"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:133
+msgid "Cancelar senha"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:139
+msgid "Tranferir Senha"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:146
+msgid "Novo serviço"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:154
+msgid "Nova prioridade"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:169
+msgid "Transferir"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:170
+msgid "Deseja realmente cancelar essa senha?"
+msgstr ""
+
+#: modules/sga/monitor/view/index.php:171
+msgid "Deseja realmente reativar essa senha?"
+msgstr ""

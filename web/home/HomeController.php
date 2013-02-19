@@ -116,4 +116,12 @@ class HomeController extends SGAController {
         $context->getResponse()->jsonResponse($response);
     }
     
+    public function desativar_sessao(SGAContext $context) {
+        $response = new AjaxResponse(true);
+        $usuario = $context->getUser();
+        $usuario->setAtivo(false);
+        $context->setUser($usuario);
+        $context->getResponse()->jsonResponse($response);
+    }
+    
 }

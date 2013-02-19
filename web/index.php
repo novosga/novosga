@@ -1,14 +1,6 @@
 <?php
 ini_set('display_errors', 1);
 
-// testing i18n
-$lang = "en_US";
-putenv("LC_ALL=$lang");
-setlocale(LC_ALL, $lang);
-bindtextdomain("messages", "locale");
-bind_textdomain_codeset('messages', 'UTF-8');
-textdomain("messages");
-
 require('core' . DIRECTORY_SEPARATOR . 'SGA.php');
 
 use \core\SGA;
@@ -17,6 +9,8 @@ use \core\Config;
 use \core\util\Arrays;
 use \core\business\AcessoBusiness;
 
+// i18n
+\core\util\I18n::bind();
 
 // redirect to installer
 if (!Config::SGA_INSTALLED && !isset($_GET[SGA::K_INSTALL])) {

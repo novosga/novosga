@@ -3,7 +3,7 @@ namespace login;
 
 use \core\SGA;
 use \core\SGAContext;
-use \core\db\DB;
+use \core\util\Arrays;
 use \core\business\AcessoBusiness;
 use \core\controller\InternalController;
 
@@ -14,6 +14,8 @@ use \core\controller\InternalController;
  */
 class LoginController extends InternalController {
     
+    const INACTIVE_SESSION = 'Sessão expirada. Favor efetuar o login novamente.';
+    const INVALID_SESSION = 'Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.';
     
     protected function createView() {
         require_once(__DIR__ . '/LoginView.php');
@@ -31,7 +33,11 @@ class LoginController extends InternalController {
             } else {
                 $user = $context->getUser();
                 if ($user != null) {
-                    $this->view()->assign('error', _('Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.'));
+                    if (!$user->isAtivo()) {
+                        $this->view()->assign('error', _(self::INACTIVE_SESSION));
+                    } else {
+                        $this->view()->assign('error', _(self::INVALID_SESSION));
+                    }
                     $context->setUser(null);
                 }
             }
@@ -39,25 +45,39 @@ class LoginController extends InternalController {
     }
     
     public function validate(SGAContext $context) {
-        $context->getSession()->set(SGA::K_LOGIN_ERROR, null);
-        if (!empty($_POST['user']) && !empty($_POST['pass'])) {
-            $username = $_POST['user'];
-            $password = $_POST['pass'];
+        $username = Arrays::value($_POST, 'user');
+        $password = Arrays::value($_POST, 'pass');
+        $error = null;
+        if (!empty($username) && !empty($password)) {
             $user = SGA::auth($username, $password);
             if ($user) {
                 // atualizando o session id
                 $em = \core\db\DB::getEntityManager();
                 $user->setSessionId(session_id());
-                $user->setAtivo(true);
                 $em->merge($user);
                 $em->flush();
                 $context->setUser(new \core\model\util\UsuarioSessao($user));
-                SGA::redirect('/' . SGA::K_HOME);
             } else {
-                $context->getSession()->set(SGA::K_LOGIN_ERROR, _('Usuário Inválido. Por favor, tente novamente.'));
+                $error = _('Usuário Inválido. Por favor, tente novamente.');
             }
         }
-        SGA::redirect('/' . SGA::K_LOGIN);
+        // autenticando via modal (sessão desativada)
+        if ($context->getRequest()->isAjax()) {
+            $response = new \core\http\AjaxResponse($error == null);
+            if (!$response->success) {
+                $response->message = $error;
+            }
+            $context->getResponse()->jsonResponse($response);
+        } 
+        // autenticando via tela de login
+        else {
+            $context->getSession()->set(SGA::K_LOGIN_ERROR, $error);
+            if (!$error) {
+                SGA::redirect('/' . SGA::K_HOME);
+            } else {
+                SGA::redirect('/' . SGA::K_LOGIN);
+            }
+        }
     }
     
 }

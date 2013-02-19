@@ -73,7 +73,7 @@ use \core\util\Strings;
 <div id="dialog-view" title="<?php SGA::out(_('Atendimento')) ?>" style="display:none">
     <input id="senha_id" type="hidden" />
     <fieldset>
-        <legend><?php SGA::out(_('Senha')) ?></legend>
+        <legend><?php SGA::out(_('Senha|Bilhete')) ?></legend>
         <div>
             <label><?php SGA::out(_('Número')) ?></label>
             <span id="senha_numero"></span>
@@ -139,7 +139,7 @@ use \core\util\Strings;
 <div id="dialog-transfere" title="<?php SGA::out(_('Tranferir Senha')) ?>" style="display:none">
     <input id="transfere_id" type="hidden" />
     <div>
-        <label><?php SGA::out(_('Senha')) ?></label>
+        <label><?php SGA::out(_('Senha|Bilhete')) ?></label>
         <span id="transfere_numero"></span>
     </div>
     <div>

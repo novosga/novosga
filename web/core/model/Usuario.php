@@ -36,10 +36,6 @@ class Usuario extends SequencialModel {
     protected $grupos;
     protected $servicos;
     
-    protected $guiche;
-    protected $unidade;
-    protected $ativo = false;
-
     public function __construct() {
     }
     
@@ -83,40 +79,12 @@ class Usuario extends SequencialModel {
         $this->senha = $senha;
     }
     
-    /**
-     * Retorna o número do guiche para atendimento na unidade atual
-     * @return type
-     */
-    public function getGuiche() {
-        return $this->guiche;
-    }
-
-    public function setGuiche($guiche) {
-        $guiche = (int) $guiche;
-        if ($guiche > 0) {
-            $this->guiche = $guiche;
-        } else {
-            throw new Exception(_('Erro ao definir guiche do Usuário. Deve ser um número maior que zero.'));
-        }
-    }
-
     public function getGrupos() {
         return $this->grupos;
     }
 
     public function setGrupos($grupos) {
         $this->grupos = $grupos;
-    }
-
-    /**
-     * @return Unidade
-     */
-    public function getUnidade() {
-        return $this->unidade;
-    }
-
-    public function setUnidade(Unidade $unidade = null) {
-        $this->unidade = $unidade;
     }
     
     public function setServicos(array $servicos) {
@@ -157,14 +125,6 @@ class Usuario extends SequencialModel {
 
     public function setSessionId($sessionId) {
         $this->sessionId = $sessionId;
-    }
-    
-    public function isAtivo() {
-        return ($this->ativo == true);
-    }
-
-    public function setAtivo($ativo) {
-        $this->ativo = ($ativo == true);
     }
     
     public function toString() {

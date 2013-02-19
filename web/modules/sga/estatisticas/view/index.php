@@ -23,7 +23,7 @@ use \core\contrib\Serie;
                     $data = array();
                     $atendimentos = $atendimentosStatus[$id];
                     foreach ($atendimentos as $k => $v) {
-                        $data[] = array(_($statusAtendimento[$k]), (int) $v);
+                        $data[] = array($statusAtendimento[$k], (int) $v);
                     }
                     $chart->addSerie(new Serie('Atendimentos', $data));
                     $script .= '<div id="' . $chart->getId() .'" class="chart pie atendimentos status"></div>';

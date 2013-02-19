@@ -131,9 +131,15 @@ var SGA = {
                     }
                 } else {
                     // checking session
-                    if (response.sessionInactive) {
+                    if (response.inactive || response.invalid) {
                         SGA.paused = true;
-                        SGA.dialogs.error.create({message: SGA.invalidSession, close: function() { SGA.reload(); }});
+                        var message; 
+                        if (response.inactive) {
+                            message = SGA.inactiveSession;
+                        } else {
+                            message = SGA.invalidSession;
+                        }
+                        SGA.dialogs.error.create({message: message, close: function() { SGA.reload(); }});
                     } else {
                         SGA.dialogs.error.create({
                             message: response.message,
