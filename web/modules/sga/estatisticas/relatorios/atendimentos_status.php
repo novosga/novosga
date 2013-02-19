@@ -25,9 +25,9 @@ use \core\util\DateUtil;
         <tr>
             <td class=""><?php echo $a->getNumeroSenha() ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataChegada(), _('d/m/Y')) ?></td>
-            <td class=""><?php echo DateUtil::format($a->getDataChamada(), _('H:i:s')) ?></td>
-            <td class=""><?php echo DateUtil::format($a->getDataInicio(), _('H:i:s')) ?></td>
-            <td class=""><?php echo DateUtil::format($a->getDataFim(), _('H:i:s')) ?></td>
+            <td class=""><?php echo DateUtil::format($a->getDataChamada(), 'H:i:s') ?></td>
+            <td class=""><?php echo DateUtil::format($a->getDataInicio(), 'H:i:s') ?></td>
+            <td class=""><?php echo DateUtil::format($a->getDataFim(), 'H:i:s') ?></td>
             <td class=""><?php echo DateUtil::secToTime(DateUtil::diff($a->getDataInicio(), $a->getDataFim())) ?></td>
             <td class=""><?php echo $a->getServico()->getNome() ?></td>
             <td class=""><?php echo ($a->getUsuario()) ? $a->getUsuario()->getLogin() : '-' ?></td>

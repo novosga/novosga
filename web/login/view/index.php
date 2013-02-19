@@ -13,7 +13,7 @@ if ($session->get(SGA::K_LOGIN_ERROR) || isset($error)) {
 
 $content = '
     <div>
-        <label>' . _('Usuário') . ':</label>
+        <label>' . _('Nome de usuário') . ':</label>
         <input id="login_usu" type="text" name="user" />
     </div>
     <div>

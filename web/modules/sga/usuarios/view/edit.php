@@ -13,7 +13,7 @@ echo $view->editMessages();
         </ul>
         <div id="tab-geral">
             <div class="field required">
-                <label for="login" class="w125"><?php SGA::out(_('Login')) ?></label>
+                <label for="login" class="w125"><?php SGA::out(_('Nome de usuário')) ?></label>
                 <input id="login" type="text" name="login" class="w150" value="<?php SGA::out($model->getLogin()) ?>" onkeyup="SGA.Form.loginValue(this)" />
             </div>
             <div class="field required">

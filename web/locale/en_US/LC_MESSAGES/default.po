@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Novo SGA\n"
-"POT-Creation-Date: 2013-02-19 15:06-0300\n"
-"PO-Revision-Date: 2013-02-19 15:06-0300\n"
+"POT-Creation-Date: 2013-02-19 16:34-0300\n"
+"PO-Revision-Date: 2013-02-19 16:34-0300\n"
 "Last-Translator: rogeriolino\n"
 "Language-Team: rogeriolino\n"
 "Language: en_US\n"
@@ -77,8 +77,7 @@ msgid "Perfil atualizado com sucesso"
 msgstr ""
 
 #: home/view/perfil.php:17 login/LoginController.php:22
-#: login/view/index.php:30 modules/sga/usuarios/view/edit.php:16
-#: modules/sga/usuarios/view/index.php:14
+#: login/view/index.php:30
 msgid "Login"
 msgstr "Username"
 
@@ -365,9 +364,10 @@ msgstr "Invalid security token"
 msgid "Usuário Inválido. Por favor, tente novamente."
 msgstr "Invalid username and password. Please try again."
 
-#: login/view/index.php:16 modules/sga/admin/view/index.php:46
-msgid "Usuário"
-msgstr "User"
+#: login/view/index.php:16 modules/sga/usuarios/view/edit.php:16
+#: modules/sga/usuarios/view/index.php:14
+msgid "Nome de usuário"
+msgstr "Username"
 
 #: login/view/index.php:20 modules/sga/admin/view/index.php:50
 #: modules/sga/usuarios/view/edit.php:58
@@ -418,7 +418,7 @@ msgstr "Status"
 #: modules/sga/prioridades/view/edit.php:42
 #: modules/sga/atendimento/view/index.php:144
 #: modules/sga/estatisticas/view/index.php:60
-#: modules/sga/estatisticas/view/index.php:94
+#: modules/sga/estatisticas/view/index.php:96
 #: modules/sga/servicos/view/edit.php:23 modules/sga/servicos/view/edit.php:36
 #: modules/sga/unidades/view/edit.php:22 modules/sga/unidades/view/edit.php:33
 #: modules/sga/cargos/view/edit.php:39 modules/sga/usuarios/view/edit.php:34
@@ -489,6 +489,10 @@ msgstr "Base DN"
 #: modules/sga/admin/view/index.php:42
 msgid "Login Attribute"
 msgstr "Login Attribute"
+
+#: modules/sga/admin/view/index.php:46
+msgid "Usuário"
+msgstr "User"
 
 #: modules/sga/admin/view/index.php:68 modules/sga/unidade/view/index.php:31
 msgid "Reiniciar senhas"
@@ -881,19 +885,10 @@ msgstr ""
 #: modules/sga/estatisticas/view/index.php:15
 #: modules/sga/estatisticas/view/index.php:68
 #: modules/sga/estatisticas/view/index.php:72
-#: modules/sga/estatisticas/view/index.php:102
-#: modules/sga/estatisticas/view/index.php:106
+#: modules/sga/estatisticas/view/index.php:104
+#: modules/sga/estatisticas/view/index.php:108 core/view/SGAView.php:154
 msgid "d/m/Y"
 msgstr "m/d/Y"
-
-#: modules/sga/estatisticas/relatorios/atendimentos_status.php:28
-#: modules/sga/estatisticas/relatorios/atendimentos_status.php:29
-#: modules/sga/estatisticas/relatorios/atendimentos_status.php:30
-#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:28
-#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:29
-#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:30
-msgid "H:i:s"
-msgstr "H:i:s"
 
 #: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:23
 #: modules/sga/estatisticas/relatorios/servicos_disponiveis_global.php:19
@@ -928,30 +923,28 @@ msgid "Gráfico"
 msgstr "Chart"
 
 #: modules/sga/estatisticas/view/index.php:67
-#: modules/sga/estatisticas/view/index.php:101
-#, fuzzy
+#: modules/sga/estatisticas/view/index.php:103
 msgid "Data inicial"
-msgstr "Start Date"
+msgstr "Start date"
 
 #: modules/sga/estatisticas/view/index.php:71
-#: modules/sga/estatisticas/view/index.php:105
-#, fuzzy
+#: modules/sga/estatisticas/view/index.php:107
 msgid "Data final"
-msgstr "End Date"
+msgstr "End date"
 
 #: modules/sga/estatisticas/view/index.php:79
 msgid "Gerar gráfico"
 msgstr "Generate chart"
 
-#: modules/sga/estatisticas/view/index.php:92
+#: modules/sga/estatisticas/view/index.php:94
 msgid "Relatório"
 msgstr "Report"
 
-#: modules/sga/estatisticas/view/index.php:113
+#: modules/sga/estatisticas/view/index.php:115
 msgid "Gerar relatório"
 msgstr "Generate report"
 
-#: modules/sga/estatisticas/view/index.php:134
+#: modules/sga/estatisticas/view/index.php:136
 msgid "dd/mm/yy"
 msgstr "mm/dd/yy"
 
@@ -1161,9 +1154,8 @@ msgid "Data início"
 msgstr ""
 
 #: modules/sga/monitor/view/index.php:64 modules/sga/monitor/view/index.php:98
-#, fuzzy
 msgid "Data fim"
-msgstr "End Date"
+msgstr "End date"
 
 #: modules/sga/monitor/view/index.php:122
 msgid "Reativar senha"
@@ -1354,6 +1346,10 @@ msgstr ""
 msgid "Escolher Unidade"
 msgstr ""
 
+#: core/view/LoggedView.php:51
+msgid "Sair"
+msgstr "Logout"
+
 #: core/view/LoggedView.php:55
 #, php-format
 msgid "acessando como <strong>%s</strong>"
@@ -1412,6 +1408,9 @@ msgstr "Do you really want to delete?"
 #: core/view/CrudView.php:166
 msgid "Campos obrigatórios"
 msgstr "Required fields"
+
+#~ msgid "H:i:s"
+#~ msgstr "H:i:s"
 
 #~ msgid "CSS"
 #~ msgstr "CSS"
