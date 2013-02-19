@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Novo SGA\n"
-"POT-Creation-Date: 2013-02-19 15:06-0300\n"
-"PO-Revision-Date: 2013-02-19 15:09-0300\n"
+"POT-Creation-Date: 2013-02-19 16:43-0300\n"
+"PO-Revision-Date: 2013-02-19 16:50-0300\n"
 "Last-Translator: rogeriolino\n"
 "Language-Team: rogeriolino\n"
 "Language: es_ES\n"
@@ -77,10 +77,9 @@ msgid "Perfil atualizado com sucesso"
 msgstr ""
 
 #: home/view/perfil.php:17 login/LoginController.php:22
-#: login/view/index.php:30 modules/sga/usuarios/view/edit.php:16
-#: modules/sga/usuarios/view/index.php:14
+#: login/view/index.php:30
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: home/view/perfil.php:21 install/view/step1.php:54
 #: modules/sga/prioridades/view/edit.php:10
@@ -365,9 +364,10 @@ msgstr ""
 msgid "Usuário Inválido. Por favor, tente novamente."
 msgstr ""
 
-#: login/view/index.php:16 modules/sga/admin/view/index.php:46
-msgid "Usuário"
-msgstr ""
+#: login/view/index.php:16 modules/sga/usuarios/view/edit.php:16
+#: modules/sga/usuarios/view/index.php:14
+msgid "Nome de usuário"
+msgstr "Usuario"
 
 #: login/view/index.php:20 modules/sga/admin/view/index.php:50
 #: modules/sga/usuarios/view/edit.php:58
@@ -418,7 +418,7 @@ msgstr ""
 #: modules/sga/prioridades/view/edit.php:42
 #: modules/sga/atendimento/view/index.php:144
 #: modules/sga/estatisticas/view/index.php:60
-#: modules/sga/estatisticas/view/index.php:94
+#: modules/sga/estatisticas/view/index.php:96
 #: modules/sga/servicos/view/edit.php:23 modules/sga/servicos/view/edit.php:36
 #: modules/sga/unidades/view/edit.php:22 modules/sga/unidades/view/edit.php:33
 #: modules/sga/cargos/view/edit.php:39 modules/sga/usuarios/view/edit.php:34
@@ -488,6 +488,10 @@ msgstr ""
 
 #: modules/sga/admin/view/index.php:42
 msgid "Login Attribute"
+msgstr ""
+
+#: modules/sga/admin/view/index.php:46
+msgid "Usuário"
 msgstr ""
 
 #: modules/sga/admin/view/index.php:68 modules/sga/unidade/view/index.php:31
@@ -881,18 +885,9 @@ msgstr ""
 #: modules/sga/estatisticas/view/index.php:15
 #: modules/sga/estatisticas/view/index.php:68
 #: modules/sga/estatisticas/view/index.php:72
-#: modules/sga/estatisticas/view/index.php:102
-#: modules/sga/estatisticas/view/index.php:106
+#: modules/sga/estatisticas/view/index.php:104
+#: modules/sga/estatisticas/view/index.php:108 core/view/SGAView.php:154
 msgid "d/m/Y"
-msgstr ""
-
-#: modules/sga/estatisticas/relatorios/atendimentos_status.php:28
-#: modules/sga/estatisticas/relatorios/atendimentos_status.php:29
-#: modules/sga/estatisticas/relatorios/atendimentos_status.php:30
-#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:28
-#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:29
-#: modules/sga/estatisticas/relatorios/atendimentos_concluidos.php:30
-msgid "H:i:s"
 msgstr ""
 
 #: modules/sga/estatisticas/relatorios/servicos_disponiveis_unidades.php:23
@@ -928,12 +923,12 @@ msgid "Gráfico"
 msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:67
-#: modules/sga/estatisticas/view/index.php:101
+#: modules/sga/estatisticas/view/index.php:103
 msgid "Data inicial"
 msgstr ""
 
 #: modules/sga/estatisticas/view/index.php:71
-#: modules/sga/estatisticas/view/index.php:105
+#: modules/sga/estatisticas/view/index.php:107
 msgid "Data final"
 msgstr ""
 
@@ -941,15 +936,15 @@ msgstr ""
 msgid "Gerar gráfico"
 msgstr ""
 
-#: modules/sga/estatisticas/view/index.php:92
+#: modules/sga/estatisticas/view/index.php:94
 msgid "Relatório"
 msgstr ""
 
-#: modules/sga/estatisticas/view/index.php:113
+#: modules/sga/estatisticas/view/index.php:115
 msgid "Gerar relatório"
 msgstr ""
 
-#: modules/sga/estatisticas/view/index.php:134
+#: modules/sga/estatisticas/view/index.php:136
 msgid "dd/mm/yy"
 msgstr ""
 
@@ -1350,6 +1345,10 @@ msgstr ""
 #: core/view/LoggedView.php:43
 msgid "Escolher Unidade"
 msgstr ""
+
+#: core/view/LoggedView.php:51
+msgid "Sair"
+msgstr "Salir"
 
 #: core/view/LoggedView.php:55
 #, php-format

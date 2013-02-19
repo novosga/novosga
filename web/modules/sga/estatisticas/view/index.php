@@ -85,9 +85,11 @@ use \core\contrib\Serie;
             </form>
         </div>
         <div id="tab-relatorios">
-            <form id="report-form" action="<?php echo SGA::url() ?>" method="get" target="_blank">
+            <form id="report-form" action="<?php echo SGA::url() ?>" method="get" target="_blank" onsubmit="return SGA.Estatisticas.Relatorio.gerar()">
                 <input type="hidden" name="<?php echo SGA::K_MODULE ?>" value="<?php echo SGA::getContext()->getModulo()->getChave() ?>" />
                 <input type="hidden" name="<?php echo SGA::K_PAGE ?>" value="relatorio" />
+                <input type="hidden" id="report-hidden-inicial" name="inicial" />
+                <input type="hidden" id="report-hidden-final" name="final" />
                 <div class="field required">
                     <label for="report-id"><?php SGA::out(_('Relatório')) ?></label>
                     <select id="report-id" name="relatorio">
@@ -99,11 +101,11 @@ use \core\contrib\Serie;
                 </div>
                 <div class="field required date" style="display:none">
                     <label for="report-dataInicial"><?php SGA::out(_('Data inicial')) ?></label>
-                    <input id="report-dataInicial" name="inicial" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
+                    <input id="report-dataInicial" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
                 <div class="field required date" style="display:none">
                     <label for="report-dataFinal"><?php SGA::out(_('Data final')) ?></label>
-                    <input id="report-dataFinal" name="final" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
+                    <input id="report-dataFinal" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
                 <div class="field">
                     <?php
