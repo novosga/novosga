@@ -7,7 +7,7 @@ function printModulos($builder, $modulos) {
         foreach ($modulos as $modulo) {
             $link = SGA::url(array(SGA::K_MODULE => $modulo->getChave()));
             $icon = $builder->tag('img', array('src' => $modulo->getPath() . DS . 'icon.png'));
-            $label = $icon . '<span>' . $modulo->getNome() . '</span>';
+            $label = $icon . '<span>' . _($modulo->getNome()) . '</span>';
             echo '<li>' . $builder->link(array('href' => $link, 'label' => $label)) . '</li>';
         }
         echo '</ul>';

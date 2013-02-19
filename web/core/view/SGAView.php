@@ -148,7 +148,8 @@ abstract class SGAView implements View {
             SGA.K_MODULE = '<?php SGA::out(SGA::K_MODULE) ?>'; 
             SGA.K_PAGE = '<?php SGA::out(SGA::K_PAGE) ?>'; 
             SGA.module = '<?php SGA::out(defined('MODULE') ? MODULE : '') ?>';
-            SGA.invalidSession = '<?php SGA::out(_('Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.')); ?>';
+            SGA.invalidSession = '<?php SGA::out(_(\login\LoginController::INVALID_SESSION)); ?>';
+            SGA.inactiveSession = '<?php SGA::out(_(\login\LoginController::INACTIVE_SESSION)); ?>';
             SGA.dialogs.error.title = '<?php SGA::out(_('Erro')) ?>';
         </script>
         <link rel="shortcut icon" href="images/favicon.png" />

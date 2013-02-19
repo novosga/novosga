@@ -10,7 +10,7 @@ use \core\util\DateUtil;
 <table class="ui-data-table">
     <thead>
         <tr>
-            <th><?php echo _('Senha') ?></th>
+            <th><?php echo _('Senha|Bilhete') ?></th>
             <th><?php echo _('Data') ?></th>
             <th title="<?php echo _('Hora de Chamada') ?>"><?php echo _('Chamada') ?></th>
             <th title="<?php echo _('Hora do Início do atendimento') ?>"><?php echo _('Início') ?></th>

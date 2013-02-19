@@ -11,7 +11,8 @@ class AjaxResponse {
     public $success;
     public $message;
     public $data = array();
-    public $sessionInactive = false;
+    public $invalid = false;
+    public $inactive = false;
     
     public function __construct($success = false, $message = '') {
         $this->success = $success;
@@ -31,8 +32,11 @@ class AjaxResponse {
         if (!empty($this->message)) {
             $arr['message'] = $this->message;
         }
-        if ($this->sessionInactive) {
-            $arr['sessionInactive'] = true;
+        if ($this->inactive) {
+            $arr['inactive'] = true;
+        }
+        if ($this->invalid) {
+            $arr['invalid'] = true;
         }
         return json_encode($arr);
     }

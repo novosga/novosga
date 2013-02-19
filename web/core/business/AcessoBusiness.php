@@ -77,7 +77,12 @@ abstract class AcessoBusiness {
                 if ($context->getRequest()->isAjax()) {
                     $response = new \core\http\AjaxResponse();
                     $response->success = false;
-                    $response->sessionInactive = true;
+                    // verifica se a sessão está inativa ou inválida
+                    if (!SGA::getContext()->getUser()->isAtivo()) {
+                        $response->inactive = true;
+                    } else {
+                        $response->invalid = true;
+                    }
                     $context->getResponse()->jsonResponse($response);
                 } else {
                     SGA::redirect('/' . SGA::K_LOGIN);
