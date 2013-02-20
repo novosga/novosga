@@ -8,10 +8,16 @@ namespace core\model;
  */
 class Configuracao extends Model {
     
+    const STRING  = 1;
+    const NUMERIC = 2;
+    const COMPLEX = 3;
+    
     /** @Id @Column(type="string", name="chave", length=20, nullable=false) */
     protected $chave;
     /** @Column(type="string", name="valor", length=20, nullable=false) */
     protected $valor;
+    /** @Column(type="integer", name="tipo", nullable=false) */
+    protected $tipo;
     
     // transient
     private $_valor;
@@ -31,18 +37,30 @@ class Configuracao extends Model {
 
     public function getValor() {
         if (!$this->_valor) {
-            $this->_valor = unserialize($this->valor);
+            $this->_valor = ($this->tipo == self::COMPLEX) ? unserialize($this->valor) : $this->valor;
         }
         return $this->_valor;
     }
 
     public function setValor($valor) {
         $this->_valor = $valor;
-        $this->valor = serialize($valor);
+        $this->tipo = self::tipo($valor);
+        $this->valor =($this->tipo == self::COMPLEX) ? serialize($valor) : $valor;
     }
 
     public function toString() {
         return $this->getChave() . '=' . $this->getValor();
+    }
+    
+    private static function tipo($valor) {
+        if (is_numeric($valor)) {
+            return self::NUMERIC;
+        }
+        else if (is_string($valor)) {
+            return self::STRING;
+        } else {
+            return self::COMPLEX;
+        }
     }
     
     /**
@@ -67,7 +85,8 @@ class Configuracao extends Model {
         $em = \core\db\DB::getEntityManager();
         $query = $em->createQuery("UPDATE \core\model\Configuracao e SET e.valor = :value WHERE e.chave = :key");
         $query->setParameter('key', $key);
-        $query->setParameter('value', serialize($value));
+        $v = (self::tipo($value) == self::COMPLEX) ? serialize($value) : $value;
+        $query->setParameter('value', $v);
         // se não afetou nenhum registro, cria a configuração
         if (!$query->execute()) {
             $config = new Configuracao($key, $value);

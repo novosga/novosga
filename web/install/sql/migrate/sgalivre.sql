@@ -35,7 +35,8 @@ INSERT INTO cargos_mod_perm (id_cargo, id_mod, permissao) VALUES (1, (SELECT id_
 -- config
 CREATE TABLE config (
     chave varchar(150) NOT NULL,
-    valor TEXT,
+    valor TEXT NOT NULL,
+    tipo integer NOT NULL,
     PRIMARY KEY (chave)
 );
 

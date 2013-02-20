@@ -70,7 +70,8 @@ CREATE TABLE grupos_aninhados (
 
 CREATE TABLE config (
     chave varchar(150) NOT NULL,
-    valor TEXT
+    valor TEXT NOT NULL,
+    tipo integer NOT NULL
 );
 
 CREATE TABLE historico_atend_codif (
