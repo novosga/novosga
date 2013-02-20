@@ -74,7 +74,8 @@ GO
 /* Object:  Table [dbo].[config] */
 CREATE TABLE [dbo].[config](
 	[chave] [varchar](150) NOT NULL,
-	[valor] [text] NOT NULL
+	[valor] [text] NOT NULL,
+        [tipo] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
