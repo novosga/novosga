@@ -67,7 +67,8 @@ CREATE TABLE grupos_aninhados (
 
 CREATE TABLE config (
     chave varchar(150) NOT NULL,
-    valor TEXT,
+    valor TEXT NOT NULL,
+    tipo integer NOT NULL,
     PRIMARY KEY (chave)
 ) ENGINE = INNODB;
 
