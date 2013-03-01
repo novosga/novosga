@@ -7,7 +7,7 @@ function printModulos($builder, $modulos) {
         foreach ($modulos as $modulo) {
             $link = SGA::url(array(SGA::K_MODULE => $modulo->getChave()));
             $icon = $builder->tag('img', array('src' => $modulo->getPath() . DS . 'icon.png'));
-            $label = $icon . '<span>' . _($modulo->getNome()) . '</span>';
+            $label = $icon . '<span class="name">' . _($modulo->getNome()) . '</span>';
             echo '<li>' . $builder->link(array('href' => $link, 'label' => $label)) . '</li>';
         }
         echo '</ul>';
@@ -20,6 +20,9 @@ function printModulos($builder, $modulos) {
         <p><?php SGA::out(_('Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código aberto e gratuito.')) ?></p>
     </div>
     <div id="modules">
+        <div id="modules-search" style="position: absolute; top: 100px; right: 50px">
+            <input id="search-input" type="text" placeholder="<?php echo _('buscar') ?>" onkeyup="SGA.Home.filter()"  />
+        </div>
         <?php if ($unidade && $modulosUnidade): ?>
         <div class="list unidade">
             <h2><?php SGA::out(_('Unidade')) ?></h2>
