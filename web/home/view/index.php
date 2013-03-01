@@ -20,8 +20,9 @@ function printModulos($builder, $modulos) {
         <p><?php SGA::out(_('Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código aberto e gratuito.')) ?></p>
     </div>
     <div id="modules">
-        <div id="modules-search" style="position: absolute; top: 100px; right: 50px">
+        <div id="modules-search">
             <input id="search-input" type="text" placeholder="<?php echo _('buscar') ?>" onkeyup="SGA.Home.filter()"  />
+            <script type="text/javascript"> document.getElementById('search-input').focus() </script>
         </div>
         <?php if ($unidade && $modulosUnidade): ?>
         <div class="list unidade">
