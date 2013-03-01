@@ -131,6 +131,12 @@
     padding: 5px 0;
 }
 
+#home #modules-search {
+    top: 100px; 
+    right: 50px;
+    position: absolute; 
+}
+
 #home #modules .list {
     padding-bottom: 10px;
     clear: both;
