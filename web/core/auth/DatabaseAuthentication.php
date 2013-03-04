@@ -33,4 +33,8 @@ class DatabaseAuthentication extends Authentication {
         return false;
     }
     
+    public function test() {
+        return true;
+    }
+    
 }

@@ -6,7 +6,7 @@ var SGA = SGA || {};
 
 SGA.Admin = {
     
-    Autenticacao: {
+    Auth: {
         init: function() {
             $('#auth_type').on('change', function() {
                 var value = $(this).val();
@@ -14,18 +14,22 @@ SGA.Admin = {
                 $('#auth-' + value).show();
             });
         },
-        save: function() {
+        values: function() {
             var data = {type: $('#auth_type').val()};
+            $('#auth-' + data.type + ' input').each(function(i,e) {
+                var input = $(e);
+                data[input.prop('name')] = input.val();
+            });
+            return data;
+        },
+        save: function() {
+            var data = SGA.Admin.Auth.values();
             if (SGA.Form.checkRequireds('#auth-' + data.type)) {
-                $('#auth-' + data.type + ' input').each(function(i,e) {
-                    var input = $(e);
-                    data[input.prop('name')] = input.val();
-                });
                 SGA.ajax({
                     url: SGA.url('auth_save'),
                     data: data,
+                    type: 'post',
                     success: function(response) {
-
                     }
                 });
             }

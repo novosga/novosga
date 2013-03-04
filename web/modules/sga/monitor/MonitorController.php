@@ -148,7 +148,6 @@ class MonitorController extends ModuleController {
                         id_atend = :id AND 
                         id_uni = :unidade AND
                         dt_fim IS NULL
-                        
                 ");
                 $stmt->bindValue('servico', $servico);
                 $stmt->bindValue('prioridade', $prioridade);

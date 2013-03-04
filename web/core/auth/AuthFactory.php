@@ -14,12 +14,24 @@ class AuthFactory {
         $config = ($config) ? $config : array();
         $type = Arrays::value($config, 'type');
         $config = Arrays::value($config, $type, array());
-        $methods = array(new DatabaseAuthentication($config));
         switch ($type) {
         case 'ldap':
-            array_unshift($methods, new LdapAuthentication($config));
+            return new LdapAuthentication($config);
             break;
+        case 'db':
+            return new DatabaseAuthentication($config);
+        default:
+            null;
         }
+    }
+    
+    public static function createList(array $config = null) {
+        $methods = array();
+        $auth = self::create($config);
+        if ($auth) {
+            $methods[] = $auth;
+        }
+        $methods[] = new DatabaseAuthentication($config);
         return $methods;
     }
     

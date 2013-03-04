@@ -425,6 +425,10 @@ div.field {
     border-bottom: 1px solid #f1f1f1;
 }
 
+div.field span.message.info {
+    color: #999999;
+}
+
 .required-desc,
 div.required label {
     background-image: url(../images/icon-required.png);

@@ -53,11 +53,14 @@ class SGA {
     public static function auth($login, $pass) {
         $config = \core\model\Configuracao::get(\core\auth\Authentication::KEY);
         $auth = ($config) ? $config->getValor() : array();
-        $authMethods = \core\auth\AuthFactory::create($auth);
+        $authMethods = \core\auth\AuthFactory::createList($auth);
         foreach ($authMethods as $auth) {
-            $user = $auth->auth($login, $pass);
-            if ($user) {
-                return $user;
+            try {
+                $user = $auth->auth($login, $pass);
+                if ($user) {
+                    return $user;
+                }
+            } catch (\Exception $e) {
             }
         }
         return false;
