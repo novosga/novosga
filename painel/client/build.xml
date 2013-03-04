@@ -35,25 +35,28 @@
         jar
     -->
     <target name="jar" depends="compile" description="Cria o arquivo jar">
-        <copy todir="${build.classes}/br/gov/dataprev/painel/imagens/">
-            <fileset dir="${src}/br/gov/dataprev/painel/imagens/">
-                <include name="*.png" />
-            </fileset>
-        </copy>
         <copy todir="${build.dist}">
             <fileset dir="${dist-files}" />
         </copy>
         <replace file="${build.dist}/painel.bat" token="{distname}" value="${distname}" />
         <replace file="${build.dist}/painel.sh" token="{distname}" value="${distname}" />
-        <copy todir="${build.classes}/br/gov/dataprev/userinterface/fonts/">
-            <fileset dir="${src}/br/gov/dataprev/userinterface/fonts/">
+        <!-- copying resources -->
+        <property name="fonts.dir" value="org/novosga/painel/client/fonts" />
+        <property name="ui.dir" value="org/novosga/painel/client/ui" />
+        <copy todir="${build.classes}/${fonts.dir}">
+            <fileset dir="${src}/${fonts.dir}">
                 <include name="*.ttf" />
+            </fileset>
+        </copy>
+        <copy todir="${build.classes}/${ui.dir}">
+            <fileset dir="${src}/${ui.dir}">
+                <include name="*.(png|fxml)" />
             </fileset>
         </copy>
         <jar destfile="${build.dist}/${distname}.jar">
             <fileset dir="${build.classes}" />
             <manifest>
-                <attribute name="Main-Class" value="br.gov.dataprev.exec.Painel" />
+                <attribute name="Main-Class" value="org.novosga.painel.Main" />
             </manifest>
         </jar>
         <copy todir="${build.dist}">
