@@ -18,4 +18,6 @@ abstract class Authentication {
     
     public abstract function auth($username, $password);
     
+    public abstract function test();
+    
 }

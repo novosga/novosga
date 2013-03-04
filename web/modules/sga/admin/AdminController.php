@@ -36,7 +36,8 @@ class AdminController extends ModuleController {
                     'baseDn' => '',
                     'loginAttribute' => '',
                     'username' => '',
-                    'password' => ''
+                    'password' => '',
+                    'filter' => '',
                 )
             );
             Configuracao::set(Authentication::KEY, $auth);
@@ -57,9 +58,14 @@ class AdminController extends ModuleController {
             if (!isset($value[$type])) {
                 $value[$type] = array();
             }
-            foreach ($value[$type] as $k => $v) {
-                $value[$type][$k] = $context->getRequest()->getParameter($k);
+            foreach ($_POST as $k => $v) {
+                $value[$type][$k] = $v;
             }
+            $auth = \core\auth\AuthFactory::create($value);
+            if (!$auth) {
+                throw new \Exception(_('Opção inválida'));
+            }
+            $auth->test();
             Configuracao::set(Authentication::KEY, $value);
             $response->success = true;
         } catch (\Exception $e) {

@@ -59,3 +59,14 @@
     padding: 10px 0 20px 20px;
     clear: both;
 }
+
+.auth-type {
+    position: relative;
+}
+
+.auth-type #auth-test {
+    left: 320px;
+    top: 0;
+    position: absolute;
+}
+
