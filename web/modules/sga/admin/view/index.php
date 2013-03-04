@@ -12,7 +12,7 @@ use \core\util\Arrays;
         <div id="tab-geral">
             <fieldset>
                 <legend><?php echo _('Autenticação') ?></legend>
-                <div class="field">
+                <div class="field auth-type">
                     <label for="auth_type" class="w150"><?php echo _('Tipo') ?></label>
                     <?php
                         echo $builder->select(array(
@@ -37,10 +37,12 @@ use \core\util\Arrays;
                     <div class="field required">
                         <label for="auth_ldap_host" class="w150"><?php echo _('Base DN') ?></label>
                         <input id="auth_ldap_baseDn" name="baseDn" class="w300" type="text" value="<?php echo Arrays::value($auth['ldap'], 'baseDn') ?>" />
+                        <span class="message info">ex: DC=novosga,DC=org</span>
                     </div>
                     <div class="field required">
                         <label for="auth_ldap_loginAttribute" class="w150"><?php echo _('Login Attribute') ?></label>
                         <input id="auth_ldap_loginAttribute" name="loginAttribute" class="w150" type="text" value="<?php echo Arrays::value($auth['ldap'], 'loginAttribute') ?>" />
+                        <span class="message info">ex: sAMAccountName</span>
                     </div>
                     <div class="field">
                         <label for="auth_ldap_user" class="w150"><?php echo _('Usuário') ?></label>
@@ -50,6 +52,11 @@ use \core\util\Arrays;
                         <label for="auth_ldap_pass" class="w150"><?php echo _('Senha') ?></label>
                         <input id="auth_ldap_pass" name="password" class="w150" type="password" value="<?php echo Arrays::value($auth['ldap'], 'password') ?>" />
                     </div>
+                    <div class="field">
+                        <label for="auth_ldap_filter" class="w150"><?php echo _('Filtro') ?></label>
+                        <input id="auth_ldap_filter" name="filter" class="w300" type="text" value="<?php echo Arrays::value($auth['ldap'], 'filter') ?>" />
+                        <span class="message info">ex: objectClass=user</span>
+                    </div>
                 </div>
                 <div class="buttons">
                     <?php
@@ -57,7 +64,7 @@ use \core\util\Arrays;
                             'id' => 'auth_save',
                             'class' => 'ui-button-primary',
                             'label' => _('Salvar'),
-                            'onclick' => 'SGA.Admin.Autenticacao.save()'
+                            'onclick' => 'SGA.Admin.Auth.save()'
                         ));
                     ?>
                 </div>
@@ -105,7 +112,7 @@ use \core\util\Arrays;
     </div>
     <script type="text/javascript"> 
         $('#tabs').tabs(); 
-        SGA.Admin.Autenticacao.init();
+        SGA.Admin.Auth.init();
     </script>
 </div>
 <div id="dialog-reiniciar" title="<?php SGA::out(_('Configuração')) ?>" style="display:none">
