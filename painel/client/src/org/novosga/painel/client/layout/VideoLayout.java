@@ -69,9 +69,7 @@ public class VideoLayout extends ScreensaverLayout {
     @Override
     public void destroy() {
         if (mediaPlayer != null) {
-            mediaPlayer.stop();
-            mediaPlayer = null;
-            mediaView = null;
+            mediaPlayer.pause();
         }
     }
     
@@ -129,16 +127,20 @@ public class VideoLayout extends ScreensaverLayout {
     }
     
     private MediaView createMedia(String url) {
-        mediaPlayer = new MediaPlayer(new Media(url));
-        mediaPlayer.setAutoPlay(false);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.setOnReady(new Runnable() {
-            @Override
-            public void run() {
-                mediaPlayer.play();
-            }
-        });
-        mediaView = new MediaView(mediaPlayer);
+        if (mediaPlayer == null) {
+            mediaPlayer = new MediaPlayer(new Media(url));
+            mediaPlayer.setAutoPlay(false);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+            mediaPlayer.setOnReady(new Runnable() {
+                @Override
+                public void run() {
+                    mediaPlayer.play();
+                }
+            });
+            mediaView = new MediaView(mediaPlayer);
+        } else {
+            mediaPlayer.play();
+        }
         mediaView.setFitWidth(painel.getDisplay().getWidth());
         return mediaView;
     }
