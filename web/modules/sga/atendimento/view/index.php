@@ -46,7 +46,7 @@ $guiche = $context->getUser()->getGuiche();
     </form>
     <script type="text/javascript">
         $('#guiche_form').on('submit', function() {
-            var numero = parseInt($('#numero_guiche').val().trim());
+            var numero = parseInt($('#numero_guiche').val());
             if (isNaN(numero) || numero <= 0) {
                 $('#numero_guiche').val('');
                 return false;

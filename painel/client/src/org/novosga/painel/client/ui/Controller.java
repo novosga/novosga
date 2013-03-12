@@ -58,6 +58,8 @@ public class Controller implements Initializable {
     @FXML
     private CheckBox vocalizar;
     @FXML
+    private ComboBox language;
+    @FXML
     private ComboBox videoId;
     @FXML
     private ComboBox screenSaverTimeout;
@@ -164,9 +166,9 @@ public class Controller implements Initializable {
                 ComboBox cb = (ComboBox) t.getTarget();
                 cb.getSelectionModel().selectedItemProperty();
                 ComboboxItem item = (ComboboxItem) cb.getSelectionModel().selectedItemProperty().getValue();
-                if (item != null && item.getKey() > 0) {
-                    unidadeAtual = item.getKey();
-                    updateServicos(main.getService().buscarServicos(item.getKey()));
+                if (item != null && Integer.parseInt(item.getKey()) > 0) {
+                    unidadeAtual = Integer.parseInt(item.getKey());
+                    updateServicos(main.getService().buscarServicos(unidadeAtual));
                 }
                 loading.setVisible(false);
             }
@@ -211,6 +213,7 @@ public class Controller implements Initializable {
                     config.get(PainelConfig.KEY_UNIDADE, Integer.class).setValue(unidadeAtual);
                     config.get(PainelConfig.KEY_SERVICOS, Integer[].class).setValue(idServicos.toArray(new Integer[0]));
                     // som e tema
+                    config.get(PainelConfig.KEY_LANGUAGE).setValue(((ComboboxItem) language.getSelectionModel().getSelectedItem()).getKey());
                     config.get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).setValue(vocalizar.isSelected());
                     config.get(PainelConfig.KEY_COR_FUNDO).setValue(colorToHex(corFundo.getValue()));
                     config.get(PainelConfig.KEY_COR_MENSAGEM).setValue(colorToHex(corMensagem.getValue()));
@@ -223,6 +226,29 @@ public class Controller implements Initializable {
                     e.printStackTrace();
                 }
                 loading.setVisible(false);
+            }
+        });
+        // language
+        language.setItems(FXCollections.observableList(new ArrayList<ComboboxItem>()));
+        language.getItems().addAll(
+                new ComboboxItem("en", "English"), 
+                new ComboboxItem("es", "Español"), 
+                new ComboboxItem("pt", "Português")
+        );
+        String defaultLang = main.getConfig().get(PainelConfig.KEY_LANGUAGE).getValue();
+        for (Object item : language.getItems()) {
+            if (defaultLang.equals(((ComboboxItem) item).getKey())) {
+                language.getSelectionModel().select(item);
+                break;
+            }
+        }
+        language.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event t) {
+                ComboBox cb = (ComboBox) t.getTarget();
+                cb.getSelectionModel().selectedItemProperty();
+                ComboboxItem item = (ComboboxItem) cb.getSelectionModel().selectedItemProperty().getValue();
+                main.getConfig().get(PainelConfig.KEY_LANGUAGE).setValue(item.getKey());
             }
         });
         // video
@@ -244,8 +270,9 @@ public class Controller implements Initializable {
                 ComboBox cb = (ComboBox) t.getTarget();
                 cb.getSelectionModel().selectedItemProperty();
                 ComboboxItem item = (ComboboxItem) cb.getSelectionModel().selectedItemProperty().getValue();
-                if (item.getKey() >= 0 && item.getKey() < Screen.getScreens().size()) {
-                    main.getConfig().get(PainelConfig.KEY_VIDEO_ID, Integer.class).setValue(item.getKey());
+                Integer key = Integer.parseInt(item.getKey());
+                if (key >= 0 && key < Screen.getScreens().size()) {
+                    main.getConfig().get(PainelConfig.KEY_VIDEO_ID, Integer.class).setValue(key);
                 }
             }
         });
@@ -265,8 +292,9 @@ public class Controller implements Initializable {
                 ComboBox cb = (ComboBox) t.getTarget();
                 cb.getSelectionModel().selectedItemProperty();
                 ComboboxItem item = (ComboboxItem) cb.getSelectionModel().selectedItemProperty().getValue();
-                if (item.getKey() > 0 && item.getKey() <= 10) {
-                    main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).setValue(item.getKey());
+                Integer key = Integer.parseInt(item.getKey());
+                if (key > 0 && key <= 10) {
+                    main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).setValue(key);
                 }
             }
         });

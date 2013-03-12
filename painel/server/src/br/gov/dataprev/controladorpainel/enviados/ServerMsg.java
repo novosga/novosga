@@ -25,7 +25,7 @@
  */
 package br.gov.dataprev.controladorpainel.enviados;
 
-import br.gov.dataprev.controladorpainel.ControladorPainel;
+import org.novosga.painel.server.Main;
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -53,7 +53,7 @@ public abstract class ServerMsg extends NetMsg {
      */
     public ServerMsg(InetSocketAddress address) {
         super(address);
-        _server = ControladorPainel.getServer();
+        _server = Main.getServer();
     }
 
     public ServerMsg(Painel p) {

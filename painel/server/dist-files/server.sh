@@ -4,5 +4,5 @@
 # @author rogeriolino <rogeriolino.com>
 #
 
-java -jar {distname}.jar -Xmx256m -cp lib/* &
+java -Xmx256m -cp lib/*:{distname}.jar org.novosga.painel.server.Main &
 echo $! > pid.txt
