@@ -4,12 +4,14 @@ import org.novosga.painel.model.Senha;
 import java.io.File;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import org.novosga.painel.client.PainelFx;
@@ -22,7 +24,7 @@ import org.novosga.painel.client.fonts.FontLoader;
  */
 public class VideoLayout extends ScreensaverLayout {
     
-    private BorderPane root;
+    private StackPane root;
     private MediaView mediaView;
     private MediaPlayer mediaPlayer;
     private Label ultimasSenhas;
@@ -35,13 +37,18 @@ public class VideoLayout extends ScreensaverLayout {
     
     @Override
     public Pane create() {
-        root = new BorderPane();
+        root = new StackPane();
+        root.setAlignment(Pos.CENTER);
+        AnchorPane content = new AnchorPane();
         File file = new File("media/video/promo1.mp4");
         if (file.exists()) {
             String url = file.toURI().toString();
-            root.setTop(createMedia(url));
+            root.getChildren().add(createMedia(url));
         } else {
-            root.setTop(new Label("Media not found"));
+            Label error = new Label("Media not found");
+            error.setFont(Font.font(FontLoader.DROID_SANS, 18));
+            error.setStyle("-fx-text-fill: #fff");
+            root.getChildren().add(error);
         }
         bottomBox = new VBox();
         bottomBox.setAlignment(Pos.CENTER_LEFT);
@@ -51,15 +58,21 @@ public class VideoLayout extends ScreensaverLayout {
         senhas = new Label("-");
         senhas.setAlignment(Pos.CENTER_LEFT);
         bottomBox.getChildren().add(senhas);
-        root.setBottom(bottomBox);
+        
+        content.getChildren().add(bottomBox);
+        AnchorPane.setBottomAnchor(bottomBox, 0.0);
+        AnchorPane.setLeftAnchor(bottomBox, 0.0);
+        root.getChildren().add(content);
         return root;
     }
     
     @Override
     public void destroy() {
-        mediaPlayer.stop();
-        mediaPlayer = null;
-        mediaView = null;
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer = null;
+            mediaView = null;
+        }
     }
     
     @Override
@@ -83,33 +96,36 @@ public class VideoLayout extends ScreensaverLayout {
         int fontSize2 = (int) (bottomHeight * .7);
         ultimasSenhas.setFont(Font.font(FontLoader.DROID_SANS, fontSize));
         ultimasSenhas.setPrefHeight(fontSize);
+        ultimasSenhas.setPrefWidth(painel.getDisplay().getWidth());
+        ultimasSenhas.setAlignment(Pos.CENTER_LEFT);
         senhas.setFont(Font.font(FontLoader.BITSTREAM_VERA_SANS, FontWeight.BOLD, fontSize2));
         senhas.setPrefHeight(fontSize2);
         senhas.setPrefWidth(painel.getDisplay().getWidth());
+        senhas.setAlignment(Pos.CENTER_LEFT);
     }
     
     @Override
     public void applyTheme() {
-        String bg = configColor(PainelConfig.KEY_COR_FUNDO);
-        root.setStyle("-fx-background-color: " + bg);
-        senhas.setStyle(labelStyle(configColor(PainelConfig.KEY_COR_SENHA), bg, 10, 10, 0, 10));
-        ultimasSenhas.setStyle(labelStyle(configColor(PainelConfig.KEY_COR_MENSAGEM), bg, 10));
+        root.setStyle("-fx-background-color: #000");
+        bottomBox.setStyle("-fx-background-color: rgba(0,0,0,.5)");
+        senhas.setStyle(labelStyle(color(PainelConfig.KEY_COR_SENHA), 6, 5, 1, 5));
+        ultimasSenhas.setStyle(labelStyle(color(PainelConfig.KEY_COR_MENSAGEM), 1, 5, 5, 5));
     }
     
-    private String labelStyle(String color, String bgColor, int padding) {
-        return labelStyle(color, bgColor, padding, padding);
-    }
-    
-    private String labelStyle(String color, String bgColor, int padV, int padH) {
-        return labelStyle(color, bgColor, padV, padH, padV, padH);
-    }
-    
-    private String labelStyle(String color, String bgColor, int padTop, int padRight, int padBottom, int padLeft) {
+    private String labelStyle(Color color, int padTop, int padRight, int padBottom, int padLeft) {
+        String fill = colorToRgba(color, 1);
         padTop = (int) painel.getDisplay().height(padTop);
         padBottom = (int) painel.getDisplay().height(padBottom);
         padRight = (int) painel.getDisplay().width(padRight);
         padLeft = (int) painel.getDisplay().width(padLeft);
-        return "-fx-text-fill: " + color + "; -fx-background-color: " + bgColor + "; -fx-padding: " + padTop + "px " + padRight + "px" + padBottom + "px" + padLeft + "px";
+        return "-fx-text-fill: " + fill + "; -fx-padding: " + padTop + "px " + padRight + "px " + padBottom + "px " + padLeft + "px;";
+    }
+    
+    private String colorToRgba(Color color, double alpha) {
+        int r = (int) (color.getRed() * 255);
+        int g = (int) (color.getGreen() * 255);
+        int b = (int) (color.getBlue() * 255);
+        return "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
     }
     
     private MediaView createMedia(String url) {

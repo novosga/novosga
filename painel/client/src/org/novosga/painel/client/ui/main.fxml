@@ -93,11 +93,20 @@
                   <children>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
-                        <CheckBox fx:id="vocalizar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="270.0" text="Vocalizar Senha">
+                        <CheckBox fx:id="vocalizar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Vocalizar Senha">
                           <HBox.margin>
                             <Insets fx:id="x3" />
                           </HBox.margin>
                         </CheckBox>
+                        <ComboBox fx:id="language" minHeight="25.0" prefHeight="25.0" prefWidth="150.0">
+                          <items>
+                            <FXCollections fx:factory="observableArrayList">
+                              <String fx:value="Item 1" />
+                              <String fx:value="Item 2" />
+                              <String fx:value="Item 3" />
+                            </FXCollections>
+                          </items>
+                        </ComboBox>
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -140,7 +149,7 @@
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
                         <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="Cor de Fundo" />
-                        <ColorPicker fx:id="corFundo" prefWidth="150.0" />
+                        <ColorPicker fx:id="corFundo" minHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -149,7 +158,7 @@
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
                         <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="Cor da Mensagem" />
-                        <ColorPicker fx:id="corMensagem" prefWidth="150.0" />
+                        <ColorPicker fx:id="corMensagem" minHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -158,7 +167,7 @@
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
                         <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="Cor da Senha" />
-                        <ColorPicker fx:id="corSenha" prefWidth="150.0" />
+                        <ColorPicker fx:id="corSenha" minHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -167,7 +176,7 @@
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
                         <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="Cor do Guichê" />
-                        <ColorPicker fx:id="corGuiche" prefWidth="150.0" />
+                        <ColorPicker fx:id="corGuiche" minHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
