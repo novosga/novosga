@@ -11,6 +11,7 @@ import org.novosga.painel.client.Main;
  */
 public class PainelConfig extends AppConfig {
 
+    public static final String KEY_LANGUAGE = "Language";
     public static final String KEY_TIMEOUT_UDP = "UnidadeId";
     public static final String KEY_UNIDADE = "UnidadeId";
     public static final String KEY_SERVICOS = "Servicos";
@@ -30,6 +31,7 @@ public class PainelConfig extends AppConfig {
     private List<ConfigParameter> parameters;
     {
         parameters = new ArrayList<ConfigParameter>();
+        parameters.add(new ConfigParameter<String>(KEY_LANGUAGE, "pt"));
         parameters.add(new ConfigParameter<Integer>(KEY_UNIDADE, 0));
         parameters.add(new ConfigParameter<Integer[]>(KEY_SERVICOS, new Integer[]{0}));
         parameters.add(new ConfigParameter<String>(KEY_SERVER, ""));

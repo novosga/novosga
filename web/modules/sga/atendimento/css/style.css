@@ -19,6 +19,7 @@
 }
 
 #atendimento {
+    position: relative;
 }
 
 /* guiche */
@@ -30,7 +31,7 @@
     height: 150px;
     background-color: #F8CA00;
     border-bottom: 3px solid #333;
-    position: relative;
+    position: absolute;
     float: left;
 }
 
@@ -42,13 +43,15 @@
 }
 
 #atendimento #guiche .label {
-    padding-top: 15px;
-    padding-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    line-height: 14px;
 }
 
 #atendimento #guiche .numero {
     font-size: 80px;
-    padding: 10px 0;
+    line-height: 80px;
+    padding: 5px 0;
 }
 
 #atendimento #guiche a {
@@ -66,7 +69,7 @@
 /* controls */
 
 #atendimento #controls {
-    height: 300px;
+    min-height: 300px;
     padding-left: 160px;
 }
 

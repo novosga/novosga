@@ -23,8 +23,12 @@
  *
  *
  */
-package br.gov.dataprev.controladorpainel;
+package org.novosga.painel.server;
 
+import br.gov.dataprev.controladorpainel.ConfigManager;
+import br.gov.dataprev.controladorpainel.GerenciadorPaineis;
+import br.gov.dataprev.controladorpainel.ProcessadorSenhas;
+import br.gov.dataprev.controladorpainel.SQLConnectionPool;
 import br.gov.dataprev.controladorpainel.server.PacketServer;
 import br.gov.dataprev.controladorpainel.server.PacketServerFactory;
 import java.io.FileInputStream;
@@ -40,10 +44,10 @@ import java.util.logging.Logger;
  * @author Ulysses Rangel Ribeiro (Dataprev - URES)
  *
  */
-public class ControladorPainel {
+public class Main {
 
     private static final String FILENAME = "logging.properties";
-    public static final Logger LOG = Logger.getLogger(ControladorPainel.class.getName());
+    public static final Logger LOG = Logger.getLogger(Main.class.getName());
     
     private static PacketServer _server;
 

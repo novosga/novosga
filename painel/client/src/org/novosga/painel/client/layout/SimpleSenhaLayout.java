@@ -8,7 +8,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-import org.novosga.painel.client.Main;
 import org.novosga.painel.client.PainelFx;
 import org.novosga.painel.client.config.PainelConfig;
 import org.novosga.painel.client.fonts.FontLoader;
@@ -65,11 +64,11 @@ public class SimpleSenhaLayout extends SenhaLayout {
 
     @Override
     public void applyTheme() {
-        root.setStyle("-fx-background-color: " + configColor(PainelConfig.KEY_COR_FUNDO));
-        mensagem.setStyle("-fx-text-fill: " + configColor(PainelConfig.KEY_COR_MENSAGEM));
-        senha.setStyle("-fx-text-fill: " + configColor(PainelConfig.KEY_COR_SENHA));
-        guiche.setStyle("-fx-text-fill: " + configColor(PainelConfig.KEY_COR_GUICHE));
-        numeroGuiche.setStyle("-fx-text-fill: " + configColor(PainelConfig.KEY_COR_GUICHE));
+        root.setStyle("-fx-background-color: " + colorHex(PainelConfig.KEY_COR_FUNDO));
+        mensagem.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_MENSAGEM));
+        senha.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_SENHA));
+        guiche.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_GUICHE));
+        numeroGuiche.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_GUICHE));
     }
 
     private SimpleSenhaLayout updateMensagem() {

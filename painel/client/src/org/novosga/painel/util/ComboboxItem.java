@@ -6,19 +6,23 @@ package org.novosga.painel.util;
  */
 public class ComboboxItem {
     
-    private Integer key;
+    private String key;
     private String label;
 
-    public ComboboxItem(Integer key, String label) {
+    public ComboboxItem(String key, String label) {
         this.key = key;
         this.label = label;
     }
+
+    public ComboboxItem(Integer key, String label) {
+        this(key + "", label);
+    }
     
-    public Integer getKey() {
+    public String getKey() {
         return key;
     }
 
-    public void setKey(Integer key) {
+    public void setKey(String key) {
         this.key = key;
     }
 

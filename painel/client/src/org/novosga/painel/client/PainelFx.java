@@ -174,16 +174,17 @@ public class PainelFx extends Application {
         player.play(config.get(PainelConfig.KEY_SOUND_ALERT).getValue());
         if (config.get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue()) {
             try {
-                player.getVocalizador().vocalizar("senha", true);
-                player.getVocalizador().vocalizar(String.valueOf(senha.getSigla()), true);
+                String lang = config.get(PainelConfig.KEY_LANGUAGE).getValue();
+                player.getVocalizador().vocalizar("senha", lang, true);
+                player.getVocalizador().vocalizar(String.valueOf(senha.getSigla()), lang, true);
                 String numero = String.valueOf(senha.getNumero());
                 for (int i = 0; i < numero.length(); i++) {
-                    player.getVocalizador().vocalizar(String.valueOf(numero.charAt(i)), true);
+                    player.getVocalizador().vocalizar(String.valueOf(numero.charAt(i)), lang, true);
                 }
-                player.getVocalizador().vocalizar("guiche", true);
+                player.getVocalizador().vocalizar("guiche", lang, true);
                 numero = String.valueOf(senha.getNumeroGuiche());
                 for (int i = 0; i < numero.length(); i++) {
-                    player.getVocalizador().vocalizar(String.valueOf(numero.charAt(i)), true);
+                    player.getVocalizador().vocalizar(String.valueOf(numero.charAt(i)), lang, true);
                 }
             } catch (Exception e1) {
                 LOG.log(Level.SEVERE, "Erro durante vocalização de senha", e1);

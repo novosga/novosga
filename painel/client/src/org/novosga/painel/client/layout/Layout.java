@@ -1,6 +1,7 @@
 package org.novosga.painel.client.layout;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import org.novosga.painel.client.PainelFx;
 
 /**
@@ -15,7 +16,11 @@ public abstract class Layout {
         this.painel = painel;
     }
     
-    public String configColor(String key) {
+    public Color color(String key) {
+        return Color.web(painel.getMain().getConfig().get(key).getValue());
+    }
+    
+    public String colorHex(String key) {
         return painel.getMain().getConfig().get(key).getValue();
     }
     
