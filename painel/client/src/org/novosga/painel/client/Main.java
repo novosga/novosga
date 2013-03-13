@@ -4,13 +4,17 @@ import org.novosga.painel.client.config.PainelConfig;
 import org.novosga.painel.model.Senha;
 import org.novosga.painel.client.ui.SysTray;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 import org.novosga.painel.client.fonts.FontLoader;
 import org.novosga.painel.client.ui.Controller;
 import org.novosga.painel.client.network.PacketListener;
@@ -24,6 +28,14 @@ import org.novosga.painel.event.SenhaEvent;
 public class Main extends Application {
     
     private static final Logger LOG = Logger.getLogger(Main.class.getName());
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("org.novosga.painel.i18n.messages", Locale.getDefault());
+    public static final Map<String,String> locales = new HashMap<String,String>();
+    {
+        locales.put("en", "English");
+        locales.put("es", "Español");
+        locales.put("pt", "Português");
+    }
+    
     public static final String DEFAULT_PROTOCOL = "UDP";
     public static final int DEFAULT_RECEIVE_PORT = 8888;
     public static final int DEFAULT_SEND_PORT = 9999;
@@ -44,7 +56,7 @@ public class Main extends Application {
             LogManager.getLogManager().readConfiguration(Main.class.getResourceAsStream("logger.properties"));
         } catch (Exception e) {
             // Nunca deve acontecer, ja que o arquivo logger.properties deve estar dentro do proprio .jar
-            LOG.log(Level.SEVERE, "Falha carregando configurações do logger, utilizando configurações default.", e);
+            LOG.log(Level.SEVERE, _("erro_carregando_log"), e);
         }
         
         // Carrega a configuracao do painel
@@ -52,12 +64,7 @@ public class Main extends Application {
         try {
             config.load();
             configOk = true;
-        } catch (FileNotFoundException e) {
-            final String message = "Configuração do painel não encontrada.\nÉ necessário efetuar a configuração do Painel antes de iniciar seu uso.";
-            LOG.log(Level.SEVERE, message, e);
         } catch (Exception e) {
-            final String message = "Ocorreu um erro carregando as configurações do Painel, verifique se o arquivo de configuração não está em uso e suas permissões.";
-            LOG.log(Level.SEVERE, message, e);
         }
         
         FontLoader.registerAll();
@@ -86,7 +93,7 @@ public class Main extends Application {
             listener.inicia();
             
             service = new PainelService(this);
-            controller = new Controller(this);
+            controller = new Controller(this, bundle);
             controller.getStage().initOwner(stage);
             try {
                 service.registerAndLoad(new Runnable() {
@@ -100,7 +107,6 @@ public class Main extends Application {
                 controller.update();
             }
             
-            
             if (configOk) {
                 painel.show();
             } else {
@@ -109,12 +115,19 @@ public class Main extends Application {
             try {
                 // Adiciona o painel na banjeida do sistema
                 new SysTray(this);
-            } catch (final Exception e) {
+            } catch (Exception e) {
                 LOG.log(Level.SEVERE, e.getMessage(), e);
             }
-        } catch (final Exception e) {
+        } catch (Exception e) {
             LOG.log(Level.SEVERE, e.getMessage(), e);
-            System.exit(1);
+            final String message = e.getMessage();
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    JOptionPane.showMessageDialog(null, message, _("erro"), JOptionPane.ERROR_MESSAGE);
+                    System.exit(1);
+                }
+            });
         }
     }
 
@@ -174,6 +187,14 @@ public class Main extends Application {
             throw new RuntimeException("The working directory could not be created: " + workingDirectory);
         }
         return workingDirectory;
+    }
+    
+    public static String _(String message, String ...args) {
+        if (bundle.containsKey(message)) {
+            String s = bundle.getString(message);
+            return String.format(s, (Object) args);
+        }
+        return message;
     }
     
 }

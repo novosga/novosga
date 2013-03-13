@@ -187,7 +187,7 @@ public class PainelFx extends Application {
                     player.getVocalizador().vocalizar(String.valueOf(numero.charAt(i)), lang, true);
                 }
             } catch (Exception e1) {
-                LOG.log(Level.SEVERE, "Erro durante vocalização de senha", e1);
+                LOG.log(Level.SEVERE, Main._("erro_vocalizacao"), e1);
             }
         }
     }

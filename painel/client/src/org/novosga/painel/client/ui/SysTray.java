@@ -37,24 +37,24 @@ public class SysTray implements ActionListener {
             // cria o menu popup
             PopupMenu popup = new PopupMenu();
 
-            MenuItem miExibe = new MenuItem("Exibir Painel");
+            MenuItem miExibe = new MenuItem(Main._("exibir_painel"));
             miExibe.setActionCommand("exibir");
             miExibe.addActionListener(this);
             popup.add(miExibe);
 
-            MenuItem miConf = new MenuItem("Configurar");
+            MenuItem miConf = new MenuItem(Main._("configurar"));
             miConf.setActionCommand("configurar");
             miConf.addActionListener(this);
             popup.add(miConf);
 
-            MenuItem miSobre = new MenuItem("Sobre");
+            MenuItem miSobre = new MenuItem(Main._("sobre"));
             miSobre.setActionCommand("sobre");
             miSobre.addActionListener(this);
             popup.add(miSobre);
 
             popup.addSeparator();
 
-            MenuItem miSair = new MenuItem("Sair");
+            MenuItem miSair = new MenuItem(Main._("sair"));
             miSair.setActionCommand("sair");
             miSair.addActionListener(this);
             popup.add(miSair);
@@ -71,10 +71,10 @@ public class SysTray implements ActionListener {
                 sys.add(trayIcon);
                 LOG.fine("Ícone de bandeja exibido com sucesso.");
             } catch (AWTException e) {
-                throw new RuntimeException("Falha ao adicionar o Ícone na bandeja.\nDetalhe: " + e.getMessage());
+                throw new RuntimeException(Main._("erro_systray", e.getMessage()));
             }
         } else {
-            throw new RuntimeException("Seu sistema não suporta Ícone de bandeja.");
+            throw new RuntimeException(Main._("erro_systray_nao_suportado"));
         }
     }
 
@@ -96,13 +96,13 @@ public class SysTray implements ActionListener {
                 }
             });
         } else if (cmd.equals("sobre")) {
-            String title = "Sobre";
+            String title = Main._("sobre");
             String msg = "Novo Painel\n";
             msg += "Esse software faz parte do projeto Novo SGA.\n\n";
             msg += "Website: http://novosga.org";
             JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
         } else if (cmd.equals("sair")) {
-            int r = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?");
+            int r = JOptionPane.showConfirmDialog(null, Main._("sair_realmente"));
             if (r == 0) {
                 System.exit(0);
             }

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
+import org.novosga.painel.client.Main;
 import org.novosga.painel.client.PainelFx;
 
 /**
@@ -26,10 +27,10 @@ public abstract class SenhaLayout extends Layout {
 
     public SenhaLayout(PainelFx painel) {
         super(painel);
-        mensagem = new Label("Atendimento");
+        mensagem = new Label(Main._("atendimento"));
         mensagem.setId("mensagem");
         
-        guiche = new Label("Guiche");
+        guiche = new Label(Main._("guiche"));
         guiche.setId("guiche");
         
         numeroGuiche = new Label("000");
