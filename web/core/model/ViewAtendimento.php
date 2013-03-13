@@ -41,6 +41,11 @@ class ViewAtendimento extends Model {
      * @JoinColumn(name="id_usu", referencedColumnName="id_usu")
      */
     protected $usuario;
+    /** 
+     * @ManyToOne(targetEntity="Usuario") 
+     * @JoinColumn(name="id_usu_tri", referencedColumnName="id_usu")
+     */
+    protected $usuarioTriagem;
     /** @Column(type="integer", name="num_guiche", nullable=false) */
     protected $guiche;
     /** @Column(type="string", name="dt_cheg", length=50, nullable=false) */
@@ -101,6 +106,14 @@ class ViewAtendimento extends Model {
 
     public function setUsuario($usuario) {
         $this->usuario = $usuario;
+    }
+
+    public function setUsuarioTriagem(Usuario $usuario) {
+        $this->usuarioTriagem = $usuario;
+    }
+
+    public function getUsuarioTriagem() {
+        return $this->usuarioTriagem;
     }
 
     public function getGuiche() {

@@ -268,7 +268,8 @@ class AtendimentoController extends ModuleController {
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade escolhida'));
             }
-            $atual = $this->atendimentoAndamento($context->getUser());
+            $usuario = $context->getUser();
+            $atual = $this->atendimentoAndamento($usuario);
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
             }
@@ -290,7 +291,7 @@ class AtendimentoController extends ModuleController {
                 $redirecionar = $context->getRequest()->getParameter('redirecionar');
                 if ($redirecionar) {
                     $servico = $context->getRequest()->getParameter('novoServico');
-                    $this->redireciona_atendimento($atual, $servico, $unidade);
+                    $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
                 }
                 $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_ENCERRADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
             }
@@ -317,7 +318,7 @@ class AtendimentoController extends ModuleController {
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
             }
-            $this->redireciona_atendimento($atual, $servico, $unidade);
+            $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
             $this->mudaStatusAtual($context, array(Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO), Atendimento::ERRO_TRIAGEM, 'dataFim');
         } catch (Exception $e) {
             $response = new AjaxResponse(false, $e->getMessage());
@@ -325,7 +326,7 @@ class AtendimentoController extends ModuleController {
         }
     }
     
-    private function redireciona_atendimento($atendimento, $servico, $unidade) {
+    private function redireciona_atendimento($atendimento, $servico, $unidade, UsuarioSessao $usuario) {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade");
         $query->setParameter('servico', $servico);
         $query->setParameter('unidade', $unidade->getId());
@@ -340,6 +341,7 @@ class AtendimentoController extends ModuleController {
         $novo->setNumeroSenha($atendimento->getSenha()->getNumero());
         $novo->setPrioridadeSenha($atendimento->getSenha()->getPrioridade());
         $novo->setServicoUnidade($servicoUnidade);
+        $novo->setUsuarioTriagem($usuario->getWrapped());
         $novo->setDataChegada($atendimento->getDataChegada());
         $novo->setStatus(Atendimento::SENHA_EMITIDA);
         $this->em()->persist($novo);

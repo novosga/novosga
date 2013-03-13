@@ -117,9 +117,13 @@ class TriagemController extends ModuleController {
     public function distribui_senha(SGAContext $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
+        $usuario = $context->getUser();
         try {
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade escolhida'));
+            }
+            if (!$usuario) {
+                throw new Exception(_('Nenhum usuário na sessão'));
             }
             // verificando a prioridade
             $prioridade = (int) Arrays::value($_POST, 'prioridade');
@@ -153,10 +157,10 @@ class TriagemController extends ModuleController {
             $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1);
             $stmt = $conn->prepare(" 
                 INSERT INTO atendimentos
-                (id_uni, id_serv, id_pri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha)
+                (id_uni, id_serv, id_pri, id_usu_tri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha)
                 -- select dentro do insert para garantir atomicidade
                 SELECT
-                    :id_uni, :id_serv, :id_pri, :id_stat, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, :sigla_senha, 
+                    :id_uni, :id_serv, :id_pri, :id_usu_tri, :id_stat, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, :sigla_senha, 
                     COALESCE(
                         (
                             $innerQuery
@@ -165,6 +169,7 @@ class TriagemController extends ModuleController {
             $stmt->bindValue('id_uni', $unidade->getId(), PDO::PARAM_INT);
             $stmt->bindValue('id_serv', $servico, PDO::PARAM_INT);
             $stmt->bindValue('id_pri', $prioridade, PDO::PARAM_INT);
+            $stmt->bindValue('id_usu_tri', $usuario->getId(), PDO::PARAM_INT);
             $stmt->bindValue('id_stat', \core\model\Atendimento::SENHA_EMITIDA, PDO::PARAM_INT);
             $stmt->bindValue('nm_cli', Arrays::value($_POST, 'cli_nome', ''), PDO::PARAM_STR);
             $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
