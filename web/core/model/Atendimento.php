@@ -44,6 +44,11 @@ class Atendimento extends SequencialModel {
      * @JoinColumn(name="id_usu", referencedColumnName="id_usu")
      */
     protected $usuario;
+    /** 
+     * @ManyToOne(targetEntity="Usuario") 
+     * @JoinColumn(name="id_usu_tri", referencedColumnName="id_usu")
+     */
+    protected $usuarioTriagem;
     /** @Column(type="integer", name="num_guiche", nullable=false) */
     protected $guiche;
     /** @Column(type="string", name="dt_cheg", length=50, nullable=false) */
@@ -102,6 +107,22 @@ class Atendimento extends SequencialModel {
      */
     public function getUsuario() {
         return $this->usuario;
+    }
+
+    /**
+     * Define o usuario que gerou a senha, tanto na triagem quando ao redirecionar o serviço
+     * @param Usuario $usuario
+     */
+    public function setUsuarioTriagem(Usuario $usuario) {
+        $this->usuarioTriagem = $usuario;
+    }
+
+    /**
+     * Retorna o usuario que gerou a senha
+     * @return Usuario usuario
+     */
+    public function getUsuarioTriagem() {
+        return $this->usuarioTriagem;
     }
 
     /**
@@ -276,6 +297,12 @@ class Atendimento extends SequencialModel {
         if (!$minimal) {
             $arr['numero'] = $this->getSenha()->toString();
             $arr['chegada'] = $this->getDataChegada();
+            if ($this->getUsuario()) {
+                $arr['usuario'] = $this->getUsuario()->getLogin();
+            }
+            if ($this->getUsuarioTriagem()) {
+                $arr['triagem'] = $this->getUsuarioTriagem()->getLogin();
+            }
             if ($this->getDataInicio()) {
                 $arr['inicio'] = $this->getDataInicio();
             }

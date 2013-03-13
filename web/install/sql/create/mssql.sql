@@ -4,77 +4,78 @@
 
 /* Object:  Table [dbo].[atend_codif]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[atend_codif](
-	[id_atend] [bigint] NOT NULL,
-	[id_serv] [int] NOT NULL,
-	[valor_peso] [smallint] NOT NULL
+    [id_atend] [bigint] NOT NULL,
+    [id_serv] [int] NOT NULL,
+    [valor_peso] [smallint] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[atend_status]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[atend_status](
-	[id_stat] [int] identity(1,1) NOT NULL,
-	[nm_stat] [varchar](30) NOT NULL,
-	[desc_stat] [varchar](150) NOT NULL
+    [id_stat] [int] identity(1,1) NOT NULL,
+    [nm_stat] [varchar](30) NOT NULL,
+    [desc_stat] [varchar](150) NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[atendimentos]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[atendimentos](
-	[id_atend] [bigint] identity(1,1) NOT NULL,
-	[id_uni] [int] NULL,
-	[id_usu] [int] NULL,
-	[id_serv] [int] NOT NULL,
-	[id_pri] [int] NOT NULL,
-	[id_stat] [int] NOT NULL,
-	[sigla_senha] [char](1) NOT NULL,
-	[num_senha] [int] NOT NULL,
-	[nm_cli] [varchar](100) NULL,
-	[num_guiche] [smallint] NOT NULL,
-	[dt_cheg] [datetime] NOT NULL,
-	[dt_cha] [datetime] NULL,
-	[dt_ini] [datetime] NULL,
-	[dt_fim] [datetime] NULL,
-	[ident_cli] [varchar](11) NULL
+    [id_atend] [bigint] identity(1,1) NOT NULL,
+    [id_uni] [int] NULL,
+    [id_usu] [int] NULL,
+    [id_usu_tri] [int] NOT NULL,
+    [id_serv] [int] NOT NULL,
+    [id_pri] [int] NOT NULL,
+    [id_stat] [int] NOT NULL,
+    [sigla_senha] [char](1) NOT NULL,
+    [num_senha] [int] NOT NULL,
+    [nm_cli] [varchar](100) NULL,
+    [num_guiche] [smallint] NOT NULL,
+    [dt_cheg] [datetime] NOT NULL,
+    [dt_cha] [datetime] NULL,
+    [dt_ini] [datetime] NULL,
+    [dt_fim] [datetime] NULL,
+    [ident_cli] [varchar](11) NULL
 ) ON [PRIMARY]
 
 GO
 /* Object:  Table [dbo].[cargos_aninhados]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[cargos_aninhados](
-	[id_cargo] [int] identity(1,1) NOT NULL,
-	[nm_cargo] [varchar](30) NOT NULL,
-	[desc_cargo] [varchar](140) NULL,
-	[esquerda] [int] NOT NULL,
-	[direita] [int] NOT NULL
+    [id_cargo] [int] identity(1,1) NOT NULL,
+    [nm_cargo] [varchar](30) NOT NULL,
+    [desc_cargo] [varchar](140) NULL,
+    [esquerda] [int] NOT NULL,
+    [direita] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[cargos_mod_perm]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[cargos_mod_perm](
-	[id_cargo] [int] NOT NULL,
-	[id_mod] [int] NOT NULL,
-	[permissao] [int] NOT NULL
+    [id_cargo] [int] NOT NULL,
+    [id_mod] [int] NOT NULL,
+    [permissao] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[grupos_aninhados]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[grupos_aninhados](
-	[id_grupo] [int] identity(1,1) NOT NULL,
-	[nm_grupo] [varchar](40) NOT NULL,
-	[desc_grupo] [varchar](150) NOT NULL,
-	[esquerda] [int] NOT NULL,
-	[direita] [int] NOT NULL
+    [id_grupo] [int] identity(1,1) NOT NULL,
+    [nm_grupo] [varchar](40) NOT NULL,
+    [desc_grupo] [varchar](150) NOT NULL,
+    [esquerda] [int] NOT NULL,
+    [direita] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[config] */
 CREATE TABLE [dbo].[config](
-	[chave] [varchar](150) NOT NULL,
-	[valor] [text] NOT NULL,
+    [chave] [varchar](150) NOT NULL,
+    [valor] [text] NOT NULL,
         [tipo] [int] NOT NULL
 ) ON [PRIMARY]
 
@@ -83,136 +84,137 @@ GO
 
 /* Object:  Table [dbo].[historico_atend_codif]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[historico_atend_codif](
-	[id_atend] [bigint] NOT NULL,
-	[id_serv] [int] NOT NULL,
-	[valor_peso] [smallint] NOT NULL
+    [id_atend] [bigint] NOT NULL,
+    [id_serv] [int] NOT NULL,
+    [valor_peso] [smallint] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[historico_atendimentos]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[historico_atendimentos](
-	[id_atend] [bigint] NOT NULL,
-	[id_uni] [int] NULL,
-	[id_usu] [int] NULL,
-	[id_serv] [int] NOT NULL,
-	[id_pri] [int] NOT NULL,
-	[id_stat] [int] NOT NULL,
-        [sigla_senha] [char](1) NOT NULL,
-	[num_senha] [int] NOT NULL,
-	[nm_cli] [varchar](100) NULL,
-	[num_guiche] [smallint] NOT NULL,
-	[dt_cheg] [datetime] NOT NULL,
-	[dt_cha] [datetime] NULL,
-	[dt_ini] [datetime] NULL,
-	[dt_fim] [datetime] NULL,
-	[ident_cli] [varchar](11) NULL
+    [id_atend] [bigint] NOT NULL,
+    [id_uni] [int] NULL,
+    [id_usu] [int] NULL,
+    [id_usu_tri] [int] NOT NULL,
+    [id_serv] [int] NOT NULL,
+    [id_pri] [int] NOT NULL,
+    [id_stat] [int] NOT NULL,
+    [sigla_senha] [char](1) NOT NULL,
+    [num_senha] [int] NOT NULL,
+    [nm_cli] [varchar](100) NULL,
+    [num_guiche] [smallint] NOT NULL,
+    [dt_cheg] [datetime] NOT NULL,
+    [dt_cha] [datetime] NULL,
+    [dt_ini] [datetime] NULL,
+    [dt_fim] [datetime] NULL,
+    [ident_cli] [varchar](11) NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[modulos]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[modulos](
-	[id_mod] [int] identity(1,1) NOT NULL,
-	[chave_mod] [varchar](50) NOT NULL,
-	[nm_mod] [varchar](25) NOT NULL,
-	[desc_mod] [varchar](100) NOT NULL,
-	[autor_mod] [varchar](25) NOT NULL,
-	[tipo_mod] [smallint] NOT NULL,
-	[stat_mod] [smallint] NOT NULL
+    [id_mod] [int] identity(1,1) NOT NULL,
+    [chave_mod] [varchar](50) NOT NULL,
+    [nm_mod] [varchar](25) NOT NULL,
+    [desc_mod] [varchar](100) NOT NULL,
+    [autor_mod] [varchar](25) NOT NULL,
+    [tipo_mod] [smallint] NOT NULL,
+    [stat_mod] [smallint] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[paineis]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[paineis](
-	[id_uni] [int] NOT NULL,
-	[host] [int] NOT NULL
+    [id_uni] [int] NOT NULL,
+    [host] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[paineis_servicos]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[paineis_servicos](
-	[host] [int] NOT NULL,
-	[id_uni] [int] NOT NULL,
-	[id_serv] [int] NOT NULL
+    [host] [int] NOT NULL,
+    [id_uni] [int] NOT NULL,
+    [id_serv] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[painel_senha]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[painel_senha](
-	[contador] [int] identity(1,1) NOT NULL,
-	[id_uni] [int] NOT NULL,
-	[id_serv] [int] NOT NULL,
-	[num_senha] [int] NOT NULL,
-	[sig_senha] [char](1) NOT NULL,
-	[msg_senha] [varchar](15) NOT NULL,
-	[nm_local] [varchar](15) NOT NULL,
-	[num_guiche] [smallint] NOT NULL
+    [contador] [int] identity(1,1) NOT NULL,
+    [id_uni] [int] NOT NULL,
+    [id_serv] [int] NOT NULL,
+    [num_senha] [int] NOT NULL,
+    [sig_senha] [char](1) NOT NULL,
+    [msg_senha] [varchar](15) NOT NULL,
+    [nm_local] [varchar](15) NOT NULL,
+    [num_guiche] [smallint] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[prioridades]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[prioridades](
-	[id_pri] [int] identity(1,1) NOT NULL,
-	[nm_pri] [varchar](30) NOT NULL,
-	[desc_pri] [varchar](100) NOT NULL,
-	[peso_pri] [smallint] NOT NULL,
-	[stat_pri] [smallint] NOT NULL
+    [id_pri] [int] identity(1,1) NOT NULL,
+    [nm_pri] [varchar](30) NOT NULL,
+    [desc_pri] [varchar](100) NOT NULL,
+    [peso_pri] [smallint] NOT NULL,
+    [stat_pri] [smallint] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[serv_local]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[serv_local](
-	[id_loc] [int] identity(1,1) NOT NULL,
-	[nm_loc] [varchar](20) NOT NULL
+    [id_loc] [int] identity(1,1) NOT NULL,
+    [nm_loc] [varchar](20) NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[serv_peso]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[serv_peso](
-	[id_serv] [int] NOT NULL,
-	[valor_peso] [smallint] NOT NULL
+    [id_serv] [int] NOT NULL,
+    [valor_peso] [smallint] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[servicos]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[servicos](
-	[id_serv] [int] identity(1,1) NOT NULL,
-	[id_macro] [int] NULL,
-	[desc_serv] [varchar](100) NOT NULL,
-	[nm_serv] [varchar](50) NULL,
-	[stat_serv] [smallint] NULL
+    [id_serv] [int] identity(1,1) NOT NULL,
+    [id_macro] [int] NULL,
+    [desc_serv] [varchar](100) NOT NULL,
+    [nm_serv] [varchar](50) NULL,
+    [stat_serv] [smallint] NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[uni_serv]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[uni_serv](
-	[id_uni] [int] NOT NULL,
-	[id_serv] [int] NOT NULL,
-	[id_loc] [int] NOT NULL,
-	[nm_serv] [varchar](50) NOT NULL,
-	[sigla_serv] [char](1) NOT NULL,
-	[stat_serv] [smallint] NOT NULL
+    [id_uni] [int] NOT NULL,
+    [id_serv] [int] NOT NULL,
+    [id_loc] [int] NOT NULL,
+    [nm_serv] [varchar](50) NOT NULL,
+    [sigla_serv] [char](1) NOT NULL,
+    [stat_serv] [smallint] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[unidades]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[unidades](
-	[id_uni] [int] identity(1,1) NOT NULL,
-	[id_grupo] [int] NOT NULL,
-	[cod_uni] [varchar](10) NOT NULL,
-	[nm_uni] [varchar](50) NULL,
-	[stat_uni] [smallint] NULL,
-	[stat_imp] [smallint] NULL,
+    [id_uni] [int] identity(1,1) NOT NULL,
+    [id_grupo] [int] NOT NULL,
+    [cod_uni] [varchar](10) NOT NULL,
+    [nm_uni] [varchar](50) NULL,
+    [stat_uni] [smallint] NULL,
+    [stat_imp] [smallint] NULL,
         [msg_imp] [varchar](100) NULL
 ) ON [PRIMARY]
 
@@ -220,32 +222,32 @@ GO
 
 /* Object:  Table [dbo].[usu_grup_cargo]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[usu_grup_cargo](
-	[id_usu] [int] NOT NULL,
-	[id_grupo] [int] NOT NULL,
-	[id_cargo] [int] NOT NULL
+    [id_usu] [int] NOT NULL,
+    [id_grupo] [int] NOT NULL,
+    [id_cargo] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[usu_serv]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[usu_serv](
-	[id_uni] [int] NOT NULL,
-	[id_serv] [int] NOT NULL,
-	[id_usu] [int] NOT NULL
+    [id_uni] [int] NOT NULL,
+    [id_serv] [int] NOT NULL,
+    [id_usu] [int] NOT NULL
 ) ON [PRIMARY]
 
 GO
 
 /* Object:  Table [dbo].[usuarios]    Script Date: 10/08/2012 17:01:28 */
 CREATE TABLE [dbo].[usuarios](
-	[id_usu] [int] identity(1,1) NOT NULL,
-	[login_usu] [varchar](20) NOT NULL,
-	[nm_usu] [varchar](20) NOT NULL,
-	[ult_nm_usu] [varchar](100) NOT NULL,
-	[senha_usu] [varchar](40) NOT NULL,
-	[ult_acesso] [datetime] NULL,
-	[stat_usu] [smallint] NOT NULL,
-	[session_id] [varchar](40) NOT NULL
+    [id_usu] [int] identity(1,1) NOT NULL,
+    [login_usu] [varchar](20) NOT NULL,
+    [nm_usu] [varchar](20) NOT NULL,
+    [ult_nm_usu] [varchar](100) NOT NULL,
+    [senha_usu] [varchar](40) NOT NULL,
+    [ult_acesso] [datetime] NULL,
+    [stat_usu] [smallint] NOT NULL,
+    [session_id] [varchar](40) NOT NULL
 ) ON [PRIMARY]
 
 GO
@@ -433,6 +435,10 @@ ALTER TABLE atendimentos
     ADD CONSTRAINT FK_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
 go
 
+ALTER TABLE atendimentos
+    ADD CONSTRAINT FK_atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu)
+go
+
 ALTER TABLE cargos_mod_perm
     ADD CONSTRAINT FK_cargos_mod_perm_ibfk_1 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo)
 go
@@ -463,6 +469,10 @@ go
 
 ALTER TABLE historico_atendimentos
     ADD CONSTRAINT FK_historico_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu)
+go
+
+ALTER TABLE historico_atendimentos
+    ADD CONSTRAINT FK_historico_atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu)
 go
 
 ALTER TABLE paineis
@@ -558,6 +568,7 @@ AS
         atendimentos.id_atend, 
         atendimentos.id_uni, 
         atendimentos.id_usu, 
+        atendimentos.id_usu_tri, 
         atendimentos.id_serv, 
         atendimentos.id_pri, 
         atendimentos.id_stat, 
@@ -577,6 +588,7 @@ AS
         historico_atendimentos.id_atend, 
         historico_atendimentos.id_uni, 
         historico_atendimentos.id_usu, 
+        historico_atendimentos.id_usu_tri, 
         historico_atendimentos.id_serv, 
         historico_atendimentos.id_pri, 
         historico_atendimentos.id_stat, 

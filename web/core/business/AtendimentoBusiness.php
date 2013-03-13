@@ -54,11 +54,11 @@ abstract class AtendimentoBusiness {
                 INSERT INTO historico_atendimentos 
                 (
                     id_atend, id_uni, id_usu, id_serv, id_pri, id_stat, sigla_senha, num_senha, 
-                    nm_cli, num_guiche, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli
+                    nm_cli, num_guiche, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, id_usu_tri
                 )
                 SELECT 
                     a.id_atend, a.id_uni, a.id_usu, a.id_serv, a.id_pri, a.id_stat, a.sigla_senha, a.num_senha, 
-                    a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli
+                    a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.id_usu_tri
                 FROM 
                     atendimentos a
                 WHERE 

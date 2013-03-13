@@ -62,6 +62,8 @@ use \core\util\Strings;
                     <th><?php SGA::out(_('Data chegada')) ?></th>
                     <th><?php SGA::out(_('Data início')) ?></th>
                     <th><?php SGA::out(_('Data fim')) ?></th>
+                    <th><?php SGA::out(_('Triagem')) ?></th>
+                    <th><?php SGA::out(_('Atendente')) ?></th>
                     <th><?php SGA::out(_('Situação')) ?></th>
                 </tr>
             </thead>

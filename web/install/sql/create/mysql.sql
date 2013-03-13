@@ -24,6 +24,7 @@ CREATE TABLE atendimentos (
     id_atend bigint NOT NULL AUTO_INCREMENT,
     id_uni integer,
     id_usu integer,
+    id_usu_tri integer NOT NULL,
     id_serv integer NOT NULL,
     id_pri integer NOT NULL,
     id_stat integer NOT NULL,
@@ -85,6 +86,7 @@ CREATE TABLE historico_atendimentos (
     id_atend bigint NOT NULL,
     id_uni integer,
     id_usu integer,
+    id_usu_tri integer NOT NULL,
     id_serv integer NOT NULL,
     id_pri integer NOT NULL,
     id_stat integer NOT NULL,
@@ -231,6 +233,8 @@ ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_3 FOREIGN KEY (id_stat
 
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
+ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
 ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (id_mod) REFERENCES modulos(id_mod) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -246,6 +250,8 @@ ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_2 
 ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 ALTER TABLE paineis ADD CONSTRAINT paineis_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
@@ -346,6 +352,7 @@ AS
         atendimentos.id_atend, 
         atendimentos.id_uni, 
         atendimentos.id_usu, 
+        atendimentos.id_usu_tri, 
         atendimentos.id_serv, 
         atendimentos.id_pri, 
         atendimentos.id_stat, 
@@ -365,6 +372,7 @@ AS
         historico_atendimentos.id_atend, 
         historico_atendimentos.id_uni, 
         historico_atendimentos.id_usu, 
+        historico_atendimentos.id_usu_tri, 
         historico_atendimentos.id_serv, 
         historico_atendimentos.id_pri, 
         historico_atendimentos.id_stat, 
