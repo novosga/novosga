@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -105,18 +106,9 @@ public class VideoLayout extends ScreensaverLayout {
     @Override
     public void applyTheme() {
         root.setStyle("-fx-background-color: #000");
-        bottomBox.setStyle("-fx-background-color: rgba(0,0,0,.5)");
-        senhas.setStyle(labelStyle(color(PainelConfig.KEY_COR_SENHA), 6, 5, 1, 5));
-        ultimasSenhas.setStyle(labelStyle(color(PainelConfig.KEY_COR_MENSAGEM), 1, 5, 5, 5));
-    }
-    
-    private String labelStyle(Color color, int padTop, int padRight, int padBottom, int padLeft) {
-        String fill = colorToRgba(color, 1);
-        padTop = (int) painel.getDisplay().height(padTop);
-        padBottom = (int) painel.getDisplay().height(padBottom);
-        padRight = (int) painel.getDisplay().width(padRight);
-        padLeft = (int) painel.getDisplay().width(padLeft);
-        return "-fx-text-fill: " + fill + "; -fx-padding: " + padTop + "px " + padRight + "px " + padBottom + "px " + padLeft + "px;";
+        bottomBox.setStyle("-fx-background-color: rgba(0,0,0,.5); -fx-padding: " + painel.getDisplay().height(5) + "px " + painel.getDisplay().width(5) + "px");
+        senhas.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_SENHA));
+        ultimasSenhas.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_MENSAGEM));
     }
     
     private String colorToRgba(Color color, double alpha) {
@@ -129,12 +121,14 @@ public class VideoLayout extends ScreensaverLayout {
     private MediaView createMedia(String url) {
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer(new Media(url));
-            mediaPlayer.setAutoPlay(false);
+            mediaPlayer.setAutoPlay(true);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setOnReady(new Runnable() {
                 @Override
                 public void run() {
-                    mediaPlayer.play();
+                    if (mediaPlayer.getStatus() != Status.PLAYING) {
+                        mediaPlayer.play();
+                    }
                 }
             });
             mediaView = new MediaView(mediaPlayer);

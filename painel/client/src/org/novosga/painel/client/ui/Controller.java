@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -54,6 +56,8 @@ public class Controller implements Initializable {
     private VBox servicos;
     @FXML
     private Button salvar;
+    @FXML
+    private Button exibirPainel;
     // tema
     @FXML
     private CheckBox vocalizar;
@@ -79,11 +83,11 @@ public class Controller implements Initializable {
     private Stage stage;
     private int unidadeAtual;
 
-    public Controller(Main main) throws IOException {
+    public Controller(Main main, ResourceBundle bundle) throws IOException {
         this.main = main;
         URL location = getClass().getResource("main.fxml");
         //ResourceBundle resources = ResourceBundle.getBundle("com.foo.example");
-        FXMLLoader fxmlLoader = new FXMLLoader(location);
+        FXMLLoader fxmlLoader = new FXMLLoader(location, bundle);
         fxmlLoader.setController(this);
         fxmlLoader.load();
     }
@@ -228,13 +232,20 @@ public class Controller implements Initializable {
                 loading.setVisible(false);
             }
         });
+        exibirPainel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                main.getPainel().show();
+            }
+        });
         // language
         language.setItems(FXCollections.observableList(new ArrayList<ComboboxItem>()));
-        language.getItems().addAll(
-                new ComboboxItem("en", "English"), 
-                new ComboboxItem("es", "Español"), 
-                new ComboboxItem("pt", "Português")
-        );
+        for (Entry<String,String> entry : Main.locales.entrySet()) {
+            language.getItems().add(new ComboboxItem(entry.getKey(), entry.getValue()));
+            if (Locale.getDefault().getLanguage().equals(entry.getKey())) {
+                main.getConfig().get(PainelConfig.KEY_LANGUAGE).setValue(Locale.getDefault().getLanguage());
+            }
+        }
         String defaultLang = main.getConfig().get(PainelConfig.KEY_LANGUAGE).getValue();
         for (Object item : language.getItems()) {
             if (defaultLang.equals(((ComboboxItem) item).getKey())) {

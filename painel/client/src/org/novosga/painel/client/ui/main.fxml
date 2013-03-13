@@ -12,14 +12,15 @@
 
 <BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="524.0" prefWidth="778.0" xmlns:fx="http://javafx.com/fxml">
   <bottom>
-    <HBox prefHeight="53.0" prefWidth="778.0">
+    <HBox prefHeight="53.0" prefWidth="778.0" spacing="10.0">
       <children>
-        <Button fx:id="salvar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="94.0" text="Salvar" />
-        <ProgressIndicator fx:id="loading">
+        <Button fx:id="salvar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="94.0" text="%salvar" />
+        <Button fx:id="exibirPainel" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="124.0" text="%exibir_painel">
           <HBox.margin>
-            <Insets left="10.0" />
+            <Insets fx:id="x3" />
           </HBox.margin>
-        </ProgressIndicator>
+        </Button>
+        <ProgressIndicator fx:id="loading" HBox.margin="$x3" />
       </children>
       <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -29,49 +30,48 @@
   <center>
     <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
       <tabs>
-        <Tab text="Configuração">
+        <Tab text="%configuracao">
           <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>
                 <ScrollPane>
                   <content>
-                    <VBox padding="$x2" prefHeight="35.0" spacing="10.0">
+                    <VBox prefHeight="35.0" spacing="10.0">
                       <children>
-                        <CheckBox fx:id="checkTodos" mnemonicParsing="false" text="Marcar todos">
+                        <CheckBox fx:id="checkTodos" mnemonicParsing="false" text="%marcar_todos">
                           <font>
                             <Font size="12.0" fx:id="x1" />
                           </font>
                         </CheckBox>
                         <VBox fx:id="servicos" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
                       </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
                     </VBox>
                   </content>
                   <BorderPane.margin>
-                    <Insets fx:id="x3" />
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
                   </BorderPane.margin>
                 </ScrollPane>
               </center>
               <top>
                 <VBox prefHeight="136.0" prefWidth="778.0">
                   <children>
-                    <HBox padding="$x2" prefHeight="53.0" prefWidth="778.0" spacing="10.0" VBox.margin="$x3">
+                    <HBox padding="$x2" prefHeight="53.0" prefWidth="778.0" spacing="10.0">
                       <children>
-                        <Label prefHeight="30.0" prefWidth="80.0" text="Servidor">
-                          <font>
-                            <Font size="14.0" fx:id="x4" />
-                          </font>
-                        </Label>
-                        <TextField fx:id="servidor" prefHeight="30.0" prefWidth="300.0" HBox.margin="$x3" />
-                        <Button fx:id="buscar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Buscar unidades" HBox.margin="$x3" />
+                        <Label font="$x1" prefHeight="30.0" prefWidth="80.0" text="%servidor" />
+                        <TextField fx:id="servidor" prefHeight="30.0" prefWidth="300.0" />
+                        <Button fx:id="buscar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="%buscar_unidades" />
                       </children>
                     </HBox>
                     <HBox padding="$x2" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                       <children>
-                        <Label font="$x4" prefHeight="30.0" prefWidth="80.0" text="Unidades" />
+                        <Label font="$x1" prefHeight="30.0" prefWidth="80.0" text="%unidades" />
                         <ComboBox fx:id="unidades" minHeight="30.0" prefHeight="30.0" prefWidth="410.0" />
                       </children>
                     </HBox>
-                    <Label font="$x4" prefHeight="30.0" text="Serviços">
+                    <Label font="$x1" prefHeight="30.0" text="%servicos">
                       <VBox.margin>
                         <Insets bottom="10.0" left="10.0" />
                       </VBox.margin>
@@ -82,7 +82,7 @@
             </BorderPane>
           </content>
         </Tab>
-        <Tab text="Aparência">
+        <Tab text="%aparencia">
           <content>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
               <center>
@@ -93,20 +93,12 @@
                   <children>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
-                        <CheckBox fx:id="vocalizar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="Vocalizar Senha">
+                        <CheckBox fx:id="vocalizar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="%vocalizar">
                           <HBox.margin>
                             <Insets fx:id="x3" />
                           </HBox.margin>
                         </CheckBox>
-                        <ComboBox fx:id="language" minHeight="25.0" prefHeight="25.0" prefWidth="150.0">
-                          <items>
-                            <FXCollections fx:factory="observableArrayList">
-                              <String fx:value="Item 1" />
-                              <String fx:value="Item 2" />
-                              <String fx:value="Item 3" />
-                            </FXCollections>
-                          </items>
-                        </ComboBox>
+                        <ComboBox fx:id="language" minHeight="25.0" prefHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -114,16 +106,8 @@
                     </HBox>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
-                        <Label minHeight="30.0" minWidth="110.0" text="Video ID" />
-                        <ComboBox fx:id="videoId" minHeight="25.0">
-                          <items>
-                            <FXCollections fx:factory="observableArrayList">
-                              <String fx:value="Item 1" />
-                              <String fx:value="Item 2" />
-                              <String fx:value="Item 3" />
-                            </FXCollections>
-                          </items>
-                        </ComboBox>
+                        <Label minHeight="30.0" minWidth="110.0" text="%video_id" />
+                        <ComboBox fx:id="videoId" minHeight="25.0" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -131,16 +115,8 @@
                     </HBox>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
-                        <Label minHeight="30.0" minWidth="110.0" text="Exibir video após" />
-                        <ComboBox id="videoId" fx:id="screenSaverTimeout" minHeight="25.0">
-                          <items>
-                            <FXCollections fx:factory="observableArrayList">
-                              <String fx:value="Item 1" />
-                              <String fx:value="Item 2" />
-                              <String fx:value="Item 3" />
-                            </FXCollections>
-                          </items>
-                        </ComboBox>
+                        <Label minHeight="30.0" minWidth="110.0" text="%exibir_filme_apos" />
+                        <ComboBox id="videoId" fx:id="screenSaverTimeout" minHeight="25.0" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -148,7 +124,7 @@
                     </HBox>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
-                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="Cor de Fundo" />
+                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="%cor_fundo" />
                         <ColorPicker fx:id="corFundo" minHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
@@ -157,7 +133,7 @@
                     </HBox>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
-                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="Cor da Mensagem" />
+                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="%cor_mensagem" />
                         <ColorPicker fx:id="corMensagem" minHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
@@ -166,7 +142,7 @@
                     </HBox>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
-                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="Cor da Senha" />
+                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="%cor_senha" />
                         <ColorPicker fx:id="corSenha" minHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
@@ -175,7 +151,7 @@
                     </HBox>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
-                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="Cor do Guichê" />
+                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="%cor_guiche" />
                         <ColorPicker fx:id="corGuiche" minHeight="25.0" prefWidth="150.0" />
                       </children>
                       <padding>
