@@ -127,6 +127,8 @@ SGA.Monitor = {
                             tr += '<td>' + SGA.formatDate(atendimento.chegada) + '</td>';
                             tr += '<td>' + SGA.formatDate(atendimento.inicio) + '</td>';
                             tr += '<td>' + SGA.formatDate(atendimento.fim) + '</td>';
+                            tr += '<td>' + (atendimento.triagem ? atendimento.triagem : '-') + '</td>';
+                            tr += '<td>' + (atendimento.usuario ? atendimento.usuario : '-') + '</td>';
                             tr += '<td>' + SGA.Monitor.Senha.situacoes[atendimento.status] + '</td>';
                             tr += '</tr>';
                             result.append(tr);

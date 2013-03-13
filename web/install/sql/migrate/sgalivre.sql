@@ -44,12 +44,60 @@ CREATE TABLE config (
 ALTER TABLE usuarios ADD COLUMN session_id varchar(40) NOT NULL DEFAULT '';
 
 -- atendimentos
+ALTER TABLE atendimentos ADD COLUMN id_usu_tri INTEGER;
+ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atendimentos ADD COLUMN sigla_senha VARCHAR(1);
 UPDATE atendimentos a SET sigla_senha = s.sigla_serv FROM uni_serv s WHERE s.id_uni = a.id_uni AND s.id_serv = a.id_serv;
 ALTER TABLE atendimentos ALTER COLUMN sigla_senha SET NOT NULL;
+ALTER TABLE historico_atendimentos ADD COLUMN id_usu_tri INTEGER;
+ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE historico_atendimentos ADD COLUMN sigla_senha VARCHAR(1);
 UPDATE historico_atendimentos a SET sigla_senha = s.sigla_serv FROM uni_serv s WHERE s.id_uni = a.id_uni AND s.id_serv = a.id_serv;
 ALTER TABLE historico_atendimentos ALTER COLUMN sigla_senha SET NOT NULL;
+
+-- atualizando view
+DROP VIEW view_historico_atendimentos;
+CREATE VIEW view_historico_atendimentos 
+AS
+    SELECT 
+        atendimentos.id_atend, 
+        atendimentos.id_uni, 
+        atendimentos.id_usu, 
+        atendimentos.id_usu_tri, 
+        atendimentos.id_serv, 
+        atendimentos.id_pri, 
+        atendimentos.id_stat, 
+        atendimentos.sigla_senha, 
+        atendimentos.num_senha, 
+        atendimentos.nm_cli, 
+        atendimentos.num_guiche, 
+        atendimentos.dt_cheg, 
+        atendimentos.dt_cha, 
+        atendimentos.dt_ini, 
+        atendimentos.dt_fim, 
+        atendimentos.ident_cli 
+    FROM 
+        atendimentos 
+    UNION ALL 
+    SELECT 
+        historico_atendimentos.id_atend, 
+        historico_atendimentos.id_uni, 
+        historico_atendimentos.id_usu, 
+        historico_atendimentos.id_usu_tri, 
+        historico_atendimentos.id_serv, 
+        historico_atendimentos.id_pri, 
+        historico_atendimentos.id_stat, 
+        historico_atendimentos.sigla_senha, 
+        historico_atendimentos.num_senha, 
+        historico_atendimentos.nm_cli, 
+        historico_atendimentos.num_guiche, 
+        historico_atendimentos.dt_cheg, 
+        historico_atendimentos.dt_cha, 
+        historico_atendimentos.dt_ini, 
+        historico_atendimentos.dt_fim, 
+        historico_atendimentos.ident_cli 
+    FROM 
+        historico_atendimentos;
 
 DROP TABLE menus;
 DROP TABLE senha_uni_msg;

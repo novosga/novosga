@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Novo SGA\n"
 "POT-Creation-Date: 2013-02-19 16:34-0300\n"
-"PO-Revision-Date: 2013-02-19 16:34-0300\n"
+"PO-Revision-Date: 2013-03-13 11:40-0300\n"
 "Last-Translator: rogeriolino\n"
 "Language-Team: rogeriolino\n"
 "Language: en_US\n"
@@ -684,7 +684,7 @@ msgstr "Ticket"
 #: modules/sga/atendimento/view/index.php:71
 #: core/business/AtendimentoBusiness.php:32
 msgid "Guichê"
-msgstr ""
+msgstr "Box"
 
 #: modules/sga/atendimento/view/index.php:43
 #: modules/sga/monitor/view/index.php:45 modules/sga/monitor/view/index.php:60
