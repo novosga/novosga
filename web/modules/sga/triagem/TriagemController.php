@@ -30,7 +30,7 @@ class TriagemController extends ModuleController {
         if ($unidade) {
             $this->view()->assign('servicos', $this->servicos($unidade));
         }
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Prioridade e ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Prioridade e WHERE e.status = 1 ORDER BY e.nome");
         $this->view()->assign('prioridades', $query->getResult());
     }
 
