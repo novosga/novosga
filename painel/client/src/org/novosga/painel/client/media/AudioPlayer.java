@@ -20,7 +20,6 @@ public class AudioPlayer {
     public static final String ALERT_PATH = AUDIO_PATH + "alert";
     private final Vocalizador _vocalizador = new Vocalizador();
     private static Queue<MediaPlayer> medias = new ConcurrentLinkedQueue<MediaPlayer>();
-    private boolean isPlaying = false;
 
     public static AudioPlayer getInstance() {
         if (_Instance == null) {
@@ -52,32 +51,44 @@ public class AudioPlayer {
         if (!f.exists()) {
             LOG.severe("Erro ao tocar (" + f.getAbsolutePath() + ", arquivo não existe.");
         } else {
-            MediaPlayer mp = new MediaPlayer(new Media(f.toURI().toString()));
-            mp.setAutoPlay(false);
+            String url = f.toURI().toString();
+            MediaPlayer mp = new MediaPlayer(new Media(url));
+            mp.setAutoPlay(!wait);
             if (wait) {
-                medias.add(mp);
                 mp.setOnEndOfMedia(new Runnable() {
                     @Override
                     public void run() {
-                        AudioPlayer.getInstance().isPlaying = false;
                         AudioPlayer.getInstance().playNext();
                     }
                 });
-                playNext();
-            } else {
-                mp.play();
+                mp.setOnError(new Runnable() {
+                    @Override
+                    public void run() {
+                        LOG.severe("MediaPlayer Error");
+                        AudioPlayer.getInstance().playNext();
+                    }
+                });
+                mp.setOnHalted(new Runnable() {
+                    @Override
+                    public void run() {
+                        LOG.severe("MediaPlayer Halted");
+                        AudioPlayer.getInstance().playNext();
+                    }
+                });
+                medias.add(mp);
+                if (medias.size() == 1) {
+                    mp.play();
+                }
             }
         }
     }
     
     private void playNext() {
-        if (!isPlaying) {
-            MediaPlayer mp = medias.poll();
-            if (mp != null) {
-                isPlaying = true;
+        MediaPlayer mp;
+        while ((mp = medias.poll()) != null) {
+            if (!mp.getStatus().equals(MediaPlayer.Status.PLAYING)) {
                 mp.play();
-            } else {
-                isPlaying = false;
+                break;
             }
         }
     }
