@@ -58,6 +58,10 @@ public abstract class SenhaLayout extends Layout {
     
     public void onSenha(Senha senha) {
         final Label label = this.senha;
+        this.senha.setText(senha.getSenha());
+        this.numeroGuiche.setText(senha.getNumeroGuicheAsString());
+        this.guiche.setText(senha.getGuiche());
+        this.mensagem.setText(senha.getMensagem());
         // atualizando o tamanho da font para o maximo possivel dentro do centro
         label.setFont(Font.font(label.getFont().getFamily(), FontWeight.BOLD, calculateFontSize(label)));
         TimelineBuilder.create().keyFrames(new KeyFrame(Duration.seconds(.3), new EventHandler<ActionEvent>() {
@@ -75,7 +79,6 @@ public abstract class SenhaLayout extends Layout {
         double widthRatio = label.getPrefWidth() / (double) stringWidth;
         int fontSize = (int) (label.getFont().getSize() * widthRatio);
         fontSize *= .9;
-        System.out.println("TEXT: " + label.getText() + ", StringWidth: " + stringWidth + ", LabelWidth: " + label.getWidth() + ", CharWidth: " + charWidth + ", RATIO: " + widthRatio + ", FontSize: " + fontSize);
         return fontSize;
     }
     

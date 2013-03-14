@@ -5,6 +5,8 @@ import org.novosga.painel.model.Senha;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
@@ -44,9 +46,11 @@ public class PainelFx extends Application {
     private ScreensaverLayout screenSaverLayout;
     private Display display;
     private Stage stage;
+    private long lastProcess;
     private long lastUpdate;
     private Senha senha;
     private List<Senha> senhas = new LinkedList<Senha>();
+    private Queue<Senha> bufferChamada = new ConcurrentLinkedQueue<Senha>();
     
     public PainelFx(Main main) {
         this.main = main;
@@ -81,11 +85,15 @@ public class PainelFx extends Application {
             }
         });
         
+        // loop infinito
         TimelineBuilder.create().keyFrames(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
+                long time = Calendar.getInstance().getTimeInMillis();
+                // processando fila de senha
+                processQueue();
+                // verificando screensaver
                 if (currentLayout != null && !currentLayout.equals(screenSaverLayout)) {
-                    long time = Calendar.getInstance().getTimeInMillis();
                     // converting to milis
                     final Integer screenSaverTimeout = main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).getValue() * 60 * 1000;
                     if (time - lastUpdate > screenSaverTimeout) {
@@ -158,17 +166,31 @@ public class PainelFx extends Application {
         if (currentLayout == null || !currentLayout.equals(senhaLayout)) {
             changeLayout(senhaLayout);
         }
-        // layout
-        senhaLayout.getMensagem().setText(senha.getMensagem());
-        senhaLayout.getSenha().setText(senha.getSenha());
-        senhaLayout.getNumeroGuiche().setText(senha.getNumeroGuicheAsString());
-        senhaLayout.getGuiche().setText(senha.getGuiche());
-        senhaLayout.onSenha(senha);
-        // sound
-        playAlert(senha);
+        // adiciona senha na fila para ser processada depois
+        bufferChamada.add(senha);
+        LOG.fine("Adicionada senha na fila de processamento: " + senha.toString());
     }
     
-    public void playAlert(Senha senha) {
+    /**
+     * Processa a senha da fila, dando um tempo entre as chamadas
+     */
+    private void processQueue() {
+        // se vocalizar estiver ativo, espera mais
+        int duration = (main.getConfig().get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue()) ? 6000 : 3000;
+        long time = Calendar.getInstance().getTimeInMillis();
+        if (time - lastProcess > duration) {
+            try {
+                Senha senha = bufferChamada.remove();
+                LOG.fine("Processando senha: " + senha.toString());
+                playAlert(senha);
+                senhaLayout.onSenha(senha);
+                lastProcess = time;
+            } catch (Exception e) {
+            }
+        }
+    }
+    
+    private void playAlert(Senha senha) {
         AudioPlayer player = AudioPlayer.getInstance();
         PainelConfig config = main.getConfig();
         player.play(config.get(PainelConfig.KEY_SOUND_ALERT).getValue());
