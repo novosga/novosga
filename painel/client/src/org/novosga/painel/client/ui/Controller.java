@@ -2,14 +2,16 @@ package org.novosga.painel.client.ui;
 
 import org.novosga.painel.client.config.PainelConfig;
 import java.awt.SystemTray;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -29,10 +31,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.novosga.painel.client.Main;
+import org.novosga.painel.client.layout.VideoTester;
 import org.novosga.painel.util.ComboboxItem;
 
 /**
@@ -58,15 +62,21 @@ public class Controller implements Initializable {
     private Button salvar;
     @FXML
     private Button exibirPainel;
-    // tema
+    // aparencia
     @FXML
     private CheckBox vocalizar;
     @FXML
     private ComboBox language;
     @FXML
-    private ComboBox videoId;
+    private ComboBox monitorId;
     @FXML
     private ComboBox screenSaverTimeout;
+    @FXML
+    private TextField videoUrl;
+    @FXML
+    private Button fileChooser;
+    @FXML
+    private Button testVideo;
     @FXML
     private ColorPicker corFundo;
     @FXML
@@ -75,13 +85,13 @@ public class Controller implements Initializable {
     private ColorPicker corSenha;
     @FXML
     private ColorPicker corGuiche;
-    
     @FXML
     private ProgressIndicator loading;
     
     private Main main;
     private Stage stage;
     private int unidadeAtual;
+    private VideoTester tester;
 
     public Controller(Main main, ResourceBundle bundle) throws IOException {
         this.main = main;
@@ -121,6 +131,8 @@ public class Controller implements Initializable {
         corMensagem.setValue(Color.web(config.get(PainelConfig.KEY_COR_MENSAGEM).getValue()));
         corSenha.setValue(Color.web(config.get(PainelConfig.KEY_COR_SENHA).getValue()));
         corGuiche.setValue(Color.web(config.get(PainelConfig.KEY_COR_GUICHE).getValue()));
+        // screensaver
+        videoUrl.setText(config.get(PainelConfig.KEY_SCREENSAVER_URL).getValue());
     }
         
     public void updateUnidades(Map<Integer,String> items) {
@@ -207,7 +219,6 @@ public class Controller implements Initializable {
                             try {
                                 String id = node.getId().split("-")[1];
                                 idServicos.add(Integer.parseInt(id));
-                                
                             } catch (Exception e) {
                             }
                         }
@@ -217,6 +228,7 @@ public class Controller implements Initializable {
                     config.get(PainelConfig.KEY_UNIDADE, Integer.class).setValue(unidadeAtual);
                     config.get(PainelConfig.KEY_SERVICOS, Integer[].class).setValue(idServicos.toArray(new Integer[0]));
                     // som e tema
+                    config.get(PainelConfig.KEY_SCREENSAVER_URL).setValue(videoUrl.getText());
                     config.get(PainelConfig.KEY_LANGUAGE).setValue(((ComboboxItem) language.getSelectionModel().getSelectedItem()).getKey());
                     config.get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).setValue(vocalizar.isSelected());
                     config.get(PainelConfig.KEY_COR_FUNDO).setValue(colorToHex(corFundo.getValue()));
@@ -240,9 +252,10 @@ public class Controller implements Initializable {
         });
         // language
         language.setItems(FXCollections.observableList(new ArrayList<ComboboxItem>()));
-        for (Entry<String,String> entry : Main.locales.entrySet()) {
-            language.getItems().add(new ComboboxItem(entry.getKey(), entry.getValue()));
-            if (Locale.getDefault().getLanguage().equals(entry.getKey())) {
+        SortedSet<String> keys = new TreeSet<String>(Main.locales.keySet());
+        for (String key : keys) {
+            language.getItems().add(new ComboboxItem(key, Main.locales.get(key)));
+            if (Locale.getDefault().getLanguage().equals(key)) {
                 main.getConfig().get(PainelConfig.KEY_LANGUAGE).setValue(Locale.getDefault().getLanguage());
             }
         }
@@ -263,19 +276,19 @@ public class Controller implements Initializable {
             }
         });
         // video
-        videoId.setItems(FXCollections.observableList(new ArrayList<ComboboxItem>()));
-        Integer defaultId = main.getConfig().get(PainelConfig.KEY_VIDEO_ID, Integer.class).getValue();
+        monitorId.setItems(FXCollections.observableList(new ArrayList<ComboboxItem>()));
+        Integer defaultId = main.getConfig().get(PainelConfig.KEY_MONITOR_ID, Integer.class).getValue();
         for (int i = 0; i < Screen.getScreens().size(); i++) {
             StringBuilder sb = new StringBuilder();
             Rectangle2D b = Screen.getScreens().get(i).getBounds();
             sb.append(i + 1).append(" (").append(b.getWidth()).append(" x ").append(b.getHeight()).append(")");
             ComboboxItem item = new ComboboxItem(i, sb.toString());
-            videoId.getItems().add(item);
+            monitorId.getItems().add(item);
             if (defaultId.equals(i)) {
-                videoId.getSelectionModel().select(item);
+                monitorId.getSelectionModel().select(item);
             }
         }
-        videoId.setOnAction(new EventHandler() {
+        monitorId.setOnAction(new EventHandler() {
             @Override
             public void handle(Event t) {
                 ComboBox cb = (ComboBox) t.getTarget();
@@ -283,17 +296,18 @@ public class Controller implements Initializable {
                 ComboboxItem item = (ComboboxItem) cb.getSelectionModel().selectedItemProperty().getValue();
                 Integer key = Integer.parseInt(item.getKey());
                 if (key >= 0 && key < Screen.getScreens().size()) {
-                    main.getConfig().get(PainelConfig.KEY_VIDEO_ID, Integer.class).setValue(key);
+                    main.getConfig().get(PainelConfig.KEY_MONITOR_ID, Integer.class).setValue(key);
                 }
             }
         });
         // screen saver
         screenSaverTimeout.setItems(FXCollections.observableList(new ArrayList<ComboboxItem>()));
         Integer defaultTimeout = main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).getValue();
-        for (int i = 1; i <= 10; i++) {
-            ComboboxItem item = new ComboboxItem(i, i + " minutos");
+        SortedSet<Integer> keys2 = new TreeSet<Integer>(Main.intervals.keySet());
+        for (Integer key : keys2) {
+            ComboboxItem item = new ComboboxItem(key, Main.intervals.get(key));
             screenSaverTimeout.getItems().add(item);
-            if (defaultTimeout.equals(i)) {
+            if (defaultTimeout.equals(key)) {
                 screenSaverTimeout.getSelectionModel().select(item);
             }
         }
@@ -303,9 +317,45 @@ public class Controller implements Initializable {
                 ComboBox cb = (ComboBox) t.getTarget();
                 cb.getSelectionModel().selectedItemProperty();
                 ComboboxItem item = (ComboboxItem) cb.getSelectionModel().selectedItemProperty().getValue();
-                Integer key = Integer.parseInt(item.getKey());
-                if (key > 0 && key <= 10) {
-                    main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).setValue(key);
+                main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).setValue(Integer.parseInt(item.getKey()));
+            }
+        });
+        fileChooser.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP4", "*.mp4"));
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AVI", "*.avi"));
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HLS", "*.m3u8"));
+                try {
+                    File file = fileChooser.showOpenDialog(null);
+                    videoUrl.setText(file.toURI().toString());
+                } catch (Exception e) {
+                }
+            }
+        });
+        testVideo.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    String url = videoUrl.getText();
+                    if (url != null && !url.isEmpty()) {
+                        if (tester != null) {
+                            tester.destroy();
+                        }
+                        tester = new VideoTester(url.trim());
+                        Stage painelStage = new Stage();
+                        painelStage.initOwner(stage);
+                        painelStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                            @Override
+                            public void handle(WindowEvent t) {
+                                tester.destroy();
+                            }
+                        });
+                        tester.start(painelStage);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

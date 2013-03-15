@@ -61,7 +61,7 @@ public class PainelService {
     }
     
     public synchronized Map<Integer,String> buscarUnidades() {
-        LOG.fine("Montando unidades a partir de: " + urlUnidades);
+        LOG.info("Montando unidades a partir de: " + urlUnidades);
         unidades.clear();
         try {
             if (urlUnidades != null && urlUnidades.length() > 0) {
@@ -94,7 +94,7 @@ public class PainelService {
 
     public synchronized Map<Integer,String> buscarServicos(int idUnidade) {
         String url = this.urlServicos.replace("%id_unidade%", "" + idUnidade);
-        LOG.fine("URL Servicos com unidade: " + url);
+        LOG.info("URL Servicos com unidade: " + url);
         servicos.clear();
         try {
             URL con = new URL(url);

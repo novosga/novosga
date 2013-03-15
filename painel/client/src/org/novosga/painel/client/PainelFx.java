@@ -46,7 +46,6 @@ public class PainelFx extends Application {
     private ScreensaverLayout screenSaverLayout;
     private Display display;
     private Stage stage;
-    private long lastProcess;
     private long lastUpdate;
     private Senha senha;
     private List<Senha> senhas = new LinkedList<Senha>();
@@ -86,7 +85,7 @@ public class PainelFx extends Application {
         });
         
         // loop infinito
-        TimelineBuilder.create().keyFrames(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+        TimelineBuilder.create().keyFrames(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
                 long time = Calendar.getInstance().getTimeInMillis();
@@ -94,10 +93,11 @@ public class PainelFx extends Application {
                 processQueue();
                 // verificando screensaver
                 if (currentLayout != null && !currentLayout.equals(screenSaverLayout)) {
-                    // converting to milis
-                    final Integer screenSaverTimeout = main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).getValue() * 60 * 1000;
-                    if (time - lastUpdate > screenSaverTimeout) {
-                        self.changeLayout(screenSaverLayout);
+                    Integer screenSaverTimeout = main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).getValue();
+                    if (screenSaverTimeout > 0) {
+                        if (time - lastUpdate > screenSaverTimeout * 1000) {
+                            self.changeLayout(screenSaverLayout);
+                        }
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class PainelFx extends Application {
     private void detectScreen() {
         Screen screen = Screen.getPrimary();
         ObservableList<Screen> screens = Screen.getScreens();
-        Integer screenId = main.getConfig().get(PainelConfig.KEY_VIDEO_ID, Integer.class).getValue();
+        Integer screenId = main.getConfig().get(PainelConfig.KEY_MONITOR_ID, Integer.class).getValue();
         if (screenId > 0 && screens.size() > screenId) {
             screen = screens.get(screenId);
         }
@@ -155,20 +155,15 @@ public class PainelFx extends Application {
     
     public void chamaSenha(final Senha senha) {
         this.senha = senha;
-        lastUpdate = Calendar.getInstance().getTimeInMillis();
         if (!senhas.contains(senha)) {
             senhas.add(senha);
             if (senhas.size() > MAX_SENHAS * 2) {
                 senhas = senhas.subList(senhas.size() - MAX_SENHAS, senhas.size());
             }
         }
-        // volta para o layout de exibição de senha
-        if (currentLayout == null || !currentLayout.equals(senhaLayout)) {
-            changeLayout(senhaLayout);
-        }
         // adiciona senha na fila para ser processada depois
         bufferChamada.add(senha);
-        LOG.fine("Adicionada senha na fila de processamento: " + senha.toString());
+        LOG.info("Adicionada senha na fila de processamento: " + senha.toString());
     }
     
     /**
@@ -178,13 +173,17 @@ public class PainelFx extends Application {
         // se vocalizar estiver ativo, espera mais
         int duration = (main.getConfig().get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue()) ? 6000 : 3000;
         long time = Calendar.getInstance().getTimeInMillis();
-        if (time - lastProcess > duration) {
+        if (time - lastUpdate > duration) {
             try {
                 Senha senha = bufferChamada.remove();
-                LOG.fine("Processando senha: " + senha.toString());
+                LOG.info("Processando senha: " + senha.toString());
+                // volta para o layout de exibição de senha
+                if (currentLayout == null || !currentLayout.equals(senhaLayout)) {
+                    changeLayout(senhaLayout);
+                }
                 playAlert(senha);
                 senhaLayout.onSenha(senha);
-                lastProcess = time;
+                lastUpdate = Calendar.getInstance().getTimeInMillis();
             } catch (Exception e) {
             }
         }
@@ -215,10 +214,9 @@ public class PainelFx extends Application {
     }
     
     private void update() {
-        //set the position to one of the "slave"-monitors:
+        
         stage.setX(display.getX());
         stage.setY(display.getY());
-        //set the dimesions to the screen size:
         stage.setWidth(display.getWidth());
         stage.setHeight(display.getHeight());
         currentLayout.update();

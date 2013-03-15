@@ -4,6 +4,7 @@ import org.novosga.painel.client.config.PainelConfig;
 import org.novosga.painel.model.Senha;
 import org.novosga.painel.client.ui.SysTray;
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -30,10 +31,19 @@ public class Main extends Application {
     private static final Logger LOG = Logger.getLogger(Main.class.getName());
     private static final ResourceBundle bundle = ResourceBundle.getBundle("org.novosga.painel.i18n.messages", Locale.getDefault());
     public static final Map<String,String> locales = new HashMap<String,String>();
+    public static final Map<Integer,String> intervals = new HashMap<Integer,String>();
     {
         locales.put("en", "English");
         locales.put("es", "Español");
         locales.put("pt", "Português");
+        
+        intervals.put(-1, _("nao_exibir_filme"));
+        intervals.put(10, _("segundos", 10));
+        intervals.put(30, _("segundos", 30));
+        intervals.put(45, _("segundos", 45));
+        intervals.put(60, _("minutos", 1));
+        intervals.put(120, _("minutos", 2));
+        intervals.put(180, _("minutos", 3));
     }
     
     public static final String DEFAULT_PROTOCOL = "UDP";
@@ -189,10 +199,10 @@ public class Main extends Application {
         return workingDirectory;
     }
     
-    public static String _(String message, String ...args) {
+    public static String _(String message, Object ...args) {
         if (bundle.containsKey(message)) {
             String s = bundle.getString(message);
-            return String.format(s, (Object) args);
+            return MessageFormat.format(s, args);
         }
         return message;
     }
