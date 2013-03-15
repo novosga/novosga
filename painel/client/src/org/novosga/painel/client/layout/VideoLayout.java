@@ -1,7 +1,6 @@
 package org.novosga.painel.client.layout;
 
 import org.novosga.painel.model.Senha;
-import java.io.File;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -12,9 +11,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import org.novosga.painel.client.Main;
 import org.novosga.painel.client.PainelFx;
 import org.novosga.painel.client.config.PainelConfig;
 import org.novosga.painel.client.fonts.FontLoader;
@@ -41,19 +40,20 @@ public class VideoLayout extends ScreensaverLayout {
         root = new StackPane();
         root.setAlignment(Pos.CENTER);
         AnchorPane content = new AnchorPane();
-        File file = new File("media/video/promo1.mp4");
-        if (file.exists()) {
-            String url = file.toURI().toString();
-            root.getChildren().add(createMedia(url));
-        } else {
-            Label error = new Label("Media not found");
-            error.setFont(Font.font(FontLoader.DROID_SANS, 18));
-            error.setStyle("-fx-text-fill: #fff");
-            root.getChildren().add(error);
-        }
+        Media media = new Media(painel.getMain().getConfig().get(PainelConfig.KEY_SCREENSAVER_URL).getValue());
+        media.setOnError(new Runnable() {
+            @Override
+            public void run() {
+                Label error = new Label(Main._("video_nao_encontrado"));
+                error.setFont(Font.font(FontLoader.DROID_SANS, 18));
+                error.setStyle("-fx-text-fill: #fff");
+                root.getChildren().add(error);
+            }
+        });
+        root.getChildren().add(createMediaView(media));
         bottomBox = new VBox();
         bottomBox.setAlignment(Pos.CENTER_LEFT);
-        ultimasSenhas = new Label("Últimas senhas:");
+        ultimasSenhas = new Label(Main._("ultimas_senhas") + ":");
         ultimasSenhas.setAlignment(Pos.CENTER_LEFT);
         bottomBox.getChildren().add(ultimasSenhas);
         senhas = new Label("-");
@@ -111,16 +111,9 @@ public class VideoLayout extends ScreensaverLayout {
         ultimasSenhas.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_MENSAGEM));
     }
     
-    private String colorToRgba(Color color, double alpha) {
-        int r = (int) (color.getRed() * 255);
-        int g = (int) (color.getGreen() * 255);
-        int b = (int) (color.getBlue() * 255);
-        return "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
-    }
-    
-    private MediaView createMedia(String url) {
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer(new Media(url));
+    private MediaView createMediaView(Media media) {
+        if (mediaPlayer == null || !mediaPlayer.getMedia().getSource().equals(media.getSource())) {
+            mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setAutoPlay(true);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setOnReady(new Runnable() {
