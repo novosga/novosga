@@ -10,7 +10,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="524.0" prefWidth="778.0" xmlns:fx="http://javafx.com/fxml">
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="778.0" xmlns:fx="http://javafx.com/fxml">
   <bottom>
     <HBox prefHeight="53.0" prefWidth="778.0" spacing="10.0">
       <children>
@@ -89,7 +89,7 @@
                 <VBox prefHeight="389.0" prefWidth="329.0" />
               </center>
               <left>
-                <VBox prefHeight="389.0" prefWidth="425.0">
+                <VBox prefHeight="441.0" prefWidth="698.0">
                   <children>
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
@@ -107,7 +107,7 @@
                     <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
                       <children>
                         <Label minHeight="30.0" minWidth="110.0" text="%video_id" />
-                        <ComboBox fx:id="videoId" minHeight="25.0" />
+                        <ComboBox id="videoId" fx:id="monitorId" minHeight="25.0" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
@@ -117,6 +117,17 @@
                       <children>
                         <Label minHeight="30.0" minWidth="110.0" text="%exibir_filme_apos" />
                         <ComboBox id="videoId" fx:id="screenSaverTimeout" minHeight="25.0" />
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </HBox>
+                    <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                      <children>
+                        <Label minHeight="30.0" minWidth="110.0" text="%filme_url" />
+                        <TextField fx:id="videoUrl" minHeight="30.0" prefWidth="300.0" />
+                        <Button fx:id="fileChooser" minHeight="30.0" mnemonicParsing="false" text="%localizar_filme" />
+                        <Button id="fileChooser" fx:id="testVideo" minHeight="30.0" mnemonicParsing="false" text="%testar_filme" />
                       </children>
                       <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
