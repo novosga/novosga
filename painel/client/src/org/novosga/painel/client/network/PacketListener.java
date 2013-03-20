@@ -187,8 +187,7 @@ public abstract class PacketListener implements Runnable {
             final String urlUnidades = PacketListener.leString(buf);
             final String urlServicos = PacketListener.leString(buf);
 
-            LOG.info("RECEBIDO: URL Unidades: " + urlUnidades);
-            LOG.info("RECEBIDO: URL Serviços: " + urlServicos);
+            LOG.info("[MSG_URLS] RECEBIDO: URL Unidades: " + urlUnidades + "\nRECEBIDO: URL Serviços: " + urlServicos);
 
             if (onObterUrlEvent != null) {
                 Platform.runLater(new Runnable() {

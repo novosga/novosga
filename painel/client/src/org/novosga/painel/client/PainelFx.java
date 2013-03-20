@@ -50,8 +50,10 @@ public class PainelFx extends Application {
     private Senha senha;
     private List<Senha> senhas = new LinkedList<Senha>();
     private Queue<Senha> bufferChamada = new ConcurrentLinkedQueue<Senha>();
+    private final PainelFx self;
     
     public PainelFx(Main main) {
+        self = this;
         this.main = main;
     }
     
@@ -73,7 +75,6 @@ public class PainelFx extends Application {
     
     @Override
     public void start(final Stage stage) throws Exception {
-        final PainelFx self = this;
         this.stage = stage;
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("PainelFX");
@@ -127,6 +128,10 @@ public class PainelFx extends Application {
     }
     
     public void hide() {
+        // destruindo o layout anterior
+        if (currentLayout != null) {
+            currentLayout.destroy();
+        }
         stage.hide();
     }
     
@@ -141,7 +146,7 @@ public class PainelFx extends Application {
             @Override
             public void handle(MouseEvent t) {
                 if (t.isMiddleButtonDown() || t.getButton().ordinal() == 2) {
-                    stage.hide();
+                    self.hide();
                 }
             }
         });
@@ -214,7 +219,6 @@ public class PainelFx extends Application {
     }
     
     private void update() {
-        
         stage.setX(display.getX());
         stage.setY(display.getY());
         stage.setWidth(display.getWidth());

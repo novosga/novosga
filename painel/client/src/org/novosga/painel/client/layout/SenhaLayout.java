@@ -1,8 +1,6 @@
 package org.novosga.painel.client.layout;
 
 import org.novosga.painel.model.Senha;
-import com.sun.javafx.tk.FontMetrics;
-import com.sun.javafx.tk.Toolkit;
 import javafx.animation.KeyFrame;
 import javafx.animation.TimelineBuilder;
 import javafx.event.ActionEvent;
@@ -70,16 +68,6 @@ public abstract class SenhaLayout extends Layout {
                 label.setVisible(!label.isVisible());
             }
         })).cycleCount(8).build().play();
-    }
-    
-    protected int calculateFontSize(Label label) {
-        FontMetrics fm = Toolkit.getToolkit().getFontLoader().getFontMetrics(label.getFont());
-        float stringWidth = fm.computeStringWidth(label.getText());
-        int charWidth = (int) (stringWidth / label.getText().length());
-        double widthRatio = label.getPrefWidth() / (double) stringWidth;
-        int fontSize = (int) (label.getFont().getSize() * widthRatio);
-        fontSize *= .9;
-        return fontSize;
     }
     
 }

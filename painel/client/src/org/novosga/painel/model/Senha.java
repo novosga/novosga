@@ -55,11 +55,21 @@ public class Senha {
     }
     
     /**
-     * Returns the ticket code (char + number with zero fill): A0001
+     * Returna o numero da senha (preenchido com 4 casas) 
+     * mais a sigla do servico: A0001
      * @return 
      */
     public String getSenha() {
-        return sigla + String.format("%04d", numero);
+        return getSenha(4);
+    }
+    
+    /**
+     * Returna o numero da senha mais a sigla do servico. Exemplo: A0001
+     * @param length Número de casas (será preenchido com zero a esquerda)
+     * @return 
+     */
+    public String getSenha(int length) {
+        return sigla + String.format("%0" + length + "d", numero);
     }
     
     public String getGuiche() {
@@ -73,13 +83,25 @@ public class Senha {
     public int getNumeroGuiche() {
         return numeroGuiche;
     }
-
+    
     public void setNumeroGuiche(int numeroGuiche) {
         this.numeroGuiche = numeroGuiche;
     }
 
+    /**
+     * Retorna o número do guiche preenchendo com 3 casas. Exemplo: 001
+     * @return 
+     */
     public String getNumeroGuicheAsString() {
-        return String.format("%03d", numeroGuiche);
+        return getNumeroGuicheAsString(3);
+    }
+
+    /**
+     * Retorna o número do guiche. Exemplo: 001
+     * @param length Número de casas (será preenchido com zero a esquerda)
+     */
+    public String getNumeroGuicheAsString(int length) {
+        return String.format("%0" + length + "d", numeroGuiche);
     }
     
     @Override
