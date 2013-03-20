@@ -25,7 +25,7 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc']
+extensions = ['sphinx.ext.autodoc', 'rst2pdf.pdfbuilder']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -183,7 +183,12 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'NovoSGA.tex', u'Novo SGA Documentation',
+  ('index', 'NovoSGA.tex', u'Documentação Novo SGA',
+   u'novosga', 'manual'),
+]
+
+pdf_documents = [
+  ('index', 'NovoSGA', u'Documentação Novo SGA',
    u'novosga', 'manual'),
 ]
 
