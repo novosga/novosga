@@ -1,6 +1,6 @@
 package org.novosga.painel.client.layout;
 
-import org.novosga.painel.model.Senha;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -24,6 +24,9 @@ import org.novosga.painel.client.fonts.FontLoader;
  */
 public class VideoLayout extends ScreensaverLayout {
     
+    private static final int PADDING = 5;
+    private static final Logger LOG = Logger.getLogger(VideoLayout.class.getName());
+    
     private StackPane root;
     private MediaView mediaView;
     private MediaPlayer mediaPlayer;
@@ -40,19 +43,11 @@ public class VideoLayout extends ScreensaverLayout {
         root = new StackPane();
         root.setAlignment(Pos.CENTER);
         AnchorPane content = new AnchorPane();
-        Media media = new Media(painel.getMain().getConfig().get(PainelConfig.KEY_SCREENSAVER_URL).getValue());
-        media.setOnError(new Runnable() {
-            @Override
-            public void run() {
-                Label error = new Label(Main._("video_nao_encontrado"));
-                error.setFont(Font.font(FontLoader.DROID_SANS, 18));
-                error.setStyle("-fx-text-fill: #fff");
-                root.getChildren().add(error);
-            }
-        });
-        root.getChildren().add(createMediaView(media));
+        String mediaUrl = painel.getMain().getConfig().get(PainelConfig.KEY_SCREENSAVER_URL).getValue();
+        root.getChildren().add(getMediaView(mediaUrl));
         bottomBox = new VBox();
         bottomBox.setAlignment(Pos.CENTER_LEFT);
+        bottomBox.setPrefWidth(painel.getDisplay().getWidth());
         ultimasSenhas = new Label(Main._("ultimas_senhas") + ":");
         ultimasSenhas.setAlignment(Pos.CENTER_LEFT);
         bottomBox.getChildren().add(ultimasSenhas);
@@ -76,17 +71,6 @@ public class VideoLayout extends ScreensaverLayout {
     
     @Override
     public void update() {
-        // exibindo as ultimas senhas
-        if (painel.getSenhas().size() > 0) {
-            StringBuilder sb = new StringBuilder();
-            int j = 0;
-            int maxSenhas = 3;
-            for (int i = painel.getSenhas().size() - 1; i >= 0 && j < maxSenhas; i--, j++) {
-                Senha senha = painel.getSenhas().get(i);
-                sb.append(senha.toString()).append(" ");
-            }
-            senhas.setText(sb.toString().trim());
-        }
         // 15% da altura do monitor
         double bottomHeight = painel.getDisplay().getHeight() * .15;
         // 30% da altura do rodape
@@ -101,35 +85,76 @@ public class VideoLayout extends ScreensaverLayout {
         senhas.setPrefHeight(fontSize2);
         senhas.setPrefWidth(painel.getDisplay().getWidth());
         senhas.setAlignment(Pos.CENTER_LEFT);
+        // exibindo as ultimas senhas
+        if (painel.getSenhas().size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            double padding = painel.getDisplay().width(PADDING) * 2;
+            int maxChars = (int) ((bottomBox.getWidth() - padding) / (charWidth(senhas) + padding));
+            for (int i = painel.getSenhas().size() - 1; i >= 0; i--) {
+                // concatenando as senhas com 3 zeros a esquerda
+                String senha = painel.getSenhas().get(i).getSenha(3);
+                if (sb.toString().length() + senha.length() >= maxChars) {
+                    break;
+                }
+                sb.append(senha).append(" ");
+            }
+            senhas.setText(sb.toString().trim());
+        }
     }
     
     @Override
     public void applyTheme() {
         root.setStyle("-fx-background-color: #000");
-        bottomBox.setStyle("-fx-background-color: rgba(0,0,0,.5); -fx-padding: " + painel.getDisplay().height(5) + "px " + painel.getDisplay().width(5) + "px");
+        bottomBox.setStyle("-fx-background-color: rgba(0,0,0,.5); -fx-padding: " + painel.getDisplay().height(PADDING) + "px " + painel.getDisplay().width(PADDING) + "px");
         senhas.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_SENHA));
         ultimasSenhas.setStyle("-fx-text-fill: " + colorHex(PainelConfig.KEY_COR_MENSAGEM));
     }
     
-    private MediaView createMediaView(Media media) {
-        if (mediaPlayer == null || !mediaPlayer.getMedia().getSource().equals(media.getSource())) {
-            mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setAutoPlay(true);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.setOnReady(new Runnable() {
+    private MediaView getMediaView(String url) {
+        if (mediaPlayer == null || !mediaPlayer.getMedia().getSource().equals(url)) {
+            createMediaPlayer(url);
+            final Runnable recreate = new Runnable() {
                 @Override
                 public void run() {
-                    if (mediaPlayer.getStatus() != Status.PLAYING) {
-                        mediaPlayer.play();
-                    }
+                    LOG.severe("Recriando MediaPlayer");
+                    createMediaPlayer(mediaPlayer.getMedia().getSource());
                 }
-            });
-            mediaView = new MediaView(mediaPlayer);
+            };
+            mediaPlayer.setOnError(recreate);
+            mediaPlayer.setOnHalted(recreate);
+            mediaPlayer.setOnStalled(recreate);
         } else {
-            mediaPlayer.play();
+            if (!mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+                mediaPlayer.play();
+            }
         }
         mediaView.setFitWidth(painel.getDisplay().getWidth());
         return mediaView;
+    }
+    
+    private void createMediaPlayer(String url) {
+        Media media = new Media(url);
+        media.setOnError(new Runnable() {
+            @Override
+            public void run() {
+                Label error = new Label(Main._("video_nao_encontrado"));
+                error.setFont(Font.font(FontLoader.DROID_SANS, 18));
+                error.setStyle("-fx-text-fill: #fff");
+                root.getChildren().add(error);
+            }
+        });
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.setOnReady(new Runnable() {
+            @Override
+            public void run() {
+                if (mediaPlayer.getStatus() != Status.PLAYING) {
+                    mediaPlayer.play();
+                }
+            }
+        });
+        mediaView = new MediaView(mediaPlayer);
     }
     
 }
