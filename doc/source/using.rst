@@ -31,6 +31,34 @@ Novo SGA Web
 
 Cada módulo possui um agrupamento de funções, são dinâmicos, e estão acessíveis de acordo com o nível de acesso do usuário do sistema (permissão). Tais módulos são divididos em dois tipos: Módulos Globais e Módulos Locais. Abaixo segue uma descrição os módulos padrões (pré-instalados) do Novo SGA.
 
+Os módulos podem ser acessados via página inicial (home) ou via o menu principal (barra de navegação no topo da página) separados em dois submenus (módulos da unidade e módulos globais).
+
+.. figure:: prints/web-home.png
+    :align: center
+
+    Página inicial do Novo SGA
+
+.. figure:: prints/web-navbar.png
+    :align: center
+
+    Menu principal - Submenu dos módulos da unidade e no final a opção para trocar de unidade
+
+Além dos módulos, exite a página do perfil do usuário. Aonde pode atualizar algumas informações e alterar a senha de acesso.
+
+.. figure:: prints/web-profile.png
+    :align: center
+
+    Perfil do usuário
+
+A página do perfil é acessada atráves do link informando qual usuário está acessando o sistema, na parte superior direita.
+
+
+.. figure:: prints/web-profile-link.png
+    :align: center
+
+    Link para acessar o perfil do usuário
+
+
 Módulos Globais
 ~~~~~~~~~~~~~~~
 
@@ -48,6 +76,20 @@ Já na aba **Painéis**, visualiza todos os painéis cadastrados no servidor de 
 .. warning::
     O botão para reiniciar senha no módulo Administração, reinicia a contagem das senhas de todas as unidades. Então antes usar essa opção, certifique-se que ainda não foram gerados atendimentos no dia para todas as unidades.
 
+.. figure:: prints/web-admin1.png
+    :align: center
+
+    Administração - Configurando tipo de autenticação
+
+.. figure:: prints/web-admin2.png
+    :align: center
+
+    Administração - Reiniciar senha de todas as unidades (e URL para usar no cron job)
+
+.. figure:: prints/web-admin3.png
+    :align: center
+
+    Administração - Todos os painéis cadastrados de todas as unidades
 
 Prioridades
 ............
@@ -105,6 +147,11 @@ Estatísticas
 .............
 
 Neste módulo, o usuário terá acesso a todos os relatórios, gráficos e estatísticas de atendimentos registrados no sitema. O Novo SGA permite que sejam gerados relatórios, estatísticas e gráficos de uma ou mais unidades, de modo a apresentar a informação que a organização necessita para otimizar seu atendimento.
+
+.. figure:: prints/web-estatisticas1.png
+    :align: center
+
+    Estatísticas - Atendimentos por status
 
 
 Módulos Locais

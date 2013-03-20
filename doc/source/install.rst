@@ -17,17 +17,21 @@ Nessa documentação será abordada a instalação do PHP 5.3 no Apache2, e util
 Linux
 ~~~~~
 
-Para distribuíções baseadas em Debian/Ubuntu::
+Para distribuíções baseadas em Debian/Ubuntu:
 
-    sudo apt-get install postgresql apache2 libapache2-mod-php5 php5 php5-pgsql
+.. code-block:: bash
+
+    $ sudo apt-get install postgresql apache2 libapache2-mod-php5 php5 php5-pgsql
 
 
-Com o servidor instalado, basta extrair o aquivo compactado (novosga-web-x.x.x.tgz), em qualquer lugar no seu servidor. Caso o seu servidor não possua interface gráfica, execute os comandos abaixo::
+Com o servidor instalado, basta extrair o aquivo compactado (novosga-web-x.x.x.tgz), em qualquer lugar no seu servidor. Caso o seu servidor não possua interface gráfica, execute os comandos abaixo:
 
-    cd /var/www
-    wget http://novosga.org/releases/x.x.x/novosga-web-x.x.x.tgz .
-    tar xfv novosga-web-x.x.x.tgz .
-    mv novosga-web-x.x.x novosga
+.. code-block:: bash
+
+    $ cd /var/www
+    $ wget http://novosga.org/releases/x.x.x/novosga-web-x.x.x.tgz .
+    $ tar xfv novosga-web-x.x.x.tgz .
+    $ mv novosga-web-x.x.x novosga
 
 
 Windows
@@ -54,9 +58,11 @@ Para executar o painel (tanto servidor quanto cliente), é necessário instalar 
 Linux
 ~~~~~
 
-Para distribuíções baseadas em Debian/Ubuntu::
+Para distribuíções baseadas em Debian/Ubuntu:
 
-    sudo apt-get install openjdk-7-jre
+.. code-block:: bash
+
+    $ sudo apt-get install openjdk-7-jre
 
 
 Windows
@@ -78,15 +84,19 @@ Servidor
 
 O servidor de painel é um processo que roda em background entregando as senhas chamadas aos paineis cadastrados.
 
-Basta extrair o aquivo compactado (novosga-painel-server-x.x.x.tgz), em qualquer lugar no seu servidor. Caso o seu servidor não possua interface gráfica, execute os comandos abaixo::
+Basta extrair o aquivo compactado (novosga-painel-server-x.x.x.tgz), em qualquer lugar no seu servidor. Caso o seu servidor não possua interface gráfica, execute os comandos abaixo:
 
-    wget http://novosga.org/releases/x.x.x/novosga-painel-server-x.x.x.tgz .
-    tar xfv novosga-painel-server-x.x.x.tgz .
-    cd novosga-painel-server-x.x.x
+.. code-block:: bash
 
-Com o arquivo descompactado, antes de executar, é necessário editar o arquivo **server.conf**::
+    $ wget http://novosga.org/releases/x.x.x/novosga-painel-server-x.x.x.tgz .
+    $ tar xfv novosga-painel-server-x.x.x.tgz .
+    $ cd novosga-painel-server-x.x.x
 
-    vim server.conf
+Com o arquivo descompactado, antes de executar, é necessário editar o arquivo **server.conf**:
+
+.. code-block:: bash
+
+    $ vim server.conf
 
 Encontre e edite as seguintes entradas de acordo com a sua necessidade::
 
