@@ -23,6 +23,7 @@ SGA.Admin = {
             return data;
         },
         save: function() {
+            $('#auth_message').hide();
             var data = SGA.Admin.Auth.values();
             if (SGA.Form.checkRequireds('#auth-' + data.type)) {
                 SGA.ajax({
@@ -30,6 +31,7 @@ SGA.Admin = {
                     data: data,
                     type: 'post',
                     success: function(response) {
+                        $('#auth_message').show();
                     }
                 });
             }
