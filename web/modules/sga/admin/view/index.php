@@ -12,6 +12,9 @@ use \core\util\Arrays;
         <div id="tab-geral">
             <fieldset>
                 <legend><?php echo _('Autenticação') ?></legend>
+                <div id="auth_message" style="display:none">
+                    <?php echo $builder->success(_('Configuração salva com sucesso')) ?>
+                </div>
                 <div class="field auth-type">
                     <label for="auth_type" class="w150"><?php echo _('Tipo') ?></label>
                     <?php
@@ -33,6 +36,7 @@ use \core\util\Arrays;
                     <div class="field required">
                         <label for="auth_ldap_port" class="w150"><?php echo _('Porta') ?></label>
                         <input id="auth_ldap_port" name="port" class="w50" type="text" maxlength="6" value="<?php echo Arrays::value($auth['ldap'], 'port') ?>" />
+                        <span class="message info">ex: 389</span>
                     </div>
                     <div class="field required">
                         <label for="auth_ldap_host" class="w150"><?php echo _('Base DN') ?></label>
