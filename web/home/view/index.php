@@ -19,6 +19,13 @@ function printModulos($builder, $modulos) {
         <h1><?php SGA::out(sprintf(_('Bem-vindo, %s'), $usuario->getNome())) ?></h1>
         <p><?php SGA::out(_('Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código aberto e gratuito.')) ?></p>
     </div>
+    <?php 
+        echo $builder->highlight(array(
+            'id' => 'new-version',
+            'style' => 'display: none',
+            'label' => _('Nova versão disponível') . ': '
+        ));
+    ?>
     <div id="modules">
         <div id="modules-search">
             <input id="search-input" type="text" placeholder="<?php echo _('buscar') ?>" onkeyup="SGA.Home.filter()"  />
@@ -40,3 +47,4 @@ function printModulos($builder, $modulos) {
         <?php endif; ?>
     </div>
 </div>
+<script type="text/javascript"> SGA.Updater.checkVersion('#new-version'); </script>

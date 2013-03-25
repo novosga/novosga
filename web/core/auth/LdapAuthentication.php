@@ -44,7 +44,7 @@ class LdapAuthentication extends Authentication {
             list($conn, $bind) = $this->connect($this->username, $this->password);
             if ($conn && $bind) {
                 $filter = sprintf('(&(%s)(%s=%s))', $this->filter, $this->loginAttribute, $username);
-                $search = ldap_search($conn, $this->baseDn, $filter);
+                $search = @ldap_search($conn, $this->baseDn, $filter);
                 if ($search) {
                     $result = @ldap_get_entries($conn, $search);
                     if ($result && $result['count'] == 1) {

@@ -691,3 +691,7 @@ pre code {
     background-color: transparent;
     border: 0;
 }
+
+#new-version p {
+    color: #000 !important;
+}

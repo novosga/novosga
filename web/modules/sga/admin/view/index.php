@@ -3,6 +3,13 @@ use \core\SGA;
 use \core\util\Arrays;
 ?>
 <div>
+    <?php 
+        echo $builder->highlight(array(
+            'id' => 'new-version',
+            'style' => 'display: none',
+            'label' => _('Nova versão disponível') . ': '
+        ));
+    ?>
     <div id="tabs">
         <ul>
             <li><a href="#tab-geral"><?php SGA::out(_('Sistema')) ?></a></li>
@@ -105,7 +112,7 @@ use \core\util\Arrays;
                                         <span class="ip"><?php echo $painel->getIp() ?></span>
                                     </a>
                                 </li>
-                            <?php 
+                                <?php 
                                 endforeach; 
                             endif; 
                         ?>
@@ -115,7 +122,7 @@ use \core\util\Arrays;
         </div>
     </div>
     <script type="text/javascript"> 
-        $('#tabs').tabs(); 
+        $('#tabs').tabs();
         SGA.Admin.Auth.init();
     </script>
 </div>
@@ -140,3 +147,4 @@ use \core\util\Arrays;
         <ul id="painel_senhas"></ul>
     </div>
 </div>
+<script type="text/javascript"> SGA.Updater.checkVersion('#new-version'); </script>
