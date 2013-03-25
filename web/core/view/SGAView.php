@@ -145,8 +145,9 @@ abstract class SGAView implements View {
         <script type="text/javascript" src="<?php SGA::out($script . '?v=' . SGA::VERSION) ?>"></script>
         <?php endforeach; ?>
         <script type="text/javascript">
-            SGA.K_MODULE = '<?php SGA::out(SGA::K_MODULE) ?>'; 
-            SGA.K_PAGE = '<?php SGA::out(SGA::K_PAGE) ?>'; 
+            SGA.K_MODULE = '<?php echo SGA::K_MODULE ?>'; 
+            SGA.K_PAGE = '<?php echo SGA::K_PAGE ?>'; 
+            SGA.version = '<?php echo SGA::VERSION ?>';
             SGA.module = '<?php SGA::out(defined('MODULE') ? MODULE : '') ?>';
             SGA.invalidSession = '<?php SGA::out(_(\login\LoginController::INVALID_SESSION)); ?>';
             SGA.inactiveSession = '<?php SGA::out(_(\login\LoginController::INACTIVE_SESSION)); ?>';
