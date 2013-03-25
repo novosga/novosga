@@ -83,12 +83,14 @@ class Configuracao extends Model {
      */
     public static function set($key, $value) {
         $em = \core\db\DB::getEntityManager();
-        $query = $em->createQuery("UPDATE \core\model\Configuracao e SET e.valor = :value WHERE e.chave = :key");
-        $query->setParameter('key', $key);
-        $v = (self::tipo($value) == self::COMPLEX) ? serialize($value) : $value;
-        $query->setParameter('value', $v);
-        // se não afetou nenhum registro, cria a configuração
-        if (!$query->execute()) {
+        try {
+            $query = $em->createQuery("SELECT e FROM \core\model\Configuracao e WHERE e.chave = :key");
+            $query->setParameter('key', $key);
+            $config = $query->getSingleResult();
+            $config->setValor($value);
+            $em->merge($config);
+            $em->flush();
+        } catch (\Doctrine\ORM\NoResultException $e) {
             $config = new Configuracao($key, $value);
             $em->persist($config);
             $em->flush();

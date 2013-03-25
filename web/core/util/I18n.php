@@ -56,7 +56,11 @@ class I18n {
     
     public static function bind() {
         $locale = self::locale() . ".utf8";
-        setlocale(LC_MESSAGES, $locale);
+        if (defined('LC_MESSAGES')) {
+            setlocale(LC_MESSAGES, $locale);
+        } else {
+            setlocale(LC_ALL, $locale);
+        }
         putenv("LANG={$locale}");
         bindtextdomain("default", ROOT . DS . self::LOCALE_DIR);
         textdomain("default");
