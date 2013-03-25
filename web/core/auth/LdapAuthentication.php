@@ -44,7 +44,7 @@ class LdapAuthentication extends Authentication {
             list($conn, $bind) = $this->connect($this->username, $this->password);
             if ($conn && $bind) {
                 $filter = sprintf('(&(%s)(%s=%s))', $this->filter, $this->loginAttribute, $username);
-                $search = @ldap_search($conn, $this->baseDn, $filter);
+                $search = ldap_search($conn, $this->baseDn, $filter);
                 if ($search) {
                     $result = @ldap_get_entries($conn, $search);
                     if ($result && $result['count'] == 1) {
@@ -73,6 +73,8 @@ class LdapAuthentication extends Authentication {
             throw new \Exception(_('Extensão LDAP não disponível no servidor.'));
         }
         $conn = @ldap_connect($this->host, $this->port);
+        ldap_set_option($conn, LDAP_OPT_REFERRALS, 0);
+        ldap_set_option($conn, LDAP_OPT_PROTOCOL_VERSION, 3);
         $bind = @ldap_bind($conn, $user, $pwd);
         if (!$bind) {
             throw new \Exception('Não foi possível conectar ao servidor LDAP. Verifique se os dados estão corretos.');
@@ -88,8 +90,10 @@ class LdapAuthentication extends Authentication {
         if (!$user) {
             $user = new \core\model\Usuario();
             $user->setLogin($username);
-            $user->setNome($ldapUser['givenname'][0]);
-            $user->setSobrenome($ldapUser['sn'][0]);
+            $nome = (isset($ldapUser['givenname'])) ? $ldapUser['givenname'][0] : $username;
+            $user->setNome($nome);
+            $sobrenome = (isset($ldapUser['sn'])) ? $ldapUser['sn'][0] : '';
+            $user->setSobrenome($sobrenome);
             $user->setSenha('');
             $user->setStatus(1);
             $user->setSessionId(session_id());
