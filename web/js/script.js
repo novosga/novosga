@@ -6,6 +6,7 @@ var SGA = {
     
     K_MODULE: '',
     K_PAGE: '',
+    version: 0,
     module: '',
     page: '',
     paused: false,
@@ -92,6 +93,56 @@ var SGA = {
         
     reload: function() {
         window.location = window.location;
+    },
+            
+    Updater: {
+        url: 'http://novosga.org/update.php',
+        
+        checkVersion: function(showIn) {
+            SGA.Updater.load(function(update) {
+                var currVersion = SGA.Updater.versionToInt(SGA.version);
+                if (!isNaN(currVersion) && SGA.Updater.versionToInt(update.version) > currVersion) {
+                    var node = $(showIn);
+                    var p = node.find('p');
+                    p.text(p.text() + update.version);
+                    node.show();
+                }
+            });
+        },
+                
+        versionToInt: function(v) {
+            v = v.split('.');
+            return (parseInt(v[0]) * 1000) + (parseInt(v[1]) * 10) + parseInt(v[2]);
+        },
+        
+        load: function(complete) {
+            $.ajax({
+                url: SGA.Updater.url,
+                dataType: 'xml',
+                success: function(response) {
+                    var root = response.childNodes[0];
+                    var update = {items: []};
+                    for (var i = 0; i < root.childNodes.length; i++) {
+                        var node = root.childNodes[i];
+                        if (node.nodeType == 1) {
+                            if (node.nodeName == 'item') {
+                                var item = {};
+                                for (var j = 0; j < node.childNodes.length; j++) {
+                                    var child = root.childNodes[j];
+                                    if (child.nodeType == 1) {
+                                        item[child.nodeName] = child.childNodes[0].nodeValue;
+                                    }
+                                }
+                                update.items.push(item);
+                            } else {
+                                update[node.nodeName] = node.childNodes[0].nodeValue;
+                            }
+                        }
+                    }
+                    complete(update);
+                }
+            });
+        }
     },
     
     secToTime: function(seconds) {
