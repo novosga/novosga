@@ -174,26 +174,36 @@ public class Main extends Application {
     }
     
     public static File getWorkingDirectory() {
+        File workingDirectory = null;
         final String applicationName = "PainelSGA";
-        final String userHome = System.getProperty("user.home", ".");
-        final File workingDirectory;
-        final String sysName = System.getProperty("os.name").toLowerCase();
-
-        if (sysName.contains("linux") || sysName.contains("solaris")) {
-            workingDirectory = new File(userHome, '.' + applicationName + '/');
-        } else if (sysName.contains("windows")) {
-            final String applicationData = System.getenv("APPDATA");
-            if (applicationData != null) {
-                workingDirectory = new File(applicationData, "." + applicationName + '/');
-            } else {
+        try {
+            final String userHome = System.getProperty("user.home", ".");
+            final String sysName = System.getProperty("os.name").toLowerCase();
+            if (sysName.contains("linux") || sysName.contains("solaris")) {
                 workingDirectory = new File(userHome, '.' + applicationName + '/');
+            } else if (sysName.contains("windows")) {
+                final String applicationData = System.getenv("APPDATA");
+                if (applicationData != null) {
+                    workingDirectory = new File(applicationData, "." + applicationName + '/');
+                } else {
+                    workingDirectory = new File(userHome, '.' + applicationName + '/');
+                }
+            } else if (sysName.contains("mac")) {
+                workingDirectory = new File(userHome, "Library/Application Support/" + applicationName);
+            } else {
+                workingDirectory = new File(".");
             }
-        } else if (sysName.contains("mac")) {
-            workingDirectory = new File(userHome, "Library/Application Support/" + applicationName);
-        } else {
-            workingDirectory = new File(".");
+        } catch (java.security.AccessControlException e) {
+            try {
+                workingDirectory = new File(System.getProperty("java.io.tmpdir"));
+            } catch (java.security.AccessControlException e2) {
+                try {
+                    workingDirectory = File.createTempFile("", applicationName);
+                } catch (java.io.IOException e3) {
+                }
+            }
         }
-        if (!workingDirectory.exists() && !workingDirectory.mkdirs()) {
+        if (workingDirectory == null || (!workingDirectory.exists() && !workingDirectory.mkdirs())) {
             throw new RuntimeException("The working directory could not be created: " + workingDirectory);
         }
         return workingDirectory;
