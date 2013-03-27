@@ -25,12 +25,9 @@
  */
 package org.novosga.painel.server;
 
-import br.gov.dataprev.controladorpainel.ConfigManager;
-import br.gov.dataprev.controladorpainel.GerenciadorPaineis;
-import br.gov.dataprev.controladorpainel.ProcessadorSenhas;
-import br.gov.dataprev.controladorpainel.SQLConnectionPool;
-import br.gov.dataprev.controladorpainel.server.PacketServer;
-import br.gov.dataprev.controladorpainel.server.PacketServerFactory;
+import org.novosga.painel.server.db.SQLConnectionPool;
+import org.novosga.painel.server.network.PacketServer;
+import org.novosga.painel.server.network.PacketServerFactory;
 import java.io.FileInputStream;
 import java.sql.SQLException;
 import java.util.logging.Level;
