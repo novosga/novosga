@@ -82,11 +82,10 @@ abstract class LoggedView extends PageView {
     }
     
     private function changeUnidadeDialog(SGAContext $context) {
-        $unidade = $context->getUser()->getUnidade();
-        $query = DB::getEntityManager()->createQuery("SELECT u FROM \core\model\Unidade u");
-        $unidades = $query->getResult();
+        $unidades = AcessoBusiness::unidades($context->getUser());
         $items = Arrays::toArray($unidades, array('nome'), 'id');
         // exibe a dialog para escolher a unidade se estiver na home
+        $unidade = $context->getUser()->getUnidade();
         $show = (!$unidade && !$context->getModulo());
         $style = (!$show) ? 'style="display:none"' : '';
         $content = '<div id="dialog-unidade" ' . $style . ' title="' . _('Unidade') . '"><div class="field">';

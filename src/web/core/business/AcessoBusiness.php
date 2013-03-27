@@ -20,6 +20,8 @@ abstract class AcessoBusiness {
         Modulo::MODULO_UNIDADE => array()
     );
     
+    private static $unidades = array();
+    
     public static function isLoginPage($key) {
         return $key == SGA::K_LOGIN;
     }
@@ -158,6 +160,32 @@ abstract class AcessoBusiness {
         $modulos = $query->getResult();
         self::$modulos[$tipo] = $modulos;
         return $modulos;
+    }
+    
+    public static function unidades(UsuarioSessao $usuario) {
+        if (!empty(self::$unidades)) {
+            return self::$unidades;
+        }
+        $em = DB::getEntityManager();
+        $query = $em->createQuery("
+            SELECT 
+                e
+            FROM 
+                \core\model\Unidade e
+                INNER JOIN e.grupo g
+            WHERE 
+                g.left >= :esquerda AND
+                g.right <= :direita
+            ORDER BY
+                e.nome
+        ");
+        $lotacoes = $usuario->getWrapped()->getLotacoes();
+        foreach ($lotacoes as $lotacao) {
+            $query->setParameter('esquerda', $lotacao->getGrupo()->getLeft());
+            $query->setParameter('direita', $lotacao->getGrupo()->getRight());
+            self::$unidades = array_merge(self::$unidades, $query->getResult());
+        }
+        return self::$unidades;
     }
     
 }
