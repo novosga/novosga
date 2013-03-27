@@ -16,7 +16,11 @@ SGA.Servicos = {
                 while (next.find('span.nome').hasClass('sub-servico')) {
                     next = next.next();
                 }
-                next.before(item.parent().parent());
+                if (next.length > 0) {
+                    next.before(item.parent().parent());
+                } else {
+                    parent.parent().parent().after(item.parent().parent());
+                }
             }
         });
         
