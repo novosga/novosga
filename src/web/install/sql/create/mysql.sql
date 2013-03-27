@@ -11,14 +11,20 @@ CREATE TABLE atend_codif (
     id_serv integer NOT NULL,
     valor_peso smallint NOT NULL,
     PRIMARY KEY (id_atend, id_serv) 
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE atend_status (
     id_stat integer NOT NULL AUTO_INCREMENT,
     nm_stat varchar(30) NOT NULL,
     desc_stat varchar (150) NOT NULL,
     PRIMARY KEY (id_stat)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE atendimentos (
     id_atend bigint NOT NULL AUTO_INCREMENT,
@@ -38,7 +44,10 @@ CREATE TABLE atendimentos (
     dt_fim datetime,
     ident_cli varchar(11) DEFAULT NULL,
     PRIMARY KEY (id_atend)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 
 CREATE TABLE cargos_aninhados (
@@ -48,14 +57,20 @@ CREATE TABLE cargos_aninhados (
     esquerda integer NOT NULL,
     direita integer NOT NULL,
     PRIMARY KEY (id_cargo)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE cargos_mod_perm (
     id_cargo integer NOT NULL,
     id_mod integer NOT NULL,
     permissao integer NOT NULL,
     PRIMARY KEY (id_cargo, id_mod)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE grupos_aninhados (
     id_grupo integer NOT NULL AUTO_INCREMENT,
@@ -64,14 +79,20 @@ CREATE TABLE grupos_aninhados (
     esquerda integer NOT NULL,
     direita integer NOT NULL,
     PRIMARY KEY (id_grupo)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE config (
     chave varchar(150) NOT NULL,
     valor TEXT NOT NULL,
     tipo integer NOT NULL,
     PRIMARY KEY (chave)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 
 CREATE TABLE historico_atend_codif (
@@ -79,7 +100,10 @@ CREATE TABLE historico_atend_codif (
     id_serv integer NOT NULL,
     valor_peso smallint NOT NULL,
     PRIMARY KEY (id_atend, id_serv)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 
 CREATE TABLE historico_atendimentos (
@@ -100,7 +124,10 @@ CREATE TABLE historico_atendimentos (
     dt_fim datetime,
     ident_cli varchar(11) DEFAULT NULL,
     PRIMARY KEY (id_atend)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE modulos (
     id_mod integer NOT NULL AUTO_INCREMENT,
@@ -111,20 +138,29 @@ CREATE TABLE modulos (
     tipo_mod smallint NOT NULL,
     stat_mod smallint NOT NULL,
     PRIMARY KEY (id_mod)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE paineis (
     id_uni integer NOT NULL,
     host integer NOT NULL,
     PRIMARY KEY (host)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE paineis_servicos (
     host integer NOT NULL,
     id_uni integer NOT NULL,
     id_serv integer NOT NULL,
     PRIMARY KEY (host, id_serv)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE painel_senha (
     contador integer NOT NULL AUTO_INCREMENT,
@@ -136,7 +172,10 @@ CREATE TABLE painel_senha (
     nm_local varchar(15) NOT NULL,
     num_guiche smallint NOT NULL,
     PRIMARY KEY (contador)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE prioridades (
     id_pri integer NOT NULL AUTO_INCREMENT,
@@ -145,19 +184,28 @@ CREATE TABLE prioridades (
     peso_pri smallint NOT NULL,
     stat_pri smallint NOT NULL,
     PRIMARY KEY (id_pri)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE serv_local (
     id_loc integer NOT NULL AUTO_INCREMENT,
     nm_loc varchar(20) NOT NULL,
     PRIMARY KEY (id_loc)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE serv_peso (
     id_serv integer NOT NULL,
     valor_peso smallint NOT NULL,
     PRIMARY KEY (id_serv)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE servicos (
     id_serv integer NOT NULL AUTO_INCREMENT,
@@ -166,7 +214,10 @@ CREATE TABLE servicos (
     nm_serv varchar(50),
     stat_serv smallint,
     PRIMARY KEY (id_serv)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE uni_serv (
     id_uni integer NOT NULL,
@@ -176,7 +227,10 @@ CREATE TABLE uni_serv (
     sigla_serv char(1) NOT NULL,
     stat_serv smallint NOT NULL,
     PRIMARY KEY (id_uni, id_serv)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 
 CREATE TABLE unidades (
@@ -188,7 +242,10 @@ CREATE TABLE unidades (
     stat_imp smallint DEFAULT 0,
     msg_imp varchar(100),
     PRIMARY KEY (id_uni)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 
 CREATE TABLE usu_grup_cargo (
@@ -196,14 +253,20 @@ CREATE TABLE usu_grup_cargo (
     id_grupo integer NOT NULL,
     id_cargo integer NOT NULL,
     PRIMARY KEY (id_usu, id_grupo)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE usu_serv (
     id_uni integer NOT NULL,
     id_serv integer NOT NULL,
     id_usu integer NOT NULL,
     PRIMARY KEY (id_uni, id_serv, id_usu)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 CREATE TABLE usuarios (
     id_usu integer NOT NULL AUTO_INCREMENT,
@@ -215,7 +278,10 @@ CREATE TABLE usuarios (
     stat_usu smallint NOT NULL,
     session_id varchar(40) NOT NULL,
     PRIMARY KEY (id_usu)
-) ENGINE = INNODB;
+) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = INNODB;
 
 --
 -- keys
