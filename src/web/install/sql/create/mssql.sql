@@ -244,7 +244,7 @@ CREATE TABLE [dbo].[usuarios](
     [login_usu] [varchar](20) NOT NULL,
     [nm_usu] [varchar](20) NOT NULL,
     [ult_nm_usu] [varchar](100) NOT NULL,
-    [senha_usu] [varchar](40) NOT NULL,
+    [senha_usu] [varchar](100) NOT NULL,
     [ult_acesso] [datetime] NULL,
     [stat_usu] [smallint] NOT NULL,
     [session_id] [varchar](40) NOT NULL

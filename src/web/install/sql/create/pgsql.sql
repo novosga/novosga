@@ -194,7 +194,7 @@ CREATE TABLE usuarios (
     login_usu character varying(20) NOT NULL,
     nm_usu character varying(20) NOT NULL,
     ult_nm_usu character varying(100) NOT NULL,
-    senha_usu character varying(40) NOT NULL,
+    senha_usu character varying(100) NOT NULL,
     ult_acesso timestamp with time zone,
     stat_usu smallint NOT NULL,
     session_id character varying(40) NOT NULL

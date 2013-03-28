@@ -24,7 +24,7 @@ class DatabaseAuthentication extends Authentication {
         try {
             $user = $query->getSingleResult();
             if ($user) {
-                if ($user->getSenha() == \core\Security::passEncode($password)) {
+                if (\core\Security::passCheck($password, $user->getSenha())) {
                     return $user;
                 }
             }
