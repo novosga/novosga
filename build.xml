@@ -7,8 +7,8 @@
     <property name="dir.dist" value="dist" />
     <property name="dir.build" value="build" />
     <property name="novosga.dist" location="dist" />
-    <property name="novosga.web" location="web" />
-    <property name="novosga.painel" location="painel" />
+    <property name="novosga.web" location="src/web" />
+    <property name="novosga.painel" location="src/painel" />
     <property name="novosga.painel.client" value="${novosga.painel}/client" />
     <property name="novosga.painel.server" value="${novosga.painel}/server" />
     
