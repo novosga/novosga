@@ -43,7 +43,12 @@ class LdapAuthentication extends Authentication {
             $message = _('Não foi possível conectar ao servidor LDAP. Favor verificar se as configurações estão corretas.');
             list($conn, $bind) = $this->connect($this->username, $this->password);
             if ($conn && $bind) {
-                $filter = sprintf('(&(%s)(%s=%s))', $this->filter, $this->loginAttribute, $username);
+                if (!empty($this->filter)) {
+                    $filter = ($this->filter[0] != '(') ? '(' . $this->filter . ')' : $this->filter;
+                    $filter = sprintf('(&%s(%s=%s))', $filter, $this->loginAttribute, $username);
+                } else {
+                    $filter = sprintf('(%s=%s)', $this->loginAttribute, $username);
+                }
                 $search = @ldap_search($conn, $this->baseDn, $filter);
                 if ($search) {
                     $result = @ldap_get_entries($conn, $search);
