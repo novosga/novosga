@@ -60,6 +60,7 @@ SGA.Admin = {
                 $('#painel_ip').text(painel.ip);
                 $('#painel_unidade').text(painel.unidade);
                 var list = $('#painel_servicos');
+                list.html('');
                 for (var i = 0; i < painel.servicos.length; i++) {
                     list.append('<li>' + painel.servicos[i] + '</li>')
                 }
