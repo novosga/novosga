@@ -7,14 +7,14 @@ use \core\model\Prioridade;
 /**
  * Classe Senha
  * Responsavel pelas informacoes do Senha
- * 
+ *
  */
  class Senha extends Model {
-     
+
      const LENGTH = 4;
-     
+
     private $sigla;
-    private $numero;    
+    private $numero;
     private $prioridade;
     private $legenda;
 
@@ -75,7 +75,7 @@ use \core\model\Prioridade;
      * @param Prioridade $pri
      */
     public function setPrioridade($pri) {
-        $this->prioridade = $pri;         
+        $this->prioridade = $pri;
     }
 
     /**

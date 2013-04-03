@@ -13,7 +13,7 @@ class Security {
     }
 
 /**
- * Verifica se o hash passado como segundo argumento é representa
+ * Verifica se o hash passado como segundo argumento representa
  * o mesmo valor que o hash produzido com o primeiro argumento.
  *
  * @param string $pass Senha

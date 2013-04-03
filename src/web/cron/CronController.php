@@ -11,7 +11,7 @@ use \core\db\DB;
 
 /**
  * CronController
- * 
+ *
  * @author rogeriolino
  *
  */
@@ -21,11 +21,11 @@ class CronController extends SGAController {
         require_once(__DIR__ . '/CronView.php');
         return new CronView();
     }
-    
+
     public function index(SGAContext $context) {
         exit();
     }
-        
+
     public function reiniciar_senhas(SGAContext $context) {
         $response = new AjaxResponse();
         try {
@@ -53,11 +53,11 @@ class CronController extends SGAController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     private static function token($login, $senha) {
-        return \core\Security::passEncode($login . ':' . $senha);
+        return \core\Security::hash($login . ':' . $senha);
     }
-    
+
     public static function cronUrl($page, UsuarioSessao $usuario) {
         $protocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -66,5 +66,5 @@ class CronController extends SGAController {
         $url .= '&login=' . $usuario->getLogin() . '&token=' . self::token($usuario->getLogin(), $usuario->getSenha());
         return $url;
     }
-    
+
 }

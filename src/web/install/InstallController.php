@@ -19,22 +19,22 @@ use \core\controller\InternalController;
 
 /**
  * InstallController
- * 
+ *
  * @author rogeriolino
  */
 class InstallController extends InternalController {
-    
+
     private static $steps = array();
-    
+
     const STEPS = 'steps';
     const TOTAL_STEPS = 'totalSteps';
     const CURR_STEP_IDX = 'currStepIdx';
     const CURR_STEP = 'currStep';
     const SGALIVRE = 'sgalivre';
-    
+
     public function __construct() {
     }
-    
+
     private function getSteps() {
         if (empty(self::$steps)) {
             self::$steps[] = new InstallStep(0, _('Início')); // install welcome
@@ -50,7 +50,7 @@ class InstallController extends InternalController {
     protected function createView() {
         return new InstallView();
     }
-    
+
     public function index(SGAContext $context) {
         if (Config::SGA_INSTALLED) {
             SGA::redirect('/');
@@ -66,7 +66,7 @@ class InstallController extends InternalController {
         $context->setParameter(self::CURR_STEP_IDX, $index);
         $context->setParameter(self::CURR_STEP, $steps[$index]);
     }
-    
+
     public function set_adapter(SGAContext $context) {
         $context->getSession()->del('adapter');
         $response = new AjaxResponse();
@@ -83,7 +83,7 @@ class InstallController extends InternalController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     public function info(SGAContext $context) {
         if (!Config::SGA_INSTALLED) {
             echo SGA::info();
@@ -92,15 +92,15 @@ class InstallController extends InternalController {
         }
         exit();
     }
-    
+
     private function script_create($type) {
          return dirname(__FILE__). DS . 'sql' . DS . 'create' . DS . $type . '.sql';
     }
-    
+
     private function script_data() {
          return dirname(__FILE__). DS . 'sql' . DS . 'data' . DS . 'default.sql';
     }
-    
+
     private function script_migration($from) {
         $path = dirname(__FILE__). DS . 'sql' . DS . 'migrate' . DS;
         if ($from == self::SGALIVRE) {
@@ -109,7 +109,7 @@ class InstallController extends InternalController {
         // sql format "from:to.sql"
         return $path . $from . ':' . SGA::VERSION . '.sql';
     }
-    
+
     public function test_db(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
             $response = new AjaxResponse(true, _('Banco de Dados testado com sucesso!'));
@@ -146,15 +146,15 @@ class InstallController extends InternalController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     private function checkMigration(SGAContext $context) {
         $version = $this->getCurrentVersion($context);
         if ($version) {
-            //$script = 
+            //$script =
         }
         $context->setParameter('currVersion', "$version");
     }
-    
+
     private function getCurrentVersion(SGAContext $context) {
         $data = $context->getSession()->get(InstallData::SESSION_KEY);
         $db = $data->database;
@@ -169,7 +169,7 @@ class InstallController extends InternalController {
         }
         return null;
     }
-    
+
     public function set_admin(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
             $response = new AjaxResponse(true, _('Dados do usuário informados com sucesso'));
@@ -217,7 +217,7 @@ class InstallController extends InternalController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     public function do_install(SGAContext $context) {
         if ($context->getRequest()->isPost()) {
             $response = new AjaxResponse(true, _('Instalação concluída com sucesso'));
@@ -233,19 +233,19 @@ class InstallController extends InternalController {
                 }
                 $db = $data->database;
                 $db_type = $db['db_type'];
-                
+
                 $configFile = ConfigWriter::filename();
                 // verifica se será possível escrever a configuração no arquivo Config.php
                 if (!is_writable($configFile)) {
                     $msg = _('Arquivo de configuação (%s) somente leitura');
                     throw new Exception(sprintf($msg, $configFile));
                 }
-                
+
                 DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
                 $em = DB::getEntityManager();
                 $conn = $em->getConnection();
                 //$conn->beginTransaction();
-                
+
                 $version = $this->getCurrentVersion($context);
                 // atualizando/migrando
                 if ($version) {
@@ -256,7 +256,7 @@ class InstallController extends InternalController {
                     }
                     // executando arquivo sql de migracao
                     $conn->exec(file_get_contents($sql));
-                } 
+                }
                 // nova instalacao
                 else {
                     $sqlInitFile = $this->script_create($db_type);
@@ -271,7 +271,7 @@ class InstallController extends InternalController {
                         $msg = _('Script SQL de instalação não encontrado (%s)');
                         throw new Exception(sprintf($msg, $sqlDataFile));
                     }
-                    
+
                     // executando arquivo sql de criacao
                     $conn->exec(file_get_contents($sqlInitFile));
                     // executando arquivo sql de dados iniciais
@@ -280,9 +280,9 @@ class InstallController extends InternalController {
                     $sql = Strings::format(file_get_contents($sqlDataFile), $adm);
                     $conn->exec($sql);
                 }
-                
+
                 //$conn->commit();
-                
+
                 // atualizando arquivo de configuracao
                 ConfigWriter::write($db);
                 // se sucesso limpa a sessao
@@ -299,7 +299,7 @@ class InstallController extends InternalController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     private function postErrorResponse() {
         return new AjaxResponse(false, _('Requisição inválida'));
     }

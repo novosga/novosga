@@ -21,25 +21,25 @@ class UsuariosController extends CrudController {
     protected function createModel() {
         return new Usuario();
     }
-    
+
     protected function requiredFields() {
         return array('login', 'nome', 'sobrenome');
     }
-    
+
     public function edit(SGAContext $context) {
         parent::edit($context);
         $lotacoes = array();
         if ($this->model->getId() > 0) {
             $query = DB::getEntityManager()->createQuery("
-                SELECT 
-                    e 
-                FROM 
-                    \core\model\Lotacao e 
-                    JOIN e.cargo c 
-                    JOIN e.grupo g 
-                WHERE 
-                    e.usuario = :usuario 
-                ORDER BY 
+                SELECT
+                    e
+                FROM
+                    \core\model\Lotacao e
+                    JOIN e.cargo c
+                    JOIN e.grupo g
+                WHERE
+                    e.usuario = :usuario
+                ORDER BY
                     g.left DESC
             ");
             $query->setParameter('usuario', $this->model->getId());
@@ -78,17 +78,17 @@ class UsuariosController extends CrudController {
         $exceto = $context->getRequest()->getParameter('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
         $query = $this->em()->createQuery("
-            SELECT 
-                s.id, e.nome 
-            FROM 
-                \core\model\ServicoUnidade e 
-                JOIN e.unidade u 
-                JOIN e.servico s 
-            WHERE 
-                e.status = 1 AND 
+            SELECT
+                s.id, e.nome
+            FROM
+                \core\model\ServicoUnidade e
+                JOIN e.unidade u
+                JOIN e.servico s
+            WHERE
+                e.status = 1 AND
                 u = :unidade AND
                 s.id NOT IN (:exceto)
-            ORDER BY 
+            ORDER BY
                 e.nome
         ");
         $query->setParameter('unidade', $id);
@@ -96,7 +96,7 @@ class UsuariosController extends CrudController {
         $response->data = $query->getResult();
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     protected function preSave(SGAContext $context, SequencialModel $model) {
         if ($model->getId() == 0) {
             // para novos usuarios, tem que informar a senha
@@ -109,8 +109,9 @@ class UsuariosController extends CrudController {
             }
             $senha = Arrays::value($_POST, 'senha');
             $confirmacao = Arrays::value($_POST, 'senha2');
-            
-            $model->setSenha(AcessoBusiness::verificaSenha($senha, $confirmacao));
+
+            $model->validaSenha($senha, $confirmacao);
+            $model->setSenha($senha);
             $model->setStatus(1);
             $model->setSessionId('');
         } else {
@@ -125,7 +126,7 @@ class UsuariosController extends CrudController {
             throw new \Exception(_('O login informado já está cadastrado para outro usuário.'));
         }
     }
-    
+
     protected function postSave(SGAContext $context, SequencialModel $model) {
         $conn = $this->em()->getConnection();
         // lotacoes - atualizando permissoes do cargo
@@ -165,20 +166,19 @@ class UsuariosController extends CrudController {
         $query->setParameter('arg', $arg);
         return $query->getResult();
     }
-    
+
     public function alterar_senha(SGAContext $context) {
         $response = new AjaxResponse();
         $id = (int) $context->getRequest()->getParameter('id');
         $senha = $context->getRequest()->getParameter('senha');
         $confirmacao = $context->getRequest()->getParameter('confirmacao');
-        $usuario = $this->findById($id);
+        $usuario = $this->em()->find('\core\model\Usuario', $id);
         if ($usuario) {
             try {
-                $hash = AcessoBusiness::verificaSenha($senha, $confirmacao);
-                $query = $this->em()->createQuery("UPDATE \core\model\Usuario u SET u.senha = :senha WHERE u.id = :id");
-                $query->setParameter('senha', $hash);
-                $query->setParameter('id', $usuario->getId());
-                $query->execute();
+                $usuario->validaSenha($senha, $confirmacao);
+                $usuario->setSenha($senha);
+                $this->em()->persist($usuario);
+                $this->em()->flush();
                 $response->success = true;
             } catch (Exception $e) {
                 $response->message = $e->getMessage();
@@ -188,5 +188,35 @@ class UsuariosController extends CrudController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
+    /**
+     * Rotina para geração de um hash de recuperação de senha.
+     * O hash é enviado para o email cadastrado junto a conta do usuário,
+     * que após clicar no link gerado especialmente para ele por definir
+     * uma nova senha.
+     *
+     * @param  SGAContext $context
+     */
+    public function recuperar_senha(SGAContext $context) {
+        $email = $context->getRequest()->getParameter('email');
+
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Usuario e WHERE LOWER(e.email) = :arg LIMIT 1");
+        $query->setParameter('arg', $email);
+
+        $usuario = $query->getResult();
+
+        if ($usuario) {
+            $hash = base64_encode(Security::hash($email . time()));
+            $expira = new DateTime();
+            $expira->modify('+3 days');
+            $query = $this->em()->createQuery("UPDATE \core\model\Usuario u SET u.senha_reset_token = :hash, u.senha_reset_expir = :expira WHERE u.id = :id");
+            $query->setParameter('hash', $hash);
+            $query->setParameter('expira', $expira);
+            $query->setParameter('id', $usuario->getId());
+            $query->execute();
+        } else {
+            $response->message = _('Usuário inválido');
+        }
+    }
+
 }

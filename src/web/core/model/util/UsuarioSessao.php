@@ -10,7 +10,7 @@ use \core\model\Unidade;
  * as entidades do Doctrine.
  */
 class UsuarioSessao {
-    
+
     private $id;
     private $unidade;
     private $unidadeId;
@@ -22,18 +22,18 @@ class UsuarioSessao {
     private $sessionId;
     private $permissoes;
     private $wrapped;
-    
+
     public function __construct(Usuario $usuario) {
         $this->id = $usuario->getId();
         $this->sessionId = $usuario->getSessionId();
         $this->ativo = true;
         $this->wrapped = $usuario;
     }
-    
+
     public function getId() {
         return $this->id;
     }
-    
+
     /**
      * Retorna o número do guiche para atendimento na unidade atual
      * @return type
@@ -58,7 +58,7 @@ class UsuarioSessao {
     public function setAtivo($ativo) {
         $this->ativo = ($ativo == true);
     }
-    
+
     public function getSessionId() {
         return $this->sessionId;
     }
@@ -70,9 +70,9 @@ class UsuarioSessao {
         if (!$this->permissoes) {
             $this->permissoes = array();
             $query = DB::getEntityManager()->createQuery("
-                SELECT 
+                SELECT
                    p
-                FROM 
+                FROM
                     \core\model\Lotacao l,
                     \core\model\Permissao p
                 WHERE
@@ -87,7 +87,7 @@ class UsuarioSessao {
         }
         return $this->permissoes;
     }
-    
+
     /**
      * Verifica se o usuaro tem permissao no modulo informado. Filtrando tambem
      * por cargo, caso seja informado.
@@ -140,7 +140,7 @@ class UsuarioSessao {
         }
         return $this->lotacao;
     }
-    
+
     /**
      * Retorna os servicos do usuario na unidade atual
      * @return Locatacao
@@ -154,7 +154,7 @@ class UsuarioSessao {
         }
         return $this->servicos;
     }
-    
+
     /**
      * Retorna os servicos que o usuario nao atende na unidade atual
      * @return Locatacao
@@ -162,12 +162,12 @@ class UsuarioSessao {
     public function getServicosIndisponiveis() {
         if (!$this->servicosIndisponiveis && $this->getUnidade()) {
             $query = DB::getEntityManager()->createQuery("
-                SELECT 
-                    e 
-                FROM 
+                SELECT
+                    e
+                FROM
                     \core\model\ServicoUnidade e
                     JOIN e.servico s
-                WHERE 
+                WHERE
                     e.status = 1 AND
                     e.unidade = :unidade AND
                     s.id NOT IN (
@@ -180,9 +180,9 @@ class UsuarioSessao {
         }
         return $this->servicosIndisponiveis;
     }
-    
+
     /**
-     * 
+     *
      * @return \core\model\Unidade
      */
     public function getUnidade() {
@@ -191,14 +191,14 @@ class UsuarioSessao {
         }
         return $this->unidade;
     }
-    
+
     public function setUnidade(Unidade $unidade) {
         $this->unidade = $unidade;
         $this->unidadeId = $unidade->getId();
     }
-    
+
     /**
-     * 
+     *
      * @return \core\model\Usuario
      */
     public function getWrapped() {
@@ -207,11 +207,11 @@ class UsuarioSessao {
         }
         return $this->wrapped;
     }
-    
+
     public function __sleep() {
         return array('id', 'unidadeId', 'sessionId', 'ativo', 'guiche', 'permissoes');
     }
-    
+
     /**
      * Métodos desconhecidos serão chamados no modelo usuário
      * @param type $name

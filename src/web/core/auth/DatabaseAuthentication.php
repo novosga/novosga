@@ -7,10 +7,10 @@ namespace core\auth;
  * @author rogeriolino
  */
 class DatabaseAuthentication extends Authentication {
-    
+
     public function init(array $config) {
     }
-    
+
     /**
      * Verifica o usuário e senha na tabela de usuarios
      * @param type $username
@@ -19,10 +19,9 @@ class DatabaseAuthentication extends Authentication {
      */
     public function auth($username, $password) {
         $em = \core\db\DB::getEntityManager();
-        $query = $em->createQuery("SELECT u FROM core\model\Usuario u WHERE u.login = :login");
-        $query->setParameter('login', $username);
+        $usuarioRepository = $em->getRepository('\core\model\Usuario');
         try {
-            $user = $query->getSingleResult();
+            $user = $usuarioRepository->findOneByLogin($username);
             if ($user) {
                 if (\core\Security::passCheck($password, $user->getSenha())) {
                     return $user;
@@ -30,11 +29,12 @@ class DatabaseAuthentication extends Authentication {
             }
         } catch (\Doctrine\ORM\NoResultException $e) {
         }
+
         return false;
     }
-    
+
     public function test() {
         return true;
     }
-    
+
 }
