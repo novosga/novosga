@@ -13,6 +13,9 @@ use \core\util\Arrays;
  * @author rogeriolino
  */
 abstract class SGAView implements View {
+
+    // TODO: tema dinamico
+    const THEME = 'bootstrap';
     
     protected $title;
     /**
@@ -131,10 +134,7 @@ abstract class SGAView implements View {
         $scripts = array_merge(self::$dependencies['js'], $scripts);
         $styles = Arrays::value($arg, 'css', array());
         $styles = array_merge(self::$dependencies['css'], $styles);
-        // TODO: tema dinamico
-        $theme = 'bootstrap';
-//        $theme = 'lightness';
-        $styles[] = "themes/$theme/style.css";
+        $styles[] = "themes/" . self::THEME . "/style.css";
         foreach ($styles as $style): ?>
         <link type="text/css" rel="stylesheet" href="<?php SGA::out($style . '?v=' . SGA::VERSION) ?>" />
         <?php endforeach; ?>
