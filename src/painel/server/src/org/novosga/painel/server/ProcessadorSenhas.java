@@ -30,6 +30,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,38 +56,57 @@ public class ProcessadorSenhas extends Thread {
         this.setPriority(Thread.MAX_PRIORITY);
     }
 
-    private PreparedStatement preparaDeleteSenhas() throws SQLException {
-        Connection con = SQLConnectionPool.getInstance().getConnection();
-        return con.prepareStatement("DELETE FROM painel_senha WHERE contador <= ?");
-    }
-
+    /**
+     * Busca as senhas para serem enviadas aos paineis, que ainda nao foram enviadas (dt_envio IS NULL)
+     * @return
+     * @throws SQLException 
+     */
     private PreparedStatement preparaSelectSenhas() throws SQLException {
         Connection con = SQLConnectionPool.getInstance().getConnection();
-        return con.prepareStatement("SELECT contador, id_uni, id_serv, msg_senha, num_senha, sig_senha, nm_local, num_guiche FROM painel_senha");
+        return con.prepareStatement("SELECT * FROM painel_senha WHERE dt_envio IS NULL");
+    }
+    
+    /**
+     * Cria PreparedStatement para atualizar os registros de senhas enviadas
+     * @return
+     * @throws SQLException 
+     */
+    private PreparedStatement preparaUpdateSenhas(List<Integer> ids) throws SQLException {
+        Connection con = SQLConnectionPool.getInstance().getConnection();
+        Calendar c = Calendar.getInstance();
+        String date = c.get(Calendar.YEAR) + "-" + String.format("%02d", c.get(Calendar.MONTH) + 1) + "-" + String.format("%02d", c.get(Calendar.DAY_OF_MONTH));
+        String hour = String.format("%02d", c.get(Calendar.HOUR_OF_DAY)) + ":" + String.format("%02d", c.get(Calendar.MINUTE))+ ":" + String.format("%02d", c.get(Calendar.SECOND));
+        StringBuilder sb = new StringBuilder("UPDATE painel_senha SET dt_envio = '").append(date).append(" ").append(hour).append("' WHERE contador IN (");
+        if (ids.isEmpty()) {
+            ids.add(0);
+        }
+        for (int i = 0; i < ids.size();) {
+            sb.append(ids.get(i));
+            if (++i < ids.size()) {
+                sb.append(",");
+            }
+        }
+        sb.append(")");
+        PreparedStatement stmt = con.prepareStatement(sb.toString());
+        return stmt;
     }
 
+    @Override
     public void run() {
-        PreparedStatement psDel = null, psSel = null;
+        PreparedStatement psSel;
         //BigInteger bi = new BigInteger("0");
         int maxContador = Integer.MIN_VALUE;
         try {
             psSel = this.preparaSelectSenhas();
-            psDel = this.preparaDeleteSenhas();
         } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Erro obtendo conexão/preparando consulta para processamento de senhas.", e);
-        }
-        // remove senhas que acumularam enquanto o controlador estava inativo
-        try {
-            Connection con = SQLConnectionPool.getInstance().getConnection();
-            con.createStatement().execute("DELETE FROM painel_senha");
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Erro limpando senhas antigas existentes.", e);
+            LOG.log(Level.SEVERE, "Erro obtendo conexão/preparando consulta para processamento de senhas. Processamento abortado.", e);
+            return;
         }
         ResultSet rset;
-        int idUnidade;
         String msgEspecial, guicheStr;
-        int contador, num_senha, guiche, id_serv;
+        int idUnidade, contador, num_senha, guiche, id_serv;
         char sig_serv;
+        List<Integer> ids = new ArrayList<Integer>();
         while (true) {
             try {
                 rset = psSel.executeQuery();
@@ -102,28 +124,24 @@ public class ProcessadorSenhas extends Thread {
                     }
                     try {
                         GerenciadorPaineis.getInstance().despacharSenha(idUnidade, msgEspecial, id_serv, sig_serv, num_senha, guicheStr, guiche);
+                        ids.add(contador);
+                        LOG.info("Enviada senha " + sig_serv + String.format("%04d", num_senha) + " para os paineis cadastrados (id="+ contador +")");
                     } catch (Throwable t) {
                         LOG.log(Level.SEVERE, "Falha despachando senha.", t);
                     }
                 }
                 rset.close();
+                // atualizando senhas como enviadas
+                if (ids.size() > 0) {
+                    this.preparaUpdateSenhas(ids).executeUpdate();
+                    ids.clear();
+                }
             } catch (SQLException e) {
-                LOG.log(Level.SEVERE, "Falha ao selecionar senhas da tabela, tetando re-preparar a consulta.", e);
+                LOG.log(Level.SEVERE, "Falha ao selecionar senhas da tabela, tentando re-preparar a consulta.", e);
                 try {
                     psSel = this.preparaSelectSenhas();
                 } catch (SQLException e1) {
                     LOG.log(Level.SEVERE, "Falha tentando re-preparar a consulta de senhas.", e);
-                }
-            }
-            try {
-                psDel.setInt(1, maxContador);
-                psDel.executeUpdate();
-            } catch (SQLException e) {
-                LOG.log(Level.SEVERE, "Falha ao remover senhas processadas.", e);
-                try {
-                    psDel = this.preparaDeleteSenhas();
-                } catch (SQLException e1) {
-                    LOG.log(Level.SEVERE, "Falha tentando re-preparar a consulta para remover senhas.", e);
                 }
             }
             try {

@@ -121,6 +121,10 @@ abstract class AtendimentoBusiness {
                 $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
             }
             $query->execute();
+            
+            // limpa a tabela de senhas a serem exibidas no painel
+            $query = $conn->prepare("DELETE FROM painel_senha");
+            $query->execute();
 
             $conn->commit();
         } catch (Exception $e) {

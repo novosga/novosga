@@ -55,6 +55,10 @@ ALTER TABLE historico_atendimentos ADD COLUMN sigla_senha VARCHAR(1);
 UPDATE historico_atendimentos a SET sigla_senha = s.sigla_serv FROM uni_serv s WHERE s.id_uni = a.id_uni AND s.id_serv = a.id_serv;
 ALTER TABLE historico_atendimentos ALTER COLUMN sigla_senha SET NOT NULL;
 
+-- painel senha
+ALTER TABLE painel_senha ADD COLUMN dt_envio timestamp NULL;
+UPDATE painel_senha SET dt_envio = CURRENT_TIMESTAMP;
+
 -- atualizando view
 DROP VIEW view_historico_atendimentos;
 CREATE VIEW view_historico_atendimentos 
