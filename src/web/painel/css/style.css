@@ -112,23 +112,27 @@ div.fittext {
  */
 #historico {
     height: 100%;
-    padding-left: 20px;
 }
 
 #historico .titulo {
     color: #ccc;
     height: 30%;
+    padding-left: 20px;
 }
 
 #historico .senhas {
     height: 70%;
     overflow: hidden;
+    background: rgba(0, 0, 0, .4);
+    border-radius: 8pt;
+    margin: 0 5pt;
+    padding: 0 10pt;
 }
 
 #historico .senhas * { color: #fff; }
 
 #historico .senhas div.senha-chamada {
-    width: 22%;
+    width: 20%;
     height: 100%;
     display: inline-block;
 }
