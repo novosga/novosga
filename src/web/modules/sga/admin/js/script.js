@@ -65,6 +65,7 @@ SGA.Admin = {
                     list.append('<li>' + painel.servicos[i] + '</li>')
                 }
                 list = $('#painel_senhas');
+                list.html('');
                 for (var i = 0; i < painel.senhas.length; i++) {
                     list.append('<li>' + painel.senhas[i] + '</li>')
                 }
