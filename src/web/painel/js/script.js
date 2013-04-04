@@ -70,6 +70,7 @@ SGA.PainelWeb = {
         if (painel.started && painel.senhas.length > 0) {
             var senha = painel.senhas.shift();
             // atualizando a senha atual
+            var atual = $('#atual-senha span').text();
             $('#atual-mensagem span').text(senha.mensagem);
             $('#atual-senha span').text(senha.senha);
             $('#atual-guiche span').text(senha.guiche);
@@ -81,16 +82,16 @@ SGA.PainelWeb = {
                     $('#atual-senha').effect("pulsate", { times: 3 }, 1000);
                 }
             }, 500);
-            // evita adicionar ao historico rechamadas
-            if ($('#atual-senha span').text() != senha.senha) {
+            // evita adicionar ao historico senha rechamada
+            if (atual != senha.senha) {
                 // guardando historico das 10 ultimas senhas
                 painel.historico.push(senha); 
                 painel.historico = painel.historico.slice(Math.max(0, painel.historico.length - 10), painel.historico.length);
                 // atualizando ultimas senhas chamadas
                 var senhas = $('#historico .senhas');
                 senhas.html('');
-                // nao exibe a ultima
-                for (var i = painel.historico.length - 2; i >= 0; i--) {
+                // -2 porque nao exibe a ultima (senha principal). E limitando exibicao em 5
+                for (var i = painel.historico.length - 2, j = 0; i >= 0 && j < 5; i--, j++) {
                     var senha = painel.historico[i];
                     var guiche = senha.guiche + ': ' + senha.numeroGuiche;
                     senhas.append('<div class="senha-chamada"><div class="senha fittext"><span>' + senha.senha + '</span></div><div class="guiche fittext"><span>' + guiche + '</span></div></div>');
