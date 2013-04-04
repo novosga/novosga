@@ -150,7 +150,7 @@ else {
     </div>
     <div id="sga-clock" title="<?php echo Strings::doubleQuoteSlash(_('Data e hora no servidor')) ?>"></div>
     <!-- som executado quando a fila deixa de estar fazia -->
-    <audio id="audio-new" src="media/audio/ekiga-vm.wav" style="display:none" />
+    <audio id="audio-new" src="media/audio/ekiga-vm.wav" style="display:none"></audio>
     <script type="text/javascript">
         <?php
             $status = ($atendimento) ? $atendimento->getStatus() : 1;
