@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <title>Painel Web | Novo SGA</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo \core\SGA::VERSION ?>" />
     <link rel="stylesheet" type="text/css" href="../themes/<?php echo \core\view\SGAView::THEME ?>/style.css" />
-    <script type="text/javascript" src="../js/jquery.js"></script>
-    <script type="text/javascript" src="../js/jquery-ui.js"></script>
-    <script type="text/javascript" src="../js/script.js"></script>
-    <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="../js/jquery.js?v=<?php echo \core\SGA::VERSION ?>"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js?v=<?php echo \core\SGA::VERSION ?>"></script>
+    <script type="text/javascript" src="../js/script.js?v=<?php echo \core\SGA::VERSION ?>"></script>
+    <script type="text/javascript" src="js/script.js?v=<?php echo \core\SGA::VERSION ?>"></script>
 </head>
 <body>
     <table id="layout">
