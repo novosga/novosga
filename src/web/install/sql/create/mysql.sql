@@ -168,9 +168,10 @@ CREATE TABLE painel_senha (
     id_serv integer NOT NULL,
     num_senha integer NOT NULL,
     sig_senha char(1) NOT NULL,
-    msg_senha varchar(15) NOT NULL,
+    msg_senha varchar(20) NOT NULL,
     nm_local varchar(15) NOT NULL,
     num_guiche smallint NOT NULL,
+    dt_envio timestamp NULL,
     PRIMARY KEY (contador)
 )
 DEFAULT CHARACTER SET utf8

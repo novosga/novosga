@@ -127,9 +127,10 @@ CREATE TABLE painel_senha (
     id_serv integer NOT NULL,
     num_senha integer NOT NULL,
     sig_senha character(1) NOT NULL,
-    msg_senha character varying(15) NOT NULL,
+    msg_senha character varying(20) NOT NULL,
     nm_local character varying(15) NOT NULL,
-    num_guiche smallint NOT NULL
+    num_guiche smallint NOT NULL,
+    dt_envio timestamp NULL
 );
 
 CREATE TABLE prioridades (

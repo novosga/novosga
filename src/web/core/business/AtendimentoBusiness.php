@@ -101,14 +101,8 @@ abstract class AtendimentoBusiness {
             if ($unidade > 0) {
                 $subquery .= " AND a.id_uni = :unidade";
             }
-            $query = $conn->prepare("
-                DELETE FROM 
-                    atend_codif ac
-                WHERE 
-                    ac.id_atend IN (
-                        $subquery
-                    )
-            ");
+            $sql = self::delFrom('atend_codif', 'ac') . "WHERE ac.id_atend IN ( $subquery )";
+            $query = $conn->prepare($sql);
             $query->bindValue('data', $data, PDO::PARAM_STR);
             if ($unidade > 0) {
                 $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
@@ -116,7 +110,8 @@ abstract class AtendimentoBusiness {
             $query->execute();
 
             // limpa atendimentos da unidade
-            $sql = "DELETE FROM atendimentos a WHERE dt_cheg <= :data ";
+            $sql = self::delFrom('atendimentos', 'a');
+            $sql .= " WHERE dt_cheg <= :data ";
             if ($unidade > 0) {
                 $sql .= " AND a.id_uni = :unidade";
             }
@@ -126,6 +121,10 @@ abstract class AtendimentoBusiness {
                 $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
             }
             $query->execute();
+            
+            // limpa a tabela de senhas a serem exibidas no painel
+            $query = $conn->prepare("DELETE FROM painel_senha");
+            $query->execute();
 
             $conn->commit();
         } catch (Exception $e) {
@@ -134,6 +133,14 @@ abstract class AtendimentoBusiness {
             }
             throw new Exception($e->getMessage());
         }
+    }
+    
+    private static function delFrom($table, $alias) {
+        $sql = "DELETE ";
+        if (\core\Config::DB_TYPE == 'mysql') {
+            $sql .= "$alias ";
+        }
+        return $sql . "FROM $table $alias ";
     }
     
 }
