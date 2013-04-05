@@ -98,15 +98,15 @@ class UsuariosController extends CrudController {
     }
     
     protected function preSave(SGAContext $context, SequencialModel $model) {
+        $login = Arrays::value($_POST, 'login');
+        if (!ctype_alnum($login)) {
+            throw new Exception(_('O login deve conter somente letras e números.'));
+        }
+        if (strlen($login) < 5 || strlen($login) > 20) {
+            throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
+        }
         if ($model->getId() == 0) {
             // para novos usuarios, tem que informar a senha
-            $login = Arrays::value($_POST, 'login');
-            if (!ctype_alnum($login)) {
-                throw new Exception(_('O login deve conter somente letras e números.'));
-            }
-            if (strlen($login) < 5 || strlen($login) > 20) {
-                throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
-            }
             $senha = Arrays::value($_POST, 'senha');
             $confirmacao = Arrays::value($_POST, 'senha2');
             
