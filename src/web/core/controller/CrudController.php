@@ -129,13 +129,16 @@ abstract class CrudController extends ModuleController {
      */
     protected function doSave(SGAContext $context, SequencialModel $model) {
         $this->preSave($context, $model);
+        $redirUrl = $_SERVER['HTTP_REFERER'];
         if ($model->getId() > 0) {
             $this->em()->merge($model);
         } else {
             $this->em()->persist($model);
+            $redirUrl .= '&id=' . $model->getId();
         }
         $this->em()->flush();
         $this->postSave($context, $model);
+        SGA::redirect($redirUrl);
     }
     
     protected function preSave(SGAContext $context, SequencialModel $model) {}
