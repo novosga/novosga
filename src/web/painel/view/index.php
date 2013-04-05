@@ -72,5 +72,12 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SGA.PainelWeb.Config.title = '<?php echo _('Configuração') ?>';
+            SGA.PainelWeb.Config.btnSave = '<?php echo _('Salvar') ?>';
+            SGA.PainelWeb.init();
+        });
+    </script>
 </body>
 </html>

@@ -14,7 +14,7 @@ SGA.PainelWeb = {
     ultimoId: 0,
     
     init: function() {
-        SGA.PainelWeb.unidade = parseInt(SGA.PainelWeb.Cookie.get('unidade'));
+        SGA.PainelWeb.unidade = parseInt(SGA.PainelWeb.Cookie.get('unidade'), 10);
         SGA.PainelWeb.servicos = (SGA.PainelWeb.Cookie.get('servicos') || '').split(',');
         SGA.PainelWeb.started = (SGA.PainelWeb.unidade > 0 && SGA.PainelWeb.servicos.length > 0);
         // exibindo modal de configuracao
@@ -28,11 +28,23 @@ SGA.PainelWeb = {
                 SGA.PainelWeb.ajaxUpdate();
             }
         }, 1000);
+        // ocultando e adicionando animacao ao menu
+        setTimeout(function() {
+            $('#menu').fadeTo("slow", 0, function() {
+                $('#menu').hover(
+                    function() {
+                        $('#menu').fadeTo("fast", 1);
+                    }, 
+                    function() {
+                        $('#menu').fadeTo("slow", 0);
+                    }
+                );
+            });
+        }, 3000);
         this.chamar();
     },
             
     resizer: function() {
-        SGA.PainelWeb.Display.update();
         SGA.PainelWeb.Layout.update();
     },
             
@@ -44,16 +56,17 @@ SGA.PainelWeb = {
                 servicos: SGA.PainelWeb.servicos.join(',')
             },
             success: function(response) {
+                var senha;
                 if (response.success && response.data.length > 0) {
                     // no primeiro update só pega a ultima senha (para evitar de ficar chamando senhas antigas)
-                    if (SGA.PainelWeb.ultimoId == 0) {
-                        var senha = response.data[0];
+                    if (SGA.PainelWeb.ultimoId === 0) {
+                        senha = response.data[0];
                         SGA.PainelWeb.senhas.push(senha);
                         SGA.PainelWeb.ultimoId = senha.id;
                     } else {
                         // as senhas estao em ordem decrescente
                         for (var i = response.data.length - 1; i >= 0; i--) {
-                            var senha = response.data[i];
+                            senha = response.data[i];
                             if (senha.id > SGA.PainelWeb.ultimoId) {
                                 SGA.PainelWeb.senhas.push(senha);
                                 SGA.PainelWeb.ultimoId = senha.id;
@@ -76,7 +89,7 @@ SGA.PainelWeb = {
             $('#atual-guiche span').text(senha.guiche);
             $('#atual-guiche-numero span').text(senha.numeroGuiche);
             // som e animacao
-            document.getElementById("audio-new").play();
+            document.getElementById('audio-new').play();
             $('#atual-senha').effect("highlight", {
                 complete: function() {
                     $('#atual-senha').effect("pulsate", { times: 3 }, 1000);
@@ -108,19 +121,21 @@ SGA.PainelWeb = {
     
     Config: {
     
+        title: '',
+        btnSave: '',
         servicosLoaded: false,
     
         open: function() {
             if (!this.modal) {
                 var btns = {};
-                btns['Salvar'] = SGA.PainelWeb.Config.save;
+                btns[SGA.PainelWeb.Config.btnSave] = SGA.PainelWeb.Config.save;
                 this.modal = $('#config');
                 this.modal.dialog({
-                    title: 'Config',
+                    title: SGA.PainelWeb.Config.title,
                     width: 500,
                     height: 500,
                     modal: true,
-                    buttons: btns,
+                    buttons: btns
                 });
                 $('#unidades').val(SGA.PainelWeb.unidade);
                 if (SGA.PainelWeb.unidade > 0 && !SGA.PainelWeb.Config.servicosLoaded) {
@@ -172,10 +187,10 @@ SGA.PainelWeb = {
         },
                 
         save: function() {
-            SGA.PainelWeb.unidade = parseInt($('#unidades').val());
+            SGA.PainelWeb.unidade = parseInt($('#unidades').val(), 10);
             SGA.PainelWeb.servicos = [];
-            $('#servicos input.servico:checked').each(function(i,e) {
-                SGA.PainelWeb.servicos.push(parseInt($(e).val()));
+            $('.servico:checked').each(function(i,e) {
+                SGA.PainelWeb.servicos.push(parseInt($(e).val(), 10));
             });
             SGA.PainelWeb.started = (SGA.PainelWeb.unidade > 0 && SGA.PainelWeb.servicos.length > 0);
             if (SGA.PainelWeb.started) {
@@ -189,8 +204,6 @@ SGA.PainelWeb = {
     Layout: {
 
         update: function() {
-            var width = SGA.PainelWeb.Display.width();
-            var height = SGA.PainelWeb.Display.height();
             $('#atual-mensagem').textfill({ 
                 maxHeight: $('#layout .top').height() 
             });
@@ -220,40 +233,7 @@ SGA.PainelWeb = {
         }
 
     },
-            
-    Display: {
 
-        WIDTH: 800,
-        HEIGHT_WIDE: 600,
-        HEIGHT_SQUARE: 470,
-        
-        update: function() {
-            d = SGA.PainelWeb.Display;
-            d.widthRatio = d.width() / d.WIDTH;
-            h = (d.isWide()) ? d.HEIGHT_WIDE : d.HEIGHT_SQUARE;
-            d.heightRatio = d.height() / h;
-        },
-    
-        width: function() {
-            if (arguments.length > 0) {
-                return arguments[0] * this.widthRatio;
-            }
-            return $(window).width();
-        },
-        
-        height: function() {
-            if (arguments.length > 0) {
-                return arguments[0] * this.heightRatio;
-            }
-            return $(window).height();
-        },
-        
-        isWide: function() {
-            return this.width() / this.height() > 1.5;
-        }
-        
-    },
-            
     Cookie: {
 
         add: function(name, value, days) {
@@ -271,10 +251,10 @@ SGA.PainelWeb = {
             var ca = document.cookie.split(';');
             for(var i = 0; i < ca.length; i++) {
                 var c = ca[i];
-                while (c.charAt(0)==' ') {
+                while (c.charAt(0) === ' ') {
                     c = c.substring(1,c.length);
                 }
-                if (c.indexOf(nameEQ) == 0) {
+                if (c.indexOf(nameEQ) === 0) {
                     return c.substring(nameEQ.length, c.length);
                 }
             }
@@ -306,19 +286,3 @@ SGA.PainelWeb = {
         return this;
     }
 })(jQuery);
-
-$(document).ready(function() {
-    SGA.PainelWeb.init();
-    setTimeout(function() {
-        $('#menu').fadeTo("slow", 0, function() {
-            $('#menu').hover(
-                function() {
-                    $('#menu').fadeTo("fast", 1);
-                }, 
-                function() {
-                    $('#menu').fadeTo("slow", 0);
-                }
-            );
-        });
-    }, 3000);
-});
