@@ -24,6 +24,10 @@ echo $view->editMessages();
                 <label for="descricao" class="w125"><?php SGA::out(_('Sobrenome')) ?></label>
                 <input id="descricao" type="text" name="sobrenome" class="w200" value="<?php SGA::out($model->getSobrenome()) ?>" />
             </div>
+            <div class="field required">
+                <label for="email" class="w125"><?php SGA::out(_('Email')) ?></label>
+                <input id="email" type="text" name="email" class="w200" value="<?php SGA::out($model->getEmail()) ?>" />
+            </div>
             <?php if ($id > 0): // ja cadastra o usuario como ativo ?>
             <div class="field required">
                 <label for="status" class="w125">Status</label>

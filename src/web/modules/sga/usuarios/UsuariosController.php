@@ -23,7 +23,7 @@ class UsuariosController extends CrudController {
     }
 
     protected function requiredFields() {
-        return array('login', 'nome', 'sobrenome');
+        return array('login', 'nome', 'sobrenome', 'email');
     }
 
     public function edit(SGAContext $context) {
@@ -180,7 +180,7 @@ class UsuariosController extends CrudController {
                 $this->em()->persist($usuario);
                 $this->em()->flush();
                 $response->success = true;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $response->message = $e->getMessage();
             }
         } else {
@@ -200,20 +200,22 @@ class UsuariosController extends CrudController {
     public function recuperar_senha(SGAContext $context) {
         $email = $context->getRequest()->getParameter('email');
 
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Usuario e WHERE LOWER(e.email) = :arg LIMIT 1");
-        $query->setParameter('arg', $email);
-
-        $usuario = $query->getResult();
+        try {
+            $usuarioRepository = $this->em()->getRepository('\core\model\Usuario');
+            $usuario = $usuarioRepository->findOneByEmail($email);
+        } catch (\Exception $e) {
+            $usuario = false;
+        }
 
         if ($usuario) {
-            $hash = base64_encode(Security::hash($email . time()));
             $expira = new DateTime();
             $expira->modify('+3 days');
-            $query = $this->em()->createQuery("UPDATE \core\model\Usuario u SET u.senha_reset_token = :hash, u.senha_reset_expir = :expira WHERE u.id = :id");
-            $query->setParameter('hash', $hash);
-            $query->setParameter('expira', $expira);
-            $query->setParameter('id', $usuario->getId());
-            $query->execute();
+
+            $usuario->setSenhaResetToken();
+            $usuario->setSenhaResetExpir($expira);
+
+            $this->em()->persist($usuario);
+            $this->em()->flush();
         } else {
             $response->message = _('Usuário inválido');
         }

@@ -54,6 +54,14 @@ class Usuario extends SequencialModel {
         return $this->login;
     }
 
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
     public function setNome($nome) {
         $this->nome = $nome;
     }
@@ -125,8 +133,20 @@ class Usuario extends SequencialModel {
         return $this->senhaResetToken;
     }
 
+    /**
+     * Gera e define um hash para recuperação de
+     * senha.
+     */
     public function setSenhaResetToken() {
         $this->senhaResetToken = base64_encode(Security::hash($email . time()));
+    }
+
+    public function getSenhaResetExpir() {
+        return $this->senhaResetExpir;
+    }
+
+    public function setSenhaResetExpir($expir) {
+        $this->senhaResetExpir = $expir;
     }
 
     public function getGrupos() {
