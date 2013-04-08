@@ -28,6 +28,19 @@ SGA.PainelWeb = {
                 SGA.PainelWeb.ajaxUpdate();
             }
         }, 1000);
+        // ocultando e adicionando animacao ao menu
+        setTimeout(function() {
+            $('#menu').fadeTo("slow", 0, function() {
+                $('#menu').hover(
+                    function() {
+                        $('#menu').fadeTo("fast", 1);
+                    },
+                    function() {
+                        $('#menu').fadeTo("slow", 0);
+                    }
+                );
+            });
+        }, 3000);
         this.chamar();
     },
 
@@ -107,16 +120,17 @@ SGA.PainelWeb = {
     },
 
     Config: {
-
+        title: '',
+        btnSave: '',
         servicosLoaded: false,
 
         open: function() {
             if (!this.modal) {
                 var btns = {};
-                btns['Salvar'] = SGA.PainelWeb.Config.save;
+                btns[SGA.PainelWeb.Config.btnSave] = SGA.PainelWeb.Config.save;
                 this.modal = $('#config');
                 this.modal.dialog({
-                    title: 'Config',
+                    title: SGA.PainelWeb.Config.title,
                     width: 500,
                     height: 500,
                     modal: true,
@@ -268,7 +282,7 @@ SGA.PainelWeb = {
             var ca = document.cookie.split(';');
             for(var i = 0; i < ca.length; i++) {
                 var c = ca[i];
-                while (c.charAt(0)==' ') {
+                while (c.charAt(0) === ' ') {
                     c = c.substring(1,c.length);
                 }
                 if (c.indexOf(nameEQ) === 0) {
@@ -279,7 +293,6 @@ SGA.PainelWeb = {
         }
 
     }
-
 };
 
 $(document).ready(function() {

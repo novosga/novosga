@@ -121,7 +121,7 @@ class SGA {
 
     public static function redirect($arg) {
         // se passou uma url completa
-        if (is_string($arg) && (substr($arg, 0, 7) == 'http://' || substr($arg, 0, 7) == 'https://')) {
+        if (is_string($arg) && (substr($arg, 0, 7) == 'http://' || substr($arg, 0, 8) == 'https://')) {
             $url = $arg;
         } else {
             $url = SGA::url($arg);
