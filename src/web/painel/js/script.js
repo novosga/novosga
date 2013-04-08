@@ -90,6 +90,8 @@ SGA.PainelWeb = {
             $('#atual-guiche-numero span').text(senha.numeroGuiche);
             // som e animacao
             document.getElementById('audio-new').play();
+            SGA.PainelWeb.Speech.play("senha", "pt");
+            SGA.PainelWeb.Speech.play(senha.senha, "pt");
             $('#atual-senha').effect("highlight", {
                 complete: function() {
                     $('#atual-senha').effect("pulsate", { times: 3 }, 1000);
@@ -232,6 +234,57 @@ SGA.PainelWeb = {
             SGA.FullScreen.request(document.body);
         }
 
+    },
+
+    Speech: {
+        queuee: [],
+        play: function(text, lang) {
+            if (this.queuee === undefined) {
+                this.queuee = [];
+            }
+
+            if (text === "senha") {
+                this.queuee.push({name: text, lang: lang});
+                this.processQueuee();
+                return;
+            }
+
+            for (var i=text.length-1, chr; i >= 0; i--) {
+                chr = text.charAt(i).toLowerCase();
+                if (chr === '') {
+                    continue;
+                }
+
+                this.queuee.push({name: chr, lang: lang});
+            }
+
+            this.processQueuee();
+        },
+        playFile: function(filename) {
+            var self = this;
+            var bz = new buzz.sound(filename, {
+                formats: ["ogg", "mp3"],
+                autoplay: true
+            });
+
+            bz.bind("ended", function() {
+                buzz.sounds = [];
+                self.processQueuee();
+            });
+        },
+        processQueuee: function() {
+            if (this.queuee !== undefined && this.queuee.length === 0) {
+                return;
+            }
+
+            if (buzz.sounds.length > 0) {
+                return;
+            }
+
+            var current = this.queuee.pop();
+            var filename = "../media/voice/" + current.lang + "/" + current.name;
+            this.playFile(filename);
+        }
     },
 
     Cookie: {
