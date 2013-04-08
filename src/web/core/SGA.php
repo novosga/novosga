@@ -5,21 +5,21 @@ require_once(__DIR__ . '/Constants.php');
 
 /**
  * SGA Base class and request handler
- * 
+ *
  * contem alguns metodos do sistema
  */
 class SGA {
-    
+
     const NAME = "Novo SGA";
     const FULL_NAME = "Sistema de Gerenciamento de Atendimento";
     const VERSION = "{version}";
     const CHARSET = "utf-8";
-    
+
     // SESSION KEYS
     const K_CURRENT_MODULE  = "SGA_CURRENT_MODULE";
     const K_CURRENT_USER    = "SGA_CURRENT_USER";
     const K_LOGIN_ERROR     = "SGA_LOGIN_ERROR";
-    
+
     // URL KEYS
     const K_INSTALL  = "install";
     const K_LOGIN    = "login";
@@ -29,10 +29,10 @@ class SGA {
     const K_MODULE   = "module";
     const K_PAGE     = "page";
     const K_LOGOUT   = "logout";
-        
+
     private static $context;
     private static $doctrineClassLoader;
-    
+
     /**
      * Returns SGAContext
      * @return SGAContext
@@ -43,7 +43,7 @@ class SGA {
         }
         return self::$context;
     }
-    
+
     /**
      * Autentica o usuario do SGA
      * @param type $user
@@ -65,7 +65,7 @@ class SGA {
         }
         return false;
     }
-    
+
     /**
      * Echo wrapper
      */
@@ -75,13 +75,13 @@ class SGA {
         }
         echo addslashes(str_replace('<', '&lt;', str_replace('>', '&gt;', $str)));
     }
-    
+
     /**
      * Importa um arquivo PHP a partir do nome
      * @param type $param
      * @return type
      */
-    public static function import($arg, $return = false) { 
+    public static function import($arg, $return = false) {
         if (is_array($arg)) {
             $module = \core\util\Arrays::value($arg, SGA::K_MODULE);
             if ($module instanceof Modulo) {
@@ -113,12 +113,12 @@ class SGA {
         }
         return true;
     }
-    
+
     public static function defaultClientLanguage() {
         $langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         return current(explode('-', $langs[0]));
     }
-    
+
     public static function redirect($arg) {
         // se passou uma url completa
         if (is_string($arg) && (substr($arg, 0, 7) == 'http://' || substr($arg, 0, 8) == 'https://')) {
@@ -129,11 +129,11 @@ class SGA {
         header("Location: " . $url);
         exit();
     }
-    
+
     public static function reload() {
         self::redirect(SGA::url());
     }
-    
+
     public static function close() {
         echo '<script type="text/javascript">window.close()</script>';
         exit();
@@ -142,7 +142,7 @@ class SGA {
     public static function hasUnidade() {
         return SGA::getContext()->getUnidade() != null;
     }
-    
+
     public static function url() {
         if (func_num_args() == 0) {
             return $_SERVER['REQUEST_URI'];
@@ -169,7 +169,7 @@ class SGA {
             return (!empty($url)) ? "?$url" : self::url();
         }
     }
-    
+
     /**
      * Auto Load
      * Carrega automaticamente as classes requisitadas, buscando dentro do core do sistema e/ou no modulo.
@@ -203,7 +203,7 @@ class SGA {
         }
         throw new \Exception(sprintf(_('Classe não encontrada: %s'), $className));
     }
-    
+
     /**
      * SGA exception handler
      * @param \Exception $exception
@@ -215,7 +215,7 @@ class SGA {
         echo $view->render($context);
         exit();
     }
-    
+
     /**
      * SGA error handler
      * @param \Exception $exception
@@ -240,7 +240,7 @@ class SGA {
         $info = ob_get_contents();
         ob_end_clean();
         return $info;
-    }    
+    }
 
 }
 

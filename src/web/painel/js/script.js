@@ -5,14 +5,14 @@
 var SGA = SGA || {};
 
 SGA.PainelWeb = {
-    
+
     started: false,
     unidade: 0,
     servicos: [],
     senhas: [],
     historico: [],
     ultimoId: 0,
-    
+
     init: function() {
         SGA.PainelWeb.unidade = parseInt(SGA.PainelWeb.Cookie.get('unidade'), 10);
         SGA.PainelWeb.servicos = (SGA.PainelWeb.Cookie.get('servicos') || '').split(',');
@@ -34,7 +34,7 @@ SGA.PainelWeb = {
                 $('#menu').hover(
                     function() {
                         $('#menu').fadeTo("fast", 1);
-                    }, 
+                    },
                     function() {
                         $('#menu').fadeTo("slow", 0);
                     }
@@ -43,11 +43,11 @@ SGA.PainelWeb = {
         }, 3000);
         this.chamar();
     },
-            
+
     resizer: function() {
-        SGA.PainelWeb.Layout.update();
+        $('.fittext').textfill({maxFontPixels : -1});
     },
-            
+
     ajaxUpdate: function() {
         $.ajax({
             url: '../?painel&page=painel_web_update',
@@ -56,8 +56,8 @@ SGA.PainelWeb = {
                 servicos: SGA.PainelWeb.servicos.join(',')
             },
             success: function(response) {
-                var senha;
                 if (response.success && response.data.length > 0) {
+                    var senha = '';
                     // no primeiro update só pega a ultima senha (para evitar de ficar chamando senhas antigas)
                     if (SGA.PainelWeb.ultimoId === 0) {
                         senha = response.data[0];
@@ -77,35 +77,35 @@ SGA.PainelWeb = {
             }
         });
     },
-    
+
     chamar: function() {
         var painel = SGA.PainelWeb;
         if (painel.started && painel.senhas.length > 0) {
             var senha = painel.senhas.shift();
             // atualizando a senha atual
-            var atual = $('#atual-senha span').text();
-            $('#atual-mensagem span').text(senha.mensagem);
+            var anterior = $('#atual-senha span').text();
             $('#atual-senha span').text(senha.senha);
-            $('#atual-guiche span').text(senha.guiche);
             $('#atual-guiche-numero span').text(senha.numeroGuiche);
             // som e animacao
             document.getElementById('audio-new').play();
+            SGA.PainelWeb.Speech.play("senha", "pt");
+            SGA.PainelWeb.Speech.play(senha.senha, "pt");
             $('#atual-senha').effect("highlight", {
                 complete: function() {
                     $('#atual-senha').effect("pulsate", { times: 3 }, 1000);
                 }
             }, 500);
             // evita adicionar ao historico senha rechamada
-            if (atual != senha.senha) {
+            if (anterior != senha.senha) {
                 // guardando historico das 10 ultimas senhas
-                painel.historico.push(senha); 
+                painel.historico.push(senha);
                 painel.historico = painel.historico.slice(Math.max(0, painel.historico.length - 10), painel.historico.length);
                 // atualizando ultimas senhas chamadas
-                var senhas = $('#historico .senhas');
+                var senhas = $('#historico-senhas');
                 senhas.html('');
                 // -2 porque nao exibe a ultima (senha principal). E limitando exibicao em 5
                 for (var i = painel.historico.length - 2, j = 0; i >= 0 && j < 5; i--, j++) {
-                    var senha = painel.historico[i];
+                    senha = painel.historico[i];
                     var guiche = senha.guiche + ': ' + senha.numeroGuiche;
                     senhas.append('<div class="senha-chamada"><div class="senha fittext"><span>' + senha.senha + '</span></div><div class="guiche fittext"><span>' + guiche + '</span></div></div>');
                 }
@@ -118,13 +118,12 @@ SGA.PainelWeb = {
             setTimeout(SGA.PainelWeb.chamar, 500);
         }
     },
-    
+
     Config: {
-    
         title: '',
         btnSave: '',
         servicosLoaded: false,
-    
+
         open: function() {
             if (!this.modal) {
                 var btns = {};
@@ -145,7 +144,7 @@ SGA.PainelWeb = {
                 this.modal.dialog('open');
             }
         },
-                
+
         close: function() {
             if (this.modal) {
                 this.modal.dialog('close');
@@ -154,7 +153,7 @@ SGA.PainelWeb = {
 
         changeUnidade: function() {
             SGA.PainelWeb.Config.servicosLoaded = false;
-            var unidade = parseInt($('#unidades').val());
+            var unidade = parseInt($('#unidades').val(), 10);
             if (unidade > 0) {
                 this.loadServicos(unidade);
             }
@@ -165,8 +164,8 @@ SGA.PainelWeb = {
                 url: '../?painel&page=painel_web_servicos',
                 data: { unidade: unidade },
                 success: function(response) {
-                    var servicos = $('#servicos');
-                    var html = '<ul>';
+                    var servicos = $('#servicos-container');
+                    var html = '';
                     if (response.success) {
                         for (var i = 0; i < response.data.length; i++) {
                             var servico = response.data[i];
@@ -180,12 +179,12 @@ SGA.PainelWeb = {
                             html += '<li><label><input type="checkbox" class="servico" value="' + servico.id + '" ' + checked + ' />' + servico.nome + '</label></li>';
                         }
                     }
-                    servicos.html(html + '</ul>');
+                    servicos.html(html);
                     SGA.PainelWeb.Config.servicosLoaded = true;
                 }
             });
         },
-                
+
         save: function() {
             SGA.PainelWeb.unidade = parseInt($('#unidades').val(), 10);
             SGA.PainelWeb.servicos = [];
@@ -200,27 +199,8 @@ SGA.PainelWeb = {
             }
         }
     },
-            
-    Layout: {
 
-        update: function() {
-            $('#atual-mensagem').textfill({ 
-                maxHeight: $('#layout .top').height() 
-            });
-            $('#atual-senha').textfill({ 
-                maxHeight: $('#layout .center').height() 
-            });
-            $('#atual-guiche').textfill({
-                maxWidth: $('#layout .center .right').width() * 0.7,
-                maxHeight: $('#layout .center').height() * 0.3
-            });
-            $('#atual-guiche-numero').textfill({
-                maxWidth: $('#layout .center .right').width() * 0.7,
-                maxHeight: $('#layout .center').height() * 0.6
-            });
-            $('#historico .fittext').textfill();
-        },
-                
+    Layout: {
         fullscreen: function() {
             SGA.FullScreen.change(function() {
                 if (SGA.FullScreen.element()) {
@@ -234,6 +214,57 @@ SGA.PainelWeb = {
 
     },
 
+    Speech: {
+        queuee: [],
+        play: function(text, lang) {
+            if (this.queuee === undefined) {
+                this.queuee = [];
+            }
+
+            if (text === "senha") {
+                this.queuee.push({name: text, lang: lang});
+                this.processQueuee();
+                return;
+            }
+
+            for (var i=text.length-1, chr; i >= 0; i--) {
+                chr = text.charAt(i).toLowerCase();
+                if (chr === '') {
+                    continue;
+                }
+
+                this.queuee.push({name: chr, lang: lang});
+            }
+
+            this.processQueuee();
+        },
+        playFile: function(filename) {
+            var self = this;
+            var bz = new buzz.sound(filename, {
+                formats: ["ogg", "mp3"],
+                autoplay: true
+            });
+
+            bz.bind("ended", function() {
+                buzz.sounds = [];
+                self.processQueuee();
+            });
+        },
+        processQueuee: function() {
+            if (this.queuee !== undefined && this.queuee.length === 0) {
+                return;
+            }
+
+            if (buzz.sounds.length > 0) {
+                return;
+            }
+
+            var current = this.queuee.pop();
+            var filename = "../media/voice/" + current.lang + "/" + current.name;
+            this.playFile(filename);
+        }
+    },
+
     Cookie: {
 
         add: function(name, value, days) {
@@ -245,7 +276,7 @@ SGA.PainelWeb = {
             }
             document.cookie = name + "=" + value + expires + "; path=/";
         },
-                
+
         get: function(name) {
             var nameEQ = name + "=";
             var ca = document.cookie.split(';');
@@ -262,27 +293,20 @@ SGA.PainelWeb = {
         }
 
     }
- 
 };
 
-(function($) {
-    $.fn.textfill = function(options) {
-        options = options || {};
-        $(this).each(function(i, e) {
-            var elem = $(e).find('>span');
-            var maxHeight = options.maxHeight || $(this).height();
-            var maxWidth = options.maxWidth || $(this).width();
-            var fontSize = options.maxFontSize || maxHeight;
-            var textHeight;
-            var textWidth;
-            do {
-                elem.css('font-size', fontSize);
-                textHeight = elem.height();
-                textWidth = elem.width();
-                fontSize = fontSize - 5;
-            } while ((textHeight > maxHeight || textWidth > maxWidth) && fontSize > 3);
-            elem.css('font-size', fontSize * (options.ratio || 1));
+$(document).ready(function() {
+    SGA.PainelWeb.init();
+    setTimeout(function() {
+        $('#menu').fadeTo("slow", 0, function() {
+            $('#menu').hover(
+                function() {
+                    $('#menu').fadeTo("fast", 1);
+                },
+                function() {
+                    $('#menu').fadeTo("slow", 0);
+                }
+            );
         });
-        return this;
-    }
-})(jQuery);
+    }, 3000);
+});

@@ -10,7 +10,7 @@ use \core\http\AjaxResponse;
 
 /**
  * HomeController
- * 
+ *
  * @author rogeriolino
  *
  */
@@ -20,7 +20,7 @@ class HomeController extends SGAController {
         require_once(__DIR__ . '/HomeView.php');
         return new HomeView();
     }
-    
+
     public function index(SGAContext $context) {
         $usuario = $context->getUser();
         $unidade = $usuario->getUnidade();
@@ -33,7 +33,7 @@ class HomeController extends SGAController {
         $this->view()->assign('unidade', $unidade);
         $this->view()->assign('usuario', $usuario);
     }
-    
+
     public function unidade(SGAContext $context) {
         $response = new AjaxResponse();
         $id = (int) $context->getRequest()->getParameter('unidade');
@@ -52,7 +52,7 @@ class HomeController extends SGAController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     public function perfil(SGAContext $context) {
         $usuario = $context->getUser();
         if (!$usuario) {
@@ -67,27 +67,24 @@ class HomeController extends SGAController {
             $context->setUser($usuario);
             // atualizando banco
             $em = DB::getEntityManager();
-            $query = $em->createQuery("
-                UPDATE 
-                    \core\model\Usuario e 
-                SET 
-                    e.nome = :nome, e.sobrenome = :sobrenome 
-                WHERE 
-                    e.id = :id
-            ");
-            $query->setParameter('id', $usuario->getId());
-            $query->setParameter('nome', $usuario->getNome());
-            $query->setParameter('sobrenome', $usuario->getSobrenome());
-            $query->execute();
+            $usuarioRepository = $em->getRepository('\core\model\Usuario');
+            $registro = $usuarioRepository->find($usuario->getID());
+
+            $registro->setNome($usuario->getNome());
+            $registro->setSobrenome($usuario->getSobrenome());
+
+            $em->persist($registro);
+            $em->flush();
             $salvo = true;
         }
         $this->view()->assign('salvo', $salvo);
         $this->view()->assign('usuario', $usuario);
     }
-    
+
     public function alterar_senha(SGAContext $context) {
         $response = new AjaxResponse();
         $usuario = $context->getUser();
+
         try {
             if (!$usuario) {
                 throw new \Exception(_('Nenhum usuário na sessão'));
@@ -95,27 +92,30 @@ class HomeController extends SGAController {
             $atual = $context->getRequest()->getParameter('atual');
             $senha = $context->getRequest()->getParameter('senha');
             $confirmacao = $context->getRequest()->getParameter('confirmacao');
-            $hash = AcessoBusiness::verificaSenha($senha, $confirmacao);
+
             $em = DB::getEntityManager();
+            $usuarioRepository = $em->getRepository('\core\model\Usuario');
+            $registro = $usuarioRepository->find($usuario->getID());
+
             // verificando senha atual
-            $query = $em->createQuery("SELECT u.senha FROM \core\model\Usuario u WHERE u.id = :id");
-            $query->setParameter('id', $usuario->getId());
-            $rs = $query->getSingleResult();
-            if ($rs['senha'] != Security::passEncode($atual)) {
+            if (Security::passCheck($atual, $registro->getSenha())) {
                 throw new \Exception(_('Senha atual não confere'));
             }
+
+            // valida a senha
+            $registro->validaSenha($senha, $confirmacao);
+
             // atualizando o banco
-            $query = $em->createQuery("UPDATE \core\model\Usuario u SET u.senha = :senha WHERE u.id = :id");
-            $query->setParameter('senha', $hash);
-            $query->setParameter('id', $usuario->getId());
-            $query->execute();
+            $registro->setSenha($senha);
+            $em->persist($registro);
+            $em->flush();
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     public function desativar_sessao(SGAContext $context) {
         $response = new AjaxResponse(true);
         $usuario = $context->getUser();
@@ -123,5 +123,5 @@ class HomeController extends SGAController {
         $context->setUser($usuario);
         $context->getResponse()->jsonResponse($response);
     }
-    
+
 }

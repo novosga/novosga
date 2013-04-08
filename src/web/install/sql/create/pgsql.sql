@@ -193,9 +193,12 @@ CREATE TABLE usu_serv (
 CREATE TABLE usuarios (
     id_usu serial NOT NULL,
     login_usu character varying(20) NOT NULL,
+    email_usu character varying(255) NOT NULL,
     nm_usu character varying(20) NOT NULL,
     ult_nm_usu character varying(100) NOT NULL,
-    senha_usu character varying(40) NOT NULL,
+    senha_usu character varying(100) NOT NULL,
+    senha_reset_token character varying(100),
+    senha_reset_expir timestamp with time zone,
     ult_acesso timestamp with time zone,
     stat_usu smallint NOT NULL,
     session_id character varying(40) NOT NULL

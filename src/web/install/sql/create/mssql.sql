@@ -243,9 +243,12 @@ GO
 CREATE TABLE [dbo].[usuarios](
     [id_usu] [int] identity(1,1) NOT NULL,
     [login_usu] [varchar](20) NOT NULL,
+    [email_usu] [varchar](255) NOT NULL,
     [nm_usu] [varchar](20) NOT NULL,
     [ult_nm_usu] [varchar](100) NOT NULL,
-    [senha_usu] [varchar](40) NOT NULL,
+    [senha_usu] [varchar](100) NOT NULL,
+    [senha_reset_token] [varchar](100) NULL,
+    [senha_reset_expir] [datetime] NULL,
     [ult_acesso] [datetime] NULL,
     [stat_usu] [smallint] NOT NULL,
     [session_id] [varchar](40) NOT NULL

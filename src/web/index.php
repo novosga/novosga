@@ -62,7 +62,7 @@ foreach ($_GET as $key => $value) {
         $ctrlClass = ucfirst($ctrlClassPrefix) . 'Controller';
         $ctrlClass = '\\' . $namespace . '\\' . $ctrlClass;
         $ctrl = new $ctrlClass();
-        
+
         // controller action
         $page = Arrays::value($_GET, SGA::K_PAGE, 'index');
         $context->setParameter(SGA::K_PAGE, $page);

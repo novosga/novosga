@@ -32,135 +32,109 @@
     margin: 0;
 }
 
-html, body { 
-    overflow: hidden;
+html, body {
     font-family: Ubuntu;
-}
-
-html, body, #layout {
     width: 100%;
     height: 100%;
+    background-color: #003f81;
 }
 
-#layout { background-color: #003f81; }
-
-#layout td {
-    overflow: hidden;
-    white-space: nowrap;
-    display: inline-block;
-    vertical-align: middle;
-}
-
-#layout .top {
-    height: 15%;
-}
-#layout .top td { width: 100%; height: 100%; }
-
-#layout .center {
-    height: 60%;
-}
-
-#layout .center .left { width: 70%; }
-#layout .center .right { width: 29%; }
-
-#layout .bottom {
-    height: 25%;
-}
-#layout .bottom td { width: 100%; height: 100%; }
-
-div.fittext {
+.top, .body, .bottom {
+    position: relative;
+    display: block;
+    float: left;
     width: 100%;
-    height: 100%;
-    overflow: hidden;
 }
 
-/* 
- * Senha Atual - Ultima senha chamada
- */
-#atual-mensagem span {
+.top { height: 15%; }
+.body { height: 60%; }
+.bottom { height: 25%; }
+
+.body .senha { width: 70%; float: left; height: 100%; }
+.body .guiche-block { width: 30%; float: right; height: 100%; }
+
+.atual-mensagem {
+    display: block;
     color: #fff;
     margin: 15px 0 0 10px;
-}
-
-#atual-mensagem span {
     padding: 0 20px;
 }
 
-/* guiche */
-#atual-senha {
+/* senha chamada */
+.senha {
     color: #F8CA00;
     font-weight: bold;
 }
 
 /* guiche */
-
-#atual-guiche {
+.guiche {
     color: #fff;
     text-align: center;
     margin: 0 auto;
+    height: 40%;
 }
 
-#atual-guiche-numero {
+.numero-guiche {
     color: #fff;
     font-weight: bold;
     text-align: center;
     margin: 0 auto;
+    height: 60%;
 }
 
 /*
  * Ultimas senhas chamadas
  */
-#historico {
-    height: 100%;
-}
-
-#historico .titulo {
+.historico-titulo {
     color: #ccc;
     height: 30%;
     padding-left: 20px;
 }
 
-#historico .senhas {
+.senhas {
     height: 70%;
     overflow: hidden;
+    background: rgb(0, 0, 0);
     background: rgba(0, 0, 0, .4);
     border-radius: 8pt;
     margin: 0 5pt;
     padding: 0 10pt;
+    color: #fff;
 }
 
-#historico .senhas * { color: #fff; }
-
-#historico .senhas div.senha-chamada {
+.senha-chamada {
+    border-radius: 3pt;
+    background: rgb(0, 0, 0);
+    background: rgba(0, 0, 0, .2);
     width: 20%;
     height: 100%;
     display: inline-block;
+    margin: 0 2.5%;
 }
 
-#historico .senhas div.senha-chamada div.fittext { width: 100%; }
-
-#historico .senhas div.senha-chamada div.senha { height: 60%; font-weight: bold; }
-#historico .senhas div.senha-chamada div.guiche { height: 40%; }
+.senha-chamada .senha { height: 60%; font-weight: bold; text-align: center; }
+.senha-chamada .guiche { height: 40%; }
 
 /* menu */
-#menu {
+.menu {
+    display: block;
     top: 10px;
     right: 10px;
     height: 50px;
     background: #000;
     position: fixed;
-    border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
+    border-radius: 5px;
     box-shadow: 1px 1px 5px #333;
 }
 
-#menu li {
+.menu li {
     list-style: none;
     float: left;
 }
 
-#menu li a {
+.menu li a {
     color: #aaa;
     padding: 0 15px;
     line-height: 50px;
@@ -168,44 +142,28 @@ div.fittext {
     float: left;
 }
 
-#menu li a:hover { color: #fff; }
+.menu li a:hover { color: #fff; }
 
 /* config */
-#config {
-    overflow: hidden;
+.config {
+    display: none;
     padding: 20px;
 }
 
-#config .field {
-    padding: 5px 0;
+.config .block-title {
+    font-weight: bold;
+    padding-bottom: 10px;
 }
 
-#config #unidades {
-    width: 300px;
-}
+.config .unidade { padding-bottom: 10px; }
 
-#config .field label {
-    width: 100px;
-    display: inline-block;
-}
-
-#config .servicos label { padding-bottom: 10px; }
-
-#config #servicos { 
-    width: 100%;
-    height: 280px;
-    overflow: auto;
+.config .servicos-list {
+    display: block;
     background: #f1f1f1;
-}
-
-#config #servicos ul {
     padding: 10px 0 10px 10px;
+    min-height: 250px;
     list-style: none;
 }
-
-#config #servicos ul li {
-    padding: 2px 0;
-    display: block;
-}
-
-#config #servicos ul li input { margin: 0 10px 0 0; }
+.config .servicos-list li { display: block; padding: 2px 0; }
+.config .servicos-list li label { width: auto; padding-bottom: 5px; }
+.config .servicos-list li input { margin: 0 10px 0 0; }

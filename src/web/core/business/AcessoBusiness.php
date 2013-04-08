@@ -14,36 +14,38 @@ use \core\Security;
  * @author rogeriolino
  */
 abstract class AcessoBusiness {
-    
+
     private static $modulos = array(
         Modulo::MODULO_GLOBAL => array(),
         Modulo::MODULO_UNIDADE => array()
     );
-    
+
     private static $unidades = array();
-    
+
     public static function isLoginPage($key) {
         return $key == SGA::K_LOGIN;
     }
-    
+
     public static function isHomePage($key) {
         return $key == SGA::K_HOME;
     }
-    
+
     public static function isModulePage($key) {
         return $key == SGA::K_MODULE;
     }
-        
+
     public static function isLogged() {
         return SGA::getContext()->getUser() != null;
     }
-    
+
     public static function isProtectedPage($key) {
         return self::isHomePage($key) || self::isModulePage($key);
     }
-    
+
     /**
      * Verifica se a senha informada é válida e a retorna encriptada.
+     *
+     * @deprecated 0.51 Utilize Usuario->validaSenha()
      * @param type $senha
      * @param type $confirmacao
      * @return type
@@ -58,7 +60,7 @@ abstract class AcessoBusiness {
         }
         return Security::passEncode($senha);
     }
-    
+
     public static function isValidSession() {
         $user = SGA::getContext()->getUser();
         if (!$user->isAtivo()) {
@@ -71,7 +73,7 @@ abstract class AcessoBusiness {
         $rs = $query->getSingleResult();
         return $user->getSessionId() == $rs['sessionId'];
     }
-    
+
     public static function checkAccess($key, $value) {
         if (self::isProtectedPage($key)) {
             $context = SGA::getContext();
@@ -110,13 +112,13 @@ abstract class AcessoBusiness {
 
     /**
      * Verifica se o usuário tem acesso a um determinado módulo.
-     * 
+     *
      * Quando for um módulo de unidade, basta verificar se existe uma permissão
      * para a lotação do usuário no grupo da unidade.
-     * 
-     * Já quando o módulo for global, verifica se existe alguma lotação para o 
+     *
+     * Já quando o módulo for global, verifica se existe alguma lotação para o
      * módulo, independente do grupo (unidade).
-     * 
+     *
      * @param \core\model\util\UsuarioSessao $usuario
      * @param \core\model\Modulo $modulo
      */
@@ -133,18 +135,18 @@ abstract class AcessoBusiness {
             return $usuario->hasPermissao($modulo, $lotacao->getCargo());
         }
     }
-    
+
     public static function modulos(UsuarioSessao $usuario, $tipo) {
         if (!empty(self::$modulos[$tipo])) {
             return self::$modulos[$tipo];
         }
         $em = DB::getEntityManager();
         $query = $em->createQuery("
-            SELECT 
+            SELECT
                 e
-            FROM 
+            FROM
                 \core\model\Modulo e
-            WHERE 
+            WHERE
                 e.tipo = :tipo AND
                 e.id IN (:ids)
             ORDER BY
@@ -161,19 +163,19 @@ abstract class AcessoBusiness {
         self::$modulos[$tipo] = $modulos;
         return $modulos;
     }
-    
+
     public static function unidades(UsuarioSessao $usuario) {
         if (!empty(self::$unidades)) {
             return self::$unidades;
         }
         $em = DB::getEntityManager();
         $query = $em->createQuery("
-            SELECT 
+            SELECT
                 e
-            FROM 
+            FROM
                 \core\model\Unidade e
                 INNER JOIN e.grupo g
-            WHERE 
+            WHERE
                 g.left >= :esquerda AND
                 g.right <= :direita
             ORDER BY
@@ -187,5 +189,5 @@ abstract class AcessoBusiness {
         }
         return self::$unidades;
     }
-    
+
 }

@@ -2,23 +2,23 @@
 namespace core\model;
 
 /**
- * 
+ *
  * @Entity
  * @Table(name="config")
  */
 class Configuracao extends Model {
-    
+
     const STRING  = 1;
     const NUMERIC = 2;
     const COMPLEX = 3;
-    
+
     /** @Id @Column(type="string", name="chave", length=20, nullable=false) */
     protected $chave;
     /** @Column(type="string", name="valor", length=20, nullable=false) */
     protected $valor;
     /** @Column(type="integer", name="tipo", nullable=false) */
     protected $tipo;
-    
+
     // transient
     private $_valor;
 
@@ -26,7 +26,7 @@ class Configuracao extends Model {
         $this->setChave($chave);
         $this->setValor($valor);
     }
-    
+
     public function getChave() {
         return $this->chave;
     }
@@ -51,7 +51,7 @@ class Configuracao extends Model {
     public function toString() {
         return $this->getChave() . '=' . $this->getValor();
     }
-    
+
     private static function tipo($valor) {
         if (is_numeric($valor)) {
             return self::NUMERIC;
@@ -62,7 +62,7 @@ class Configuracao extends Model {
             return self::COMPLEX;
         }
     }
-    
+
     /**
      * Retorna a configuração a partir da chave informada
      * @param type $key
@@ -75,7 +75,7 @@ class Configuracao extends Model {
         $config = $query->getOneOrNullResult();
         return $config;
     }
-    
+
     /**
      * Cria ou atualiza uma configuração
      * @param type $key

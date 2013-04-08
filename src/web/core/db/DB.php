@@ -7,11 +7,11 @@ use \core\Config;
  * Classe DB
  */
 class DB {
-    
+
     protected static $conn;
     protected static $cacheDriver;
     protected static $em;
-    
+
     public static function createConn($user, $pass, $host, $port, $dbname, $dbtype) {
         self::$conn = array(
             'user' => $user,
@@ -20,8 +20,8 @@ class DB {
             'dbname' => $dbname,
             'port' => $port,
         );
-        /* 
-         * previnindo problema com uso do SQL Server no linux. 
+        /*
+         * previnindo problema com uso do SQL Server no linux.
          * Doctrine so aceita o driver sqlsrv, porem o mesmo so eh para windows
          */
         if ($dbtype == 'mssql') {
@@ -30,7 +30,7 @@ class DB {
             self::$conn['driver'] = 'pdo_' . $dbtype;
         }
     }
-    
+
     /**
      * @return \Doctrine\ORM\EntityManager
      */
@@ -52,18 +52,18 @@ class DB {
         }
         return self::$em;
     }
-    
+
     /**
      * Retorna o cacheDriver do Doctrine de acordo com a configuração da aplicação (dev/prod)
      * e com o driver disponível no servidor.
-     * 
-     * Quando IS_DEV é TRUE: 
+     *
+     * Quando IS_DEV é TRUE:
      *     retorna ArrayCache
-     * 
-     * Quando IS_DEV é FALSE: 
+     *
+     * Quando IS_DEV é FALSE:
      *     verifica, nessa ordem, se está disponível: APC e XCache.
      *     caso nenhum esteja disponível, retorna o ArrayCache
-     * 
+     *
      * @return \Doctrine\Common\Cache\ArrayCache
      */
     private static function createDoctrineCache() {
@@ -79,5 +79,5 @@ class DB {
         }
         return new \Doctrine\Common\Cache\ArrayCache();
     }
-    
+
 }

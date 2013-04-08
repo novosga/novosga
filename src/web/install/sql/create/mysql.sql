@@ -10,9 +10,9 @@ CREATE TABLE atend_codif (
     id_atend bigint NOT NULL AUTO_INCREMENT,
     id_serv integer NOT NULL,
     valor_peso smallint NOT NULL,
-    PRIMARY KEY (id_atend, id_serv) 
-) 
-DEFAULT CHARACTER SET utf8   
+    PRIMARY KEY (id_atend, id_serv)
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -21,8 +21,8 @@ CREATE TABLE atend_status (
     nm_stat varchar(30) NOT NULL,
     desc_stat varchar (150) NOT NULL,
     PRIMARY KEY (id_stat)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -44,8 +44,8 @@ CREATE TABLE atendimentos (
     dt_fim datetime,
     ident_cli varchar(11) DEFAULT NULL,
     PRIMARY KEY (id_atend)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -57,8 +57,8 @@ CREATE TABLE cargos_aninhados (
     esquerda integer NOT NULL,
     direita integer NOT NULL,
     PRIMARY KEY (id_cargo)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -67,8 +67,8 @@ CREATE TABLE cargos_mod_perm (
     id_mod integer NOT NULL,
     permissao integer NOT NULL,
     PRIMARY KEY (id_cargo, id_mod)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -79,8 +79,8 @@ CREATE TABLE grupos_aninhados (
     esquerda integer NOT NULL,
     direita integer NOT NULL,
     PRIMARY KEY (id_grupo)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -89,8 +89,8 @@ CREATE TABLE config (
     valor TEXT NOT NULL,
     tipo integer NOT NULL,
     PRIMARY KEY (chave)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -100,8 +100,8 @@ CREATE TABLE historico_atend_codif (
     id_serv integer NOT NULL,
     valor_peso smallint NOT NULL,
     PRIMARY KEY (id_atend, id_serv)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -124,8 +124,8 @@ CREATE TABLE historico_atendimentos (
     dt_fim datetime,
     ident_cli varchar(11) DEFAULT NULL,
     PRIMARY KEY (id_atend)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -138,8 +138,8 @@ CREATE TABLE modulos (
     tipo_mod smallint NOT NULL,
     stat_mod smallint NOT NULL,
     PRIMARY KEY (id_mod)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -147,8 +147,8 @@ CREATE TABLE paineis (
     id_uni integer NOT NULL,
     host integer NOT NULL,
     PRIMARY KEY (host)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -157,8 +157,8 @@ CREATE TABLE paineis_servicos (
     id_uni integer NOT NULL,
     id_serv integer NOT NULL,
     PRIMARY KEY (host, id_serv)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -173,8 +173,8 @@ CREATE TABLE painel_senha (
     num_guiche smallint NOT NULL,
     dt_envio timestamp NULL,
     PRIMARY KEY (contador)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -185,8 +185,8 @@ CREATE TABLE prioridades (
     peso_pri smallint NOT NULL,
     stat_pri smallint NOT NULL,
     PRIMARY KEY (id_pri)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -194,8 +194,8 @@ CREATE TABLE serv_local (
     id_loc integer NOT NULL AUTO_INCREMENT,
     nm_loc varchar(20) NOT NULL,
     PRIMARY KEY (id_loc)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -203,8 +203,8 @@ CREATE TABLE serv_peso (
     id_serv integer NOT NULL,
     valor_peso smallint NOT NULL,
     PRIMARY KEY (id_serv)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -215,8 +215,8 @@ CREATE TABLE servicos (
     nm_serv varchar(50),
     stat_serv smallint,
     PRIMARY KEY (id_serv)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -228,8 +228,8 @@ CREATE TABLE uni_serv (
     sigla_serv char(1) NOT NULL,
     stat_serv smallint NOT NULL,
     PRIMARY KEY (id_uni, id_serv)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -243,8 +243,8 @@ CREATE TABLE unidades (
     stat_imp smallint DEFAULT 0,
     msg_imp varchar(100),
     PRIMARY KEY (id_uni)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -254,8 +254,8 @@ CREATE TABLE usu_grup_cargo (
     id_grupo integer NOT NULL,
     id_cargo integer NOT NULL,
     PRIMARY KEY (id_usu, id_grupo)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -264,8 +264,8 @@ CREATE TABLE usu_serv (
     id_serv integer NOT NULL,
     id_usu integer NOT NULL,
     PRIMARY KEY (id_uni, id_serv, id_usu)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -273,14 +273,17 @@ CREATE TABLE usuarios (
     id_usu integer NOT NULL AUTO_INCREMENT,
     login_usu varchar(20) NOT NULL,
     nm_usu varchar(20) NOT NULL,
+    email_usu varchar(255) NOT NULL,
     ult_nm_usu varchar(100) NOT NULL,
-    senha_usu varchar(40) NOT NULL,
+    senha_usu varchar(100) NOT NULL,
+    senha_reset_token datetime,
+    senha_reset_expir datetime,
     ult_acesso datetime,
     stat_usu smallint NOT NULL,
     session_id varchar(40) NOT NULL,
     PRIMARY KEY (id_usu)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -397,60 +400,60 @@ CREATE UNIQUE INDEX modulos_chave ON modulos (chave_mod);
 -- views
 --
 
-CREATE VIEW view_historico_atend_codif 
+CREATE VIEW view_historico_atend_codif
 AS
-    SELECT 
-        atend_codif.id_atend, 
-        atend_codif.id_serv, 
-        atend_codif.valor_peso 
-    FROM 
-        atend_codif 
-    UNION ALL 
-    SELECT 
-        historico_atend_codif.id_atend, 
-        historico_atend_codif.id_serv, 
-        historico_atend_codif.valor_peso 
-    FROM 
+    SELECT
+        atend_codif.id_atend,
+        atend_codif.id_serv,
+        atend_codif.valor_peso
+    FROM
+        atend_codif
+    UNION ALL
+    SELECT
+        historico_atend_codif.id_atend,
+        historico_atend_codif.id_serv,
+        historico_atend_codif.valor_peso
+    FROM
         historico_atend_codif;
 
-CREATE VIEW view_historico_atendimentos 
+CREATE VIEW view_historico_atendimentos
 AS
-    SELECT 
-        atendimentos.id_atend, 
-        atendimentos.id_uni, 
-        atendimentos.id_usu, 
-        atendimentos.id_usu_tri, 
-        atendimentos.id_serv, 
-        atendimentos.id_pri, 
-        atendimentos.id_stat, 
-        atendimentos.sigla_senha, 
-        atendimentos.num_senha, 
-        atendimentos.nm_cli, 
-        atendimentos.num_guiche, 
-        atendimentos.dt_cheg, 
-        atendimentos.dt_cha, 
-        atendimentos.dt_ini, 
-        atendimentos.dt_fim, 
-        atendimentos.ident_cli 
-    FROM 
-        atendimentos 
-    UNION ALL 
-    SELECT 
-        historico_atendimentos.id_atend, 
-        historico_atendimentos.id_uni, 
-        historico_atendimentos.id_usu, 
-        historico_atendimentos.id_usu_tri, 
-        historico_atendimentos.id_serv, 
-        historico_atendimentos.id_pri, 
-        historico_atendimentos.id_stat, 
-        historico_atendimentos.sigla_senha, 
-        historico_atendimentos.num_senha, 
-        historico_atendimentos.nm_cli, 
-        historico_atendimentos.num_guiche, 
-        historico_atendimentos.dt_cheg, 
-        historico_atendimentos.dt_cha, 
-        historico_atendimentos.dt_ini, 
-        historico_atendimentos.dt_fim, 
-        historico_atendimentos.ident_cli 
-    FROM 
+    SELECT
+        atendimentos.id_atend,
+        atendimentos.id_uni,
+        atendimentos.id_usu,
+        atendimentos.id_usu_tri,
+        atendimentos.id_serv,
+        atendimentos.id_pri,
+        atendimentos.id_stat,
+        atendimentos.sigla_senha,
+        atendimentos.num_senha,
+        atendimentos.nm_cli,
+        atendimentos.num_guiche,
+        atendimentos.dt_cheg,
+        atendimentos.dt_cha,
+        atendimentos.dt_ini,
+        atendimentos.dt_fim,
+        atendimentos.ident_cli
+    FROM
+        atendimentos
+    UNION ALL
+    SELECT
+        historico_atendimentos.id_atend,
+        historico_atendimentos.id_uni,
+        historico_atendimentos.id_usu,
+        historico_atendimentos.id_usu_tri,
+        historico_atendimentos.id_serv,
+        historico_atendimentos.id_pri,
+        historico_atendimentos.id_stat,
+        historico_atendimentos.sigla_senha,
+        historico_atendimentos.num_senha,
+        historico_atendimentos.nm_cli,
+        historico_atendimentos.num_guiche,
+        historico_atendimentos.dt_cheg,
+        historico_atendimentos.dt_cha,
+        historico_atendimentos.dt_ini,
+        historico_atendimentos.dt_fim,
+        historico_atendimentos.ident_cli
+    FROM
         historico_atendimentos;

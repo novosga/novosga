@@ -13,15 +13,15 @@ use \core\controller\InternalController;
  * @author rogeriolino
  */
 class LoginController extends InternalController {
-    
+
     const INACTIVE_SESSION = 'Sessão expirada. Favor efetuar o login novamente.';
     const INVALID_SESSION = 'Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.';
-    
+
     protected function createView() {
         require_once(__DIR__ . '/LoginView.php');
         return new LoginView(_('Login'));
     }
-    
+
     public function index(SGAContext $context) {
         if (AcessoBusiness::isLogged()) {
             if (AcessoBusiness::isValidSession()) {
@@ -43,7 +43,7 @@ class LoginController extends InternalController {
             }
         }
     }
-    
+
     public function validate(SGAContext $context) {
         $username = Arrays::value($_POST, 'user');
         $password = Arrays::value($_POST, 'pass');
@@ -68,7 +68,7 @@ class LoginController extends InternalController {
                 $response->message = $error;
             }
             $context->getResponse()->jsonResponse($response);
-        } 
+        }
         // autenticando via tela de login
         else {
             $context->getSession()->set(SGA::K_LOGIN_ERROR, $error);
@@ -79,5 +79,5 @@ class LoginController extends InternalController {
             }
         }
     }
-    
+
 }

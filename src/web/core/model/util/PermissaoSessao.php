@@ -9,14 +9,14 @@ use \core\model\Permissao;
  * as entidades do Doctrine.
  */
 class PermissaoSessao {
-    
+
     protected $usuarioId;
     protected $modulo;
     protected $moduloId;
     protected $cargo;
     protected $cargoId;
     private $wrapped;
-    
+
     public function __construct($usuarioId, Permissao $permissao) {
         $this->usuarioId = $usuarioId;
         $this->modulo = $permissao->getModulo();
@@ -24,7 +24,7 @@ class PermissaoSessao {
         $this->cargo = $permissao->getCargo();
         $this->cargoId = $permissao->getCargo()->getId();
     }
-    
+
     public function getModuloId() {
         return $this->moduloId;
     }
@@ -34,7 +34,7 @@ class PermissaoSessao {
     }
 
     /**
-     * 
+     *
      * @return \core\model\Usuario
      */
     public function getWrapped() {
@@ -48,11 +48,11 @@ class PermissaoSessao {
         }
         return $this->wrapped;
     }
-    
+
     public function __sleep() {
         return array('usuarioId', 'moduloId', 'cargoId');
     }
-    
+
     /**
      * Métodos desconhecidos serão chamados no modelo usuário
      * @param type $name

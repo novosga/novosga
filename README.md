@@ -30,7 +30,7 @@ A aplicação web continua escrita em PHP, porém compatível com as versões ma
 
 Testado no seguintes bancos:
 - [PostgreSQL](http://www.postgresql.org/)
-- [MySQL](www.mysql.org)
+- [MySQL](http://www.mysql.org)
 - MS SQL
 
 

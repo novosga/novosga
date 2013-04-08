@@ -11,7 +11,7 @@ use \core\db\DB;
 
 /**
  * CronController
- * 
+ *
  * @author rogeriolino
  *
  */
@@ -21,12 +21,12 @@ class CronController extends SGAController {
         require_once(__DIR__ . '/CronView.php');
         return new CronView();
     }
-    
+
     public function index(SGAContext $context) {
         exit();
     }
-        
-    public function reiniciar_senhas(SGAContext $context) {
+
+        public function reiniciar_senhas(SGAContext $context) {
         $response = new AjaxResponse();
         try {
             // verificando usuario e token de seguranca
@@ -40,7 +40,7 @@ class CronController extends SGAController {
                 throw new \Exception(_('Usuário inválido'));
             }
             $token = $context->getParameter('token');
-            if ($token != self::token($usuario->getLogin(), $usuario->getSenha())) {
+            if (self::checkToken($token, $usuario->getLogin(), $usuario->getSenha())) {
                 throw new \Exception(_('Token de segurança inválido'));
             }
             // acumulando atendimentos
@@ -53,11 +53,33 @@ class CronController extends SGAController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
+    /**
+     * Gera um token baseado em um hash seguro e codificado
+     * usando base64 a partir do login e senha do usuário.
+     *
+     * @param  string $login
+     * @param  string $senha
+     * @return string
+     */
     private static function token($login, $senha) {
-        return \core\Security::passEncode($login . ':' . $senha);
+        return base64_encode(\core\Security::hash($login . ':' . $senha));
     }
-    
+
+    /**
+     * Verifica se $token pode ser gerado com os mesmos dados
+     * passados inicialmente ($login e $senha)
+     *
+     * @param  string $token Token anteriormente gerado, codificado em base64
+     * @param  string $login Login do usuário
+     * @param  string $senha Hash da senha do usuário
+     * @return boolean
+     */
+    private static function checkToken($token, $login, $senha) {
+        $token = base64_decode($token);
+        return ($token == \core\Security::hash($login . ':' . $senha, $token));
+    }
+
     public static function cronUrl($page, UsuarioSessao $usuario) {
         $protocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -66,5 +88,4 @@ class CronController extends SGAController {
         $url .= '&login=' . $usuario->getLogin() . '&token=' . self::token($usuario->getLogin(), $usuario->getSenha());
         return $url;
     }
-    
 }

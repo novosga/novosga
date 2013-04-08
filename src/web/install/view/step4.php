@@ -39,6 +39,10 @@ $currVersion = $context->getParameter('currVersion');
             <input type="text" id="ult_nm_usu" name="ult_nm_usu" />
         </div>
         <div class="field">
+            <label class="w125">Email:</label>
+            <input type="text" id="email_usu" name="email_usu" />
+        </div>
+        <div class="field">
             <label class="w125">Usuário:</label>
             <input type="text" id="login_usu" name="login_usu" onkeyup="SGA.Form.loginValue(this)" maxlength="20" />
         </div>

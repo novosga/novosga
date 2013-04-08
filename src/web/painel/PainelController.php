@@ -8,7 +8,7 @@ use \painel\protocol\ProtocolFactory;
 
 /**
  * PainelController
- * 
+ *
  * @author rogeriolino
  *
  */
@@ -18,13 +18,13 @@ class PainelController extends SGAController {
         require_once(__DIR__ . '/PainelView.php');
         return new PainelView();
     }
-    
+
     public function index(SGAContext $context) {
         $context->getResponse()->setRenderView(false);
         $unidades = DB::getEntityManager()->createQuery("SELECT e FROM \core\model\Unidade e WHERE e.status = 1 ORDER BY e.nome")->getResult();
         $this->view()->assign('unidades', $unidades);
     }
-    
+
     public function servicos(SGAContext $context) {
         $version = (int) $context->getRequest()->getParameter('version');
         $unidade = (int) $context->getRequest()->getParameter('unidade');
@@ -33,14 +33,14 @@ class PainelController extends SGAController {
         echo ProtocolFactory::create($version)->encodeServicos($query->getResult());
         exit();
     }
-    
+
     public function unidades(SGAContext $context) {
         $version = (int) $context->getRequest()->getParameter('version');
         $query = DB::getEntityManager()->createQuery("SELECT e FROM \core\model\Unidade e ORDER BY e.nome");
         echo ProtocolFactory::create($version)->encodeUnidades($query->getResult());
         exit();
     }
-    
+
     public function painel_web_update(SGAContext $context) {
         $em = DB::getEntityManager();
         $unidade = (int) $context->getRequest()->getParameter('unidade');
@@ -62,7 +62,7 @@ class PainelController extends SGAController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
     public function painel_web_servicos(SGAContext $context) {
         $em = DB::getEntityManager();
         $unidade = (int) $context->getRequest()->getParameter('unidade');
@@ -79,5 +79,5 @@ class PainelController extends SGAController {
         }
         $context->getResponse()->jsonResponse($response);
     }
-    
+
 }
