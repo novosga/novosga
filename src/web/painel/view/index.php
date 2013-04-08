@@ -8,6 +8,7 @@
     <script type="text/javascript" src="../js/jquery.js?v=<?php echo \core\SGA::VERSION ?>"></script>
     <script type="text/javascript" src="../js/jquery-ui.js?v=<?php echo \core\SGA::VERSION ?>"></script>
     <script type="text/javascript" src="../js/script.js?v=<?php echo \core\SGA::VERSION ?>"></script>
+    <script type="text/javascript" src="js/buzz.js?v=<?php echo \core\SGA::VERSION ?>"></script>
     <script type="text/javascript" src="js/script.js?v=<?php echo \core\SGA::VERSION ?>"></script>
 </head>
 <body>
