@@ -8,6 +8,7 @@
     <script type="text/javascript" src="../js/jquery.js?v=<?php echo \core\SGA::VERSION ?>"></script>
     <script type="text/javascript" src="../js/jquery-ui.js?v=<?php echo \core\SGA::VERSION ?>"></script>
     <script type="text/javascript" src="../js/script.js?v=<?php echo \core\SGA::VERSION ?>"></script>
+    <script type="text/javascript" src="js/buzz.js?v=<?php echo \core\SGA::VERSION ?>"></script>
     <script type="text/javascript" src="js/script.js?v=<?php echo \core\SGA::VERSION ?>"></script>
 </head>
 <body>
@@ -76,6 +77,7 @@
         $(document).ready(function() {
             SGA.PainelWeb.Config.title = '<?php echo _('Configuração') ?>';
             SGA.PainelWeb.Config.btnSave = '<?php echo _('Salvar') ?>';
+            SGA.PainelWeb.Config.lang = '<?php echo SGA::defaultClientLanguage(); ?>';
             SGA.PainelWeb.init();
         });
     </script>
