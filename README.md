@@ -30,7 +30,7 @@ A aplicação web continua escrita em PHP, porém compatível com as versões ma
 
 Testado no seguintes bancos:
 - [PostgreSQL](http://www.postgresql.org/)
-- [MySQL](www.mysql.org)
+- [MySQL](http://www.mysql.org)
 - MS SQL
 
 
@@ -40,27 +40,6 @@ Versão de desenvolvimento disponível online através do link: http://novosga.o
 
 - **Usuário**: admin
 - **Senha**: 123456
-
-## Instalação
-
-Os pacotes de distribuíção são gerados via [Ant Script](http://ant.apache.org/). Bastando apenas executar dentro do diretório de cada aplicação: web ou painel (client e server).
-
-### Web
-
-Basta extrair o pacote da versão web (novosga-web) na raiz do seu Http Server. E depois acessar via navegador para iniciar a instalação.
-
-*OBS*: No pacote só contém o código fonte da aplicação e SQL para criação do banco. Todas as dependências (Http Server, PHP e Banco de Dados) devem ser instaladas previamente.
-
-### Painel
-
-Tanto para o cliente quanto servidor são gerados arquivos JARs e lançadores destes JARs para Windows (.bat) e Linux (.sh). Logo, para poder executar o painel é necessário ter a [máquina virtual Java](http://www.java.com/getjava/) instalada.
-
-*OBS:* Antes de executar o servidor do painel, deve-se modificar seu arquivo de configuração (server.conf).
-
-## Autor
-
-O autor e responsável por esta versão, [Rogério Alencar Lino Filho](http://rogeriolino.com), foi um dos principais colaboradores para a versão Livre do SGA. Fazendo parte do time de desenvolvedores de 2007 a 2008.
-
 
 ## Contribuições
 
