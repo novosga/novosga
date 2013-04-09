@@ -45,7 +45,7 @@ abstract class PainelBusiness {
             $data['unidade'] = $painel->getUnidade()->getNome();
             $data['servicos'] = array();
             foreach ($painel->getServicos() as $s) {
-                $ids = $s->getServico()->getId();
+                $ids[] = $s->getServico()->getId();
                 $data['servicos'][] = $s->getServico()->getNome();
             }
             // ultimas senhas
