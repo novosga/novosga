@@ -90,8 +90,8 @@ SGA.PainelWeb = {
             $('#atual-guiche-numero span').text(senha.numeroGuiche);
             // som e animacao
             document.getElementById('audio-new').play();
-            SGA.PainelWeb.Speech.play("senha", "pt");
-            SGA.PainelWeb.Speech.play(senha.senha, "pt");
+            SGA.PainelWeb.Speech.play("senha");
+            SGA.PainelWeb.Speech.play(senha.senha);
             $('#atual-senha').effect("highlight", {
                 complete: function() {
                     $('#atual-senha').effect("pulsate", { times: 3 }, 1000);
@@ -125,6 +125,7 @@ SGA.PainelWeb = {
     
         title: '',
         btnSave: '',
+        lang: 'pt',
         servicosLoaded: false,
     
         open: function() {
@@ -238,13 +239,13 @@ SGA.PainelWeb = {
 
     Speech: {
         queuee: [],
-        play: function(text, lang) {
+        play: function(text) {
             if (this.queuee === undefined) {
                 this.queuee = [];
             }
 
             if (text === "senha") {
-                this.queuee.push({name: text, lang: lang});
+                this.queuee.push({name: text, lang: SGA.PainelWeb.Config.lang});
                 this.processQueuee();
                 return;
             }
@@ -255,7 +256,7 @@ SGA.PainelWeb = {
                     continue;
                 }
 
-                this.queuee.push({name: chr, lang: lang});
+                this.queuee.push({name: chr, lang: SGA.PainelWeb.Config.lang});
             }
 
             this.processQueuee();
