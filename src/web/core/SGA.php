@@ -115,8 +115,8 @@ class SGA {
     }
     
     public static function defaultClientLanguage() {
-        $langs = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        return current(explode('-', $langs[0]));
+        $lang = \core\util\I18n::locale();
+        return current(explode('_', $lang));
     }
     
     public static function redirect($arg) {
