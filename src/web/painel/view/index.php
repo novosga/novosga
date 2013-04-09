@@ -77,7 +77,7 @@
         $(document).ready(function() {
             SGA.PainelWeb.Config.title = '<?php echo _('Configuração') ?>';
             SGA.PainelWeb.Config.btnSave = '<?php echo _('Salvar') ?>';
-            SGA.PainelWeb.Config.lang = '<?php echo SGA::defaultClientLanguage(); ?>';
+            SGA.PainelWeb.Config.lang = '<?php echo \core\SGA::defaultClientLanguage(); ?>';
             SGA.PainelWeb.init();
         });
     </script>
