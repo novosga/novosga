@@ -143,18 +143,9 @@ class TriagemController extends ModuleController {
             if (!$su) {
                 throw new Exception(_('Serviço não disponível para a unidade atual'));
             }
-            $innerQuery = "
-                SELECT 
-                    num_senha
-                FROM
-                    atendimentos a
-                WHERE
-                    a.id_uni = :id_uni
-                ORDER BY
-                    num_senha DESC
-            ";
+            $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.id_uni = :id_uni ORDER BY num_senha DESC";
             $conn = $this->em()->getConnection();
-            $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1);
+            $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1, 0);
             $stmt = $conn->prepare(" 
                 INSERT INTO atendimentos
                 (id_uni, id_serv, id_pri, id_usu_tri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha)
