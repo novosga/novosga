@@ -151,6 +151,10 @@ abstract class CrudController extends ModuleController {
             try {
                 $this->doDelete($context, $model);
             } catch (Exception $e) {
+                try {
+                    // se tiver uma transação aberta, dá rollback
+                    $this->em()->rollback();
+                } catch (\Exception $e2) {}
                 $this->view()->addMessage($e->getMessage(), 'error');
             }
         }
@@ -158,7 +162,7 @@ abstract class CrudController extends ModuleController {
     }
     
     /**
-     * Insere ou atualiza a entidade no banco
+     * Remove a entidade do banco
      * @param \core\model\SequencialModel $model
      */
     protected function doDelete(SGAContext $context, SequencialModel $model) {
