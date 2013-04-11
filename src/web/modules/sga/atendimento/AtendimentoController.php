@@ -31,13 +31,22 @@ class AtendimentoController extends ModuleController {
         $this->view()->assign('atendimento', $this->atendimentoAndamento($usuario));
         $this->view()->assign('servicos', $usuario->getServicos());
         $this->view()->assign('servicosIndisponiveis', $usuario->getServicosIndisponiveis());
+        $tiposAtendimento = array(
+            UsuarioSessao::ATEND_TODOS => _('Todos'), 
+            UsuarioSessao::ATEND_CONVENCIONAL => _('Convencional'), 
+            UsuarioSessao::ATEND_PRIORIDADE => _('Prioridade')
+        );
+        $this->view()->assign('tiposAtendimento', $tiposAtendimento);
     }
     
     public function set_guiche(SGAContext $context) {
         $numero = (int) Arrays::value($_POST, 'guiche');
+        $tipo = (int) Arrays::value($_POST, 'tipo');
         if ($numero) {
             $context->getCookie()->set('guiche', $numero);
+            $context->getCookie()->set('tipo', $tipo);
             $context->getUser()->setGuiche($numero);
+            $context->getUser()->setTipoAtendimento($tipo);
             $context->setUser($context->getUser());
         }
         SGA::redirect('index');
@@ -53,6 +62,11 @@ class AtendimentoController extends ModuleController {
         if (empty($ids)) {
             $ids[] = 0;
         }
+        $cond = '';
+        if ($usuario->getTipoAtendimento() != UsuarioSessao::ATEND_TODOS) {
+            $s = ($usuario->getTipoAtendimento() == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
+            $cond = " AND p.peso $s 0";
+        }
         $query = $this->em()->createQuery("
             SELECT 
                 e 
@@ -64,7 +78,7 @@ class AtendimentoController extends ModuleController {
             WHERE 
                 e.status = :status AND
                 su.unidade = :unidade AND
-                s.id IN (:servicos)
+                s.id IN (:servicos) $cond
             ORDER BY 
                 p.peso DESC,
                 e.numeroSenha ASC
