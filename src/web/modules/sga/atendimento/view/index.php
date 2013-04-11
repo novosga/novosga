@@ -40,8 +40,16 @@ $guiche = $context->getUser()->getGuiche();
 <div id="dialog-guiche" title="<?php SGA::out(_('Guichê')) ?>" style="display:none">
     <form id="guiche_form" action="<?php SGA::out(SGA::url('set_guiche')) ?>" method="post">
         <div>
-            <label><?php SGA::out(_('Número')) ?></label>
-            <input type="text" id="numero_guiche" name="guiche" maxlength="3" class="w50" value="<?php SGA::out($context->getCookie()->get('guiche')) ?>" />
+            <label class="w100"><?php SGA::out(_('Número')) ?></label>
+            <input type="text" id="numero_guiche" name="guiche" maxlength="3" class="w50" value="<?php echo $context->getCookie()->get('guiche') ?>" />
+        </div>
+        <div>
+            <label class="w100" title="<?php echo _('Tipo de Atendimento') ?>"><?php SGA::out(_('Atendimento')) ?></label>
+            <select id="tipo_atendimento" name="tipo">
+                <?php foreach ($tiposAtendimento as $v => $l): $c = $context->getCookie()->get('tipo'); ?>
+                <option value="<?php echo $v ?>" <?php echo $c == $v ? 'selected="selected"' : '' ?>><?php echo $l ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
     </form>
     <script type="text/javascript">

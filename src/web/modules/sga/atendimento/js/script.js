@@ -57,7 +57,7 @@ SGA.Atendimento = {
         btns[btnLabel] = function() {
             $('#guiche_form').submit();
         }
-        SGA.dialogs.modal('#dialog-guiche', { width: 200, buttons: btns });
+        SGA.dialogs.modal('#dialog-guiche', { width: 250, buttons: btns });
     },
     
     updateControls: function(status, atendimento) {

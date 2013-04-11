@@ -11,6 +11,11 @@ use \core\model\Unidade;
  */
 class UsuarioSessao {
     
+    // tipos de atendimentos
+    const ATEND_TODOS        = 1; // qualquer atendimento
+    const ATEND_CONVENCIONAL = 2; // atendimento sem prioridade
+    const ATEND_PRIORIDADE   = 3; // atendimento prioritário
+    
     private $id;
     private $unidade;
     private $unidadeId;
@@ -21,12 +26,14 @@ class UsuarioSessao {
     private $servicosIndisponiveis;
     private $sessionId;
     private $permissoes;
+    private $tipoAtendimento;
     private $wrapped;
     
     public function __construct(Usuario $usuario) {
         $this->id = $usuario->getId();
         $this->sessionId = $usuario->getSessionId();
         $this->ativo = true;
+        $this->tipoAtendimento = self::ATEND_TODOS;
         $this->wrapped = $usuario;
     }
     
@@ -197,6 +204,14 @@ class UsuarioSessao {
         $this->unidadeId = $unidade->getId();
     }
     
+    public function getTipoAtendimento() {
+        return $this->tipoAtendimento;
+    }
+
+    public function setTipoAtendimento($tipoAtendimento) {
+        $this->tipoAtendimento = $tipoAtendimento;
+    }
+        
     /**
      * 
      * @return \core\model\Usuario
@@ -209,7 +224,7 @@ class UsuarioSessao {
     }
     
     public function __sleep() {
-        return array('id', 'unidadeId', 'sessionId', 'ativo', 'guiche', 'permissoes');
+        return array('id', 'unidadeId', 'sessionId', 'ativo', 'guiche', 'tipoAtendimento', 'permissoes');
     }
     
     /**
