@@ -137,7 +137,7 @@ abstract class AtendimentoBusiness {
     
     private static function delFrom($table, $alias) {
         $sql = "DELETE ";
-        if (\core\Config::DB_TYPE == 'mysql') {
+        if (\core\Config::DB_TYPE == 'mysql' || \core\Config::DB_TYPE == 'mssql') {
             $sql .= "$alias ";
         }
         return $sql . "FROM $table $alias ";
