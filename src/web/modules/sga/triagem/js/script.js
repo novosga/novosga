@@ -8,6 +8,7 @@ SGA.Triagem = {
     
     ids: [],
     imprimir: false,
+    pausado: false,
     
     init: function() {
         setInterval(SGA.Triagem.ajaxUpdate, SGA.updateInterval);
@@ -112,24 +113,29 @@ SGA.Triagem = {
     },
     
     distribuiSenha: function(servico, prioridade, success) {
-        SGA.ajax({
-            url: SGA.url('distribui_senha'),
-            data: {
-                servico: servico, 
-                prioridade: prioridade,
-                cli_nome: $('#cli_nome').val(),
-                cli_doc: $('#cli_doc').val()
-            },
-            type: 'post',
-            success: function(response) {
-                SGA.Triagem.Impressao.imprimir(response.data);
-                SGA.Triagem.ajaxUpdate();
-                if (typeof(success) == 'function') {
-                    success(response);
+        if (!SGA.Triagem.pausado) {
+            // evitando de gerar várias senhas com múltiplos cliques
+            SGA.Triagem.pausado = true;
+            SGA.ajax({
+                url: SGA.url('distribui_senha'),
+                data: {
+                    servico: servico, 
+                    prioridade: prioridade,
+                    cli_nome: $('#cli_nome').val(),
+                    cli_doc: $('#cli_doc').val()
+                },
+                type: 'post',
+                success: function(response) {
+                    SGA.Triagem.Impressao.imprimir(response.data);
+                    SGA.Triagem.ajaxUpdate();
+                    if (typeof(success) == 'function') {
+                        success(response);
+                    }
+                    SGA.Triagem.pausado = false;
                 }
-            }
-        });
-        $('#cli_nome, #cli_doc').val('');
+            });
+            $('#cli_nome, #cli_doc').val('');
+        }
     },
     
     senhaNormal: function(btn) {
