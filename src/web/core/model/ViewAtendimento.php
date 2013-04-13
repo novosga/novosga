@@ -1,12 +1,6 @@
 <?php
 namespace core\model;
 
-use \core\model\Model;
-use \core\model\Unidade;
-use \core\model\Usuario;
-use \core\model\Servico;
-use \core\model\Prioridade;
-
 /**
  * Classe ViewAtendimento
  * representa a view de historico de atendimento do banco de dados
@@ -158,6 +152,15 @@ class ViewAtendimento extends Model {
 
     public function getStatus() {
         return $this->status;
+    }
+    
+    /**
+     * Retorna o nome do status do atendimento
+     * @return type
+     */
+    public function getNomeStatus() {
+        $arr = Atendimento::situacoes();
+        return $arr[$this->getStatus()];
     }
 
     public function setStatus($status) {

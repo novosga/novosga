@@ -122,13 +122,21 @@ SGA.Estatisticas = {
         },
         
         change: function(elem) {
-            var elems = $('#tab-relatorios .date');
-            if (elem.val() > 2) {
-                elems.show();
-                elems.find('input').prop('disabled', false);
-            } else {
+            if (elem.val() > 0) {
+                // desabilitando as opções
+                var elems = $('#tab-relatorios .option');
+                elems.find(':input').prop('disabled', true);
                 elems.hide();
-                elems.find('input').prop('disabled', true);
+                // habilitando as opções do relatório selecionado
+                var param = $('#tab-relatorios option:selected').data('tipo');
+                if (param != '') {
+                    var tipos = param.split(',');
+                    for (var i = 0; i < tipos.length; i++) {
+                        elems = $('#tab-relatorios .' + tipos[i]);
+                        elems.find(':input').prop('disabled', false);
+                        elems.show();
+                    }
+                }
             }
         }
         

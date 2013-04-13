@@ -2,7 +2,6 @@
 namespace core\model;
 
 use \core\SGA;
-use \core\model\SequencialModel;
 
 /**
  * Classe Modulo

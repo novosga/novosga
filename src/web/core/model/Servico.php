@@ -1,9 +1,6 @@
 <?php
 namespace core\model;
 
-use \core\model\SequencialModel;
-use \core\model\ServicoUnidade;
-
 /**
  * @Entity
  * @Table(name="servicos")

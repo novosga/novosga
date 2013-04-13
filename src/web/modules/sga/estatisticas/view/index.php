@@ -42,7 +42,7 @@ use \core\contrib\Serie;
                     $script .= $chart->toString();
                 }
                 ?>
-                <div class="unidade">
+                <div class="chart-unidade">
                     <div class="wrap">
                         <h3 class="title"><?php SGA::out($unidade->getNome()) ?></h3>
                         <?php echo $script ?>
@@ -95,15 +95,24 @@ use \core\contrib\Serie;
                     <select id="report-id" name="relatorio">
                         <option value=""><?php SGA::out(_('Selecione')) ?></option>
                         <?php foreach ($relatorios as $k => $v): ?>
-                        <option value="<?php echo $k ?>"><?php SGA::out($v->getTitulo()) ?></option>
+                        <option value="<?php echo $k ?>" data-tipo="<?php echo $v->getTipo() ?>"><?php echo $v->getTitulo() ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="field required date" style="display:none">
+                <div class="field required option unidade" style="display:none">
+                    <label for="report-unidade"><?php echo _('Unidade') ?></label>
+                    <select id="report-unidade" name="unidade">
+                        <option value="0"><?php echo _('Todas') ?></option>
+                        <?php foreach ($unidades as $unidade): ?>
+                        <option value="<?php echo $unidade->getId() ?>"><?php echo $unidade->getNome() ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="field required option date" style="display:none">
                     <label for="report-dataInicial"><?php SGA::out(_('Data inicial')) ?></label>
                     <input id="report-dataInicial" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
-                <div class="field required date" style="display:none">
+                <div class="field required option date" style="display:none">
                     <label for="report-dataFinal"><?php SGA::out(_('Data final')) ?></label>
                     <input id="report-dataFinal" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>

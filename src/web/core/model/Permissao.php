@@ -1,8 +1,6 @@
 <?php
 namespace core\model;
 
-use \core\model\Modulo;
-
 /**
  * @Entity
  * @Table(name="cargos_mod_perm")

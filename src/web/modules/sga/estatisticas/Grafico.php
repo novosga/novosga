@@ -8,12 +8,10 @@ namespace modules\sga\estatisticas;
  */
 class Grafico extends Relatorio {
     
-    private $tipo;
     private $legendas = array();
     
     public function __construct($titulo, $tipo) {
-        parent::__construct($titulo, '');
-        $this->tipo = $tipo;
+        parent::__construct($titulo, '', $tipo);
     }
     
     public function getLegendas() {

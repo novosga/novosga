@@ -11,10 +11,13 @@ class Relatorio {
     protected $titulo;
     protected $dados;
     protected $arquivo;
-    
-    public function __construct($titulo, $arquivo) {
+    protected $tipo;
+
+
+    public function __construct($titulo, $arquivo, $tipo = '') {
         $this->titulo = $titulo;
         $this->arquivo = $arquivo;
+        $this->tipo = $tipo;
         $this->dados = array();
     }
     
@@ -24,6 +27,9 @@ class Relatorio {
     
     public function getArquivo() {
         return $this->arquivo;
+    }
+    public function getTipo() {
+        return $this->tipo;
     }
 
     public function getDados() {

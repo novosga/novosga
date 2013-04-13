@@ -1,11 +1,8 @@
 <?php
 namespace core\model;
 
-use \core\model\SequencialModel;
 use \core\model\util\Cliente;
 use \core\model\util\Senha;
-use \core\model\ServicoUnidade;
-use \core\model\Usuario;
 
 /**
  * Classe Atendimento
@@ -206,11 +203,20 @@ class Atendimento extends SequencialModel {
     }
     
     /**
-     * Retorna o Status do Atendimento
+     * Retorna o código do status do atendimento
      * @return int
      */
     public function getStatus() {
         return $this->status;
+    }
+    
+    /**
+     * Retorna o nome do status do atendimento
+     * @return type
+     */
+    public function getNomeStatus() {
+        $arr = self::situacoes();
+        return $arr[$this->getStatus()];
     }
 
     /**

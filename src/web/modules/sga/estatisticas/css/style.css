@@ -8,20 +8,20 @@
     padding: 20px 0 10px 0;
 }
 
-.unidade {
+.chart-unidade {
     width: 50%;
     float: left;
     margin: 0;
 }
 
-.unidade .title {
+.chart-unidade .title {
     padding: 20px 0 10px 0;
     text-align: center;
 }
 
-.unidade .wrap {
+.chart-unidade .wrap {
     padding: 10px;
 }
 
-.unidade .pie {
+.chart-unidade .pie {
 }

@@ -1,10 +1,7 @@
 <?php
 namespace core\model;
 
-use \core\model\Model;
 use \core\model\util\Fila;
-use \core\model\Servico;
-use \core\model\Unidade;
 
 /**
  * Servico Unidade

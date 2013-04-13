@@ -15,8 +15,8 @@ use \core\util\DateUtil;
             <th title="<?php echo _('Hora de Chamada') ?>"><?php echo _('Chamada') ?></th>
             <th title="<?php echo _('Hora do Início do atendimento') ?>"><?php echo _('Início') ?></th>
             <th title="<?php echo _('Hora do Fim do atendimento') ?>"><?php echo _('Fim') ?></th>
-            <th title="<?php echo _('Tempo total de duração (Fim - Início)') ?>"><?php echo _('Duração') ?></th>
             <th title="<?php echo _('Serviço escolhido na triagem') ?>"><?php echo _('Serviço Triado') ?></th>
+            <th><?php echo _('Status') ?></th>
             <th><?php echo _('Atendente') ?></th>
         </tr>
     </thead>
@@ -28,8 +28,8 @@ use \core\util\DateUtil;
             <td class=""><?php echo DateUtil::format($a->getDataChamada(), 'H:i:s') ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataInicio(), 'H:i:s') ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataFim(), 'H:i:s') ?></td>
-            <td class=""><?php echo DateUtil::secToTime(DateUtil::diff($a->getDataInicio(), $a->getDataFim())) ?></td>
             <td class=""><?php echo $a->getServico()->getNome() ?></td>
+            <td class=""><?php echo $a->getNomeStatus() ?></td>
             <td class=""><?php echo ($a->getUsuario()) ? $a->getUsuario()->getLogin() : '-' ?></td>
         </tr>
         <?php endforeach; ?>
