@@ -1,8 +1,6 @@
 <?php
 namespace core\model;
 
-use \core\model\Model;
-
 /**
  * @Entity
  * @Table(name="usu_grup_cargo")

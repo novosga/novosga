@@ -1,8 +1,6 @@
 <?php
 namespace core\model;
 
-use \core\model\SequencialModel;
-
 /**
  * 
  * @Entity
