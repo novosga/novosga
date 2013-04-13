@@ -22,7 +22,7 @@ class Grupo extends TreeModel {
     protected $nome;
     /** @Column(type="string", name="desc_grupo", length=150, nullable=false) */
     protected $descricao;
-    /** @ OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY") */
+    /** @OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY") */
     protected $unidade;
 
 

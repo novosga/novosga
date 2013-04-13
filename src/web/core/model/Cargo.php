@@ -1,9 +1,6 @@
 <?php
 namespace core\model;
 
-use \core\model\TreeModel;
-
-
 /**
  * Classe Cargo
  * Um cargo define permissões de acesso a módulos do sistema
