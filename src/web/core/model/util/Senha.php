@@ -11,15 +11,13 @@ use \core\model\Prioridade;
  */
  class Senha extends Model {
      
-     const LENGTH = 4;
+    const LENGTH = 4;
      
     private $sigla;
     private $numero;    
     private $prioridade;
-    private $legenda;
 
     public function __construct() {
-        $this->setLegenda(_('Senha|Bilhete'));
     }
 
     /**
@@ -87,23 +85,15 @@ use \core\model\Prioridade;
     }
 
     /**
-     * Define a legenda da senha
-     * @param String $legenda
-     */
-    public function setLegenda($legenda) {
-        if (is_string($legenda)) {
-            $this->legenda = $legenda;
-        } else {
-            throw new Exception(_('A legenda da senha deve ser uma String'));
-        }
-    }
-
-    /**
      * Retorna a legenda da senha
      * @return String
      */
     public function getLegenda() {
-        return $this->legenda;
+        if ($this->getPrioridade()->getPeso() == 0) {
+            return _('Senha|Bilhete');
+        } else {
+            return _('Prioridade');
+        }
     }
 
     /**
