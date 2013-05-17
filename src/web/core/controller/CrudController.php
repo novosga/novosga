@@ -88,8 +88,9 @@ abstract class CrudController extends ModuleController {
         } else {
             $this->model = $this->createModel();
         }
-        $message = null;
         if ($context->getRequest()->isPost()) {
+            $redirUrl = $_SERVER['HTTP_REFERER'];
+            $message = array('success' => true, 'text' => '');
             $requiredFields = $this->requiredFields();
             try {
                 foreach ($requiredFields as $field) {
@@ -99,27 +100,32 @@ abstract class CrudController extends ModuleController {
                     }
                     Objects::set($this->model, $field, $_POST[$field]);
                 }
-
                 $id = Arrays::value($_POST, 'id', 0);
                 if ($id > 0) { // editando
                     $this->model->setId($id);
                     $this->doSave($context, $this->model);
-                    $message = array('success' => true, 'message' => _('Registro alterado com sucesso'));
+                    $message['text'] = _('Registro alterado com sucesso');
                 } else { // criando
                     $this->doSave($context, $this->model);
                     $id = $this->model->getId();
+                    $redirUrl .= '&id=' . $id;
                     if ($id > 0) {
-                        $message = array('success' => true, 'message' => _('Novo registro adicionado com sucesso'));
+                        $message['text'] = _('Novo registro adicionado com sucesso');
                     } else {
-                        $message = array('success' => false, 'message' => _('Erro ao salvar o novo registro. Favor tentar novamente'));
+                        $message['text'] = _('Erro ao salvar o novo registro. Favor tentar novamente');
+                        $message['success'] = false;
                     }
                 }
             } catch (\Exception $e) {
-                $message = array('success' => false, 'message' => $e->getMessage());
+                $message['text'] = $e->getMessage();
+                $message['success'] = false;
             }
+            if (!empty($message['text'])) {
+                $this->view()->addMessage($message['text'], $message['success'] ? 'success' : 'error');
+            }
+            SGA::redirect($redirUrl);
         }
         $this->view()->assign('id', $id);
-        $this->view()->assign('message', $message);
         $this->view()->assign('model', $this->model);
     }
     
