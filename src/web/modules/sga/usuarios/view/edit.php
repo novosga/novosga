@@ -1,8 +1,5 @@
 <?php
 use \core\SGA;
-
-echo $view->editMessages();
-
 ?>
 <form id="crud-form" method="post" action="<?php SGA::out(SGA::url()) ?>">
     <input type="hidden" name="id" value="<?php SGA::out($model->getId()) ?>" />
