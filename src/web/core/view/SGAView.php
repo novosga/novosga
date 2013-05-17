@@ -75,7 +75,10 @@ abstract class SGAView implements View {
         if (!empty($messages)) {
             $html = '<div class="messages">';
             foreach ($messages as $message) {
-                if ($message['class'] == 'error') {
+                if ($message['class'] == 'success') {
+                    $html .= $this->builder->success($message['text']);
+                }
+                else if ($message['class'] == 'error') {
                     $html .= $this->builder->error($message['text']);
                 }
             }
