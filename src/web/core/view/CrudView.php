@@ -2,6 +2,7 @@
 namespace core\view;
 
 use \core\SGA;
+use \core\SGAContext;
 use \core\view\ModuleView;
 use \core\util\Arrays;
 use \core\util\Strings;
@@ -58,7 +59,6 @@ class CrudView extends ModuleView {
     }
     
     public function table(array $header, array $columns, $items, array $classes = array()) {
-        $context = SGA::getContext();
         array_unshift($header, '#');
         array_push($header, '');
         array_unshift($columns, 'id');
@@ -73,13 +73,13 @@ class CrudView extends ModuleView {
             array_push($columns, $buttons);
             $classes[sizeof($columns) - 1] = 'btns';
         }
-        return $this->showMessages() . $this->getBuilder()->table(array(
+        return $this->getBuilder()->table(array(
             'id' => 'table-list',
             'header' => $header,
             'columns' => $columns,
             'classes' => $classes,
             'items' => $items
-        )) . $this->deleteForm();
+        ));
     }
     
     public function tree($title, $items) {
@@ -95,7 +95,7 @@ class CrudView extends ModuleView {
             'title' => $title,
             'items' => $items,
             'buttons' => $buttons
-        )) . $this->deleteForm();
+        ));
     }
     
     public function statusLabel($status) {
@@ -126,7 +126,6 @@ class CrudView extends ModuleView {
         if (!$id) {
             $id = '{id}';
         }
-        $context = SGA::getContext();
         return $this->getBuilder()->button(array(
             'id' => "btn-delete-$id",
             'type' => 'link',
@@ -135,19 +134,7 @@ class CrudView extends ModuleView {
             'onclick' => "SGA.Form.confirm('" . _('Deseja realmente excluir?') . "', function() { $('#form-delete input').val(". $id ."); $('#form-delete').submit() })"
         ));
     }
-    
-    public function editMessages() {
-        $message = Arrays::value($this->variables, 'message', array());
-        if (!empty($message)) {
-            if ($message['success']) {
-                return $this->getBuilder()->success($message['message']);
-            } else {
-                return $this->getBuilder()->error($message['message']);
-            }
-        }
-        return '';
-    }
-    
+
     public function editButtonsBar() {
         $html = '<div class="buttons">';
         $html .= '<span class="btns">';
@@ -162,10 +149,18 @@ class CrudView extends ModuleView {
             'href' => SGA::url('index'),
             'class' => 'btn-back'
         ));
+        $id = (int) Arrays::value($_GET, 'id');
+        if ($id > 0) {
+            $html .= $this->buttonDelete($id);
+        }
         $html .= '</span>';
         $html .= '<p class="required-desc">' . _('Campos obrigatórios') . '</p>';
         $html .= '</div>';
         return $html;
+    }
+    
+    public function footer(SGAContext $context) {
+        return $this->deleteForm() . parent::footer($context);
     }
 
 }
