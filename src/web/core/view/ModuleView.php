@@ -44,7 +44,7 @@ class ModuleView extends LoggedView {
             $header .= $this->builder->tag('h2', $this->title);
             $header .= $this->builder->tag('p', $this->subtitle);
             $header .= '</div>';
-            $content = $header . $content;
+            $content = $header . $this->showMessages() . $content;
         }
         return $content;
     }
