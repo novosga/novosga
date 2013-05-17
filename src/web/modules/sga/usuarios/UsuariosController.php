@@ -159,6 +159,31 @@ class UsuariosController extends CrudController {
             }
         }
     }
+    
+    protected function preDelete(SGAContext $context, SequencialModel $model) {
+        if ($context->getUser()->getId() === $model->getId()) {
+            throw new \Exception(_('Não é possível excluir si próprio.'));
+        }
+        // verificando a quantidade de atendimentos do usuario
+        $total = 0;
+        $models = array('Atendimento', 'ViewAtendimento');
+        foreach ($models as $atendimentoModel) {
+            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM \core\model\\$atendimentoModel e WHERE e.usuario = :usuario");
+            $query->setParameter('usuario', $model->getId());
+            $rs = $query->getSingleResult();
+            $total += $rs['total'];
+        }
+        if ($total > 0) {
+            throw new \Exception(_('Não é possível excluir esse usuário pois o mesmo já realizou atendimentos.'));
+        }
+        // excluindo vinculos do usuario (servicos e lotacoes)
+        $models = array('ServicoUsuario', 'Lotacao');
+        foreach ($models as $vinculoModel) {
+            $query = $this->em()->createQuery("DELETE FROM \core\model\\$vinculoModel e WHERE e.usuario = :usuario");
+            $query->setParameter('usuario', $model->getId());
+            $query->execute();
+        }
+    }
 
     protected function search($arg) {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Usuario e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.login) LIKE :arg");
