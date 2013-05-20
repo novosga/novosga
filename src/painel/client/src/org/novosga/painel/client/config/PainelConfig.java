@@ -18,8 +18,10 @@ public class PainelConfig extends AppConfig {
     public static final String KEY_SERVICOS = "Servicos";
     public static final String KEY_SERVER = "IPServidor";
     public static final String KEY_MONITOR_ID = "VideoID";
+    public static final String KEY_MAIN_LAYOUT = "MainLayout";
     public static final String KEY_SCREENSAVER_TIMEOUT = "ScreensaverTimeout";
     public static final String KEY_SCREENSAVER_URL = "ScreensaverUrl";
+    public static final String KEY_SCREENSAVER_LAYOUT = "ScreensaverLayout";
     public static final String KEY_PROTOCOL = "Procolo";
     public static final String KEY_PORT_SEND = "PortaEnvio";
     public static final String KEY_PORT_RECEIVE = "PortaRecebimento";
@@ -38,8 +40,10 @@ public class PainelConfig extends AppConfig {
         parameters.add(new ConfigParameter<Integer[]>(KEY_SERVICOS, new Integer[]{0}));
         parameters.add(new ConfigParameter<String>(KEY_SERVER, ""));
         parameters.add(new ConfigParameter<Integer>(KEY_MONITOR_ID, 0));
+        parameters.add(new ConfigParameter<Integer>(KEY_MAIN_LAYOUT, 1));
         parameters.add(new ConfigParameter<Integer>(KEY_SCREENSAVER_TIMEOUT, 30));
         parameters.add(new ConfigParameter<String>(KEY_SCREENSAVER_URL, new File("media/video/promo1.mp4").toURI().toString()));
+        parameters.add(new ConfigParameter<Integer>(KEY_SCREENSAVER_LAYOUT, 1));
         parameters.add(new ConfigParameter<String>(KEY_PROTOCOL, Main.DEFAULT_PROTOCOL));
         parameters.add(new ConfigParameter<Integer>(KEY_PORT_SEND, Main.DEFAULT_SEND_PORT));
         parameters.add(new ConfigParameter<Integer>(KEY_PORT_RECEIVE, Main.DEFAULT_RECEIVE_PORT));

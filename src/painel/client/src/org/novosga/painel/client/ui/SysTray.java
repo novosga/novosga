@@ -7,6 +7,7 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -60,18 +61,20 @@ public class SysTray implements ActionListener {
             popup.add(miSair);
 
             // constroi o system tray
-            URL icon = this.getClass().getResource("tray.png");
-            TrayIcon trayIcon = new TrayIcon(new ImageIcon(icon).getImage(), "Painel Novo SGA", popup);
-
-            // Ajusta ao tamanho do respectivo Sistema Operacional automaticamente
-            trayIcon.setImageAutoSize(true);
-
-            // adiciona imagem do system tray
             try {
-                sys.add(trayIcon);
-                LOG.fine("Ícone de bandeja exibido com sucesso.");
-            } catch (AWTException e) {
-                throw new RuntimeException(Main._("erro_systray", e.getMessage()));
+                URL icon = new URL(new URL("file:"), "ui/img/tray.png");
+                TrayIcon trayIcon = new TrayIcon(new ImageIcon(icon).getImage(), "Painel Novo SGA", popup);
+                // Ajusta ao tamanho do respectivo Sistema Operacional automaticamente
+                trayIcon.setImageAutoSize(true);
+                // adiciona imagem do system tray
+                try {
+                    sys.add(trayIcon);
+                    LOG.fine("Ícone de bandeja exibido com sucesso.");
+                } catch (AWTException e) {
+                    throw new RuntimeException(Main._("erro_systray", e.getMessage()));
+                }
+            } catch (MalformedURLException e) {
+                LOG.severe("Imagem do Systray não encontrada!");
             }
         } else {
             throw new RuntimeException(Main._("erro_systray_nao_suportado"));
@@ -97,9 +100,9 @@ public class SysTray implements ActionListener {
             });
         } else if (cmd.equals("sobre")) {
             String title = Main._("sobre");
-            String msg = "Novo Painel\n";
+            String msg = "Novo Painel v" + Main.version + "\n";
             msg += "Esse software faz parte do projeto Novo SGA.\n\n";
-            msg += "Website: http://novosga.org";
+            msg += "Visite: http://novosga.org";
             JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
         } else if (cmd.equals("sair")) {
             int r = JOptionPane.showConfirmDialog(null, Main._("sair_realmente"));

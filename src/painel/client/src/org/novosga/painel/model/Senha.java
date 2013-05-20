@@ -60,7 +60,7 @@ public class Senha {
      * @return 
      */
     public String getSenha() {
-        return getSenha(4);
+        return getSenha(3);
     }
     
     /**
@@ -93,7 +93,7 @@ public class Senha {
      * @return 
      */
     public String getNumeroGuicheAsString() {
-        return getNumeroGuicheAsString(3);
+        return getNumeroGuicheAsString(2);
     }
 
     /**
