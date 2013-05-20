@@ -1,5 +1,7 @@
 package org.novosga.painel.client;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.novosga.painel.client.config.PainelConfig;
 import org.novosga.painel.model.Senha;
 import java.util.Calendar;
@@ -7,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.TimelineBuilder;
@@ -24,11 +25,12 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.novosga.painel.client.display.Display;
+import org.novosga.painel.client.layout.HVideoLayout;
 import org.novosga.painel.client.layout.Layout;
 import org.novosga.painel.client.layout.SenhaLayout;
 import org.novosga.painel.client.layout.ScreensaverLayout;
 import org.novosga.painel.client.layout.SimpleSenhaLayout;
-import org.novosga.painel.client.layout.VideoLayout;
+import org.novosga.painel.client.layout.VVideoLayout;
 import org.novosga.painel.client.media.AudioPlayer;
 
 /**
@@ -106,7 +108,18 @@ public class PainelFx extends Application {
 
         detectScreen();
         senhaLayout = new SimpleSenhaLayout(this);
-        screenSaverLayout = new VideoLayout(this);
+        screenSaverLayout = createScreeSaverLayout();
+    }
+    
+    private ScreensaverLayout createScreeSaverLayout() {
+        int id = main.getConfig().get(PainelConfig.KEY_SCREENSAVER_LAYOUT, Integer.class).getValue();
+        switch (id) {
+        case 1:
+            return new HVideoLayout(this);
+        case 2:
+            return new VVideoLayout(this);
+        }
+        throw new RuntimeException("Nenhum layout definido para o id " + id);
     }
     
     private void detectScreen() {
@@ -117,6 +130,10 @@ public class PainelFx extends Application {
             screen = screens.get(screenId);
         }
         display = new Display(screen);
+    }
+
+    public Stage getStage() {
+        return stage;
     }
     
     public void show() {
@@ -153,7 +170,11 @@ public class PainelFx extends Application {
         root.setId("root");
         currentLayout.applyTheme();
         Scene scene = new Scene(root, display.getWidth(), display.getHeight());
-        scene.getStylesheets().add(PainelFx.class.getResource("style.css").toExternalForm());
+        try {
+            scene.getStylesheets().add(new URL(new URL("file:"), "ui/css/style.css").toExternalForm());
+        } catch (MalformedURLException e) {
+            LOG.severe("Arquivo css não encontrado");
+        }
         stage.setScene(scene);
         update();
     }
@@ -175,8 +196,15 @@ public class PainelFx extends Application {
      * Processa a senha da fila, dando um tempo entre as chamadas
      */
     private void processQueue() {
-        // se vocalizar estiver ativo, espera mais
-        int duration = (main.getConfig().get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue()) ? 6000 : 3000;
+        int duration = 3000;
+        // se vocalizar estiver ativo, espera mais (relativo ao tamanho da senha)
+        if (main.getConfig().get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue()) {
+            duration += 3000; // palavras "senha" e "guiche"
+            // tamanho da ultima senha
+            if (this.senha != null) {
+                duration += 500 * String.valueOf(this.senha.getNumero()).length();
+            }
+        }
         long time = Calendar.getInstance().getTimeInMillis();
         if (time - lastUpdate > duration) {
             try {
@@ -195,27 +223,11 @@ public class PainelFx extends Application {
     }
     
     private void playAlert(Senha senha) {
-        AudioPlayer player = AudioPlayer.getInstance();
         PainelConfig config = main.getConfig();
-        player.play(config.get(PainelConfig.KEY_SOUND_ALERT).getValue());
-        if (config.get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue()) {
-            try {
-                String lang = config.get(PainelConfig.KEY_LANGUAGE).getValue();
-                player.getVocalizador().vocalizar("senha", lang, true);
-                player.getVocalizador().vocalizar(String.valueOf(senha.getSigla()), lang, true);
-                String numero = String.valueOf(senha.getNumero());
-                for (int i = 0; i < numero.length(); i++) {
-                    player.getVocalizador().vocalizar(String.valueOf(numero.charAt(i)), lang, true);
-                }
-                player.getVocalizador().vocalizar("guiche", lang, true);
-                numero = String.valueOf(senha.getNumeroGuiche());
-                for (int i = 0; i < numero.length(); i++) {
-                    player.getVocalizador().vocalizar(String.valueOf(numero.charAt(i)), lang, true);
-                }
-            } catch (Exception e1) {
-                LOG.log(Level.SEVERE, Main._("erro_vocalizacao"), e1);
-            }
-        }
+        String alert = config.get(PainelConfig.KEY_SOUND_ALERT).getValue();
+        boolean speech = config.get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue();
+        String lang = config.get(PainelConfig.KEY_LANGUAGE).getValue();
+        AudioPlayer.getInstance().call(senha, alert, speech, lang);
     }
     
     private void update() {

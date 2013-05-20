@@ -30,7 +30,7 @@ public class SimpleSenhaLayout extends SenhaLayout {
     }
 
     @Override
-    public Pane create() {
+    protected Pane doCreate() {
         root = new BorderPane();
         topBox = new HBox();
         bottomBox = new HBox();
@@ -49,13 +49,13 @@ public class SimpleSenhaLayout extends SenhaLayout {
         root.setBottom(bottomBox);
         return root;
     }
-
+    
     @Override
     public void destroy() {
     }
 
     @Override
-    public void update() {
+    protected void doUpdate() {
         fontSize = (int) painel.getDisplay().height(80);
         fontSize2 = (int) painel.getDisplay().height(100);
         fontSize3 = (int) painel.getDisplay().height(120);

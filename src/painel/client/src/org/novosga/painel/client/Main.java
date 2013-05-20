@@ -1,5 +1,6 @@
 package org.novosga.painel.client;
 
+import java.awt.SplashScreen;
 import org.novosga.painel.client.config.PainelConfig;
 import org.novosga.painel.model.Senha;
 import org.novosga.painel.client.ui.SysTray;
@@ -46,6 +47,7 @@ public class Main extends Application {
         intervals.put(180, _("minutos", 3));
     }
     
+    public static final String version = "{version}";
     public static final String DEFAULT_PROTOCOL = "UDP";
     public static final int DEFAULT_RECEIVE_PORT = 8888;
     public static final int DEFAULT_SEND_PORT = 9999;
@@ -138,6 +140,10 @@ public class Main extends Application {
                     System.exit(1);
                 }
             });
+        } finally {
+            if (SplashScreen.getSplashScreen() != null) {
+                SplashScreen.getSplashScreen().close();
+            }
         }
     }
 

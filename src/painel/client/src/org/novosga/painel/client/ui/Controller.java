@@ -27,7 +27,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -87,6 +89,8 @@ public class Controller implements Initializable {
     private ColorPicker corGuiche;
     @FXML
     private ProgressIndicator loading;
+    @FXML
+    private ToggleGroup svLayout;
     
     private Main main;
     private Stage stage;
@@ -95,8 +99,7 @@ public class Controller implements Initializable {
 
     public Controller(Main main, ResourceBundle bundle) throws IOException {
         this.main = main;
-        URL location = getClass().getResource("main.fxml");
-        //ResourceBundle resources = ResourceBundle.getBundle("com.foo.example");
+        URL location = new URL(new URL("file:"), "ui/jfx/main.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(location, bundle);
         fxmlLoader.setController(this);
         fxmlLoader.load();
@@ -235,6 +238,8 @@ public class Controller implements Initializable {
                     config.get(PainelConfig.KEY_COR_MENSAGEM).setValue(colorToHex(corMensagem.getValue()));
                     config.get(PainelConfig.KEY_COR_SENHA).setValue(colorToHex(corSenha.getValue()));
                     config.get(PainelConfig.KEY_COR_GUICHE).setValue(colorToHex(corGuiche.getValue()));
+                    // screensaver layout
+                    config.get(PainelConfig.KEY_SCREENSAVER_LAYOUT, Integer.class).setValue(Integer.parseInt(((RadioButton)svLayout.getSelectedToggle()).getText()));
                     config.save();
                     
                     main.getService().register(servidor.getText());
@@ -359,6 +364,12 @@ public class Controller implements Initializable {
                 }
             }
         });
+        // screesaver layout - marcando o padrao
+        try {
+            int id = main.getConfig().get(PainelConfig.KEY_SCREENSAVER_LAYOUT, Integer.class).getValue();
+            svLayout.getToggles().get(id - 1).setSelected(true);
+        } catch (Exception e) {
+        }
         // criando stage
         this.stage = new Stage();
         stage.setTitle("Painel | Novo SGA");
