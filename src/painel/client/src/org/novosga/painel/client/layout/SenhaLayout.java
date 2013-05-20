@@ -32,7 +32,7 @@ public abstract class SenhaLayout extends Layout {
         guiche.setId("guiche");
         
         numeroGuiche = new Label("000");
-        numeroGuiche.setId("numero");
+        numeroGuiche.setId("numero-guiche");
         
         senha = new Label("-----");
         senha.setId("senha");
