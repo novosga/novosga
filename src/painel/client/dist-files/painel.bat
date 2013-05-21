@@ -43,7 +43,7 @@ goto fim
 
 :sucesso
 echo Rede OK! Chamando jar
-start javaw -jar {distname}.jar
+start javaw -splash:ui/img/splash.png -jar {distname}.jar
 exit 0
 
 :fim
