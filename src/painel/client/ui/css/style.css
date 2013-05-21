@@ -40,11 +40,25 @@
 }
 
 /* Letra e número da senha */
-#historico .historico-senha {
+#historico .historico-box .historico-senha {
+    /* em caso de lentidão, retirar o efeito abaixo */
     -fx-effect: dropshadow(gaussian, black, 5, 0, 3, 3);
 }
 
 /* Nome e número do local (guichê) */
-#historico .historico-guiche {
+#historico .historico-box .historico-guiche {
+    /* em caso de lentidão, retirar o efeito abaixo */
     -fx-effect: dropshadow(gaussian, black, 5, 0, 3, 3);
+}
+
+/*
+    Extra - Estilo condicional para prioridade
+*/
+.label.prioridade,
+.historico-box.prioridade .label {
+    -fx-text-fill: #C43C35 !important;
+}
+
+#root.prioridade {
+    -fx-background-color: #f1f1f1 !important;
 }

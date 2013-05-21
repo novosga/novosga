@@ -5,6 +5,8 @@ import org.novosga.painel.client.config.PainelConfig;
 import org.novosga.painel.model.Senha;
 import org.novosga.painel.client.ui.SysTray;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Locale;
@@ -15,6 +17,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 import org.novosga.painel.client.fonts.FontLoader;
@@ -125,10 +128,19 @@ public class Main extends Application {
                 controller.show();
             }
             try {
-                // Adiciona o painel na banjeida do sistema
-                new SysTray(this);
-            } catch (Exception e) {
-                LOG.log(Level.SEVERE, e.getMessage(), e);
+                URL iconUrl = new URL("file:ui/img/tray.png");
+                // adicionando icone as janelas
+                Image icon = new Image(iconUrl.toExternalForm());
+                controller.getStage().getIcons().add(icon);
+                painel.getStage().getIcons().add(icon);
+                try {
+                    // Adiciona o painel na banjeida do sistema
+                    new SysTray(this, iconUrl);
+                } catch (Exception e) {
+                    LOG.log(Level.SEVERE, e.getMessage(), e);
+                }
+            } catch (MalformedURLException e) {
+                LOG.severe("Imagem do ícone das janelas e systray não encontrada!");
             }
         } catch (Exception e) {
             LOG.log(Level.SEVERE, e.getMessage(), e);

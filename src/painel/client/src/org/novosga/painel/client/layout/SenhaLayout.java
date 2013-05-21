@@ -55,12 +55,23 @@ public abstract class SenhaLayout extends Layout {
     }
     
     public void onSenha(Senha senha) {
-        final Label label = this.senha;
+        // atualizando texto
         this.senha.setText(senha.getSenha());
         this.numeroGuiche.setText(senha.getNumeroGuicheAsString());
         this.guiche.setText(senha.getGuiche());
         this.mensagem.setText(senha.getMensagem());
+        // aplicando estilo
+        String styleClass = senha.getMensagem().toLowerCase();
+        this.senha.getStyleClass().clear();
+        this.senha.getStyleClass().addAll("label", styleClass);
+        this.numeroGuiche.getStyleClass().clear();
+        this.numeroGuiche.getStyleClass().addAll("label", styleClass);
+        this.guiche.getStyleClass().clear();
+        this.guiche.getStyleClass().addAll("label", styleClass);
+        this.mensagem.getStyleClass().clear();
+        this.mensagem.getStyleClass().addAll("label", styleClass);
         // atualizando o tamanho da font para o maximo possivel dentro do centro
+        final Label label = this.senha;
         label.setFont(Font.font(label.getFont().getFamily(), FontWeight.BOLD, calculateFontSize(label)));
         TimelineBuilder.create().keyFrames(new KeyFrame(Duration.seconds(.3), new EventHandler<ActionEvent>() {
             @Override
