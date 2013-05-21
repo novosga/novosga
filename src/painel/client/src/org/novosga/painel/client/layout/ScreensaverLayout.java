@@ -33,6 +33,7 @@ public abstract class ScreensaverLayout extends Layout {
             this.height = height;
             box = new VBox();
             box.getStyleClass().add("historico-box");
+            box.getStyleClass().add(senha.getMensagem().toLowerCase());
             box.setAlignment(Pos.CENTER);
             box.setPrefHeight(this.height);
             // 30% do box

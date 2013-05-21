@@ -171,7 +171,7 @@ public class PainelFx extends Application {
         currentLayout.applyTheme();
         Scene scene = new Scene(root, display.getWidth(), display.getHeight());
         try {
-            scene.getStylesheets().add(new URL(new URL("file:"), "ui/css/style.css").toExternalForm());
+            scene.getStylesheets().add(new URL("file:ui/css/style.css").toExternalForm());
         } catch (MalformedURLException e) {
             LOG.severe("Arquivo css não encontrado");
         }

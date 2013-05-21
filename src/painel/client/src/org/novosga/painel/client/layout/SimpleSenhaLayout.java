@@ -11,6 +11,7 @@ import javafx.scene.text.FontWeight;
 import org.novosga.painel.client.PainelFx;
 import org.novosga.painel.client.config.PainelConfig;
 import org.novosga.painel.client.fonts.FontLoader;
+import org.novosga.painel.model.Senha;
 
 /**
  *
@@ -109,4 +110,13 @@ public class SimpleSenhaLayout extends SenhaLayout {
         numeroGuiche.setFont(Font.font(FontLoader.DROID_SANS, FontWeight.BOLD, fontSize3));
         return this;
     }
+    
+    @Override
+    public void onSenha(Senha senha) {
+        // adicionando classe ao root
+        root.getStyleClass().clear();
+        root.getStyleClass().add(senha.getMensagem().toLowerCase());
+        super.onSenha(senha);
+    }
+    
 }
