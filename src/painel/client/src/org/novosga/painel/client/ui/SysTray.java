@@ -8,10 +8,13 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javafx.application.Platform;
 import javax.swing.ImageIcon;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.novosga.painel.client.Main;
 
 /**
@@ -30,6 +33,8 @@ public class SysTray implements ActionListener {
     public SysTray(Main main, URL icon) {
         _main = main;
         if (SystemTray.isSupported()) {
+            setLookAndFeel();
+            
             LOG.fine("O sistema possui suporte a ícone de bandeja.");
 
             SystemTray sys = SystemTray.getSystemTray();
@@ -99,10 +104,24 @@ public class SysTray implements ActionListener {
             msg += "Visite: http://novosga.org";
             JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
         } else if (cmd.equals("sair")) {
-            int r = JOptionPane.showConfirmDialog(null, Main._("sair_realmente"));
+            int r = JOptionPane.showConfirmDialog(null, Main._("sair_realmente"), "Info", JOptionPane.YES_NO_OPTION);
             if (r == 0) {
                 System.exit(0);
             }
+        }
+    }
+    
+    private void setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SysTray.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(SysTray.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(SysTray.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(SysTray.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
