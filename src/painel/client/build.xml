@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="novosga-painel-client" default="dist" basedir=".">
+<project name="novosga-painel-client" default="dist" basedir="." xmlns:fx="javafx:com.sun.javafx.tools.ant">
     <description>Novo SGA Ant tasks - Painel Client</description>
 
     <property name="project" value="novosga" />    
     <property name="appname" value="${project}-painel" />
     <property name="src" location="src" />
-    <property name="dist-files" location="dist-files" />
+    <property name="distfiles" location="dist-files" />
     <property name="dist" location="dist" />
     <property name="build" location="build" />
-    <property name="build.classes" value="${build}/classes" />
-    <property name="build.dist" value="${build}/dist" />
-    <property name="build.dist.deb" value="${build.dist}/deb" />
-
+    <property name="build.src" location="${build}/src" />
+    <property name="build.classes" location="${build}/classes" />
+    <property name="build.dist" location="${build}/dist" />
+    <property name="jrelib" location="${java.home}/lib/jfxrt.jar" />
+    <property name="jdklib" location="${java.home}/../lib/ant-javafx.jar" />
+    
     <!--
         init
     -->
@@ -26,44 +28,66 @@
         compile
     -->
     <target name="compile" depends="init" description="Compila o código.">
-        <javac destdir="${build.classes}" optimize="off" debug="on" source="1.5" target="1.5" nowarn="off" encoding="utf-8">
-            <src path="${src}" />
-        </javac>
+        <copy todir="${build.src}">
+            <fileset dir="${src}" />
+        </copy>
+        <!-- substituindo a versao -->
+        <replace file="${build.src}/org/novosga/painel/client/Main.java" token="{version}" value="${version}" />
+        <taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${jdklib}" />
+        <javac includeantruntime="false" srcdir="${build.src}" destdir="${build.classes}" classpath="${jrelib}" />
     </target>
 
     <!--
         jar
     -->
     <target name="jar" depends="compile" description="Cria o arquivo jar">
-        <copy todir="${build.dist}">
-            <fileset dir="${dist-files}" />
-        </copy>
-        <replace file="${build.dist}/painel.bat" token="{distname}" value="${distname}" />
-        <replace file="${build.dist}/painel.sh" token="{distname}" value="${distname}" />
         <!-- copying resources -->
         <property name="fonts.dir" value="org/novosga/painel/client/fonts" />
-        <property name="ui.dir" value="org/novosga/painel/client/ui" />
+        <copy todir="${build.classes}">
+            <fileset dir="${src}">
+                <include name="**/*.properties" />
+            </fileset>
+        </copy>
         <copy todir="${build.classes}/${fonts.dir}">
             <fileset dir="${src}/${fonts.dir}">
                 <include name="*.ttf" />
             </fileset>
         </copy>
-        <copy todir="${build.classes}/${ui.dir}">
-            <fileset dir="${src}/${ui.dir}">
-                <include name="*.(png|fxml)" />
-            </fileset>
-        </copy>
-        <jar destfile="${build.dist}/${distname}.jar">
-            <fileset dir="${build.classes}" />
+        <fx:application id="PainelFXApp"
+            name="PainelFX"
+            mainClass="org.novosga.painel.client.Main"
+            fallbackClass="com.javafx.main.NoJavaFXFallback" />
+        <fx:jar destfile="${build.dist}/${distname}.jar">
+            <fx:application refid="PainelFXApp" />
             <manifest>
-                <attribute name="Main-Class" value="org.novosga.painel.Main" />
+                <attribute name="Implementation-Vendor" value="${application.vendor}" />
+                <attribute name="Implementation-Title" value="${application.title}" />
+                <attribute name="Implementation-Version" value="1.0" />
             </manifest>
-        </jar>
+            <fileset dir="${build.classes}"/>
+        </fx:jar>
+    </target>
+    
+    <!--
+        pre-dist: copia os arquivos necessarios para gerar o compactado
+    -->
+    <target name="pre-dist" depends="jar" description="copia os arquivos necessarios para gerar o compactado">
+        <copy todir="${build.dist}/ui">
+            <fileset dir="ui" />
+        </copy>
+        <copy todir="${build.dist}/media">
+            <fileset dir="media" />
+        </copy>
         <copy todir="${build.dist}">
-            <fileset dir="${build}">
-                <include name="*.jar" />
+            <fileset dir="${distfiles}">
+                <include name="**/*" />
             </fileset>
         </copy>
+        <!-- substituindo a versao -->
+        <replace file="${build.dist}/ui/jfx/main.fxml" token="{version}" value="${version}" />
+        <!-- substituindo nome do jar (executavel) -->
+        <replace file="${distfiles}/painel.bat" token="{distname}" value="${distname}" />
+        <replace file="${distfiles}/painel.sh" token="{distname}" value="${distname}" />
     </target>
     
     <!--
@@ -80,7 +104,7 @@
     <!--
         dist
     -->
-    <target name="dist-tgz" depends="jar" description="Gera uma tgz do painel">
+    <target name="dist-tgz" depends="pre-dist" description="Gera uma tgz do painel">
         <tar destfile="${dist}/${distname}.tgz" compression="gzip">
             <tarfileset dir="${build.dist}" mode="755" username="root" group="root" prefix="${distname}/">
             </tarfileset>
@@ -90,46 +114,11 @@
     <!--
         dist-zip
     -->
-    <target name="dist-zip" depends="jar" description="Gera uma zip do painel">
+    <target name="dist-zip" depends="pre-dist" description="Gera uma zip do painel">
         <zip destfile="${dist}/${distname}.zip">
             <zipfileset dir="${build.dist}" prefix="${distname}">
             </zipfileset>
         </zip>
-    </target>
-
-    <!--
-        dist-deb
-    -->
-    <target name="dist-deb" depends="jar" description="Gera um pacote debian do painel">
-        <copy todir="${build.dist.deb}">
-            <fileset dir="${dist-files}/linux/deb" />
-        </copy>
-        <copy todir="${build.dist.deb}/${appname}/usr/share/${appname}">
-            <fileset dir="${build.dist}">
-                <exclude name="**/deb/**" />
-            </fileset>
-        </copy>
-        <exec dir="${build.dist.deb}" executable="chmod" output="${build}/mkpkg_chmod.out">
-            <arg value="0555" />
-            <arg value="${build.dist.deb}/${appname}/DEBIAN/postinst" />
-        </exec>
-        <exec dir="${build.dist.deb}" executable="sudo" output="${build}/mkpkg_chown.out" failonerror="false">
-            <arg value="chown" />
-            <arg value="-R" />
-            <arg value="root:root" />
-            <arg value="${build.dist.deb}/${appname}" />
-        </exec>
-        <exec dir="${build.dist.deb}" executable="dpkg-deb" output="${build}/mkpkg_dpkg-deb.out">
-            <arg value="-b" />
-            <arg value="${build.dist.deb}/${appname}" />
-            <arg value="${distname}.deb" />
-        </exec>
-        <exec dir="${build.dist.deb}" executable="sudo" output="${build}/mkpkg_chown.out" failonerror="false">
-            <arg value="chown" />
-            <arg value="-R" />
-            <arg value="${user.name}:${user.name}" />
-            <arg value="${build.dist.deb}/${appname}" />
-        </exec>
     </target>
 
     <!--

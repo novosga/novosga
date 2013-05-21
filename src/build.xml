@@ -2,18 +2,19 @@
 <project name="novosga" default="dist" basedir=".">
     <description>Novo SGA Ant tasks - Main</description>
     
-    <property name="version" value="0.2.1" />
     <property name="project" value="novosga" />
     <property name="dir.dist" value="dist" />
     <property name="dir.build" value="build" />
     <property name="novosga.dist" location="dist" />
-    <property name="novosga.web" location="src/web" />
-    <property name="novosga.painel" location="src/painel" />
+    <property name="novosga.web" location="web" />
+    <property name="novosga.painel" location="painel" />
     <property name="novosga.painel.client" value="${novosga.painel}/client" />
     <property name="novosga.painel.server" value="${novosga.painel}/server" />
     
     <target name="dist">
         <input message="Gerar arquivo em qual formato?" addproperty="dist-format" validargs="zip,tgz" defaultvalue="tgz" />
+        <input message="Informe a versão:" addproperty="version" defaultvalue="dev" />
+        
         <delete dir="${novosga.dist}" />
         <mkdir dir="${novosga.dist}" />
         

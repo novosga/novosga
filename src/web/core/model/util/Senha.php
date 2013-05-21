@@ -11,10 +11,10 @@ use \core\model\Prioridade;
  */
  class Senha extends Model {
      
-    const LENGTH = 4;
+    const LENGTH = 3;
      
     private $sigla;
-    private $numero;    
+    private $numero;
     private $prioridade;
 
     public function __construct() {

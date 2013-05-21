@@ -43,7 +43,7 @@ goto fim
 
 :sucesso
 echo Rede OK! Chamando jar
-start javaw -splash:ui/img/splash.png -jar {distname}.jar
+start javaw -splash:ui/img/splash.png -jar novosga-painel-client-0.6.2.jar
 exit 0
 
 :fim
