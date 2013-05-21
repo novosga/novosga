@@ -249,7 +249,7 @@
       <right>
         <VBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="182.0" BorderPane.alignment="CENTER_RIGHT">
           <children>
-            <Label alignment="CENTER_RIGHT" prefHeight="-1.0" prefWidth="-1.0" text="v0.6.2" textAlignment="LEFT" textFill="#606060" wrapText="false">
+            <Label alignment="CENTER_RIGHT" prefHeight="-1.0" prefWidth="-1.0" text="v{version}" textAlignment="LEFT" textFill="#606060" wrapText="false">
               <font>
                 <Font name="System Bold" size="12.0" fx:id="x4" />
               </font>

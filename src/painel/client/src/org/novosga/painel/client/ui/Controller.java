@@ -99,7 +99,7 @@ public class Controller implements Initializable {
 
     public Controller(Main main, ResourceBundle bundle) throws IOException {
         this.main = main;
-        URL location = new URL(new URL("file:"), "ui/jfx/main.fxml");
+        URL location = new URL("file:ui/jfx/main.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(location, bundle);
         fxmlLoader.setController(this);
         fxmlLoader.load();

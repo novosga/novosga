@@ -7,7 +7,6 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -28,7 +27,7 @@ public class SysTray implements ActionListener {
      *
      * @throws AWTException
      */
-    public SysTray(Main main) {
+    public SysTray(Main main, URL icon) {
         _main = main;
         if (SystemTray.isSupported()) {
             LOG.fine("O sistema possui suporte a ícone de bandeja.");
@@ -61,20 +60,15 @@ public class SysTray implements ActionListener {
             popup.add(miSair);
 
             // constroi o system tray
+            TrayIcon trayIcon = new TrayIcon(new ImageIcon(icon).getImage(), "Painel Novo SGA", popup);
+            // Ajusta ao tamanho do respectivo Sistema Operacional automaticamente
+            trayIcon.setImageAutoSize(true);
+            // adiciona imagem do system tray
             try {
-                URL icon = new URL(new URL("file:"), "ui/img/tray.png");
-                TrayIcon trayIcon = new TrayIcon(new ImageIcon(icon).getImage(), "Painel Novo SGA", popup);
-                // Ajusta ao tamanho do respectivo Sistema Operacional automaticamente
-                trayIcon.setImageAutoSize(true);
-                // adiciona imagem do system tray
-                try {
-                    sys.add(trayIcon);
-                    LOG.fine("Ícone de bandeja exibido com sucesso.");
-                } catch (AWTException e) {
-                    throw new RuntimeException(Main._("erro_systray", e.getMessage()));
-                }
-            } catch (MalformedURLException e) {
-                LOG.severe("Imagem do Systray não encontrada!");
+                sys.add(trayIcon);
+                LOG.fine("Ícone de bandeja exibido com sucesso.");
+            } catch (AWTException e) {
+                throw new RuntimeException(Main._("erro_systray", e.getMessage()));
             }
         } else {
             throw new RuntimeException(Main._("erro_systray_nao_suportado"));
