@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="novosga-painel-server" default="dist" basedir=".">
+    <description>Novo SGA Ant tasks - Painel Server</description>
+    
+    <property name="project" value="novosga" />
+    <property name="appname" value="${project}-painel" />
+    <property name="src" location="src" />
+    <property name="lib" location="lib" />
+    <property name="dist-files" location="dist-files" />
+    <property name="dist" location="dist" />
+    <property name="build" location="build" />
+    <property name="build.classes" value="${build}/classes" />
+    <property name="build.dist" value="${build}/dist" />
+
+    <path id="classpath">
+        <fileset dir="${lib}">
+            <include name="**/*.jar" />
+        </fileset>
+        <pathelement path="${class}" />
+    </path>
+
+    <!--
+        init
+    -->
+    <target name="init" depends="clean" description="Cria pastas destino.">
+        <mkdir dir="${dist}" />
+        <mkdir dir="${build}" />
+        <mkdir dir="${build.classes}" />
+        <mkdir dir="${build.dist}" />
+    </target>
+
+    <!--
+        compile
+    -->
+    <target name="compile" depends="init" description="Compila o código.">
+        <javac destdir="${build.classes}" optimize="off" debug="on" classpathref="classpath" source="1.5" target="1.5" nowarn="off">
+            <src path="${src}" />
+        </javac>
+    </target>
+
+    <!--
+        jar
+    -->
+    <target name="jar" depends="compile" description="Cria o arquivo jar">
+        <jar destfile="${build}/${distname}.jar">
+            <fileset dir="${build.classes}" />
+            <manifest>
+                <attribute name="Main-Class" value="br.gov.dataprev.controladorpainel.ControladorPainel" />
+            </manifest>
+        </jar>
+        <copy todir="${build.dist}">
+            <fileset dir="${build}">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!--
+        pre-dist
+    -->
+    <target name="pre-dist" depends="jar">
+        <copy todir="${build.dist}/lib">
+            <fileset dir="${lib}">
+                <include name="*.jar" />
+            </fileset>
+        </copy>
+        <copy todir="${build.dist}">
+            <fileset dir="${dist-files}" />
+        </copy>
+        <replace file="${build.dist}/server.bat" token="{distname}" value="${distname}" />
+        <replace file="${build.dist}/server.sh" token="{distname}" value="${distname}" />
+        <chmod file="${build.dist}/server.sh" perm="755" />
+    </target>
+
+    <!--
+        dist: gera arquivo compactado para distribuicao no formato escolhido
+    -->
+    <target name="dist" description="Gera um arquivo compactado da aplicacao">
+        <input message="Informe a versão:" addproperty="version" />
+        <input message="Gerar arquivo em qual formato?" addproperty="dist-format" validargs="zip,tgz" defaultvalue="tgz" />
+        <property name="distname" value="${appname}-server-${version}" />
+        <antcall target="dist-${dist-format}" />
+        <delete dir="${build}" />
+    </target>
+
+    <!--
+        dist-tgz
+    -->
+    <target name="dist-tgz" depends="pre-dist" description="Gera um TGZ do controlador de paineis">
+        <tar destfile="${dist}/${distname}.tgz" compression="gzip">
+            <tarfileset dir="${build.dist}" prefix="${distname}/">
+            </tarfileset>
+        </tar>
+    </target>
+
+    <!--
+        dist-zip
+    -->
+    <target name="dist-zip" depends="pre-dist" description="Gera um zip do controlador de paineis">
+        <zip destfile="${dist}/${distname}.zip">
+            <zipfileset dir="${build.dist}" prefix="${distname}/">
+            </zipfileset>
+        </zip>
+    </target>
+
+    <!--
+        clean
+    -->
+    <target name="clean" description="Limpa arquivos de saida">
+        <delete dir="${dist}" />
+        <delete dir="${build}" />
+    </target>
+</project>

@@ -1,0 +1,177 @@
+/**
+ * Novo SGA - Install
+ * @author rogeriolino
+ */
+#install_title {
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: fixed;
+}
+
+#install_title h1 {
+    color: #999;
+    font-size: 18px;
+    margin: 0;
+    padding: 10px 0 10px 140px;
+    background-image: url(../../images/novosga-navbar.png);
+    background-repeat: no-repeat;
+    background-position: 5px center;
+}
+
+#install_title .navegation {
+    padding: 8px 15px 0 0;
+    float: right;
+}
+
+#install_title .navegation button {
+    margin-left: 10px;
+}
+
+#install_panel {
+    width: 80%;
+    padding: 100px 0 30px 0;
+    margin: 0px auto;
+}
+
+#progress {
+    width: 250px;
+    height: 60px;
+    top: 60px;
+    left: 50%;
+    margin-left: -125px;
+    position: absolute;
+}
+
+#progress li {
+    list-style: none;
+    padding: 10px 5px;
+    float: left;
+}
+
+#progress li span {
+    color: #fff;
+    padding: 5px 10px;
+    text-align: center;
+    background-color: #BFBFBF;
+    border-radius: 8px;
+}
+
+#progress li.current span {
+    background-color: #0064CD;
+}
+
+.step {
+    padding-top: 20px;
+}
+
+/* step 0: welcome */
+#step_0 {
+    width: 600px;
+    margin: 0 auto;
+}
+
+#step_0 .adapters li {
+    margin: 15px 0;
+    list-style: none;
+}
+
+#step_0 .adapters li input {
+    margin: 25px 0 0 20px;
+    float: left;
+}
+
+#step_0 .adapters li label {
+    padding: 10px 0 10px 90px;
+    background-image: url(../images/database.png);
+    background-repeat: no-repeat;
+    background-position: 45px center;
+    display: block;
+}
+
+#step_0 .adapters li span {
+    display: block;
+}
+
+#step_0 .adapters li span.adapter {
+    color: #0064cd;
+    font-size: 15px;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+
+#step_0 .adapters li span.info {
+    font-size: 12px;
+}
+
+/* step 1: requiriments */
+#step_1 .ui-state-error {
+    margin-top: 30px;
+}
+
+#step_1 .requirement {
+    padding: 10px 0 20px 0;
+}
+
+#step_1 .result.success {
+    color: #33cc33;
+    font-weight: bold !important;
+}
+
+#step_1 td.failed {
+    color: #000;
+    font-weight: bold !important;
+    background-color: #ff6666 !important;
+}
+
+/* step 2: license */
+#step_2 {
+    text-align: center;
+}
+
+#step_2 textarea {
+    width: 700px;
+    height: 500px;
+}
+
+#step_2 .checkbox {
+    padding: 10px 0;
+}
+
+/* step 3: database */
+#step_3 .db-type {
+    font-weight: bold;
+}
+
+.step span.ui-icon-alert {
+    margin: 2px 5px 0 0;
+    float: left;
+}
+
+/* step 4: admin / migration */
+#step_4 h2 {
+    padding-bottom: 15px;
+}
+
+/* step 5: install */
+#step_5 h1 {
+    padding-bottom: 15px;
+}
+
+#step_5 p {
+    padding: 5px 0;
+}
+
+#step_5 .btns {
+    padding: 15px 0;
+    position: relative;
+}
+
+#step_5 #install-loading {
+    top: 20px;
+    left: 70px;
+}
+
+p.alert {
+    font-weight: bold;
+}

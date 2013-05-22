@@ -1,0 +1,27 @@
+/**
+ * Novo SGA - Estatisticas
+ * icon(s) by pixel-mixer.com
+ * @author rogeriolino
+ */
+
+.chart-title {
+    padding: 20px 0 10px 0;
+}
+
+.chart-unidade {
+    width: 50%;
+    float: left;
+    margin: 0;
+}
+
+.chart-unidade .title {
+    padding: 20px 0 10px 0;
+    text-align: center;
+}
+
+.chart-unidade .wrap {
+    padding: 10px;
+}
+
+.chart-unidade .pie {
+}

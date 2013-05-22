@@ -1,0 +1,88 @@
+/**
+ * Novo SGA - Monitor
+ * icon(s) by pixel-mixer.com
+ * @author rogeriolino
+ */
+ 
+#monitor .search {
+    padding: 5px;
+}
+ 
+#monitor .servico {
+    width: 100%;
+    margin: 5px 0;
+    float: left;
+    clear: both;
+}
+
+#monitor .servico .title {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0 0 10px;
+    display: block;
+}
+
+#monitor .servico.empty { display: none; }
+
+#monitor .servico .fila {
+    padding: 5px 0 5px 30px;
+    background-image: url(../images/client-16.png);
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    float: left;
+}
+
+#monitor .servico .fila li {
+    padding: 2px 5px;
+    list-style: none;
+    float: left;
+}
+
+#monitor .servico .fila li a {
+    float: left;
+}
+
+#monitor .servico .fila li.prioridade a {
+    color: red;
+}
+
+#dialog-view fieldset {
+    margin-bottom: 20px;
+}
+
+#dialog-view div {
+    padding: 3px 0;
+    clear: both;
+}
+
+#dialog-view div label {
+    width: 120px;
+    font-weight: bold;
+    float: left;
+}
+
+#dialog-view div.btns {
+    text-align: right;
+}
+
+#dialog-view div.btns button {
+    margin: 0 3px;
+}
+
+#dialog-transfere div {
+    padding: 5px 0;
+    clear: both;
+}
+
+#dialog-transfere div #transfere_numero {
+    font-size: 22px;
+}
+
+#dialog-transfere div label {
+    width: 120px;
+    float: left;
+}
+
+#dialog-transfere div select {
+    width: 300px;
+}

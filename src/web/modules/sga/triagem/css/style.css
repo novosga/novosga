@@ -1,0 +1,116 @@
+/**
+ * Novo SGA - Triagem
+ * icon(s) by pixel-mixer.com
+ * @author rogeriolino
+ */
+ 
+#client-info {
+    height: 50px;
+    margin-bottom: 5px;
+    padding: 0 !important;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #F7F9FE;
+    background-image: url(../images/client-16.png);
+    background-position: 20px center;
+    background-repeat: no-repeat;
+    border: 1px solid #e1e1e8;
+}
+
+#client-info h4 {
+    padding: 13px 20px 0 50px;
+    float: left;
+}
+
+#client-info div {
+    padding: 10px;
+    float: left;
+}
+
+#client-info div label {
+    padding-right: 10px;
+}
+
+#client-info div input.nome {
+    width: 250px;
+}
+
+#client-info div input.doc {
+    width: 150px;
+}
+
+#triagem-servicos .triagem-servico {
+    width: 50%;
+    float: left;
+}
+
+#triagem-servicos .triagem-servico div {
+    height: 35px;
+    padding: 8px 10px;
+    margin: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+#triagem-servicos .text {
+    float: left;
+}
+
+#triagem-servicos .buttons {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#triagem-servicos .buttons .ui-button {
+    margin-left: 5px;
+}
+
+#triagem-servicos .text span {
+    display: block;
+}
+
+#triagem-servicos .text .servico {
+    padding-bottom: 5px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+#triagem-servicos .text .fila {
+    padding-left: 25px;
+    background-image: url(../images/client-16.png);
+    background-repeat: no-repeat;
+    background-position: left center;
+}
+
+#dialog-prioridade ul {
+    list-style: none;
+}
+
+#dialog-prioridade ul li {
+    padding: 5px 0;
+}
+
+#dialog-prioridade ul li input {
+    margin: 5px 10px 0 0;
+    float: left;
+}
+
+#dialog-servico div {
+    padding-bottom: 10px;
+}
+
+#dialog-servico div h3 {
+    padding: 10px 0 5px 5px;
+}
+
+#dialog-servico div .subservicos.empty {
+    color: #999;
+    font-style: italic;
+}
+
+p.links {
+    padding-top: 20px;
+    text-align: center;
+}
