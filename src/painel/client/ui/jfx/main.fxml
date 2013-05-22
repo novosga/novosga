@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="778.0" xmlns:fx="http://javafx.com/fxml">
+  <bottom>
+    <HBox prefHeight="53.0" prefWidth="778.0" spacing="10.0">
+      <children>
+        <Button fx:id="salvar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="94.0" text="%salvar" />
+        <Button fx:id="exibirPainel" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="124.0" text="%exibir_painel">
+          <HBox.margin>
+            <Insets fx:id="x3" />
+          </HBox.margin>
+        </Button>
+        <ProgressIndicator fx:id="loading" HBox.margin="$x3" />
+      </children>
+      <padding>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+      </padding>
+    </HBox>
+  </bottom>
+  <center>
+    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab text="%configuracao">
+          <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+              <center>
+                <ScrollPane>
+                  <content>
+                    <VBox prefHeight="35.0" spacing="10.0">
+                      <children>
+                        <CheckBox fx:id="checkTodos" mnemonicParsing="false" text="%marcar_todos">
+                          <font>
+                            <Font size="12.0" fx:id="x1" />
+                          </font>
+                        </CheckBox>
+                        <VBox fx:id="servicos" prefHeight="200.0" prefWidth="100.0" spacing="10.0" />
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </VBox>
+                  </content>
+                  <BorderPane.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                  </BorderPane.margin>
+                </ScrollPane>
+              </center>
+              <top>
+                <VBox prefHeight="136.0" prefWidth="778.0">
+                  <children>
+                    <HBox padding="$x2" prefHeight="53.0" prefWidth="778.0" spacing="10.0">
+                      <children>
+                        <Label font="$x1" prefHeight="30.0" prefWidth="80.0" text="%servidor" />
+                        <TextField fx:id="servidor" prefHeight="30.0" prefWidth="300.0" />
+                        <Button fx:id="buscar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="%buscar_unidades" />
+                      </children>
+                    </HBox>
+                    <HBox padding="$x2" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                      <children>
+                        <Label font="$x1" prefHeight="30.0" prefWidth="80.0" text="%unidades" />
+                        <ComboBox fx:id="unidades" minHeight="30.0" prefHeight="30.0" prefWidth="410.0" />
+                      </children>
+                    </HBox>
+                    <Label font="$x1" prefHeight="30.0" text="%servicos">
+                      <VBox.margin>
+                        <Insets bottom="10.0" left="10.0" />
+                      </VBox.margin>
+                    </Label>
+                  </children>
+                </VBox>
+              </top>
+            </BorderPane>
+          </content>
+        </Tab>
+        <Tab text="%aparencia">
+          <content>
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+              <center>
+                <VBox prefHeight="389.0" prefWidth="329.0" />
+              </center>
+              <left>
+                <VBox prefHeight="441.0" prefWidth="698.0">
+                  <children>
+                    <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                      <children>
+                        <CheckBox fx:id="vocalizar" minHeight="30.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="110.0" text="%vocalizar">
+                          <HBox.margin>
+                            <Insets fx:id="x3" />
+                          </HBox.margin>
+                        </CheckBox>
+                        <ComboBox fx:id="language" minHeight="25.0" prefHeight="25.0" prefWidth="150.0" />
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </HBox>
+                    <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                      <children>
+                        <Label minHeight="30.0" minWidth="110.0" text="%video_id" />
+                        <ComboBox id="videoId" fx:id="monitorId" minHeight="25.0" />
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </HBox>
+                    <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                      <children>
+                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="%cor_fundo" />
+                        <ColorPicker fx:id="corFundo" minHeight="25.0" prefWidth="150.0" />
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </HBox>
+                    <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                      <children>
+                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="%cor_mensagem" />
+                        <ColorPicker fx:id="corMensagem" minHeight="25.0" prefWidth="150.0" />
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </HBox>
+                    <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                      <children>
+                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="%cor_senha" />
+                        <ColorPicker fx:id="corSenha" minHeight="25.0" prefWidth="150.0" />
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </HBox>
+                    <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                      <children>
+                        <Label id="corFundo" minHeight="30.0" prefHeight="30.0" prefWidth="110.0" text="%cor_guiche" />
+                        <ColorPicker fx:id="corGuiche" minHeight="25.0" prefWidth="150.0" />
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </HBox>
+                  </children>
+                  <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                  </padding>
+                </VBox>
+              </left>
+            </BorderPane>
+          </content>
+        </Tab>
+        <Tab text="%screensaver">
+          <content>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+              <children>
+                <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                  <children>
+                    <Label minHeight="30.0" minWidth="110.0" text="%exibir_filme_apos" />
+                    <ComboBox id="videoId" fx:id="screenSaverTimeout" minHeight="25.0" />
+                  </children>
+                  <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                  </padding>
+                </HBox>
+                <HBox minHeight="38.38383483886719" prefHeight="53.0" prefWidth="425.0" spacing="10.0">
+                  <children>
+                    <Label minHeight="30.0" minWidth="110.0" text="%filme_url" />
+                    <TextField fx:id="videoUrl" minHeight="30.0" prefWidth="300.0" />
+                    <Button fx:id="fileChooser" minHeight="30.0" mnemonicParsing="false" text="%localizar_filme" />
+                    <Button id="fileChooser" fx:id="testVideo" minHeight="30.0" mnemonicParsing="false" text="%testar_filme" />
+                  </children>
+                  <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                  </padding>
+                </HBox>
+                <VBox prefHeight="200.0" prefWidth="100.0" spacing="0.0">
+                  <children>
+                    <Label minHeight="30.0" minWidth="110.0" text="%layout" />
+                    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                      <children>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                          <children>
+                            <RadioButton fx:id="svLayoutHorizontal" mnemonicParsing="false" selected="false" text="1" textAlignment="LEFT">
+                              <toggleGroup>
+                                <ToggleGroup fx:id="svLayout" />
+                              </toggleGroup>
+                            </RadioButton>
+                            <ImageView fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                <Image url="@../img/lay_screensaver_1.png" />
+                              </image>
+                            </ImageView>
+                          </children>
+                          <padding>
+                            <Insets right="20.0" />
+                          </padding>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+                          <children>
+                            <RadioButton fx:id="svLayoutVertical" mnemonicParsing="false" text="2" toggleGroup="$svLayout" />
+                            <ImageView fitHeight="0.0" fitWidth="0.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                <Image url="@../img/lay_screensaver_2.png" />
+                              </image>
+                            </ImageView>
+                          </children>
+                          <padding>
+                            <Insets left="20.0" />
+                          </padding>
+                        </VBox>
+                      </children>
+                      <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                      </padding>
+                    </HBox>
+                  </children>
+                  <padding>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+                  </padding>
+                </VBox>
+              </children>
+              <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+              </padding>
+            </VBox>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </center>
+  <top>
+    <BorderPane minHeight="30.0" prefHeight="33.0" prefWidth="758.0">
+      <left>
+        <ImageView fitHeight="38.383837890625" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+          <image>
+            <Image url="file:/Z:/novosga/src/painel/client/ui/img/logo.png" preserveRatio="false" smooth="false" />
+          </image>
+        </ImageView>
+      </left>
+      <right>
+        <VBox alignment="CENTER_RIGHT" prefHeight="33.0" prefWidth="182.0" BorderPane.alignment="CENTER_RIGHT">
+          <children>
+            <Label alignment="CENTER_RIGHT" prefHeight="-1.0" prefWidth="-1.0" text="v{version}" textAlignment="LEFT" textFill="#606060" wrapText="false">
+              <font>
+                <Font name="System Bold" size="12.0" fx:id="x4" />
+              </font>
+            </Label>
+            <Hyperlink font="$x4" text="http://novosga.org" textFill="#006299" />
+          </children>
+        </VBox>
+      </right>
+      <BorderPane.margin>
+        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" fx:id="x2" />
+      </BorderPane.margin>
+    </BorderPane>
+  </top>
+</BorderPane>
