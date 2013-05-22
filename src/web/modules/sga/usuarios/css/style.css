@@ -1,0 +1,17 @@
+/**
+ * Novo SGA - Usuarios
+ * icon(s) by pixel-mixer.com
+ * @author rogeriolino
+ */
+fieldset p.info {
+    color: #999;
+}
+
+fieldset .btn-multi-add {
+    margin: 0 5px 5px 0;
+    float: right;
+}
+
+td.cargo a {
+    border-bottom: 1px dashed #999;
+}
