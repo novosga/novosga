@@ -69,6 +69,7 @@ SGA.Triagem = {
                 url: SGA.url('ajax_update'),
                 data: {ids: SGA.Triagem.ids.join(',')},
                 success: function(response) {
+                    $('.fila .total').text('-');
                     if (response.success) {
                         for (var i in response.data) {
                             var qtd = response.data[i];
