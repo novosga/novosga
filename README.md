@@ -10,7 +10,7 @@ SGA é o acrônimo de Sistema de Gerenciamento de Atendimento, sistema desenvolv
 
 Devido ao desenvolvimento do SGA Livre estar estagnado na mesma versão desde 2009, unindo a burocracia dos responsáveis pela comunidade no [Portal do Software Público](http://softwarepublico.gov.br/) surgiu a necessidade de criar uma nova versão para esse sistema que já roda em diversas localidades do Brasil.
 
-A parte web foi totalmente reformulada, deixando mais leve e intuitiva, com uma interface amigável e instalação super fácil. Já no painel foi feitas melhorias para funcionar em monitores widescreen. Outras melhorias e funcionalidades estão previstas e irão ser aplicadas durante o desenvolvimento do projeto.
+A parte web foi totalmente reformulada, deixando mais leve e intuitiva, com uma interface amigável e instalação super fácil. Já no painel foi alterado para funcionar na plataforma JavaFX, além de melhorias e novas funcionalidades. Outras melhorias e funcionalidades estão previstas e irão ser aplicadas durante o desenvolvimento do projeto.
 
 Tem alguma sugestão? Crie uma [issue](https://github.com/rogeriolino/novosga/issues) ou participe do desenvolvimento!
 
@@ -22,6 +22,7 @@ A aplicação web continua escrita em PHP, porém compatível com as versões ma
 - PHP 5.3
 - HTML5
 - CSS3
+- [JavaFX 2](http://docs.oracle.com/javafx/)
 - [Doctrine PHP 2.3](http://www.doctrine-project.org/projects/orm.html)
 - [jQuery 1.8+](http://jquery.com/)
 - [jQuery UI 1.9+](http://jqueryui.com/)
