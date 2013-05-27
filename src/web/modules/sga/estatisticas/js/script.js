@@ -13,12 +13,14 @@ SGA.Estatisticas = {
         gerar: function() {
             var id = $('#chart-id').val();
             if (id > 0) {
+                var dtIni = $('#chart-dataInicial').val();
+                var dtFim = $('#chart-dataFinal').val();
                 SGA.ajax({
                     url: SGA.url('grafico'),
                     data: {
                         grafico: id, 
-                        inicial: SGA.dateToSql($('#chart-dataInicial').val()), 
-                        'final': SGA.dateToSql($('#chart-dataFinal').val())
+                        inicial: SGA.dateToSql(dtIni), 
+                        'final': SGA.dateToSql(dtFim)
                     },
                     success: function(response) {
                         var result = $('#chart-result');
@@ -32,7 +34,7 @@ SGA.Estatisticas = {
                                     id: id, 
                                     dados: response.data.dados[i],
                                     legendas: response.data.legendas,
-                                    titulo: response.data.titulo + ' - ' + SGA.Estatisticas.unidades[i]
+                                    titulo: response.data.titulo + ' - ' + SGA.Estatisticas.unidades[i] + ' (' + dtIni + ' - ' + dtFim + ')'
                                 };
                                 switch (response.data.tipo) {
                                 case 'pie':
