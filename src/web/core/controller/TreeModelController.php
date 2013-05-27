@@ -30,16 +30,7 @@ abstract class TreeModelController extends CrudController {
         if (!($model instanceof TreeModel)) {
             throw new Exception(sprintf(_('Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s'), get_class($model)));
         }
-        $this->preSave($context, $model);
-        if ($model->getId() > 0) {
-            // update
-            $this->merge($model);
-        } else {
-            // insert
-            $this->persist($model);
-        }
-        $this->em()->flush();
-        $this->postSave($context, $model);
+        parent::doSave($context, $model);
     }
     
     private function persist(TreeModel $model) {
@@ -149,11 +140,10 @@ abstract class TreeModelController extends CrudController {
         if ($model->getLeft() == 1) {
             throw new Exception(_('Não pode remover a raiz'));
         }
-        $this->preDelete($context, $model);
         try {
-            $className = get_class($model);
             $this->em()->beginTransaction();
-
+            $this->preDelete($context, $model);
+            $className = get_class($model);
             // apagando os filhos
             $query = $this->em()->createQuery("DELETE FROM $className e WHERE e.left > :esquerda AND e.left < :direita");
             $query->setParameter('esquerda', $model->getLeft());
@@ -174,14 +164,13 @@ abstract class TreeModelController extends CrudController {
             $query->execute();
             
             $this->em()->remove($model);
-
             $this->em()->commit();
+            $this->em()->flush();
         } catch (Exception $e) {
             $this->em()->rollback();
             throw new Exception(sprintf(_('Erro ao apagar o registro: %s'), $e->getMessage()));
         }
         $this->postDelete($context, $model);
-        $this->em()->flush();
     }
 
 }

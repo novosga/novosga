@@ -49,6 +49,20 @@ class CargosController extends TreeModelController {
         }
     }
 
+    /**
+     * Deletando vinculos (permissoes e lotacoes)
+     * @param \core\SGAContext $context
+     * @param \core\model\SequencialModel $model
+     */
+    protected function preDelete(SGAContext $context, SequencialModel $model) {
+        $query = $this->em()->createQuery("DELETE FROM \core\model\Permissao p WHERE p.cargo = :cargo");
+        $query->setParameter('cargo', $model->getId());
+        $query->execute();
+        $query = $this->em()->createQuery("DELETE FROM \core\model\Lotacao l WHERE l.cargo = :cargo");
+        $query->setParameter('cargo', $model->getId());
+        $query->execute();
+    }
+
     protected function search($arg) {
         $query = $this->em()->createQuery("
             SELECT 
