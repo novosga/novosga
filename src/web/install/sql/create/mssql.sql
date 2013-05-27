@@ -33,10 +33,10 @@ CREATE TABLE [dbo].[atendimentos](
     [num_senha] [int] NOT NULL,
     [nm_cli] [varchar](100) NULL,
     [num_guiche] [smallint] NOT NULL,
-    [dt_cheg] [datetime] NOT NULL,
-    [dt_cha] [datetime] NULL,
-    [dt_ini] [datetime] NULL,
-    [dt_fim] [datetime] NULL,
+    [dt_cheg] [datetime2] NOT NULL,
+    [dt_cha] [datetime2] NULL,
+    [dt_ini] [datetime2] NULL,
+    [dt_fim] [datetime2] NULL,
     [ident_cli] [varchar](11) NULL
 ) ON [PRIMARY]
 
@@ -104,10 +104,10 @@ CREATE TABLE [dbo].[historico_atendimentos](
     [num_senha] [int] NOT NULL,
     [nm_cli] [varchar](100) NULL,
     [num_guiche] [smallint] NOT NULL,
-    [dt_cheg] [datetime] NOT NULL,
-    [dt_cha] [datetime] NULL,
-    [dt_ini] [datetime] NULL,
-    [dt_fim] [datetime] NULL,
+    [dt_cheg] [datetime2] NOT NULL,
+    [dt_cha] [datetime2] NULL,
+    [dt_ini] [datetime2] NULL,
+    [dt_fim] [datetime2] NULL,
     [ident_cli] [varchar](11) NULL
 ) ON [PRIMARY]
 
@@ -153,7 +153,7 @@ CREATE TABLE [dbo].[painel_senha](
     [msg_senha] [varchar](20) NOT NULL,
     [nm_local] [varchar](15) NOT NULL,
     [num_guiche] [smallint] NOT NULL,
-    [dt_envio] [datetime] NULL
+    [dt_envio] [datetime2] NULL
 ) ON [PRIMARY]
 
 GO
@@ -246,7 +246,7 @@ CREATE TABLE [dbo].[usuarios](
     [nm_usu] [varchar](20) NOT NULL,
     [ult_nm_usu] [varchar](100) NOT NULL,
     [senha_usu] [varchar](40) NOT NULL,
-    [ult_acesso] [datetime] NULL,
+    [ult_acesso] [datetime2] NULL,
     [stat_usu] [smallint] NOT NULL,
     [session_id] [varchar](40) NOT NULL
 ) ON [PRIMARY]

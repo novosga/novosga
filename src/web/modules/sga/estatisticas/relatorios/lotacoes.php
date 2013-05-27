@@ -22,6 +22,7 @@ $status = function($model) {
             <th><?php echo _('Usuário') ?></th>
             <th><?php echo _('Nome') ?></th>
             <th><?php echo _('Cargo') ?></th>
+            <th><?php echo _('Grupo') ?></th>
             <th><?php echo _('Status') ?></th>
         </tr>
     </thead>
@@ -31,6 +32,7 @@ $status = function($model) {
             <td class="strong"><?php echo $lotacao->getUsuario()->getLogin() ?></td>
             <td><?php echo $lotacao->getUsuario()->getNomeCompleto() ?></td>
             <td><?php echo $lotacao->getCargo()->getNome() ?></td>
+            <td><?php echo $lotacao->getGrupo()->getNome() ?></td>
             <td class="w75 center"><?php echo $status($lotacao->getUsuario()) ?></td>
         </tr>
         <?php endforeach; ?>
