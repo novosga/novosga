@@ -91,7 +91,7 @@ class CrudView extends ModuleView {
             }
             return $btns;
         };
-        return $this->showMessages() . $this->getBuilder()->treeView(array(
+        return $this->getBuilder()->treeView(array(
             'title' => $title,
             'items' => $items,
             'buttons' => $buttons
