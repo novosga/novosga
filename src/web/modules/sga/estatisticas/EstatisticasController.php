@@ -311,7 +311,7 @@ class EstatisticasController extends ModuleController {
                     e.dataChegada >= :dataInicial AND
                     e.dataChegada <= :dataFinal
                 ORDER BY
-                    e.dataInicial
+                    e.dataInicio
             ");
             $query->setParameter('unidade', $unidade);
             $query->setParameter('status', \core\model\Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO);
@@ -340,7 +340,7 @@ class EstatisticasController extends ModuleController {
                     e.dataChegada >= :dataInicial AND
                     e.dataChegada <= :dataFinal
                 ORDER BY
-                    e.dataInicial
+                    e.dataInicio
             ");
             $query->setParameter('unidade', $unidade);
             $query->setParameter('dataInicial', $dataInicial);
@@ -369,7 +369,6 @@ class EstatisticasController extends ModuleController {
                 LEFT JOIN l.usuario u
                 LEFT JOIN l.grupo g
                 LEFT JOIN l.cargo c
-                LEFT JOIN g.unidade uni
             WHERE
                 g.left <= (
                     SELECT g2.left FROM \core\model\Grupo g2 WHERE g2.id = (SELECT u2g.id FROM \core\model\Unidade u2 INNER JOIN u2.grupo u2g WHERE u2.id = :unidade)
