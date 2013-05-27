@@ -49,6 +49,10 @@ class DB {
             $config->setQueryCacheImpl(self::$cacheDriver);
             $config->setResultCacheImpl(self::$cacheDriver);
             self::$em = \Doctrine\ORM\EntityManager::create(self::$conn, $config);
+            // alterando o formato padrao do datetime do sql server
+            if (Config::DB_TYPE == 'mssql') {
+                self::$em->getConnection()->exec('SET DATEFORMAT ymd');
+            }
         }
         return self::$em;
     }
