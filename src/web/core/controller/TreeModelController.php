@@ -30,7 +30,16 @@ abstract class TreeModelController extends CrudController {
         if (!($model instanceof TreeModel)) {
             throw new Exception(sprintf(_('Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s'), get_class($model)));
         }
-        parent::doSave($context, $model);
+        $this->preSave($context, $model);
+        if ($model->getId() > 0) {
+            // update
+            $this->merge($model);
+        } else {
+            // insert
+            $this->persist($model);
+        }
+        $this->em()->flush();
+        $this->postSave($context, $model);
     }
     
     private function persist(TreeModel $model) {
