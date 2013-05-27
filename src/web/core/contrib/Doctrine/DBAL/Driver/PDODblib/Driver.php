@@ -33,7 +33,7 @@ class Driver implements \Doctrine\DBAL\Driver
         }
 
         if (isset($params['port']) && !empty($params['port'])) {
-            $dsn .= ',' . $params['port'];
+            $dsn .= ':' . $params['port'];
         }
 
         if (isset($params['dbname'])) {;
