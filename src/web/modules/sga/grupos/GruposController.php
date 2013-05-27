@@ -92,4 +92,28 @@ class GruposController extends TreeModelController {
         return $rs['total'];
     }
     
+    /**
+     * Verifica se o grupo a ser excluído possui relacionamento com alguma unidade
+     * @param \core\SGAContext $context
+     * @param \core\model\SequencialModel $model
+     */
+    protected function preDelete(SGAContext $context, SequencialModel $model) {
+        $query = $this->em()->createQuery("
+            SELECT 
+                COUNT(e) as total
+            FROM 
+                \core\model\Unidade e
+                INNER JOIN e.grupo g
+            WHERE 
+                g.left >= :esquerda AND
+                g.right <= :direita
+        ");
+        $query->setParameter('esquerda', $model->getLeft());
+        $query->setParameter('direita', $model->getRight());
+        $rs = $query->getSingleResult();
+        if ($rs['total'] > 0) {
+            throw new \Exception(_('Esse grupo não pode ser excluído porque possui relacionamento com uma ou mais unidades.'));
+        }
+    }
+    
 }
