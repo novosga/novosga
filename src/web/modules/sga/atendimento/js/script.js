@@ -66,6 +66,8 @@ SGA.Atendimento = {
         switch (status) {
         case 1: // nenhum atendimento, chamar
             $('#chamar').show();
+            $('#redirecionar_servico').val(0);
+            $('#encerrar-redirecionar').prop('checked', false);
             break;
         case 2: // senha chamada
             if (atendimento) {
