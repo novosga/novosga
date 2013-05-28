@@ -189,13 +189,27 @@ class EstatisticasController extends ModuleController {
     
     private function tempo_medio_atendimentos($dataInicial, $dataFinal) {
         $atendimentos = array();
-        $dql = "
-            SELECT 
-                u.id as id,
+        $columns = '';
+        // quando SQL Server usa a função DATEDIFF (registrada na classe DB)
+        if (\core\Config::DB_TYPE == 'mssql') {
+            $columns = '
+                AVG(DATEDIFF(a.dataChegada, a.dataChamada)) as espera,
+                AVG(DATEDIFF(a.dataChamada, a.dataInicio)) as deslocamento,
+                AVG(DATEDIFF(a.dataInicio, a.dataFim)) as atendimento,
+                AVG(DATEDIFF(a.dataChegada, a.dataFim)) as total
+            ';
+        } else {
+            $columns = '
                 AVG(a.dataChamada - a.dataChegada) as espera,
                 AVG(a.dataInicio - a.dataChamada) as deslocamento,
                 AVG(a.dataFim - a.dataInicio) as atendimento,
                 AVG(a.dataFim - a.dataChegada) as total
+            ';
+        }
+        $dql = "
+            SELECT 
+                u.id as id,
+                $columns
             FROM 
                 \core\model\ViewAtendimento a
                 JOIN a.unidade u

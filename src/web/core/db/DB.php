@@ -52,6 +52,8 @@ class DB {
             // alterando o formato padrao do datetime do sql server
             if (Config::DB_TYPE == 'mssql') {
                 self::$em->getConnection()->exec('SET DATEFORMAT ymd');
+                // registrando funcao
+                $config->addCustomStringFunction('DATEDIFF', '\core\contrib\DoctrineExt\MsSql\DateDiff');
             }
         }
         return self::$em;
