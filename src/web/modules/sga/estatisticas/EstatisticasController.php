@@ -39,6 +39,8 @@ class EstatisticasController extends ModuleController {
     }
 
     public function index(SGAContext $context) {
+        $dir = MODULES_DIR . '/' . str_replace('.', '/', $context->getModulo()->getChave());
+        $context->setParameter('js', array($dir . '/js/highcharts.js', $dir . '/js/highcharts.exporting.js'));
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Unidade e ORDER BY e.nome");
         $unidades = $query->getResult();
         $this->view()->assign('unidades', $unidades);
