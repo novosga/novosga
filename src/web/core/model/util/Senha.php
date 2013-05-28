@@ -12,6 +12,9 @@ use \core\model\Prioridade;
  class Senha extends Model {
      
     const LENGTH = 3;
+    const TIPO_NUMERACAO = 'numeracao';
+    const NUMERACAO_UNICA = 1;
+    const NUMERACAO_SERVICO = 2;
      
     private $sigla;
     private $numero;

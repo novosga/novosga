@@ -16,7 +16,10 @@ class DateUtil {
     }
     
     public static function format($date, $format) {
-        return date($format, strtotime($date));
+        if (!empty($date)) {
+            return date($format, strtotime($date));
+        }
+        return '';
     }
     
     public static function formatToSQL($date) {

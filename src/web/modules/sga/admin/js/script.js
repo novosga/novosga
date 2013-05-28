@@ -51,6 +51,15 @@ SGA.Admin = {
         return false;
     },
     
+    changeNumeracao: function() {
+        SGA.ajax({
+            url: SGA.url('change_numeracao'),
+            data: {tipo: $('#numeracao').val()},
+            success: function(response) {
+            }
+        });
+    },
+    
     painelInfo: function(unidade, host) {
         SGA.ajax({
             url: SGA.url('painel_info'),

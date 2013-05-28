@@ -53,11 +53,11 @@ abstract class AtendimentoBusiness {
             $sql = "
                 INSERT INTO historico_atendimentos 
                 (
-                    id_atend, id_uni, id_usu, id_serv, id_pri, id_stat, sigla_senha, num_senha, 
+                    id_atend, id_uni, id_usu, id_serv, id_pri, id_stat, sigla_senha, num_senha, num_senha_serv, 
                     nm_cli, num_guiche, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, id_usu_tri
                 )
                 SELECT 
-                    a.id_atend, a.id_uni, a.id_usu, a.id_serv, a.id_pri, a.id_stat, a.sigla_senha, a.num_senha, 
+                    a.id_atend, a.id_uni, a.id_usu, a.id_serv, a.id_pri, a.id_stat, a.sigla_senha, a.num_senha, a.num_senha_serv, 
                     a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.id_usu_tri
                 FROM 
                     atendimentos a
@@ -141,6 +141,14 @@ abstract class AtendimentoBusiness {
             $sql .= "$alias ";
         }
         return $sql . "FROM $table $alias ";
+    }
+    
+    public static function isNumeracaoServico() {
+        $numeracao = \core\model\Configuracao::get(\core\model\util\Senha::TIPO_NUMERACAO);
+        if ($numeracao) {
+            return $numeracao->getValor() == \core\model\util\Senha::NUMERACAO_SERVICO;
+        }
+        return false;
     }
     
 }

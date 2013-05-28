@@ -30,7 +30,7 @@ class MonitorController extends ModuleController {
     }
     
     private function servicos(Unidade $unidade, $where = "") {
-        $dql = "SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade ";
+        $dql = "SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1";
         if (!empty($where)) {
             $dql .= " AND $where";
         }
@@ -77,7 +77,8 @@ class MonitorController extends ModuleController {
     }
     
     private function buscaAtendimentos(Unidade $unidade, $numeroSenha) {
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.numeroSenha = :numero AND su.unidade = :unidade ORDER BY e.id");
+        $field = \core\business\AtendimentoBusiness::isNumeracaoServico() ? 'numeroSenhaServico' : 'numeroSenha';
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.$field = :numero AND su.unidade = :unidade ORDER BY e.id");
         $query->setParameter('numero', (int) $numeroSenha);
         $query->setParameter('unidade', $unidade->getId());
         return $query->getResult();

@@ -143,18 +143,26 @@ class TriagemController extends ModuleController {
             if (!$su) {
                 throw new Exception(_('Serviço não disponível para a unidade atual'));
             }
-            $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.id_uni = :id_uni ORDER BY num_senha DESC";
             $conn = $this->em()->getConnection();
+            // ultimo numero gerado (total)
+            $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.id_uni = :id_uni ORDER BY num_senha DESC";
             $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1, 0);
+            // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
+            $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.id_uni = :id_uni AND a.sigla_senha = :sigla_senha ORDER BY num_senha_serv DESC";
+            $innerQuery2 = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery2, 1, 0);
             $stmt = $conn->prepare(" 
                 INSERT INTO atendimentos
-                (id_uni, id_serv, id_pri, id_usu_tri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha)
+                (id_uni, id_serv, id_pri, id_usu_tri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha, num_senha_serv)
                 -- select dentro do insert para garantir atomicidade
                 SELECT
                     :id_uni, :id_serv, :id_pri, :id_usu_tri, :id_stat, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, :sigla_senha, 
                     COALESCE(
                         (
                             $innerQuery
+                        ) , 0) + 1,
+                    COALESCE(
+                        (
+                            $innerQuery2
                         ) , 0) + 1
             ");
             $stmt->bindValue('id_uni', $unidade->getId(), PDO::PARAM_INT);
