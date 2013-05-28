@@ -86,8 +86,8 @@
         <!-- substituindo a versao -->
         <replace file="${build.dist}/ui/jfx/main.fxml" token="{version}" value="${version}" />
         <!-- substituindo nome do jar (executavel) -->
-        <replace file="${distfiles}/painel.bat" token="{distname}" value="${distname}" />
-        <replace file="${distfiles}/painel.sh" token="{distname}" value="${distname}" />
+        <replace file="${build.dist}/painel.bat" token="{distname}" value="${distname}" />
+        <replace file="${build.dist}/painel.sh" token="{distname}" value="${distname}" />
     </target>
     
     <!--
