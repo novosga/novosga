@@ -364,14 +364,15 @@ class AtendimentoController extends ModuleController {
         // XXX: usando statement INSERT devido a bug do dblib (mssql) no linux com mapeamentos do Doctrine 
         $stmt = $this->em()->getConnection()->prepare("
             INSERT INTO atendimentos 
-                (num_guiche, dt_cheg, id_stat, sigla_senha, num_senha, id_serv, id_uni, id_usu, id_usu_tri, id_pri) 
+                (num_guiche, dt_cheg, id_stat, sigla_senha, num_senha, num_senha_serv, id_serv, id_uni, id_usu, id_usu_tri, id_pri) 
             VALUES 
-                (0, :data, :status, :sigla, :numero, :servico, :unidade, :usuario, :usuario_triagem, :prioridade)
+                (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade)
         ");
         $stmt->bindValue('data', $atendimento->getDataChegada());
         $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
         $stmt->bindValue('sigla', $atendimento->getSenha()->getSigla());
-        $stmt->bindValue('numero', $atendimento->getSenha()->getNumero());
+        $stmt->bindValue('numero', $atendimento->getNumeroSenha());
+        $stmt->bindValue('numero_servico', $atendimento->getNumeroSenhaServico());
         $stmt->bindValue('servico', $servico);
         $stmt->bindValue('unidade', $unidade->getId());
         $stmt->bindValue('usuario', $usuario->getWrapped()->getId());
