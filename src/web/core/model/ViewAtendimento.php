@@ -60,6 +60,8 @@ class ViewAtendimento extends Model {
     protected $siglaSenha;
     /** @Column(type="integer", name="num_senha", nullable=false) */
     protected $numeroSenha;
+    /** @Column(type="integer", name="num_senha_serv", nullable=false) */
+    protected $numeroSenhaServico;
     
     
     public function getId() {
@@ -197,6 +199,14 @@ class ViewAtendimento extends Model {
 
     public function setNumeroSenha($numeroSenha) {
         $this->numeroSenha = $numeroSenha;
+    }
+    
+    public function getNumeroSenhaServico() {
+        return $this->numeroSenhaServico;
+    }
+
+    public function setNumeroSenhaServico($numeroSenhaServico) {
+        $this->numeroSenhaServico = $numeroSenhaServico;
     }
 
 }

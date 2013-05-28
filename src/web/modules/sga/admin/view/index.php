@@ -83,7 +83,18 @@ use \core\util\Arrays;
         </div>
         <div id="tab-triagem">
             <div class="field">
-                <label><?php SGA::out(_('Reiniciar senhas')) ?></label>
+                <label for="numeracao" class="w150"><?php echo _('Tipo de numeração') ?></label>
+                <?php
+                    echo $builder->select(array(
+                        'id' => 'numeracao',
+                        'default' => $numeracao,
+                        'items' => $numeracoes,
+                        'onchange' => "SGA.Admin.changeNumeracao()"
+                    ));
+                ?>
+            </div>
+            <div class="field">
+                <label class="w150"><?php SGA::out(_('Reiniciar senhas')) ?></label>
                 <?php 
                     echo $builder->button(array(
                         'label' => 'Reiniciar', 
@@ -93,7 +104,7 @@ use \core\util\Arrays;
                 ?>
             </div>
             <div class="field">
-                <label><?php echo _('Cron URL') ?></label>
+                <label class="w150"><?php echo _('Cron URL') ?></label>
                 <code><?php echo $cronReiniciarSenhas ?></code>
             </div>
         </div>
