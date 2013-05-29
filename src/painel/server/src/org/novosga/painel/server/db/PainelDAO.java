@@ -80,11 +80,9 @@ public class PainelDAO {
                 ps.setInt(1, _painel.getIntHost());
                 ps.setInt(2, _painel.getApsId());
                 ps.setInt(3, servico & 0xFF);
-
                 ps.executeUpdate();
             }
             ps.close();
-
             con.commit(); // commit na transação
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "Falha inserindo painel no banco. Motivo: " + e.getMessage(), e);
@@ -107,7 +105,6 @@ public class PainelDAO {
             ps.setInt(1, _painel.getApsId());
             ps.setInt(2, _painel.getIntHost());
             ps.executeUpdate();
-            _existeNoBanco = true;
             ps.close();
 
             ps = con.prepareStatement("DELETE FROM paineis_servicos WHERE host = ?");
@@ -123,8 +120,8 @@ public class PainelDAO {
                 ps.executeUpdate();
             }
             ps.close();
-
             con.commit(); // commit na transação
+            _existeNoBanco = true;
         } catch (SQLException e) {
             try {
                 // tenta dar um rollback embora não seja estritamente ncessário (na falta de commit o banco assume rollback)
@@ -146,7 +143,6 @@ public class PainelDAO {
         Connection con = null;
         try {
             con = SQLConnectionPool.getInstance().getConnection();
-
             con.setAutoCommit(false);
 
             PreparedStatement ps = con.prepareStatement("DELETE FROM paineis_servicos WHERE host = ?");
@@ -154,13 +150,11 @@ public class PainelDAO {
             ps.executeUpdate();
             ps.close();
 
-
             ps = con.prepareStatement("DELETE FROM paineis WHERE host = ?");
             ps.setInt(1, _painel.getIntHost());
             ps.executeUpdate();
             ps.close();
-
-
+            
             con.commit();
             _existeNoBanco = false;
         } catch (SQLException e) {

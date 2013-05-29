@@ -61,9 +61,10 @@ public class ProcessadorSenhas extends Thread {
      * @return
      * @throws SQLException 
      */
-    private PreparedStatement preparaSelectSenhas() throws SQLException {
-        Connection con = SQLConnectionPool.getInstance().getConnection();
-        return con.prepareStatement("SELECT * FROM painel_senha WHERE dt_envio IS NULL");
+    private PreparedStatement preparaSelectSenhas(Connection conn) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM painel_senha WHERE dt_envio IS NULL");
+        stmt.setQueryTimeout(1);
+        return stmt;
     }
     
     /**
@@ -71,8 +72,7 @@ public class ProcessadorSenhas extends Thread {
      * @return
      * @throws SQLException 
      */
-    private PreparedStatement preparaUpdateSenhas(List<Integer> ids) throws SQLException {
-        Connection con = SQLConnectionPool.getInstance().getConnection();
+    private PreparedStatement preparaUpdateSenhas(Connection conn, List<Integer> ids) throws SQLException {
         Calendar c = Calendar.getInstance();
         String date = c.get(Calendar.YEAR) + "-" + String.format("%02d", c.get(Calendar.MONTH) + 1) + "-" + String.format("%02d", c.get(Calendar.DAY_OF_MONTH));
         String hour = String.format("%02d", c.get(Calendar.HOUR_OF_DAY)) + ":" + String.format("%02d", c.get(Calendar.MINUTE))+ ":" + String.format("%02d", c.get(Calendar.SECOND));
@@ -87,19 +87,27 @@ public class ProcessadorSenhas extends Thread {
             }
         }
         sb.append(")");
-        PreparedStatement stmt = con.prepareStatement(sb.toString());
+        PreparedStatement stmt = conn.prepareStatement(sb.toString());
+        stmt.setQueryTimeout(1);
         return stmt;
     }
 
     @Override
     public void run() {
+        Connection conn;
         PreparedStatement psSel;
         //BigInteger bi = new BigInteger("0");
         int maxContador = Integer.MIN_VALUE;
         try {
-            psSel = this.preparaSelectSenhas();
+            conn = SQLConnectionPool.getInstance().getConnection();
         } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "Erro obtendo conexão/preparando consulta para processamento de senhas. Processamento abortado.", e);
+            LOG.log(Level.SEVERE, "Erro obtendo conexão. Processamento abortado.", e);
+            return;
+        }
+        try {
+            psSel = this.preparaSelectSenhas(conn);
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "Erro preparando consulta para processamento de senhas. Processamento abortado.", e);
             return;
         }
         ResultSet rset;
@@ -125,7 +133,7 @@ public class ProcessadorSenhas extends Thread {
                     try {
                         GerenciadorPaineis.getInstance().despacharSenha(idUnidade, msgEspecial, id_serv, sig_serv, num_senha, guicheStr, guiche);
                         ids.add(contador);
-                        LOG.info("Enviada senha " + sig_serv + String.format("%04d", num_senha) + " para os paineis cadastrados (id="+ contador +")");
+                        LOG.info("Enviada senha " + sig_serv + String.format("%03d", num_senha) + " (id="+ contador +") para os paineis cadastrados");
                     } catch (Throwable t) {
                         LOG.log(Level.SEVERE, "Falha despachando senha.", t);
                     }
@@ -133,16 +141,17 @@ public class ProcessadorSenhas extends Thread {
                 rset.close();
                 // atualizando senhas como enviadas
                 if (ids.size() > 0) {
-                    this.preparaUpdateSenhas(ids).executeUpdate();
-                    ids.clear();
+                    try {
+                        PreparedStatement stmt = this.preparaUpdateSenhas(conn, ids);
+                        stmt.executeUpdate();
+                        stmt.close();
+                        ids.clear();
+                    } catch (Exception e) {
+                        LOG.log(Level.SEVERE, "Falha ao marcar senhas como enviadas.", e);
+                    }
                 }
             } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "Falha ao selecionar senhas da tabela, tentando re-preparar a consulta.", e);
-                try {
-                    psSel = this.preparaSelectSenhas();
-                } catch (SQLException e1) {
-                    LOG.log(Level.SEVERE, "Falha tentando re-preparar a consulta de senhas.", e);
-                }
             }
             try {
                 Thread.sleep(ConfigManager.getInstance().getSleepInterval());
