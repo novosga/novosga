@@ -12,13 +12,16 @@ SGA.Usuarios = {
     multiDeleteLabel: '',
     
     multiCheck: function(check, btn) {
-        var selClass = (typeof(check) == 'string') ? check : $(check).prop('class');
-        btn = (typeof(btn) == 'string') ? $('#' + btn) : $(btn);
-        if ($('.' + selClass + ':checked').length > 0) {
-            btn.button('enable');
-        } else {
-            btn.button('disable');
-        }
+        setTimeout(function() {
+            var selClass = (typeof(check) == 'string') ? check : $(check).prop('class');
+            btn = (typeof(btn) == 'string') ? $('#' + btn) : $(btn);
+            if ($('.' + selClass + ':checked').length > 0) {
+                btn.button('enable');
+            } else {
+                btn.button('disable');
+            }
+        }, 100);
+        return true;
     },
     
     multiDelete: function(btn, selClass, ondelete) {
@@ -32,19 +35,26 @@ SGA.Usuarios = {
         }
         return false;
     },
+            
+    tableCheckAll: function(elem) {
+        setTimeout(function() {
+            var table = $(elem).parent().parent().parent().parent();
+            table.find('tbody input[type="checkbox"]').each(function(i,e) {
+                var cb = $(e);
+                cb.prop('checked', $(elem).prop('checked'));
+                cb.trigger('change');
+            });
+        }, 100);
+        return true;
+    },
     
     delLotacoes: function(btn) {
         return SGA.Usuarios.multiDelete(btn, 'check-lotacao', function(row) {
-            var value = row.find('.checkbox .value').val();
-            value = value.split(',');
-            $('#add-grupo').append('<option value="' + value[0] + '">' + row.find('.grupo').text() + '</option>');
-            $('#add-cargo').append('<option value="' + value[1] + '">' + row.find('.cargo').text() + '</option>');
         });
     },
     
     delServicos: function(btn) {
         return SGA.Usuarios.multiDelete(btn, 'check-servico', function() {
-            
         });
     },
     
@@ -57,6 +67,7 @@ SGA.Usuarios = {
     },
     
     addLotacao: function() {
+        SGA.Usuarios.grupos_disponiveis();
         return SGA.Usuarios.addDialog("dialog-add-lotacao", function() {
             var grupo = $('#add-grupo');
             var cargo = $('#add-cargo');
@@ -69,8 +80,8 @@ SGA.Usuarios = {
                 row.find('.grupo').text(grupo.find('option:selected').text());
                 row.find('.cargo').append('<a href="javascript:void(0)" onclick="SGA.Usuarios.permissoes(' + cargo.val() + ')" title="' + SGA.Usuarios.labelVisualizarPermissoes + '">' + cargo.find('option:selected').text() + '</a>');
                 $('#lotacoes tbody').append(row);
-                cargo.find('option:selected').remove();
                 grupo.find('option:selected').remove();
+                $('#dialog-add-lotacao').dialog('close');
             }
         });
     },
@@ -78,18 +89,26 @@ SGA.Usuarios = {
     addServico: function() {
         return SGA.Usuarios.addDialog("dialog-add-servico", function() {
             var unidade = $('#add-unidade');
-            var servico = $('#add-servico');
-            if (unidade.val() > 0 && servico.val() > 0) {
-                // criando nova linha
-                var row = $('<tr><td class="checkbox"></td><td class="servico"></td><td class="unidade"></td></tr>');
-                var value = unidade.val() + "," + servico.val();
-                row.find('.checkbox').append('<input type="checkbox" class="check-servico" onchange="SGA.Usuarios.multiCheck(this, \'btn-remove-servico\')" />');
-                row.find('.checkbox').append('<input type="hidden" class="value" name="servicos[]" value="' + value + '" />');
-                row.find('.servico').text(servico.find('option:selected').text());
-                row.find('.unidade').text(unidade.find('option:selected').text());
-                $('#servicos tbody').append(row);
-                servico.find('option:selected').remove();
+            var servicos = [];
+            $('#add-servicos :checked').each(function(i,e) {
+                servicos.push($(e));
+            });
+            if (unidade.val() > 0 && servicos.length) {
+                for (var i = 0; i < servicos.length; i++) {
+                    var servico = servicos[i];
+                    // criando nova linha
+                    var row = $('<tr><td class="checkbox"></td><td class="servico"></td><td class="unidade"></td></tr>');
+                    var value = unidade.val() + "," + servico.val();
+                    row.find('.checkbox').append('<input type="checkbox" class="check-servico" onchange="SGA.Usuarios.multiCheck(this, \'btn-remove-servico\')" />');
+                    row.find('.checkbox').append('<input type="hidden" class="value" name="servicos[]" value="' + value + '" />');
+                    row.find('.servico').text(servico.parent().text());
+                    row.find('.unidade').text(unidade.find('option:selected').text());
+                    $('#servicos tbody').append(row);
+                    // removendo item da lista
+                    servico.parent().parent().remove();
+                }
             }
+            $("#dialog-add-servico").dialog('close');
         });
     },
     
@@ -109,6 +128,27 @@ SGA.Usuarios = {
         });
     },
     
+    grupos_disponiveis: function() {
+        // pegando os ids ja escolhidos para evitar duplicados
+        var exceto = [];
+        $('#lotacoes input.value').each(function(i, e) {
+            var value = $(e).val().split(',');
+            exceto.push(value[0]);
+        });
+        var grupos = $('#add-grupo');
+        var selecione = grupos.find('option[value=""]');
+        grupos.html(selecione);
+        SGA.ajax({
+            url: SGA.url('grupos'),
+            data: {exceto: exceto.join(',')},
+            success: function(response) {
+                for (var i = 0; i < response.data.length; i++) {
+                    grupos.append('<option value="' + response.data[i].id + '">' + response.data[i].nome + '</option>');
+                }
+            }
+        });
+    },
+    
     servicos_unidade: function(unidade) {
         if (unidade > 0) {
             // pegando os ids ja escolhidos para evitar duplicados
@@ -121,13 +161,11 @@ SGA.Usuarios = {
                 url: SGA.url('servicos_unidade'),
                 data: {unidade: unidade, exceto: exceto.join(',')},
                 success: function(response) {
-                    var unidades = $("#add-servico");
-                    var selecione = unidades.find(':first');
-                    unidades.html('');
-                    unidades.append(selecione);
+                    var servicos = $('<ul></ul>');
                     for (var i = 0; i < response.data.length; i++) {
-                        unidades.append('<option value="' + response.data[i].id + '">' + response.data[i].nome + '</option>');
+                        servicos.append('<li><label><input type="checkbox" value="' + response.data[i].id + '" />' + response.data[i].nome + '</label></li>');
                     }
+                    $("#add-servicos").html(servicos);
                 }
             });
         }
