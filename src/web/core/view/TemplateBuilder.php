@@ -290,7 +290,8 @@ class TemplateBuilder {
             $table = '<thead><tr>';
             for ($i = 0; $i < sizeof($header); $i++) {
                 $class = Arrays::value($classes, $i, '');
-                $table .= '<th class="' . Strings::doubleQuoteSlash($class) . '">' . $header[$i] . '</th>';
+                $h = (is_callable($header[$i])) ? $header[$i]() : $header[$i];
+                $table .= '<th class="' . Strings::doubleQuoteSlash($class) . '">' . $h . '</th>';
             }
             $table .= '</tr></thead>';
         }
