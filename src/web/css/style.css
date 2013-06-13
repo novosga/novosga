@@ -32,11 +32,19 @@
     src: url('fonts/UbuntuMono-R.ttf');
 }
 
-
 * {
     padding: 0;
     margin: 0;
 }
+
+.chromeframe {
+    margin: 0;
+    background: #990000;
+    color: #eee;
+    padding: 5px 10px;
+}
+
+.chromeframe a { color: #fff; font-weight: bold; }
 
 #geral {
     background: #fff;
@@ -458,7 +466,7 @@ div.field:last-child {
     border-bottom: none;
 }
 
-div.field label {
+div.field>label {
     width: 110px;
     padding: 5px 0 0 10px;
     float: left;
