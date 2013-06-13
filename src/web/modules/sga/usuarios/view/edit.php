@@ -1,5 +1,10 @@
 <?php
 use \core\SGA;
+
+$checkboxAll = function() {
+    return '<input type="checkbox" onchange="SGA.Usuarios.tableCheckAll(this);" />';
+}
+
 ?>
 <form id="crud-form" method="post" action="<?php SGA::out(SGA::url()) ?>">
     <input type="hidden" name="id" value="<?php SGA::out($model->getId()) ?>" />
@@ -95,7 +100,7 @@ use \core\SGA;
                     };
                     echo $builder->table(array(
                         'id' => 'lotacoes',
-                        'header' => array('', _('Grupo'), _('Cargo')),
+                        'header' => array($checkboxAll, _('Grupo'), _('Cargo')),
                         'classes' => array('checkbox', 'grupo', 'cargo'),
                         'columns' => array($checkbox, 'grupo', $cargo),
                         'items' => $items
@@ -139,7 +144,7 @@ use \core\SGA;
                     };
                     echo $builder->table(array(
                         'id' => 'servicos',
-                        'header' => array('', _('Serviço'), _('Unidade')),
+                        'header' => array($checkboxAll, _('Serviço'), _('Unidade')),
                         'classes' => array('checkbox', 'servico', 'unidade'),
                         'columns' => array($checkbox ,'servico', 'unidade'),
                         'items' => $items
@@ -159,14 +164,6 @@ use \core\SGA;
         echo $view->editButtonsBar();
     ?>
 </form>
-<script type="text/javascript">
-    SGA.Form.validate('crud-form');
-    $('#tabs').tabs();
-    SGA.Usuarios.labelAdd = "<?php SGA::out(_('Adicionar')) ?>";
-    SGA.Usuarios.labelSenhaAlterada = "<?php SGA::out(_('Senha alterada com sucesso')) ?>";
-    SGA.Usuarios.labelVisualizarPermissoes = "<?php SGA::out(_('Visualizar permissões')) ?>";
-    SGA.Usuarios.multiDeleteLabel = "<?php SGA::out(_('Realmente deseja excluir?')) ?>";
-</script>
 <div id="dialog-add-lotacao" title="<?php SGA::out(_('Lotação')) ?>" style="display:none">
     <div class="field">
         <label for="add-grupo"><?php SGA::out(_('Grupo')) ?></label>
@@ -174,8 +171,7 @@ use \core\SGA;
             echo $builder->select(array(
                 'id' => 'add-grupo',
                 'class' => 'w200',
-                'label' => _('Selecione'),
-                'items' => $grupos
+                'label' => _('Selecione')
             ));
         ?>
     </div>
@@ -205,14 +201,10 @@ use \core\SGA;
         ?>
     </div>
     <div class="field">
-        <label for="add-servico"><?php SGA::out(_('Serviço')) ?></label>
-        <?php
-            echo $builder->select(array(
-                'id' => 'add-servico',
-                'class' => 'w200',
-                'label' => _('Selecione')
-            ));
-        ?>
+        <label><?php SGA::out(_('Serviços')) ?></label>
+        <div id="add-servicos">
+            <ul></ul>
+        </div>
     </div>
 </div>
 <div id="dialog-permissoes" title="<?php SGA::out(_('Permissões')) ?>" style="display:none">
@@ -232,3 +224,12 @@ use \core\SGA;
     </div>
 </div>
 <?php endif; ?>
+<script type="text/javascript">
+    SGA.Form.validate('crud-form');
+    $('#tabs').tabs();
+    SGA.Usuarios.labelAdd = "<?php SGA::out(_('Adicionar')) ?>";
+    SGA.Usuarios.labelSenhaAlterada = "<?php SGA::out(_('Senha alterada com sucesso')) ?>";
+    SGA.Usuarios.labelVisualizarPermissoes = "<?php SGA::out(_('Visualizar permissões')) ?>";
+    SGA.Usuarios.multiDeleteLabel = "<?php SGA::out(_('Realmente deseja excluir?')) ?>";
+    SGA.Usuarios.grupos_disponiveis();
+</script>

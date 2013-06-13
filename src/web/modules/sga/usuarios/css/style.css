@@ -15,3 +15,24 @@ fieldset .btn-multi-add {
 td.cargo a {
     border-bottom: 1px dashed #999;
 }
+
+#add-servicos {
+    padding: 5px 0;
+    clear: both;
+}
+
+#add-servicos ul {
+    height: 200px;
+    list-style: none;
+    padding: 5px 10px;
+    background-color: #f1f1f1;
+    overflow: auto;
+}
+
+#add-servicos ul li {
+    padding: 5px 0;
+}
+
+#add-servicos ul li input {
+    margin-right: 10px;
+}
