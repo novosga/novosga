@@ -41,11 +41,13 @@ class CargosController extends TreeModelController {
         $permissoes = Arrays::value($_POST, 'permissoes');
         $conn = $this->em()->getConnection();
         $stmt = $conn->prepare("INSERT INTO cargos_mod_perm (id_mod, id_cargo, permissao) VALUES (:modulo, :cargo, :permissao)");
-        foreach ($permissoes as $modulo) {
-            $stmt->bindValue('modulo', $modulo, \PDO::PARAM_INT);
-            $stmt->bindValue('cargo', $model->getId(), \PDO::PARAM_INT);
-            $stmt->bindValue('permissao', 3, \PDO::PARAM_INT);
-            $stmt->execute();
+        if (!empty($permissoes)) {
+            foreach ($permissoes as $modulo) {
+                $stmt->bindValue('modulo', $modulo, \PDO::PARAM_INT);
+                $stmt->bindValue('cargo', $model->getId(), \PDO::PARAM_INT);
+                $stmt->bindValue('permissao', 3, \PDO::PARAM_INT);
+                $stmt->execute();
+            }
         }
     }
 
