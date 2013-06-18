@@ -7,6 +7,22 @@ var SGA = SGA || {};
 SGA.Estatisticas = {
     
     unidades: {},
+            
+    options: function(group) {
+        var elems = $(group + ' .option');
+        elems.find(':input').prop('disabled', true);
+        elems.hide();
+        // habilitando as opções do gráfico/relatório selecionado
+        var param = $(group + ' option:selected').data('opcoes');
+        if (param != '') {
+            var opcoes = param.split(',');
+            for (var i = 0; i < opcoes.length; i++) {
+                elems = $(group + ' .' + opcoes[i]);
+                elems.find(':input').prop('disabled', false);
+                elems.show();
+            }
+        }
+    },
     
     Grafico: {
         
@@ -19,6 +35,7 @@ SGA.Estatisticas = {
                     url: SGA.url('grafico'),
                     data: {
                         grafico: id, 
+                        unidade: ($('#chart-unidade').prop('disabled') ? 0 : $('#chart-unidade').val()), 
                         inicial: SGA.dateToSql(dtIni), 
                         'final': SGA.dateToSql(dtFim)
                     },
@@ -48,6 +65,13 @@ SGA.Estatisticas = {
                         }
                     }
                 });
+            }
+        },
+        
+        change: function(elem) {
+            if (elem.val() > 0) {
+                // desabilitando as opções
+                SGA.Estatisticas.options('#tab-graficos');
             }
         },
         
@@ -126,19 +150,7 @@ SGA.Estatisticas = {
         change: function(elem) {
             if (elem.val() > 0) {
                 // desabilitando as opções
-                var elems = $('#tab-relatorios .option');
-                elems.find(':input').prop('disabled', true);
-                elems.hide();
-                // habilitando as opções do relatório selecionado
-                var param = $('#tab-relatorios option:selected').data('tipo');
-                if (param != '') {
-                    var tipos = param.split(',');
-                    for (var i = 0; i < tipos.length; i++) {
-                        elems = $('#tab-relatorios .' + tipos[i]);
-                        elems.find(':input').prop('disabled', false);
-                        elems.show();
-                    }
-                }
+                SGA.Estatisticas.options('#tab-relatorios');
             }
         }
         

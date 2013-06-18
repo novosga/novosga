@@ -10,8 +10,8 @@ class Grafico extends Relatorio {
     
     private $legendas = array();
     
-    public function __construct($titulo, $tipo) {
-        parent::__construct($titulo, '', $tipo);
+    public function __construct($titulo, $tipo, $opcoes = '') {
+        parent::__construct($titulo, $tipo, $opcoes);
     }
     
     public function getLegendas() {
@@ -24,7 +24,7 @@ class Grafico extends Relatorio {
 
     public function toArray() {
         return array(
-            'tipo' => $this->tipo,
+            'tipo' => $this->arquivo,
             'titulo' => $this->titulo,
             'dados' => $this->dados,
             'legendas' => $this->legendas

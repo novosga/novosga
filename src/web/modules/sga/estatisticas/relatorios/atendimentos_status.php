@@ -26,8 +26,8 @@ $isNumeracaoServico = \core\business\AtendimentoBusiness::isNumeracaoServico();
         <tr>
             <td class=""><?php echo $a->getSiglaSenha() . ($isNumeracaoServico ? $a->getNumeroSenhaServico() : $a->getNumeroSenha()) ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataChegada(), _('d/m/Y')) ?></td>
-            <td class=""><?php echo DateUtil::format($a->getDataChamada(), 'H:i:s') ?></td>
-            <td class=""><?php echo DateUtil::format($a->getDataInicio(), 'H:i:s') ?></td>
+            <td class=""><?php echo DateUtil::format($a->getDataChamada(), 'H:i:s', '-') ?></td>
+            <td class=""><?php echo DateUtil::format($a->getDataInicio(), 'H:i:s', '-') ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataFim(), 'H:i:s') ?></td>
             <td class=""><?php echo $a->getServico()->getNome() ?></td>
             <td class=""><?php echo $a->getNomeStatus() ?></td>
