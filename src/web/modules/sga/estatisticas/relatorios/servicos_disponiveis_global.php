@@ -28,11 +28,11 @@ $status = function($model) {
         <?php if (sizeof($servico->getSubServicos())): ?>
         <tr class="sub-table">
             <td colspan="2">
-                <table>
+                <table class="subservicos">
                     <tbody>
                         <?php foreach ($servico->getSubServicos() as $subServico): ?>
                         <tr>
-                            <td><?php echo $subServico->getNome() ?></td>
+                            <td class="nome"><?php echo $subServico->getNome() ?></td>
                             <td class="w100 center"><?php echo $status($subServico) ?></td>
                         </tr>
                         <?php endforeach; ?>

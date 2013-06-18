@@ -11,13 +11,13 @@ class Relatorio {
     protected $titulo;
     protected $dados;
     protected $arquivo;
-    protected $tipo;
+    protected $opcoes;
 
 
-    public function __construct($titulo, $arquivo, $tipo = '') {
+    public function __construct($titulo, $arquivo, $opcoes = '') {
         $this->titulo = $titulo;
         $this->arquivo = $arquivo;
-        $this->tipo = $tipo;
+        $this->opcoes = $opcoes;
         $this->dados = array();
     }
     
@@ -28,8 +28,8 @@ class Relatorio {
     public function getArquivo() {
         return $this->arquivo;
     }
-    public function getTipo() {
-        return $this->tipo;
+    public function getOpcoes() {
+        return $this->opcoes;
     }
 
     public function getDados() {
