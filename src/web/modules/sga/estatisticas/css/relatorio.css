@@ -11,6 +11,10 @@
     background: url(../../../../images/novosga-navbar.png) no-repeat 10px center;
 }
 
+#report #report-header .print {
+    float: right;
+}
+
 #report #report-header h1 {
     padding: 10px 0 15px 20px;
     border-left: 2px solid #ccc;
@@ -42,4 +46,8 @@
 
 #report .sub-table>td {
     padding-bottom: 10px !important;
+}
+
+table.subservicos td.nome {
+    padding-left: 50px;
 }

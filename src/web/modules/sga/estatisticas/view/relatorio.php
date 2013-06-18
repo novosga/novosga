@@ -12,6 +12,7 @@ use \core\SGA;
 <body>
     <div id="report">
         <div id="report-header">
+            <a href="javascript:window.print()" class="print"><?php echo _('Imprimir') ?></a>
             <h1><?php echo $relatorio->getTitulo() ?></h1>
         </div>
         <div id="report-body">
