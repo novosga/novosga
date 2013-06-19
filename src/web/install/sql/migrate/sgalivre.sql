@@ -49,11 +49,18 @@ ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_5 FOREIGN KEY (id_usu_
 ALTER TABLE atendimentos ADD COLUMN sigla_senha VARCHAR(1);
 UPDATE atendimentos a SET sigla_senha = s.sigla_serv FROM uni_serv s WHERE s.id_uni = a.id_uni AND s.id_serv = a.id_serv;
 ALTER TABLE atendimentos ALTER COLUMN sigla_senha SET NOT NULL;
+ALTER TABLE atendimentos ADD COLUMN num_senha_serv INTEGER;
+UPDATE atendimentos SET num_senha_serv = num_senha;
+ALTER TABLE atendimentos ALTER COLUMN num_senha_serv SET NOT NULL;
+
 ALTER TABLE historico_atendimentos ADD COLUMN id_usu_tri INTEGER;
 ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE historico_atendimentos ADD COLUMN sigla_senha VARCHAR(1);
 UPDATE historico_atendimentos a SET sigla_senha = s.sigla_serv FROM uni_serv s WHERE s.id_uni = a.id_uni AND s.id_serv = a.id_serv;
 ALTER TABLE historico_atendimentos ALTER COLUMN sigla_senha SET NOT NULL;
+ALTER TABLE historico_atendimentos ADD COLUMN num_senha_serv INTEGER;
+UPDATE historico_atendimentos SET num_senha_serv = num_senha;
+ALTER TABLE historico_atendimentos ALTER COLUMN num_senha_serv SET NOT NULL;
 
 -- painel senha
 ALTER TABLE painel_senha ADD COLUMN dt_envio timestamp NULL;
@@ -73,6 +80,7 @@ AS
         atendimentos.id_stat, 
         atendimentos.sigla_senha, 
         atendimentos.num_senha, 
+        atendimentos.num_senha_serv, 
         atendimentos.nm_cli, 
         atendimentos.num_guiche, 
         atendimentos.dt_cheg, 
@@ -93,6 +101,7 @@ AS
         historico_atendimentos.id_stat, 
         historico_atendimentos.sigla_senha, 
         historico_atendimentos.num_senha, 
+        historico_atendimentos.num_senha_serv, 
         historico_atendimentos.nm_cli, 
         historico_atendimentos.num_guiche, 
         historico_atendimentos.dt_cheg, 

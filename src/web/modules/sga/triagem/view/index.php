@@ -21,8 +21,8 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
     $link = '<a href="javascript:void(0)" onclick="SGA.Triagem.servicoInfo(' . $servico->getId() . ', \'' . $servicoUnidade->getNome() . '\')">' . $servicoUnidade->getNome() . '</a>';
     $name = '<span class="servico" title="' . $servicoUnidade->getSigla() . ' - ' . $servicoUnidade->getNome() . '">' . $link . '</span>';
     $total = '<span class="fila">
-                <abbr id="total-aguardando-' . $servico->getId() . '" title="' . _('Aguardando atendimento') . '">-</abbr> / 
-                <abbr id="total-senhas-' . $servico->getId() . '" title="' . _('Total de senhas do serviço') . '">-</abbr>
+                <abbr id="total-aguardando-' . $servico->getId() . '" class="total" title="' . _('Aguardando atendimento') . '">-</abbr> / 
+                <abbr id="total-senhas-' . $servico->getId() . '" class="total" title="' . _('Total de senhas do serviço') . '">-</abbr>
             </span>
     ';
     $text = '<span class="text">' . $name . $total . '</span>';

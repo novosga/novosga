@@ -208,7 +208,7 @@ class AtendimentoController extends ModuleController {
      * @param type $novoStatus
      * @param type $campoData
      */
-    private function mudaStatusAtual(SGAContext $context, $statusAtual, $novoStatus, $campoData) {
+    private function mudaStatusAtualResponse(SGAContext $context, $statusAtual, $novoStatus, $campoData) {
         $usuario = $context->getUser();
         if (!$usuario) {
             SGA::redirect('/' . SGA::K_HOME);
@@ -253,7 +253,7 @@ class AtendimentoController extends ModuleController {
      * @param \core\SGAContext $context
      */
     public function iniciar(SGAContext $context) {
-        $this->mudaStatusAtual($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::ATENDIMENTO_INICIADO, 'dataInicio');
+        $this->mudaStatusAtualResponse($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::ATENDIMENTO_INICIADO, 'dataInicio');
     }
     
     /**
@@ -261,7 +261,7 @@ class AtendimentoController extends ModuleController {
      * @param \core\SGAContext $context
      */
     public function nao_compareceu(SGAContext $context) {
-        $this->mudaStatusAtual($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::NAO_COMPARECEU, 'dataFim');
+        $this->mudaStatusAtualResponse($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::NAO_COMPARECEU, 'dataFim');
     }
     
     /**
@@ -269,7 +269,7 @@ class AtendimentoController extends ModuleController {
      * @param \core\SGAContext $context
      */
     public function encerrar(SGAContext $context) {
-        $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
+        $this->mudaStatusAtualResponse($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
     }
     
     /**
@@ -278,6 +278,7 @@ class AtendimentoController extends ModuleController {
      */
     public function codificar(SGAContext $context) {
         $unidade = $context->getUnidade();
+        $response = new AjaxResponse(false);
         try {
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade escolhida'));
@@ -290,10 +291,10 @@ class AtendimentoController extends ModuleController {
             $servicos = $context->getRequest()->getParameter('servicos');
             $servicos = Arrays::valuesToInt(explode(',', $servicos));
             if (empty($servicos)) {
-                $response = new AjaxResponse(false, _('Nenhum serviço selecionado'));
-                $context->getResponse()->jsonResponse($response);
+                $response->message = _('Nenhum serviço selecionado');
             } else {
                 $conn = $this->em()->getConnection();
+                $conn->beginTransaction();
                 $stmt = $conn->prepare("INSERT INTO atend_codif (id_atend, id_serv, valor_peso) VALUES (:atendimento, :servico, 1)");
                 foreach ($servicos as $s) {
                     $stmt->bindValue('atendimento', $atual->getId());
@@ -307,12 +308,16 @@ class AtendimentoController extends ModuleController {
                     $servico = $context->getRequest()->getParameter('novoServico');
                     $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
                 }
-                $this->mudaStatusAtual($context, Atendimento::ATENDIMENTO_ENCERRADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
+                $response->success = $this->mudaStatusAtendimento($atual, Atendimento::ATENDIMENTO_ENCERRADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
+                $conn->commit();
             }
         } catch (\Exception $e) {
-            $response = new AjaxResponse(false, $e->getMessage());
-            $context->getResponse()->jsonResponse($response);
+            if ($conn && $conn->isTransactionActive()) {
+                $conn->rollBack();
+            }
+            $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
         }
+        $context->getResponse()->jsonResponse($response);
     }
     
     /**
@@ -322,6 +327,7 @@ class AtendimentoController extends ModuleController {
      */
     public function redirecionar(SGAContext $context) {
         $unidade = $context->getUnidade();
+        $response = new AjaxResponse(false);
         try {
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade escolhida'));
@@ -332,12 +338,18 @@ class AtendimentoController extends ModuleController {
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
             }
+            $conn = $this->em()->getConnection();
+            $conn->beginTransaction();
             $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
-            $this->mudaStatusAtual($context, array(Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO), Atendimento::ERRO_TRIAGEM, 'dataFim');
+            $response->success = $this->mudaStatusAtendimento($atual, array(Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO), Atendimento::ERRO_TRIAGEM, 'dataFim');
+            $conn->commit();
         } catch (Exception $e) {
-            $response = new AjaxResponse(false, $e->getMessage());
-            $context->getResponse()->jsonResponse($response);
+            if ($conn && $conn->isTransactionActive()) {
+                $conn->rollBack();
+            }
+            $response->message = $e->getTraceAsString();
         }
+        $context->getResponse()->jsonResponse($response);
     }
     
     private function redireciona_atendimento($atendimento, $servico, $unidade, UsuarioSessao $usuario) {
@@ -349,17 +361,24 @@ class AtendimentoController extends ModuleController {
             throw new Exception(_('Serviço inválido'));
         }
         // copiando a senha do atendimento atual
-        $novo = new Atendimento();
-        $novo->setGuiche(0);
-        $novo->setSiglaSenha($atendimento->getSenha()->getSigla());
-        $novo->setNumeroSenha($atendimento->getSenha()->getNumero());
-        $novo->setPrioridadeSenha($atendimento->getSenha()->getPrioridade());
-        $novo->setServicoUnidade($servicoUnidade);
-        $novo->setUsuarioTriagem($usuario->getWrapped());
-        $novo->setDataChegada($atendimento->getDataChegada());
-        $novo->setStatus(Atendimento::SENHA_EMITIDA);
-        $this->em()->persist($novo);
-        $this->em()->flush();
+        // XXX: usando statement INSERT devido a bug do dblib (mssql) no linux com mapeamentos do Doctrine 
+        $stmt = $this->em()->getConnection()->prepare("
+            INSERT INTO atendimentos 
+                (num_guiche, dt_cheg, id_stat, sigla_senha, num_senha, num_senha_serv, id_serv, id_uni, id_usu, id_usu_tri, id_pri) 
+            VALUES 
+                (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade)
+        ");
+        $stmt->bindValue('data', $atendimento->getDataChegada());
+        $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
+        $stmt->bindValue('sigla', $atendimento->getSenha()->getSigla());
+        $stmt->bindValue('numero', $atendimento->getNumeroSenha());
+        $stmt->bindValue('numero_servico', $atendimento->getNumeroSenhaServico());
+        $stmt->bindValue('servico', $servico);
+        $stmt->bindValue('unidade', $unidade->getId());
+        $stmt->bindValue('usuario', $usuario->getWrapped()->getId());
+        $stmt->bindValue('usuario_triagem', $usuario->getWrapped()->getId());
+        $stmt->bindValue('prioridade', $atendimento->getSenha()->getPrioridade()->getId());
+        $stmt->execute();
     }
     
 }

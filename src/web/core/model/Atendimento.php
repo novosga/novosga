@@ -67,6 +67,8 @@ class Atendimento extends SequencialModel {
     protected $siglaSenha;
     /** @Column(type="integer", name="num_senha", nullable=false) */
     protected $numeroSenha;
+    /** @Column(type="integer", name="num_senha_serv", nullable=false) */
+    protected $numeroSenhaServico;
     /** 
      * @ManyToOne(targetEntity="Prioridade") 
      * @JoinColumn(name="id_pri", referencedColumnName="id_pri")
@@ -252,7 +254,11 @@ class Atendimento extends SequencialModel {
         if (!$this->senha) {
             $this->senha = new Senha();
             $this->senha->setSigla($this->siglaSenha);
-            $this->senha->setNumero((int) $this->numeroSenha);
+            if (\core\business\AtendimentoBusiness::isNumeracaoServico()) {
+                $this->senha->setNumero((int) $this->numeroSenhaServico);
+            } else {
+                $this->senha->setNumero((int) $this->numeroSenha);
+            }
             $this->senha->setPrioridade($this->prioridadeSenha);
         }
         return $this->senha;
@@ -265,11 +271,31 @@ class Atendimento extends SequencialModel {
     public function setSiglaSenha($siglaSenha) {
         $this->siglaSenha = $siglaSenha;
     }
-        
+    
+    /**
+     * Número da senha incremental do dia
+     * @param type $numeroSenha
+     */
     public function setNumeroSenha($numeroSenha) {
         $this->numeroSenha = $numeroSenha;
     }
+    
+    public function getNumeroSenha() {
+        return $this->numeroSenha;
+    }
+        
+    /**
+     * Número da senha incremental pelo serviço do atendimento
+     * @param type $numeroSenhaServico
+     */
+    public function setNumeroSenhaServico($numeroSenhaServico) {
+        $this->numeroSenhaServico = $numeroSenhaServico;
+    }
 
+    public function getNumeroSenhaServico() {
+        return $this->numeroSenhaServico;
+    }
+    
     public function setPrioridadeSenha($prioridadeSenha) {
         $this->prioridadeSenha = $prioridadeSenha;
     }

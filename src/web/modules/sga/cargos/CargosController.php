@@ -41,12 +41,28 @@ class CargosController extends TreeModelController {
         $permissoes = Arrays::value($_POST, 'permissoes');
         $conn = $this->em()->getConnection();
         $stmt = $conn->prepare("INSERT INTO cargos_mod_perm (id_mod, id_cargo, permissao) VALUES (:modulo, :cargo, :permissao)");
-        foreach ($permissoes as $modulo) {
-            $stmt->bindValue('modulo', $modulo, \PDO::PARAM_INT);
-            $stmt->bindValue('cargo', $model->getId(), \PDO::PARAM_INT);
-            $stmt->bindValue('permissao', 3, \PDO::PARAM_INT);
-            $stmt->execute();
+        if (!empty($permissoes)) {
+            foreach ($permissoes as $modulo) {
+                $stmt->bindValue('modulo', $modulo, \PDO::PARAM_INT);
+                $stmt->bindValue('cargo', $model->getId(), \PDO::PARAM_INT);
+                $stmt->bindValue('permissao', 3, \PDO::PARAM_INT);
+                $stmt->execute();
+            }
         }
+    }
+
+    /**
+     * Deletando vinculos (permissoes e lotacoes)
+     * @param \core\SGAContext $context
+     * @param \core\model\SequencialModel $model
+     */
+    protected function preDelete(SGAContext $context, SequencialModel $model) {
+        $query = $this->em()->createQuery("DELETE FROM \core\model\Permissao p WHERE p.cargo = :cargo");
+        $query->setParameter('cargo', $model->getId());
+        $query->execute();
+        $query = $this->em()->createQuery("DELETE FROM \core\model\Lotacao l WHERE l.cargo = :cargo");
+        $query->setParameter('cargo', $model->getId());
+        $query->execute();
     }
 
     protected function search($arg) {

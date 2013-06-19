@@ -25,7 +25,7 @@ public class AudioPlayer {
     
     public static final String AUDIO_PATH = "media/audio/";
     public static final String ALERT_PATH = AUDIO_PATH + "alert";
-    public static final String VOICE_EXT = "mp3";
+    public static final String VOICE_EXT = "wav";
     public static final String VOICE_PATH = AudioPlayer.AUDIO_PATH + "voice";
     private AudioClip audio = null;
     private static final Queue<File> audios = new ConcurrentLinkedQueue<File>();
@@ -98,12 +98,7 @@ public class AudioPlayer {
     }
     
     public void speech(char c, String lang) throws Exception {
-        File f = new File(VOICE_PATH + "/" + lang, c + "." + VOICE_EXT);
-        if (!f.exists()) {
-            throw new Exception("Impossivel vocalizar " + c + ", o arquivo (" + f.getAbsolutePath() + ") não existe.");
-        } else {
-            AudioPlayer.getInstance().play(f);
-        }
+        speech(String.valueOf(c), lang);
     }
 
     public void play(String baseDir, String filename) {

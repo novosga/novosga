@@ -149,11 +149,10 @@ abstract class TreeModelController extends CrudController {
         if ($model->getLeft() == 1) {
             throw new Exception(_('Não pode remover a raiz'));
         }
-        $this->preDelete($context, $model);
         try {
-            $className = get_class($model);
             $this->em()->beginTransaction();
-
+            $this->preDelete($context, $model);
+            $className = get_class($model);
             // apagando os filhos
             $query = $this->em()->createQuery("DELETE FROM $className e WHERE e.left > :esquerda AND e.left < :direita");
             $query->setParameter('esquerda', $model->getLeft());
@@ -174,14 +173,13 @@ abstract class TreeModelController extends CrudController {
             $query->execute();
             
             $this->em()->remove($model);
-
             $this->em()->commit();
+            $this->em()->flush();
         } catch (Exception $e) {
             $this->em()->rollback();
             throw new Exception(sprintf(_('Erro ao apagar o registro: %s'), $e->getMessage()));
         }
         $this->postDelete($context, $model);
-        $this->em()->flush();
     }
 
 }

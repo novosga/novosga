@@ -9,6 +9,7 @@ use \core\Config;
 class DB {
     
     protected static $conn;
+    protected static $dbtype;
     protected static $cacheDriver;
     protected static $em;
     
@@ -29,6 +30,7 @@ class DB {
         } else {
             self::$conn['driver'] = 'pdo_' . $dbtype;
         }
+        self::$dbtype = $dbtype;
     }
     
     /**
@@ -49,6 +51,12 @@ class DB {
             $config->setQueryCacheImpl(self::$cacheDriver);
             $config->setResultCacheImpl(self::$cacheDriver);
             self::$em = \Doctrine\ORM\EntityManager::create(self::$conn, $config);
+            // alterando o formato padrao do datetime do sql server
+            if (self::$dbtype == 'mssql') {
+                self::$em->getConnection()->exec('SET DATEFORMAT ymd');
+                // registrando funcao
+                $config->addCustomStringFunction('DATEDIFF', '\core\contrib\DoctrineExt\MsSql\DateDiff');
+            }
         }
         return self::$em;
     }

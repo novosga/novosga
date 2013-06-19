@@ -15,8 +15,11 @@ class DateUtil {
         return self::now('Y-m-d H:i:s');
     }
     
-    public static function format($date, $format) {
-        return date($format, strtotime($date));
+    public static function format($date, $format, $onEmpty = '') {
+        if (!empty($date)) {
+            return date($format, strtotime($date));
+        }
+        return $onEmpty;
     }
     
     public static function formatToSQL($date) {

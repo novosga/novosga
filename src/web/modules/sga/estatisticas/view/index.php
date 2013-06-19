@@ -59,15 +59,24 @@ use \core\contrib\Serie;
                     <select id="chart-id" name="grafico">
                         <option value=""><?php SGA::out(_('Selecione')) ?></option>
                         <?php foreach ($graficos as $k => $v): ?>
-                        <option value="<?php echo $k ?>"><?php SGA::out($v->getTitulo()) ?></option>
+                        <option value="<?php echo $k ?>" data-opcoes="<?php echo $v->getOpcoes() ?>"><?php SGA::out($v->getTitulo()) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="field required date">
+                <div class="field required option unidade" style="display:none">
+                    <label for="chart-unidade"><?php echo _('Unidade') ?></label>
+                    <select id="chart-unidade" name="unidade">
+                        <option value="0"><?php echo _('Todas') ?></option>
+                        <?php foreach ($unidades as $unidade): ?>
+                        <option value="<?php echo $unidade->getId() ?>"><?php echo $unidade->getNome() ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="field required option date" style="display:none">
                     <label for="chart-dataInicial"><?php SGA::out(_('Data inicial')) ?></label>
                     <input id="chart-dataInicial" name="inicial" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
-                <div class="field required date">
+                <div class="field required option date" style="display:none">
                     <label for="chart-dataFinal"><?php SGA::out(_('Data final')) ?></label>
                     <input id="chart-dataFinal" name="final" type="text" class="datepicker" value="<?php echo DateUtil::now(_('d/m/Y')) ?>" />
                 </div>
@@ -95,7 +104,7 @@ use \core\contrib\Serie;
                     <select id="report-id" name="relatorio">
                         <option value=""><?php SGA::out(_('Selecione')) ?></option>
                         <?php foreach ($relatorios as $k => $v): ?>
-                        <option value="<?php echo $k ?>" data-tipo="<?php echo $v->getTipo() ?>"><?php echo $v->getTitulo() ?></option>
+                        <option value="<?php echo $k ?>" data-opcoes="<?php echo $v->getOpcoes() ?>"><?php echo $v->getTitulo() ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -137,7 +146,9 @@ use \core\contrib\Serie;
             echo json_encode($arr);
         ?>;
         // tab graficos
-        
+        $("#chart-id").on('change', function() {
+            SGA.Estatisticas.Grafico.change($(this));
+        });
         // tab relatorios
         $("#report-id").on('change', function() {
             SGA.Estatisticas.Relatorio.change($(this));

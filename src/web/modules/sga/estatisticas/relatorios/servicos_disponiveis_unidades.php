@@ -1,17 +1,3 @@
-<?php
-
-$status = function($model) {
-    if ($model->getStatus() == 1) { 
-        $class = 'active';
-        $label = _('Ativo');
-    } else {
-        $class = 'inactive';
-        $label = _('Inativo');
-    }
-    return '<span class="' . $class . '">' . $label . '</span>';
-};
-
-?>
 <?php foreach ($relatorio->getDados() as $dado): ?>
 <div class="header">
     <h2><?php echo $dado['unidade'] ?></h2>
@@ -19,25 +5,24 @@ $status = function($model) {
 <table class="ui-data-table">
     <thead>
         <tr>
-            <th><?php echo _('Serviço') ?></th>
+            <th><?php echo _('Sigla') ?></th>
             <th><?php echo _('Situação') ?></th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($dado['servicos'] as $servico): ?>
+        <?php foreach ($dado['servicos'] as $su): $servico = $su->getServico(); ?>
         <tr>
+            <td class="w25 center"><?php echo $su->getSigla() ?></td>
             <td class="strong"><?php echo $servico->getNome() ?></td>
-            <td class="w100 center"><?php echo $status($servico) ?></td>
         </tr>
         <?php if (sizeof($servico->getSubServicos())): ?>
         <tr class="sub-table">
             <td colspan="2">
-                <table>
+                <table class="subservicos">
                     <tbody>
                         <?php foreach ($servico->getSubServicos() as $subServico): ?>
                         <tr>
-                            <td><?php echo $subServico->getNome() ?></td>
-                            <td class="w100 center"><?php echo $status($subServico) ?></td>
+                            <td class="nome"><?php echo $subServico->getNome() ?></td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>

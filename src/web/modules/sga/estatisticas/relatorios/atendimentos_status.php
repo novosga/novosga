@@ -1,6 +1,7 @@
 <?php
 use \core\util\DateUtil;
 
+$isNumeracaoServico = \core\business\AtendimentoBusiness::isNumeracaoServico();
 ?>
 <?php foreach ($relatorio->getDados() as $dado): ?>
 <div class="header">
@@ -23,10 +24,10 @@ use \core\util\DateUtil;
     <tbody>
         <?php foreach ($dado['atendimentos'] as $a): ?>
         <tr>
-            <td class=""><?php echo $a->getNumeroSenha() ?></td>
+            <td class=""><?php echo $a->getSiglaSenha() . ($isNumeracaoServico ? $a->getNumeroSenhaServico() : $a->getNumeroSenha()) ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataChegada(), _('d/m/Y')) ?></td>
-            <td class=""><?php echo DateUtil::format($a->getDataChamada(), 'H:i:s') ?></td>
-            <td class=""><?php echo DateUtil::format($a->getDataInicio(), 'H:i:s') ?></td>
+            <td class=""><?php echo DateUtil::format($a->getDataChamada(), 'H:i:s', '-') ?></td>
+            <td class=""><?php echo DateUtil::format($a->getDataInicio(), 'H:i:s', '-') ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataFim(), 'H:i:s') ?></td>
             <td class=""><?php echo $a->getServico()->getNome() ?></td>
             <td class=""><?php echo $a->getNomeStatus() ?></td>
