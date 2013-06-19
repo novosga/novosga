@@ -92,8 +92,12 @@
 #atendimento #controls .btn-control.nao_compareceu span { background-image: url(../images/icon-naocompareceu.png); }
 #atendimento #controls .btn-control.erro_triagem span { background-image: url(../images/icon-errotriagem.png); }
 
+#atendimento #controls #codificar {
+    width: 785px;
+}
+
 #atendimento #controls #codificar .left {
-    width: 400px;
+    width: 380px;
     margin: 0 5px;
 }
 
@@ -112,10 +116,12 @@
 
 #atendimento #controls #codificar #macro-servicos {
     height: 300px;
+    overflow: auto;
 }
 
 #atendimento #controls #codificar #servicos-realizados {
     height: 150px;
+    overflow: auto;
 }
 
 #atendimento #controls #codificar div.redirecionar {
