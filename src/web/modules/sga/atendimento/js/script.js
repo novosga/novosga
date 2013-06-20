@@ -39,7 +39,9 @@ SGA.Atendimento = {
                                 if (i == 0) {
                                     cssClass += ' proximo';
                                 }
-                                var item = '<li class="' + cssClass + '"><abbr title="' + atendimento.servico + '">' + atendimento.senha + '</abbr></li>';
+                                var onclick = 'SGA.Atendimento.infoSenha(' + atendimento.id + ')';
+                                var title = atendimento.servico + ' (' + atendimento.espera + ')';
+                                var item = '<li><a class="' + cssClass + '" href="javascript:void(0)" onclick="' + onclick + '" title="' + title + '">' + atendimento.senha + '</a></li>';
                                 list.append(item);
                             }
                         } else {
@@ -218,6 +220,25 @@ SGA.Atendimento = {
                 SGA.Atendimento.updateControls(1);
                 if (isRedirect) {
                     $('#dialog-redirecionar').dialog('close');
+                }
+            }
+        });
+    },
+    
+    infoSenha: function(id) {
+        SGA.ajax({
+            url: SGA.url('info_senha'),
+            data: {id: id},
+            success: function(response) {
+                if (response.success) {
+                    var a = response.data;
+                    var dialog = $('#dialog-senha');
+                    dialog.find('.numero').text(a.senha);
+                    dialog.find('.nome-prioridade').text(a.nomePrioridade);
+                    dialog.find('.servico').text(a.servico);
+                    dialog.find('.chegada').text(SGA.formatDate(a.chegada));
+                    dialog.find('.espera').text(a.espera);
+                    SGA.dialogs.modal(dialog, { width: 600 });
                 }
             }
         });

@@ -5,7 +5,7 @@ use \Exception;
 use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
-use core\util\DateUtil;
+use \core\util\DateUtil;
 use \core\business\AtendimentoBusiness;
 use \core\controller\ModuleController;
 use \core\model\Atendimento;
@@ -22,6 +22,8 @@ class AtendimentoController extends ModuleController {
     private $_atendimentoAtual;
     
     public function index(SGAContext $context) {
+        //2013-06-20 11:28:44
+        
         $usuario = $context->getUser();
         $unidade = $context->getUnidade();
         if (!$usuario || !$unidade) {
@@ -116,7 +118,9 @@ class AtendimentoController extends ModuleController {
             $response->data = array();
             $atendimentos = $this->atendimentos($context->getUser());
             foreach ($atendimentos as $atendimento) {
-                $response->data[] = $atendimento->toArray(true);
+                $arr = $atendimento->toArray(true);
+                $arr['espera'] = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
+                $response->data[] = $arr;
             }
             $response->success = true;
         }
@@ -379,6 +383,23 @@ class AtendimentoController extends ModuleController {
         $stmt->bindValue('usuario_triagem', $usuario->getWrapped()->getId());
         $stmt->bindValue('prioridade', $atendimento->getSenha()->getPrioridade()->getId());
         $stmt->execute();
+    }
+    
+    public function info_senha(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            $id = (int) $context->getRequest()->getParameter('id');
+            $atendimento = \core\business\AtendimentoBusiness::buscaAtendimento($unidade, $id);
+            if ($atendimento) {
+                $response->data = $atendimento->toArray();
+                $response->data['espera'] = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
+                $response->success = true;
+            } else {
+                $response->message = _('Atendimento inválido');
+            }
+        }
+        $context->getResponse()->jsonResponse($response);
     }
     
 }

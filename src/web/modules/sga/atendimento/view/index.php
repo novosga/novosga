@@ -141,7 +141,7 @@ else {
             </div>
         </div>
         <div id="fila">
-            <span><?php SGA::out(_('Minha fila')) ?>:</span>
+            <h3><?php SGA::out(_('Minha fila')) ?> <span class="tipo-<?php echo $context->getUser()->getTipoAtendimento() ?>">(<?php echo $tiposAtendimento[$context->getUser()->getTipoAtendimento()] ?>)</span>:</h3>
             <ul></ul>
         </div>
     </div>
@@ -154,6 +154,28 @@ else {
                 <option value="<?php echo $servico->getServico()->getId() ?>"><?php SGA::out($servico->getNome()) ?></option>
                 <?php endforeach; ?>
             </select>
+        </div>
+    </div>
+    <div id="dialog-senha" title="<?php SGA::out(_('Senha|Bilhete')) ?>" style="display:none">
+        <div class="field">
+            <h3><?php SGA::out(_('Número')) ?></h3>
+            <p class="numero"></p>
+        </div>
+        <div class="field">
+            <h3><?php SGA::out(_('Serviço')) ?></h3>
+            <p class="servico"></p>
+        </div>
+        <div class="field">
+            <h3><?php SGA::out(_('Prioridade')) ?></h3>
+            <p class="nome-prioridade"></p>
+        </div>
+        <div class="field">
+            <h3><?php SGA::out(_('Data de chegada')) ?></h3>
+            <p class="chegada"></p>
+        </div>
+        <div class="field">
+            <h3><?php SGA::out(_('Tempo de espera')) ?></h3>
+            <p class="espera"></p>
         </div>
     </div>
     <div id="sga-clock" title="<?php echo Strings::doubleQuoteSlash(_('Data e hora no servidor')) ?>"></div>

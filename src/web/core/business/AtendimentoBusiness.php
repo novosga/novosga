@@ -151,4 +151,12 @@ abstract class AtendimentoBusiness {
         return false;
     }
     
+    public static function buscaAtendimento(Unidade $unidade, $id) {
+        $em = DB::getEntityManager();
+        $query = $em->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.id = :id AND su.unidade = :unidade");
+        $query->setParameter('id', (int) $id);
+        $query->setParameter('unidade', $unidade->getId());
+        return $query->getOneOrNullResult();
+    }
+    
 }

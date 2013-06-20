@@ -26,6 +26,12 @@ class DateUtil {
         return self::format(self::parseDate($date), 'Y-m-d H:i:s');
     }
     
+    /**
+     * diff = Time2 - Time1
+     * @param type $time1
+     * @param type $time2
+     * @return type
+     */
     public static function diff($time1, $time2) {
         return strtotime($time2) - strtotime($time1);
     }
