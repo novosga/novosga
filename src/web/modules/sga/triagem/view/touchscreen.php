@@ -97,7 +97,6 @@ $unidade = SGA::getContext()->getUnidade();
     <iframe id="frame-impressao" width="300" height="150"></iframe>
     <script type="text/javascript">
         SGA.Triagem.imprimir = <?php echo ($unidade->getStatusImpressao() ? 'true' : 'false') ?>;
-        SGA.Triagem.Impressao.iframe = 'frame-impressao';
         function fullscreen() {
             SGA.FullScreen.change(function() {
                 if (SGA.FullScreen.element()) {
