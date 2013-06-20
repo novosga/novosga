@@ -56,7 +56,13 @@ class LoginController extends InternalController {
                 $user->setSessionId(session_id());
                 $em->merge($user);
                 $em->flush();
-                $context->setUser(new \core\model\util\UsuarioSessao($user));
+                // caso o usuario so tenha acesso a uma unica unidade, ja define como atual
+                $us = new \core\model\util\UsuarioSessao($user);
+                $unidades = AcessoBusiness::unidades($us);
+                if (sizeof($unidades) == 1) {
+                    $us->setUnidade($unidades[0]);
+                }
+                $context->setUser($us);
             } else {
                 $error = _('Usuário Inválido. Por favor, tente novamente.');
             }
