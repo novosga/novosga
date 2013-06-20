@@ -8,13 +8,13 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         'label' => _('Normal'),
         'title' => _('Distribuir senha normal'),
         'data-id' => $servico->getId(),
-        'onclick' => 'SGA.Triagem.senhaNormal(this)'
+        'onclick' => 'SGA.Triagem.Web.senhaNormal(this)'
     ));
     $btnPrioridade = $builder->button(array(
         'class' => 'ui-button-error',
         'label' => _('Prioridade'),
         'data-id' => $servico->getId(),
-        'onclick' => "SGA.Triagem.prioridade(this, '". _('Gerar prioridade') ."', '')",
+        'onclick' => "SGA.Triagem.Web.prioridade(this, '". _('Gerar prioridade') ."', '')",
         'title' => _('Distribuir senha com prioridade'),
     ));
     $buttons = '<span class="buttons">' . $btnNormal . $btnPrioridade . '</span>';
@@ -62,10 +62,27 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         ));
     ?>
 </p>
+<!-- iframe para impressao, evitando popup -->
+<iframe id="frame-impressao" width="300" height="150" style="display:none"></iframe>
+<!-- dialog para exibir a senha gerada -->
+<div id="dialog-senha" title="<?php SGA::out(_('Senha|Bilhete')) ?>" style="display:none">
+    <div class="field">
+        <h3><?php SGA::out(_('Número')) ?></h3>
+        <p class="numero"></p>
+    </div>
+    <div class="field">
+        <h3><?php SGA::out(_('Serviço')) ?></h3>
+        <p class="servico"></p>
+    </div>
+    <div class="field">
+        <h3><?php SGA::out(_('Prioridade')) ?></h3>
+        <p class="nome-prioridade"></p>
+    </div>
+</div>
 <!-- dialog para exibir informacoes do servico -->
 <div id="dialog-servico" title="<?php SGA::out(_('Serviço')) ?>" style="display:none">
     <div>
-        <h3><?php SGA::out(_('Nome original do seriço')) ?></h3>
+        <h3><?php SGA::out(_('Nome original do serviço')) ?></h3>
         <p class="nome"></p>
     </div>
     <div>
