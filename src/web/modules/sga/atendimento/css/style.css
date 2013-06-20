@@ -177,11 +177,20 @@
     clear: both;
 }
 
-#atendimento #fila span {
+#atendimento #fila h3 {
     font-weight: bold;
     padding: 5px 0 5px 10px;
     display: block;
 }
+
+#atendimento #fila h3 span {
+    font-weight: normal;
+    padding-left: 5px;
+}
+
+#atendimento #fila h3 span.tipo-1 { } /* todos */
+#atendimento #fila h3 span.tipo-2 { color: blue; } /* convencional */ 
+#atendimento #fila h3 span.tipo-3 { color: red; } /* prioridade */
 
 #atendimento #fila ul {
     min-height: 40px;
@@ -203,7 +212,7 @@
     display: inline-block;
 }
 
-#atendimento #fila ul li.proximo {
+#atendimento #fila ul li .proximo {
     font-size: 20px;
 }
 

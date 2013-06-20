@@ -158,7 +158,6 @@ var SGA = {
         if (sqlDate && sqlDate != "") {
             var datetime = sqlDate.split(' ');
             var date = datetime[0].split('-');
-            var time = '';
             // date i18n
             var format = SGA.dateFormat.toLowerCase().split("/");
             var finalDate = [];
@@ -175,8 +174,10 @@ var SGA = {
                     break;
                 }
             }
+            var time = '';
             if (datetime.length > 1) {
-                time = ' ' + datetime[1];
+                // excluindo microtime (apos .)
+                time = ' ' + (datetime[1].split('.'))[0];
             }
             return finalDate.join('/') + time;
         }
