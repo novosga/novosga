@@ -174,6 +174,7 @@ abstract class AcessoBusiness {
                 \core\model\Unidade e
                 INNER JOIN e.grupo g
             WHERE 
+                e.status = 1 AND
                 g.left >= :esquerda AND
                 g.right <= :direita
             ORDER BY
