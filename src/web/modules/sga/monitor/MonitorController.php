@@ -69,13 +69,6 @@ class MonitorController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
-    private function buscaAtendimento(Unidade $unidade, $id) {
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.id = :id AND su.unidade = :unidade");
-        $query->setParameter('id', (int) $id);
-        $query->setParameter('unidade', $unidade->getId());
-        return $query->getOneOrNullResult();
-    }
-    
     private function buscaAtendimentos(Unidade $unidade, $numeroSenha) {
         $field = \core\business\AtendimentoBusiness::isNumeracaoServico() ? 'numeroSenhaServico' : 'numeroSenha';
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.$field = :numero AND su.unidade = :unidade ORDER BY e.id");
@@ -89,7 +82,7 @@ class MonitorController extends ModuleController {
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $id = (int) $context->getRequest()->getParameter('id');
-            $atendimento = $this->buscaAtendimento($unidade, $id);
+            $atendimento = \core\business\AtendimentoBusiness::buscaAtendimento($unidade, $id);
             if ($atendimento) {
                 $response->data = $atendimento->toArray();
                 $response->success = true;
