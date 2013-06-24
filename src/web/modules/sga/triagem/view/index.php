@@ -18,7 +18,7 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         'title' => _('Distribuir senha com prioridade'),
     ));
     $buttons = '<span class="buttons">' . $btnNormal . $btnPrioridade . '</span>';
-    $link = '<a href="javascript:void(0)" onclick="SGA.Triagem.servicoInfo(' . $servico->getId() . ', \'' . $servicoUnidade->getNome() . '\')">' . $servicoUnidade->getNome() . '</a>';
+    $link = '<a href="javascript:void(0)" onclick="SGA.Triagem.servicoInfo(' . $servico->getId() . ', \'' . $servicoUnidade->getNome() . '\')">' . $servicoUnidade->getSigla() . ' - ' . $servicoUnidade->getNome() . '</a>';
     $name = '<span class="servico" title="' . $servicoUnidade->getSigla() . ' - ' . $servicoUnidade->getNome() . '">' . $link . '</span>';
     $total = '<span class="fila">
                 <abbr id="total-aguardando-' . $servico->getId() . '" class="total" title="' . _('Aguardando atendimento') . '">-</abbr> / 
