@@ -91,7 +91,13 @@ SGA.Estatisticas = {
                 },
                 plotOptions: {
                     pie: {
-                        showInLegend: true
+                        showInLegend: true,
+                        dataLabels: {
+                            enabled: true,
+                            formatter: function() {
+                                return '<b>' + this.point.name + '</b>: ' + Math.round(this.point.total * this.point.percentage / 100);
+                            }
+                        }
                     }
                 },
                 series: [{

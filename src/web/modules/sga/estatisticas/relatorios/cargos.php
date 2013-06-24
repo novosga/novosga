@@ -9,8 +9,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($dado['permissoes'] as $permissao): ?>
-        <tr>
+        <?php $i = 0; foreach ($dado['permissoes'] as $permissao): $i++; ?>
+        <tr class="<?php echo $i % 2 == 0 ? 'par' : 'impar' ?>">
             <td><?php echo $permissao->getModulo()->getNome() ?></td>
         </tr>
         <?php endforeach; ?>
