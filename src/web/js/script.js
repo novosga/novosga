@@ -216,9 +216,11 @@ var SGA = {
     /* jQuery ajax wrapper */
     ajax: function(arg) {
         $('#ajax-loading').show();
+        var data = arg.data || {};
+        data.ts = (new Date()).getTime();
         $.ajax({
             url: arg.url,
-            data: arg.data || {},
+            data: data,
             type: arg.type || 'get',
             dataType: arg.dataType || 'json',
             success: function(response) {
