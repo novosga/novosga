@@ -22,8 +22,6 @@ class AtendimentoController extends ModuleController {
     private $_atendimentoAtual;
     
     public function index(SGAContext $context) {
-        //2013-06-20 11:28:44
-        
         $usuario = $context->getUser();
         $unidade = $context->getUnidade();
         if (!$usuario || !$unidade) {
