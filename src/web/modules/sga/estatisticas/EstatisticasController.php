@@ -320,7 +320,7 @@ class EstatisticasController extends ModuleController {
                     e.dataChegada >= :dataInicial AND
                     e.dataChegada <= :dataFinal
                 ORDER BY
-                    e.dataInicio
+                    e.dataChegada
             ");
             $query->setParameter('unidade', $unidade);
             $query->setParameter('status', \core\model\Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO);
@@ -349,7 +349,7 @@ class EstatisticasController extends ModuleController {
                     e.dataChegada >= :dataInicial AND
                     e.dataChegada <= :dataFinal
                 ORDER BY
-                    e.dataInicio
+                    e.dataChegada
             ");
             $query->setParameter('unidade', $unidade);
             $query->setParameter('dataInicial', $dataInicial);

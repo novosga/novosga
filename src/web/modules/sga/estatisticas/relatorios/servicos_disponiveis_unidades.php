@@ -10,8 +10,8 @@
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($dado['servicos'] as $su): $servico = $su->getServico(); ?>
-        <tr>
+        <?php $i = 0; foreach ($dado['servicos'] as $su): $servico = $su->getServico(); $i++; ?>
+        <tr class="<?php echo $i % 2 == 0 ? 'par' : 'impar' ?>">
             <td class="w25 center"><?php echo $su->getSigla() ?></td>
             <td class="strong"><?php echo $servico->getNome() ?></td>
         </tr>
