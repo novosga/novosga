@@ -166,7 +166,7 @@ SGA.Monitor = {
         },
 
         reativar: function(id) {
-            if (window.confirm(SGA.Monitor.alertCancelar)) {
+            if (window.confirm(SGA.Monitor.alertReativar)) {
                 SGA.ajax({
                     url: SGA.url('reativar'),
                     data: { id: id },
