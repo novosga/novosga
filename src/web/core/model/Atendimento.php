@@ -342,6 +342,7 @@ class Atendimento extends SequencialModel {
                 $arr['fim'] = $this->getDataFim();
             }
             $arr['status'] = $this->getStatus();
+            $arr['nomeStatus'] = $this->getNomeStatus();
             $arr['cliente'] = array(
                 'nome' => $this->getCliente()->getNome(),
                 'documento' => $this->getCliente()->getDocumento()
