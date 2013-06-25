@@ -171,6 +171,5 @@ use \core\util\Strings;
     SGA.Monitor.labelTransferir = '<?php SGA::out(_('Transferir')) ?>';
     SGA.Monitor.alertCancelar = '<?php SGA::out(_('Deseja realmente cancelar essa senha?')) ?>';
     SGA.Monitor.alertReativar = '<?php SGA::out(_('Deseja realmente reativar essa senha?')) ?>';
-    SGA.Monitor.Senha.situacoes = <?php echo json_encode($situacoes) ?>;
     SGA.Monitor.init();
 </script>

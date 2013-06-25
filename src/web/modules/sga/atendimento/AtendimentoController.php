@@ -142,16 +142,10 @@ class AtendimentoController extends ModuleController {
         }
         // verifica se ja esta atendendo alguem
         $atual = $this->atendimentoAndamento($usuario);
+        // se ja existe um atendimento em andamento (chamando senha novamente)
         if ($atual) {
-            // se ja existe um atendimento em andamento, exibe mensagem de erro
-            if ($atual->getStatus() == Atendimento::ATENDIMENTO_INICIADO) {
-                $success = false;
-            } 
-            // chamando senha novamente
-            else {
-                $success = true;
-                $proximo = $atual;
-            }
+            $success = true;
+            $proximo = $atual;
         } else {
             do {
                 $query = $this->atendimentosQuery($usuario);
@@ -396,6 +390,27 @@ class AtendimentoController extends ModuleController {
             } else {
                 $response->message = _('Atendimento inválido');
             }
+        }
+        $context->getResponse()->jsonResponse($response);
+    }
+    
+    /**
+     * Busca os atendimentos a partir do número da senha
+     * @param \core\SGAContext $context
+     */
+    public function consulta_senha(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            $numero = $context->getRequest()->getParameter('numero');
+            $atendimentos = \core\business\AtendimentoBusiness::buscaAtendimentos($unidade, $numero);
+            $response->data['total'] = sizeof($atendimentos);
+            foreach ($atendimentos as $atendimento) {
+                $response->data['atendimentos'][] = $atendimento->toArray();
+            }
+            $response->success = true;
+        } else{
+            $response->message = _('Nenhuma unidade selecionada');
         }
         $context->getResponse()->jsonResponse($response);
     }

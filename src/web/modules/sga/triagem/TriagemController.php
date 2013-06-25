@@ -193,4 +193,25 @@ class TriagemController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
+    /**
+     * Busca os atendimentos a partir do número da senha
+     * @param \core\SGAContext $context
+     */
+    public function consulta_senha(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            $numero = $context->getRequest()->getParameter('numero');
+            $atendimentos = \core\business\AtendimentoBusiness::buscaAtendimentos($unidade, $numero);
+            $response->data['total'] = sizeof($atendimentos);
+            foreach ($atendimentos as $atendimento) {
+                $response->data['atendimentos'][] = $atendimento->toArray();
+            }
+            $response->success = true;
+        } else{
+            $response->message = _('Nenhuma unidade selecionada');
+        }
+        $context->getResponse()->jsonResponse($response);
+    }
+    
 }

@@ -114,3 +114,7 @@ p.links {
     padding-top: 20px;
     text-align: center;
 }
+
+p.links a {
+    margin: 0 5px;
+}

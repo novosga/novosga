@@ -84,7 +84,8 @@
     background-repeat: no-repeat;
 }
 
-#atendimento #controls .btn-control.chamar span { background-image: url(../images/icon-chamar.png); }
+#atendimento #controls .btn-control.chamar span,
+#atendimento #controls .btn-control.chamar_novamente span { background-image: url(../images/icon-chamar.png); }
 #atendimento #controls .btn-control.iniciar span { background-image: url(../images/icon-iniciar.png); }
 #atendimento #controls .btn-control.encerrar span,
 #atendimento #controls .btn-control.codificar span { background-image: url(../images/icon-encerrar.png); }
@@ -221,3 +222,13 @@
     font-style: italic;
     padding-top: 15px;
 }
+
+p.links {
+    padding-top: 20px;
+    text-align: center;
+}
+
+p.links a {
+    margin: 0 5px;
+}
+

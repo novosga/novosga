@@ -93,7 +93,7 @@ use \core\model\Prioridade;
      */
     public function getLegenda() {
         if ($this->getPrioridade()->getPeso() == 0) {
-            return _('Senha|Bilhete');
+            return _('Convencional');
         } else {
             return _('Prioridade');
         }

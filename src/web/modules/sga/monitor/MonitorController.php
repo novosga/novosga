@@ -26,7 +26,6 @@ class MonitorController extends ModuleController {
         // lista de prioridades para ser utilizada ao redirecionar senha
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Prioridade e WHERE e.status = 1 ORDER BY e.peso, e.nome");
         $this->view()->assign('prioridades', $query->getResult());
-        $this->view()->assign('situacoes', \core\model\Atendimento::situacoes());
     }
     
     private function servicos(Unidade $unidade, $where = "") {
@@ -69,14 +68,6 @@ class MonitorController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
-    private function buscaAtendimentos(Unidade $unidade, $numeroSenha) {
-        $field = \core\business\AtendimentoBusiness::isNumeracaoServico() ? 'numeroSenhaServico' : 'numeroSenha';
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.$field = :numero AND su.unidade = :unidade ORDER BY e.id");
-        $query->setParameter('numero', (int) $numeroSenha);
-        $query->setParameter('unidade', $unidade->getId());
-        return $query->getResult();
-    }
-    
     public function info_senha(SGAContext $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
@@ -101,8 +92,8 @@ class MonitorController extends ModuleController {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $numero = (int) $context->getRequest()->getParameter('numero');
-            $atendimentos = $this->buscaAtendimentos($unidade, $numero);
+            $numero = $context->getRequest()->getParameter('numero');
+            $atendimentos = \core\business\AtendimentoBusiness::buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->toArray();

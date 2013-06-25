@@ -57,7 +57,6 @@ SGA.Monitor = {
         dialogView: '#dialog-view',
         dialogSearch: '#dialog-busca',
         dialogTransfere: '#dialog-transfere',
-        situacoes: {},
     
         /**
          * Busca informacoes do atendimento pelo id.
@@ -76,7 +75,7 @@ SGA.Monitor = {
                         dialog.find('#senha_chegada').text(SGA.formatDate(response.data.chegada));
                         dialog.find('#senha_inicio').text(SGA.formatDate(response.data.inicio));
                         dialog.find('#senha_fim').text(SGA.formatDate(response.data.fim));
-                        dialog.find('#senha_status').text(SGA.Monitor.Senha.situacoes[response.data.status]);
+                        dialog.find('#senha_status').text(response.data.nomeStatus);
                         dialog.find('#cliente_nome').text(response.data.cliente.nome);
                         dialog.find('#cliente_documento').text(response.data.cliente.documento);
                         // so pode transferir ou cancelar se o status for 1 (senha emitida)
@@ -94,30 +93,23 @@ SGA.Monitor = {
         },
         
         consulta: function() {
-            var numero = $('#buscar-senha').val();
-            try {
-                numero = parseInt(numero);
-                if (numero > 0) {
-                    SGA.dialogs.modal(SGA.Monitor.Senha.dialogSearch, { 
-                        width: 900,
-                        open: function() {
-                            $('#numero_busca').val(numero);
-                            SGA.Monitor.Senha.consultar();
-                        }
-                    });
+            SGA.dialogs.modal(SGA.Monitor.Senha.dialogSearch, { 
+                width: 900,
+                open: function() {
+                    $('#numero_busca').val($('#buscar-senha').val());
+                    SGA.Monitor.Senha.consultar();
+                    $('#buscar-senha').val('');
                 }
-            } catch (e) {
-            }
-            $('#buscar-senha').val('');
+            });
         },
         
         consultar: function() {
+            var result = $('#result_table tbody');
+            result.html('');
             SGA.ajax({
                 url: SGA.url('buscar'),
                 data: {numero: $('#numero_busca').val()},
                 success: function(response) {
-                    var result = $('#result_table tbody');
-                    result.html('');
                     if (response.data.total > 0) {
                         for (var i = 0; i < response.data.total; i++) {
                             var atendimento = response.data.atendimentos[i];
@@ -125,11 +117,11 @@ SGA.Monitor = {
                             tr += '<td><a href="javascript:void(0)" onclick="SGA.Monitor.Senha.view(' + atendimento.id + ')">' + atendimento.senha + '</a></td>';
                             tr += '<td>' + atendimento.servico + '</td>';
                             tr += '<td>' + SGA.formatDate(atendimento.chegada) + '</td>';
-                            tr += '<td>' + SGA.formatDate(atendimento.inicio) + '</td>';
-                            tr += '<td>' + SGA.formatDate(atendimento.fim) + '</td>';
+                            tr += '<td>' + SGA.formatTime(atendimento.inicio) + '</td>';
+                            tr += '<td>' + SGA.formatTime(atendimento.fim) + '</td>';
                             tr += '<td>' + (atendimento.triagem ? atendimento.triagem : '-') + '</td>';
                             tr += '<td>' + (atendimento.usuario ? atendimento.usuario : '-') + '</td>';
-                            tr += '<td>' + SGA.Monitor.Senha.situacoes[atendimento.status] + '</td>';
+                            tr += '<td>' + atendimento.nomeStatus + '</td>';
                             tr += '</tr>';
                             result.append(tr);
                         }

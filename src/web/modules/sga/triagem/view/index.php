@@ -55,6 +55,13 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
     <?php
         echo $builder->button(array(
             'type' => 'link',
+            'onclick' => 'SGA.Triagem.consulta()',
+            'icon' => 'ui-icon-search',
+            'label' => _('Consultar senha')
+        ));
+        
+        echo $builder->button(array(
+            'type' => 'link',
             'href' => SGA::url('touchscreen'),
             'target' => '_blank',
             'icon' => 'ui-icon-person',
@@ -105,6 +112,38 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         </li>
         <?php endforeach; ?>
     </ul>
+</div>
+<div id="dialog-busca" title="<?php SGA::out(_('Busca')) ?>" style="display:none">
+    <div>
+        <label for="numero_busca"><?php SGA::out(_('Número')) ?></label>
+        <input id="numero_busca" type="text" maxlength="5" />
+        <?php 
+            echo $builder->button(array(
+                'id' => 'btn-consultar',
+                'label' => _('Consultar'),
+                'class' => 'ui-button-primary',
+                'onclick' => 'SGA.Triagem.consultar()'
+            ));
+        ?>
+    </div>
+    <div class="result">
+        <table id="result_table" class="ui-data-table">
+            <thead>
+                <tr>
+                    <th><?php SGA::out(_('Número')) ?></th>
+                    <th><?php SGA::out(_('Serviço')) ?></th>
+                    <th><?php SGA::out(_('Data chegada')) ?></th>
+                    <th><?php SGA::out(_('Data início')) ?></th>
+                    <th><?php SGA::out(_('Data fim')) ?></th>
+                    <th><?php SGA::out(_('Triagem')) ?></th>
+                    <th><?php SGA::out(_('Atendente')) ?></th>
+                    <th><?php SGA::out(_('Situação')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script type="text/javascript">
     $('.triagem-servico').each(function(i,v) {

@@ -234,6 +234,43 @@ SGA.Triagem = {
             );
         }
         
+    },
+            
+    consulta: function() {
+        SGA.dialogs.modal('#dialog-busca', { 
+            width: 900,
+            open: function() {
+                $('#numero_busca').val('');
+                $('#result_table tbody').html('');
+            }
+        });
+    },
+
+    consultar: function() {
+        SGA.ajax({
+            url: SGA.url('consulta_senha'),
+            data: {numero: $('#numero_busca').val()},
+            success: function(response) {
+                var result = $('#result_table tbody');
+                result.html('');
+                if (response.data.total > 0) {
+                    for (var i = 0; i < response.data.total; i++) {
+                        var atendimento = response.data.atendimentos[i];
+                        var tr = '<tr>';
+                        tr += '<td>' + atendimento.senha + '</td>';
+                        tr += '<td>' + atendimento.servico + '</td>';
+                        tr += '<td>' + SGA.formatDate(atendimento.chegada) + '</td>';
+                        tr += '<td>' + SGA.formatTime(atendimento.inicio) + '</td>';
+                        tr += '<td>' + SGA.formatTime(atendimento.fim) + '</td>';
+                        tr += '<td>' + (atendimento.triagem ? atendimento.triagem : '-') + '</td>';
+                        tr += '<td>' + (atendimento.usuario ? atendimento.usuario : '-') + '</td>';
+                        tr += '<td>' + atendimento.nomeStatus + '</td>';
+                        tr += '</tr>';
+                        result.append(tr);
+                    }
+                }
+            }
+        });
     }
     
 };
