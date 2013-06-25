@@ -153,6 +153,17 @@ var SGA = {
         secs = secs < 10 ? '0' + secs : secs;
         return hours + ":" + mins + ":" + secs;
     },
+            
+    formatTime: function(sqlDate) {
+        if (sqlDate && sqlDate != "") {
+            var datetime = sqlDate.split(' ');
+            if (datetime.length > 1) {
+                // excluindo timezone e microtime
+                return datetime[1].substring(0, 8);
+            }
+        }
+        return "";
+    },
     
     formatDate: function(sqlDate) {
         if (sqlDate && sqlDate != "") {
@@ -176,8 +187,8 @@ var SGA = {
             }
             var time = '';
             if (datetime.length > 1) {
-                // excluindo microtime (apos .)
-                time = ' ' + (datetime[1].split('.'))[0];
+                // excluindo timezone e microtime
+                time = ' ' + datetime[1].substring(0, 8);
             }
             return finalDate.join('/') + time;
         }
