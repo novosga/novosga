@@ -180,12 +180,14 @@ class EstatisticasController extends ModuleController {
                 JOIN a.unidade u
                 JOIN a.servico s
             WHERE 
+                a.status = :status AND
                 a.dataChegada >= :inicio AND 
                 a.dataChegada <= :fim AND
                 a.unidade = :unidade
             GROUP BY 
                 s
         ");
+        $query->setParameter('status', Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO);
         $query->setParameter('inicio', $dataInicial);
         $query->setParameter('fim', $dataFinal);
         foreach ($unidades as $unidade) {
