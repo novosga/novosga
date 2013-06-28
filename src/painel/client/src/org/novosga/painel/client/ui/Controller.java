@@ -38,6 +38,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.novosga.painel.client.Main;
+import org.novosga.painel.client.layout.VideoLayout;
 import org.novosga.painel.client.layout.VideoTester;
 import org.novosga.painel.util.ComboboxItem;
 
@@ -329,9 +330,9 @@ public class Controller implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP4", "*.mp4"));
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AVI", "*.avi"));
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HLS", "*.m3u8"));
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP4", "*." + VideoLayout.EXT_MP4));
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AVI", "*." + VideoLayout.EXT_AVI));
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HLS", "*." + VideoLayout.EXT_HSL));
                 try {
                     File file = fileChooser.showOpenDialog(null);
                     videoUrl.setText(file.toURI().toString());
@@ -372,7 +373,7 @@ public class Controller implements Initializable {
         }
         // criando stage
         this.stage = new Stage();
-        stage.setTitle("Painel | Novo SGA");
+        stage.setTitle("Configuração | PainelFX");
         stage.setScene(new Scene(getRoot()));
         // so esconde se suportar systray
         if (SystemTray.isSupported()) {
