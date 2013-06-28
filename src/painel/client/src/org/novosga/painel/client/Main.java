@@ -137,7 +137,7 @@ public class Main extends Application {
                     // Adiciona o painel na banjeida do sistema
                     new SysTray(this, iconUrl);
                 } catch (Exception e) {
-                    LOG.log(Level.SEVERE, e.getMessage(), e);
+                    LOG.severe(e.getMessage());
                 }
             } catch (MalformedURLException e) {
                 LOG.severe("Imagem do ícone das janelas e systray não encontrada!");
@@ -192,37 +192,40 @@ public class Main extends Application {
     }
     
     public static File getWorkingDirectory() {
-        File workingDirectory = null;
-        final String applicationName = "PainelSGA";
-        try {
-            final String userHome = System.getProperty("user.home", ".");
-            final String sysName = System.getProperty("os.name").toLowerCase();
-            if (sysName.contains("linux") || sysName.contains("solaris")) {
-                workingDirectory = new File(userHome, '.' + applicationName + '/');
-            } else if (sysName.contains("windows")) {
-                final String applicationData = System.getenv("APPDATA");
-                if (applicationData != null) {
-                    workingDirectory = new File(applicationData, "." + applicationName + '/');
-                } else {
-                    workingDirectory = new File(userHome, '.' + applicationName + '/');
-                }
-            } else if (sysName.contains("mac")) {
-                workingDirectory = new File(userHome, "Library/Application Support/" + applicationName);
-            } else {
-                workingDirectory = new File(".");
-            }
-        } catch (java.security.AccessControlException e) {
+        // pega o diretorio local, se nao puder escrever tenta o diretorio do usuario ou um temporario
+        File workingDirectory = new File(".");
+        if (!workingDirectory.canWrite()) {
+            final String applicationName = "PainelSGA";
             try {
-                workingDirectory = new File(System.getProperty("java.io.tmpdir"));
-            } catch (java.security.AccessControlException e2) {
+                final String userHome = System.getProperty("user.home", ".");
+                final String sysName = System.getProperty("os.name").toLowerCase();
+                if (sysName.contains("linux") || sysName.contains("solaris")) {
+                    workingDirectory = new File(userHome, '.' + applicationName + '/');
+                } else if (sysName.contains("windows")) {
+                    final String applicationData = System.getenv("APPDATA");
+                    if (applicationData != null) {
+                        workingDirectory = new File(applicationData, "." + applicationName + '/');
+                    } else {
+                        workingDirectory = new File(userHome, '.' + applicationName + '/');
+                    }
+                } else if (sysName.contains("mac")) {
+                    workingDirectory = new File(userHome, "Library/Application Support/" + applicationName);
+                } else {
+                    workingDirectory = new File(".");
+                }
+            } catch (java.security.AccessControlException e) {
                 try {
-                    workingDirectory = File.createTempFile("", applicationName);
-                } catch (java.io.IOException e3) {
+                    workingDirectory = new File(System.getProperty("java.io.tmpdir"));
+                } catch (java.security.AccessControlException e2) {
+                    try {
+                        workingDirectory = File.createTempFile("", applicationName);
+                    } catch (java.io.IOException e3) {
+                    }
                 }
             }
-        }
-        if (workingDirectory == null || (!workingDirectory.exists() && !workingDirectory.mkdirs())) {
-            throw new RuntimeException("The working directory could not be created: " + workingDirectory);
+            if (workingDirectory == null || (!workingDirectory.exists() && !workingDirectory.mkdirs())) {
+                throw new RuntimeException("The working directory could not be created: " + workingDirectory);
+            }
         }
         return workingDirectory;
     }
