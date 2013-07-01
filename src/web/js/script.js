@@ -165,7 +165,7 @@ var SGA = {
         return "";
     },
     
-    formatDate: function(sqlDate) {
+    formatDate: function(sqlDate, onEmpty) {
         if (sqlDate && sqlDate != "") {
             var datetime = sqlDate.split(' ');
             var date = datetime[0].split('-');
@@ -192,7 +192,7 @@ var SGA = {
             }
             return finalDate.join('/') + time;
         }
-        return "";
+        return onEmpty || "";
     },
     
     dateToSql: function(localeDate) {
