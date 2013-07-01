@@ -364,7 +364,8 @@ class AtendimentoController extends ModuleController {
             VALUES 
                 (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade)
         ");
-        $stmt->bindValue('data', $atendimento->getDataChegada());
+        // mudando a data de chegada para a data do redirecionamento
+        $stmt->bindValue('data', DateUtil::nowSQL());
         $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
         $stmt->bindValue('sigla', $atendimento->getSenha()->getSigla());
         $stmt->bindValue('numero', $atendimento->getNumeroSenha());
