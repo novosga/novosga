@@ -36,7 +36,7 @@ SGA.Monitor = {
                                         var atendimento = fila[j];
                                         var onclick = "SGA.Monitor.Senha.view(" + atendimento.id + ")";
                                         var item = '<li class="' + (atendimento.prioridade ? 'prioridade' : '') + '">';
-                                        var title = atendimento.nomePrioridade;
+                                        var title = atendimento.nomePrioridade + '(' + atendimento.espera + ')';
                                         item += '<a href="javascript:void(0)" onclick="' + onclick + '" title="' + title + '">' + atendimento.senha + '</a>';
                                         item += '</li>';
                                         list.append(item);
@@ -73,8 +73,9 @@ SGA.Monitor = {
                         dialog.find('#senha_prioridade').text(response.data.nomePrioridade);
                         dialog.find('#senha_servico').text(response.data.servico);
                         dialog.find('#senha_chegada').text(SGA.formatDate(response.data.chegada));
-                        dialog.find('#senha_inicio').text(SGA.formatDate(response.data.inicio));
-                        dialog.find('#senha_fim').text(SGA.formatDate(response.data.fim));
+                        dialog.find('#senha_espera').text(response.data.espera);
+                        dialog.find('#senha_inicio').text(SGA.formatDate(response.data.inicio, '-'));
+                        dialog.find('#senha_fim').text(SGA.formatDate(response.data.fim, '-'));
                         dialog.find('#senha_status').text(response.data.nomeStatus);
                         dialog.find('#cliente_nome').text(response.data.cliente.nome);
                         dialog.find('#cliente_documento').text(response.data.cliente.documento);

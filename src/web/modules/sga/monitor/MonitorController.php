@@ -56,7 +56,9 @@ class MonitorController extends ModuleController {
                         $fila = array();
                         for ($j = 0; $j < $total; $j++) {
                             $atendimento = $su->getFila()->get($j); 
-                            $fila[] = $atendimento->toArray(true);
+                            $arr = $atendimento->toArray(true);
+                            $arr['espera'] = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
+                            $fila[] = $arr;
                         }
                         $response->data['servicos'][$su->getServico()->getId()] = $fila;
                         $response->data['total']++;
@@ -76,6 +78,7 @@ class MonitorController extends ModuleController {
             $atendimento = \core\business\AtendimentoBusiness::buscaAtendimento($unidade, $id);
             if ($atendimento) {
                 $response->data = $atendimento->toArray();
+                $response->data['espera'] = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
                 $response->success = true;
             } else {
                 $response->message = _('Atendimento inválido');
