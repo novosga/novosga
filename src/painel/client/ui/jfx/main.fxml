@@ -242,7 +242,7 @@
       <left>
         <ImageView fitHeight="38.383837890625" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
           <image>
-            <Image url="file:/Z:/novosga/src/painel/client/ui/img/logo.png" preserveRatio="false" smooth="false" />
+            <Image url="@../img/logo.png" preserveRatio="false" smooth="false" />
           </image>
         </ImageView>
       </left>
