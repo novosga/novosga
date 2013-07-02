@@ -205,6 +205,8 @@ SGA.Atendimento = {
             }
             data.redirecionar = true;
             data.novoServico = servico;
+            // definindo o botao da dialog para ser desabilitado
+            btn = $('#dialog-redirecionar').parent().find(':button');
         } else {
             // verifica se checkbox redirecionar esta marcado, para abrir a modal
             var redirecionar = $('#encerrar-redirecionar').is(':checked');
@@ -255,7 +257,8 @@ SGA.Atendimento = {
     erro_triagem: function() {
         var buttons = {};
         buttons[SGA.Atendimento.labelRedirecionar] = function() {
-            SGA.Atendimento.redirecionar();
+            var btn = $('#dialog-redirecionar').parent().find(':button');
+            SGA.Atendimento.redirecionar(btn);
         }
         SGA.dialogs.modal('#dialog-redirecionar', {
             width: 500,
@@ -271,7 +274,7 @@ SGA.Atendimento = {
                 action: 'redirecionar', 
                 data: {servico: servico},
                 success: function() {
-                    SGA.Atendimento.updateControls(1)
+                    SGA.Atendimento.updateControls(1);
                     $('#dialog-redirecionar').dialog('close');
                 }
             });
