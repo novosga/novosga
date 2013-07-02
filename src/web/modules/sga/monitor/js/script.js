@@ -36,7 +36,7 @@ SGA.Monitor = {
                                         var atendimento = fila[j];
                                         var onclick = "SGA.Monitor.Senha.view(" + atendimento.id + ")";
                                         var item = '<li class="' + (atendimento.prioridade ? 'prioridade' : '') + '">';
-                                        var title = atendimento.nomePrioridade + '(' + atendimento.espera + ')';
+                                        var title = atendimento.nomePrioridade + ' (' + atendimento.espera + ')';
                                         item += '<a href="javascript:void(0)" onclick="' + onclick + '" title="' + title + '">' + atendimento.senha + '</a>';
                                         item += '</li>';
                                         list.append(item);
