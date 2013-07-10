@@ -335,7 +335,7 @@ var SGA = {
         
         loginValue: function(input) {
             var value = input.value + "";
-            value = value.replace(/([^\w\d])+/g, '');
+            value = value.replace(/([^\w\d\.])+/g, '');
             input.value = value.toLowerCase();
         }
         
@@ -659,6 +659,14 @@ var SGA = {
     },
     
     FullScreen: {
+
+        toggle: function(elem) {
+            if (!SGA.FullScreen.element()) {
+                SGA.FullScreen.request(elem);
+            } else {
+                SGA.FullScreen.cancel();
+            }
+        },
         
         request: function(elem) {
             if (elem.requestFullScreen) {
@@ -672,6 +680,16 @@ var SGA = {
             }
             if (elem.msRequestFullScreen) {
                 elem.msRequestFullScreen();
+            }
+        },
+                
+        cancel: function() {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
             }
         },
         
