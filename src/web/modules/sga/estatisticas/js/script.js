@@ -25,6 +25,28 @@ SGA.Estatisticas = {
     },
     
     Grafico: {
+
+        today: function(unidade, titulos) {
+            SGA.ajax({
+                url: SGA.url('today'),
+                data: {
+                    unidade: unidade
+                },
+                success: function(response) {
+                    SGA.Estatisticas.Grafico.pie({
+                        id: 'atendimentos-status-' + unidade, 
+                        dados: response.data.status,
+                        legendas: response.data.legendas,
+                        titulo: titulos.status
+                    });
+                    SGA.Estatisticas.Grafico.pie({
+                        id: 'atendimentos-servicos-' + unidade, 
+                        dados: response.data.servicos,
+                        titulo: titulos.servicos
+                    });
+                }
+            });
+        },
         
         gerar: function() {
             var id = $('#chart-id').val();
@@ -104,7 +126,11 @@ SGA.Estatisticas = {
                     type: 'pie',
                     name: prop.titulo,
                     data: series
-                }]
+                }],
+                exporting: {
+                    enabled: true,
+                    sourceWidth: 1024
+                }
             });
         },
         

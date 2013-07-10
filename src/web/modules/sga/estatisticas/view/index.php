@@ -13,44 +13,25 @@ use \core\contrib\Serie;
         </ul>
         <div id="tab-hoje">
             <h2 class="chart-title"><?php SGA::out(sprintf(_('Atendimentos realizados em %s'), DateUtil::now(_('d/m/Y')))) ?></h2>
-            <?php 
-            foreach ($unidades as $unidade) {
-                $id = $unidade->getId();
-                $script = '';
-                if (isset($atendimentosStatus[$id])) {
-                    $chart = new Highcharts('atendimentos-status-' . $id, _('Atendimentos por situação'));
-                    $chart->setType('pie');
-                    $data = array();
-                    $atendimentos = $atendimentosStatus[$id];
-                    foreach ($atendimentos as $k => $v) {
-                        $data[] = array($statusAtendimento[$k], (int) $v);
-                    }
-                    $chart->addSerie(new Serie('Atendimentos', $data));
-                    $script .= '<div id="' . $chart->getId() .'" class="chart pie atendimentos status"></div>';
-                    $script .= $chart->toString();
-                }
-                if (isset($atendimentosServico[$id])) {
-                    $atendimentos = $atendimentosServico[$id];
-                    $chart = new Highcharts('atendimentos-servico-' . $id, _('Atendimentos por serviço'));
-                    $chart->setType('pie');
-                    $data = array();
-                    foreach ($atendimentos as $k => $v) {
-                        $data[] = array($k, (int) $v);
-                    }
-                    $chart->addSerie(new Serie('Atendimentos', $data));
-                    $script .= '<div id="' . $chart->getId() .'" class="chart pie atendimentos servico"></div>';
-                    $script .= $chart->toString();
-                }
-                ?>
-                <div class="chart-unidade">
-                    <div class="wrap">
-                        <h3 class="title"><?php SGA::out($unidade->getNome()) ?></h3>
-                        <?php echo $script ?>
+            <?php foreach ($unidades as $unidade): $id = $unidade->getId(); ?>
+            <div class="chart-unidade">
+                <div class="wrap">
+                    <h3 class="title"><?php echo $unidade->getNome() ?></h3>
+                    <div id="atendimentos-status-<?php echo $id ?>" class="chart pie atendimentos status">
+                        <span class="loading"><?php echo _('Atendimentos por situação') ?></span>
                     </div>
+                    <div id="atendimentos-servicos-<?php echo $id ?>" class="chart pie atendimentos status">
+                        <span class="loading"><?php echo _('Atendimentos por serviço') ?></span>
+                    </div>
+                    <script type="text/javascript"> 
+                        SGA.Estatisticas.Grafico.today(<?php echo $id ?>, {
+                            status: "<?php echo _('Atendimentos por situação') ?>",
+                            servicos: "<?php echo _('Atendimentos por serviço') ?>"
+                        });
+                    </script>
                 </div>
-                <?php
-            }
-            ?>
+            </div>
+            <?php endforeach; ?>
         </div>
         <div id="tab-graficos">
             <form id="chart-form" action="<?php echo SGA::url() ?>" onsubmit="return false">

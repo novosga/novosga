@@ -3,7 +3,6 @@ namespace modules\sga\estatisticas;
 
 use \core\SGAContext;
 use \core\model\Atendimento;
-use \core\model\ViewAtendimento;
 use \core\util\DateUtil;
 use \core\http\AjaxResponse;
 use \modules\sga\estatisticas\Relatorio;
@@ -31,10 +30,12 @@ class EstatisticasController extends ModuleController {
         $this->relatorios = array(
             1 => new Relatorio(_('Serviços Disponíveis - Global'), 'servicos_disponiveis_global'),
             2 => new Relatorio(_('Serviços Disponíveis - Unidade'), 'servicos_disponiveis_unidades', 'unidade'),
-            3 => new Relatorio(_('Atendimentos concluídos'), 'atendimentos_concluidos', 'unidade,date'),
-            4 => new Relatorio(_('Atendimentos em todos os status'), 'atendimentos_status', 'unidade,date'),
-            5 => new Relatorio(_('Lotações'), 'lotacoes', 'unidade'),
-            6 => new Relatorio(_('Cargos'), 'cargos'),
+            3 => new Relatorio(_('Serviços codificados'), 'servicos_codificados', 'unidade,date'),
+            4 => new Relatorio(_('Atendimentos concluídos'), 'atendimentos_concluidos', 'unidade,date'),
+            5 => new Relatorio(_('Atendimentos em todos os status'), 'atendimentos_status', 'unidade,date'),
+            6 => new Relatorio(_('Tempos médios por Atendente'), 'tempo_medio_atendentes', 'date'),
+            7 => new Relatorio(_('Lotações'), 'lotacoes', 'unidade'),
+            8 => new Relatorio(_('Cargos'), 'cargos'),
         );
     }
 
@@ -44,13 +45,30 @@ class EstatisticasController extends ModuleController {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
         $unidades = $query->getResult();
         $this->view()->assign('unidades', $unidades);
-        $ini = DateUtil::now('Y-m-d');
-        $fim = DateUtil::nowSQL(); // full datetime
-        $this->view()->assign('atendimentosStatus', $this->total_atendimentos_status($ini, $fim));
-        $this->view()->assign('atendimentosServico', $this->total_atendimentos_servico($ini, $fim));
         $this->view()->assign('relatorios', $this->relatorios);
         $this->view()->assign('graficos', $this->graficos);
         $this->view()->assign('statusAtendimento', Atendimento::situacoes());
+    }
+    
+    /**
+     * Retorna os gráficos do dia a partir da unidade informada
+     */
+    public function today(SGAContext $context) {
+        $response = new AjaxResponse();
+        try {
+            $ini = DateUtil::now('Y-m-d');
+            $fim = DateUtil::nowSQL(); // full datetime
+            $unidade = (int) $context->getRequest()->getParameter('unidade');
+            $status = $this->total_atendimentos_status($ini, $fim, $unidade);
+            $response->data['legendas'] = Atendimento::situacoes();
+            $response->data['status'] = $status[$unidade];
+            $servicos = $this->total_atendimentos_servico($ini, $fim, $unidade);
+            $response->data['servicos'] = $servicos[$unidade];
+            $response->success = true;
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
+        }
+        $context->getResponse()->jsonResponse($response);
     }
     
     public function grafico(SGAContext $context) {
@@ -104,15 +122,21 @@ class EstatisticasController extends ModuleController {
                 $relatorio->setDados($this->servicos_disponiveis_unidade($unidade));
                 break;
             case 3:
-                $relatorio->setDados($this->atendimentos_concluidos($dataInicial, $dataFinal, $unidade));
+                $relatorio->setDados($this->servicos_codificados($dataInicial, $dataFinal, $unidade));
                 break;
             case 4:
-                $relatorio->setDados($this->atendimentos_status($dataInicial, $dataFinal, $unidade));
+                $relatorio->setDados($this->atendimentos_concluidos($dataInicial, $dataFinal, $unidade));
                 break;
             case 5:
-                $relatorio->setDados($this->lotacoes($unidade));
+                $relatorio->setDados($this->atendimentos_status($dataInicial, $dataFinal, $unidade));
                 break;
             case 6:
+                $relatorio->setDados($this->tempo_medio_atendentes($dataInicial, $dataFinal));
+                break;
+            case 7:
+                $relatorio->setDados($this->lotacoes($unidade));
+                break;
+            case 8:
                 $relatorio->setDados($this->cargos());
                 break;
             }
@@ -248,6 +272,7 @@ class EstatisticasController extends ModuleController {
             foreach ($rs as $r) {
                 try {
                     // se der erro tentando converter a data do banco para segundos, assume que ja esta em segundos
+                    // Isso é necessário para manter a compatibilidade entre os bancos
                     foreach ($tempos as $k => $v) {
                         $dados[$unidade->getId()][$v] = DateUtil::timeToSec($r[$k]);
                     }
@@ -283,21 +308,54 @@ class EstatisticasController extends ModuleController {
     private function servicos_disponiveis_unidade($unidadeId = 0) {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
+        $query = $this->em()->createQuery("
+            SELECT
+                e
+            FROM
+                \core\model\ServicoUnidade e
+                JOIN e.servico s
+                LEFT JOIN s.subServicos sub
+            WHERE
+                s.mestre IS NULL AND
+                e.status = 1 AND
+                e.unidade = :unidade 
+            ORDER BY
+                e.nome
+        ");
         foreach ($unidades as $unidade) {
-            $query = $this->em()->createQuery("
-                SELECT
-                    e
-                FROM
-                    \core\model\ServicoUnidade e
-                    JOIN e.servico s
-                    LEFT JOIN s.subServicos sub
-                WHERE
-                    s.mestre IS NULL AND
-                    e.status = 1 AND
-                    e.unidade = :unidade 
-                ORDER BY
-                    e.nome
-            ");
+            $query->setParameter('unidade', $unidade);
+            $dados[$unidade->getId()] = array(
+                'unidade' => $unidade->getNome(),
+                'servicos' => $query->getResult()
+            );
+        }
+        return $dados;
+    }
+    
+    private function servicos_codificados($dataInicial, $dataFinal, $unidadeId = 0) {
+        $unidades = $this->unidadesArray($unidadeId);
+        $query = $this->em()->createQuery("
+            SELECT
+                COUNT(c) as total,
+                s.nome
+            FROM
+                \core\model\ViewAtendimentoCodificado c
+                JOIN c.servico s
+                JOIN c.atendimento e
+            WHERE
+                e.unidade = :unidade AND
+                e.dataChegada >= :dataInicial AND
+                e.dataChegada <= :dataFinal
+            GROUP BY
+                s
+            ORDER BY
+                s.nome
+        ");
+        $query->setParameter('dataInicial', $dataInicial);
+        $query->setParameter('dataFinal', $dataFinal);
+        $query->setMaxResults(self::MAX_RESULTS);
+        $dados = array();
+        foreach ($unidades as $unidade) {
             $query->setParameter('unidade', $unidade);
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
@@ -310,25 +368,25 @@ class EstatisticasController extends ModuleController {
     private function atendimentos_concluidos($dataInicial, $dataFinal, $unidadeId = 0) {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
+        $query = $this->em()->createQuery("
+            SELECT
+                e
+            FROM
+                \core\model\ViewAtendimento e
+            WHERE
+                e.unidade = :unidade AND
+                e.status = :status AND
+                e.dataChegada >= :dataInicial AND
+                e.dataChegada <= :dataFinal
+            ORDER BY
+                e.dataChegada
+        ");
+        $query->setParameter('status', \core\model\Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO);
+        $query->setParameter('dataInicial', $dataInicial);
+        $query->setParameter('dataFinal', $dataFinal);
+        $query->setMaxResults(self::MAX_RESULTS);
         foreach ($unidades as $unidade) {
-            $query = $this->em()->createQuery("
-                SELECT
-                    e
-                FROM
-                    \core\model\ViewAtendimento e
-                WHERE
-                    e.unidade = :unidade AND
-                    e.status = :status AND
-                    e.dataChegada >= :dataInicial AND
-                    e.dataChegada <= :dataFinal
-                ORDER BY
-                    e.dataChegada
-            ");
             $query->setParameter('unidade', $unidade);
-            $query->setParameter('status', \core\model\Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO);
-            $query->setParameter('dataInicial', $dataInicial);
-            $query->setParameter('dataFinal', $dataFinal);
-            $query->setMaxResults(self::MAX_RESULTS);
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
                 'atendimentos' => $query->getResult()
@@ -340,27 +398,90 @@ class EstatisticasController extends ModuleController {
     private function atendimentos_status($dataInicial, $dataFinal, $unidadeId = 0) {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
+        $query = $this->em()->createQuery("
+            SELECT
+                e
+            FROM
+                \core\model\ViewAtendimento e
+            WHERE
+                e.unidade = :unidade AND
+                e.dataChegada >= :dataInicial AND
+                e.dataChegada <= :dataFinal
+            ORDER BY
+                e.dataChegada
+        ");
+        $query->setParameter('dataInicial', $dataInicial);
+        $query->setParameter('dataFinal', $dataFinal);
+        $query->setMaxResults(self::MAX_RESULTS);
         foreach ($unidades as $unidade) {
-            $query = $this->em()->createQuery("
-                SELECT
-                    e
-                FROM
-                    \core\model\ViewAtendimento e
-                WHERE
-                    e.unidade = :unidade AND
-                    e.dataChegada >= :dataInicial AND
-                    e.dataChegada <= :dataFinal
-                ORDER BY
-                    e.dataChegada
-            ");
             $query->setParameter('unidade', $unidade);
-            $query->setParameter('dataInicial', $dataInicial);
-            $query->setParameter('dataFinal', $dataFinal);
-            $query->setMaxResults(self::MAX_RESULTS);
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
                 'atendimentos' => $query->getResult()
             );
+        }
+        return $dados;
+    }
+    
+    private function tempo_medio_atendentes($dataInicial, $dataFinal) {
+        $dados = array();
+        // quando SQL Server usa a função DATEDIFF (registrada na classe DB)
+        if (\core\Config::DB_TYPE == 'mssql') {
+            $columns = '
+                AVG(DATEDIFF(a.dataChegada, a.dataChamada)) as espera,
+                AVG(DATEDIFF(a.dataChamada, a.dataInicio)) as deslocamento,
+                AVG(DATEDIFF(a.dataInicio, a.dataFim)) as atendimento,
+                AVG(DATEDIFF(a.dataChegada, a.dataFim)) as tempoTotal
+            ';
+        } else {
+            $columns = '
+                AVG(a.dataChamada - a.dataChegada) as espera,
+                AVG(a.dataInicio - a.dataChamada) as deslocamento,
+                AVG(a.dataFim - a.dataInicio) as atendimento,
+                AVG(a.dataFim - a.dataChegada) as tempoTotal
+            ';
+        }
+        $query = $this->em()->createQuery("
+            SELECT
+                CONCAT(u.nome, CONCAT(' ', u.sobrenome)) as atendente,
+                COUNT(a) as total,
+                $columns
+            FROM
+                \core\model\ViewAtendimento a
+                JOIN a.usuario u
+            WHERE
+                a.dataChegada >= :dataInicial AND
+                a.dataChegada <= :dataFinal AND
+                a.dataFim IS NOT NULL
+            GROUP BY
+                u
+            ORDER BY
+                u.nome
+        ");
+        $query->setParameter('dataInicial', $dataInicial);
+        $query->setParameter('dataFinal', $dataFinal);
+        $query->setMaxResults(self::MAX_RESULTS);
+        $dados = array();
+        $rs = $query->getResult();
+        foreach ($rs as $r) {
+            $d = array(
+                'atendente' => $r['atendente'],
+                'total' => $r['total']
+            );
+            try {
+                // se der erro tentando converter a data do banco para segundos, assume que ja esta em segundos
+                // Isso é necessário para manter a compatibilidade entre os bancos
+                $d['espera'] = DateUtil::timeToSec($r['espera']);
+                $d['deslocamento'] = DateUtil::timeToSec($r['deslocamento']);
+                $d['atendimento'] = DateUtil::timeToSec($r['atendimento']);
+                $d['tempoTotal'] = DateUtil::timeToSec($r['tempoTotal']);
+            } catch (\Exception $e) {
+                $d['espera'] = $r['espera'];
+                $d['deslocamento'] = $r['deslocamento'];
+                $d['atendimento'] = $r['atendimento'];
+                $d['tempoTotal'] = $r['tempoTotal'];
+            }
+            $dados[] = $d;
         }
         return $dados;
     }
