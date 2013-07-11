@@ -68,24 +68,29 @@ SGA.Monitor = {
                 success: function(response) {
                     if (response.success) {
                         var dialog = $(SGA.Monitor.Senha.dialogView);
-                        dialog.find('#senha_id').val(response.data.id);
-                        dialog.find('#senha_numero').text(response.data.senha);
-                        dialog.find('#senha_prioridade').text(response.data.nomePrioridade);
-                        dialog.find('#senha_servico').text(response.data.servico);
-                        dialog.find('#senha_chegada').text(SGA.formatDate(response.data.chegada));
-                        dialog.find('#senha_espera').text(response.data.espera);
-                        dialog.find('#senha_inicio').text(SGA.formatDate(response.data.inicio, '-'));
-                        dialog.find('#senha_fim').text(SGA.formatDate(response.data.fim, '-'));
-                        dialog.find('#senha_status').text(response.data.nomeStatus);
-                        dialog.find('#cliente_nome').text(response.data.cliente.nome);
-                        dialog.find('#cliente_documento').text(response.data.cliente.documento);
+                        var a = response.data;
+                        dialog.find('#senha_id').val(a.id);
+                        dialog.find('#senha_numero').text(a.senha);
+                        dialog.find('#senha_prioridade').text(a.nomePrioridade);
+                        dialog.find('#senha_servico').text(a.servico);
+                        dialog.find('#senha_chegada').text(SGA.formatDate(a.chegada));
+                        dialog.find('#senha_espera').text(a.espera);
+                        dialog.find('#senha_inicio').text(SGA.formatDate(a.inicio, '-'));
+                        dialog.find('#senha_fim').text(SGA.formatDate(a.fim, '-'));
+                        dialog.find('#senha_status').text(a.nomeStatus);
+                        dialog.find('#cliente_nome').text(a.cliente.nome);
+                        dialog.find('#cliente_documento').text(a.cliente.documento);
                         // so pode transferir ou cancelar se o status for 1 (senha emitida)
-                        if (response.data.status == 1) {
+                        if (a.status === 1) {
                             $('#btn-transferir, #btn-cancelar').show();
-                            $('#btn-reativar').hide();
                         } else {
                             $('#btn-transferir, #btn-cancelar').hide();
+                        }
+                        // so pode reativar se estiver cancelado ou nao compareceu
+                        if (a.status === 5 || a.status === 6) {
                             $('#btn-reativar').show();
+                        } else {
+                            $('#btn-reativar').hide();
                         }
                         SGA.dialogs.modal(dialog, { width: 600 });
                     }

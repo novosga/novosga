@@ -152,7 +152,8 @@ class MonitorController extends ModuleController {
     }
     
     /**
-     * Reativa o atendimento para o mesmo serviço e mesma prioridade
+     * Reativa o atendimento para o mesmo serviço e mesma prioridade.
+     * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu
      * @param \core\SGAContext $context
      */
     public function reativar(SGAContext $context) {
@@ -162,6 +163,7 @@ class MonitorController extends ModuleController {
             try {
                 $id = (int) $context->getRequest()->getParameter('id');
                 $conn = $this->em()->getConnection();
+                $status = join(',', array(Atendimento::SENHA_CANCELADA, Atendimento::NAO_COMPARECEU));
                 // reativa apenas se estiver finalizada (data fim diferente de nulo)
                 $stmt = $conn->prepare("
                     UPDATE 
@@ -172,8 +174,7 @@ class MonitorController extends ModuleController {
                     WHERE 
                         id_atend = :id AND 
                         id_uni = :unidade AND
-                        dt_fim IS NOT NULL
-                        
+                        id_stat IN ({$status})
                 ");
                 $stmt->bindValue('id', $id);
                 $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
