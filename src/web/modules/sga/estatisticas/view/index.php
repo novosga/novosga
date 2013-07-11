@@ -1,8 +1,6 @@
 <?php
 use \core\SGA;
 use \core\util\DateUtil;
-use \core\contrib\Highcharts;
-use \core\contrib\Serie;
 ?>
 <div>
     <div id="tabs">

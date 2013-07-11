@@ -13,10 +13,14 @@ $unidade = SGA::getContext()->getUnidade();
 </head>
 <body>
     <div id="touchscreen">
+        <div id="menu">
+            <ul>
+                <li><a href="javascript:void(0)" onclick="fullscreen()" title="<?php echo _('Alterar para modo tela cheia') ?>">Fullscreen</a></li>
+            </ul>
+        </div>
         <div id="touchscreen-header">
             <h1><?php echo $unidade->getNome() ?></h1>
             <p><?php echo _('Escolha abaixo o serviço que deseja ser atendido') ?></p>
-            <a id="btn-fullscreen" href="javascript:void(0)" onclick="fullscreen()" title="<?php echo _('Alterar para modo tela cheia') ?>">fullscreen</a>
         </div>
         <div id="touchscreen-body">
             <div id="page-servicos" class="page">
@@ -98,15 +102,21 @@ $unidade = SGA::getContext()->getUnidade();
     <script type="text/javascript">
         SGA.Triagem.imprimir = <?php echo ($unidade->getStatusImpressao() ? 'true' : 'false') ?>;
         function fullscreen() {
-            SGA.FullScreen.change(function() {
-                if (SGA.FullScreen.element()) {
-                    $('#btn-fullscreen').hide();
-                } else {
-                    $('#btn-fullscreen').show();
-                }
-            });
-            SGA.FullScreen.request(document.getElementById("touchscreen"));
+            SGA.FullScreen.toggle(document.getElementById("touchscreen"));
         }
+        // ocultando e adicionando animacao ao menu
+        setTimeout(function() {
+            $('#menu').fadeTo("slow", 0, function() {
+                $('#menu').hover(
+                    function() {
+                        $('#menu').fadeTo("fast", 1);
+                    }, 
+                    function() {
+                        $('#menu').fadeTo("slow", 0);
+                    }
+                );
+            });
+        }, 3000);
     </script>
 </body>
 </html>

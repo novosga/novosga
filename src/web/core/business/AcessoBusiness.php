@@ -61,7 +61,7 @@ abstract class AcessoBusiness {
     
     public static function isValidSession() {
         $user = SGA::getContext()->getUser();
-        if (!$user->isAtivo()) {
+        if ($user && !$user->isAtivo()) {
             return false;
         }
         // verificando session id
@@ -80,7 +80,7 @@ abstract class AcessoBusiness {
                     $response = new \core\http\AjaxResponse();
                     $response->success = false;
                     // verifica se a sessão está inativa ou inválida
-                    if (!SGA::getContext()->getUser()->isAtivo()) {
+                    if (!$context->getUser() || !$context->getUser()->isAtivo()) {
                         $response->inactive = true;
                     } else {
                         $response->invalid = true;
@@ -181,10 +181,12 @@ abstract class AcessoBusiness {
                 e.nome
         ");
         $lotacoes = $usuario->getWrapped()->getLotacoes();
-        foreach ($lotacoes as $lotacao) {
-            $query->setParameter('esquerda', $lotacao->getGrupo()->getLeft());
-            $query->setParameter('direita', $lotacao->getGrupo()->getRight());
-            self::$unidades = array_merge(self::$unidades, $query->getResult());
+        if (!empty($lotacoes)) {
+            foreach ($lotacoes as $lotacao) {
+                $query->setParameter('esquerda', $lotacao->getGrupo()->getLeft());
+                $query->setParameter('direita', $lotacao->getGrupo()->getRight());
+                self::$unidades = array_merge(self::$unidades, $query->getResult());
+            }
         }
         return self::$unidades;
     }
