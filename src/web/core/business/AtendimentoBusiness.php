@@ -151,4 +151,45 @@ abstract class AtendimentoBusiness {
         return false;
     }
     
+    public static function buscaAtendimento(Unidade $unidade, $id) {
+        $em = DB::getEntityManager();
+        $query = $em->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.id = :id AND su.unidade = :unidade");
+        $query->setParameter('id', (int) $id);
+        $query->setParameter('unidade', $unidade->getId());
+        return $query->getOneOrNullResult();
+    }
+    
+    public static function buscaAtendimentos(Unidade $unidade, $senha) {
+        $em = DB::getEntityManager();
+        $field = \core\business\AtendimentoBusiness::isNumeracaoServico() ? 'numeroSenhaServico' : 'numeroSenha';
+        $cond = '';
+        $sigla = strtoupper(substr($senha, 0, 1));
+        // verificando se a letra foi informada (o primeiro caracter diferente do valor convertido para int)
+        $porSigla = ctype_alpha($sigla);
+        if ($porSigla) {
+            $cond = 'e.siglaSenha = :sigla AND';
+            $numeroSenha = (int) substr($senha, 1);
+        } else {
+            $numeroSenha = (int) $senha;
+        }
+        $query = $em->createQuery("
+            SELECT 
+                e 
+            FROM 
+                \core\model\Atendimento e 
+                JOIN e.servicoUnidade su 
+            WHERE 
+                e.$field = :numero AND $cond
+                su.unidade = :unidade 
+            ORDER BY 
+                e.id
+        ");
+        $query->setParameter('numero', $numeroSenha);
+        if ($porSigla) {
+            $query->setParameter('sigla', $sigla);
+        }
+        $query->setParameter('unidade', $unidade->getId());
+        return $query->getResult();
+    }
+    
 }

@@ -26,12 +26,15 @@
 }
 
 #report #report-body thead tr {
-    background: #f1f1f1;
+    background: #ddd;
 }
 
 #report #report-body thead th {
     padding: 10px 8px;
 }
+
+#report tr.par { background-color: #f1f1f1; }
+
 
 #report #report-footer {
     color: #ccc;

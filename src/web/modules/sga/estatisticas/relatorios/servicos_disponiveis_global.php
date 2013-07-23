@@ -20,8 +20,8 @@ $status = function($model) {
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($relatorio->getDados() as $servico): ?>
-        <tr>
+        <?php $i = 0; foreach ($relatorio->getDados() as $servico): $i++; ?>
+        <tr class="<?php echo $i % 2 == 0 ? 'par' : 'impar' ?>">
             <td class="strong"><?php echo $servico->getNome() ?></td>
             <td class="w100 center"><?php echo $status($servico) ?></td>
         </tr>

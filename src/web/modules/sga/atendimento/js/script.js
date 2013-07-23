@@ -39,7 +39,9 @@ SGA.Atendimento = {
                                 if (i == 0) {
                                     cssClass += ' proximo';
                                 }
-                                var item = '<li class="' + cssClass + '"><abbr title="' + atendimento.servico + '">' + atendimento.senha + '</abbr></li>';
+                                var onclick = 'SGA.Atendimento.infoSenha(' + atendimento.id + ')';
+                                var title = atendimento.servico + ' (' + atendimento.espera + ')';
+                                var item = '<li><a class="' + cssClass + '" href="javascript:void(0)" onclick="' + onclick + '" title="' + title + '">' + atendimento.senha + '</a></li>';
                                 list.append(item);
                             }
                         } else {
@@ -101,7 +103,7 @@ SGA.Atendimento = {
             url: SGA.url(prop.action),
             data: prop.data || {},
             success: function(response) {
-                if (response.success) {
+                if (prop.success) {
                     prop.success(response);
                 }
             },
@@ -129,11 +131,19 @@ SGA.Atendimento = {
                         $("#fila ul").append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
                     } else {
                         // novo proximo
-                        $("#fila ul li:first").addClass('proximo'); 
+                        $("#fila ul li:first a").addClass('proximo'); 
                     }
                 }
                 SGA.Atendimento.updateControls(2, response.data);
             }
+        });
+    },
+    
+    chamar_novamente: function(btn) {
+        SGA.Atendimento.control({
+            button: btn,
+            enableDelay: 3000,
+            action: 'chamar'
         });
     },
     
@@ -195,6 +205,8 @@ SGA.Atendimento = {
             }
             data.redirecionar = true;
             data.novoServico = servico;
+            // definindo o botao da dialog para ser desabilitado
+            btn = $('#dialog-redirecionar').parent().find(':button');
         } else {
             // verifica se checkbox redirecionar esta marcado, para abrir a modal
             var redirecionar = $('#encerrar-redirecionar').is(':checked');
@@ -223,10 +235,30 @@ SGA.Atendimento = {
         });
     },
     
+    infoSenha: function(id) {
+        SGA.ajax({
+            url: SGA.url('info_senha'),
+            data: {id: id},
+            success: function(response) {
+                if (response.success) {
+                    var a = response.data;
+                    var dialog = $('#dialog-senha');
+                    dialog.find('.numero').text(a.senha);
+                    dialog.find('.nome-prioridade').text(a.nomePrioridade);
+                    dialog.find('.servico').text(a.servico);
+                    dialog.find('.chegada').text(SGA.formatDate(a.chegada));
+                    dialog.find('.espera').text(a.espera);
+                    SGA.dialogs.modal(dialog, { width: 600 });
+                }
+            }
+        });
+    },
+    
     erro_triagem: function() {
         var buttons = {};
         buttons[SGA.Atendimento.labelRedirecionar] = function() {
-            SGA.Atendimento.redirecionar();
+            var btn = $('#dialog-redirecionar').parent().find(':button');
+            SGA.Atendimento.redirecionar(btn);
         }
         SGA.dialogs.modal('#dialog-redirecionar', {
             width: 500,
@@ -242,7 +274,7 @@ SGA.Atendimento = {
                 action: 'redirecionar', 
                 data: {servico: servico},
                 success: function() {
-                    SGA.Atendimento.updateControls(1)
+                    SGA.Atendimento.updateControls(1);
                     $('#dialog-redirecionar').dialog('close');
                 }
             });
@@ -259,6 +291,43 @@ SGA.Atendimento = {
         item = $(item); 
         $('#servico-' + item.find('input').val()).show();
         item.parent().remove();
+    },
+            
+    consulta: function() {
+        SGA.dialogs.modal('#dialog-busca', { 
+            width: 900,
+            open: function() {
+                $('#numero_busca').val('');
+                $('#result_table tbody').html('');
+            }
+        });
+    },
+
+    consultar: function() {
+        SGA.ajax({
+            url: SGA.url('consulta_senha'),
+            data: {numero: $('#numero_busca').val()},
+            success: function(response) {
+                var result = $('#result_table tbody');
+                result.html('');
+                if (response.data.total > 0) {
+                    for (var i = 0; i < response.data.total; i++) {
+                        var atendimento = response.data.atendimentos[i];
+                        var tr = '<tr>';
+                        tr += '<td>' + atendimento.senha + '</td>';
+                        tr += '<td>' + atendimento.servico + '</td>';
+                        tr += '<td>' + SGA.formatDate(atendimento.chegada) + '</td>';
+                        tr += '<td>' + SGA.formatTime(atendimento.inicio) + '</td>';
+                        tr += '<td>' + SGA.formatTime(atendimento.fim) + '</td>';
+                        tr += '<td>' + (atendimento.triagem ? atendimento.triagem : '-') + '</td>';
+                        tr += '<td>' + (atendimento.usuario ? atendimento.usuario : '-') + '</td>';
+                        tr += '<td>' + atendimento.nomeStatus + '</td>';
+                        tr += '</tr>';
+                        result.append(tr);
+                    }
+                }
+            }
+        });
     }
     
 };

@@ -5,7 +5,7 @@ use \Exception;
 use \core\SGA;
 use \core\SGAContext;
 use \core\util\Arrays;
-use core\util\DateUtil;
+use \core\util\DateUtil;
 use \core\business\AtendimentoBusiness;
 use \core\controller\ModuleController;
 use \core\model\Atendimento;
@@ -116,7 +116,9 @@ class AtendimentoController extends ModuleController {
             $response->data = array();
             $atendimentos = $this->atendimentos($context->getUser());
             foreach ($atendimentos as $atendimento) {
-                $response->data[] = $atendimento->toArray(true);
+                $arr = $atendimento->toArray(true);
+                $arr['espera'] = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
+                $response->data[] = $arr;
             }
             $response->success = true;
         }
@@ -140,16 +142,10 @@ class AtendimentoController extends ModuleController {
         }
         // verifica se ja esta atendendo alguem
         $atual = $this->atendimentoAndamento($usuario);
+        // se ja existe um atendimento em andamento (chamando senha novamente)
         if ($atual) {
-            // se ja existe um atendimento em andamento, exibe mensagem de erro
-            if ($atual->getStatus() == Atendimento::ATENDIMENTO_INICIADO) {
-                $success = false;
-            } 
-            // chamando senha novamente
-            else {
-                $success = true;
-                $proximo = $atual;
-            }
+            $success = true;
+            $proximo = $atual;
         } else {
             do {
                 $query = $this->atendimentosQuery($usuario);
@@ -204,9 +200,9 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Muda o status do atendimento atual
-     * @param type $statusAtual
-     * @param type $novoStatus
-     * @param type $campoData
+     * @param mixed $statusAtual (array[int] | int)
+     * @param int $novoStatus
+     * @param string $campoData
      */
     private function mudaStatusAtualResponse(SGAContext $context, $statusAtual, $novoStatus, $campoData) {
         $usuario = $context->getUser();
@@ -227,21 +223,35 @@ class AtendimentoController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
+    /**
+     * 
+     * @param \core\model\Atendimento $atendimento
+     * @param mixed $statusAtual (array[int] | int)
+     * @param int $novoStatus
+     * @param string $campoData
+     * @return boolean
+     */
     private function mudaStatusAtendimento(Atendimento $atendimento, $statusAtual, $novoStatus, $campoData) {
+        $cond = '';
+        if ($campoData !== null) {
+            $cond = ", e.$campoData = :data";
+        }
+        if (!is_array($statusAtual)) {
+            $statusAtual = array($statusAtual);
+        }
         // atualizando atendimento
         $query = $this->em()->createQuery("
             UPDATE 
                 \core\model\Atendimento e 
             SET 
-                e.$campoData = :data, e.status = :novoStatus
+                e.status = :novoStatus $cond
             WHERE 
                 e.id = :id AND 
                 e.status IN (:statusAtual)
         ");
-        if (!is_array($statusAtual)) {
-            $statusAtual = array($statusAtual);
+        if ($campoData !== null) {
+            $query->setParameter('data', DateUtil::nowSQL());
         }
-        $query->setParameter('data', DateUtil::nowSQL());
         $query->setParameter('novoStatus', $novoStatus);
         $query->setParameter('id', $atendimento->getId());
         $query->setParameter('statusAtual', $statusAtual);
@@ -269,7 +279,7 @@ class AtendimentoController extends ModuleController {
      * @param \core\SGAContext $context
      */
     public function encerrar(SGAContext $context) {
-        $this->mudaStatusAtualResponse($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, 'dataFim');
+        $this->mudaStatusAtualResponse($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, null);
     }
     
     /**
@@ -306,12 +316,18 @@ class AtendimentoController extends ModuleController {
                 $redirecionar = $context->getRequest()->getParameter('redirecionar');
                 if ($redirecionar) {
                     $servico = $context->getRequest()->getParameter('novoServico');
-                    $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
+                    $redirecionado = $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
+                    if (!$redirecionado) {
+                        throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
+                    }
                 }
                 $response->success = $this->mudaStatusAtendimento($atual, Atendimento::ATENDIMENTO_ENCERRADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
+                if (!$response->success) {
+                    throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
+                }
                 $conn->commit();
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             if ($conn && $conn->isTransactionActive()) {
                 $conn->rollBack();
             }
@@ -340,26 +356,25 @@ class AtendimentoController extends ModuleController {
             }
             $conn = $this->em()->getConnection();
             $conn->beginTransaction();
-            $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
+            $redirecionado = $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
+            if (!$redirecionado) {
+                throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
+            }
             $response->success = $this->mudaStatusAtendimento($atual, array(Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO), Atendimento::ERRO_TRIAGEM, 'dataFim');
+            if (!$response->success) {
+                throw new Exception(sprintf(_('Erro ao mudar status do atendimento %s para encerrado'), $atual->getId()));
+            }
             $conn->commit();
         } catch (Exception $e) {
             if ($conn && $conn->isTransactionActive()) {
                 $conn->rollBack();
             }
-            $response->message = $e->getTraceAsString();
+            $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
         }
         $context->getResponse()->jsonResponse($response);
     }
     
-    private function redireciona_atendimento($atendimento, $servico, $unidade, UsuarioSessao $usuario) {
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade");
-        $query->setParameter('servico', $servico);
-        $query->setParameter('unidade', $unidade->getId());
-        $servicoUnidade = $query->getOneOrNullResult();
-        if (!$servicoUnidade) {
-            throw new Exception(_('Serviço inválido'));
-        }
+    private function redireciona_atendimento(Atendimento $atendimento, $servico, $unidade, UsuarioSessao $usuario) {
         // copiando a senha do atendimento atual
         // XXX: usando statement INSERT devido a bug do dblib (mssql) no linux com mapeamentos do Doctrine 
         $stmt = $this->em()->getConnection()->prepare("
@@ -368,7 +383,8 @@ class AtendimentoController extends ModuleController {
             VALUES 
                 (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade)
         ");
-        $stmt->bindValue('data', $atendimento->getDataChegada());
+        // mudando a data de chegada para a data do redirecionamento
+        $stmt->bindValue('data', DateUtil::nowSQL());
         $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
         $stmt->bindValue('sigla', $atendimento->getSenha()->getSigla());
         $stmt->bindValue('numero', $atendimento->getNumeroSenha());
@@ -378,7 +394,45 @@ class AtendimentoController extends ModuleController {
         $stmt->bindValue('usuario', $usuario->getWrapped()->getId());
         $stmt->bindValue('usuario_triagem', $usuario->getWrapped()->getId());
         $stmt->bindValue('prioridade', $atendimento->getSenha()->getPrioridade()->getId());
-        $stmt->execute();
+        return $stmt->execute();
+    }
+    
+    public function info_senha(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            $id = (int) $context->getRequest()->getParameter('id');
+            $atendimento = \core\business\AtendimentoBusiness::buscaAtendimento($unidade, $id);
+            if ($atendimento) {
+                $response->data = $atendimento->toArray();
+                $response->data['espera'] = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
+                $response->success = true;
+            } else {
+                $response->message = _('Atendimento inválido');
+            }
+        }
+        $context->getResponse()->jsonResponse($response);
+    }
+    
+    /**
+     * Busca os atendimentos a partir do número da senha
+     * @param \core\SGAContext $context
+     */
+    public function consulta_senha(SGAContext $context) {
+        $response = new AjaxResponse();
+        $unidade = $context->getUser()->getUnidade();
+        if ($unidade) {
+            $numero = $context->getRequest()->getParameter('numero');
+            $atendimentos = \core\business\AtendimentoBusiness::buscaAtendimentos($unidade, $numero);
+            $response->data['total'] = sizeof($atendimentos);
+            foreach ($atendimentos as $atendimento) {
+                $response->data['atendimentos'][] = $atendimento->toArray();
+            }
+            $response->success = true;
+        } else{
+            $response->message = _('Nenhuma unidade selecionada');
+        }
+        $context->getResponse()->jsonResponse($response);
     }
     
 }

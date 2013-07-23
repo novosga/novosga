@@ -153,12 +153,22 @@ var SGA = {
         secs = secs < 10 ? '0' + secs : secs;
         return hours + ":" + mins + ":" + secs;
     },
+            
+    formatTime: function(sqlDate) {
+        if (sqlDate && sqlDate != "") {
+            var datetime = sqlDate.split(' ');
+            if (datetime.length > 1) {
+                // excluindo timezone e microtime
+                return datetime[1].substring(0, 8);
+            }
+        }
+        return "";
+    },
     
-    formatDate: function(sqlDate) {
+    formatDate: function(sqlDate, onEmpty) {
         if (sqlDate && sqlDate != "") {
             var datetime = sqlDate.split(' ');
             var date = datetime[0].split('-');
-            var time = '';
             // date i18n
             var format = SGA.dateFormat.toLowerCase().split("/");
             var finalDate = [];
@@ -175,12 +185,14 @@ var SGA = {
                     break;
                 }
             }
+            var time = '';
             if (datetime.length > 1) {
-                time = ' ' + datetime[1];
+                // excluindo timezone e microtime
+                time = ' ' + datetime[1].substring(0, 8);
             }
             return finalDate.join('/') + time;
         }
-        return "";
+        return onEmpty || "";
     },
     
     dateToSql: function(localeDate) {
@@ -215,9 +227,11 @@ var SGA = {
     /* jQuery ajax wrapper */
     ajax: function(arg) {
         $('#ajax-loading').show();
+        var data = arg.data || {};
+        data.ts = (new Date()).getTime();
         $.ajax({
             url: arg.url,
-            data: arg.data || {},
+            data: data,
             type: arg.type || 'get',
             dataType: arg.dataType || 'json',
             success: function(response) {
@@ -321,7 +335,7 @@ var SGA = {
         
         loginValue: function(input) {
             var value = input.value + "";
-            value = value.replace(/([^\w\d])+/g, '');
+            value = value.replace(/([^\w\d\.])+/g, '');
             input.value = value.toLowerCase();
         }
         
@@ -645,6 +659,14 @@ var SGA = {
     },
     
     FullScreen: {
+
+        toggle: function(elem) {
+            if (!SGA.FullScreen.element()) {
+                SGA.FullScreen.request(elem);
+            } else {
+                SGA.FullScreen.cancel();
+            }
+        },
         
         request: function(elem) {
             if (elem.requestFullScreen) {
@@ -658,6 +680,16 @@ var SGA = {
             }
             if (elem.msRequestFullScreen) {
                 elem.msRequestFullScreen();
+            }
+        },
+                
+        cancel: function() {
+            if (document.cancelFullScreen) {
+                document.cancelFullScreen();
+            } else if (document.mozCancelFullScreen) {
+                document.mozCancelFullScreen();
+            } else if (document.webkitCancelFullScreen) {
+                document.webkitCancelFullScreen();
             }
         },
         

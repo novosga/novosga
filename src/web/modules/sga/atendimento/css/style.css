@@ -84,7 +84,8 @@
     background-repeat: no-repeat;
 }
 
-#atendimento #controls .btn-control.chamar span { background-image: url(../images/icon-chamar.png); }
+#atendimento #controls .btn-control.chamar span,
+#atendimento #controls .btn-control.chamar_novamente span { background-image: url(../images/icon-chamar.png); }
 #atendimento #controls .btn-control.iniciar span { background-image: url(../images/icon-iniciar.png); }
 #atendimento #controls .btn-control.encerrar span,
 #atendimento #controls .btn-control.codificar span { background-image: url(../images/icon-encerrar.png); }
@@ -92,8 +93,12 @@
 #atendimento #controls .btn-control.nao_compareceu span { background-image: url(../images/icon-naocompareceu.png); }
 #atendimento #controls .btn-control.erro_triagem span { background-image: url(../images/icon-errotriagem.png); }
 
+#atendimento #controls #codificar {
+    width: 785px;
+}
+
 #atendimento #controls #codificar .left {
-    width: 400px;
+    width: 380px;
     margin: 0 5px;
 }
 
@@ -112,10 +117,12 @@
 
 #atendimento #controls #codificar #macro-servicos {
     height: 300px;
+    overflow: auto;
 }
 
 #atendimento #controls #codificar #servicos-realizados {
     height: 150px;
+    overflow: auto;
 }
 
 #atendimento #controls #codificar div.redirecionar {
@@ -171,11 +178,20 @@
     clear: both;
 }
 
-#atendimento #fila span {
+#atendimento #fila h3 {
     font-weight: bold;
     padding: 5px 0 5px 10px;
     display: block;
 }
+
+#atendimento #fila h3 span {
+    font-weight: normal;
+    padding-left: 5px;
+}
+
+#atendimento #fila h3 span.tipo-1 { } /* todos */
+#atendimento #fila h3 span.tipo-2 { color: blue; } /* convencional */ 
+#atendimento #fila h3 span.tipo-3 { color: red; } /* prioridade */
 
 #atendimento #fila ul {
     min-height: 40px;
@@ -197,7 +213,7 @@
     display: inline-block;
 }
 
-#atendimento #fila ul li.proximo {
+#atendimento #fila ul li .proximo {
     font-size: 20px;
 }
 
@@ -206,3 +222,13 @@
     font-style: italic;
     padding-top: 15px;
 }
+
+p.links {
+    padding-top: 20px;
+    text-align: center;
+}
+
+p.links a {
+    margin: 0 5px;
+}
+

@@ -87,7 +87,7 @@ else {
             <div id="iniciar" class="control" style="display:none">
                 <?php 
                     atendimentoInfo($atendimento);
-                    btnControl(_('Chamar novamente'), 'chamar');
+                    btnControl(_('Chamar novamente'), 'chamar_novamente');
                     btnControl(_('Iniciar atendimento'), 'iniciar') ;
                     btnControl(_('Não compareceu'), 'nao_compareceu') ;
                 ?>
@@ -95,6 +95,7 @@ else {
             <div id="encerrar" class="control" style="display:none">
                 <?php 
                     atendimentoInfo($atendimento); 
+                    btnControl(_('Chamar novamente'), 'chamar_novamente');
                     btnControl(_('Encerrar atendimento'), 'encerrar');
                     btnControl(_('Erro de triagem'), 'erro_triagem');
                 ?>
@@ -141,10 +142,20 @@ else {
             </div>
         </div>
         <div id="fila">
-            <span><?php SGA::out(_('Minha fila')) ?>:</span>
+            <h3><?php SGA::out(_('Minha fila')) ?> <span class="tipo-<?php echo $context->getUser()->getTipoAtendimento() ?>">(<?php echo $tiposAtendimento[$context->getUser()->getTipoAtendimento()] ?>)</span>:</h3>
             <ul></ul>
         </div>
     </div>
+    <p class="links clear">
+        <?php
+            echo $builder->button(array(
+                'type' => 'link',
+                'onclick' => 'SGA.Atendimento.consulta()',
+                'icon' => 'ui-icon-search',
+                'label' => _('Consultar senha')
+            ));
+        ?>
+    </p>
     <div id="dialog-redirecionar" title="<?php SGA::out(_('Redirecionar')) ?>" style="display:none">
         <div class="field">
             <label for="redirecionar_servico"><?php SGA::out(_('Novo Serviço')) ?></label>
@@ -154,6 +165,60 @@ else {
                 <option value="<?php echo $servico->getServico()->getId() ?>"><?php SGA::out($servico->getNome()) ?></option>
                 <?php endforeach; ?>
             </select>
+        </div>
+    </div>
+    <div id="dialog-busca" title="<?php SGA::out(_('Busca')) ?>" style="display:none">
+        <div>
+            <label for="numero_busca"><?php SGA::out(_('Número')) ?></label>
+            <input id="numero_busca" type="text" maxlength="5" />
+            <?php 
+                echo $builder->button(array(
+                    'id' => 'btn-consultar',
+                    'label' => _('Consultar'),
+                    'class' => 'ui-button-primary',
+                    'onclick' => 'SGA.Atendimento.consultar()'
+                ));
+            ?>
+        </div>
+        <div class="result">
+            <table id="result_table" class="ui-data-table">
+                <thead>
+                    <tr>
+                        <th><?php SGA::out(_('Número')) ?></th>
+                        <th><?php SGA::out(_('Serviço')) ?></th>
+                        <th><?php SGA::out(_('Data chegada')) ?></th>
+                        <th><?php SGA::out(_('Data início')) ?></th>
+                        <th><?php SGA::out(_('Data fim')) ?></th>
+                        <th><?php SGA::out(_('Triagem')) ?></th>
+                        <th><?php SGA::out(_('Atendente')) ?></th>
+                        <th><?php SGA::out(_('Situação')) ?></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="dialog-senha" title="<?php SGA::out(_('Senha|Bilhete')) ?>" style="display:none">
+        <div class="field">
+            <h3><?php SGA::out(_('Número')) ?></h3>
+            <p class="numero"></p>
+        </div>
+        <div class="field">
+            <h3><?php SGA::out(_('Serviço')) ?></h3>
+            <p class="servico"></p>
+        </div>
+        <div class="field">
+            <h3><?php SGA::out(_('Prioridade')) ?></h3>
+            <p class="nome-prioridade"></p>
+        </div>
+        <div class="field">
+            <h3><?php SGA::out(_('Data de chegada')) ?></h3>
+            <p class="chegada"></p>
+        </div>
+        <div class="field">
+            <h3><?php SGA::out(_('Tempo de espera')) ?></h3>
+            <p class="espera"></p>
         </div>
     </div>
     <div id="sga-clock" title="<?php echo Strings::doubleQuoteSlash(_('Data e hora no servidor')) ?>"></div>

@@ -26,7 +26,6 @@ class MonitorController extends ModuleController {
         // lista de prioridades para ser utilizada ao redirecionar senha
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Prioridade e WHERE e.status = 1 ORDER BY e.peso, e.nome");
         $this->view()->assign('prioridades', $query->getResult());
-        $this->view()->assign('situacoes', \core\model\Atendimento::situacoes());
     }
     
     private function servicos(Unidade $unidade, $where = "") {
@@ -57,7 +56,9 @@ class MonitorController extends ModuleController {
                         $fila = array();
                         for ($j = 0; $j < $total; $j++) {
                             $atendimento = $su->getFila()->get($j); 
-                            $fila[] = $atendimento->toArray(true);
+                            $arr = $atendimento->toArray(true);
+                            $arr['espera'] = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
+                            $fila[] = $arr;
                         }
                         $response->data['servicos'][$su->getServico()->getId()] = $fila;
                         $response->data['total']++;
@@ -69,29 +70,15 @@ class MonitorController extends ModuleController {
         $context->getResponse()->jsonResponse($response);
     }
     
-    private function buscaAtendimento(Unidade $unidade, $id) {
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.id = :id AND su.unidade = :unidade");
-        $query->setParameter('id', (int) $id);
-        $query->setParameter('unidade', $unidade->getId());
-        return $query->getOneOrNullResult();
-    }
-    
-    private function buscaAtendimentos(Unidade $unidade, $numeroSenha) {
-        $field = \core\business\AtendimentoBusiness::isNumeracaoServico() ? 'numeroSenhaServico' : 'numeroSenha';
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Atendimento e JOIN e.servicoUnidade su WHERE e.$field = :numero AND su.unidade = :unidade ORDER BY e.id");
-        $query->setParameter('numero', (int) $numeroSenha);
-        $query->setParameter('unidade', $unidade->getId());
-        return $query->getResult();
-    }
-    
     public function info_senha(SGAContext $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $id = (int) $context->getRequest()->getParameter('id');
-            $atendimento = $this->buscaAtendimento($unidade, $id);
+            $atendimento = \core\business\AtendimentoBusiness::buscaAtendimento($unidade, $id);
             if ($atendimento) {
                 $response->data = $atendimento->toArray();
+                $response->data['espera'] = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
                 $response->success = true;
             } else {
                 $response->message = _('Atendimento inválido');
@@ -108,8 +95,8 @@ class MonitorController extends ModuleController {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $numero = (int) $context->getRequest()->getParameter('numero');
-            $atendimentos = $this->buscaAtendimentos($unidade, $numero);
+            $numero = $context->getRequest()->getParameter('numero');
+            $atendimentos = \core\business\AtendimentoBusiness::buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->toArray();
@@ -165,7 +152,8 @@ class MonitorController extends ModuleController {
     }
     
     /**
-     * Reativa o atendimento para o mesmo serviço e mesma prioridade
+     * Reativa o atendimento para o mesmo serviço e mesma prioridade.
+     * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu
      * @param \core\SGAContext $context
      */
     public function reativar(SGAContext $context) {
@@ -175,6 +163,7 @@ class MonitorController extends ModuleController {
             try {
                 $id = (int) $context->getRequest()->getParameter('id');
                 $conn = $this->em()->getConnection();
+                $status = join(',', array(Atendimento::SENHA_CANCELADA, Atendimento::NAO_COMPARECEU));
                 // reativa apenas se estiver finalizada (data fim diferente de nulo)
                 $stmt = $conn->prepare("
                     UPDATE 
@@ -185,8 +174,7 @@ class MonitorController extends ModuleController {
                     WHERE 
                         id_atend = :id AND 
                         id_uni = :unidade AND
-                        dt_fim IS NOT NULL
-                        
+                        id_stat IN ({$status})
                 ");
                 $stmt->bindValue('id', $id);
                 $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);

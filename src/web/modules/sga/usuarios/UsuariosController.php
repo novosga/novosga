@@ -40,14 +40,13 @@ class UsuariosController extends CrudController {
         $query = $this->em()->createQuery("SELECT e FROM \core\model\Unidade e ORDER BY e.nome");
         $this->view()->assign('unidades', $query->getResult());
         // cargos disponiveis
-        $query = $this->em()->createQuery("SELECT e FROM \core\model\Cargo e WHERE e.id NOT IN (SELECT c.id FROM \core\model\Lotacao l JOIN l.cargo c WHERE l.usuario = :usuario) ORDER BY e.nome");
-        $query->setParameter('usuario', $this->model->getId());
+        $query = $this->em()->createQuery("SELECT e FROM \core\model\Cargo e ORDER BY e.nome");
         $this->view()->assign('cargos', $query->getResult());
     }
     
     protected function preSave(SGAContext $context, SequencialModel $model) {
         $login = Arrays::value($_POST, 'login');
-        if (!ctype_alnum($login)) {
+        if (!preg_match('/^[a-zA-Z0-9\.]+$/', $login)) {
             throw new Exception(_('O login deve conter somente letras e números.'));
         }
         if (strlen($login) < 5 || strlen($login) > 20) {

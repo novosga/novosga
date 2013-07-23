@@ -12,6 +12,7 @@ $isNumeracaoServico = \core\business\AtendimentoBusiness::isNumeracaoServico();
     <thead>
         <tr>
             <th><?php echo _('Senha|Bilhete') ?></th>
+            <th><?php echo _('Cliente') ?></th>
             <th><?php echo _('Data') ?></th>
             <th title="<?php echo _('Hora de Chamada') ?>"><?php echo _('Chamada') ?></th>
             <th title="<?php echo _('Hora do Início do atendimento') ?>"><?php echo _('Início') ?></th>
@@ -22,9 +23,10 @@ $isNumeracaoServico = \core\business\AtendimentoBusiness::isNumeracaoServico();
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($dado['atendimentos'] as $a): ?>
-        <tr>
+        <?php $i = 0; foreach ($dado['atendimentos'] as $a): $i++; ?>
+        <tr class="<?php echo $i % 2 == 0 ? 'par' : 'impar' ?>">
             <td class=""><?php echo $a->getSiglaSenha() . ($isNumeracaoServico ? $a->getNumeroSenhaServico() : $a->getNumeroSenha()) ?></td>
+            <td class=""><?php echo $a->getNomeCliente() ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataChegada(), _('d/m/Y')) ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataChamada(), 'H:i:s', '-') ?></td>
             <td class=""><?php echo DateUtil::format($a->getDataInicio(), 'H:i:s', '-') ?></td>

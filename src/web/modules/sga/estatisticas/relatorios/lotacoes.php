@@ -27,8 +27,8 @@ $status = function($model) {
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($dado['lotacoes'] as $lotacao): ?>
-        <tr>
+        <?php $i = 0; foreach ($dado['lotacoes'] as $lotacao): $i++; ?>
+        <tr class="<?php echo $i % 2 == 0 ? 'par' : 'impar' ?>">
             <td class="strong"><?php echo $lotacao->getUsuario()->getLogin() ?></td>
             <td><?php echo $lotacao->getUsuario()->getNomeCompleto() ?></td>
             <td><?php echo $lotacao->getCargo()->getNome() ?></td>

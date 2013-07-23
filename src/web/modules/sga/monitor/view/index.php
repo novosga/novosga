@@ -1,6 +1,7 @@
 <?php
 use \core\SGA;
 use \core\util\Strings;
+use \core\util\DateUtil;
 ?>
 <div id="monitor">
     <div class="search">
@@ -18,7 +19,7 @@ use \core\util\Strings;
     <?php $id  = $su->getServico()->getId(); ?>
     <?php $empty  = $su->getFila()->size() == 0; ?>
     <div id="servico-<?php echo $id ?>" class="servico ui-corner-all ui-state-default <?php echo ($empty) ? 'empty' : '' ?>" data-id="<?php echo $id ?>">
-        <span class="title"><?php SGA::out($su->getNome()) ?></span>
+        <span class="title"><?php SGA::out($su->getSigla() . ' - ' . $su->getNome()) ?></span>
         <ul class="fila">
             <?php 
                 if (!$empty):
@@ -26,9 +27,11 @@ use \core\util\Strings;
                         $atendimento = $su->getFila()->get($i); 
                         $senha = $atendimento->getSenha();
                         $onclick = "SGA.Monitor.Senha.view({$atendimento->getId()})";
+                        $espera = DateUtil::secToTime(DateUtil::diff($atendimento->getDataChegada(), DateUtil::nowSQL()));
+                        $title = "{$senha->getPrioridade()->getNome()} ({$espera})";
                     ?>
                     <li class="<?php SGA::out(($senha->isPrioridade() ? 'prioridade' : '')) ?>">
-                        <a href="javascript:void(0)" onclick="<?php echo $onclick ?>" title="<?php SGA::out($senha->getPrioridade()->getNome()) ?>">
+                        <a href="javascript:void(0)" onclick="<?php echo $onclick ?>" title="<?php echo $title ?>">
                             <?php SGA::out($senha) ?>
                         </a>
                     </li>
@@ -91,6 +94,10 @@ use \core\util\Strings;
         <div>
             <label><?php SGA::out(_('Data chegada')) ?></label>
             <span id="senha_chegada"></span>
+        </div>
+        <div>
+            <label><?php SGA::out(_('Tempo de espera')) ?></label>
+            <span id="senha_espera"></span>
         </div>
         <div>
             <label><?php SGA::out(_('Data início')) ?></label>
@@ -171,6 +178,5 @@ use \core\util\Strings;
     SGA.Monitor.labelTransferir = '<?php SGA::out(_('Transferir')) ?>';
     SGA.Monitor.alertCancelar = '<?php SGA::out(_('Deseja realmente cancelar essa senha?')) ?>';
     SGA.Monitor.alertReativar = '<?php SGA::out(_('Deseja realmente reativar essa senha?')) ?>';
-    SGA.Monitor.Senha.situacoes = <?php echo json_encode($situacoes) ?>;
     SGA.Monitor.init();
 </script>

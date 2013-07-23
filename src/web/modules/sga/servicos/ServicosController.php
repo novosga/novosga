@@ -21,6 +21,42 @@ class ServicosController extends CrudController {
     protected function requiredFields() {
         return array('nome', 'descricao', 'status');
     }
+    
+    /**
+     * Insere ou atualiza a entidade no banco
+     * @param \core\model\SequencialModel $model
+     */
+    protected function doSave(SGAContext $context, SequencialModel $model) {
+        $this->preSave($context, $model);
+        if ($model->getId() > 0) {
+            // #51 problema ao insertir ou atualizar valor nulo usando sql server no linux
+            if (\core\Config::DB_TYPE === 'mssql' && !$model->getMestre()) {
+                $stmt = $this->em()->getConnection()->prepare('UPDATE servicos SET nm_serv = ?, desc_serv = ?, stat_serv = ?, id_macro = null WHERE id_serv = ?');
+                $stmt->bindValue(1, $model->getNome(), 'string');
+                $stmt->bindValue(2, $model->getDescricao(), 'string');
+                $stmt->bindValue(3, $model->getStatus(), 'integer');
+                $stmt->bindValue(4, $model->getId(), 'integer');
+                $stmt->execute();
+            } else {
+                $this->em()->merge($model);
+                $this->em()->flush();
+            }
+        } else {
+            // #51 problema ao insertir ou atualizar valor nulo usando sql server no linux
+            if (\core\Config::DB_TYPE === 'mssql' && !$model->getMestre()) {
+                $stmt = $this->em()->getConnection()->prepare('INSERT INTO servicos (nm_serv, desc_serv, stat_serv) VALUES (?, ?, ?)');
+                $stmt->bindValue(1, $model->getNome(), 'string');
+                $stmt->bindValue(2, $model->getDescricao(), 'string');
+                $stmt->bindValue(3, $model->getStatus(), 'integer');
+                $stmt->execute();
+                $model->setId($this->em()->getConnection()->lastInsertId());
+            } else {
+                $this->em()->persist($model);
+                $this->em()->flush();
+            }
+        }
+        $this->postSave($context, $model);
+    }
 
     protected function preSave(SGAContext $context, SequencialModel $model) {
         $id_macro = (int) Arrays::value($_POST, 'id_macro');

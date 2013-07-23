@@ -8,17 +8,17 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         'label' => _('Normal'),
         'title' => _('Distribuir senha normal'),
         'data-id' => $servico->getId(),
-        'onclick' => 'SGA.Triagem.senhaNormal(this)'
+        'onclick' => 'SGA.Triagem.Web.senhaNormal(this)'
     ));
     $btnPrioridade = $builder->button(array(
         'class' => 'ui-button-error',
         'label' => _('Prioridade'),
         'data-id' => $servico->getId(),
-        'onclick' => "SGA.Triagem.prioridade(this, '". _('Gerar prioridade') ."', '')",
+        'onclick' => "SGA.Triagem.Web.prioridade(this, '". _('Gerar prioridade') ."', '')",
         'title' => _('Distribuir senha com prioridade'),
     ));
     $buttons = '<span class="buttons">' . $btnNormal . $btnPrioridade . '</span>';
-    $link = '<a href="javascript:void(0)" onclick="SGA.Triagem.servicoInfo(' . $servico->getId() . ', \'' . $servicoUnidade->getNome() . '\')">' . $servicoUnidade->getNome() . '</a>';
+    $link = '<a href="javascript:void(0)" onclick="SGA.Triagem.servicoInfo(' . $servico->getId() . ', \'' . $servicoUnidade->getNome() . '\')">' . $servicoUnidade->getSigla() . ' - ' . $servicoUnidade->getNome() . '</a>';
     $name = '<span class="servico" title="' . $servicoUnidade->getSigla() . ' - ' . $servicoUnidade->getNome() . '">' . $link . '</span>';
     $total = '<span class="fila">
                 <abbr id="total-aguardando-' . $servico->getId() . '" class="total" title="' . _('Aguardando atendimento') . '">-</abbr> / 
@@ -55,6 +55,13 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
     <?php
         echo $builder->button(array(
             'type' => 'link',
+            'onclick' => 'SGA.Triagem.consulta()',
+            'icon' => 'ui-icon-search',
+            'label' => _('Consultar senha')
+        ));
+        
+        echo $builder->button(array(
+            'type' => 'link',
             'href' => SGA::url('touchscreen'),
             'target' => '_blank',
             'icon' => 'ui-icon-person',
@@ -62,10 +69,27 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         ));
     ?>
 </p>
+<!-- iframe para impressao, evitando popup -->
+<iframe id="frame-impressao" width="300" height="150" style="display:none"></iframe>
+<!-- dialog para exibir a senha gerada -->
+<div id="dialog-senha" title="<?php SGA::out(_('Senha|Bilhete')) ?>" style="display:none">
+    <div class="field">
+        <h3><?php SGA::out(_('Número')) ?></h3>
+        <p class="numero"></p>
+    </div>
+    <div class="field">
+        <h3><?php SGA::out(_('Serviço')) ?></h3>
+        <p class="servico"></p>
+    </div>
+    <div class="field">
+        <h3><?php SGA::out(_('Prioridade')) ?></h3>
+        <p class="nome-prioridade"></p>
+    </div>
+</div>
 <!-- dialog para exibir informacoes do servico -->
 <div id="dialog-servico" title="<?php SGA::out(_('Serviço')) ?>" style="display:none">
     <div>
-        <h3><?php SGA::out(_('Nome original do seriço')) ?></h3>
+        <h3><?php SGA::out(_('Nome original do serviço')) ?></h3>
         <p class="nome"></p>
     </div>
     <div>
@@ -88,6 +112,38 @@ function blockServico(\core\view\TemplateBuilder $builder, \core\model\ServicoUn
         </li>
         <?php endforeach; ?>
     </ul>
+</div>
+<div id="dialog-busca" title="<?php SGA::out(_('Busca')) ?>" style="display:none">
+    <div>
+        <label for="numero_busca"><?php SGA::out(_('Número')) ?></label>
+        <input id="numero_busca" type="text" maxlength="5" />
+        <?php 
+            echo $builder->button(array(
+                'id' => 'btn-consultar',
+                'label' => _('Consultar'),
+                'class' => 'ui-button-primary',
+                'onclick' => 'SGA.Triagem.consultar()'
+            ));
+        ?>
+    </div>
+    <div class="result">
+        <table id="result_table" class="ui-data-table">
+            <thead>
+                <tr>
+                    <th><?php SGA::out(_('Número')) ?></th>
+                    <th><?php SGA::out(_('Serviço')) ?></th>
+                    <th><?php SGA::out(_('Data chegada')) ?></th>
+                    <th><?php SGA::out(_('Data início')) ?></th>
+                    <th><?php SGA::out(_('Data fim')) ?></th>
+                    <th><?php SGA::out(_('Triagem')) ?></th>
+                    <th><?php SGA::out(_('Atendente')) ?></th>
+                    <th><?php SGA::out(_('Situação')) ?></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 </div>
 <script type="text/javascript">
     $('.triagem-servico').each(function(i,v) {

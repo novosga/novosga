@@ -1,5 +1,11 @@
 package org.novosga.painel.client.layout;
 
+import java.io.File;
+import java.io.FilenameFilter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -25,9 +31,15 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
     private static final int PADDING = 5;
     private static final Logger LOG = Logger.getLogger(VideoLayout.class.getName());
     
+    public static final String EXT_MP4 = "mp4";
+    public static final String EXT_AVI = "avi";
+    public static final String EXT_HSL = "m3u8";
+    
     private StackPane root;
     private MediaView mediaView;
     private MediaPlayer mediaPlayer;
+    private String[] medias;
+    private int mediaIndex = 0;
     private T historico;
 
     public VideoLayout(PainelFx painel) {
@@ -43,14 +55,45 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
     protected Pane doCreate() {
         root = new StackPane();
         root.setAlignment(Pos.CENTER);
-        AnchorPane content = new AnchorPane();
         String mediaUrl = painel.getMain().getConfig().get(PainelConfig.KEY_SCREENSAVER_URL).getValue();
-        root.getChildren().add(getMediaView(mediaUrl));
+        try {
+            File md = new File(new URL(mediaUrl).getFile());
+            // se for um diretorio, varre o diretorio a procura de medias
+            if (md.isDirectory()) {
+                File[] files = md.listFiles(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File dir, String name) {
+                        String filename = name.toLowerCase();
+                        return filename.endsWith(EXT_MP4) || filename.endsWith(EXT_AVI) || filename.endsWith(EXT_HSL);
+                    }
+                });
+                medias = new String[files.length];
+                for (int i = 0; i < files.length; i++) {
+                    medias[i] = files[i].toURI().toString();
+                }
+            } else {
+                // apontando direto para o arquivo
+                medias = new String[]{ mediaUrl };
+            }
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(VideoLayout.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        setContent();
+        return root;
+    }
+    
+    public void setContent() {
+        root.getChildren().clear();
+        if (medias != null) {
+            root.getChildren().add(createMediaView());
+        } else {
+            root.getChildren().add(errorLabel());
+        }
         historico = createHistorico();
         historico.setId("historico");
+        AnchorPane content = new AnchorPane();
         content.getChildren().add(historico);
         root.getChildren().add(content);
-        return root;
     }
     
     @Override
@@ -83,19 +126,36 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
         historico.setStyle("-fx-padding: " + painel.getDisplay().height(PADDING) + "px " + painel.getDisplay().width(PADDING) + "px");
     }
     
-    private MediaView getMediaView(String url) {
+    private MediaView createMediaView() {
+        String url = medias[mediaIndex];
         if (mediaPlayer == null || !mediaPlayer.getMedia().getSource().equals(url)) {
-            createMediaPlayer(url);
+            mediaPlayer = createMediaPlayer(url, medias.length == 1);
             final Runnable recreate = new Runnable() {
                 @Override
                 public void run() {
-                    LOG.severe("Recriando MediaPlayer");
-                    createMediaPlayer(mediaPlayer.getMedia().getSource());
+                    LOG.severe("Recriando conteudo (MediaPlayer)");
+                    setContent();
+                    doUpdate();
                 }
             };
             mediaPlayer.setOnError(recreate);
             mediaPlayer.setOnHalted(recreate);
             mediaPlayer.setOnStalled(recreate);
+            // se chegou ao final da media verifica se tem mais para pular para a proxima
+            mediaPlayer.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    if (medias.length > 1) {
+                        mediaIndex++;
+                        if (mediaIndex >= medias.length) {
+                            mediaIndex = 0;
+                        }
+                        setContent();
+                        doUpdate();
+                    }
+                }
+            });
+            mediaView = new MediaView(mediaPlayer);
         } else {
             if (!mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
                 mediaPlayer.play();
@@ -105,29 +165,35 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
         return mediaView;
     }
     
-    private void createMediaPlayer(String url) {
+    private MediaPlayer createMediaPlayer(String url, boolean loop) {
         Media media = new Media(url);
         media.setOnError(new Runnable() {
             @Override
             public void run() {
-                Label error = new Label(Main._("video_nao_encontrado"));
-                error.setFont(Font.font(FontLoader.DROID_SANS, 18));
-                error.setStyle("-fx-text-fill: #fff");
-                root.getChildren().add(error);
+                root.getChildren().add(errorLabel());
             }
         });
-        mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-        mediaPlayer.setOnReady(new Runnable() {
+        final MediaPlayer mp = new MediaPlayer(media);
+        mp.setAutoPlay(true);
+        if (loop) {
+            mp.setCycleCount(MediaPlayer.INDEFINITE);
+        }
+        mp.setOnReady(new Runnable() {
             @Override
             public void run() {
-                if (mediaPlayer.getStatus() != Status.PLAYING) {
-                    mediaPlayer.play();
+                if (mp.getStatus() != Status.PLAYING) {
+                    mp.play();
                 }
             }
         });
-        mediaView = new MediaView(mediaPlayer);
+        return mp;
+    }
+    
+    private Label errorLabel() {
+        Label error = new Label(Main._("video_nao_encontrado"));
+        error.setFont(Font.font(FontLoader.DROID_SANS, 18));
+        error.setStyle("-fx-text-fill: #fff");
+        return error;
     }
     
 }

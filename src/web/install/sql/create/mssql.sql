@@ -255,9 +255,6 @@ CREATE TABLE [dbo].[usuarios](
 
 GO
 
-ALTER TABLE [dbo].[senha_uni_msg] ADD  DEFAULT ((0)) FOR [status_imp]
-GO
-
 ALTER TABLE [dbo].[unidades] ADD  CONSTRAINT [DEFAULT_STAT_UNI]  DEFAULT ((1)) FOR [stat_uni]
 GO
 
@@ -318,10 +315,6 @@ go
 
 ALTER TABLE prioridades
     WITH NOCHECK ADD CONSTRAINT PK_prioridades_pkey PRIMARY KEY CLUSTERED (id_pri)
-go
-
-ALTER TABLE senha_uni_msg
-    WITH NOCHECK ADD CONSTRAINT PK_senha_uni_msg_pkey PRIMARY KEY CLUSTERED (id_uni)
 go
 
 ALTER TABLE serv_local
@@ -500,10 +493,6 @@ go
 
 ALTER TABLE serv_peso
     ADD CONSTRAINT FK_peso_ibfk_1 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv)
-go
-
-ALTER TABLE senha_uni_msg
-    ADD CONSTRAINT FK_senha_uni_msg_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni)
 go
 
 ALTER TABLE servicos
