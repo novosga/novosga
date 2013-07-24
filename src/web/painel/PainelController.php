@@ -28,7 +28,7 @@ class PainelController extends SGAController {
     public function servicos(SGAContext $context) {
         $version = (int) $context->getRequest()->getParameter('version');
         $unidade = (int) $context->getRequest()->getParameter('unidade');
-        $query = DB::getEntityManager()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade ORDER BY e.nome");
+        $query = DB::getEntityManager()->createQuery("SELECT e FROM \core\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1 ORDER BY e.nome");
         $query->setParameter(':unidade', $unidade);
         echo ProtocolFactory::create($version)->encodeServicos($query->getResult());
         exit();
