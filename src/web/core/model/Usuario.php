@@ -23,6 +23,8 @@ class Usuario extends SequencialModel {
     protected $senha;
     /** @Column(type="integer", name="stat_usu", nullable=false) */
     protected $status;
+    /** @Column(type="string", name="ult_acesso", nullable=true) */
+    protected $ultimoAcesso;
     /** @Column(type="integer", name="session_id", nullable=true) */
     protected $sessionId;
     /** 
@@ -117,6 +119,14 @@ class Usuario extends SequencialModel {
         return $this->status;
     }
     
+    public function getUltimoAcesso() {
+        return $this->ultimoAcesso;
+    }
+
+    public function setUltimoAcesso($ultimoAcesso) {
+        $this->ultimoAcesso = $ultimoAcesso;
+    }
+        
     public function getSessionId() {
         return $this->sessionId;
     }

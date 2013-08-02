@@ -54,6 +54,7 @@ class LoginController extends InternalController {
                 // atualizando o session id
                 $em = \core\db\DB::getEntityManager();
                 $user->setSessionId(session_id());
+                $user->setUltimoAcesso(\core\util\DateUtil::nowSQL());
                 $em->merge($user);
                 $em->flush();
                 // caso o usuario so tenha acesso a uma unica unidade, ja define como atual
