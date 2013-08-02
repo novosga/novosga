@@ -27,7 +27,8 @@ class AjaxResponse {
     public function toJson() {
         $arr = array(
             'success' => ($this->success == true),
-            'data' => $this->data
+            'data' => $this->data,
+            'time' => time() * 1000
         );
         if (!empty($this->message)) {
             $arr['message'] = $this->message;
