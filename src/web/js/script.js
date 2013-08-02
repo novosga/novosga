@@ -10,7 +10,7 @@ var SGA = {
     module: '',
     page: '',
     paused: false,
-    updateInterval: 5000,
+    updateInterval: 6000,
     dateFormat: '',
     
     dialogs: {
@@ -258,17 +258,20 @@ var SGA = {
                         });
                     }
                 }
+                if (response.time) {
+                    SGA.Clock.update(response.time);
+                }
             },
             error: function() {
                 var fn = arg.error;
-                if (fn && typeof(fn) == 'function') {
+                if (fn && typeof(fn) === 'function') {
                     fn();
                 }
             },
             complete: function(response) {
                 $('#ajax-loading').hide();
                 var fn = arg.complete;
-                if (fn && typeof(fn) == 'function') {
+                if (fn && typeof(fn) === 'function') {
                     fn(response);
                 }
             }
@@ -502,8 +505,11 @@ var SGA = {
             }
         },
         
-        update: function() {
+        update: function(milis) {
             var c = SGA.Clock;
+            if (milis) {
+                c.date = new Date(milis);
+            }
             c.hours.text(SGA.Clock.zeroFill(c.date.getHours()));
             c.mins.text(SGA.Clock.zeroFill(c.date.getMinutes()));
             c.secs.text(SGA.Clock.zeroFill(c.date.getSeconds()));
