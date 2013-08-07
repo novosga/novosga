@@ -6,7 +6,7 @@
     <thead>
         <tr>
             <th><?php echo _('Sigla') ?></th>
-            <th><?php echo _('Situação') ?></th>
+            <th><?php echo _('Serviço') ?></th>
         </tr>
     </thead>
     <tbody>

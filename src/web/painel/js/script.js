@@ -225,42 +225,33 @@ SGA.PainelWeb = {
         },
                 
         fullscreen: function() {
-            SGA.FullScreen.change(function() {
-                if (SGA.FullScreen.element()) {
-                    $('#btn-fullscreen').hide();
-                } else {
-                    $('#btn-fullscreen').show();
-                }
-            });
-            SGA.FullScreen.request(document.body);
+            SGA.FullScreen.toggle(document.body);
         }
 
     },
 
     Speech: {
         queuee: [],
+
         play: function(text) {
             if (this.queuee === undefined) {
                 this.queuee = [];
             }
-
             if (text === "senha") {
                 this.queuee.push({name: text, lang: SGA.PainelWeb.Config.lang});
                 this.processQueuee();
                 return;
             }
-
             for (var i=text.length-1, chr; i >= 0; i--) {
                 chr = text.charAt(i).toLowerCase();
                 if (chr === '') {
                     continue;
                 }
-
                 this.queuee.push({name: chr, lang: SGA.PainelWeb.Config.lang});
             }
-
             this.processQueuee();
         },
+
         playFile: function(filename) {
             var self = this;
             var bz = new buzz.sound(filename, {
@@ -273,15 +264,14 @@ SGA.PainelWeb = {
                 self.processQueuee();
             });
         },
+
         processQueuee: function() {
             if (this.queuee !== undefined && this.queuee.length === 0) {
                 return;
             }
-
             if (buzz.sounds.length > 0) {
                 return;
             }
-
             var current = this.queuee.pop();
             var filename = "../media/voice/" + current.lang + "/" + current.name;
             this.playFile(filename);
