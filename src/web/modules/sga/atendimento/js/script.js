@@ -119,7 +119,7 @@ SGA.Atendimento = {
     chamar: function(btn) {
         SGA.Atendimento.control({
             button: btn,
-            enableDelay: 3000,
+            enableDelay: 5000,
             action: 'chamar', 
             success: function(response) {
                 // remove o proximo da lista se for o mesmo do atendimento
@@ -142,7 +142,7 @@ SGA.Atendimento = {
     chamar_novamente: function(btn) {
         SGA.Atendimento.control({
             button: btn,
-            enableDelay: 3000,
+            enableDelay: 5000,
             action: 'chamar'
         });
     },

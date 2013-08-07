@@ -129,7 +129,8 @@ SGA.Estatisticas = {
                 }],
                 exporting: {
                     enabled: true,
-                    sourceWidth: 1024
+                    sourceWidth: 1024,
+                    sourceHeight: 800
                 }
             });
         },
