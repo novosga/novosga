@@ -13,24 +13,27 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.novosga.painel.model.Senha;
-import javafx.application.Platform;
 import org.novosga.painel.event.ObterUrlEvent;
 import org.novosga.painel.event.SenhaEvent;
 
+/**
+ * 
+ * @author rogeriolino
+ * @author ulysses
+ */
 public abstract class PacketListener implements Runnable {
     
     /**
-     * Versão do protocolo, independe da versão do programa.<br> Deve ser
-     * incrementada se houver uma modificação no formato de alguma das
-     * mensagens.
+     * Versão do protocolo de comunicacao entre painel cliente e servidor
      */
     public static final int VERSAO_PROTOCOLO = 1;
 
     private static final Logger LOG = Logger.getLogger(PacketListener.class.getName());
     private Thread _thread;
     private Thread _tarefaDesligamento;
-    private final ScheduledExecutorService _ses = Executors.newScheduledThreadPool(1);
-    private ScheduledFuture<?> _future;
+    private final ScheduledExecutorService service;
+    private ScheduledFuture<?> future;
+    private final Runnable sinalDeVida;
     
     protected final int receivePort;
     protected final int sendPort;
@@ -45,7 +48,32 @@ public abstract class PacketListener implements Runnable {
         this.receivePort = receivePort;
         this.sendPort = sendPort;
         this.server = server;
+        this.service = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("PackageListenerService"));
+        this.sinalDeVida = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    PacketListener.this.enviarSinalDeVida();
+                    LOG.log(Level.FINE, "Enviado sinal de vida.");
+                } catch (Throwable e) {
+                    LOG.log(Level.SEVERE, "Erro ao enviar sinal de vida: " + e.getMessage(), e);
+                }
+            }
+        };
     }
+    
+    protected abstract void doStart() throws Exception;
+    
+    protected abstract void send(ByteBuffer buffer) throws Exception;
+    
+    protected abstract void preObterUrls();
+    protected abstract void postObterUrls();
+    
+    protected abstract void preCadastrarPainel();
+    protected abstract void postCadastrarPainel();
+    
+    protected abstract void postLeMsgConfirmaCadastro();
+    
 
     public String getServer() {
         return server;
@@ -83,12 +111,10 @@ public abstract class PacketListener implements Runnable {
         _thread.start();
     }
     
-    protected abstract void doStart() throws Exception;
     /**
      * Processa as mensagens recebidas via UDP.<br> <br> <ul> <li>O tipo da
      * mensagem é definido pelo primeiro byte.</li> <li>Em seguida o resto da
      * mensagem é lido de acordo com seu tipo.</li> </ul>
-     *
      *
      * @param executor Thread que irá executar a ação recebida (se necessário)
      * @param buf Buffer com os dados da mensagem recebida
@@ -108,7 +134,7 @@ public abstract class PacketListener implements Runnable {
         } else if (tipoPacote == TipoPacoteRecebido.MSG_URLS.ordinal()) {
             this.leMsgUrls(executor, buf);
         } else {
-            LOG.severe("Mensagem de tipo desconhecido descartada. Tipo: " + tipoPacote);
+            LOG.log(Level.SEVERE, "Mensagem de tipo desconhecido descartada. Tipo: {0}", tipoPacote);
         }
     }
 
@@ -133,18 +159,13 @@ public abstract class PacketListener implements Runnable {
             final Senha senha = new Senha(mensagem, charServico, numero, guiche, numeroGuiche);
             // verificando integridade dos dados
             if (numero > 0 && numeroGuiche > 0 && guiche != null && !guiche.isEmpty()) {
+                LOG.log(Level.INFO, "[MSG_SENHA] Senha recebida para exibi\u00e7\u00e3o: {0}", senha.toString());
                 if (onNovaSenhaEvent != null) {
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            onNovaSenhaEvent.handle(senha);
-                        }
-                   });
+                    onNovaSenhaEvent.handle(senha);
                 }
             } else {
-                LOG.severe("[MSG_SENHA] Ignorando senha a seguir: Dados inválidos.");
+                LOG.warning("[MSG_SENHA] Ignorando senha a seguir: Dados inválidos.");
             }
-            LOG.info("[MSG_SENHA] Senha recebida para exibição: " + senha.toString());
         } catch (BufferUnderflowException e) {
             LOG.log(Level.SEVERE, "Erro lendo pacote MSG_SENHA, não havia dados suficientes na mensagem recebida.", e);
         }
@@ -162,7 +183,7 @@ public abstract class PacketListener implements Runnable {
             intervaloSinalDeVida = PacketListener.leShort(buf);
             this.agendarSinalDeVida();
             if (_tarefaDesligamento == null) {
-                _tarefaDesligamento = new TarefaDesligamento();
+                _tarefaDesligamento = new TarefaDesligamento(this);
                 Runtime.getRuntime().addShutdownHook(_tarefaDesligamento);
             }
             postLeMsgConfirmaCadastro();
@@ -171,8 +192,6 @@ public abstract class PacketListener implements Runnable {
             LOG.log(Level.SEVERE, "Erro lendo pacote MSG_CONFIRMA_CADASTRO, não havia dados suficientes na mensagem recebida.", e);
         }
     }
-    
-    protected void postLeMsgConfirmaCadastro() {}
 
     /**
      * Le a mensagem contendo as urls. O Executor e o buffer não são
@@ -187,17 +206,11 @@ public abstract class PacketListener implements Runnable {
             final String urlUnidades = PacketListener.leString(buf);
             final String urlServicos = PacketListener.leString(buf);
 
-            LOG.info("[MSG_URLS] RECEBIDO: URL Unidades: " + urlUnidades + "\nRECEBIDO: URL Serviços: " + urlServicos);
+            LOG.log(Level.INFO, "[MSG_URLS] RECEBIDO: URL Unidades: {0}\nRECEBIDO: URL Servi\u00e7os: {1}", new Object[]{urlUnidades, urlServicos});
 
             if (onObterUrlEvent != null) {
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        onObterUrlEvent.handler(urlUnidades, urlServicos);
-                    }
-                });
+                onObterUrlEvent.handler(urlUnidades, urlServicos);
             }
-            
             postLeMsgUrls();
         } catch (BufferUnderflowException e) {
             LOG.log(Level.SEVERE, "Erro lendo pacote MSG_URLS, não havia dados suficientes na mensagem recebida.", e);
@@ -255,8 +268,6 @@ public abstract class PacketListener implements Runnable {
     public static Color leCor(ByteBuffer buf) {
         return new Color(leByte(buf), leByte(buf), leByte(buf));
     }
-    
-    protected abstract void send(ByteBuffer buffer) throws Exception;
 
     public synchronized void obterURLs() throws Exception {
         ByteBuffer buf = ByteBuffer.wrap(new byte[1]);
@@ -265,9 +276,6 @@ public abstract class PacketListener implements Runnable {
         send(buf);
         postObterUrls();
     }
-    
-    protected void preObterUrls() { }
-    protected void postObterUrls() { }
 
     /**
      * Cadastra um painel no servidor.<br> Este método bloqueia até que a
@@ -295,9 +303,6 @@ public abstract class PacketListener implements Runnable {
         send(buf);
         postCadastrarPainel();
     }
-    
-    protected void preCadastrarPainel() {}
-    protected void postCadastrarPainel() {}
 
     /**
      * Envia um pacote de sinal de vida para o servidor.<BR> Se o painel falhar
@@ -322,7 +327,7 @@ public abstract class PacketListener implements Runnable {
      * @throws IOException Se ocorreu um erro de I/O no processo de envio da
      * mensagem.
      */
-    private void desregistrarDoServidor() throws Exception {
+    public void desregistrarDoServidor() throws Exception {
         ByteBuffer buf = ByteBuffer.wrap(new byte[1]);
         buf.put((byte) TipoPacoteEnviado.MSG_DESATIVAR_PAINEL.ordinal());
         send(buf);
@@ -334,81 +339,13 @@ public abstract class PacketListener implements Runnable {
      * intervalo definido pelo servidor.
      */
     private void agendarSinalDeVida() {
-        ScheduledFuture<?> future = _future;
         // se ja existir agendamento
         if (future != null) {
             // cancelar agendamento anterior
             future.cancel(false);
         }
-        final Runnable r = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    PacketListener.this.enviarSinalDeVida();
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                    // ?
-                }
-            }
-        };
-        // agendar tarefa continua com intervalos de (_intervaloSinalDeVida - 10) segundos
-        //_future = _ses.scheduleAtFixedRate(r, 0, _intervaloSinalDeVida - 10, TimeUnit.SECONDS);
-		/* 
-         * PMV (ralfilho): 
-         * Alterado o intervalor para enviar 3x durante o intervalo, o motivo é para evitar timeout caso algum pacote se perca.
-         */
-        _future = _ses.scheduleAtFixedRate(r, 0, intervaloSinalDeVida / 3, TimeUnit.SECONDS);
+        // Envia X vezes sinal de vida dentro do tempo de timeout
+        future = service.scheduleAtFixedRate(sinalDeVida, 0, intervaloSinalDeVida / 3, TimeUnit.SECONDS);
     }
 
-    /**
-     * Tarefa chamada pela JVM quando o programa é finalizado.<br> Esta tarefa
-     * noticia o servidor que o painel entrou em estado inativo, com intuito de
-     * salvar banda.<br>
-     *
-     * @author ulysses
-     *
-     */
-    class TarefaDesligamento extends Thread {
-
-        @Override
-        public void run() {
-            try {
-                PacketListener.this.desregistrarDoServidor();
-            } catch (Exception e) {
-                // Painel sendo fechado, ignorar erro
-            }
-        }
-    }
-
-    /**
-     * Exception que representa timeout em operações de I/O
-     *
-     * @author ulysses
-     *
-     */
-    @SuppressWarnings("serial")
-    class TimeoutException extends IOException {
-
-        /**
-         * @param message
-         */
-        public TimeoutException(String message) {
-            super(message);
-        }
-    }
-    
-    public static enum TipoPacoteRecebido {
-        MSG_SENHA, // 0
-        MSG_CONFIRMA_CADASTRO, // 1
-        MSG_URLS,              // 2
-    }
-
-    public static enum TipoPacoteEnviado {
-
-        MSG_CADASTRO_PAINEL, // 0
-        MSG_PAINEL_VIVO, // 1
-        MSG_SOLICITAR_URLS, // 2
-        MSG_DESATIVAR_PAINEL,	// 3
-    }
-    
 }

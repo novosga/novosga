@@ -4,4 +4,4 @@
 # @author rogeriolino
 #
 
-java -splash:ui/img/splash.png -jar {distname}.jar
+java -splash:data/ui/img/splash.png -jar {distname}.jar

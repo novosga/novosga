@@ -2,6 +2,7 @@ package org.novosga.painel.client.layout;
 
 import org.novosga.painel.model.Senha;
 import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.animation.TimelineBuilder;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +12,7 @@ import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 import org.novosga.painel.client.Main;
 import org.novosga.painel.client.PainelFx;
+import org.novosga.painel.client.config.PainelConfig;
 
 /**
  *
@@ -22,6 +24,8 @@ public abstract class SenhaLayout extends Layout {
     protected Label senha;
     protected Label guiche;
     protected Label numeroGuiche;
+    
+    protected Timeline animation;
 
     public SenhaLayout(PainelFx painel) {
         super(painel);
@@ -31,11 +35,19 @@ public abstract class SenhaLayout extends Layout {
         guiche = new Label(Main._("guiche"));
         guiche.setId("guiche");
         
-        numeroGuiche = new Label("000");
+        numeroGuiche = new Label("00");
         numeroGuiche.setId("numero-guiche");
         
-        senha = new Label("-----");
+        Integer tamanho = painel.getMain().getConfig().get(PainelConfig.KEY_TAMANHO_NUMERO, Integer.class).getValue();
+        senha = new Label("A" + String.format("%0" + tamanho + "d", 0));
         senha.setId("senha");
+        
+        animation = TimelineBuilder.create().keyFrames(new KeyFrame(Duration.seconds(.3), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                senha.setVisible(!senha.isVisible());
+            }
+        })).cycleCount(8).build();
     }
 
     public Label getMensagem() {
@@ -71,14 +83,8 @@ public abstract class SenhaLayout extends Layout {
         this.mensagem.getStyleClass().clear();
         this.mensagem.getStyleClass().addAll("label", styleClass);
         // atualizando o tamanho da font para o maximo possivel dentro do centro
-        final Label label = this.senha;
-        label.setFont(Font.font(label.getFont().getFamily(), FontWeight.BOLD, calculateFontSize(label)));
-        TimelineBuilder.create().keyFrames(new KeyFrame(Duration.seconds(.3), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                label.setVisible(!label.isVisible());
-            }
-        })).cycleCount(8).build().play();
+        this.senha.setFont(Font.font(this.senha.getFont().getFamily(), FontWeight.BOLD, calculateFontSize(this.senha)));
+        animation.play();
     }
     
 }

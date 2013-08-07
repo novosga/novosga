@@ -1,6 +1,7 @@
 package org.novosga.painel.client.fonts;
 
 import java.awt.FontFormatException;
+import java.io.FileInputStream;
 import java.io.IOException;
 import javafx.scene.text.Font;
 
@@ -19,7 +20,7 @@ public class FontLoader {
     public static final String BITSTREAM_VERA_SANS = "Bitstream Vera Sans";
     
     public static Font load(String fontName) throws FontFormatException, IOException {
-        return Font.loadFont(FontLoader.class.getResourceAsStream(fontName), 12);
+        return Font.loadFont(new FileInputStream("data/fonts/" + fontName), 12);
     }
 
     public static void registerAll() {

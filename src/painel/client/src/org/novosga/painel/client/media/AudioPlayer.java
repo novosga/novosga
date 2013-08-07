@@ -1,81 +1,59 @@
 package org.novosga.painel.client.media;
 
-import java.io.File;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.animation.KeyFrame;
-import javafx.animation.TimelineBuilder;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.media.AudioClip;
-import javafx.util.Duration;
 import org.novosga.painel.client.Main;
 import org.novosga.painel.model.Senha;
 
-
 /**
- * @author ulysses
+ *
  * @author rogeriolino
  */
-public class AudioPlayer {
+public abstract class AudioPlayer {
     
     private static final Logger LOG = Logger.getLogger(AudioPlayer.class.getName());
     
-    public static final String AUDIO_PATH = "media/audio/";
+    public static final String AUDIO_PATH = "data/media/audio/";
     public static final String ALERT_PATH = AUDIO_PATH + "alert";
     public static final String VOICE_EXT = "wav";
-    public static final String VOICE_PATH = AudioPlayer.AUDIO_PATH + "voice";
-    private AudioClip audio = null;
-    private static final Queue<File> audios = new ConcurrentLinkedQueue<File>();
-    
+    public static final String VOICE_PATH = AUDIO_PATH + "voice";
+        
     private static AudioPlayer instance;
 
-    private AudioPlayer() {
-        // loop infinito (audio)
-        TimelineBuilder.create().keyFrames(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                processAudio();
-            }
-        })).cycleCount(-1).build().play();
-    }
-
-    public static AudioPlayer getInstance() {
+    public static AudioPlayer getInstance(boolean jfxLib) {
         if (instance == null) {
-            instance = new AudioPlayer();
+            if (jfxLib) {
+                instance = new JFXAudioPlayer();
+                LOG.info("Instanciado AudioPlayer utilizando JavaFX lib");
+            } else {
+                instance = new NativeAudioPlayer();
+                LOG.info("Instanciado AudioPlayer utilizando Java nativo");
+            }
         }
         return instance;
     }
     
-    private void processAudio() {
-        try {
-            if (audio == null || !audio.isPlaying()) {
-                File f = audios.remove();
-                String url = f.toURI().toString();
-                audio = new AudioClip(url);
-                audio.play();
-            }
-        } catch (Exception e) {
-        }
+    protected abstract void alert(String alert);
+    protected abstract void speech(String text, String lang);
+    
+    public void call(final Senha senha, final String alert, final boolean speech, final String lang) {
+        doCall(senha, alert, speech, lang);
     }
     
-    public void call(Senha senha, String alert, boolean speech, String lang) {
-        AudioPlayer player = AudioPlayer.getInstance();
-        player.alert(alert);
+    protected final void doCall(Senha senha, String alert, boolean speech, String lang) {
+        alert(alert);
         if (speech) {
             try {
-                player.speech("senha", lang);
-                player.speech(senha.getSigla(), lang);
-                String numero = String.valueOf(senha.getNumero());
+                speech("senha", lang);
+                speech(senha.getSigla(), lang);
+                String numero = senha.getNumeroAsString();
                 for (int i = 0; i < numero.length(); i++) {
-                    player.speech(numero.charAt(i), lang);
+                    speech(numero.charAt(i), lang);
                 }
-                player.speech("guiche", lang);
+                speech("guiche", lang);
                 numero = String.valueOf(senha.getNumeroGuiche());
                 for (int i = 0; i < numero.length(); i++) {
-                    player.speech(numero.charAt(i), lang);
+                    speech(numero.charAt(i), lang);
                 }
             } catch (Exception e1) {
                 LOG.log(Level.SEVERE, Main._("erro_vocalizacao"), e1);
@@ -83,34 +61,8 @@ public class AudioPlayer {
         }
     }
     
-    public void alert(String alert) {
-        this.play(ALERT_PATH, alert);
-    }
-    
-    public void speech(String text, String lang) throws Exception {
-        text = text.toLowerCase();
-        File f = new File(VOICE_PATH + "/" + lang, text + "." + VOICE_EXT);
-        if (!f.exists()) {
-            throw new Exception("Impossivel vocalizar " + text + ", o arquivo (" + f.getAbsolutePath() + ") não existe.");
-        } else {
-            AudioPlayer.getInstance().play(f);
-        }
-    }
-    
-    public void speech(char c, String lang) throws Exception {
+    public void speech(char c, String lang) {
         speech(String.valueOf(c), lang);
-    }
-
-    public void play(String baseDir, String filename) {
-        this.play(new File(baseDir, filename));
-    }
-
-    public void play(final File f) {
-        if (!f.exists()) {
-            LOG.severe("Erro ao tocar (" + f.getAbsolutePath() + ", arquivo não existe.");
-        } else {
-            audios.add(f);
-        }
     }
     
 }

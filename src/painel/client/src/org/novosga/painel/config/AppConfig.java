@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
-import org.novosga.painel.client.Main;
 
 /**
  *
@@ -15,13 +14,17 @@ import org.novosga.painel.client.Main;
  */
 public abstract class AppConfig {
     
+    protected abstract File dir();
     protected abstract String filename();
     protected abstract List<ConfigParameter> parameters();
+
+    public final File file() {
+        return new File(dir(), filename());
+    }
     
-    
-    public void load() throws FileNotFoundException, IOException {
+    public final void load() throws FileNotFoundException, IOException {
         Properties config = new Properties();
-        File file = new File(Main.getWorkingDirectory(), filename());
+        File file = file();
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -32,19 +35,19 @@ public abstract class AppConfig {
         }
     }
     
-    public void save() throws IOException {
+    public final void save() throws IOException {
         Properties config = new Properties();
         for (ConfigParameter param : parameters()) {
             config.setProperty(param.getKey(), param.toString());
         }
-        config.store(new FileOutputStream(new File(Main.getWorkingDirectory(), filename())), "Novo SGA configuration file");
+        config.store(new FileOutputStream(file()), "Novo SGA configuration file");
     }
     
-    public ConfigParameter<String> get(String key) {
+    public final ConfigParameter<String> get(String key) {
         return get(key, String.class);
     }
         
-    public <T> ConfigParameter<T> get(String key, Class<T> type) {
+    public final <T> ConfigParameter<T> get(String key, Class<T> type) {
         for (ConfigParameter param : parameters()) {
             if (param.getKey().equals(key)) {
                 return param;

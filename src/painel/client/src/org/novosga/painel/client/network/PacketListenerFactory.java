@@ -1,5 +1,9 @@
 package org.novosga.painel.client.network;
 
+/**
+ * 
+ * @author rogeriolino
+ */
 public class PacketListenerFactory {
    
     public static PacketListener create(String protocol, int receivePort, int sendPort, String server) {
