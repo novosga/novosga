@@ -14,7 +14,7 @@ import org.novosga.painel.event.ObterUrlEvent;
 
 /**
  * 
- * @author ralfilho
+ * @author rogeriolino
  */
 public class PainelService {
 
@@ -23,8 +23,8 @@ public class PainelService {
     
     private String urlUnidades;
     private String urlServicos;
-    private Map<Integer,String> unidades = new HashMap<Integer,String>();
-    private Map<Integer,String> servicos = new HashMap<Integer,String>();
+    private Map<Integer,String> unidades = new HashMap<>();
+    private Map<Integer,String> servicos = new HashMap<>();
     private Main main;
     
     public PainelService(Main main) throws Exception {
@@ -38,8 +38,8 @@ public class PainelService {
         main.getListener().cadastrarPainel(unidade, servicos);
     }
     
-    public synchronized void registerAndLoad(final Runnable onload) throws Exception {
-        register(main.getListener().getServer());
+    public synchronized void registerAndLoad(String server, final Runnable onload) throws Exception {
+        register(server);
         loadUrls(onload);
     }
     
@@ -61,7 +61,7 @@ public class PainelService {
     }
     
     public synchronized Map<Integer,String> buscarUnidades() {
-        LOG.info("Montando unidades a partir de: " + urlUnidades);
+        LOG.log(Level.INFO, "Montando unidades a partir de: {0}", urlUnidades);
         unidades.clear();
         try {
             if (urlUnidades != null && urlUnidades.length() > 0) {
@@ -78,7 +78,7 @@ public class PainelService {
                                 String nome = parts[2];
                                 unidades.put(id, codigo + " - " + nome);
                             } catch (Exception e) {
-                                LOG.log(Level.SEVERE, "Servidor enviou uma linha inválida:\n" + linha, e);
+                                LOG.log(Level.SEVERE, "Servidor enviou uma linha inválida: " + linha, e);
                             }
                         }
                     }
@@ -87,14 +87,14 @@ public class PainelService {
                 }
             }
         } catch (Exception e) {
-            LOG.severe("Erro ao buscar unidades: " + e.getMessage());
+            LOG.log(Level.SEVERE, "Erro ao buscar unidades: " + e.getMessage(), e);
         }
         return unidades;
     }
 
     public synchronized Map<Integer,String> buscarServicos(int idUnidade) {
         String url = this.urlServicos.replace("%id_unidade%", "" + idUnidade);
-        LOG.info("URL Servicos com unidade: " + url);
+        LOG.log(Level.INFO, "URL Servicos com unidade: {0}", url);
         servicos.clear();
         try {
             URL con = new URL(url);
@@ -112,11 +112,11 @@ public class PainelService {
                     i++;
                 } catch (NumberFormatException e) {
                     // servidor enviou um ID inválido (nunca deve acontecer)
-                    e.printStackTrace();
+                    LOG.log(Level.SEVERE, "Erro ao buscar serviços: " + e.getMessage(), e);
                 }
             }
         } catch (Exception e) {
-            LOG.severe("Erro ao busar serviços da unidade " + idUnidade + ": " + e.getMessage());
+            LOG.log(Level.SEVERE, "Erro ao busar servi\u00e7os da unidade {0}: {1}", new Object[]{idUnidade, e.getMessage()});
         }
         return servicos;
     }

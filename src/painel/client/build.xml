@@ -33,6 +33,7 @@
         </copy>
         <!-- substituindo a versao -->
         <replace file="${build.src}/org/novosga/painel/client/Main.java" token="{version}" value="${version}" />
+        <!-- compilando o javafx -->
         <taskdef resource="com/sun/javafx/tools/ant/antlib.xml" uri="javafx:com.sun.javafx.tools.ant" classpath=".:${jdklib}" />
         <javac includeantruntime="false" srcdir="${build.src}" destdir="${build.classes}" classpath="${jrelib}" />
     </target>
@@ -42,15 +43,9 @@
     -->
     <target name="jar" depends="compile" description="Cria o arquivo jar">
         <!-- copying resources -->
-        <property name="fonts.dir" value="org/novosga/painel/client/fonts" />
         <copy todir="${build.classes}">
             <fileset dir="${src}">
                 <include name="**/*.properties" />
-            </fileset>
-        </copy>
-        <copy todir="${build.classes}/${fonts.dir}">
-            <fileset dir="${src}/${fonts.dir}">
-                <include name="*.ttf" />
             </fileset>
         </copy>
         <fx:application id="PainelFXApp"
@@ -72,11 +67,8 @@
         pre-dist: copia os arquivos necessarios para gerar o compactado
     -->
     <target name="pre-dist" depends="jar" description="copia os arquivos necessarios para gerar o compactado">
-        <copy todir="${build.dist}/ui">
-            <fileset dir="ui" />
-        </copy>
-        <copy todir="${build.dist}/media">
-            <fileset dir="media" />
+        <copy todir="${build.dist}/data">
+            <fileset dir="data" />
         </copy>
         <copy todir="${build.dist}">
             <fileset dir="${distfiles}">
@@ -84,7 +76,7 @@
             </fileset>
         </copy>
         <!-- substituindo a versao -->
-        <replace file="${build.dist}/ui/jfx/main.fxml" token="{version}" value="${version}" />
+        <replace file="${build.dist}/data/ui/jfx/main.fxml" token="{version}" value="${version}" />
         <!-- substituindo nome do jar (executavel) -->
         <replace file="${build.dist}/painel.bat" token="{distname}" value="${distname}" />
         <replace file="${build.dist}/painel.sh" token="{distname}" value="${distname}" />

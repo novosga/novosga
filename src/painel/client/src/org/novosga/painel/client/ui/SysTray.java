@@ -1,6 +1,7 @@
 package org.novosga.painel.client.ui;
 
 import java.awt.AWTException;
+import java.awt.Menu;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -18,51 +19,27 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.novosga.painel.client.Main;
 
 /**
- * @author DATAPREV
- * @category Interface
+ * 
+ * @author rogeriolino
  */
 public class SysTray implements ActionListener {
 
     private static final Logger LOG = Logger.getLogger(SysTray.class.getName());
     private static Main _main;
 
-    /**
-     *
-     * @throws AWTException
-     */
+    
     public SysTray(Main main, URL icon) {
         _main = main;
         if (SystemTray.isSupported()) {
             setLookAndFeel();
-            
             LOG.fine("O sistema possui suporte a ícone de bandeja.");
-
-            SystemTray sys = SystemTray.getSystemTray();
-
             // cria o menu popup
             PopupMenu popup = new PopupMenu();
-
-            MenuItem miExibe = new MenuItem(Main._("exibir_painel"));
-            miExibe.setActionCommand("exibir");
-            miExibe.addActionListener(this);
-            popup.add(miExibe);
-
-            MenuItem miConf = new MenuItem(Main._("configurar"));
-            miConf.setActionCommand("configurar");
-            miConf.addActionListener(this);
-            popup.add(miConf);
-
-            MenuItem miSobre = new MenuItem(Main._("sobre"));
-            miSobre.setActionCommand("sobre");
-            miSobre.addActionListener(this);
-            popup.add(miSobre);
-
+            addMenuItem(popup, "exibir_painel", "exibir");
+            addMenuItem(popup, "configurar", "configurar");
+            addMenuItem(popup, "sobre", "sobre");
             popup.addSeparator();
-
-            MenuItem miSair = new MenuItem(Main._("sair"));
-            miSair.setActionCommand("sair");
-            miSair.addActionListener(this);
-            popup.add(miSair);
+            addMenuItem(popup, "sair", "sair");
 
             // constroi o system tray
             TrayIcon trayIcon = new TrayIcon(new ImageIcon(icon).getImage(), "Painel Novo SGA", popup);
@@ -70,7 +47,7 @@ public class SysTray implements ActionListener {
             trayIcon.setImageAutoSize(true);
             // adiciona imagem do system tray
             try {
-                sys.add(trayIcon);
+                SystemTray.getSystemTray().add(trayIcon);
                 LOG.fine("Ícone de bandeja exibido com sucesso.");
             } catch (AWTException e) {
                 throw new RuntimeException(Main._("erro_systray", e.getMessage()));
@@ -78,6 +55,13 @@ public class SysTray implements ActionListener {
         } else {
             throw new RuntimeException(Main._("erro_systray_nao_suportado"));
         }
+    }
+    
+    private void addMenuItem(Menu menu, String label, String action) {
+        MenuItem item = new MenuItem(Main._(label));
+        item.setActionCommand(action);
+        item.addActionListener(this);
+        menu.add(item);
     }
 
     @Override
@@ -114,13 +98,7 @@ public class SysTray implements ActionListener {
     private void setLookAndFeel() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SysTray.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(SysTray.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(SysTray.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(SysTray.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

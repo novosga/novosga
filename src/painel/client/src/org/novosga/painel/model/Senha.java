@@ -13,6 +13,7 @@ public class Senha {
     private String guiche;
     private int numeroGuiche;
     private boolean status;
+    private int tamanhoNumero;
 
     public Senha(String mensagem, char sigla, int numero, String guiche, int numeroGuiche) {
         this.mensagem = mensagem;
@@ -20,6 +21,7 @@ public class Senha {
         this.numero = numero;
         this.guiche = guiche;
         this.numeroGuiche = numeroGuiche;
+        this.tamanhoNumero = 1;
     }
 
     public boolean isStatus() {
@@ -54,13 +56,33 @@ public class Senha {
         this.numero = numero;
     }
     
+    public String getNumeroAsString(int length) {
+        return String.format("%0" + length + "d", numero);
+    }
+    
+    public String getNumeroAsString() {
+        return getNumeroAsString(tamanhoNumero);
+    }
+
     /**
-     * Returna o numero da senha (preenchido com 4 casas) 
-     * mais a sigla do servico: A0001
+     * Tamanho da parte numerica da senha. Se 3 entao "001", "011", "111", etc
+     * @return 
+     */
+    public int getTamanhoNumero() {
+        return tamanhoNumero;
+    }
+
+    public void setTamanhoNumero(int tamanhoNumero) {
+        this.tamanhoNumero = tamanhoNumero;
+    }
+    
+    /**
+     * Returna o numero da senha (preenchido com 3 casas) 
+     * mais a sigla do servico: A001
      * @return 
      */
     public String getSenha() {
-        return getSenha(3);
+        return getSenha(this.tamanhoNumero);
     }
     
     /**
@@ -69,7 +91,7 @@ public class Senha {
      * @return 
      */
     public String getSenha(int length) {
-        return sigla + String.format("%0" + length + "d", numero);
+        return sigla + getNumeroAsString(length);
     }
     
     public String getGuiche() {
@@ -106,12 +128,11 @@ public class Senha {
     
     @Override
     public boolean equals(Object o) {
-        try {
+        if (o instanceof Senha) {
             Senha senha = (Senha) o;
-            return getSenha().equals(senha.getSenha());
-        } catch (Exception e) {
-            return false;
+            return senha.getNumero() == this.getNumero() && senha.getSigla() == this.getSigla();
         }
+        return false;
     }
 
     @Override

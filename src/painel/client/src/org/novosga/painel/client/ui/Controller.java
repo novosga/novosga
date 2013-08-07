@@ -4,6 +4,7 @@ import org.novosga.painel.client.config.PainelConfig;
 import java.awt.SystemTray;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -47,6 +51,8 @@ import org.novosga.painel.util.ComboboxItem;
  * @author rogeriolino
  */
 public class Controller implements Initializable {
+    
+    private static final Logger LOG = Logger.getLogger(Controller.class.getName());
     
     @FXML
     private Pane root;
@@ -100,7 +106,7 @@ public class Controller implements Initializable {
 
     public Controller(Main main, ResourceBundle bundle) throws IOException {
         this.main = main;
-        URL location = new URL("file:ui/jfx/main.fxml");
+        URL location = new URL("file:data/ui/jfx/main.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader(location, bundle);
         fxmlLoader.setController(this);
         fxmlLoader.load();
@@ -188,26 +194,42 @@ public class Controller implements Initializable {
                 ComboboxItem item = (ComboboxItem) cb.getSelectionModel().selectedItemProperty().getValue();
                 if (item != null && Integer.parseInt(item.getKey()) > 0) {
                     unidadeAtual = Integer.parseInt(item.getKey());
-                    updateServicos(main.getService().buscarServicos(unidadeAtual));
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateServicos(main.getService().buscarServicos(unidadeAtual));
+                            loading.setVisible(false);
+                        }
+                    });
                 }
-                loading.setVisible(false);
             }
         });
         buscar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
                 loading.setVisible(true);
+                unidades.getItems().clear();
                 servicos.getChildren().clear();
                 unidadeAtual = 0;
+                buscar.setDisable(true);
+                loading.setVisible(true);
                 try {
                     main.getService().loadUrls(servidor.getText(), new Runnable() {
                         @Override
                         public void run() {
-                            updateUnidades(main.getService().buscarUnidades());
-                            loading.setVisible(false);
+                            Platform.runLater(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateUnidades(main.getService().buscarUnidades());
+                                    buscar.setDisable(false);
+                                    loading.setVisible(false);
+                                }
+                            });
                         }
                     });
                 } catch (Exception e) {
+                    LOG.log(Level.SEVERE, "Erro ao buscar unidades: " + e.getMessage(), e);
+                    buscar.setDisable(false);
                     loading.setVisible(false);
                 }
             }
@@ -215,39 +237,55 @@ public class Controller implements Initializable {
         salvar.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
+                salvar.setDisable(true);
                 loading.setVisible(true);
-                try {
-                    List<Integer> idServicos = new ArrayList<Integer>();
-                    for (Node node : servicos.getChildren()) {
-                        if (((CheckBox) node).isSelected()) {
-                            try {
-                                String id = node.getId().split("-")[1];
-                                idServicos.add(Integer.parseInt(id));
-                            } catch (Exception e) {
-                            }
+                List<Integer> idServicos = new ArrayList<>();
+                for (Node node : servicos.getChildren()) {
+                    if (((CheckBox) node).isSelected()) {
+                        try {
+                            String id = node.getId().split("-")[1];
+                            idServicos.add(Integer.parseInt(id));
+                        } catch (Exception e) {
                         }
                     }
-                    PainelConfig config = main.getConfig();
-                    config.get(PainelConfig.KEY_SERVER).setValue(servidor.getText());
-                    config.get(PainelConfig.KEY_UNIDADE, Integer.class).setValue(unidadeAtual);
-                    config.get(PainelConfig.KEY_SERVICOS, Integer[].class).setValue(idServicos.toArray(new Integer[0]));
-                    // som e tema
-                    config.get(PainelConfig.KEY_SCREENSAVER_URL).setValue(videoUrl.getText());
-                    config.get(PainelConfig.KEY_LANGUAGE).setValue(((ComboboxItem) language.getSelectionModel().getSelectedItem()).getKey());
-                    config.get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).setValue(vocalizar.isSelected());
-                    config.get(PainelConfig.KEY_COR_FUNDO).setValue(colorToHex(corFundo.getValue()));
-                    config.get(PainelConfig.KEY_COR_MENSAGEM).setValue(colorToHex(corMensagem.getValue()));
-                    config.get(PainelConfig.KEY_COR_SENHA).setValue(colorToHex(corSenha.getValue()));
-                    config.get(PainelConfig.KEY_COR_GUICHE).setValue(colorToHex(corGuiche.getValue()));
-                    // screensaver layout
-                    config.get(PainelConfig.KEY_SCREENSAVER_LAYOUT, Integer.class).setValue(Integer.parseInt(((RadioButton)svLayout.getSelectedToggle()).getText()));
-                    config.save();
-                    
-                    main.getService().register(servidor.getText());
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-                loading.setVisible(false);
+                PainelConfig config = main.getConfig();
+                config.get(PainelConfig.KEY_SERVER).setValue(servidor.getText());
+                config.get(PainelConfig.KEY_UNIDADE, Integer.class).setValue(unidadeAtual);
+                config.get(PainelConfig.KEY_SERVICOS, Integer[].class).setValue(idServicos.toArray(new Integer[0]));
+                // som e tema
+                config.get(PainelConfig.KEY_SCREENSAVER_URL).setValue(videoUrl.getText());
+                config.get(PainelConfig.KEY_LANGUAGE).setValue(((ComboboxItem) language.getSelectionModel().getSelectedItem()).getKey());
+                config.get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).setValue(vocalizar.isSelected());
+                config.get(PainelConfig.KEY_COR_FUNDO).setValue(colorToHex(corFundo.getValue()));
+                config.get(PainelConfig.KEY_COR_MENSAGEM).setValue(colorToHex(corMensagem.getValue()));
+                config.get(PainelConfig.KEY_COR_SENHA).setValue(colorToHex(corSenha.getValue()));
+                config.get(PainelConfig.KEY_COR_GUICHE).setValue(colorToHex(corGuiche.getValue()));
+                // screensaver layout
+                config.get(PainelConfig.KEY_SCREENSAVER_LAYOUT, Integer.class).setValue(Integer.parseInt(((RadioButton)svLayout.getSelectedToggle()).getText()));
+                try {
+                    config.save();
+                    if (unidadeAtual > 0) {
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    main.getService().register(servidor.getText());
+                                } catch (Exception e) {
+                                    LOG.log(Level.SEVERE, "Erro ao registrar servico: " + e.getMessage(), e);
+                                } finally {
+                                    salvar.setDisable(false);
+                                    loading.setVisible(false);
+                                }
+                            }
+                        });
+                    } else {
+                        salvar.setDisable(false);
+                        loading.setVisible(false);
+                    }
+                } catch (IOException e) {
+                    LOG.log(Level.SEVERE, "Erro ao salvar configuração: " + e.getMessage(), e);
+                }
             }
         });
         exibirPainel.setOnAction(new EventHandler<ActionEvent>() {
@@ -258,7 +296,7 @@ public class Controller implements Initializable {
         });
         // language
         language.setItems(FXCollections.observableList(new ArrayList<ComboboxItem>()));
-        SortedSet<String> keys = new TreeSet<String>(Main.locales.keySet());
+        SortedSet<String> keys = new TreeSet<>(Main.locales.keySet());
         for (String key : keys) {
             language.getItems().add(new ComboboxItem(key, Main.locales.get(key)));
             if (Locale.getDefault().getLanguage().equals(key)) {
@@ -309,7 +347,7 @@ public class Controller implements Initializable {
         // screen saver
         screenSaverTimeout.setItems(FXCollections.observableList(new ArrayList<ComboboxItem>()));
         Integer defaultTimeout = main.getConfig().get(PainelConfig.KEY_SCREENSAVER_TIMEOUT, Integer.class).getValue();
-        SortedSet<Integer> keys2 = new TreeSet<Integer>(Main.intervals.keySet());
+        SortedSet<Integer> keys2 = new TreeSet<>(Main.intervals.keySet());
         for (Integer key : keys2) {
             ComboboxItem item = new ComboboxItem(key, Main.intervals.get(key));
             screenSaverTimeout.getItems().add(item);
@@ -330,9 +368,23 @@ public class Controller implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("MP4", "*." + VideoLayout.EXT_MP4));
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AVI", "*." + VideoLayout.EXT_AVI));
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("HLS", "*." + VideoLayout.EXT_HSL));
+                try {
+                    // tentando definir o diretorio inicial a partir da ultima opcao salva
+                    String url = main.getConfig().get(PainelConfig.KEY_SCREENSAVER_URL).getValue();
+                    File file = new File(new URL(url).getFile());
+                    if (file.exists()) {
+                        // se nao for diretorio, pega o pai
+                        fileChooser.setInitialDirectory(file.isDirectory() ? file : file.getParentFile());
+                    }
+                } catch (MalformedURLException e) {
+                }
+                // adicionando todas as extensoes validas
+                String[] nomes = new String[]{"MP4", "AVI", "HLS", "FLV"};
+                String[] extensoes = new String[]{"*." + VideoLayout.EXT_MP4, "*." + VideoLayout.EXT_AVI, "*." + VideoLayout.EXT_HSL, "*." + VideoLayout.EXT_FLV};
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Todos", extensoes));
+                for (int i = 0; i < extensoes.length; i++) {
+                    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(nomes[i], extensoes[i]));
+                }
                 try {
                     File file = fileChooser.showOpenDialog(null);
                     videoUrl.setText(file.toURI().toString());
@@ -361,7 +413,7 @@ public class Controller implements Initializable {
                         tester.start(painelStage);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOG.log(Level.SEVERE, "Erro ao testar vídeo: " + e.getMessage(), e);
                 }
             }
         });

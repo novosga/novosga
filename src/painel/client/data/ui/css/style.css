@@ -1,11 +1,12 @@
 
 /* Node principal de qualquer stage */
 #root {
+    -fx-background-color: #000;
 }
 
 /*
-    Layout princial: Exibição da senha atual (última chamada)
-*/
+ * Layout princial: Exibição da senha atual (última chamada)
+ */
 
 /* Label do tipo de atendimento (Atendimento, Prioridade, etc) */
 #mensagem { 
@@ -25,13 +26,13 @@
 }
 
 /*
-    Screensaver: layout exibido após um determinado tempo de inatividade (tempo sem chamar senha)
-*/
+ * Screensaver: layout exibido após um determinado tempo de inatividade (tempo sem chamar senha)
+ */
 
 /* Pane contendo as ultimas senhas */
 #historico {
     -fx-spacing: 20px;
-    -fx-background-color: rgba(0, 0, 0, .5);
+    -fx-background-color: rgba(0, 0, 0, .8);
 }
 
 /* Pane contendo uma senha do histórico (guiche+numero) */
@@ -41,19 +42,19 @@
 
 /* Letra e número da senha */
 #historico .historico-box .historico-senha {
-    /* em caso de lentidão, retirar o efeito abaixo */
-    -fx-effect: dropshadow(gaussian, black, 5, 0, 3, 3);
+    /* o efeito abaixo pode causa lentidão */
+    /* -fx-effect: dropshadow(gaussian, black, 5, 0, 3, 3); */
 }
 
 /* Nome e número do local (guichê) */
 #historico .historico-box .historico-guiche {
-    /* em caso de lentidão, retirar o efeito abaixo */
-    -fx-effect: dropshadow(gaussian, black, 5, 0, 3, 3);
+    /* o efeito abaixo pode causa lentidão */
+    /* -fx-effect: dropshadow(gaussian, black, 5, 0, 3, 3); */
 }
 
 /*
-    Extra - Estilo condicional para prioridade
-*/
+ *Extra - Estilo condicional para prioridade
+ */
 .label.prioridade,
 .historico-box.prioridade .label {
     -fx-text-fill: #C43C35 !important;

@@ -32,22 +32,24 @@ public class SimpleSenhaLayout extends SenhaLayout {
 
     @Override
     protected Pane doCreate() {
-        root = new BorderPane();
-        topBox = new HBox();
-        bottomBox = new HBox();
+        if (root == null) {
+            root = new BorderPane();
+            // top
+            topBox = new HBox();
+            topBox.getChildren().add(mensagem);
+            root.setTop(topBox);
+            // center
+            root.setCenter(senha);
+            // bottom
+            bottomBox = new HBox();
+            bottomBox.setAlignment(Pos.BOTTOM_LEFT);
+            bottomBox.getChildren().add(guiche);
+            bottomBox.getChildren().add(numeroGuiche);
+            root.setBottom(bottomBox);
+        }
         int paddingX = (int) painel.getDisplay().width(20);
-        // top
         topBox.setPadding(new Insets(0, 0, 0, paddingX));
-        topBox.getChildren().add(mensagem);
-        root.setTop(topBox);
-        // center
-        root.setCenter(senha);
-        // bottom
-        bottomBox.setAlignment(Pos.BOTTOM_LEFT);
         bottomBox.setPadding(new Insets(0, paddingX, 0, paddingX));
-        bottomBox.getChildren().add(guiche);
-        bottomBox.getChildren().add(numeroGuiche);
-        root.setBottom(bottomBox);
         return root;
     }
     

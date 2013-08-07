@@ -4,10 +4,10 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.geometry.Pos;
+import javafx.scene.CacheHint;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -34,6 +34,7 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
     public static final String EXT_MP4 = "mp4";
     public static final String EXT_AVI = "avi";
     public static final String EXT_HSL = "m3u8";
+    public static final String EXT_FLV = "flv";
     
     private StackPane root;
     private MediaView mediaView;
@@ -41,6 +42,7 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
     private String[] medias;
     private int mediaIndex = 0;
     private T historico;
+    private double volume = 1.0;
 
     public VideoLayout(PainelFx painel) {
         super(painel);
@@ -53,8 +55,26 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
     
     @Override
     protected Pane doCreate() {
-        root = new StackPane();
-        root.setAlignment(Pos.CENTER);
+        if (root == null) {
+            root = new StackPane();
+            root.getStyleClass().add("video-layout");
+            root.setAlignment(Pos.CENTER);
+            mediaView = new MediaView();
+            root.getChildren().add(mediaView);
+            historico = createHistorico();
+            historico.setCache(true);
+            historico.setCacheHint(CacheHint.SPEED);
+            historico.setId("historico");
+            AnchorPane content = new AnchorPane();
+            content.getChildren().add(historico);
+            root.getChildren().add(content);
+        }
+        loadMedias();
+        setContent();
+        return root;
+    }
+    
+    private void loadMedias() {
         String mediaUrl = painel.getMain().getConfig().get(PainelConfig.KEY_SCREENSAVER_URL).getValue();
         try {
             File md = new File(new URL(mediaUrl).getFile());
@@ -64,7 +84,7 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
                     @Override
                     public boolean accept(File dir, String name) {
                         String filename = name.toLowerCase();
-                        return filename.endsWith(EXT_MP4) || filename.endsWith(EXT_AVI) || filename.endsWith(EXT_HSL);
+                        return filename.endsWith(EXT_MP4) || filename.endsWith(EXT_AVI) || filename.endsWith(EXT_HSL) || filename.endsWith(EXT_FLV);
                     }
                 });
                 medias = new String[files.length];
@@ -78,22 +98,35 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
         } catch (MalformedURLException ex) {
             Logger.getLogger(VideoLayout.class.getName()).log(Level.SEVERE, null, ex);
         }
-        setContent();
-        return root;
     }
     
-    public void setContent() {
-        root.getChildren().clear();
-        if (medias != null) {
-            root.getChildren().add(createMediaView());
-        } else {
-            root.getChildren().add(errorLabel());
+    private void setContent() {
+        mediaView.setFitWidth(painel.getDisplay().getWidth());
+        // caso o video travou/parou tenta mudar para o próximo
+        if (mediaPlayer != null && 
+                (
+                    mediaPlayer.getStatus().equals(MediaPlayer.Status.UNKNOWN) ||
+                    mediaPlayer.getStatus().equals(MediaPlayer.Status.HALTED) ||
+                    mediaPlayer.getStatus().equals(MediaPlayer.Status.STOPPED)
+                )) {
+            LOG.log(Level.SEVERE, "MediaPlayer travado, recriando. Status: {0}", mediaPlayer.getStatus().toString());
+            mediaPlayer = null;
         }
-        historico = createHistorico();
-        historico.setId("historico");
-        AnchorPane content = new AnchorPane();
-        content.getChildren().add(historico);
-        root.getChildren().add(content);
+        // evitando Index Out of Bound
+        if (mediaIndex >= medias.length) {
+            mediaIndex = 0;
+        }
+        String url = medias[mediaIndex];
+        // novo video ou mudou o video
+        if (mediaPlayer == null || !mediaPlayer.getMedia().getSource().equals(url)) {
+            mediaPlayer = createMediaPlayer(url, medias.length == 1);
+            mediaView.setMediaPlayer(mediaPlayer);
+            LOG.log(Level.FINE, "Iniciando/mudando de video. Novo video: {0}", url);
+        }
+        // se o video atual nao estiver tocando, inicia
+        else if (!mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            mediaPlayer.play();
+        }
     }
     
     @Override
@@ -117,52 +150,13 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
                 SenhaBox senha = new SenhaBox(painel.getSenhas().get(i), width, height);
                 historico.getChildren().add(senha.getBox());
             }
+            historico.setVisible(true);
         }
     }
     
     @Override
     public void applyTheme() {
-        root.setStyle("-fx-background-color: #000");
         historico.setStyle("-fx-padding: " + painel.getDisplay().height(PADDING) + "px " + painel.getDisplay().width(PADDING) + "px");
-    }
-    
-    private MediaView createMediaView() {
-        String url = medias[mediaIndex];
-        if (mediaPlayer == null || !mediaPlayer.getMedia().getSource().equals(url)) {
-            mediaPlayer = createMediaPlayer(url, medias.length == 1);
-            final Runnable recreate = new Runnable() {
-                @Override
-                public void run() {
-                    LOG.severe("Recriando conteudo (MediaPlayer)");
-                    setContent();
-                    doUpdate();
-                }
-            };
-            mediaPlayer.setOnError(recreate);
-            mediaPlayer.setOnHalted(recreate);
-            mediaPlayer.setOnStalled(recreate);
-            // se chegou ao final da media verifica se tem mais para pular para a proxima
-            mediaPlayer.setOnEndOfMedia(new Runnable() {
-                @Override
-                public void run() {
-                    if (medias.length > 1) {
-                        mediaIndex++;
-                        if (mediaIndex >= medias.length) {
-                            mediaIndex = 0;
-                        }
-                        setContent();
-                        doUpdate();
-                    }
-                }
-            });
-            mediaView = new MediaView(mediaPlayer);
-        } else {
-            if (!mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-                mediaPlayer.play();
-            }
-        }
-        mediaView.setFitWidth(painel.getDisplay().getWidth());
-        return mediaView;
     }
     
     private MediaPlayer createMediaPlayer(String url, boolean loop) {
@@ -178,6 +172,26 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
         if (loop) {
             mp.setCycleCount(MediaPlayer.INDEFINITE);
         }
+        final Runnable recreate = new Runnable() {
+            @Override
+            public void run() {
+                LOG.log(Level.SEVERE, "Recriando conteudo (MediaPlayer). Status: {0}", mp.getStatus().toString());
+                mediaIndex++;
+                setContent();
+            }
+        };
+        mp.setOnError(recreate);
+        mp.setOnHalted(recreate);
+        mp.setOnStalled(recreate);
+        // se chegou ao final da media verifica se tem mais para pular para a proxima
+        mp.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                mediaIndex++;
+                setContent();
+                doUpdate();
+            }
+        });
         mp.setOnReady(new Runnable() {
             @Override
             public void run() {
@@ -186,6 +200,7 @@ public abstract class VideoLayout<T extends Pane> extends ScreensaverLayout {
                 }
             }
         });
+        mp.setVolume(volume);
         return mp;
     }
     

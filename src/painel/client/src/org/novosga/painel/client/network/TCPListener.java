@@ -30,6 +30,26 @@ public class TCPListener extends PacketListener {
         // inicia um servidor local para receber mensagens do controlador de paineis
         _server = new ServerSocket(receivePort);
     }
+    
+    @Override
+    protected void preObterUrls() {
+    }
+
+    @Override
+    protected void postObterUrls() {
+    }
+
+    @Override
+    protected void preCadastrarPainel() {
+    }
+
+    @Override
+    protected void postCadastrarPainel() {
+    }
+
+    @Override
+    protected void postLeMsgConfirmaCadastro() {
+    }
 
     /**
      * Thread servidor TCP
@@ -37,7 +57,7 @@ public class TCPListener extends PacketListener {
     @Override
     public void run() {
         ByteBuffer buffer = ByteBuffer.wrap(new byte[BUFFER_SIZE]);
-        ExecutorService executor = Executors.newFixedThreadPool(1);
+        ExecutorService executor = Executors.newFixedThreadPool(1, new SimpleThreadFactory("TCPListenerThread"));
         try {
             InetAddress serverAddress = InetAddress.getByName(server);
             while (true) {
@@ -52,10 +72,10 @@ public class TCPListener extends PacketListener {
                                 totalRead += read;
                             }
                             buffer.limit(totalRead);
-                            LOG.fine("Pacote recebido (Tamanho: " + totalRead + ")");
+                            LOG.log(Level.FINE, "Pacote recebido (Tamanho: {0})", totalRead);
                             this.lePacote(executor, buffer);
                         } else {
-                            LOG.log(Level.SEVERE, "Pacote recebido de host diferente do servidor: " + client.getInetAddress().getHostAddress());
+                            LOG.log(Level.WARNING, "Descartando pacote recebido de origem desconhecida: {0}", client.getInetAddress().getHostAddress());
                         }
                         client.close();
                     }

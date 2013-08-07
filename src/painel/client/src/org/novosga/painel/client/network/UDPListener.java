@@ -5,7 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,12 +26,6 @@ public class UDPListener extends PacketListener {
         super(receivePort, sendPort, server);
     }
     
-    /**
-     * Inicia o processo de escuta/recebimento na porta UDP.<br>
-     *
-     * @throws SocketException Se não foi possivél abrir o socket UDP
-     * (possivelmente já existe outro painel usando a porta).
-     */
     @Override
     public void doStart() throws Exception {
         _socket = new DatagramSocket(receivePort);
@@ -47,26 +40,24 @@ public class UDPListener extends PacketListener {
             byte[] buffer = new byte[4096];
             DatagramPacket dp = new DatagramPacket(buffer, 4096);
             ByteBuffer buf = ByteBuffer.wrap(buffer);
-            ExecutorService executor = Executors.newFixedThreadPool(1);
+            ExecutorService executor = Executors.newFixedThreadPool(1, new SimpleThreadFactory("UDPListenerThread"));
             try {
                 while (true) {
                     try {
                         buf.clear();
                         _socket.receive(dp);
                         InetSocketAddress sa = (InetSocketAddress) dp.getSocketAddress();
-                        LOG.fine("Pacote recebido (Tamanho: " + dp.getLength() + " Origem: " + dp.getSocketAddress() + ")");
-                        
+                        LOG.log(Level.FINE, "Pacote recebido (Tamanho: {0} Origem: {1})", new Object[]{dp.getLength(), dp.getSocketAddress()});
                         InetAddress serverAddress = InetAddress.getByName(server);
-
                         // só aceitar pacotes originados do servidor
                         if (sa.getAddress().equals(serverAddress)) {
                             try {
                                 this.lePacote(executor, buf);
                             } catch (Throwable t) {
-                                LOG.log(Level.SEVERE, "Pacote recebido (Tamanho: " + dp.getLength() + " Origem: " + dp.getSocketAddress() + ")", t);
+                                LOG.log(Level.SEVERE, t.getMessage(), t);
                             }
                         } else {
-                            LOG.warning("Descartando pacote recebido de origem diferente a do controlador: Origem: [" + sa.getAddress().toString() + "] Controlador: [" + server + "]");
+                            LOG.log(Level.WARNING, "Descartando pacote recebido de origem desconhecida: {0}", sa.getAddress().toString());
                         }
                     } catch (IOException e) {
                         LOG.log(Level.SEVERE, "Erro recebendo pacote", e);
