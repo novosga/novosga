@@ -22,10 +22,11 @@ public abstract class AppConfig {
         return new File(dir(), filename());
     }
     
-    public final void load() throws FileNotFoundException, IOException {
+    public final boolean load() throws FileNotFoundException, IOException {
         Properties config = new Properties();
         File file = file();
-        if (!file.exists()) {
+        boolean exists = file.exists();
+        if (!exists) {
             file.createNewFile();
         }
         config.load(new FileInputStream(file));
@@ -33,6 +34,7 @@ public abstract class AppConfig {
             String value = config.getProperty(param.getKey(), param.toString());
             param.setValue(parseValue(value, param.getType()));
         }
+        return exists;
     }
     
     public final void save() throws IOException {

@@ -134,7 +134,9 @@ public class Controller implements Initializable {
         // servicos
         servidor.setText(config.get(PainelConfig.KEY_SERVER).getValue());
         unidadeAtual = config.get(PainelConfig.KEY_UNIDADE, Integer.class).getValue();
-        updateUnidades(main.getService().buscarUnidades());
+        if (unidadeAtual > 0) {
+            updateUnidades(main.getService().buscarUnidades());
+        }
         // som e tema
         vocalizar.setSelected(config.get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue());
         corFundo.setValue(Color.web(config.get(PainelConfig.KEY_COR_FUNDO).getValue()));
