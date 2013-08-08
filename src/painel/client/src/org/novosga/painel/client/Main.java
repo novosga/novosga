@@ -80,12 +80,7 @@ public class Main extends Application {
         }
         
         // Carrega a configuracao do painel
-        boolean configOk = false;
-        try {
-            config.load();
-            configOk = true;
-        } catch (Exception e) {
-        }
+        boolean configOk = config.load();
         
         FontLoader.registerAll();
         
@@ -136,6 +131,7 @@ public class Main extends Application {
             if (configOk) {
                 painel.show();
             } else {
+                controller.update();
                 controller.show();
             }
             try {
