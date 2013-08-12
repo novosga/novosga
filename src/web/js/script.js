@@ -484,7 +484,7 @@ var SGA = {
             var date = $('<div class="date"></div>');
             SGA.Clock._createNodes(time, SGA.Clock.timeChilds, ':');
             // i18n
-            if (SGA.dateFormat[0] == 'm') {
+            if (SGA.dateFormat[0] === 'm') {
                 // swapping month and day
                 var a = SGA.Clock.dateChilds[0];
                 SGA.Clock.dateChilds[0] = SGA.Clock.dateChilds[1];
@@ -507,17 +507,19 @@ var SGA = {
         
         update: function(milis) {
             var c = SGA.Clock;
-            if (milis) {
-                c.date = new Date(milis);
+            if (c.target) {
+                if (milis) {
+                    c.date = new Date(milis);
+                }
+                c.hours.text(SGA.Clock.zeroFill(c.date.getHours()));
+                c.mins.text(SGA.Clock.zeroFill(c.date.getMinutes()));
+                c.secs.text(SGA.Clock.zeroFill(c.date.getSeconds()));
+                c.day.text(SGA.Clock.zeroFill(c.date.getDate()));
+                c.mon.text(SGA.Clock.zeroFill(c.date.getMonth() + 1));
+                c.year.text(c.date.getFullYear());
+                // incrementa em 1 segundo
+                c.date.setSeconds(c.date.getSeconds() + 1);
             }
-            c.hours.text(SGA.Clock.zeroFill(c.date.getHours()));
-            c.mins.text(SGA.Clock.zeroFill(c.date.getMinutes()));
-            c.secs.text(SGA.Clock.zeroFill(c.date.getSeconds()));
-            c.day.text(SGA.Clock.zeroFill(c.date.getDate()));
-            c.mon.text(SGA.Clock.zeroFill(c.date.getMonth() + 1));
-            c.year.text(c.date.getFullYear());
-            // incrementa em 1 segundo
-            c.date.setSeconds(c.date.getSeconds() + 1);
         },
         
         zeroFill: function(v) {
