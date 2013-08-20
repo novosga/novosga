@@ -153,7 +153,6 @@ class TriagemController extends ModuleController {
             $stmt = $conn->prepare(" 
                 INSERT INTO atendimentos
                 (id_uni, id_serv, id_pri, id_usu_tri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha, num_senha_serv)
-                -- select dentro do insert para garantir atomicidade
                 SELECT
                     :id_uni, :id_serv, :id_pri, :id_usu_tri, :id_stat, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, :sigla_senha, 
                     COALESCE(

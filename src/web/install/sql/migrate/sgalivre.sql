@@ -46,7 +46,7 @@ ALTER TABLE usuarios ADD COLUMN session_id varchar(40) NOT NULL DEFAULT '';
 -- atendimentos
 ALTER TABLE atendimentos ADD COLUMN id_usu_tri INTEGER;
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE atendimentos ADD COLUMN sigla_senha VARCHAR(1);
+ALTER TABLE atendimentos ADD COLUMN sigla_senha character(1);
 UPDATE atendimentos a SET sigla_senha = s.sigla_serv FROM uni_serv s WHERE s.id_uni = a.id_uni AND s.id_serv = a.id_serv;
 ALTER TABLE atendimentos ALTER COLUMN sigla_senha SET NOT NULL;
 ALTER TABLE atendimentos ADD COLUMN num_senha_serv INTEGER;
@@ -55,7 +55,7 @@ ALTER TABLE atendimentos ALTER COLUMN num_senha_serv SET NOT NULL;
 
 ALTER TABLE historico_atendimentos ADD COLUMN id_usu_tri INTEGER;
 ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE historico_atendimentos ADD COLUMN sigla_senha VARCHAR(1);
+ALTER TABLE historico_atendimentos ADD COLUMN sigla_senha character(1);
 UPDATE historico_atendimentos a SET sigla_senha = s.sigla_serv FROM uni_serv s WHERE s.id_uni = a.id_uni AND s.id_serv = a.id_serv;
 ALTER TABLE historico_atendimentos ALTER COLUMN sigla_senha SET NOT NULL;
 ALTER TABLE historico_atendimentos ADD COLUMN num_senha_serv INTEGER;
