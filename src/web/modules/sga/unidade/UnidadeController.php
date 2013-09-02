@@ -22,11 +22,14 @@ class UnidadeController extends ModuleController {
         $unidade = $context->getUnidade();
         $this->view()->assign('unidade', $unidade);
         if ($unidade) {
+            /*
+             * XXX: Os parametros abaixo (id da unidade e sigla) estao sendo concatenados direto na string devido a um bug do pdo_sqlsrv (windows)
+             */
             // atualizando relacionamento entre unidade e servicos
             $conn = $this->em()->getConnection();
             $conn->executeUpdate("
                 INSERT INTO uni_serv 
-                SELECT :unidade, id_serv, 1, nm_serv, 'A', 0 FROM servicos 
+                SELECT {$unidade->getId()}, id_serv, 1, nm_serv, 'A', 0 FROM servicos 
                 WHERE 
                     id_macro IS NULL AND
                     id_serv NOT IN (SELECT id_serv FROM uni_serv WHERE id_uni = :unidade)

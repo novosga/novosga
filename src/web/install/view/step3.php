@@ -13,9 +13,10 @@ if (!$data) {
     $data = new InstallData();
 }
 $data->database['db_type'] = $session->get('adapter');
+$driver = $session->get('adapter_driver');
 // setting default port
 if (!$data->database['db_port']) {
-    $data->database['db_port'] = InstallData::$dbTypes[$session->get('adapter')]['port'];
+    $data->database['db_port'] = InstallData::$dbTypes[$driver]['port'];
 }
 $session->set(InstallData::SESSION_KEY, $data);
 
@@ -37,7 +38,7 @@ $builder = new TemplateBuilder();
         ?>
         <div class="field">
             <label>Tipo:</label>
-            <abbr class="db-type" title="<?php SGA::out(_('Escolhido no passo 1')) ?>"><?php SGA::out(InstallData::$dbTypes[$data->database['db_type']]['rdms']) ?></abbr>
+            <abbr class="db-type" title="<?php SGA::out(_('Escolhido no passo 1')) ?>"><?php SGA::out(InstallData::$dbTypes[$driver]['rdms']) ?></abbr>
         </div>
         <div class="field">
             <label>Host:</label>

@@ -34,7 +34,6 @@ foreach ($files as $file) {
 
 ?>
 <div id="step_0">
-    <!--<img src="themes/sga.default/imgs/sga_passaro.png" />-->
     <h2>Bem-vindo a instalação da versão web do <?php SGA::out(SGA::NAME) ?>.</h2>
     <h3>Versão <?php SGA::out(SGA::VERSION) ?></h3>
     <p>Favor escolher o seu sistema de banco de dados preferido a partir dos listados abaixo:</p>
