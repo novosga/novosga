@@ -24,10 +24,17 @@ class InstallData {
             'version' => '1.0.0',
             'port' => '3306'
         ), 
-        'mssql' => array(
+        'mssql_linux' => array(
             'label' => 'PDO SyBase', 
             'rdms' => 'MS SQL Server', 
             'driver' => 'pdo_dblib', 
+            'version' => '1.0.0',
+            'port' => '1433'
+        ),
+        'mssql_win' => array(
+            'label' => 'Microsoft SQLSRV', 
+            'rdms' => 'MS SQL Server', 
+            'driver' => 'pdo_sqlsrv', 
             'version' => '1.0.0',
             'port' => '1433'
         )

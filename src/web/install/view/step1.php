@@ -8,7 +8,7 @@ $fatal = false;
 $builder = new TemplateBuilder();
 
 $context = SGA::getContext();
-$adapter = InstallData::$dbTypes[$context->getSession()->get('adapter')];
+$adapter = InstallData::$dbTypes[$context->getSession()->get('adapter_driver')];
 
 /*
  * minimum requirements

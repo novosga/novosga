@@ -26,7 +26,11 @@ class DB {
          * Doctrine so aceita o driver sqlsrv, porem o mesmo so eh para windows
          */
         if ($dbtype == 'mssql') {
-            self::$conn['driverClass'] = 'Doctrine\DBAL\Driver\PDODblib\Driver';
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                self::$conn['driver'] = 'pdo_sqlsrv';
+            } else {
+                self::$conn['driverClass'] = 'Doctrine\DBAL\Driver\PDODblib\Driver';
+            }
         } else {
             self::$conn['driver'] = 'pdo_' . $dbtype;
         }

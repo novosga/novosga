@@ -69,12 +69,22 @@ class InstallController extends InternalController {
     
     public function set_adapter(SGAContext $context) {
         $context->getSession()->del('adapter');
+        $context->getSession()->del('adapter_driver');
         $response = new AjaxResponse();
         if ($context->getRequest()->isPost()) {
             $adapter = Arrays::value($_POST, 'adapter');
-            if (array_key_exists($adapter, InstallData::$dbTypes)) {
+            $driver = $adapter;
+            if ($driver === 'mssql') {
+                if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                    $driver .= '_win';
+                } else {
+                    $driver .= '_linux';
+                }
+            }
+            if (array_key_exists($driver, InstallData::$dbTypes)) {
                 $response->success = true;
                 $context->getSession()->set('adapter', $adapter);
+                $context->getSession()->set('adapter_driver', $driver);
             } else {
                 $response->message = sprintf(_('Opção inválida: %s'), $adapter);
             }

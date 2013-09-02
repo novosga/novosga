@@ -144,11 +144,14 @@ class TriagemController extends ModuleController {
                 throw new Exception(_('Serviço não disponível para a unidade atual'));
             }
             $conn = $this->em()->getConnection();
+            /*
+             * XXX: Os parametros abaixo (id da unidade e sigla) estao sendo concatenados direto na string devido a um bug do pdo_sqlsrv (windows)
+             */
             // ultimo numero gerado (total)
-            $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.id_uni = :id_uni ORDER BY num_senha DESC";
+            $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.id_uni = {$unidade->getId()} ORDER BY num_senha DESC";
             $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1, 0);
             // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
-            $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.id_uni = :id_uni AND a.sigla_senha = :sigla_senha ORDER BY num_senha_serv DESC";
+            $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.id_uni = {$unidade->getId()} AND a.sigla_senha = '{$su->getSigla()}' ORDER BY num_senha_serv DESC";
             $innerQuery2 = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery2, 1, 0);
             $stmt = $conn->prepare(" 
                 INSERT INTO atendimentos
@@ -179,7 +182,10 @@ class TriagemController extends ModuleController {
             if (!$response->success) {
                 throw new Exception(_('Erro ao tentar gerar nova senha'));
             }
-            $id = $conn->lastInsertId('atendimentos_id_atend_seq');
+            $id = $conn->lastInsertId();
+            if (!$id) {
+                $id = $conn->lastInsertId('atendimentos_id_atend_seq');
+            }
             if (!$id) {
                 throw new \Exception(_('Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de desenvolvimento informando esse problema, e o banco de dados que está usando'));
             }
