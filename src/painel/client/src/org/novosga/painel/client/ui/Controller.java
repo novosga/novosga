@@ -113,6 +113,7 @@ public class Controller implements Initializable {
     }
     
     public void show() {
+        update();
         stage.show();
         stage.requestFocus();
     }

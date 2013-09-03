@@ -110,8 +110,8 @@ public class Main extends Application {
             service = new PainelService(this);
             controller = new Controller(this, bundle);
             controller.getStage().initOwner(stage);
-            try {
-                if (!listener.getServer().isEmpty()) {
+            if (!listener.getServer().isEmpty()) {
+                try {
                     service.registerAndLoad(listener.getServer(), new Runnable() {
                         @Override
                         public void run() {
@@ -123,15 +123,14 @@ public class Main extends Application {
                            });
                         }
                     });
+                } catch (Exception e) {
+                    LOG.log(Level.SEVERE, "Erro ao registrar painel: " + e.getMessage(), e);
                 }
-            } catch (Exception e) {
-                LOG.log(Level.SEVERE, "Erro ao registrar painel: " + e.getMessage(), e);
             }
             
             if (configOk) {
                 painel.show();
             } else {
-                controller.update();
                 controller.show();
             }
             try {

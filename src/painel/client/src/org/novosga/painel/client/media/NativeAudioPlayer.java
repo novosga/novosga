@@ -29,7 +29,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -52,7 +51,7 @@ public class NativeAudioPlayer extends AudioPlayer {
     
     private static final int BUFFER_SIZE = 64 * 1024;
 
-    public NativeAudioPlayer() {
+    protected NativeAudioPlayer() {
     }
     
     @Override

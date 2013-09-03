@@ -29,7 +29,7 @@ public class JFXAudioPlayer extends AudioPlayer {
     private final Queue<String> audios = new ConcurrentLinkedQueue<>();
     private final Runnable playNext;
     
-    public JFXAudioPlayer() {
+    protected JFXAudioPlayer() {
         builder = MediaPlayerBuilder.create();
         playNext = new Runnable() {
             @Override
