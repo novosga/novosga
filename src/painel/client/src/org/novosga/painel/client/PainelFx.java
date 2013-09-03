@@ -224,6 +224,8 @@ public class PainelFx extends Application {
                 }
             }
         });
+        // atualiza o lastUpdate antes e depois para evitar de mudar o layout enquanto a trhread dorme
+        lastUpdate = Calendar.getInstance().getTimeInMillis();
         if (!audioFx) {
             playAlert(senha);
         }
@@ -232,10 +234,8 @@ public class PainelFx extends Application {
             // se vocalizar estiver ativo, espera mais tempo (relativo ao tamanho da senha)
             if (main.getConfig().get(PainelConfig.KEY_SOUND_VOICE, Boolean.class).getValue()) {
                 duration += 3000; // palavras "senha" e "guiche"
-                // tamanho da ultima senha
-                if (this.senha != null) {
-                    duration += 500 * String.valueOf(this.senha.getNumero()).length();
-                }
+                // duracao variando de acordo com o tamanho da senha
+                duration += 300 * senha.toString().length();
             }
             Thread.sleep(duration);
         } catch (Exception e) {

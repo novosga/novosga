@@ -20,7 +20,7 @@ public abstract class AudioPlayer {
         
     private static AudioPlayer instance;
 
-    public static AudioPlayer getInstance(boolean jfxLib) {
+    public static synchronized AudioPlayer getInstance(boolean jfxLib) {
         if (instance == null) {
             if (jfxLib) {
                 instance = new JFXAudioPlayer();
