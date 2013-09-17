@@ -1,0 +1,18 @@
+{
+    "require": {
+        "slim/slim": "2.3",
+        "slim/views": "0.1.*",
+        "twig/twig": "1.*",
+        "twig/extensions": "1.*",
+        "doctrine/orm": "2.3.4",
+        "doctrine/dbal": "2.3.4"
+    },
+    "autoload": {
+        "psr-0": {
+            "novosga": "lib/",
+            "modules": "public/"
+        }
+    }
+}
+
+
