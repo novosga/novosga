@@ -1,0 +1,24 @@
+{% extends "crud/list.html.twig" %}
+{% block thead %}
+    <th>{% trans %}Nome{% endtrans %}</th>
+    <th>{% trans %}Status{% endtrans %}</th>
+{% endblock %}
+{% block tbody %}
+    <td>
+        <span class="nome servico-{{ model.id }} {% if model.mestre %}sub-servico{% else %}servico-mestre{% endif %}" data-mestre="{{ model.mestre.id }}">
+            {{ item.nome }}
+        </span>
+    </td>
+    <td>
+        {% if item.status == 1 %}
+        <span class="status-active">{% trans %}Ativo{% endtrans %}</span>
+        {% else %}
+        <span class="status-inactive">{% trans %}Inativo{% endtrans %}</span>
+        {% endif %}
+    </td>
+{% endblock %}
+{#
+<script type="text/javascript">
+    SGA.Servicos.orderTable('table-list');
+</script>
+#}

@@ -1,0 +1,138 @@
+{% extends "module.html.twig" %}
+{% block content %}
+<div>
+    <div id="new-version" class="alert alert-info" style="display:none">
+        {% trans %}Nova versão disponível{% endtrans %}
+    </div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab-geral" data-toggle="tab">{% trans %}Sistema{% endtrans %}</a></li>
+        <li><a href="#tab-triagem" data-toggle="tab">{% trans %}Triagem{% endtrans %}</a></li>
+        <li><a href="#tab-paineis" data-toggle="tab">{% trans %}Painéis{% endtrans %}</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="tab-geral" class="tab-pane active">
+            <fieldset>
+                <legend>{% trans %}Autenticação{% endtrans %}</legend>
+                <div id="auth_message" style="display:none">
+                    <div class="alert alert-success">
+                        {% trans %}Configuração salva com sucesso{% endtrans %}
+                    </div>
+                </div>
+                <div class="form-group auth-type">
+                    <label for="auth_type">{% trans %}Tipo{% endtrans %}</label>
+                    <select id="auth_type" class="form-control">
+                        <option value="db" {% if auth.type == 'db' %}selected="selected"{% endif %}>{% trans %}Banco de Dados{% endtrans %}</option>
+                        <option value="ldap" {% if auth.type == 'ldap' %}selected="selected"{% endif %}>{% trans %}LDAP e Banco de Dados{% endtrans %}</option>
+                    </select>
+                </div>
+                <div id="auth-ldap" class="auth-config" {% if auth.type != 'ldap' %}style="display:none"{% endif %}>
+                    <div class="form-group required">
+                        <label for="auth_ldap_host" class="form-label">{% trans %}Servidor{% endtrans %}</label>
+                        <input id="auth_ldap_host" name="host" type="text" class="form-control" value="{{ auth.ldap.host }}" />
+                    </div>
+                    <div class="form-group required">
+                        <label for="auth_ldap_port">{% trans %}Porta{% endtrans %}</label>
+                        <input id="auth_ldap_port" class="form-control" name="port" type="text" maxlength="6" value="{{ auth.ldap.port }}" />
+                        <span class="help-block">ex: 389</span>
+                    </div>
+                    <div class="form-group required">
+                        <label for="auth_ldap_host">{% trans %}Base DN{% endtrans %}</label>
+                        <input id="auth_ldap_baseDn" name="baseDn" class="form-control" type="text" value="{{ auth.ldap.baseDn }}" />
+                        <span class="help-block">ex: DC=novosga,DC=org</span>
+                    </div>
+                    <div class="form-group required">
+                        <label for="auth_ldap_loginAttribute" class="form-label">{% trans %}Login Attribute{% endtrans %}</label>
+                        <input id="auth_ldap_loginAttribute" name="loginAttribute" class="form-control" type="text" value="{{ auth.ldap.loginAttribute }}" />
+                        <span class="help-block">ex: sAMAccountName</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="auth_ldap_user" class="form-label">{% trans %}Usuário{% endtrans %}</label>
+                        <input id="auth_ldap_user" name="username" class="form-control" type="text" value="{{ auth.ldap.username }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="auth_ldap_pass" class="form-label">{% trans %}Senha{% endtrans %}</label>
+                        <input id="auth_ldap_pass" name="password" class="form-control" type="password" value="{{ auth.ldap.password }}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="auth_ldap_filter" class="form-label">{% trans %}Filtro{% endtrans %}</label>
+                        <input id="auth_ldap_filter" name="filter" class="form-control" type="text" value="{{ auth.ldap.filter }}" />
+                        <span class="help-block">ex: objectClass=user</span>
+                    </div>
+                </div>
+                <div class="buttons">
+                    <button id="auth_save" class="btn btn-primary" onclick="SGA.Admin.Auth.save()">
+                        {% trans %}Salvar{% endtrans %}
+                    </button>
+                </div>
+            </fieldset>
+        </div>
+        <div id="tab-triagem" class="tab-pane">
+            <div class="form-group">
+                <label for="numeracao" class="form-label">{% trans %}Tipo de numeração{% endtrans %}</label>
+                <select id="numeracao" class="form-control" onchange="SGA.Admin.changeNumeracao()">
+                    {% for k,v in numeracoes %}
+                    <option value="{{ k }}" {% if k == numeracao %}selected="selected"{% endif %}>{{ v }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">{% trans %}Reiniciar senhas{% endtrans %}</label>
+                <button class="btn btn-danger"
+                        onclick="return SGA.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?'{% endtrans %}')">
+                    {% trans %}Reiniciar{% endtrans %}
+                </button>
+            </div>
+            <div class="form-group">
+                <label class="form-label">{% trans %}Cron URL{% endtrans %}</label>
+                <code>{{ cronReiniciarSenhas }}</code>
+            </div>
+        </div>
+        <div id="tab-paineis" class="tab-pane">
+            {% for unidade in unidades %}
+                <div class="clear">
+                    <h3>{{ unidade.nome }}</h3>
+                    <ul class="paineis">
+                        {% if paineis[unidade.id] %}
+                            {% for painel in paineis[unidade.id] %}
+                            <li>
+                                <a href="javascript:void(0)" 
+                                   onclick="SGA.Admin.painelInfo({{ unidade.id }}, {{ painel.host }})" 
+                                   title="{% trans %}Visualizar serviços{% endtrans %}">
+                                    <span>IP</span>
+                                    <span class="ip">{{ painel.ip }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script type="text/javascript"> 
+        SGA.Admin.Auth.init();
+        SGA.Updater.checkVersion('#new-version');
+    </script>
+</div>
+<div id="dialog-reiniciar" title="{% trans %}Configuração{% endtrans %}" style="display:none">
+    <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
+</div>
+<div id="dialog-painel" title="<?php SGA::out(_('Painel')) ?>" style="display:none">
+    <div>
+        <label>IP</label>
+        <span id="painel_ip"></span>
+    </div>
+    <div>
+        <label>{% trans %}Unidade{% endtrans %}</label>
+        <span id="painel_unidade"></span>
+    </div>
+    <div>
+        <label>{% trans %}Serviços{% endtrans %}</label>
+        <ul id="painel_servicos"></ul>
+    </div>
+    <div>
+        <label>{% trans %}Últimas senhas{% endtrans %}</label>
+        <ul id="painel_senhas"></ul>
+    </div>
+</div>
+{% endblock %}
