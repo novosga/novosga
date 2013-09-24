@@ -3,7 +3,6 @@ namespace novosga\model;
 
 use \novosga\model\util\Cliente;
 use \novosga\model\util\Senha;
-use \novosga\util\DateUtil;
 
 /**
  * Classe Atendimento
@@ -49,13 +48,13 @@ class Atendimento extends SequencialModel {
     protected $usuarioTriagem;
     /** @Column(type="integer", name="num_guiche", nullable=false) */
     protected $guiche;
-    /** @Column(type="string", name="dt_cheg", length=50, nullable=false) */
+    /** @Column(type="datetime", name="dt_cheg", length=50, nullable=false) */
     protected $dataChegada;
-    /** @Column(type="string", name="dt_cha", length=50, nullable=true) */
+    /** @Column(type="datetime", name="dt_cha", length=50, nullable=true) */
     protected $dataChamada;
-    /** @Column(type="string", name="dt_ini", length=50, nullable=true) */
+    /** @Column(type="datetime", name="dt_ini", length=50, nullable=true) */
     protected $dataInicio;
-    /** @Column(type="string", name="dt_fim", length=50, nullable=true) */
+    /** @Column(type="datetime", name="dt_fim", length=50, nullable=true) */
     protected $dataFim;
     /** @Column(type="integer", name="id_stat", length=50, nullable=false) */
     protected $status;
@@ -126,110 +125,106 @@ class Atendimento extends SequencialModel {
     }
 
     /**
-     * Retorna a data fim do Atendimento
-     * @return string
+     * @return \DateTime 
      */
     public function getDataFim() {
         return $this->dataFim;
     }
 
-    /**
-     * Modifica data final
-     * @param $data
-     */
-    public function setDataFim($data) {
-        $this->dataFim = $data;
+    
+    public function setDataFim(\DateTime $dataFim) {
+        $this->dataFim = $dataFim;
     }
 
     /**
-     * Retorna data de chamada
-     * @return string
+     * @return \DateTime 
      */
     public function getDataChamada() {
         return $this->dataChamada;
     }
 
-    /**
-     * Modifica data de chamada
-     * @param $data
-     */
-    public function setDataChamada($data) {
-        $this->dataChamada = $data;
+    public function setDataChamada(\DateTime $dataChamada) {
+        $this->dataChamada = $dataChamada;
     }
 
     /**
-     * Retorna data de inicio
-     * @return string
+     * @return \DateTime 
      */
     public function getDataInicio() {
         return $this->dataInicio;
     }
 
-    /**
-     * Modifica data de inicio
-     * @param $data
-     */
-    public function setDataInicio($data) {
+    public function setDataInicio(\DateTime $data) {
         $this->dataInicio = $data;
     }
 
     /**
-     * Retorna data de chegada
-     * @return string
+     * @return \DateTime 
      */
     public function getDataChegada() {
         return $this->dataChegada;
     }
 
-    /**
-     * Modifica data de chegada
-     * @param $data
-     */
-    public function setDataChegada($data) {
+    public function setDataChegada(\DateTime $data) {
         $this->dataChegada = $data;
-    }
-    
-    public function getTempoEspera() {
-        return DateUtil::secToTime(DateUtil::diff($this->getDataChegada(), DateUtil::nowSQL()));
     }
 
     /**
-     * Retorna o numero do guiche
-     * @return string
+     * Retorna o tempo de espera do cliente até ser atendido.
+     * A diferença entre a data de chegada até a data atual.
+     * 
+     * @return \DateInterval
      */
+    public function getTempoEspera() {
+        $now = new \DateTime();
+        return $now->diff($this->getDataChegada());
+    }
+
+    /**
+     * Retorna o tempo de permanência do cliente na unidade.
+     * A diferença entre a data de chegada até a data de fim de atendimento.
+     * 
+     * @return \DateInterval
+     */
+    public function getTempoPermanencia() {
+        if ($this->getDataFim()) {
+            return $this->getDataFim()->diff($this->getDataChegada());
+        }
+        return new \DateInterval();
+        
+    }
+    
+    /**
+     * Retorna o tempo total do atendimento.
+     * A diferença entre a data de início e fim do atendimento.
+     * 
+     * @return \DateInterval
+     */
+    public function getTempoAtendimento() {
+        if ($this->getDataFim()) {
+            return $this->getDataFim()->diff($this->getDataInicio());
+        }
+        return new \DateInterval();
+        
+    }
+
     public function getGuiche() {
         return $this->guiche;
     }
 
-    /**
-     * Modifica o numero do guiche
-     * @param $guiche
-     */
     public function setGuiche($guiche) {
         $this->guiche = $guiche;
     }
     
-    /**
-     * Retorna o código do status do atendimento
-     * @return int
-     */
     public function getStatus() {
         return $this->status;
     }
     
-    /**
-     * Retorna o nome do status do atendimento
-     * @return type
-     */
     public function getNomeStatus() {
         $arr = self::situacoes();
         return $arr[$this->getStatus()];
     }
-
-    /**
-     * Define o Status do Atenidmento
-     * @param int $status
-     */
+    
     public function setStatus($status) {
         if (is_int($status) && $status > 0) {
             $this->status = $status;
@@ -238,10 +233,6 @@ class Atendimento extends SequencialModel {
         }
     }
 
-    /**
-     * Retorna o Cliente do Atendimento
-     * @return Cliente
-     */
     public function getCliente() {
         if (!$this->cliente) {
             $this->cliente = new Cliente();
@@ -250,11 +241,7 @@ class Atendimento extends SequencialModel {
         }
         return $this->cliente;
     }
-
-    /**
-    * Retorna a senha do Cliente
-    * @return Senha
-    */
+    
     public function getSenha() {
         if (!$this->senha) {
             $this->senha = new Senha();
@@ -329,11 +316,12 @@ class Atendimento extends SequencialModel {
             'senha' => $this->getSenha()->toString(),
             'servico' => $this->getServicoUnidade()->getNome(),
             'prioridade' => $this->getSenha()->isPrioridade(),
-            'nomePrioridade' => $this->getSenha()->getPrioridade()->getNome()
+            'nomePrioridade' => $this->getSenha()->getPrioridade()->getNome(),
+            'chegada' => $this->getDataChegada()->format('Y-m-d'),
+            'espera' => $this->getTempoEspera()->format('%H:%I:%S')
         );
         if (!$minimal) {
             $arr['numero'] = $this->getSenha()->toString();
-            $arr['chegada'] = $this->getDataChegada();
             if ($this->getUsuario()) {
                 $arr['usuario'] = $this->getUsuario()->getLogin();
             }
@@ -341,10 +329,10 @@ class Atendimento extends SequencialModel {
                 $arr['triagem'] = $this->getUsuarioTriagem()->getLogin();
             }
             if ($this->getDataInicio()) {
-                $arr['inicio'] = $this->getDataInicio();
+                $arr['inicio'] = $this->getDataInicio()->format('Y-m-d');
             }
             if ($this->getDataFim()) {
-                $arr['fim'] = $this->getDataFim();
+                $arr['fim'] = $this->getDataFim()->format('Y-m-d');
             }
             $arr['status'] = $this->getStatus();
             $arr['nomeStatus'] = $this->getNomeStatus();

@@ -38,7 +38,7 @@ use \novosga\SGA;
     
     protected $dir;
     protected $path;
-    protected $fullPath;
+    protected $realPath;
 
 	
     /**
@@ -139,33 +139,11 @@ use \novosga\SGA;
         return $this->path;
     }
 
-    public function getFullPath() {
-        if (!$this->fullPath) {
-            $this->fullPath = self::fullPath($this->chave);
+    public function getRealPath() {
+        if (!$this->realPath) {
+            $this->realPath = self::realPath($this->chave);
         }
-        return $this->fullPath;
-    }
-
-    public function link($file = '', array $params = array()) {
-        $url = './?' . SGA::K_MODULE . '=' . $this->chave;
-        if (!empty($file)) {
-            $url .= '&' . SGA::K_PAGE . '=' . $file;
-        }
-        foreach ($params as $k => $v) {
-            $url .= '&' . $k . '=' . $v;
-        }
-        return $url;
-    }
-    
-    public function import($page) {
-        try {
-            SGA::import(array(
-                SGA::K_MODULE => $this,
-                SGA::K_PAGE => $page
-            ));
-        } catch (Exception $e) {
-            throw new Exception(sprintf(_('Não encontrada página "%s" no módulo "%s"'), $page, $this->nome));
-        }
+        return $this->realPath;
     }
     
     public static function dir($chave) {
@@ -176,7 +154,7 @@ use \novosga\SGA;
         return MODULES_DIR . DS . self::dir($chave);
     }
     
-    public static function fullPath($chave) {
+    public static function realPath($chave) {
         return MODULES_PATH . DS . self::dir($chave);
     }
 	

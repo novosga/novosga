@@ -1,0 +1,57 @@
+/**
+ * Novo SGA - Monitor
+ * icon(s) by pixel-mixer.com
+ * @author rogeriolino
+ */
+ 
+#monitor .search {
+    padding: 5px;
+}
+ 
+#monitor .servico {
+    width: 100%;
+    margin: 5px 0;
+    float: left;
+    clear: both;
+}
+
+#monitor .servico .title {
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 0 0 10px;
+    display: block;
+}
+
+#monitor .servico.empty { display: none; }
+
+#monitor .servico .fila {
+    padding: 5px 0 5px 30px;
+    background-image: url(../images/client-16.png);
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    float: left;
+}
+
+#monitor .servico .fila li {
+    padding: 2px 5px;
+    list-style: none;
+    float: left;
+}
+
+#monitor .servico .fila li a {
+    float: left;
+}
+
+#monitor .servico .fila li.prioridade a {
+    color: red;
+}
+
+#dialog-transfere div #transfere_numero {
+    font-size: 22px;
+    display: block;
+}
+
+
+#dialog-busca .modal-dialog {
+    width: 90%;
+}

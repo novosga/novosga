@@ -1,0 +1,36 @@
+{% for dado in relatorio.dados %}
+<div class="header">
+    <h2>{{ dado.unidade }}</h2>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>{% trans %}Sigla{% endtrans %}</th>
+            <th>{% trans %}Serviço{% endtrans %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for su in dado.servicos %}
+        <tr>
+            <td class="w25 center">{{ su.sigla }}</td>
+            <td class="strong">{{ su.servico.nome }}</td>
+        </tr>
+        {% if su.servico.subServicos|length %}
+        <tr class="sub-table">
+            <td colspan="2">
+                <table class="subservicos">
+                    <tbody>
+                        {% for subServico in su.servico.subServicos %}
+                        <tr>
+                            <td class="nome">{{ subServico.nome }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}

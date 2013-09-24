@@ -26,7 +26,6 @@ class InstallController extends InternalController {
     const TOTAL_STEPS = 'totalSteps';
     const CURR_STEP_IDX = 'currStepIdx';
     const CURR_STEP = 'currStep';
-    const SGALIVRE = 'sgalivre';
     
     public function __construct() {
     }
@@ -334,9 +333,6 @@ class InstallController extends InternalController {
     
     private function script_migration($from) {
         $path = dirname(__FILE__). DS . 'sql' . DS . 'migrate' . DS;
-        if ($from == self::SGALIVRE) {
-            return $path . self::SGALIVRE . ".sql";
-        }
         // sql format "from:to.sql"
         return $path . $from . ':' . SGA::VERSION . '.sql';
     }
@@ -391,13 +387,7 @@ class InstallController extends InternalController {
         $db = $data->database;
         DB::createConn($db['db_user'], $db['db_pass'], $db['db_host'], $db['db_port'], $db['db_name'], $db['db_type']);
         $conn = DB::getEntityManager()->getConnection();
-        // is sgalivre
-        try {
-            $stmt = $conn->prepare("SELECT COUNT(*) FROM menus");
-            $stmt->execute();
-            return 'sgalivre';
-        } catch (\Exception $e) {
-        }
+        // TODO
         return null;
     }
     

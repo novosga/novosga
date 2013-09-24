@@ -4,7 +4,6 @@ namespace novosga\controller;
 use \Exception;
 use \novosga\SGA;
 use \novosga\db\DB;
-use \novosga\view\CrudView;
 use \novosga\model\SequencialModel;
 use \novosga\controller\ModuleController;
 use \novosga\SGAContext;
@@ -72,7 +71,11 @@ abstract class CrudController extends ModuleController {
             $this->model = $this->findById($id);
             // invalid id
             if (!$this->model) {
-                SGA::redirect(array(SGA::K_MODULE => $context->getModulo()->getChave()));
+                if ($context->getModulo()) {
+                    $this->app()->redirect($this->app()->request()->getRootUri() . "/modules/{$context->getModulo()->getChave()}");
+                } else {
+                    $this->app()->redirect($this->app()->request()->getRootUri());
+                }
             }
         } else {
             $this->model = $this->createModel();
@@ -150,7 +153,7 @@ abstract class CrudController extends ModuleController {
                 $this->app()->flash('error', $e->getMessage());
             }
         }
-        SGA::redirect($_SERVER['HTTP_REFERER']);
+        $this->app()->redirect($_SERVER['HTTP_REFERER']);
     }
     
     /**

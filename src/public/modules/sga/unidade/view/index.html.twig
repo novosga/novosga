@@ -1,0 +1,171 @@
+{% extends "module.html.twig" %}
+{% block content %}
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab-triagem" data-toggle="tab">{% trans %}Triagem{% endtrans %}</a></li>
+        <li><a href="#tab-servicos" data-toggle="tab">{% trans %}Serviços{% endtrans %}</a></li>
+        <li><a href="#tab-paineis" data-toggle="tab">{% trans %}Painéis{% endtrans %}</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="tab-triagem" class="tab-pane active">
+            <form action="{{ module.getPath }}/update_impressao" method="post" role="form">
+                <fieldset>
+                    <legend>{% trans %}Impressão{% endtrans %}</legend>
+                    <div class="checkbox">
+                        <label for="impressao">
+                            <input id="impressao" name="impressao" type="checkbox" value="1" {% if unidade.statusImpressao %}checked="checked"{% endif %} />
+                            {% trans %}Ativar impressão de senha{% endtrans %}
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensagem" class="form-label">{% trans %}Mensagem{% endtrans %}</label>
+                        <input type="text" id="mensagem" name="mensagem" class="form-control" maxlength="100" value="{{ unidade.mensagemImpressao }}" />
+                    </div>
+                    <div class="form-group">
+                        <label>{% trans %}Reiniciar senhas{% endtrans %}</label>
+                        <button class="btn btn-danger" onclick="return SGA.Unidade.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas?{% endtrans %}')">
+                            {% trans %}Reiniciar{% endtrans %}
+                        </button>
+                    </div>
+                </fieldset>
+                <div class="buttons">
+                    <button type="submit" class="btn btn-primary">
+                        {% trans %}Salvar{% endtrans %}
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div id="tab-servicos" class="tab-pane">
+            <p>{% trans %}As modificações na sigla e nome do serviço são salvas automaticamente ao sair do campo.{% endtrans %}</p>
+            <table class="table" id="servicos">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Sigla{% endtrans %}</th>
+                        <th>{% trans %}Serviço{% endtrans %}</th>
+                        <th>{% trans %}Status{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for su in servicos %}
+                    <tr>
+                        <td class="sigla">
+                            <input id="sigla-{{ su.servico.id }}" 
+                                   type="text" 
+                                   class="servico-{{ su.servico.id }} center form-control" 
+                                   value="{{ su.sigla }}" 
+                                   data-id="{{ su.servico.id }}" 
+                                   onclick="this.select()" 
+                                   onkeyup="this.value = this.value.toUpperCase()" 
+                                   onchange="SGA.Unidade.Servicos.updateSigla(this)" 
+                                   onblur="SGA.Unidade.Servicos.updateSigla(this)" 
+                                   size="1"
+                                   maxlength="1" 
+                                   {% if su.status != 1 %}disabled="disabled"{% endif %} />
+                        </td>
+                        <td class="nome">
+                            <span class="all">
+                                <button class="btn btn-default"
+                                        onclick="SGA.Unidade.Servicos.reverteNome({{ su.servico.id }})"
+                                        title="Reverter nome para nome original" style="position:absolute; top:0;right:0">
+                                    <span class="glyphicon glyphicon-refresh"></span>
+                                </button>
+                                <input id="nome-{{ su.servico.id }}" 
+                                       type="text" 
+                                       class="servico-{{ su.servico.id }} center form-control" 
+                                       value="{{ su.nome }}" 
+                                       data-id="{{ su.servico.id }}" 
+                                       onchange="SGA.Unidade.Servicos.updateNome(this)" 
+                                       onblur="SGA.Unidade.Servicos.updateNome(this)"
+                                       maxlength="50" 
+                                       {% if su.status != 1 %}disabled="disabled"{% endif %} />
+                            </span>
+                        </td>
+                        <td style="width: 1%; white-space: nowrap">
+                            <span class="btns-status">
+                                <button id="btn-enable-{{ su.servico.id }}"
+                                        class="btn btn-success"
+                                        data-id="{{ su.servico.id }}"
+                                        onclick="SGA.Unidade.Servicos.enable(this)"
+                                        {% if su.status == 1 %}disabled="disabled"{% endif %}>
+                                    {% trans %}Habilitar{% endtrans %}
+                                </button>
+                                <button id="btn-disable-{{ su.servico.id }}"
+                                        class="btn btn-danger"
+                                        data-id="{{ su.servico.id }}"
+                                        onclick="SGA.Unidade.Servicos.disable(this)"
+                                        {% if su.status == 0 %}disabled="disabled"{% endif %}>
+                                    {% trans %}Desabilitar{% endtrans %}
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="tab-paineis" class="tab-pane">
+            <ul class="paineis">
+                {% for painel in paineis %}
+                <li>
+                    <a href="javascript:void(0)" onclick="SGA.Unidade.painelInfo({{ painel.host }})" title="{% trans %}Visualizar serviços{% endtrans %}">
+                        <span>IP</span>
+                        <span class="ip">{{ painel.ip }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{# reiniciar #}
+<div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans %}Configuração{% endtrans %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# painel #}
+<div id="dialog-painel" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans %}Painel{% endtrans %}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>IP</label>
+                    <span id="painel_ip"></span>
+                </div>
+                <div>
+                    <label>{% trans %}Unidade{% endtrans %}</label>
+                    <span id="painel_unidade"></span>
+                </div>
+                <div>
+                    <label>{% trans %}Serviços{% endtrans %}</label>
+                    <ul id="painel_servicos"></ul>
+                </div>
+                <div>
+                    <label>{% trans %}Últimas senhas{% endtrans %}</label>
+                    <ul id="painel_senhas"></ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

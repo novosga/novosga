@@ -19,7 +19,7 @@ class DatabaseAuthentication extends Authentication {
      */
     public function auth($username, $password) {
         $em = \novosga\db\DB::getEntityManager();
-        $query = $em->createQuery("SELECT u FROM novosga\model\Usuario u WHERE u.login = :login");
+        $query = $em->createQuery("SELECT u FROM novosga\model\Usuario u WHERE u.login = :login AND u.status = 1");
         $query->setParameter('login', $username);
         try {
             $user = $query->getSingleResult();

@@ -22,8 +22,6 @@ class Grupo extends TreeModel {
     protected $nome;
     /** @Column(type="string", name="desc_grupo", length=150, nullable=false) */
     protected $descricao;
-    /** @Column(type="integer", name="nivel", nullable=false) */
-    protected $nivel;
     // XXX: retirado relacionamento bidirecional devido a bug do dblib/mssql no linux (multiplas consultas)
     /** @ OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY") */
     protected $unidade;
@@ -43,14 +41,6 @@ class Grupo extends TreeModel {
 
     public function setDescricao($descricao) {
         $this->descricao = $descricao;
-    }
-    
-    public function getNivel() {
-        return $this->nivel;
-    }
-
-    public function setNivel($nivel) {
-        $this->nivel = $nivel;
     }
         
     public function getUnidade() {
