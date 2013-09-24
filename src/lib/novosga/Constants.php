@@ -5,7 +5,7 @@ define("PATH", "");
 define("DS", DIRECTORY_SEPARATOR);
 define("ROOT", dirname(dirname(dirname(__FILE__))));
 define("LIB", ROOT . DS . 'lib');
-define("PUBLIC_HTML", ROOT . DS . 'public_html');
+define("PUBLIC_HTML", ROOT . DS . 'public');
 define("CORE_DIR", "novosga");
 define("CORE_PATH", LIB . DS . CORE_DIR);
 define("CACHE_DIR", "cache");

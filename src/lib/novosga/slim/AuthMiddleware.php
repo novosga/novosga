@@ -37,6 +37,7 @@ class AuthMiddleware extends \Slim\Middleware {
             if ($unidade) {
                 $this->app->view()->assign('modulosUnidade', AcessoBusiness::modulos($user, \novosga\model\Modulo::MODULO_UNIDADE));
             }
+            $this->app->view()->assign('unidades', AcessoBusiness::unidades($user));
             $this->app->view()->assign('unidade', $unidade);
             $this->app->view()->assign('usuario', $user);
             $this->app->view()->setData('usuario', $this->context->getUser());

@@ -12,6 +12,8 @@ abstract class TreeModel extends SequencialModel {
     protected $left = 1;
     /** @Column(type="integer", name="direita", nullable=false) */
     protected $right = 2;
+    /** @Column(type="integer", name="nivel", nullable=false) */
+    protected $level;
     
     // transient
     
@@ -31,6 +33,14 @@ abstract class TreeModel extends SequencialModel {
 
     public function setRight($right) {
         $this->right = $right;
+    }
+    
+    public function getLevel() {
+        return $this->level;
+    }
+
+    public function setLevel($level) {
+        $this->level = $level;
     }
 
     /**

@@ -251,5 +251,9 @@ class UsuarioSessao {
         $method = new \ReflectionMethod($this->getWrapped(), $name);
         return $method->invokeArgs($this->getWrapped(), $arguments);
     }
+    
+    public function __toString() {
+        return $this->getNome();
+    }
 
 }

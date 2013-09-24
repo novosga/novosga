@@ -42,13 +42,13 @@ class ViewAtendimento extends Model {
     protected $usuarioTriagem;
     /** @Column(type="integer", name="num_guiche", nullable=false) */
     protected $guiche;
-    /** @Column(type="string", name="dt_cheg", length=50, nullable=false) */
+    /** @Column(type="datetime", name="dt_cheg", length=50, nullable=false) */
     protected $dataChegada;
-    /** @Column(type="string", name="dt_cha", length=50, nullable=true) */
+    /** @Column(type="datetime", name="dt_cha", length=50, nullable=true) */
     protected $dataChamada;
-    /** @Column(type="string", name="dt_ini", length=50, nullable=true) */
+    /** @Column(type="datetime", name="dt_ini", length=50, nullable=true) */
     protected $dataInicio;
-    /** @Column(type="string", name="dt_fim", length=50, nullable=true) */
+    /** @Column(type="datetime", name="dt_fim", length=50, nullable=true) */
     protected $dataFim;
     /** @Column(type="integer", name="id_stat", length=50, nullable=false) */
     protected $status;
@@ -120,35 +120,47 @@ class ViewAtendimento extends Model {
         $this->guiche = $guiche;
     }
 
+    /**
+     * @return \DateTime 
+     */
     public function getDataChegada() {
         return $this->dataChegada;
     }
 
-    public function setDataChegada($dataChegada) {
+    public function setDataChegada(\DateTime $dataChegada) {
         $this->dataChegada = $dataChegada;
     }
 
+    /**
+     * @return \DateTime 
+     */
     public function getDataChamada() {
         return $this->dataChamada;
     }
 
-    public function setDataChamada($dataChamada) {
+    public function setDataChamada(\DateTime $dataChamada) {
         $this->dataChamada = $dataChamada;
     }
 
+    /**
+     * @return \DateTime 
+     */
     public function getDataInicio() {
         return $this->dataInicio;
     }
 
-    public function setDataInicio($dataInicio) {
+    public function setDataInicio(\DateTime $dataInicio) {
         $this->dataInicio = $dataInicio;
     }
 
+    /**
+     * @return \DateTime 
+     */
     public function getDataFim() {
         return $this->dataFim;
     }
 
-    public function setDataFim($dataFim) {
+    public function setDataFim(\DateTime $dataFim) {
         $this->dataFim = $dataFim;
     }
 
