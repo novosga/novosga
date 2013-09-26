@@ -40,7 +40,7 @@ class CargosController extends TreeModelController {
         $query->execute();
         $permissoes = Arrays::value($_POST, 'permissoes');
         $conn = $this->em()->getConnection();
-        $stmt = $conn->prepare("INSERT INTO cargos_mod_perm (id_mod, id_cargo, permissao) VALUES (:modulo, :cargo, :permissao)");
+        $stmt = $conn->prepare("INSERT INTO cargos_mod_perm (modulo_id, cargo_id, permissao) VALUES (:modulo, :cargo, :permissao)");
         if (!empty($permissoes)) {
             foreach ($permissoes as $modulo) {
                 $stmt->bindValue('modulo', $modulo, \PDO::PARAM_INT);
@@ -77,7 +77,7 @@ class CargosController extends TreeModelController {
                 e.left, e.nome
         ");
         $query->setParameter('arg', $arg);
-        return $query->getResult();
+        return $query;
     }
     
     public function edit(SGAContext $context, $id = 0) {

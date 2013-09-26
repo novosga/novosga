@@ -24,7 +24,7 @@ class PrioridadesController extends CrudController {
     protected function search($arg) {
         $query = $this->em()->createQuery("SELECT e FROM novosga\model\Prioridade e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg");
         $query->setParameter('arg', $arg);
-        return $query->getResult();
+        return $query;
     }
     
     public function edit(SGAContext $context, $id = 0) {

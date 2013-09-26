@@ -12,8 +12,9 @@ fieldset .btn-multi-add {
     float: right;
 }
 
-td.check {
+th.check, td.check {
     width: 1%;
+    text-align: center;
 }
 
 td.cargo a {

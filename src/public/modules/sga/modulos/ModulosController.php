@@ -1,13 +1,12 @@
 <?php
 namespace modules\sga\modulos;
 
-use \novosga\SGA;
 use \novosga\SGAContext;
 use \novosga\util\Arrays;
 use \novosga\model\Modulo;
-use \novosga\view\CrudView;
 use \novosga\http\AjaxResponse;
 use \novosga\controller\ModuleController;
+use \Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * ModulosController
@@ -17,30 +16,29 @@ use \novosga\controller\ModuleController;
 class ModulosController extends ModuleController {
     
     /**
-     * @return CrudView
-     */
-    protected function createView() {
-        return new CrudView($this->title, $this->subtitle, false, true, false);
-    }
-    
-    /**
      * Monta a lista das entidades, podendo filtra-las.
      * @param novosga\SGAContext $context
      */
     public function index(SGAContext $context) {
-        if (isset($_POST['s'])) {
-            $arg = "%" . strtoupper($_POST['s']) . "%";
-        } else {
-            $arg = "%";
-        }
-        $items = $this->search($arg);
+        $maxResults = 10;
+        $page = (int) Arrays::value($_GET, 'p', 0);
+        $search = trim(Arrays::value($_GET, 's', ''));
+        $query = $this->search("%". strtoupper($search) . "%");
+        $query->setMaxResults($maxResults);
+        $query->setFirstResult($page * $maxResults);
+        $items = new Paginator($query);
+        $total = count($items);
+        $this->app()->view()->assign('search', $search);
         $this->app()->view()->assign('items', $items);
+        $this->app()->view()->assign('total', $total);
+        $this->app()->view()->assign('page', $page);
+        $this->app()->view()->assign('pages', ceil($total / $maxResults));
     }
 
     protected function search($arg) {
         $query = $this->em()->createQuery("SELECT e FROM novosga\model\Modulo e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.chave) LIKE :arg");
         $query->setParameter('arg', $arg);
-        return $query->getResult();
+        return $query;
     }
     
     private function find($id) {

@@ -29,8 +29,8 @@ class UnidadesController extends CrudController {
         if ($rs['total']) {
             throw new \Exception(_('Código de Unidade já existe'));
         }
-        $id_grupo = (int) $context->request()->getParameter('id_grupo');
-        $grupo = $this->em()->find('novosga\model\Grupo', $id_grupo);
+        $grupo_id = (int) $context->request()->getParameter('grupo_id');
+        $grupo = $this->em()->find('novosga\model\Grupo', $grupo_id);
         if (!$grupo || !$grupo->isLeaf()) {
             throw new \Exception(_('Grupo inválido'));
         }
@@ -40,7 +40,7 @@ class UnidadesController extends CrudController {
     protected function search($arg) {
         $query = $this->em()->createQuery("SELECT e FROM novosga\model\Unidade e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.codigo) LIKE :arg");
         $query->setParameter('arg', $arg);
-        return $query->getResult();
+        return $query;
     }
     
     public function edit(SGAContext $context, $id = 0) {

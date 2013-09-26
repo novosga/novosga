@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?php echo $atendimento->getSenha() ?></title>
+    <title>{{ atendimento.senha }}</title>
     <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/css/style.css?v={{ version }}" />
-    <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/{{ modulo.getPath }}/css/print.css?v={{ version }}" />
+    <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/css/bootstrap.min.css?v={{ version }}" />
+    <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/{{ module.getPath }}/css/print.css?v={{ version }}" />
     <link rel="shortcut icon" href="images/favicon.png" />
 </head>
 <body onload="window.print(); window.close();">

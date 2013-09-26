@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Novo SGA</title>
+        <title>{% trans %}Instalação{% endtrans %} | Novo SGA</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/style.css" />
@@ -10,12 +10,11 @@
         <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/install.css" />
         
-        <script type="text/javascript" src="{{ baseUrl() }}/js/html5.js?v={version}"></script>
-        <script type="text/javascript" src="{{ baseUrl() }}/js/jquery.js?v={version}"></script>
-        <script type="text/javascript" src="{{ baseUrl() }}/js/jquery-ui.js?v={version}"></script>
-        <script type="text/javascript" src="{{ baseUrl() }}/js/script.js?v={version}"></script>
-        <script type="text/javascript" src="{{ baseUrl() }}/js/install.js?v={version}"></script>
-        <script type="text/javascript" src="{{ baseUrl() }}/js/bootstrap.min.js?v={version}"></script>
+        <script type="text/javascript" src="{{ baseUrl() }}/js/html5.js?v={{ version }}"></script>
+        <script type="text/javascript" src="{{ baseUrl() }}/js/jquery.js?v={{ version }}"></script>
+        <script type="text/javascript" src="{{ baseUrl() }}/js/script.js?v={{ version }}"></script>
+        <script type="text/javascript" src="{{ baseUrl() }}/js/install.js?v={{ version }}"></script>
+        <script type="text/javascript" src="{{ baseUrl() }}/js/bootstrap.min.js?v={{ version }}"></script>
         <script type="text/javascript"> SGA.baseUrl = '{{ baseUrl() }}';</script>
         <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!--[if lt IE 9]>
@@ -30,7 +29,7 @@
             </div>
             <div class="navbar-collapse collapse install-navegation">
                 {% if prevStep %}
-                <button id="btn_prev" class="btn" onclick="SGA.Install.prevStep()"
+                <button id="btn_prev" class="btn btn-default" onclick="SGA.Install.prevStep()"
                         title="{{ prevStep.title }}">{% trans %}Anterior{% endtrans %}</button>
                 {% endif %}
                 {% if nextStep %}
@@ -43,9 +42,9 @@
         <div class="container">
             <ul id="progress">
                 {% for step in steps %}
-                    <li {% if Step.id == currStep.id %}class="current"{% endif %}>
-                        <span title="{{ Step.title }}">
-                            {{ Step.id + 1 }}
+                    <li {% if step.id == currStep.id %}class="current"{% endif %}>
+                        <span title="{{ step.title }}">
+                            {{ step.id + 1 }}
                         </span>
                     </li>
                 {% endfor %}
@@ -58,7 +57,7 @@
         <script type="text/javascript">
             SGA.Install.currStep = {{ currStep.id }};
             SGA.Install.totalSteps = {{ totalSteps }};
-            SGA.Install.adapter = '{{ adapter.rdbms }}';
+            SGA.Install.adapter = '{{ currAdapter }}';
         </script>
     </body>
 </html>

@@ -139,51 +139,53 @@
                     </button>
                 </div>
                 <div id="codificar" class="control" style="display:none">
-                    <div class="left">
-                        <h3>{% trans %}Serviços disponíveis{% endtrans %}</h3>
-                        <ul id="macro-servicos" class="items">
-                            {% for su in servicos %}
-                                <li id="servico-{{ su.servico.id }}">
-                                    <a href="javascript:void(0)" 
-                                       onclick="SGA.Atendimento.addServico(this)" 
-                                       data-id="{{ su.servico.id }}" 
-                                       title="{% trans %}Adicionar{% endtrans %}">
-                                        {{ su.servico.nome }}
-                                    </a>
-                                    {% if servico.subServicos|length > 0 %}
-                                        <ul>
-                                        {% for sub in servico.subServicos %}
-                                            <li id="servico-{{ sub.id }}">
-                                                <a href="javascript:void(0)" 
-                                                   onclick="SGA.Atendimento.addServico(this)" 
-                                                   data-id="{{ sub.id }}" 
-                                                   title="{% trans %}Adicionar{% endtrans %}">
-                                                    {{ sub.nome }}
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                        </ul>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="left">
-                        <h3>{% trans %}Serviços realizados{% endtrans %}</h3>
-                        <ul id="servicos-realizados" class="items">
-                        </ul>
-                        <div class="redirecionar">
-                            <input id="encerrar-redirecionar" type="checkbox" value="1" />
-                            <label for="encerrar-redirecionar" 
-                                   title="{% trans %}Marque para codificar e redirecionar o atendimento atual{% endtrans %}">
-                                <span>{% trans %}Redirecionar atendimento ao encerrar {% endtrans %}</span>
-                            </label>
+                    <div>
+                        <div class="left">
+                            <h3>{% trans %}Serviços disponíveis{% endtrans %}</h3>
+                            <ul id="macro-servicos" class="items">
+                                {% for su in servicos %}
+                                    <li id="servico-{{ su.servico.id }}">
+                                        <a href="javascript:void(0)" 
+                                           onclick="SGA.Atendimento.addServico(this)" 
+                                           data-id="{{ su.servico.id }}" 
+                                           title="{% trans %}Adicionar{% endtrans %}">
+                                            {{ su.servico.nome }}
+                                        </a>
+                                        {% if servico.subServicos|length > 0 %}
+                                            <ul>
+                                            {% for sub in servico.subServicos %}
+                                                <li id="servico-{{ sub.id }}">
+                                                    <a href="javascript:void(0)" 
+                                                       onclick="SGA.Atendimento.addServico(this)" 
+                                                       data-id="{{ sub.id }}" 
+                                                       title="{% trans %}Adicionar{% endtrans %}">
+                                                        {{ sub.nome }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
                         </div>
-                        <button class="btn btn-default btn-control codificar" 
-                                onclick="SGA.Atendimento.codificar(this)" 
-                                title="{% trans %}Encerrar atendimento{% endtrans %}">
-                            <span>{% trans %}Encerrar atendimento{% endtrans %}</span>
-                        </button>
+                        <div class="left">
+                            <h3>{% trans %}Serviços realizados{% endtrans %}</h3>
+                            <ul id="servicos-realizados" class="items">
+                            </ul>
+                            <div class="redirecionar">
+                                <input id="encerrar-redirecionar" type="checkbox" value="1" />
+                                <label for="encerrar-redirecionar" 
+                                       title="{% trans %}Marque para codificar e redirecionar o atendimento atual{% endtrans %}">
+                                    <span>{% trans %}Redirecionar atendimento ao encerrar {% endtrans %}</span>
+                                </label>
+                            </div>
+                            <button class="btn btn-default btn-control codificar" 
+                                    onclick="SGA.Atendimento.codificar(this)" 
+                                    title="{% trans %}Encerrar atendimento{% endtrans %}">
+                                <span>{% trans %}Encerrar atendimento{% endtrans %}</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -192,9 +194,9 @@
                 <ul></ul>
             </div>
         </div>
-        <p class="links clear">
+        <p class="links">
             <a href="#dialog-busca" class="btn btn-default" data-toggle="modal">
-                <span class="glyphicon glyphicon-search"></span> 
+                <span class="glyphicon glyphicon-search"></span>&nbsp;
                 {% trans %}Consultar senha{% endtrans %}
             </a>
         </p>

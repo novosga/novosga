@@ -29,10 +29,10 @@ class UnidadeController extends ModuleController {
             $conn = $this->em()->getConnection();
             $conn->executeUpdate("
                 INSERT INTO uni_serv 
-                SELECT {$unidade->getId()}, id_serv, 1, nm_serv, 'A', 0 FROM servicos 
+                SELECT {$unidade->getId()}, servico_id, 1, nm_serv, 'A', 0 FROM servicos 
                 WHERE 
                     id_macro IS NULL AND
-                    id_serv NOT IN (SELECT id_serv FROM uni_serv WHERE id_uni = :unidade)
+                    servico_id NOT IN (SELECT servico_id FROM uni_serv WHERE unidade_id = :unidade)
             ", array('unidade' => $unidade->getId()));
             // todos servicos mestre
             $query = $this->em()->createQuery("
@@ -79,18 +79,19 @@ class UnidadeController extends ModuleController {
                 $context->setUnidade($unidade);
             }
         }
-        $this->app()->redirect('index');
+        echo (new AjaxResponse(true))->toJson();
+        exit();
     }
     
     private function change_status(SGAContext $context, $status) {
-        $id_serv = (int) Arrays::value($_POST, 'id');
+        $servico_id = (int) Arrays::value($_POST, 'id');
         $unidade = $context->getUser()->getUnidade();
-        if (!$id_serv || !$unidade) {
+        if (!$servico_id || !$unidade) {
             return false;
         }
         $query = $this->em()->createQuery("UPDATE novosga\model\ServicoUnidade e SET e.status = :status WHERE e.unidade = :unidade AND e.servico = :servico");
         $query->setParameter('status', $status);
-        $query->setParameter('servico', $id_serv);
+        $query->setParameter('servico', $servico_id);
         $query->setParameter('unidade', $unidade->getId());
         return $query->execute();
     }

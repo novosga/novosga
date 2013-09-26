@@ -5,9 +5,11 @@
 {% endblock %}
 {% block tbody %}
     <td>
-        <span class="nome servico-{{ model.id }} {% if model.mestre %}sub-servico{% else %}servico-mestre{% endif %}" data-mestre="{{ model.mestre.id }}">
+        <a href="javascript:void(0)" onclick="SGA.Servicos.subservicos({{ item.id }})">
             {{ item.nome }}
-        </span>
+        </a>
+        <div id="servico-{{ item.id }}" class="subservicos">
+        </div>
     </td>
     <td>
         {% if item.status == 1 %}
@@ -17,8 +19,3 @@
         {% endif %}
     </td>
 {% endblock %}
-{#
-<script type="text/javascript">
-    SGA.Servicos.orderTable('table-list');
-</script>
-#}

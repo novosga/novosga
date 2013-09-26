@@ -319,3 +319,16 @@ table.ui-tree-view .toggler .ui-icon {
 
 .status-active { color: #468847; }
 .status-inactive { color: #b94a48; }
+
+.crud-pagination {
+    text-align: center;
+}
+
+td.buttons {
+    width:1%; 
+    white-space: nowrap;
+}
+
+#btn-delete {
+    float: right;
+}

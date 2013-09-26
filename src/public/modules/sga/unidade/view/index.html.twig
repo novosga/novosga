@@ -8,18 +8,20 @@
     </ul>
     <div class="tab-content">
         <div id="tab-triagem" class="tab-pane active">
-            <form action="{{ module.getPath }}/update_impressao" method="post" role="form">
+            <form id="form-triagem" role="form" onsubmit="return false">
                 <fieldset>
                     <legend>{% trans %}Impressão{% endtrans %}</legend>
                     <div class="checkbox">
                         <label for="impressao">
-                            <input id="impressao" name="impressao" type="checkbox" value="1" {% if unidade.statusImpressao %}checked="checked"{% endif %} />
+                            <input id="impressao" name="impressao" type="checkbox" value="1" {% if unidade.statusImpressao %}checked="checked"{% endif %}
+                                   onclick="setTimeout(SGA.Unidade.Triagem.salvar, 100)" />
                             {% trans %}Ativar impressão de senha{% endtrans %}
                         </label>
                     </div>
                     <div class="form-group">
                         <label for="mensagem" class="form-label">{% trans %}Mensagem{% endtrans %}</label>
-                        <input type="text" id="mensagem" name="mensagem" class="form-control" maxlength="100" value="{{ unidade.mensagemImpressao }}" />
+                        <input type="text" id="mensagem" name="mensagem" class="form-control" maxlength="100" value="{{ unidade.mensagemImpressao }}"
+                               onchange="SGA.Unidade.Triagem.salvar()" />
                     </div>
                     <div class="form-group">
                         <label>{% trans %}Reiniciar senhas{% endtrans %}</label>
@@ -28,11 +30,6 @@
                         </button>
                     </div>
                 </fieldset>
-                <div class="buttons">
-                    <button type="submit" class="btn btn-primary">
-                        {% trans %}Salvar{% endtrans %}
-                    </button>
-                </div>
             </form>
         </div>
         <div id="tab-servicos" class="tab-pane">

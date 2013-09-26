@@ -1,4 +1,4 @@
-{% extends "install/install.html" %}
+{% extends "install/install.html.twig" %}
 {% block content %}
 <div id="step_0" class="container">
     <h2>{% trans %}Bem-vindo a instalação da versão web do Novo SGA.{% endtrans %}</h2>
@@ -6,7 +6,7 @@
     <p>{% trans %}Favor escolher o seu sistema de banco de dados preferido a partir dos listados abaixo:{% endtrans %}</p>
     <ul class="adapters">
         {% for script in scripts %}
-        <li id="adapter-{{ script.id }}" {% if currAdapter == script.id %}class="active"{% endif %}>
+        <li id="adapter-{{ script.id }}" {% if currAdapter == script.id %}class="adapter-active"{% endif %}>
             <input id="{{ script.id }}" type="radio" name="db" value="{{ script.id }}" onclick="setTimeout(function() { SGA.Install.chooseAdapter('{{ script.id }}')}, 100)" {% if currAdapter == script.id %}checked="checked"{% endif %} />
             <label for="{{ script['id'] }}">
                 <span class="adapter">{{ script.adapter }}</span>
@@ -17,6 +17,5 @@
         {% endfor %}
     </ul>
     <p>{% trans %}Os requisitos para instalação do sistema irão depender da opção acima.{% endtrans %}</p>
-    <script type="text/javascript"> SGA.Install.adapter = '{{ currAdapter }}';</script>
 </div>
 {% endblock %}
