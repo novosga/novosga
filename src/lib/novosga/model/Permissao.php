@@ -10,13 +10,13 @@ class Permissao extends Model {
     /** 
      * @Id
      * @ManyToOne(targetEntity="Modulo")
-     * @JoinColumn(name="id_mod", referencedColumnName="id_mod")
+     * @JoinColumn(name="modulo_id", referencedColumnName="id")
      */
     protected $modulo;
     /** 
      * @Id
      * @ManyToOne(targetEntity="Cargo")
-     * @JoinColumn(name="id_cargo", referencedColumnName="id_cargo")
+     * @JoinColumn(name="cargo_id", referencedColumnName="id")
      */
     protected $cargo;
     /** @Column(type="integer", name="permissao", nullable=false) */

@@ -19,12 +19,12 @@ namespace novosga\model;
     /** 
      * @Id
      * @ManyToOne(targetEntity="Servico")
-     * @JoinColumn(name="id_serv", referencedColumnName="id_serv")
+     * @JoinColumn(name="servico_id", referencedColumnName="id")
      */
     protected $servico;
     /**
      * @ManyToOne(targetEntity="Unidade")
-     * @JoinColumn(name="id_uni", referencedColumnName="id_uni")
+     * @JoinColumn(name="unidade_id", referencedColumnName="id")
      */
     protected $unidade;
 

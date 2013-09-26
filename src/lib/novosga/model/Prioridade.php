@@ -5,11 +5,6 @@ namespace novosga\model;
  * 
  * @Entity
  * @Table(name="prioridades")
- * @AttributeOverrides({
- *      @AttributeOverride(name="id",
- *          column=@Column(name="id_pri",type="integer")
- *      )
- * })
  */
 class Prioridade extends SequencialModel {
 

@@ -8,36 +8,31 @@ namespace novosga\model;
  * @Entity
  * @Table(name="view_historico_atendimentos")
  */
-class ViewAtendimento extends Model {
+class ViewAtendimento extends SequencialModel {
 
-    /**
-     * @Id 
-     * @Column(type="integer", name="id_atend", nullable=false) 
-     */
-    protected $id;
     /** 
      * @ManyToOne(targetEntity="Unidade") 
-     * @JoinColumn(name="id_uni", referencedColumnName="id_uni")
+     * @JoinColumn(name="unidade_id", referencedColumnName="id")
      */
     protected $unidade;
     /** 
      * @ManyToOne(targetEntity="Servico") 
-     * @JoinColumn(name="id_serv", referencedColumnName="id_serv")
+     * @JoinColumn(name="servico_id", referencedColumnName="id")
      */
     protected $servico;
     /** 
      * @ManyToOne(targetEntity="Prioridade") 
-     * @JoinColumn(name="id_pri", referencedColumnName="id_pri")
+     * @JoinColumn(name="prioridade_id", referencedColumnName="id")
      */
     protected $prioridade;
     /** 
      * @ManyToOne(targetEntity="Usuario") 
-     * @JoinColumn(name="id_usu", referencedColumnName="id_usu")
+     * @JoinColumn(name="usuario_id", referencedColumnName="id")
      */
     protected $usuario;
     /** 
      * @ManyToOne(targetEntity="Usuario") 
-     * @JoinColumn(name="id_usu_tri", referencedColumnName="id_usu")
+     * @JoinColumn(name="usuario_tri_id", referencedColumnName="id")
      */
     protected $usuarioTriagem;
     /** @Column(type="integer", name="num_guiche", nullable=false) */
@@ -50,7 +45,7 @@ class ViewAtendimento extends Model {
     protected $dataInicio;
     /** @Column(type="datetime", name="dt_fim", length=50, nullable=true) */
     protected $dataFim;
-    /** @Column(type="integer", name="id_stat", length=50, nullable=false) */
+    /** @Column(type="integer", name="status", length=50, nullable=false) */
     protected $status;
     /** @Column(type="string", name="nm_cli", length=100, nullable=true) */
     protected $nomeCliente;
@@ -64,14 +59,6 @@ class ViewAtendimento extends Model {
     protected $numeroSenhaServico;
     
     
-    public function getId() {
-        return $this->id;
-    }
-
-    public function setId($id) {
-        $this->id = $id;
-    }
-
     public function getUnidade() {
         return $this->unidade;
     }

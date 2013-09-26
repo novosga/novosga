@@ -10,18 +10,18 @@ class Lotacao extends Model {
     /** 
      * @Id
      * @ManyToOne(targetEntity="Usuario")
-     * @JoinColumn(name="id_usu", referencedColumnName="id_usu")
+     * @JoinColumn(name="usuario_id", referencedColumnName="id")
      */
     protected $usuario;
     /** 
      * @Id
      * @ManyToOne(targetEntity="Grupo")
-     * @JoinColumn(name="id_grupo", referencedColumnName="id_grupo")
+     * @JoinColumn(name="grupo_id", referencedColumnName="id")
      */
     protected $grupo;
     /** 
      * @ManyToOne(targetEntity="Cargo")
-     * @JoinColumn(name="id_cargo", referencedColumnName="id_cargo")
+     * @JoinColumn(name="cargo_id", referencedColumnName="id")
      */
     protected $cargo;
 

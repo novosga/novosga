@@ -44,7 +44,7 @@ class InstallController extends InternalController {
 
     public function index(SGAContext $context) {
         if (Config::SGA_INSTALLED) {
-            SGA::redirect('/');
+            $this->app()->redirect($this->request()->getRootUri());
         }
         $steps = $this->getSteps();
         $index = (int) $context->request()->getParameter(SGA::K_INSTALL);
@@ -59,13 +59,13 @@ class InstallController extends InternalController {
     }
     
     public function doStep(SGAContext $context, $step) {
+        $context->session()->del('error');
         $steps = $this->getSteps();
         $data = array(
             'steps' => $steps,
             'totalSteps' => sizeof($steps),
             'index' => $step,
-            'currStep' => $steps[$step],
-            'error' => $context->session()->get('error')
+            'currStep' => $steps[$step]
         );
         if ($step > 0) {
             $data['prevStep'] = $steps[$step - 1];
@@ -95,6 +95,8 @@ class InstallController extends InternalController {
                 $this->step5($context, $data);
                 break;
         }
+        $data['error'] = $context->session()->get('error');
+        $data['currAdapter'] = $context->session()->get('adapter');
         return $data;
     }
     
@@ -136,7 +138,6 @@ class InstallController extends InternalController {
             $scripts[] = $header;
         }
         $data['scripts'] = $scripts;
-        $data['currAdapter'] = $context->session()->get('adapter');
     }
     
     /**
@@ -154,10 +155,12 @@ class InstallController extends InternalController {
          * minimum requirements
          */
         $requiredsSetup = array(
-            array('name' => 'PHP', 'key' => 'php', 'version_required' => '5.3.0', 'ext' => false),
+            array('name' => 'PHP', 'key' => 'php', 'version_required' => '5.3.2', 'ext' => false),
             array('name' => 'PDO', 'key' => 'pdo', 'version_required' => '1.0.0', 'ext' => true),
             array('name' => $adapter['label'], 'key' => $adapter['driver'], 'version_required' => $adapter['version'], 'ext' => true),
-            array('name' => 'Multibyte String', 'key' => 'mbstring', 'ext' => true)
+            array('name' => 'json', 'key' => 'json', 'ext' => true),
+            array('name' => 'gettext', 'key' => 'gettext', 'ext' => true),
+            array('name' => 'mcrypt', 'key' => 'mcrypt', 'ext' => true)
         );
         foreach ($requiredsSetup as &$req) {
             $success = true;
@@ -167,8 +170,13 @@ class InstallController extends InternalController {
                     // if loaded then check version
                     if (isset($req['version_required'])) {
                         $req['version'] = phpversion($req['key']);
-                        $success = version_compare($req['version'], $req['version_required'], '>=');
-                        $req['result'] = $req['version'];
+                        if ($req['version']) {
+                            $success = version_compare($req['version'], $req['version_required'], '>=');
+                            $req['result'] = $req['version'];
+                        } else {
+                            $success = false;
+                            $req['result'] = _('Não instalado');
+                        }
                     } else {
                         $req['version_required'] = '*';
                         $req['result'] = _('Instalado');
@@ -185,7 +193,7 @@ class InstallController extends InternalController {
                 $req['class'] = ''; //'success'
             } else {
                 $fatal = true;
-                $req['class'] =  'error';
+                $req['class'] =  'danger';
             }
         }
         $data['requiredsSetup'] = $requiredsSetup;
@@ -205,7 +213,7 @@ class InstallController extends InternalController {
             } else {
                 $fatal = true;
                 $req['result'] = _('Somente leitura');
-                $req['class'] = 'error';
+                $req['class'] = 'danger';
             }
         }
         $data['requiredsPermission'] = $requiredsPermission;
@@ -225,8 +233,9 @@ class InstallController extends InternalController {
      */
     public function step2(SGAContext $context, &$data) {
         $default = 'en';
+        $context->session()->set('error', true);
         $lang = SGA::defaultClientLanguage();
-        $filePrefix = 'COPYING_';
+        $filePrefix = ROOT . '/LICENSE_';
         if (!file_exists($filePrefix . $lang)) {
             $lang = $default;
         }
@@ -507,7 +516,7 @@ class InstallController extends InternalController {
                 // atualizando arquivo de configuracao
                 ConfigWriter::write($db);
                 // se sucesso limpa a sessao
-                SGA::getContext()->session()->clear();
+                $context->session()->clear();
             } catch (Exception $e) {
                 if ($conn && $conn->isTransactionActive()) {
                     $conn->rollBack();

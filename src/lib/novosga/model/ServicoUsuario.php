@@ -12,21 +12,21 @@ class ServicoUsuario extends Model {
     /** 
      * @Id
      * @ManyToOne(targetEntity="Servico")
-     * @JoinColumn(name="id_serv", referencedColumnName="id_serv")
+     * @JoinColumn(name="servico_id", referencedColumnName="id")
      */
     protected $servico;
     
     /** 
      * @Id
      * @ManyToOne(targetEntity="Unidade")
-     * @JoinColumn(name="id_uni", referencedColumnName="id_uni")
+     * @JoinColumn(name="unidade_id", referencedColumnName="id")
      */
     protected $unidade;
     
     /** 
      * @Id
      * @ManyToOne(targetEntity="Usuario")
-     * @JoinColumn(name="id_usu", referencedColumnName="id_usu")
+     * @JoinColumn(name="usuario_id", referencedColumnName="id")
      */
     protected $usuario;
 	

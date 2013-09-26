@@ -12,12 +12,14 @@ abstract class TreeModel extends SequencialModel {
     protected $left = 1;
     /** @Column(type="integer", name="direita", nullable=false) */
     protected $right = 2;
+    /** 
+     * @ ManyToOne(targetEntity="TreeModel")
+     * @ JoinColumn(name="parent_id", referencedColumnName="id", nullable=false) 
+     */
+    protected $parent;
     /** @Column(type="integer", name="nivel", nullable=false) */
     protected $level;
-    
-    // transient
-    
-    private $parent;
+
     
     public function getLeft() {
         return $this->left;

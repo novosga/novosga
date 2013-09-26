@@ -4,11 +4,6 @@ namespace novosga\model;
 /**
  * @Entity
  * @Table(name="servicos")
- * @AttributeOverrides({
- *      @AttributeOverride(name="id",
- *          column=@Column(name="id_serv",type="integer")
- *      )
- * })
  */
 class Servico extends SequencialModel {
     
@@ -20,7 +15,7 @@ class Servico extends SequencialModel {
     protected $status;
     /** 
      * @ManyToOne(targetEntity="Servico")
-     * @JoinColumn(name="id_macro", referencedColumnName="id_serv")
+     * @JoinColumn(name="id_macro", referencedColumnName="id")
      */
     protected $mestre;
     /** 

@@ -7,33 +7,23 @@
 --
 
 CREATE TABLE atend_codif (
-    id_atend bigint NOT NULL AUTO_INCREMENT,
-    id_serv integer NOT NULL,
+    atendimento_id bigint NOT NULL AUTO_INCREMENT,
+    servico_id integer NOT NULL,
     valor_peso smallint NOT NULL,
-    PRIMARY KEY (id_atend, id_serv) 
-) 
-DEFAULT CHARACTER SET utf8   
-COLLATE utf8_general_ci
-ENGINE = INNODB;
-
-CREATE TABLE atend_status (
-    id_stat integer NOT NULL AUTO_INCREMENT,
-    nm_stat varchar(30) NOT NULL,
-    desc_stat varchar (150) NOT NULL,
-    PRIMARY KEY (id_stat)
+    PRIMARY KEY (atendimento_id, servico_id) 
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE atendimentos (
-    id_atend bigint NOT NULL AUTO_INCREMENT,
-    id_uni integer,
-    id_usu integer,
-    id_usu_tri integer NOT NULL,
-    id_serv integer NOT NULL,
-    id_pri integer NOT NULL,
-    id_stat integer NOT NULL,
+    id bigint NOT NULL AUTO_INCREMENT,
+    unidade_id integer,
+    usuario_id integer,
+    usuario_tri_id integer NOT NULL,
+    servico_id integer NOT NULL,
+    prioridade_id integer NOT NULL,
+    status integer NOT NULL,
     sigla_senha char(1) NOT NULL,
     num_senha integer NOT NULL,
     num_senha_serv integer NOT NULL,
@@ -44,42 +34,44 @@ CREATE TABLE atendimentos (
     dt_ini datetime,
     dt_fim datetime,
     ident_cli varchar(11) DEFAULT NULL,
-    PRIMARY KEY (id_atend)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 
-CREATE TABLE cargos_aninhados (
-    id_cargo integer NOT NULL AUTO_INCREMENT,
+CREATE TABLE cargos (
+    id integer NOT NULL AUTO_INCREMENT,
     nm_cargo varchar(30) NOT NULL,
     desc_cargo varchar(140),
     esquerda integer NOT NULL,
     direita integer NOT NULL,
-    PRIMARY KEY (id_cargo)
+    nivel integer NOT NULL,
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE cargos_mod_perm (
-    id_cargo integer NOT NULL,
-    id_mod integer NOT NULL,
+    cargo_id integer NOT NULL,
+    modulo_id integer NOT NULL,
     permissao integer NOT NULL,
-    PRIMARY KEY (id_cargo, id_mod)
+    PRIMARY KEY (cargo_id, modulo_id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
-CREATE TABLE grupos_aninhados (
-    id_grupo integer NOT NULL AUTO_INCREMENT,
+CREATE TABLE grupos (
+    id integer NOT NULL AUTO_INCREMENT,
     nm_grupo varchar(40) NOT NULL,
     desc_grupo varchar(150) NOT NULL,
     esquerda integer NOT NULL,
     direita integer NOT NULL,
-    PRIMARY KEY (id_grupo)
+    nivel integer NOT NULL,
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
@@ -97,10 +89,10 @@ ENGINE = INNODB;
 
 
 CREATE TABLE historico_atend_codif (
-    id_atend bigint NOT NULL,
-    id_serv integer NOT NULL,
+    atendimento_id bigint NOT NULL,
+    servico_id integer NOT NULL,
     valor_peso smallint NOT NULL,
-    PRIMARY KEY (id_atend, id_serv)
+    PRIMARY KEY (atendimento_id, servico_id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
@@ -108,13 +100,13 @@ ENGINE = INNODB;
 
 
 CREATE TABLE historico_atendimentos (
-    id_atend bigint NOT NULL,
-    id_uni integer,
-    id_usu integer,
-    id_usu_tri integer NOT NULL,
-    id_serv integer NOT NULL,
-    id_pri integer NOT NULL,
-    id_stat integer NOT NULL,
+    id bigint NOT NULL,
+    unidade_id integer,
+    usuario_id integer,
+    usuario_tri_id integer NOT NULL,
+    servico_id integer NOT NULL,
+    prioridade_id integer NOT NULL,
+    status integer NOT NULL,
     sigla_senha char(1) NOT NULL,
     num_senha integer NOT NULL,
     num_senha_serv integer NOT NULL,
@@ -125,28 +117,28 @@ CREATE TABLE historico_atendimentos (
     dt_ini datetime,
     dt_fim datetime,
     ident_cli varchar(11) DEFAULT NULL,
-    PRIMARY KEY (id_atend)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE modulos (
-    id_mod integer NOT NULL AUTO_INCREMENT,
+    id integer NOT NULL AUTO_INCREMENT,
     chave_mod varchar(50) NOT NULL,
     nm_mod varchar(25) NOT NULL,
     desc_mod varchar(100) NOT NULL,
     autor_mod varchar(25) NOT NULL,
     tipo_mod smallint NOT NULL,
     stat_mod smallint NOT NULL,
-    PRIMARY KEY (id_mod)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE paineis (
-    id_uni integer NOT NULL,
+    unidade_id integer NOT NULL,
     host integer NOT NULL,
     PRIMARY KEY (host)
 ) 
@@ -156,80 +148,80 @@ ENGINE = INNODB;
 
 CREATE TABLE paineis_servicos (
     host integer NOT NULL,
-    id_uni integer NOT NULL,
-    id_serv integer NOT NULL,
-    PRIMARY KEY (host, id_serv)
+    unidade_id integer NOT NULL,
+    servico_id integer NOT NULL,
+    PRIMARY KEY (host, servico_id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE painel_senha (
-    contador integer NOT NULL AUTO_INCREMENT,
-    id_uni integer NOT NULL,
-    id_serv integer NOT NULL,
+    id integer NOT NULL AUTO_INCREMENT,
+    unidade_id integer NOT NULL,
+    servico_id integer NOT NULL,
     num_senha integer NOT NULL,
     sig_senha char(1) NOT NULL,
     msg_senha varchar(20) NOT NULL,
     nm_local varchar(15) NOT NULL,
     num_guiche smallint NOT NULL,
     dt_envio timestamp NULL,
-    PRIMARY KEY (contador)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE prioridades (
-    id_pri integer NOT NULL AUTO_INCREMENT,
+    id integer NOT NULL AUTO_INCREMENT,
     nm_pri varchar(30) NOT NULL,
     desc_pri varchar(100) NOT NULL,
     peso_pri smallint NOT NULL,
     stat_pri smallint NOT NULL,
-    PRIMARY KEY (id_pri)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
-CREATE TABLE serv_local (
-    id_loc integer NOT NULL AUTO_INCREMENT,
+CREATE TABLE locais (
+    id integer NOT NULL AUTO_INCREMENT,
     nm_loc varchar(20) NOT NULL,
-    PRIMARY KEY (id_loc)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE serv_peso (
-    id_serv integer NOT NULL,
+    servico_id integer NOT NULL,
     valor_peso smallint NOT NULL,
-    PRIMARY KEY (id_serv)
+    PRIMARY KEY (servico_id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE servicos (
-    id_serv integer NOT NULL AUTO_INCREMENT,
+    id integer NOT NULL AUTO_INCREMENT,
     id_macro integer,
     desc_serv varchar(100) NOT NULL,
     nm_serv varchar(50),
     stat_serv smallint,
-    PRIMARY KEY (id_serv)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE uni_serv (
-    id_uni integer NOT NULL,
-    id_serv integer NOT NULL,
-    id_loc integer NOT NULL,
+    unidade_id integer NOT NULL,
+    servico_id integer NOT NULL,
+    local_id integer NOT NULL,
     nm_serv varchar(50) NOT NULL,
     sigla_serv char(1) NOT NULL,
     stat_serv smallint NOT NULL,
-    PRIMARY KEY (id_uni, id_serv)
+    PRIMARY KEY (unidade_id, servico_id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
@@ -237,14 +229,14 @@ ENGINE = INNODB;
 
 
 CREATE TABLE unidades (
-    id_uni integer NOT NULL AUTO_INCREMENT,
-    id_grupo integer NOT NULL,
+    id integer NOT NULL AUTO_INCREMENT,
+    grupo_id integer NOT NULL,
     cod_uni varchar(10) NOT NULL,
     nm_uni varchar(50) DEFAULT NULL,
     stat_uni smallint DEFAULT 1,
     stat_imp smallint DEFAULT 0,
     msg_imp varchar(100),
-    PRIMARY KEY (id_uni)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
@@ -252,27 +244,27 @@ ENGINE = INNODB;
 
 
 CREATE TABLE usu_grup_cargo (
-    id_usu integer NOT NULL,
-    id_grupo integer NOT NULL,
-    id_cargo integer NOT NULL,
-    PRIMARY KEY (id_usu, id_grupo)
+    usuario_id integer NOT NULL,
+    grupo_id integer NOT NULL,
+    cargo_id integer NOT NULL,
+    PRIMARY KEY (usuario_id, grupo_id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE usu_serv (
-    id_uni integer NOT NULL,
-    id_serv integer NOT NULL,
-    id_usu integer NOT NULL,
-    PRIMARY KEY (id_uni, id_serv, id_usu)
+    unidade_id integer NOT NULL,
+    servico_id integer NOT NULL,
+    usuario_id integer NOT NULL,
+    PRIMARY KEY (unidade_id, servico_id, usuario_id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE usuarios (
-    id_usu integer NOT NULL AUTO_INCREMENT,
+    id integer NOT NULL AUTO_INCREMENT,
     login_usu varchar(20) NOT NULL,
     nm_usu varchar(20) NOT NULL,
     ult_nm_usu varchar(100) NOT NULL,
@@ -280,7 +272,7 @@ CREATE TABLE usuarios (
     ult_acesso datetime,
     stat_usu smallint NOT NULL,
     session_id varchar(40) NOT NULL,
-    PRIMARY KEY (id_usu)
+    PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
@@ -290,108 +282,58 @@ ENGINE = INNODB;
 -- keys
 --
 
-ALTER TABLE atend_codif ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES atendimentos(id_atend) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE atend_codif ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (id_mod) REFERENCES modulos(id_mod) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_1 FOREIGN KEY (id_atend) REFERENCES historico_atendimentos(id_atend) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_1 FOREIGN KEY (id_pri) REFERENCES prioridades(id_pri) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv(id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_3 FOREIGN KEY (id_stat) REFERENCES atend_status(id_stat) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_5 FOREIGN KEY (id_usu_tri) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE paineis ADD CONSTRAINT paineis_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
+ALTER TABLE atend_codif ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE atend_codif ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_4 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_5 FOREIGN KEY (usuario_tri_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN KEY (cargo_id) REFERENCES cargos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (modulo_id) REFERENCES modulos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_5 FOREIGN KEY (usuario_tri_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE paineis ADD CONSTRAINT paineis_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_1 FOREIGN KEY (host) REFERENCES paineis (host) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_2 FOREIGN KEY (id_uni, id_serv) REFERENCES uni_serv (id_uni, id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE painel_senha ADD CONSTRAINT painel_senha_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE painel_senha ADD CONSTRAINT painel_senha_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE serv_peso ADD CONSTRAINT peso_ibfk_1 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE servicos ADD CONSTRAINT servicos_ibfk_1 FOREIGN KEY (id_macro) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_1 FOREIGN KEY (id_uni) REFERENCES unidades(id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_2 FOREIGN KEY (id_serv) REFERENCES servicos(id_serv) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_3 FOREIGN KEY (id_loc) REFERENCES serv_local(id_loc) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE unidades ADD CONSTRAINT unidades_id_grupo_fkey FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_1 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_2 FOREIGN KEY (id_grupo) REFERENCES grupos_aninhados(id_grupo) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_3 FOREIGN KEY (id_cargo) REFERENCES cargos_aninhados(id_cargo) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE usu_serv ADD CONSTRAINT usu_serv_ibfk_1 FOREIGN KEY (id_serv, id_uni) REFERENCES uni_serv(id_serv, id_uni) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
-ALTER TABLE usu_serv ADD CONSTRAINT usu_serv_ibfk_2 FOREIGN KEY (id_usu) REFERENCES usuarios(id_usu) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv (unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE painel_senha ADD CONSTRAINT painel_senha_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE painel_senha ADD CONSTRAINT painel_senha_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE serv_peso ADD CONSTRAINT peso_ibfk_1 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE servicos ADD CONSTRAINT servicos_ibfk_1 FOREIGN KEY (id_macro) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_3 FOREIGN KEY (local_id) REFERENCES locais(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE unidades ADD CONSTRAINT unidades_grupo_id_fkey FOREIGN KEY (grupo_id) REFERENCES grupos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_1 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_2 FOREIGN KEY (grupo_id) REFERENCES grupos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_3 FOREIGN KEY (cargo_id) REFERENCES cargos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE usu_serv ADD CONSTRAINT usu_serv_ibfk_1 FOREIGN KEY (servico_id, unidade_id) REFERENCES uni_serv(servico_id, unidade_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE usu_serv ADD CONSTRAINT usu_serv_ibfk_2 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
 --
 -- indexes
 --
 
 CREATE UNIQUE INDEX cod_uni ON unidades (cod_uni);
-
-CREATE INDEX direita ON grupos_aninhados (direita);
-
-CREATE INDEX esqdir ON grupos_aninhados (esquerda, direita);
-
-CREATE INDEX esquerda ON grupos_aninhados (esquerda);
-
-CREATE INDEX fki_atend_codif_ibfk_2 ON atend_codif (id_serv);
-
-CREATE INDEX fki_atendimentos_ibfk_1 ON atendimentos (id_pri);
-
-CREATE INDEX fki_atendimentos_ibfk_2 ON atendimentos (id_uni, id_serv);
-
-CREATE INDEX fki_atendimentos_ibfk_3 ON atendimentos (id_stat);
-
-CREATE INDEX fki_atendimentos_ibfk_4 ON atendimentos (id_usu);
-
-CREATE INDEX fki_id_grupo ON unidades (id_grupo);
-
+CREATE INDEX direita ON grupos (direita);
+CREATE INDEX esqdir ON grupos (esquerda, direita);
+CREATE INDEX esquerda ON grupos (esquerda);
+CREATE INDEX fki_atend_codif_ibfk_2 ON atend_codif (servico_id);
+CREATE INDEX fki_atendimentos_ibfk_1 ON atendimentos (prioridade_id);
+CREATE INDEX fki_atendimentos_ibfk_2 ON atendimentos (unidade_id, servico_id);
+CREATE INDEX fki_atendimentos_ibfk_3 ON atendimentos (status);
+CREATE INDEX fki_atendimentos_ibfk_4 ON atendimentos (usuario_id);
+CREATE INDEX fki_grupo_id ON unidades (grupo_id);
 CREATE INDEX fki_servicos_ibfk_1 ON servicos (id_macro);
-
-CREATE INDEX fki_uni_serv_ibfk_2 ON uni_serv (id_serv);
-
-CREATE INDEX fki_uni_serv_ibfk_3 ON uni_serv (id_loc);
-
-CREATE INDEX fki_usu_serv_ibfk_1 ON usu_serv (id_serv, id_uni);
-
-CREATE INDEX fki_usu_serv_ibfk_2 ON usu_serv (id_usu);
-
-CREATE UNIQUE INDEX local_serv_nm ON serv_local (nm_loc);
-
+CREATE INDEX fki_uni_serv_ibfk_2 ON uni_serv (servico_id);
+CREATE INDEX fki_uni_serv_ibfk_3 ON uni_serv (local_id);
+CREATE INDEX fki_usu_serv_ibfk_1 ON usu_serv (servico_id, unidade_id);
+CREATE INDEX fki_usu_serv_ibfk_2 ON usu_serv (usuario_id);
+CREATE UNIQUE INDEX local_serv_nm ON locais (nm_loc);
 CREATE UNIQUE INDEX login_usu ON usuarios (login_usu);
-
 CREATE UNIQUE INDEX modulos_chave ON modulos (chave_mod);
 
 
@@ -402,15 +344,15 @@ CREATE UNIQUE INDEX modulos_chave ON modulos (chave_mod);
 CREATE VIEW view_historico_atend_codif 
 AS
     SELECT 
-        atend_codif.id_atend, 
-        atend_codif.id_serv, 
+        atend_codif.atendimento_id, 
+        atend_codif.servico_id, 
         atend_codif.valor_peso 
     FROM 
         atend_codif 
     UNION ALL 
     SELECT 
-        historico_atend_codif.id_atend, 
-        historico_atend_codif.id_serv, 
+        historico_atend_codif.atendimento_id, 
+        historico_atend_codif.servico_id, 
         historico_atend_codif.valor_peso 
     FROM 
         historico_atend_codif;
@@ -418,13 +360,13 @@ AS
 CREATE VIEW view_historico_atendimentos 
 AS
     SELECT 
-        atendimentos.id_atend, 
-        atendimentos.id_uni, 
-        atendimentos.id_usu, 
-        atendimentos.id_usu_tri, 
-        atendimentos.id_serv, 
-        atendimentos.id_pri, 
-        atendimentos.id_stat, 
+        atendimentos.id, 
+        atendimentos.unidade_id, 
+        atendimentos.usuario_id, 
+        atendimentos.usuario_tri_id, 
+        atendimentos.servico_id, 
+        atendimentos.prioridade_id, 
+        atendimentos.status, 
         atendimentos.sigla_senha, 
         atendimentos.num_senha, 
         atendimentos.num_senha_serv, 
@@ -439,13 +381,13 @@ AS
         atendimentos 
     UNION ALL 
     SELECT 
-        historico_atendimentos.id_atend, 
-        historico_atendimentos.id_uni, 
-        historico_atendimentos.id_usu, 
-        historico_atendimentos.id_usu_tri, 
-        historico_atendimentos.id_serv, 
-        historico_atendimentos.id_pri, 
-        historico_atendimentos.id_stat, 
+        historico_atendimentos.id, 
+        historico_atendimentos.unidade_id, 
+        historico_atendimentos.usuario_id, 
+        historico_atendimentos.usuario_tri_id, 
+        historico_atendimentos.servico_id, 
+        historico_atendimentos.prioridade_id, 
+        historico_atendimentos.status, 
         historico_atendimentos.sigla_senha, 
         historico_atendimentos.num_senha, 
         historico_atendimentos.num_senha_serv, 

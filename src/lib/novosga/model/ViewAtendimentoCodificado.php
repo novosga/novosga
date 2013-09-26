@@ -13,13 +13,13 @@ class ViewAtendimentoCodificado extends Model {
     /** 
      * @Id 
      * @ManyToOne(targetEntity="ViewAtendimento") 
-     * @JoinColumn(name="id_atend", referencedColumnName="id_atend")
+     * @JoinColumn(name="atendimento_id", referencedColumnName="id")
      */
     protected $atendimento;
     /** 
      * @Id 
      * @ManyToOne(targetEntity="Servico") 
-     * @JoinColumn(name="id_serv", referencedColumnName="id_serv")
+     * @JoinColumn(name="servico_id", referencedColumnName="id")
      */
     protected $servico;
     /** @Column(type="integer", name="peso", nullable=false) */
