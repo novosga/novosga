@@ -49,7 +49,7 @@ abstract class TreeModelController extends CrudController {
             // persiste a nova entidade
             $this->em()->persist($model);
             $right = $model->getParent()->getRight() - 1;
-            // desloca todos elementos da arvore, para a direita (+2), abrindo um espaço de 2 a ser usado apra inserir o nó
+            // desloca todos elementos da arvore, para a direita (+2), abrindo um espaço de 2 a ser usado para inserir o nó
             $query = $this->em()->createQuery("UPDATE $className e SET e.right = e.right + 2 WHERE e.right > :right");
             $query->setParameter('right', $right);
             $query->execute();
@@ -136,6 +136,7 @@ abstract class TreeModelController extends CrudController {
                     $model->setRight($rs['right']);
                 }
             }
+            $this->updateLevels($model);
             $this->em()->merge($model);
             $this->em()->commit();
         } catch (Exception $e) {
@@ -181,6 +182,33 @@ abstract class TreeModelController extends CrudController {
         }
         $this->postDelete($context, $model);
     }
+    
+    /**
+     * Conta os nós pais para gerar o nível do nó na árvore
+     */
+    private function updateLevels(TreeModel $model) {
+        $className = get_class($model);
+        if ($model->getParent()) {
+            $delta = $model->getParent()->getLevel() + 1;
+            $model->setLevel($delta);
+            // contando os niveis
+            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM $className e WHERE e.left < :left AND p.right > :right");
+            $query->setParameter('left', $model->getLeft());
+            $query->setParameter('right', $model->getRight());
+            $rs = $query->getSingleResult();
+            // atualizando
+            $query = $this->em()->createQuery("
+                UPDATE $className e 
+                JOIN e.par
+                SET e.level = e.level + :delta 
+                WHERE e.left > :left AND p.right < :right");
+            $query->setParameter('left', $model->getLeft());
+            $query->setParameter('right', $model->getRight());
+            
+            $level = 0;
+            $query->setParameter('delta', $model->getRight());
+            $query->execute();
+        }
+    }
 
 }
-

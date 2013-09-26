@@ -20,12 +20,12 @@ abstract class AtendimentoBusiness {
         $conn = $em->getConnection();
     	$stmt = $conn->prepare("
             INSERT INTO painel_senha 
-            (id_uni, id_serv, num_senha, sig_senha, msg_senha, nm_local, num_guiche) 
+            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, nm_local, num_guiche) 
             VALUES 
-            (:id_uni, :id_serv, :num_senha, :sig_senha, :msg_senha, :nm_local, :num_guiche)
+            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :nm_local, :num_guiche)
         ");
-        $stmt->bindValue('id_uni', $unidade->getId());
-        $stmt->bindValue('id_serv', $atendimento->getServicoUnidade()->getServico()->getId());
+        $stmt->bindValue('unidade_id', $unidade->getId());
+        $stmt->bindValue('servico_id', $atendimento->getServicoUnidade()->getServico()->getId());
         $stmt->bindValue('num_senha', $atendimento->getSenha()->getNumero());
         $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
         $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
@@ -53,19 +53,19 @@ abstract class AtendimentoBusiness {
             $sql = "
                 INSERT INTO historico_atendimentos 
                 (
-                    id_atend, id_uni, id_usu, id_serv, id_pri, id_stat, sigla_senha, num_senha, num_senha_serv, 
-                    nm_cli, num_guiche, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, id_usu_tri
+                    atendimento_id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
+                    nm_cli, num_guiche, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id
                 )
                 SELECT 
-                    a.id_atend, a.id_uni, a.id_usu, a.id_serv, a.id_pri, a.id_stat, a.sigla_senha, a.num_senha, a.num_senha_serv, 
-                    a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.id_usu_tri
+                    a.atendimento_id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
+                    a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id
                 FROM 
                     atendimentos a
                 WHERE 
                     a.dt_cheg <= :data
             ";
             if ($unidade > 0) {
-                $sql .= " AND a.id_uni = :unidade";
+                $sql .= " AND a.unidade_id = :unidade";
             }
             $query = $conn->prepare($sql);
             $query->bindValue('data', $data, PDO::PARAM_STR);
@@ -75,18 +75,18 @@ abstract class AtendimentoBusiness {
             $query->execute();
 
             // salva atendimentos codificados da unidade
-            $subquery = "SELECT a.id_atend FROM atendimentos a WHERE dt_cheg <= :data ";
+            $subquery = "SELECT a.atendimento_id FROM atendimentos a WHERE dt_cheg <= :data ";
             if ($unidade > 0) {
-                $subquery .= " AND a.id_uni = :unidade";
+                $subquery .= " AND a.unidade_id = :unidade";
             }
             $query = $conn->prepare("
                 INSERT INTO historico_atend_codif
                 SELECT 
-                    ac.id_atend, ac.id_serv, ac.valor_peso
+                    ac.atendimento_id, ac.servico_id, ac.valor_peso
                 FROM 
                     atend_codif ac
                 WHERE 
-                    id_atend IN (
+                    atendimento_id IN (
                         $subquery
                     )
             ");
@@ -97,11 +97,11 @@ abstract class AtendimentoBusiness {
             $query->execute();
 
             // limpa atendimentos codificados da unidade
-            $subquery = "SELECT id_atend FROM atendimentos a WHERE a.dt_cheg <= :data ";
+            $subquery = "SELECT atendimento_id FROM atendimentos a WHERE a.dt_cheg <= :data ";
             if ($unidade > 0) {
-                $subquery .= " AND a.id_uni = :unidade";
+                $subquery .= " AND a.unidade_id = :unidade";
             }
-            $sql = self::delFrom('atend_codif', 'ac') . "WHERE ac.id_atend IN ( $subquery )";
+            $sql = self::delFrom('atend_codif', 'ac') . "WHERE ac.atendimento_id IN ( $subquery )";
             $query = $conn->prepare($sql);
             $query->bindValue('data', $data, PDO::PARAM_STR);
             if ($unidade > 0) {
@@ -113,7 +113,7 @@ abstract class AtendimentoBusiness {
             $sql = self::delFrom('atendimentos', 'a');
             $sql .= " WHERE dt_cheg <= :data ";
             if ($unidade > 0) {
-                $sql .= " AND a.id_uni = :unidade";
+                $sql .= " AND a.unidade_id = :unidade";
             }
             $query = $conn->prepare($sql);
             $query->bindValue('data', $data, PDO::PARAM_STR);

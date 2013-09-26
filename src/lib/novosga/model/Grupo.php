@@ -9,12 +9,7 @@ use \novosga\model\Unidade;
  * Atraves do grupo e definido o acesso do Usuario
  * 
  * @Entity
- * @Table(name="grupos_aninhados")
- * @AttributeOverrides({
- *      @AttributeOverride(name="id",
- *          column=@Column(name="id_grupo",type="integer")
- *      )
- * })
+ * @Table(name="grupos")
  */
 class Grupo extends TreeModel {
 

@@ -10,11 +10,6 @@ use \novosga\model\util\Senha;
  * 
  * @Entity
  * @Table(name="atendimentos")
- * @AttributeOverrides({
- *      @AttributeOverride(name="id",
- *          column=@Column(name="id_atend",type="integer")
- *      )
- * })
  */
 class Atendimento extends SequencialModel {
 
@@ -31,19 +26,19 @@ class Atendimento extends SequencialModel {
     /**
      * @ManyToOne(targetEntity="ServicoUnidade")
      * @JoinColumns({
-     *      @JoinColumn(name="id_serv", referencedColumnName="id_serv"),
-     *      @JoinColumn(name="id_uni", referencedColumnName="id_uni")
+     *      @JoinColumn(name="servico_id", referencedColumnName="id"),
+     *      @JoinColumn(name="unidade_id", referencedColumnName="id")
      * })
      */
     protected $servicoUnidade;
     /** 
      * @ManyToOne(targetEntity="Usuario") 
-     * @JoinColumn(name="id_usu", referencedColumnName="id_usu")
+     * @JoinColumn(name="usuario_id", referencedColumnName="id")
      */
     protected $usuario;
     /** 
      * @ManyToOne(targetEntity="Usuario") 
-     * @JoinColumn(name="id_usu_tri", referencedColumnName="id_usu")
+     * @JoinColumn(name="usuario_tri_id", referencedColumnName="id")
      */
     protected $usuarioTriagem;
     /** @Column(type="integer", name="num_guiche", nullable=false) */
@@ -56,7 +51,7 @@ class Atendimento extends SequencialModel {
     protected $dataInicio;
     /** @Column(type="datetime", name="dt_fim", length=50, nullable=true) */
     protected $dataFim;
-    /** @Column(type="integer", name="id_stat", length=50, nullable=false) */
+    /** @Column(type="integer", name="status", length=50, nullable=false) */
     protected $status;
     
     /** @Column(type="string", name="nm_cli", length=100, nullable=true) */
@@ -71,7 +66,7 @@ class Atendimento extends SequencialModel {
     protected $numeroSenhaServico;
     /** 
      * @ManyToOne(targetEntity="Prioridade") 
-     * @JoinColumn(name="id_pri", referencedColumnName="id_pri")
+     * @JoinColumn(name="prioridade_id", referencedColumnName="id")
      */
     protected $prioridadeSenha;
     

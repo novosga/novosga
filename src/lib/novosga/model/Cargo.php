@@ -6,12 +6,7 @@ namespace novosga\model;
  * Um cargo define permissões de acesso a módulos do sistema
  * 
  * @Entity
- * @Table(name="cargos_aninhados")
- * @AttributeOverrides({
- *      @AttributeOverride(name="id",
- *          column=@Column(name="id_cargo",type="integer")
- *      )
- * })
+ * @Table(name="cargos")
  */
 class Cargo extends TreeModel {
 

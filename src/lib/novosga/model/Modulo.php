@@ -1,19 +1,12 @@
 <?php
 namespace novosga\model;
 
-use \novosga\SGA;
-
 /**
  * Classe Modulo
  * Para controle dos modulos do sistema
  * 
  * @Entity
  * @Table(name="modulos")
- * @AttributeOverrides({
- *      @AttributeOverride(name="id",
- *          column=@Column(name="id_mod",type="integer")
- *      )
- * })
  */
  class Modulo extends SequencialModel {
 

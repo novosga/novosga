@@ -9,8 +9,10 @@ namespace novosga\util;
 class I18n {
     
     const LOCALE_DIR = 'locale';
+    const DEFAULT_LANG = 'pt';
     const DEFAULT_LOCALE = 'pt_BR';
     
+    private static $lang;
     private static $locale;
     private static $locales = array(
         'pt' => array('pt_BR'),
@@ -18,23 +20,36 @@ class I18n {
         'es' => array('es_ES')
     );
     
+    public static function lang() {
+        if (!self::$lang) {
+            self::load();
+        }
+        return self::$lang;
+    }
+    
     public static function locale() {
         if (!self::$locale) {
-            self::$locale = self::DEFAULT_LOCALE;
-            $langs = self::acceptLanguage();
-            foreach ($langs as $lang => $q) {
-                $lang = explode('-', $lang);
-                // se o locale esta disponivel
-                if (isset(self::$locales[$lang[0]])) {
-                    $locales = self::$locales[$lang[0]];
-                    $l = $lang[0] . '_' . strtoupper(sizeof($lang) > 1 ? $lang[1] : $lang[0]);
-                    // se nao existir o idioma da regiao, pega o primeiro
-                    self::$locale = (isset($locales[$l])) ? $locales[$l] : $locales[0];
-                    break;
-                }
-            }
+            self::load();
         }
         return self::$locale;
+    }
+    
+    private static function load() {
+        self::$lang = self::DEFAULT_LANG;
+        self::$locale = self::DEFAULT_LOCALE;
+        $langs = self::acceptLanguage();
+        foreach ($langs as $lang => $q) {
+            $lang = explode('-', $lang);
+            // se o locale esta disponivel
+            if (isset(self::$locales[$lang[0]])) {
+                $locales = self::$locales[$lang[0]];
+                $l = $lang[0] . '_' . strtoupper(sizeof($lang) > 1 ? $lang[1] : $lang[0]);
+                // se nao existir o idioma da regiao, pega o primeiro
+                self::$locale = (isset($locales[$l])) ? $locales[$l] : $locales[0];
+                self::$lang = $lang[0];
+                break;
+            }
+        }
     }
     
     private static function acceptLanguage() {

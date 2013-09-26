@@ -16,15 +16,21 @@ class ServicoUnidade extends Model {
     /** 
      * @Id
      * @ManyToOne(targetEntity="Servico")
-     * @JoinColumn(name="id_serv", referencedColumnName="id_serv")
+     * @JoinColumn(name="servico_id", referencedColumnName="id")
      */
     protected $servico;
     /**
      * @Id 
      * @ManyToOne(targetEntity="Unidade")
-     * @JoinColumn(name="id_uni", referencedColumnName="id_uni")
+     * @JoinColumn(name="unidade_id", referencedColumnName="id")
      */
     protected $unidade;
+    /**
+     * @Id 
+     * @ManyToOne(targetEntity="Local")
+     * @JoinColumn(name="local_id", referencedColumnName="id")
+     */
+    protected $local;
     /** @Column(type="string", name="nm_serv", length=50, nullable=false) */
     protected $nome;
     /** @Column(type="string", name="sigla_serv", length=1, nullable=false) */
@@ -61,6 +67,17 @@ class ServicoUnidade extends Model {
         $this->unidade = $unidade;
     }
 
+    /**
+     * @return Local
+     */
+    public function getLocal() {
+        return $this->local;
+    }
+
+    public function setLocal(Local $local) {
+        $this->local = $local;
+    }
+        
     public function setStatus($status) {
         $this->status = $status;
     }

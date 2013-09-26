@@ -6,11 +6,6 @@ namespace novosga\model;
  * 
  * @Entity
  * @Table(name="unidades")
- * @AttributeOverrides({
- *      @AttributeOverride(name="id",
- *          column=@Column(name="id_uni",type="integer")
- *      )
- * })
  */
 class Unidade extends SequencialModel {
 
@@ -22,7 +17,7 @@ class Unidade extends SequencialModel {
     protected $status;
     /**
      * @OneToOne(targetEntity="Grupo", fetch="EAGER")
-     * @JoinColumn(name="id_grupo", referencedColumnName="id_grupo")
+     * @JoinColumn(name="grupo_id", referencedColumnName="id")
      */
     protected $grupo;
     

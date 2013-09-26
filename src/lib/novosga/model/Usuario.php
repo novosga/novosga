@@ -5,11 +5,6 @@ namespace novosga\model;
  * 
  * @Entity
  * @Table(name="usuarios")
- * @AttributeOverrides({
- *      @AttributeOverride(name="id",
- *          column=@Column(name="id_usu",type="integer")
- *      )
- * })
  */
 class Usuario extends SequencialModel {
     

@@ -37,6 +37,10 @@ class SGA extends \Slim\Slim {
         $this->redirect($this->request()->getRootUri() . '/home');
     }
     
+    public function gotoModule() {
+        $this->redirect($this->request()->getRootUri() . '/modules/' . $this->getContext()->getModulo()->getChave());
+    }
+    
     /**
      * Autentica o usuario do SGA
      * @param type $user

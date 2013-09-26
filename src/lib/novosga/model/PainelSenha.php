@@ -8,21 +8,16 @@ namespace novosga\model;
  * 
  * @author rogeriolino
  */ 
- class PainelSenha extends Model {
+ class PainelSenha extends SequencialModel {
  	
     /**
-     * @Id
-     * @Column(type="string", name="contador", nullable=false)
-     */
-    protected $id;
-    /**
      * @ManyToOne(targetEntity="Servico")
-     * @JoinColumn(name="id_serv", referencedColumnName="id_serv")
+     * @JoinColumn(name="servico_id", referencedColumnName="id")
      */
     protected $servico;
     /**
      * @ManyToOne(targetEntity="Unidade")
-     * @JoinColumn(name="id_uni", referencedColumnName="id_uni")
+     * @JoinColumn(name="unidade_id", referencedColumnName="id")
      */
     protected $unidade;
     
@@ -41,14 +36,6 @@ namespace novosga\model;
     /** @Column(type="integer", name="num_guiche", nullable=false) */
     protected $numeroGuiche;
     
-    public function getId() {
-        return $this->id;
-    }
-
-    public function setId($id) {
-        $this->id = $id;
-    }
-
     public function getServico() {
         return $this->servico;
     }

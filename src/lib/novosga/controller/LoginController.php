@@ -17,10 +17,10 @@ class LoginController extends InternalController {
     public function index(SGAContext $context) {
         if (AcessoBusiness::isLogged()) {
             if (AcessoBusiness::isValidSession()) {
-                if (!$context->getModulo()) {
-                    $this->app()->gotoHome();
+                if ($context->getModulo()) {
+                    $this->app()->gotoModule();
                 } else {
-                    SGA::redirect(array(SGA::K_MODULE => $context->getModulo()->getChave()));
+                    $this->app()->gotoHome();
                 }
             } else {
                 $user = $context->getUser();

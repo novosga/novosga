@@ -2,13 +2,13 @@
 namespace novosga\controller;
 
 use \Exception;
-use \novosga\SGA;
 use \novosga\db\DB;
 use \novosga\model\SequencialModel;
 use \novosga\controller\ModuleController;
 use \novosga\SGAContext;
 use \novosga\util\Arrays;
 use \novosga\util\Objects;
+use \Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * CrudController
@@ -33,7 +33,7 @@ abstract class CrudController extends ModuleController {
  
     /**
      * Retorna uma lista das entidades buscadas pelo controlador
-     * @return array
+     * @return \Doctrine\ORM\Query
      */
     protected abstract function search($arg);
     
@@ -54,10 +54,19 @@ abstract class CrudController extends ModuleController {
      * @param novosga\SGAContext $context
      */
     public function index(SGAContext $context) {
-        $search = (isset($_GET['s'])) ? trim($_GET['s']) : '';
-        $items = $this->search("%". strtoupper($search) . "%");
+        $maxResults = 10;
+        $page = (int) Arrays::value($_GET, 'p', 0);
+        $search = trim(Arrays::value($_GET, 's', ''));
+        $query = $this->search("%". strtoupper($search) . "%");
+        $query->setMaxResults($maxResults);
+        $query->setFirstResult($page * $maxResults);
+        $items = new Paginator($query);
+        $total = count($items);
         $this->app()->view()->assign('search', $search);
         $this->app()->view()->assign('items', $items);
+        $this->app()->view()->assign('total', $total);
+        $this->app()->view()->assign('page', $page);
+        $this->app()->view()->assign('pages', ceil($total / $maxResults));
     }
     
     /**
@@ -72,9 +81,9 @@ abstract class CrudController extends ModuleController {
             // invalid id
             if (!$this->model) {
                 if ($context->getModulo()) {
-                    $this->app()->redirect($this->app()->request()->getRootUri() . "/modules/{$context->getModulo()->getChave()}");
+                    $this->app()->gotoModule();
                 } else {
-                    $this->app()->redirect($this->app()->request()->getRootUri());
+                    $this->app()->gotoHome();
                 }
             }
         } else {
