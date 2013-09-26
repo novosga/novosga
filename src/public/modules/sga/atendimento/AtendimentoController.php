@@ -308,7 +308,7 @@ class AtendimentoController extends ModuleController {
             } else {
                 $conn = $this->em()->getConnection();
                 $conn->beginTransaction();
-                $stmt = $conn->prepare("INSERT INTO atend_codif (id_atend, id_serv, valor_peso) VALUES (:atendimento, :servico, 1)");
+                $stmt = $conn->prepare("INSERT INTO atend_codif (atendimento_id, servico_id, valor_peso) VALUES (:atendimento, :servico, 1)");
                 foreach ($servicos as $s) {
                     $stmt->bindValue('atendimento', $atual->getId());
                     // TODO: verificar se o usuario realmente pode atender o servico informado
@@ -382,7 +382,7 @@ class AtendimentoController extends ModuleController {
         // XXX: usando statement INSERT devido a bug do dblib (mssql) no linux com mapeamentos do Doctrine 
         $stmt = $this->em()->getConnection()->prepare("
             INSERT INTO atendimentos 
-                (num_guiche, dt_cheg, id_stat, sigla_senha, num_senha, num_senha_serv, id_serv, id_uni, id_usu, id_usu_tri, id_pri) 
+                (num_guiche, dt_cheg, status, sigla_senha, num_senha, num_senha_serv, servico_id, unidade_id, usuario_id, usuario_tri_id, prioridade_id) 
             VALUES 
                 (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade)
         ");

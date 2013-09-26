@@ -3,7 +3,6 @@ namespace modules\sga\triagem;
 
 use \PDO;
 use \Exception;
-use \novosga\SGA;
 use \novosga\SGAContext;
 use \novosga\util\Arrays;
 use \novosga\util\DateUtil;
@@ -48,7 +47,7 @@ class TriagemController extends ModuleController {
         $id = (int) Arrays::value($_GET, 'id');
         $atendimento = $this->em()->find("novosga\model\Atendimento", $id);
         if (!$atendimento) {
-            SGA::close();
+            $this->app()->redirect('index');
         }
         $context->response()->setRenderView(false);
         $this->app()->view()->assign('atendimento', $atendimento);
@@ -65,15 +64,15 @@ class TriagemController extends ModuleController {
                 $conn = $this->em()->getConnection();
                 $sql = "
                     SELECT 
-                        id_serv as id, COUNT(*) as total 
+                        servico_id as id, COUNT(*) as total 
                     FROM 
                         atendimentos
                     WHERE 
-                        id_uni = :unidade AND 
-                        id_serv IN (" . implode(',', $ids) . ")
+                        unidade_id = :unidade AND 
+                        servico_id IN (" . implode(',', $ids) . ")
                 ";
                 // total senhas do servico (qualquer status)
-                $stmt = $conn->prepare($sql . " GROUP BY id_serv");
+                $stmt = $conn->prepare($sql . " GROUP BY servico_id");
                 $stmt->bindValue('unidade', $unidade->getId(), \PDO::PARAM_INT);
                 $stmt->execute();
                 $rs = $stmt->fetchAll();
@@ -81,7 +80,7 @@ class TriagemController extends ModuleController {
                     $response->data[$r['id']] = array('total' => $r['total'], 'fila' => 0);
                 }
                 // total senhas esperando
-                $stmt = $conn->prepare($sql . " AND id_stat = :status GROUP BY id_serv");
+                $stmt = $conn->prepare($sql . " AND status = :status GROUP BY servico_id");
                 $stmt->bindValue('unidade', $unidade->getId(), \PDO::PARAM_INT);
                 $stmt->bindValue('status', Atendimento::SENHA_EMITIDA, \PDO::PARAM_INT);
                 $stmt->execute();
@@ -103,6 +102,17 @@ class TriagemController extends ModuleController {
             if ($servico) {
                 $response->data['nome'] = $servico->getNome();
                 $response->data['descricao'] = $servico->getDescricao();
+                // ultima senha
+                $query = $this->em()->createQuery("SELECT e FROM novosga\model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC");
+                $query->setParameter('servico', $servico->getId());
+                $query->setParameter('unidade', $context->getUnidade()->getId());
+                $atendimentos = $query->getResult();
+                if (sizeof($atendimentos)) {
+                    $response->data['senha'] = $atendimentos[0]->getSenha()->toString();
+                } else {
+                    $response->data['senha'] = '-';
+                }
+                // subservicos
                 $response->data['subservicos'] = array();
                 $query = $this->em()->createQuery("SELECT e FROM novosga\model\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
                 $query->setParameter('mestre', $servico->getId());
@@ -150,16 +160,16 @@ class TriagemController extends ModuleController {
              * XXX: Os parametros abaixo (id da unidade e sigla) estao sendo concatenados direto na string devido a um bug do pdo_sqlsrv (windows)
              */
             // ultimo numero gerado (total)
-            $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.id_uni = {$unidade->getId()} ORDER BY num_senha DESC";
+            $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.unidade_id = {$unidade->getId()} ORDER BY num_senha DESC";
             $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1, 0);
             // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
-            $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.id_uni = {$unidade->getId()} AND a.sigla_senha = '{$su->getSigla()}' ORDER BY num_senha_serv DESC";
+            $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.unidade_id = {$unidade->getId()} AND a.sigla_senha = '{$su->getSigla()}' ORDER BY num_senha_serv DESC";
             $innerQuery2 = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery2, 1, 0);
             $stmt = $conn->prepare(" 
                 INSERT INTO atendimentos
-                (id_uni, id_serv, id_pri, id_usu_tri, id_stat, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha, num_senha_serv)
+                (unidade_id, servico_id, prioridade_id, usuario_tri_id, status, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha, num_senha_serv)
                 SELECT
-                    :id_uni, :id_serv, :id_pri, :id_usu_tri, :id_stat, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, :sigla_senha, 
+                    :unidade_id, :servico_id, :prioridade_id, :usuario_tri_id, :status, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, :sigla_senha, 
                     COALESCE(
                         (
                             $innerQuery
@@ -169,11 +179,11 @@ class TriagemController extends ModuleController {
                             $innerQuery2
                         ) , 0) + 1
             ");
-            $stmt->bindValue('id_uni', $unidade->getId(), PDO::PARAM_INT);
-            $stmt->bindValue('id_serv', $servico, PDO::PARAM_INT);
-            $stmt->bindValue('id_pri', $prioridade, PDO::PARAM_INT);
-            $stmt->bindValue('id_usu_tri', $usuario->getId(), PDO::PARAM_INT);
-            $stmt->bindValue('id_stat', \novosga\model\Atendimento::SENHA_EMITIDA, PDO::PARAM_INT);
+            $stmt->bindValue('unidade_id', $unidade->getId(), PDO::PARAM_INT);
+            $stmt->bindValue('servico_id', $servico, PDO::PARAM_INT);
+            $stmt->bindValue('prioridade_id', $prioridade, PDO::PARAM_INT);
+            $stmt->bindValue('usuario_tri_id', $usuario->getId(), PDO::PARAM_INT);
+            $stmt->bindValue('status', \novosga\model\Atendimento::SENHA_EMITIDA, PDO::PARAM_INT);
             $stmt->bindValue('nm_cli', Arrays::value($_POST, 'cli_nome', ''), PDO::PARAM_STR);
             $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
             $stmt->bindValue('num_guiche', 0, PDO::PARAM_INT);
@@ -186,7 +196,7 @@ class TriagemController extends ModuleController {
             }
             $id = $conn->lastInsertId();
             if (!$id) {
-                $id = $conn->lastInsertId('atendimentos_id_atend_seq');
+                $id = $conn->lastInsertId('atendimentos_id_seq');
             }
             if (!$id) {
                 throw new \Exception(_('Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de desenvolvimento informando esse problema, e o banco de dados que está usando'));

@@ -12,6 +12,7 @@ $app = new SGA(array(
 ));
 
 $app->view()->set('version', SGA::VERSION);
+$app->view()->set('lang', novosga\util\I18n::lang());
 
 $app->view()->parserExtensions = array(
     new \Slim\Views\TwigExtension(),
@@ -44,9 +45,13 @@ $app->get('/logout', function() use ($app) {
     $app->redirect($app->request()->getRootUri() . '/login');
 });
 
-$app->get('/install(/:step)', function($step = 0) use ($app) {
-    $step = (int) $step;
+$app->get('/install(/:page)', function($page = '') use ($app) {
     $controller = new \novosga\install\InstallController();
+    if ($page === 'info') {
+        $controller->info($app->getContext());
+        exit();
+    }
+    $step = (int) $page;
     $data = $controller->doStep($app->getContext(), $step);
     $app->view()->appendData($data);
     $app->view()->set('context', $app->getContext());

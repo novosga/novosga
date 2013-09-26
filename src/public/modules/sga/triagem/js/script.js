@@ -25,6 +25,7 @@ SGA.Triagem = {
             data: {id: servico},
             success: function(response) {
                 var dialog = $("#dialog-servico");
+                dialog.find('p.ultima-senha').text(response.data.senha);
                 dialog.find('p.nome').text(response.data.nome);
                 dialog.find('p.descricao').text(response.data.descricao);
                 var subservicos = dialog.find('ul.subservicos.notempty');
@@ -74,7 +75,7 @@ SGA.Triagem = {
         },
         
         url: function(atendimento) {
-            return SGA.url('imprimir') + "&id=" + atendimento.id;
+            return SGA.url('imprimir') + "?id=" + atendimento.id;
         },
         
         loadIframe: function(atendimento) {

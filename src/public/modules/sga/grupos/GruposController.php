@@ -74,7 +74,7 @@ class GruposController extends TreeModelController {
                 e.left, e.nome
         ");
         $query->setParameter('arg', $arg);
-        return $query->getResult();
+        return $query;
     }
     
     

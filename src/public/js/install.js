@@ -46,11 +46,11 @@ SGA.Install = {
     chooseAdapter: function(id) {
         var radio = $('#' + id);
         var list = $('ul.adapters li');
-        list.removeClass('active');
+        list.removeClass('adapter-active');
         if (radio.prop('checked')) {
             var checked = $('ul.adapters li#adapter-' + id);
-            checked.addClass('active');
-            if (SGA.Install.adapter == '') {
+            checked.addClass('adapter-active');
+            if (SGA.Install.adapter === '') {
                 $('#btn_next').prop('disabled', false);
             }
             SGA.Install.adapter = id;

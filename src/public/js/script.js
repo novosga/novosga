@@ -222,7 +222,7 @@ var SGA = {
             type: arg.type || 'get',
             dataType: arg.dataType || 'json',
             success: function(response) {
-                if (response.success) {
+                if (response && response.success) {
                     var fn = arg.success;
                     if (fn && typeof(fn) === 'function') {
                         fn(response);

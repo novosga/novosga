@@ -21,24 +21,24 @@
             <span class="btns">
                 <button type="submit"
                         class="btn btn-primary">
-                    <span class="glyphicon glyphicon-save"></span> 
+                    <span class="glyphicon glyphicon-save"></span>&nbsp;
                     {% trans %}Salvar{% endtrans %}
                 </button>
                 <a href="{{ baseUrl() }}/modules/{{ module.chave }}"
                         class="btn btn-default">
-                    <span class="glyphicon glyphicon-chevron-left"></span> 
+                    <span class="glyphicon glyphicon-chevron-left"></span>&nbsp;
                     {% trans %}Voltar{% endtrans %}
                 </a>
-                {% if model.id > 0 %}
-                <button type="submit"
-                        class="btn btn-danger"
-                        onclick="SGA.Form.confirm('{% trans %}Deseja realmente excluir?'{% endtrans %}, function() { $('#form-delete input').val({{ model.id }}); $('#form-delete').submit() })">
-                    <span class="glyphicon glyphicon-remove"></span> 
-                    {% trans %}Excluir{% endtrans %}
-                </button>
-                {% endif %}
             </span>
             <p class="required-desc">{% trans %}Campos obrigatórios{% endtrans %}</p>
+            {% if model.id > 0 %}
+            <button id="btn-delete"
+                    class="btn btn-danger"
+                    onclick="SGA.Form.confirm('{% trans %}Deseja realmente excluir?'{% endtrans %}, function() { $('#form-delete input').val({{ model.id }}); $('#form-delete').submit() })">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp;
+                {% trans %}Excluir{% endtrans %}
+            </button>
+            {% endif %}
         </div>
     </form>
     {% block dialogs %}

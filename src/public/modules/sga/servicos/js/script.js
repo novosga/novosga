@@ -6,24 +6,24 @@ var SGA = SGA || {};
 
 SGA.Servicos = {
     
-    orderTable: function(id) {
-        // ordenando a lista via js por limitacoes do dql
-        $('#' + id + ' span.sub-servico').each(function(i,e) {
-            var item = $(e);
-            var parent = $('#' + id + ' span.servico-' + item.data('mestre'));
-            if (parent) {
-                var next = parent.parent().parent().next();
-                while (next.find('span.nome').hasClass('sub-servico')) {
-                    next = next.next();
+    subservicos: function(id) {
+        $('.subservicos').animate({ height: 'hide' });
+        var output = $('#servico-' + id);
+        output.html('');
+        SGA.ajax({
+            url: SGA.url('subservicos'),
+            data: { id: id },
+            success: function(response) {
+                var table = $('<table></table>');
+                for (var i = 0; i < response.data.length; i++) {
+                    var sub = response.data[i];
+                    var btnEdit = '<a href="' + SGA.url('edit') + '/' + sub.id + '" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>';
+                    table.append('<tr><td>' + sub.nome + '</td><td>' + btnEdit + '</td></tr>');
                 }
-                if (next.length > 0) {
-                    next.before(item.parent().parent());
-                } else {
-                    parent.parent().parent().after(item.parent().parent());
-                }
+                output.append(table);
+                output.animate({ height: 'show' });
             }
         });
-        
     }
     
 };

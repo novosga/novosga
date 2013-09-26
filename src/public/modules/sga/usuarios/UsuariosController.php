@@ -35,9 +35,9 @@ class UsuariosController extends CrudController {
         $items = array();
         foreach ($rs as $lotacao) {
             $items[] = array(
-                'id_grupo' => $lotacao->getGrupo()->getId(),
+                'grupo' => $lotacao->getGrupo()->getId(),
                 'grupo' => $lotacao->getGrupo()->getNome(),
-                'id_cargo' => $lotacao->getCargo()->getId(),
+                'cargo' => $lotacao->getCargo()->getId(),
                 'cargo' => $lotacao->getCargo()->getNome()
             );
         }
@@ -49,9 +49,9 @@ class UsuariosController extends CrudController {
         $items = array();
         foreach ($rs as $servico) {
             $items[] = array(
-                'id_unidade' => $servico->getUnidade()->getId(),
+                'unidade' => $servico->getUnidade()->getId(),
                 'unidade' => $servico->getUnidade()->getNome(),
-                'id_servico' => $servico->getServico()->getId(),
+                'servico' => $servico->getServico()->getId(),
                 'servico' => $servico->getServico()->getNome()
             );
         }
@@ -105,9 +105,9 @@ class UsuariosController extends CrudController {
         $query->execute();
         $lotacoes = Arrays::value($_POST, 'lotacoes', array());
         if (!empty($lotacoes)) {
-            $stmt = $conn->prepare("INSERT INTO usu_grup_cargo (id_grupo, id_cargo, id_usu) VALUES (:grupo, :cargo, :usuario)");
-            foreach ($lotacoes as $lotacao) {
-                $value = explode(',', $lotacao);
+            $stmt = $conn->prepare("INSERT INTO usu_grup_cargo (grupo_id, cargo_id, usuario_id) VALUES (:grupo, :cargo, :usuario)");
+            foreach ($lotacoes as $item) {
+                $value = explode(',', $item);
                 $stmt->bindValue('grupo', $value[0], \PDO::PARAM_INT);
                 $stmt->bindValue('cargo', $value[1], \PDO::PARAM_INT);
                 $stmt->bindValue('usuario', $model->getId(), \PDO::PARAM_INT);
@@ -120,7 +120,7 @@ class UsuariosController extends CrudController {
         $query->execute();
         $servicos = Arrays::value($_POST, 'servicos', array());
         if (!empty($servicos)) {
-            $stmt = $conn->prepare("INSERT INTO usu_serv (id_uni, id_serv, id_usu) VALUES (:unidade, :servico, :usuario)");
+            $stmt = $conn->prepare("INSERT INTO usu_serv (unidade_id, servico_id, usuario_id) VALUES (:unidade, :servico, :usuario)");
             foreach ($servicos as $servico) {
                 $value = explode(',', $servico);
                 $stmt->bindValue('unidade', $value[0], \PDO::PARAM_INT);
@@ -159,7 +159,7 @@ class UsuariosController extends CrudController {
     protected function search($arg) {
         $query = $this->em()->createQuery("SELECT e FROM novosga\model\Usuario e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.login) LIKE :arg");
         $query->setParameter('arg', $arg);
-        return $query->getResult();
+        return $query;
     }
     
     /**

@@ -1,4 +1,4 @@
-{% extends "install/install.html" %}
+{% extends "install/install.html.twig" %}
 {% block content %}
 <div id="step_1" class="container">
     {% if fatal %}
@@ -78,7 +78,7 @@
                 </tr>
                 <tr>
                     <td>{% trans %}PHP Info{% endtrans %}</td>
-                    <td><a href="" target="_blank">{% trans %}Visualizar{% endtrans %}</a></td>
+                    <td><a href="{{ baseUrl() }}/install/info" target="_blank">{% trans %}Visualizar{% endtrans %}</a></td>
                 </tr>
             </tbody>
         </table>

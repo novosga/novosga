@@ -19,13 +19,15 @@
         <div class="">
             <span class="text">
                 <a href="javascript:void(0)" 
+                   title="{{ servicoUnidade.sigla }} - {{ servicoUnidade.nome }}"
                    onclick="SGA.Triagem.servicoInfo({{ servicoUnidade.servico.id }}, '{{ servicoUnidade.nome }}')">
                     {{ servicoUnidade.sigla }} - {{ servicoUnidade.nome }}
                 </a>
-                <span class="servico" title="{{ servicoUnidade.sigla }} - {{ servicoUnidade.sigla }}">
+                <span class="servico">
                     <span class="fila">
                         <span class="badge">
-                            <abbr id="total-aguardando-{{ servicoUnidade.servico.id }}" class="total" title="{% trans %}Aguardando atendimento{% endtrans %}">-</abbr> / 
+                            <abbr id="total-aguardando-{{ servicoUnidade.servico.id }}" class="total" title="{% trans %}Aguardando atendimento{% endtrans %}">-</abbr>
+                            &nbsp;/&nbsp;
                             <abbr id="total-senhas-{{ servicoUnidade.servico.id }}" class="total" title="{% trans %}Total de senhas do serviço{% endtrans %}">-</abbr>
                         </span>
                     </span>
@@ -51,9 +53,9 @@
         <p>{% trans %}Nenhum serviço habilitado para a unidade atual{% endtrans %}</p>
     {% endfor %}
 </div>
-<p class="links clear">
+<p class="links">
     <a href="#dialog-busca" class="btn btn-default" data-toggle="modal">
-        <span class="glyphicon glyphicon-search"></span>
+        <span class="glyphicon glyphicon-search"></span>&nbsp;
         {% trans %}Consultar senha{% endtrans %}
     </a>
 </p>
@@ -96,6 +98,10 @@
                 <h4 class="modal-title">{% trans %}Serviço{% endtrans %}</h4>
             </div>
             <div class="modal-body">
+                <div>
+                    <h4>{% trans %}Última senha{% endtrans %}</h4>
+                    <p class="ultima-senha"></p>
+                </div>
                 <div>
                     <h4>{% trans %}Nome original do serviço{% endtrans %}</h4>
                     <p class="nome"></p>

@@ -129,11 +129,11 @@ class MonitorController extends ModuleController {
                     UPDATE 
                         atendimentos
                     SET 
-                        id_serv = :servico,
-                        id_pri = :prioridade
+                        servico_id = :servico,
+                        prioridade_id = :prioridade
                     WHERE 
-                        id_atend = :id AND 
-                        id_uni = :unidade AND
+                        atendimento_id = :id AND 
+                        unidade_id = :unidade AND
                         dt_fim IS NULL
                 ");
                 $stmt->bindValue('servico', $servico);
@@ -168,12 +168,12 @@ class MonitorController extends ModuleController {
                     UPDATE 
                         atendimentos
                     SET 
-                        id_stat = :status,
+                        status = :status,
                         dt_fim = NULL
                     WHERE 
-                        id_atend = :id AND 
-                        id_uni = :unidade AND
-                        id_stat IN ({$status})
+                        atendimento_id = :id AND 
+                        unidade_id = :unidade AND
+                        status IN ({$status})
                 ");
                 $stmt->bindValue('id', $id);
                 $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
@@ -204,11 +204,11 @@ class MonitorController extends ModuleController {
                     UPDATE 
                         atendimentos
                     SET 
-                        id_stat = :status,
+                        status = :status,
                         dt_fim = :data
                     WHERE 
-                        id_atend = :id AND 
-                        id_uni = :unidade AND
+                        atendimento_id = :id AND 
+                        unidade_id = :unidade AND
                         dt_fim IS NULL
                 ");
                 $stmt->bindValue('status', \novosga\model\Atendimento::SENHA_CANCELADA);

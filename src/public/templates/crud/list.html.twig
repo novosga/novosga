@@ -12,9 +12,11 @@
             <script type="text/javascript">SGA.Form.searchBox("search-box")</script>
         </div>
         <button type="submit" class="btn btn-default">
+            <span class="glyphicon glyphicon-search"></span>&nbsp;
             {% trans %}Buscar{% endtrans %}
         </button>
         <a href="{{ baseUrl() }}/modules/{{ module.chave }}/edit" class="btn btn-primary btn-add">
+            <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
             {% trans %}Novo{% endtrans %}
         </a>
     </form>
@@ -45,25 +47,33 @@
             <td>{{ item.id }}</td>
             {% block tbody %}
             {% endblock %}
-            <td style="width:1%; white-space: nowrap">
-                <a href="{{ module.chave }}/edit/{{ item.id }}" class="btn btn-default">
-                    {% trans %}Editar{% endtrans %}
+            <td class="buttons">
+                <a href="{{ module.chave }}/edit/{{ item.id }}" class="btn btn-default" title="{% trans %}Editar{% endtrans %}">
+                    <span class="glyphicon glyphicon-edit"></span>
                 </a>
-                <a href="{{ module.chave }}/delete/{{ item.id }}" class="btn btn-danger">
-                    {% trans %}Excluir{% endtrans %}
+                <a href="{{ module.chave }}/delete/{{ item.id }}" class="btn btn-danger" title="{% trans %}Excluir{% endtrans %}">
+                    <span class="glyphicon glyphicon-remove"></span>
                 </a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<ul class="pagination">
-    <li><a href="#">&laquo;</a></li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li><a href="#">&raquo;</a></li>
-</ul>
+{% if pages > 1 %}
+<div class="crud-pagination">
+    <ul class="pagination">
+        <li {% if page == 0 %}class="disabled"{% endif %}>
+            <a href="?p=0">&laquo;</a>
+        </li>
+        {% for i in range(1, pages) %}
+        <li {% if i - 1 == page %}class="active"{% endif %}>
+            <a href="?p={{ i - 1 }}">{{ i }}</a>
+        </li>
+        {% endfor %}
+        <li {% if page == pages -1 %}class="disabled"{% endif %}>
+            <a href="?p={{ pages - 1}}">&raquo;</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
 {% endblock %}

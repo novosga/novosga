@@ -31,7 +31,7 @@ class ServicosController extends CrudController {
         if ($model->getId() > 0) {
             // #51 problema ao insertir ou atualizar valor nulo usando sql server no linux
             if (\novosga\Config::DB_TYPE === 'mssql' && !$model->getMestre()) {
-                $stmt = $this->em()->getConnection()->prepare('UPDATE servicos SET nm_serv = ?, desc_serv = ?, stat_serv = ?, id_macro = null WHERE id_serv = ?');
+                $stmt = $this->em()->getConnection()->prepare('UPDATE servicos SET nm_serv = ?, desc_serv = ?, stat_serv = ?, id_macro = null WHERE servico_id = ?');
                 $stmt->bindValue(1, $model->getNome(), 'string');
                 $stmt->bindValue(2, $model->getDescricao(), 'string');
                 $stmt->bindValue(3, $model->getStatus(), 'integer');
@@ -70,15 +70,17 @@ class ServicosController extends CrudController {
                 e 
             FROM 
                 novosga\model\Servico e 
-                LEFT JOIN e.mestre m
             WHERE 
-                UPPER(e.nome) LIKE :arg OR 
-                UPPER(e.descricao) LIKE :arg
+                e.mestre IS NULL AND
+                (
+                    UPPER(e.nome) LIKE :arg OR 
+                    UPPER(e.descricao) LIKE :arg
+                )
             ORDER BY
                 e.nome
         ");
         $query->setParameter('arg', $arg);
-        return $query->getResult();
+        return $query;
     }
 
     public function edit(SGAContext $context, $id = 0) {
@@ -117,6 +119,24 @@ class ServicosController extends CrudController {
     
     protected function postDelete(SGAContext $context, SequencialModel $model) {
         $this->em()->commit();
+    }
+    
+    
+    public function subservicos(SGAContext $context) {
+        $response = new \novosga\http\AjaxResponse();
+        $id = Arrays::value($_GET, 'id');
+        $servico = $this->findById($id);
+        if ($servico) {
+            foreach ($servico->getSubServicos() as $sub) {
+                $response->data[] = array(
+                    'id' => $sub->getId(),
+                    'nome' => $sub->getNome()
+                );
+            }
+            $response->success = true;
+        }
+        echo $response->toJson();
+        exit();
     }
     
 }
