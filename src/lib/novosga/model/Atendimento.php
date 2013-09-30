@@ -3,6 +3,7 @@ namespace novosga\model;
 
 use \novosga\model\util\Cliente;
 use \novosga\model\util\Senha;
+use \novosga\business\AtendimentoBusiness;
 
 /**
  * Classe Atendimento
@@ -13,21 +14,11 @@ use \novosga\model\util\Senha;
  */
 class Atendimento extends SequencialModel {
 
-    // estados do atendimento
-    const SENHA_EMITIDA = 1;
-    const CHAMADO_PELA_MESA = 2;
-    const ATENDIMENTO_INICIADO = 3;
-    const ATENDIMENTO_ENCERRADO = 4;
-    const NAO_COMPARECEU = 5;
-    const SENHA_CANCELADA = 6;
-    const ERRO_TRIAGEM = 7;
-    const ATENDIMENTO_ENCERRADO_CODIFICADO = 8;
-    
     /**
      * @ManyToOne(targetEntity="ServicoUnidade")
      * @JoinColumns({
-     *      @JoinColumn(name="servico_id", referencedColumnName="id"),
-     *      @JoinColumn(name="unidade_id", referencedColumnName="id")
+     *      @JoinColumn(name="servico_id", referencedColumnName="servico_id"),
+     *      @JoinColumn(name="unidade_id", referencedColumnName="unidade_id")
      * })
      */
     protected $servicoUnidade;
@@ -216,8 +207,7 @@ class Atendimento extends SequencialModel {
     }
     
     public function getNomeStatus() {
-        $arr = self::situacoes();
-        return $arr[$this->getStatus()];
+        return AtendimentoBusiness::nomeSituacao($this->getStatus());
     }
     
     public function setStatus($status) {
@@ -241,7 +231,7 @@ class Atendimento extends SequencialModel {
         if (!$this->senha) {
             $this->senha = new Senha();
             $this->senha->setSigla($this->siglaSenha);
-            if (\novosga\business\AtendimentoBusiness::isNumeracaoServico()) {
+            if (AtendimentoBusiness::isNumeracaoServico()) {
                 $this->senha->setNumero((int) $this->numeroSenhaServico);
             } else {
                 $this->senha->setNumero((int) $this->numeroSenha);
@@ -289,20 +279,7 @@ class Atendimento extends SequencialModel {
 
     
     public function toString() {
-        return "Atendimento[id:{$this->getId()},senha:{$this->getSenha()},status: {$this->getStatus()}]";
-    }
-    
-    public static function situacoes() {
-        return array(
-            self::SENHA_EMITIDA => _('Senha emitida'),
-            self::CHAMADO_PELA_MESA => _('Chamado pela mesa'),
-            self::ATENDIMENTO_INICIADO => _('Atendimento iniciado'),
-            self::ATENDIMENTO_ENCERRADO => _('Atendimento encerrado'),
-            self::NAO_COMPARECEU => _('Não compareceu'),
-            self::SENHA_CANCELADA => _('Senha cancelada'),
-            self::ERRO_TRIAGEM => _('Erro triagem'),
-            self::ATENDIMENTO_ENCERRADO_CODIFICADO => _('Atendimento encerrado e codificado')
-        );
+        return $this->getSenha()->toString();
     }
     
     public function toArray($minimal = false) {
@@ -312,7 +289,7 @@ class Atendimento extends SequencialModel {
             'servico' => $this->getServicoUnidade()->getNome(),
             'prioridade' => $this->getSenha()->isPrioridade(),
             'nomePrioridade' => $this->getSenha()->getPrioridade()->getNome(),
-            'chegada' => $this->getDataChegada()->format('Y-m-d'),
+            'chegada' => $this->getDataChegada()->format('Y-m-d H:i:s'),
             'espera' => $this->getTempoEspera()->format('%H:%I:%S')
         );
         if (!$minimal) {
@@ -324,10 +301,10 @@ class Atendimento extends SequencialModel {
                 $arr['triagem'] = $this->getUsuarioTriagem()->getLogin();
             }
             if ($this->getDataInicio()) {
-                $arr['inicio'] = $this->getDataInicio()->format('Y-m-d');
+                $arr['inicio'] = $this->getDataInicio()->format('Y-m-d H:i:s');
             }
             if ($this->getDataFim()) {
-                $arr['fim'] = $this->getDataFim()->format('Y-m-d');
+                $arr['fim'] = $this->getDataFim()->format('Y-m-d H:i:s');
             }
             $arr['status'] = $this->getStatus();
             $arr['nomeStatus'] = $this->getNomeStatus();

@@ -9,11 +9,11 @@ namespace novosga\model;
  */
 class Unidade extends SequencialModel {
 
-    /** @Column(type="string", name="cod_uni", length=10, nullable=false) */
+    /** @Column(type="string", name="codigo", length=10, nullable=false) */
     protected $codigo;
-    /** @Column(type="string", name="nm_uni", length=50, nullable=false) */
+    /** @Column(type="string", name="nome", length=50, nullable=false) */
     protected $nome;
-    /** @Column(type="integer", name="stat_uni", nullable=false) */
+    /** @Column(type="integer", name="status", nullable=false) */
     protected $status;
     /**
      * @OneToOne(targetEntity="Grupo", fetch="EAGER")

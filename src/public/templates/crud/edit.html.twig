@@ -34,13 +34,18 @@
             {% if model.id > 0 %}
             <button id="btn-delete"
                     class="btn btn-danger"
-                    onclick="SGA.Form.confirm('{% trans %}Deseja realmente excluir?'{% endtrans %}, function() { $('#form-delete input').val({{ model.id }}); $('#form-delete').submit() })">
+                    onclick="SGA.Form.confirm('{% trans %}Realmente deseja excluir?{% endtrans %}', function() { $('#form-delete').submit() }); return false;">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp;
                 {% trans %}Excluir{% endtrans %}
             </button>
             {% endif %}
         </div>
     </form>
+    {% if model.id > 0 %}
+    <form id="form-delete" action="{{ baseUrl() }}/modules/{{ module.chave }}/delete" method="post">
+        <input type="hidden" name="id" value="{{ model.id }}" />
+    </form>
+    {% endif %}
     {% block dialogs %}
     {% endblock %}
     <script type="text/javascript">

@@ -8,6 +8,7 @@ use \novosga\model\Unidade;
 use \novosga\model\Atendimento;
 use \novosga\http\AjaxResponse;
 use \novosga\controller\ModuleController;
+use \novosga\business\AtendimentoBusiness;
 
 /**
  * MonitorController
@@ -162,7 +163,7 @@ class MonitorController extends ModuleController {
             try {
                 $id = (int) $context->request()->getParameter('id');
                 $conn = $this->em()->getConnection();
-                $status = join(',', array(Atendimento::SENHA_CANCELADA, Atendimento::NAO_COMPARECEU));
+                $status = join(',', array(AtendimentoBusiness::SENHA_CANCELADA, AtendimentoBusiness::NAO_COMPARECEU));
                 // reativa apenas se estiver finalizada (data fim diferente de nulo)
                 $stmt = $conn->prepare("
                     UPDATE 
@@ -176,7 +177,7 @@ class MonitorController extends ModuleController {
                         status IN ({$status})
                 ");
                 $stmt->bindValue('id', $id);
-                $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
+                $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA);
                 $stmt->bindValue('unidade', $unidade->getId());
                 $response->success = $stmt->execute() > 0;
             } catch (\Exception $e) {
@@ -211,7 +212,7 @@ class MonitorController extends ModuleController {
                         unidade_id = :unidade AND
                         dt_fim IS NULL
                 ");
-                $stmt->bindValue('status', \novosga\model\Atendimento::SENHA_CANCELADA);
+                $stmt->bindValue('status', AtendimentoBusiness::SENHA_CANCELADA);
                 $stmt->bindValue('data', DateUtil::nowSQL());
                 $stmt->bindValue('id', $id);
                 $stmt->bindValue('unidade', $unidade->getId());

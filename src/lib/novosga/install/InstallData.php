@@ -50,11 +50,11 @@ class InstallData {
     );
     
     public static $adminFields = array(
-        'nm_usu'     => 'O nome do usuário deve ser informado.',
-        'ult_nm_usu' => 'O sobrenome do usuário deve ser informado.',
-        'login_usu'  => 'O login do usuário deve ser informado.',
-        'senha_usu'  => 'A senha do usuário deve ser informada.',
-        'senha_usu_2'  => 'A confirmação da senha deve ser informada.'
+        'nome'     => 'O nome do usuário deve ser informado.',
+        'sobrenome' => 'O sobrenome do usuário deve ser informado.',
+        'login'  => 'O login do usuário deve ser informado.',
+        'senha'  => 'A senha do usuário deve ser informada.',
+        'senha_2'  => 'A confirmação da senha deve ser informada.'
     );
     
     public $database = array();

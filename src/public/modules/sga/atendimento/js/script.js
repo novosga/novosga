@@ -75,10 +75,10 @@ SGA.Atendimento = {
                 if (atendimento.prioridade) {
                     info.addClass('prioridade');
                 }
-                info.find('.numero .value').text(atendimento.senha);
-                info.find('.nome-prioridade .value').text(atendimento.nomePrioridade);
-                info.find('.servico .value').text(atendimento.servico);
-                info.find('.nome .value').text(atendimento.cliente.nome);
+                info.find('.numero .atend-value').text(atendimento.senha);
+                info.find('.nome-prioridade .atend-value').text(atendimento.nomePrioridade);
+                info.find('.servico .atend-value').text(atendimento.servico);
+                info.find('.nome .atend-value').text(atendimento.cliente.nome || '-');
             }
             $('#iniciar').show();
             break;

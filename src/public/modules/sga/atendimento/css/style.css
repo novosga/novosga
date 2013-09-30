@@ -4,21 +4,31 @@
  * @author rogeriolino
  */
 
+.module-content .header {
+    margin-bottom: 0 !important;
+}
+
 #atendimento {
     position: relative;
+}
+
+#atendimento .left {
+    padding-left: 20px;
+    float: left;
+}
+
+#atendimento .right {
+    padding: 10px 0 0 20px;
+    float: left;
 }
 
 /* guiche */
 
 #atendimento #guiche {
-    top: -20px;
-    left: 20px;
-    min-width: 110px;
+    min-width: 130px;
     height: 150px;
     background-color: #F8CA00;
     border-bottom: 3px solid #333;
-    position: absolute;
-    float: left;
 }
 
 #atendimento #guiche span {
@@ -46,7 +56,6 @@
     width: 100%;
     font-size: 12px;
     text-align: center;
-    position: absolute;
     display: block;
 }
 
@@ -56,7 +65,6 @@
 
 #atendimento #controls {
     min-height: 300px;
-    padding-left: 160px;
 }
 
 #atendimento #controls .btn-control {
@@ -92,6 +100,7 @@
 
 #atendimento #controls #codificar h3 {
     padding-bottom: 10px;
+    margin: 0;
 }
 
 #atendimento #controls #codificar .items {
@@ -99,6 +108,7 @@
     border-radius: 3px;
     background-color: #F7F9FE;
     border: 1px solid #E1E1E8;
+    list-style-position: inside;
 }
 
 #atendimento #controls #codificar .items ul { padding: 5px 10px; }
@@ -128,6 +138,7 @@
 
 #atendimento #controls .senha .title {
     padding: 5px 10px;
+    margin: 0;
 }
 
 #atendimento #controls .senha .info {

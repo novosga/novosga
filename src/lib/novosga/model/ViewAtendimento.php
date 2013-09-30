@@ -160,8 +160,7 @@ class ViewAtendimento extends SequencialModel {
      * @return type
      */
     public function getNomeStatus() {
-        $arr = Atendimento::situacoes();
-        return $arr[$this->getStatus()];
+        return AtendimentoBusiness::nomeSituacao($this->getStatus());
     }
 
     public function setStatus($status) {

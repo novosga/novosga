@@ -60,6 +60,7 @@ abstract class TreeModelController extends CrudController {
             // atualiza lados
             $model->setLeft($right + 1);
             $model->setRight($right + 2);
+            $model->setLevel($model->getParent()->getLevel() + 1);
             $this->em()->commit();
         } catch (Exception $e) {
             $this->em()->rollback();
@@ -134,9 +135,12 @@ abstract class TreeModelController extends CrudController {
                     $rs = $query->getSingleResult();
                     $model->setLeft($rs['left']);
                     $model->setRight($rs['right']);
+                    $newLevel = $model->getParent()->getLevel() + 1;
+                    $delta = $newLevel - $model->getLevel();
+                    $model->setLevel($newLevel);
+                    $this->updateLevels($model, $delta);
                 }
             }
-            $this->updateLevels($model);
             $this->em()->merge($model);
             $this->em()->commit();
         } catch (Exception $e) {
@@ -184,31 +188,20 @@ abstract class TreeModelController extends CrudController {
     }
     
     /**
-     * Conta os nós pais para gerar o nível do nó na árvore
+     * Atualiza os niveis dos nós filhos da arvore
      */
-    private function updateLevels(TreeModel $model) {
+    private function updateLevels(TreeModel $model, $delta) {
         $className = get_class($model);
-        if ($model->getParent()) {
-            $delta = $model->getParent()->getLevel() + 1;
-            $model->setLevel($delta);
-            // contando os niveis
-            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM $className e WHERE e.left < :left AND p.right > :right");
-            $query->setParameter('left', $model->getLeft());
-            $query->setParameter('right', $model->getRight());
-            $rs = $query->getSingleResult();
-            // atualizando
-            $query = $this->em()->createQuery("
-                UPDATE $className e 
-                JOIN e.par
-                SET e.level = e.level + :delta 
-                WHERE e.left > :left AND p.right < :right");
-            $query->setParameter('left', $model->getLeft());
-            $query->setParameter('right', $model->getRight());
-            
-            $level = 0;
-            $query->setParameter('delta', $model->getRight());
-            $query->execute();
-        }
+        // atualizando
+        $query = $this->em()->createQuery("
+            UPDATE $className e 
+            SET e.level = e.level + :delta 
+            WHERE e.left > :left AND e.right < :right
+        ");
+        $query->setParameter('left', $model->getLeft());
+        $query->setParameter('right', $model->getRight());
+        $query->setParameter('delta', $delta);
+        $query->execute();
     }
 
 }

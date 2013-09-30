@@ -1,4 +1,4 @@
--- @adapter=MS SQL
+-- @adapter=MS SQL (experimental)
 -- @author=rogeriolino
 -- @date=2013-08-29
 
@@ -32,8 +32,8 @@ CREATE TABLE [dbo].[atendimentos](
 
 CREATE TABLE [dbo].[cargos](
     [id] [int] identity(1,1) NOT NULL,
-    [nm_cargo] [varchar](30) NOT NULL,
-    [desc_cargo] [varchar](140) NULL,
+    [nome] [varchar](30) NOT NULL,
+    [descricao] [varchar](140) NULL,
     [esquerda] [int] NOT NULL,
     [direita] [int] NOT NULL,
     [nivel] [int] NOT NULL,
@@ -49,8 +49,8 @@ CREATE TABLE [dbo].[cargos_mod_perm](
 
 CREATE TABLE [dbo].[grupos](
     [id] [int] identity(1,1) NOT NULL,
-    [nm_grupo] [varchar](40) NOT NULL,
-    [desc_grupo] [varchar](150) NOT NULL,
+    [nome] [varchar](40) NOT NULL,
+    [descricao] [varchar](150) NOT NULL,
     [esquerda] [int] NOT NULL,
     [direita] [int] NOT NULL,
     [nivel] [int] NOT NULL,
@@ -95,12 +95,12 @@ CREATE TABLE [dbo].[historico_atendimentos](
 
 CREATE TABLE [dbo].[modulos](
     [id] [int] identity(1,1) NOT NULL,
-    [chave_mod] [varchar](50) NOT NULL,
-    [nm_mod] [varchar](25) NOT NULL,
-    [desc_mod] [varchar](100) NOT NULL,
-    [autor_mod] [varchar](25) NOT NULL,
-    [tipo_mod] [smallint] NOT NULL,
-    [stat_mod] [smallint] NOT NULL,
+    [chave] [varchar](50) NOT NULL,
+    [nome] [varchar](25) NOT NULL,
+    [descricao] [varchar](100) NOT NULL,
+    [autor] [varchar](25) NOT NULL,
+    [tipo] [smallint] NOT NULL,
+    [status] [smallint] NOT NULL,
     PRIMARY KEY CLUSTERED (id)
 ) ON [PRIMARY]
 
@@ -124,7 +124,7 @@ CREATE TABLE [dbo].[painel_senha](
     [num_senha] [int] NOT NULL,
     [sig_senha] [char](1) NOT NULL,
     [msg_senha] [varchar](20) NOT NULL,
-    [nm_local] [varchar](15) NOT NULL,
+    [local] [varchar](15) NOT NULL,
     [num_guiche] [smallint] NOT NULL,
     [dt_envio] [datetime2](6) NULL,
     PRIMARY KEY CLUSTERED (id)
@@ -132,16 +132,16 @@ CREATE TABLE [dbo].[painel_senha](
 
 CREATE TABLE [dbo].[prioridades](
     [id] [int] identity(1,1) NOT NULL,
-    [nm_pri] [varchar](30) NOT NULL,
-    [desc_pri] [varchar](100) NOT NULL,
-    [peso_pri] [smallint] NOT NULL,
-    [stat_pri] [smallint] NOT NULL,
+    [nome] [varchar](30) NOT NULL,
+    [descricao] [varchar](100) NOT NULL,
+    [peso] [smallint] NOT NULL,
+    [status] [smallint] NOT NULL,
     PRIMARY KEY CLUSTERED (id)
 ) ON [PRIMARY]
 
 CREATE TABLE [dbo].[locais](
     [id] [int] identity(1,1) NOT NULL,
-    [nm_loc] [varchar](20) NOT NULL,
+    [nome] [varchar](20) NOT NULL,
     PRIMARY KEY CLUSTERED (id)
 ) ON [PRIMARY]
 
@@ -154,9 +154,9 @@ CREATE TABLE [dbo].[serv_peso](
 CREATE TABLE [dbo].[servicos](
     [id] [int] identity(1,1) NOT NULL,
     [id_macro] [int] NULL,
-    [desc_serv] [varchar](100) NOT NULL,
-    [nm_serv] [varchar](50) NULL,
-    [stat_serv] [smallint] NULL,
+    [descricao] [varchar](100) NOT NULL,
+    [nome] [varchar](50) NULL,
+    [status] [smallint] NULL,
     PRIMARY KEY CLUSTERED (id)
 ) ON [PRIMARY]
 
@@ -164,18 +164,18 @@ CREATE TABLE [dbo].[uni_serv](
     [unidade_id] [int] NOT NULL,
     [servico_id] [int] NOT NULL,
     [local_id] [int] NOT NULL,
-    [nm_serv] [varchar](50) NOT NULL,
-    [sigla_serv] [char](1) NOT NULL,
-    [stat_serv] [smallint] NOT NULL,
+    [nome] [varchar](50) NOT NULL,
+    [sigla] [char](1) NOT NULL,
+    [status] [smallint] NOT NULL,
     PRIMARY KEY CLUSTERED (unidade_id, servico_id)
 ) ON [PRIMARY]
 
 CREATE TABLE [dbo].[unidades](
     [id] [int] identity(1,1) NOT NULL,
     [grupo_id] [int] NOT NULL,
-    [cod_uni] [varchar](10) NOT NULL,
-    [nm_uni] [varchar](50) NULL,
-    [stat_uni] [smallint] NULL,
+    [codigo] [varchar](10) NOT NULL,
+    [nome] [varchar](50) NULL,
+    [status] [smallint] NULL,
     [stat_imp] [smallint] NULL,
     [msg_imp] [varchar](100) NULL,
     PRIMARY KEY CLUSTERED (id)
@@ -198,18 +198,18 @@ CREATE TABLE [dbo].[usu_serv](
 
 CREATE TABLE [dbo].[usuarios](
     [id] [int] identity(1,1) NOT NULL,
-    [login_usu] [varchar](20) NOT NULL,
-    [nm_usu] [varchar](20) NOT NULL,
-    [ult_nm_usu] [varchar](100) NOT NULL,
-    [senha_usu] [varchar](40) NOT NULL,
+    [login] [varchar](20) NOT NULL,
+    [nome] [varchar](20) NOT NULL,
+    [sobrenome] [varchar](100) NOT NULL,
+    [senha] [varchar](40) NOT NULL,
     [ult_acesso] [datetime2](6) NULL,
-    [stat_usu] [smallint] NOT NULL,
+    [status] [smallint] NOT NULL,
     [session_id] [varchar](40) NOT NULL,
     PRIMARY KEY CLUSTERED (id)
 ) ON [PRIMARY]
 
 -------------
-CREATE UNIQUE INDEX IX_cod_uni ON unidades(cod_uni)
+CREATE UNIQUE INDEX IX_codigo ON unidades(codigo)
 CREATE INDEX IX_direita ON grupos(direita)
 CREATE INDEX IX_esqdir ON grupos(esquerda, direita)
 CREATE INDEX IX_esquerda ON grupos(esquerda)
@@ -224,9 +224,9 @@ CREATE INDEX IX_fki_uni_serv_ibfk_2 ON uni_serv(servico_id)
 CREATE INDEX IX_fki_uni_serv_ibfk_3 ON uni_serv(local_id)
 CREATE INDEX IX_fki_usu_serv_ibfk_1 ON usu_serv(servico_id, unidade_id)
 CREATE INDEX IX_fki_usu_serv_ibfk_2 ON usu_serv(usuario_id)
-CREATE UNIQUE INDEX IX_local_serv_nm ON locais(nm_loc)
-CREATE UNIQUE INDEX IX_login_usu ON usuarios(login_usu)
-CREATE UNIQUE INDEX IX_modulos_chave ON modulos(chave_mod)
+CREATE UNIQUE INDEX IX_local_serv_nm ON locais(nome)
+CREATE UNIQUE INDEX IX_login ON usuarios(login)
+CREATE UNIQUE INDEX IX_modulos_chave ON modulos(chave)
 
 -- FOREIGN KEY
 

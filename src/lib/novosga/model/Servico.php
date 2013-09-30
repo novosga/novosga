@@ -7,11 +7,11 @@ namespace novosga\model;
  */
 class Servico extends SequencialModel {
     
-    /** @Column(type="string", name="nm_serv", length=50, nullable=false) */
+    /** @Column(type="string", name="nome", length=50, nullable=false) */
     protected $nome;
-    /** @Column(type="string", name="desc_serv", length=100, nullable=false) */
+    /** @Column(type="string", name="descricao", length=100, nullable=false) */
     protected $descricao;
-    /** @Column(type="integer", name="stat_serv", nullable=false) */
+    /** @Column(type="integer", name="status", nullable=false) */
     protected $status;
     /** 
      * @ManyToOne(targetEntity="Servico")

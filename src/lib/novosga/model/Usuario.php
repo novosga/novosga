@@ -8,15 +8,15 @@ namespace novosga\model;
  */
 class Usuario extends SequencialModel {
     
-    /** @Column(type="string", name="login_usu", length=20, nullable=false) */
+    /** @Column(type="string", name="login", length=20, nullable=false) */
     protected $login;
-    /** @Column(type="string", name="nm_usu", length=20, nullable=false) */
+    /** @Column(type="string", name="nome", length=20, nullable=false) */
     protected $nome;
-    /** @Column(type="string", name="ult_nm_usu", length=100, nullable=false) */
+    /** @Column(type="string", name="sobrenome", length=100, nullable=false) */
     protected $sobrenome;
-    /** @Column(type="string", name="senha_usu", length=40, nullable=false) */
+    /** @Column(type="string", name="senha", length=40, nullable=false) */
     protected $senha;
-    /** @Column(type="integer", name="stat_usu", nullable=false) */
+    /** @Column(type="integer", name="status", nullable=false) */
     protected $status;
     /** @Column(type="string", name="ult_acesso", nullable=true) */
     protected $ultimoAcesso;

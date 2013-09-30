@@ -85,6 +85,7 @@ SGA.Estatisticas = {
                                 }
                             }
                         }
+                        $(window).scrollTop($('#chart-result').position().top);
                     }
                 });
             }

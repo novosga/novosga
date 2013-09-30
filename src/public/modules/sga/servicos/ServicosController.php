@@ -31,7 +31,7 @@ class ServicosController extends CrudController {
         if ($model->getId() > 0) {
             // #51 problema ao insertir ou atualizar valor nulo usando sql server no linux
             if (\novosga\Config::DB_TYPE === 'mssql' && !$model->getMestre()) {
-                $stmt = $this->em()->getConnection()->prepare('UPDATE servicos SET nm_serv = ?, desc_serv = ?, stat_serv = ?, id_macro = null WHERE servico_id = ?');
+                $stmt = $this->em()->getConnection()->prepare('UPDATE servicos SET nome = ?, descricao = ?, status = ?, id_macro = null WHERE servico_id = ?');
                 $stmt->bindValue(1, $model->getNome(), 'string');
                 $stmt->bindValue(2, $model->getDescricao(), 'string');
                 $stmt->bindValue(3, $model->getStatus(), 'integer');
@@ -44,7 +44,7 @@ class ServicosController extends CrudController {
         } else {
             // #51 problema ao insertir ou atualizar valor nulo usando sql server no linux
             if (\novosga\Config::DB_TYPE === 'mssql' && !$model->getMestre()) {
-                $stmt = $this->em()->getConnection()->prepare('INSERT INTO servicos (nm_serv, desc_serv, stat_serv) VALUES (?, ?, ?)');
+                $stmt = $this->em()->getConnection()->prepare('INSERT INTO servicos (nome, descricao, status) VALUES (?, ?, ?)');
                 $stmt->bindValue(1, $model->getNome(), 'string');
                 $stmt->bindValue(2, $model->getDescricao(), 'string');
                 $stmt->bindValue(3, $model->getStatus(), 'integer');

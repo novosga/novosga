@@ -9,6 +9,7 @@ use \novosga\util\DateUtil;
 use \novosga\model\Atendimento;
 use \novosga\http\AjaxResponse;
 use \novosga\controller\ModuleController;
+use \novosga\business\AtendimentoBusiness;
 
 /**
  * TriagemController
@@ -82,7 +83,7 @@ class TriagemController extends ModuleController {
                 // total senhas esperando
                 $stmt = $conn->prepare($sql . " AND status = :status GROUP BY servico_id");
                 $stmt->bindValue('unidade', $unidade->getId(), \PDO::PARAM_INT);
-                $stmt->bindValue('status', Atendimento::SENHA_EMITIDA, \PDO::PARAM_INT);
+                $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA, \PDO::PARAM_INT);
                 $stmt->execute();
                 $rs = $stmt->fetchAll();
                 foreach ($rs as $r) {
@@ -183,7 +184,7 @@ class TriagemController extends ModuleController {
             $stmt->bindValue('servico_id', $servico, PDO::PARAM_INT);
             $stmt->bindValue('prioridade_id', $prioridade, PDO::PARAM_INT);
             $stmt->bindValue('usuario_tri_id', $usuario->getId(), PDO::PARAM_INT);
-            $stmt->bindValue('status', \novosga\model\Atendimento::SENHA_EMITIDA, PDO::PARAM_INT);
+            $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA, PDO::PARAM_INT);
             $stmt->bindValue('nm_cli', Arrays::value($_POST, 'cli_nome', ''), PDO::PARAM_STR);
             $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
             $stmt->bindValue('num_guiche', 0, PDO::PARAM_INT);

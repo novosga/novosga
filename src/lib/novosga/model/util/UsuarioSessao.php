@@ -223,8 +223,20 @@ class UsuarioSessao {
         $this->tipoAtendimento = $tipoAtendimento;
     }
     
+    public function getLogin() {
+        return $this->getWrapped()->getLogin();
+    }
+    
     public function getNome() {
         return $this->getWrapped()->getNome();
+    }
+    
+    public function getSobrenome() {
+        return $this->getWrapped()->getSobrenome();
+    }
+    
+    public function getSenha() {
+        return $this->getWrapped()->getSenha();
     }
         
     /**

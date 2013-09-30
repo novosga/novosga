@@ -14,17 +14,17 @@ namespace novosga\model;
     const MODULO_UNIDADE = 0;
     const MODULO_GLOBAL = 1;
 
-    /** @Column(type="string", name="chave_mod", length=50, nullable=false) */
+    /** @Column(type="string", name="chave", length=50, nullable=false) */
     protected $chave;
-    /** @Column(type="string", name="nm_mod", length=25, nullable=false) */
+    /** @Column(type="string", name="nome", length=25, nullable=false) */
     protected $nome;
-    /** @Column(type="string", name="autor_mod", length=25, nullable=false) */
+    /** @Column(type="string", name="autor", length=25, nullable=false) */
     protected $autor;
-    /** @Column(type="string", name="desc_mod", length=100, nullable=false) */
+    /** @Column(type="string", name="descricao", length=100, nullable=false) */
     protected $descricao;
-    /** @Column(type="integer", name="tipo_mod", nullable=false) */
+    /** @Column(type="integer", name="tipo", nullable=false) */
     protected $tipo;
-    /** @Column(type="integer", name="stat_mod", nullable=false) */
+    /** @Column(type="integer", name="status", nullable=false) */
     protected $status;
     
     // transient

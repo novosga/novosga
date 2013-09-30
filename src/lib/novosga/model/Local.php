@@ -8,7 +8,7 @@ namespace novosga\model;
  */
 class Local extends SequencialModel {
 
-    /** @Column(type="string", name="nm_loc", length=30, nullable=false) */
+    /** @Column(type="string", name="nome", length=30, nullable=false) */
     protected $nome;
 
     public function __construct() {

@@ -15,21 +15,49 @@ use \novosga\db\DB;
  */
 abstract class AtendimentoBusiness {
     
+    // estados do atendimento
+    const SENHA_EMITIDA = 1;
+    const CHAMADO_PELA_MESA = 2;
+    const ATENDIMENTO_INICIADO = 3;
+    const ATENDIMENTO_ENCERRADO = 4;
+    const NAO_COMPARECEU = 5;
+    const SENHA_CANCELADA = 6;
+    const ERRO_TRIAGEM = 7;
+    const ATENDIMENTO_ENCERRADO_CODIFICADO = 8;
+    
+    public static function situacoes() {
+        return array(
+            self::SENHA_EMITIDA => _('Senha emitida'),
+            self::CHAMADO_PELA_MESA => _('Chamado pela mesa'),
+            self::ATENDIMENTO_INICIADO => _('Atendimento iniciado'),
+            self::ATENDIMENTO_ENCERRADO => _('Atendimento encerrado'),
+            self::NAO_COMPARECEU => _('Não compareceu'),
+            self::SENHA_CANCELADA => _('Senha cancelada'),
+            self::ERRO_TRIAGEM => _('Erro triagem'),
+            self::ATENDIMENTO_ENCERRADO_CODIFICADO => _('Atendimento encerrado e codificado')
+        );
+    }
+    
+    public static function nomeSituacao($status) {
+        $arr = self::situacoes();
+        return $arr[$status];
+    }
+    
     public static function chamarSenha(Unidade $unidade, Atendimento $atendimento) {
         $em = DB::getEntityManager();
         $conn = $em->getConnection();
     	$stmt = $conn->prepare("
             INSERT INTO painel_senha 
-            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, nm_local, num_guiche) 
+            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, local, num_guiche) 
             VALUES 
-            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :nm_local, :num_guiche)
+            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :local, :num_guiche)
         ");
         $stmt->bindValue('unidade_id', $unidade->getId());
         $stmt->bindValue('servico_id', $atendimento->getServicoUnidade()->getServico()->getId());
         $stmt->bindValue('num_senha', $atendimento->getSenha()->getNumero());
         $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
         $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
-        $stmt->bindValue('nm_local', _('Guichê')); // TODO: pegar o nome do local de atendimento (guiche, sala, etc)
+        $stmt->bindValue('local', $atendimento->getServicoUnidade()->getLocal()->getNome());
         $stmt->bindValue('num_guiche', $atendimento->getGuiche());
         $stmt->execute();
     }

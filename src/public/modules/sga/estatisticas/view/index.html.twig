@@ -8,7 +8,7 @@
     </ul>
     <div id="tabs" class="tab-content">
         <div id="tab-hoje" class="tab-pane active">
-            <h2 class="chart-title">{% trans %}Atendimentos realizados em %s{% endtrans %}</h2>
+            <h2 class="chart-title">{% trans %}Atendimentos realizados em {{ now }}{% endtrans %}</h2>
             {% for unidade in unidades %}
             <div class="chart-unidade">
                 <div class="wrap">
