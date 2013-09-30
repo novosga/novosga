@@ -39,6 +39,7 @@
                     <tr>
                         <th>{% trans %}Sigla{% endtrans %}</th>
                         <th>{% trans %}Serviço{% endtrans %}</th>
+                        <th>{% trans %}Local{% endtrans %}</th>
                         <th>{% trans %}Status{% endtrans %}</th>
                     </tr>
                 </thead>
@@ -53,8 +54,7 @@
                                    data-id="{{ su.servico.id }}" 
                                    onclick="this.select()" 
                                    onkeyup="this.value = this.value.toUpperCase()" 
-                                   onchange="SGA.Unidade.Servicos.updateSigla(this)" 
-                                   onblur="SGA.Unidade.Servicos.updateSigla(this)" 
+                                   onchange="SGA.Unidade.Servicos.change({{ su.servico.id }})"
                                    size="1"
                                    maxlength="1" 
                                    {% if su.status != 1 %}disabled="disabled"{% endif %} />
@@ -71,11 +71,20 @@
                                        class="servico-{{ su.servico.id }} center form-control" 
                                        value="{{ su.nome }}" 
                                        data-id="{{ su.servico.id }}" 
-                                       onchange="SGA.Unidade.Servicos.updateNome(this)" 
-                                       onblur="SGA.Unidade.Servicos.updateNome(this)"
+                                       onchange="SGA.Unidade.Servicos.change({{ su.servico.id }})"
                                        maxlength="50" 
                                        {% if su.status != 1 %}disabled="disabled"{% endif %} />
                             </span>
+                        </td>
+                        <td class="local">
+                            <select id="local-{{ su.servico.id }}" 
+                                    class="servico-{{ su.servico.id }} form-control" 
+                                    onchange="SGA.Unidade.Servicos.change({{ su.servico.id }})" 
+                                    {% if su.status != 1 %}disabled="disabled"{% endif %}>
+                                {% for local in locais %}
+                                <option value="{{ local.id }}" {% if su.local.id == local.id %}selected="selected"{% endif %}>{{ local.nome }}</option>
+                                {% endfor %}
+                            </select>
                         </td>
                         <td style="width: 1%; white-space: nowrap">
                             <span class="btns-status">
@@ -83,15 +92,17 @@
                                         class="btn btn-success"
                                         data-id="{{ su.servico.id }}"
                                         onclick="SGA.Unidade.Servicos.enable(this)"
+                                        title="{% trans %}Habilitar{% endtrans %}"
                                         {% if su.status == 1 %}disabled="disabled"{% endif %}>
-                                    {% trans %}Habilitar{% endtrans %}
+                                    <span class="glyphicon glyphicon-check"></span>
                                 </button>
                                 <button id="btn-disable-{{ su.servico.id }}"
                                         class="btn btn-danger"
                                         data-id="{{ su.servico.id }}"
                                         onclick="SGA.Unidade.Servicos.disable(this)"
+                                        title="{% trans %}Desabilitar{% endtrans %}"
                                         {% if su.status == 0 %}disabled="disabled"{% endif %}>
-                                    {% trans %}Desabilitar{% endtrans %}
+                                    <span class="glyphicon glyphicon-off"></span>
                                 </button>
                             </span>
                         </td>

@@ -2,16 +2,6 @@
 -- @author=rogeriolino
 -- @date=2012-12-06
 
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = off;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET escape_string_warning = off;
-
-SET search_path = public, pg_catalog;
-SET default_tablespace = '';
-SET default_with_oids = false;
-
 --
 -- tables
 --
@@ -35,17 +25,17 @@ CREATE TABLE atendimentos (
     num_senha_serv integer NOT NULL,
     nm_cli character varying(100) DEFAULT NULL::character varying,
     num_guiche smallint NOT NULL,
-    dt_cheg timestamp with time zone NOT NULL,
-    dt_cha timestamp with time zone,
-    dt_ini timestamp with time zone,
-    dt_fim timestamp with time zone,
+    dt_cheg TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+    dt_cha TIMESTAMP(0) WITHOUT TIME ZONE,
+    dt_ini TIMESTAMP(0) WITHOUT TIME ZONE,
+    dt_fim TIMESTAMP(0) WITHOUT TIME ZONE,
     ident_cli character varying(11) DEFAULT NULL::character varying
 );
 
 CREATE TABLE cargos (
     id serial NOT NULL,
-    nm_cargo character varying(30) NOT NULL,
-    desc_cargo character varying(140),
+    nome character varying(30) NOT NULL,
+    descricao character varying(140),
     esquerda integer NOT NULL,
     direita integer NOT NULL,
     nivel integer NOT NULL
@@ -59,8 +49,8 @@ CREATE TABLE cargos_mod_perm (
 
 CREATE TABLE grupos (
     id serial NOT NULL,
-    nm_grupo character varying(40) NOT NULL,
-    desc_grupo character varying(150) NOT NULL,
+    nome character varying(40) NOT NULL,
+    descricao character varying(150) NOT NULL,
     esquerda integer NOT NULL,
     direita integer NOT NULL,
     nivel integer NOT NULL
@@ -91,21 +81,21 @@ CREATE TABLE historico_atendimentos (
     num_senha_serv integer NOT NULL,
     nm_cli character varying(100) DEFAULT NULL::character varying,
     num_guiche smallint NOT NULL,
-    dt_cheg timestamp with time zone NOT NULL,
-    dt_cha timestamp with time zone,
-    dt_ini timestamp with time zone,
-    dt_fim timestamp with time zone,
+    dt_cheg TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
+    dt_cha TIMESTAMP(0) WITHOUT TIME ZONE,
+    dt_ini TIMESTAMP(0) WITHOUT TIME ZONE,
+    dt_fim TIMESTAMP(0) WITHOUT TIME ZONE,
     ident_cli character varying(11) DEFAULT NULL::character varying
 );
 
 CREATE TABLE modulos (
     id serial NOT NULL,
-    chave_mod character varying(50) NOT NULL,
-    nm_mod character varying(25) NOT NULL,
-    desc_mod character varying(100) NOT NULL,
-    autor_mod character varying(25) NOT NULL,
-    tipo_mod smallint NOT NULL,
-    stat_mod smallint NOT NULL
+    chave character varying(50) NOT NULL,
+    nome character varying(25) NOT NULL,
+    descricao character varying(100) NOT NULL,
+    autor character varying(25) NOT NULL,
+    tipo smallint NOT NULL,
+    status smallint NOT NULL
 );
 
 CREATE TABLE paineis (
@@ -126,22 +116,22 @@ CREATE TABLE painel_senha (
     num_senha integer NOT NULL,
     sig_senha character(1) NOT NULL,
     msg_senha character varying(20) NOT NULL,
-    nm_local character varying(15) NOT NULL,
+    local character varying(15) NOT NULL,
     num_guiche smallint NOT NULL,
     dt_envio timestamp NULL
 );
 
 CREATE TABLE prioridades (
     id serial NOT NULL,
-    nm_pri character varying(30) NOT NULL,
-    desc_pri character varying(100) NOT NULL,
-    peso_pri smallint NOT NULL,
-    stat_pri smallint NOT NULL
+    nome character varying(30) NOT NULL,
+    descricao character varying(100) NOT NULL,
+    peso smallint NOT NULL,
+    status smallint NOT NULL
 );
 
 CREATE TABLE locais (
     id serial NOT NULL,
-    nm_loc character varying(20) NOT NULL
+    nome character varying(20) NOT NULL
 );
 
 CREATE TABLE serv_peso (
@@ -152,26 +142,26 @@ CREATE TABLE serv_peso (
 CREATE TABLE servicos (
     id serial NOT NULL,
     id_macro integer,
-    desc_serv character varying(100) NOT NULL,
-    nm_serv character varying(50),
-    stat_serv smallint
+    descricao character varying(100) NOT NULL,
+    nome character varying(50),
+    status smallint
 );
 
 CREATE TABLE uni_serv (
     unidade_id integer NOT NULL,
     servico_id integer NOT NULL,
     local_id integer NOT NULL,
-    nm_serv character varying(50) NOT NULL,
-    sigla_serv character(1) NOT NULL,
-    stat_serv smallint NOT NULL
+    nome character varying(50) NOT NULL,
+    sigla character(1) NOT NULL,
+    status smallint NOT NULL
 );
 
 CREATE TABLE unidades (
     id serial NOT NULL,
     grupo_id integer NOT NULL,
-    cod_uni character varying(10) NOT NULL,
-    nm_uni character varying(50) DEFAULT NULL::character varying,
-    stat_uni smallint DEFAULT 1,
+    codigo character varying(10) NOT NULL,
+    nome character varying(50) DEFAULT NULL::character varying,
+    status smallint DEFAULT 1,
     stat_imp smallint DEFAULT 0,
     msg_imp varchar(100)
 );
@@ -190,12 +180,12 @@ CREATE TABLE usu_serv (
 
 CREATE TABLE usuarios (
     id serial NOT NULL,
-    login_usu character varying(20) NOT NULL,
-    nm_usu character varying(20) NOT NULL,
-    ult_nm_usu character varying(100) NOT NULL,
-    senha_usu character varying(40) NOT NULL,
-    ult_acesso timestamp with time zone,
-    stat_usu smallint NOT NULL,
+    login character varying(20) NOT NULL,
+    nome character varying(20) NOT NULL,
+    sobrenome character varying(100) NOT NULL,
+    senha character varying(40) NOT NULL,
+    ult_acesso TIMESTAMP(0) WITHOUT TIME ZONE,
+    status smallint NOT NULL,
     session_id character varying(40) NOT NULL
 );
 
@@ -259,7 +249,7 @@ ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_ibfk_2 FOREIGN KEY (usuario_id
 -- indexes
 --
 
-CREATE UNIQUE INDEX cod_uni ON unidades USING btree (cod_uni);
+CREATE UNIQUE INDEX codigo ON unidades USING btree (codigo);
 CREATE INDEX direita ON grupos USING btree (direita);
 CREATE INDEX esqdir ON grupos USING btree (esquerda, direita);
 CREATE INDEX esquerda ON grupos USING btree (esquerda);
@@ -274,9 +264,9 @@ CREATE INDEX fki_uni_serv_ibfk_2 ON uni_serv USING btree (servico_id);
 CREATE INDEX fki_uni_serv_ibfk_3 ON uni_serv USING btree (local_id);
 CREATE INDEX fki_usu_serv_ibfk_1 ON usu_serv USING btree (servico_id, unidade_id);
 CREATE INDEX fki_usu_serv_ibfk_2 ON usu_serv USING btree (usuario_id);
-CREATE UNIQUE INDEX local_serv_nm ON locais USING btree (nm_loc);
-CREATE UNIQUE INDEX login_usu ON usuarios USING btree (login_usu);
-CREATE UNIQUE INDEX modulos_chave ON modulos USING btree (chave_mod);
+CREATE UNIQUE INDEX local_serv_nm ON locais USING btree (nome);
+CREATE UNIQUE INDEX login ON usuarios USING btree (login);
+CREATE UNIQUE INDEX modulos_chave ON modulos USING btree (chave);
 
 --
 -- views

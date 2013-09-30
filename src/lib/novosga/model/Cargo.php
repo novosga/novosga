@@ -10,9 +10,9 @@ namespace novosga\model;
  */
 class Cargo extends TreeModel {
 
-    /** @Column(type="string", name="nm_cargo", length=40, nullable=false) */
+    /** @Column(type="string", name="nome", length=40, nullable=false) */
     protected $nome;
-    /** @Column(type="string", name="desc_cargo", length=150, nullable=false) */
+    /** @Column(type="string", name="descricao", length=150, nullable=false) */
     protected $descricao;
     /** 
      * @OneToMany(targetEntity="Permissao", mappedBy="cargo")

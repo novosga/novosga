@@ -2,6 +2,7 @@
 namespace novosga\model;
 
 use \novosga\model\util\Fila;
+use \novosga\business\AtendimentoBusiness;
 
 /**
  * Servico Unidade
@@ -26,16 +27,15 @@ class ServicoUnidade extends Model {
      */
     protected $unidade;
     /**
-     * @Id 
      * @ManyToOne(targetEntity="Local")
      * @JoinColumn(name="local_id", referencedColumnName="id")
      */
     protected $local;
-    /** @Column(type="string", name="nm_serv", length=50, nullable=false) */
+    /** @Column(type="string", name="nome", length=50, nullable=false) */
     protected $nome;
-    /** @Column(type="string", name="sigla_serv", length=1, nullable=false) */
+    /** @Column(type="string", name="sigla", length=1, nullable=false) */
     protected $sigla;
-    /** @Column(type="integer", name="stat_serv", nullable=false) */
+    /** @Column(type="integer", name="status", nullable=false) */
     protected $status;
     
     // transient 
@@ -125,7 +125,7 @@ class ServicoUnidade extends Model {
             ");
             $query->setParameter('servico', $this->getServico()->getId());
             $query->setParameter('unidade', $this->getUnidade()->getId());
-            $query->setParameter('status', Atendimento::SENHA_EMITIDA);
+            $query->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
             $this->fila = new Fila($query->getResult());
         }
         return $this->fila;

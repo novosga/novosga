@@ -154,6 +154,7 @@ abstract class CrudController extends ModuleController {
         if ($model) {
             try {
                 $this->doDelete($context, $model);
+                $this->app()->flash('success', _('Registro excluído com sucesso'));
             } catch (Exception $e) {
                 try {
                     // se tiver uma transação aberta, dá rollback

@@ -12,24 +12,24 @@
             <legend>Administrador</legend>
             <div id="db_admin_error" class="alert alert-danger" style="display: none"></div>
             <div class="form-group">
-                <label for="nm_usu">Nome:</label>
-                <input type="text" id="nm_usu" class="form-control" />
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="ult_nm_usu">Sobrenome:</label>
-                <input type="text" id="ult_nm_usu" class="form-control" />
+                <label for="sobrenome">Sobrenome:</label>
+                <input type="text" id="sobrenome" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="login_usu">Usuário:</label>
-                <input type="text" id="login_usu" onkeyup="SGA.Form.loginValue(this)" maxlength="20" class="form-control" />
+                <label for="login">Usuário:</label>
+                <input type="text" id="login" onkeyup="SGA.Form.loginValue(this)" maxlength="20" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="senha_usu">Senha:</label>
-                <input type="password" id="senha_usu" class="form-control" />
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" class="form-control" />
             </div>
             <div class="form-group">
-                <label for="senha_usu_2">Confirmar Senha:</label>
-                <input type="password" id="senha_usu_2" class="form-control" />
+                <label for="senha_2">Confirmar Senha:</label>
+                <input type="password" id="senha_2" class="form-control" />
             </div>
             <script type="text/javascript">
                 {% for field, message in data.admin %}

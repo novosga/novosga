@@ -6,8 +6,10 @@
 
 
 #servicos td.sigla {
-    width: 25px;
+    width: 60px;
 }
+
+#servicos td.sigla input { text-align: center; }
 
 #servicos td.nome span.all {
     position: relative;

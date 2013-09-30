@@ -30,7 +30,7 @@ namespace novosga\model;
     /** @Column(type="string", name="msg_senha", length=20, nullable=false) */
     protected $mensagem;
     
-    /** @Column(type="string", name="nm_local", length=15, nullable=false) */
+    /** @Column(type="string", name="local", length=15, nullable=false) */
     protected $guiche;
     
     /** @Column(type="integer", name="num_guiche", nullable=false) */

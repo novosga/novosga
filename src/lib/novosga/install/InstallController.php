@@ -414,27 +414,27 @@ class InstallController extends InternalController {
                         throw new Exception($message);
                     }
                 }
-                $_POST['senha_usu_2'] = Arrays::value($_POST, 'senha_usu_2');
+                $_POST['senha_2'] = Arrays::value($_POST, 'senha_2');
 
                 $adm = array();
-                $adm['login_usu'] = Arrays::value($_POST, 'login_usu');
-                $adm['nm_usu'] = Arrays::value($_POST, 'nm_usu');
-                $adm['ult_nm_usu'] = Arrays::value($_POST, 'ult_nm_usu');
-                $adm['senha_usu'] = Arrays::value($_POST, 'senha_usu');
+                $adm['login'] = Arrays::value($_POST, 'login');
+                $adm['nome'] = Arrays::value($_POST, 'nome');
+                $adm['sobrenome'] = Arrays::value($_POST, 'sobrenome');
+                $adm['senha'] = Arrays::value($_POST, 'senha');
 
-                if (!ctype_alnum($adm['login_usu'])) {
+                if (!ctype_alnum($adm['login'])) {
                     throw new Exception(_('O login deve conter somente letras e números.'));
                 }
-                if (strlen($adm['login_usu']) < 5 || strlen($adm['login_usu']) > 20) {
+                if (strlen($adm['login']) < 5 || strlen($adm['login']) > 20) {
                     throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
                 }
-                if (strlen($adm['senha_usu']) < 6) {
+                if (strlen($adm['senha']) < 6) {
                     throw new Exception(_('A senha deve possuir 6 ou mais letras/números.'));
                 }
-                if ($_POST['senha_usu'] != $_POST['senha_usu_2']) {
+                if ($_POST['senha'] != $_POST['senha_2']) {
                     throw new Exception(_('A senha não confere com a confirmação de senha.'));
                 }
-                $adm['senha_usu_2'] = '';
+                $adm['senha_2'] = '';
                 $data->admin = $adm;
 
             } catch (Exception $e) {
@@ -506,7 +506,7 @@ class InstallController extends InternalController {
                     $conn->exec(file_get_contents($sqlInitFile));
                     // executando arquivo sql de dados iniciais
                     $adm = $data->admin;
-                    $adm['senha_usu'] = Security::passEncode($adm['senha_usu']);
+                    $adm['senha'] = Security::passEncode($adm['senha']);
                     $sql = Strings::format(file_get_contents($sqlDataFile), $adm);
                     $conn->exec($sql);
                 }

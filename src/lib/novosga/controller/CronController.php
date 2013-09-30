@@ -1,7 +1,6 @@
 <?php
 namespace novosga\controller;
 
-use \novosga\SGA;
 use \novosga\SGAContext;
 use \novosga\http\AjaxResponse;
 use \novosga\business\AtendimentoBusiness;

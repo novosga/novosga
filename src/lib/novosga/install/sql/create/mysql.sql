@@ -43,8 +43,8 @@ ENGINE = INNODB;
 
 CREATE TABLE cargos (
     id integer NOT NULL AUTO_INCREMENT,
-    nm_cargo varchar(30) NOT NULL,
-    desc_cargo varchar(140),
+    nome varchar(30) NOT NULL,
+    descricao varchar(140),
     esquerda integer NOT NULL,
     direita integer NOT NULL,
     nivel integer NOT NULL,
@@ -66,8 +66,8 @@ ENGINE = INNODB;
 
 CREATE TABLE grupos (
     id integer NOT NULL AUTO_INCREMENT,
-    nm_grupo varchar(40) NOT NULL,
-    desc_grupo varchar(150) NOT NULL,
+    nome varchar(40) NOT NULL,
+    descricao varchar(150) NOT NULL,
     esquerda integer NOT NULL,
     direita integer NOT NULL,
     nivel integer NOT NULL,
@@ -125,12 +125,12 @@ ENGINE = INNODB;
 
 CREATE TABLE modulos (
     id integer NOT NULL AUTO_INCREMENT,
-    chave_mod varchar(50) NOT NULL,
-    nm_mod varchar(25) NOT NULL,
-    desc_mod varchar(100) NOT NULL,
-    autor_mod varchar(25) NOT NULL,
-    tipo_mod smallint NOT NULL,
-    stat_mod smallint NOT NULL,
+    chave varchar(50) NOT NULL,
+    nome varchar(25) NOT NULL,
+    descricao varchar(100) NOT NULL,
+    autor varchar(25) NOT NULL,
+    tipo smallint NOT NULL,
+    status smallint NOT NULL,
     PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
@@ -163,7 +163,7 @@ CREATE TABLE painel_senha (
     num_senha integer NOT NULL,
     sig_senha char(1) NOT NULL,
     msg_senha varchar(20) NOT NULL,
-    nm_local varchar(15) NOT NULL,
+    local varchar(15) NOT NULL,
     num_guiche smallint NOT NULL,
     dt_envio timestamp NULL,
     PRIMARY KEY (id)
@@ -174,10 +174,10 @@ ENGINE = INNODB;
 
 CREATE TABLE prioridades (
     id integer NOT NULL AUTO_INCREMENT,
-    nm_pri varchar(30) NOT NULL,
-    desc_pri varchar(100) NOT NULL,
-    peso_pri smallint NOT NULL,
-    stat_pri smallint NOT NULL,
+    nome varchar(30) NOT NULL,
+    descricao varchar(100) NOT NULL,
+    peso smallint NOT NULL,
+    status smallint NOT NULL,
     PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
@@ -186,7 +186,7 @@ ENGINE = INNODB;
 
 CREATE TABLE locais (
     id integer NOT NULL AUTO_INCREMENT,
-    nm_loc varchar(20) NOT NULL,
+    nome varchar(20) NOT NULL,
     PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
@@ -205,9 +205,9 @@ ENGINE = INNODB;
 CREATE TABLE servicos (
     id integer NOT NULL AUTO_INCREMENT,
     id_macro integer,
-    desc_serv varchar(100) NOT NULL,
-    nm_serv varchar(50),
-    stat_serv smallint,
+    descricao varchar(100) NOT NULL,
+    nome varchar(50),
+    status smallint,
     PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   
@@ -218,9 +218,9 @@ CREATE TABLE uni_serv (
     unidade_id integer NOT NULL,
     servico_id integer NOT NULL,
     local_id integer NOT NULL,
-    nm_serv varchar(50) NOT NULL,
-    sigla_serv char(1) NOT NULL,
-    stat_serv smallint NOT NULL,
+    nome varchar(50) NOT NULL,
+    sigla char(1) NOT NULL,
+    status smallint NOT NULL,
     PRIMARY KEY (unidade_id, servico_id)
 ) 
 DEFAULT CHARACTER SET utf8   
@@ -231,9 +231,9 @@ ENGINE = INNODB;
 CREATE TABLE unidades (
     id integer NOT NULL AUTO_INCREMENT,
     grupo_id integer NOT NULL,
-    cod_uni varchar(10) NOT NULL,
-    nm_uni varchar(50) DEFAULT NULL,
-    stat_uni smallint DEFAULT 1,
+    codigo varchar(10) NOT NULL,
+    nome varchar(50) DEFAULT NULL,
+    status smallint DEFAULT 1,
     stat_imp smallint DEFAULT 0,
     msg_imp varchar(100),
     PRIMARY KEY (id)
@@ -265,12 +265,12 @@ ENGINE = INNODB;
 
 CREATE TABLE usuarios (
     id integer NOT NULL AUTO_INCREMENT,
-    login_usu varchar(20) NOT NULL,
-    nm_usu varchar(20) NOT NULL,
-    ult_nm_usu varchar(100) NOT NULL,
-    senha_usu varchar(40) NOT NULL,
+    login varchar(20) NOT NULL,
+    nome varchar(20) NOT NULL,
+    sobrenome varchar(100) NOT NULL,
+    senha varchar(40) NOT NULL,
     ult_acesso datetime,
-    stat_usu smallint NOT NULL,
+    status smallint NOT NULL,
     session_id varchar(40) NOT NULL,
     PRIMARY KEY (id)
 ) 
@@ -317,7 +317,7 @@ ALTER TABLE usu_serv ADD CONSTRAINT usu_serv_ibfk_2 FOREIGN KEY (usuario_id) REF
 -- indexes
 --
 
-CREATE UNIQUE INDEX cod_uni ON unidades (cod_uni);
+CREATE UNIQUE INDEX codigo ON unidades (codigo);
 CREATE INDEX direita ON grupos (direita);
 CREATE INDEX esqdir ON grupos (esquerda, direita);
 CREATE INDEX esquerda ON grupos (esquerda);
@@ -332,9 +332,9 @@ CREATE INDEX fki_uni_serv_ibfk_2 ON uni_serv (servico_id);
 CREATE INDEX fki_uni_serv_ibfk_3 ON uni_serv (local_id);
 CREATE INDEX fki_usu_serv_ibfk_1 ON usu_serv (servico_id, unidade_id);
 CREATE INDEX fki_usu_serv_ibfk_2 ON usu_serv (usuario_id);
-CREATE UNIQUE INDEX local_serv_nm ON locais (nm_loc);
-CREATE UNIQUE INDEX login_usu ON usuarios (login_usu);
-CREATE UNIQUE INDEX modulos_chave ON modulos (chave_mod);
+CREATE UNIQUE INDEX local_serv_nm ON locais (nome);
+CREATE UNIQUE INDEX login ON usuarios (login);
+CREATE UNIQUE INDEX modulos_chave ON modulos (chave);
 
 
 --

@@ -29,10 +29,11 @@ class UnidadeController extends ModuleController {
             $conn = $this->em()->getConnection();
             $conn->executeUpdate("
                 INSERT INTO uni_serv 
-                SELECT {$unidade->getId()}, servico_id, 1, nm_serv, 'A', 0 FROM servicos 
+                SELECT 
+                    {$unidade->getId()}, id, 1, nome, 'A', 0 FROM servicos 
                 WHERE 
                     id_macro IS NULL AND
-                    servico_id NOT IN (SELECT servico_id FROM uni_serv WHERE unidade_id = :unidade)
+                    id NOT IN (SELECT servico_id FROM uni_serv WHERE unidade_id = :unidade)
             ", array('unidade' => $unidade->getId()));
             // todos servicos mestre
             $query = $this->em()->createQuery("
@@ -48,6 +49,8 @@ class UnidadeController extends ModuleController {
             $query->setParameter('unidade', $unidade->getId());
             $this->app()->view()->assign('servicos', $query->getResult());
             $this->app()->view()->assign('paineis', PainelBusiness::paineis($unidade));
+            $query = $this->em()->createQuery("SELECT e FROM novosga\model\Local e ORDER BY e.nome");
+            $this->app()->view()->assign('locais', $query->getResult());
         }
     }
     
@@ -108,24 +111,30 @@ class UnidadeController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function update_sigla(SGAContext $context) {
-        $sigla = $context->request()->getParameter('sigla');
-        $this->update_field($context, 'sigla', strtoupper($sigla));
-    }
-    
-    public function update_nome(SGAContext $context) {
-        $value = $context->request()->getParameter('nome');
-        $this->update_field($context, 'nome', $value);
-    }
-    
-    private function update_field(SGAContext $context, $field, $value) {
-        $response = new AjaxResponse(true);
+    public function update_servico(SGAContext $context) {
+        $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('id');
-        $query = $this->em()->createQuery("UPDATE novosga\model\ServicoUnidade e SET e.{$field} = :value WHERE e.unidade = :unidade AND e.servico = :servico");
-        $query->setParameter('value', $value);
-        $query->setParameter('servico', $id);
-        $query->setParameter('unidade', $context->getUser()->getUnidade()->getId());
-        $query->execute();
+        try {
+            $query = $this->em()->createQuery("SELECT e FROM novosga\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
+            $query->setParameter('servico', $id);
+            $query->setParameter('unidade', $context->getUser()->getUnidade()->getId());
+            $su = $query->getSingleResult();
+
+            $sigla = $context->request()->getParameter('sigla');
+            $nome = $context->request()->getParameter('nome');
+            $local = $this->em()->find("novosga\model\Local", (int) $context->request()->getParameter('local'));
+            
+            $su->setSigla($sigla);
+            $su->setNome($nome);
+            if ($local) {
+                $su->setLocal($local);
+            }
+            $this->em()->merge($su);
+            $this->em()->flush();
+            $response->success = true;
+        } catch (\Exception $e) {
+            $response->message = $e->getMessage();
+        }
         $context->response()->jsonResponse($response);
     }
     

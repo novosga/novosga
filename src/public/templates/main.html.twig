@@ -42,7 +42,12 @@
                             {% for modulo in modulosUnidade %}
                             <li><a href="{{ baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
                             {% endfor %}
-                            <li><a href="#dialog-unidade" data-toggle="modal">{% trans %}Trocar unidade{% endtrans %}</a></li>
+                            <li>
+                                <a href="#dialog-unidade" data-toggle="modal">
+                                    {% trans %}Trocar unidade{% endtrans %}
+                                    &nbsp;<span class="glyphicon glyphicon-transfer"></span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -68,7 +73,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.nome }} <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ baseUrl() }}/profile"><span class="glyphicon glyphicon-user"></span> {% trans %}Perfil{% endtrans %}</a></li>
-                            <li><a href="{{ baseUrl() }}/logout"><span class="glyphicon glyphicon-ban-circle"></span> {% trans %}Sair{% endtrans %}</a></li>
+                            <li><a href="{{ baseUrl() }}/logout"><span class="glyphicon glyphicon-off"></span> {% trans %}Sair{% endtrans %}</a></li>
                         </ul>
                     </li>
                 </ul>

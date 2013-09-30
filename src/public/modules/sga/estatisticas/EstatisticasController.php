@@ -4,6 +4,7 @@ namespace modules\sga\estatisticas;
 use \novosga\SGA;
 use \novosga\SGAContext;
 use \novosga\model\Atendimento;
+use \novosga\business\AtendimentoBusiness;
 use \novosga\model\Modulo;
 use \novosga\util\DateUtil;
 use \novosga\http\AjaxResponse;
@@ -49,7 +50,7 @@ class EstatisticasController extends ModuleController {
         $this->app()->view()->assign('unidades', $unidades);
         $this->app()->view()->assign('relatorios', $this->relatorios);
         $this->app()->view()->assign('graficos', $this->graficos);
-        $this->app()->view()->assign('statusAtendimento', Atendimento::situacoes());
+        $this->app()->view()->assign('statusAtendimento', AtendimentoBusiness::situacoes());
         $arr = array();
         foreach ($unidades as $u) {
             $arr[$u->getId()] = $u->getNome();
@@ -68,7 +69,7 @@ class EstatisticasController extends ModuleController {
             $fim = DateUtil::nowSQL(); // full datetime
             $unidade = (int) $context->request()->getParameter('unidade');
             $status = $this->total_atendimentos_status($ini, $fim, $unidade);
-            $response->data['legendas'] = Atendimento::situacoes();
+            $response->data['legendas'] = AtendimentoBusiness::situacoes();
             $response->data['status'] = $status[$unidade];
             $servicos = $this->total_atendimentos_servico($ini, $fim, $unidade);
             $response->data['servicos'] = $servicos[$unidade];
@@ -93,7 +94,7 @@ class EstatisticasController extends ModuleController {
             $grafico = $this->graficos[$id];
             switch ($id) {
             case 1:
-                $grafico->setLegendas(Atendimento::situacoes());
+                $grafico->setLegendas(AtendimentoBusiness::situacoes());
                 $grafico->setDados($this->total_atendimentos_status($dataInicial, $dataFinal, $unidade));
                 break;
             case 2:
@@ -175,7 +176,7 @@ class EstatisticasController extends ModuleController {
     private function total_atendimentos_status($dataInicial, $dataFinal, $unidadeId = 0) {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
-        $status = Atendimento::situacoes();
+        $status = AtendimentoBusiness::situacoes();
         $query = $this->em()->createQuery("
             SELECT 
                 COUNT(e) as total 
@@ -221,7 +222,7 @@ class EstatisticasController extends ModuleController {
             GROUP BY 
                 s
         ");
-        $query->setParameter('status', Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO);
+        $query->setParameter('status', AtendimentoBusiness::ATENDIMENTO_ENCERRADO_CODIFICADO);
         $query->setParameter('inicio', $dataInicial);
         $query->setParameter('fim', $dataFinal);
         foreach ($unidades as $unidade) {
@@ -391,7 +392,7 @@ class EstatisticasController extends ModuleController {
             ORDER BY
                 e.dataChegada
         ");
-        $query->setParameter('status', \novosga\model\Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO);
+        $query->setParameter('status', AtendimentoBusiness::ATENDIMENTO_ENCERRADO_CODIFICADO);
         $query->setParameter('dataInicial', $dataInicial);
         $query->setParameter('dataFinal', $dataFinal);
         $query->setMaxResults(self::MAX_RESULTS);

@@ -182,7 +182,7 @@ SGA.Install = {
                 input.value = SGA.Install.adminData[i];
             }
         }
-        $('#nm_usu').focus();
+        $('#nome').focus();
     },
     
     doInstall: function() {

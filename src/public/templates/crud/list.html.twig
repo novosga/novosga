@@ -51,14 +51,18 @@
                 <a href="{{ module.chave }}/edit/{{ item.id }}" class="btn btn-default" title="{% trans %}Editar{% endtrans %}">
                     <span class="glyphicon glyphicon-edit"></span>
                 </a>
-                <a href="{{ module.chave }}/delete/{{ item.id }}" class="btn btn-danger" title="{% trans %}Excluir{% endtrans %}">
+                <button class="btn btn-danger" title="{% trans %}Excluir{% endtrans %}"
+                        onclick="SGA.Form.confirm('{% trans %}Realmente deseja excluir?{% endtrans %}', function() { $('#delete-id').val({{ item.id }}).parent().submit(); })">
                     <span class="glyphicon glyphicon-remove"></span>
-                </a>
+                </button>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<form action="{{ baseUrl() }}/modules/{{ module.chave }}/delete" method="post">
+    <input type="hidden" id="delete-id" name="id" />
+</form>
 {% if pages > 1 %}
 <div class="crud-pagination">
     <ul class="pagination">

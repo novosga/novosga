@@ -13,9 +13,9 @@ use \novosga\model\Unidade;
  */
 class Grupo extends TreeModel {
 
-    /** @Column(type="string", name="nm_grupo", length=40, nullable=false) */
+    /** @Column(type="string", name="nome", length=40, nullable=false) */
     protected $nome;
-    /** @Column(type="string", name="desc_grupo", length=150, nullable=false) */
+    /** @Column(type="string", name="descricao", length=150, nullable=false) */
     protected $descricao;
     // XXX: retirado relacionamento bidirecional devido a bug do dblib/mssql no linux (multiplas consultas)
     /** @ OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY") */

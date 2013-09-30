@@ -87,7 +87,7 @@ class AtendimentoController extends ModuleController {
                 p.peso DESC,
                 e.numeroSenha ASC
         ");
-        $query->setParameter('status', Atendimento::SENHA_EMITIDA);
+        $query->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
         $query->setParameter('unidade', $usuario->getUnidade()->getId());
         $query->setParameter('servicos', $ids);
         return $query;
@@ -100,9 +100,9 @@ class AtendimentoController extends ModuleController {
     private function atendimentoAndamento(UsuarioSessao $usuario) {
         if (!$this->_atendimentoAtual) {
             $status = array(
-                Atendimento::CHAMADO_PELA_MESA,
-                Atendimento::ATENDIMENTO_INICIADO,
-                Atendimento::ATENDIMENTO_ENCERRADO
+                AtendimentoBusiness::CHAMADO_PELA_MESA,
+                AtendimentoBusiness::ATENDIMENTO_INICIADO,
+                AtendimentoBusiness::ATENDIMENTO_ENCERRADO
             );
             $query = $this->em()->createQuery("SELECT e FROM novosga\model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)");
             $query->setParameter('usuario', $usuario->getId());
@@ -157,7 +157,7 @@ class AtendimentoController extends ModuleController {
                 if ($proximo) {
                     $proximo->setUsuario($context->getUser()->getWrapped());
                     $proximo->setGuiche($context->getUser()->getGuiche());
-                    $proximo->setStatus(Atendimento::CHAMADO_PELA_MESA);
+                    $proximo->setStatus(AtendimentoBusiness::CHAMADO_PELA_MESA);
                     $proximo->setDataChamada(new \DateTime());
                     // atualiza o proximo da fila
                     $query = $this->em()->createQuery("
@@ -173,7 +173,7 @@ class AtendimentoController extends ModuleController {
                     $query->setParameter('novoStatus', $proximo->getStatus());
                     $query->setParameter('data', $proximo->getDataChamada());
                     $query->setParameter('id', $proximo->getId());
-                    $query->setParameter('statusAtual', Atendimento::SENHA_EMITIDA);
+                    $query->setParameter('statusAtual', AtendimentoBusiness::SENHA_EMITIDA);
                     /* 
                      * caso entre o intervalo do select e o update, o proximo ja tiver sido chamado
                      * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
@@ -266,7 +266,7 @@ class AtendimentoController extends ModuleController {
      * @param novosga\SGAContext $context
      */
     public function iniciar(SGAContext $context) {
-        $this->mudaStatusAtualResponse($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::ATENDIMENTO_INICIADO, 'dataInicio');
+        $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::ATENDIMENTO_INICIADO, 'dataInicio');
     }
     
     /**
@@ -274,7 +274,7 @@ class AtendimentoController extends ModuleController {
      * @param novosga\SGAContext $context
      */
     public function nao_compareceu(SGAContext $context) {
-        $this->mudaStatusAtualResponse($context, Atendimento::CHAMADO_PELA_MESA, Atendimento::NAO_COMPARECEU, 'dataFim');
+        $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::NAO_COMPARECEU, 'dataFim');
     }
     
     /**
@@ -282,7 +282,7 @@ class AtendimentoController extends ModuleController {
      * @param novosga\SGAContext $context
      */
     public function encerrar(SGAContext $context) {
-        $this->mudaStatusAtualResponse($context, Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO, null);
+        $this->mudaStatusAtualResponse($context, AtendimentoBusiness::ATENDIMENTO_INICIADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, null);
     }
     
     /**
@@ -324,7 +324,7 @@ class AtendimentoController extends ModuleController {
                         throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
                     }
                 }
-                $response->success = $this->mudaStatusAtendimento($atual, Atendimento::ATENDIMENTO_ENCERRADO, Atendimento::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
+                $response->success = $this->mudaStatusAtendimento($atual, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
                 if (!$response->success) {
                     throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
                 }
@@ -363,7 +363,7 @@ class AtendimentoController extends ModuleController {
             if (!$redirecionado) {
                 throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
             }
-            $response->success = $this->mudaStatusAtendimento($atual, array(Atendimento::ATENDIMENTO_INICIADO, Atendimento::ATENDIMENTO_ENCERRADO), Atendimento::ERRO_TRIAGEM, 'dataFim');
+            $response->success = $this->mudaStatusAtendimento($atual, array(AtendimentoBusiness::ATENDIMENTO_INICIADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO), AtendimentoBusiness::ERRO_TRIAGEM, 'dataFim');
             if (!$response->success) {
                 throw new Exception(sprintf(_('Erro ao mudar status do atendimento %s para encerrado'), $atual->getId()));
             }
@@ -388,7 +388,7 @@ class AtendimentoController extends ModuleController {
         ");
         // mudando a data de chegada para a data do redirecionamento
         $stmt->bindValue('data', DateUtil::nowSQL());
-        $stmt->bindValue('status', Atendimento::SENHA_EMITIDA);
+        $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA);
         $stmt->bindValue('sigla', $atendimento->getSenha()->getSigla());
         $stmt->bindValue('numero', $atendimento->getNumeroSenha());
         $stmt->bindValue('numero_servico', $atendimento->getNumeroSenhaServico());

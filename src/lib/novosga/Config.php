@@ -4,10 +4,10 @@ namespace novosga;
 class Config {
     const IS_DEV = true;
     const SGA_INSTALLED = true;
-    const DB_TYPE = "mysql";
+    const DB_TYPE = "pgsql";
     const DB_HOST = "localhost";
-    const DB_PORT = "3306";
-    const DB_USER = "root";
-    const DB_PASS = "12345";
-    const DB_NAME = "sga_v1";
+    const DB_PORT = "5432";
+    const DB_USER = "postgres";
+    const DB_PASS = "eco";
+    const DB_NAME = "basd";
 }

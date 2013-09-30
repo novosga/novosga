@@ -60,8 +60,9 @@ SGA.Unidade = {
             btn = $(btn);
             btn.prop("disabled", true);
             SGA.Unidade.Servicos.request('habilita_servico', btn, function() {
-                $('.servico-' + btn.data('id')).prop('disabled', false).focus();
+                $('.servico-' + btn.data('id')).prop('disabled', false)
                 $('#btn-disable-' + btn.data('id')).prop("disabled", false);
+                $('#sigla-' + btn.data('id')).focus();
             });
         },
         
@@ -74,26 +75,17 @@ SGA.Unidade = {
             });
         },
         
-        updateSigla: function(input) {
-            input = $(input);
-            if (input.val().length > 0) {
-                SGA.ajax({
-                    url: SGA.url('update_sigla'),
-                    data: {id: input.data('id'), sigla: input.val()},
-                    type: 'post'
-                });
-            }
-        },
-        
-        updateNome: function(input) {
-            input = $(input);
-            if (input.val().length > 0) {
-                SGA.ajax({
-                    url: SGA.url('update_nome'),
-                    data: {id: input.data('id'), nome: input.val()},
-                    type: 'post'
-                });
-            }
+        change: function(id) {
+            SGA.ajax({
+                url: SGA.url('update_servico'),
+                type: 'post',
+                data: {
+                    id: id, 
+                    sigla: $('#sigla-' + id).val(),
+                    nome: $('#nome-' + id).val(),
+                    local: $('#local-' + id).val()
+                }
+            });
         },
         
         reverteNome: function(id) {
