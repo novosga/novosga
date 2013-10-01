@@ -9,6 +9,7 @@ SGA.Triagem = {
     ids: [],
     imprimir: false,
     pausado: false,
+    prioridades: 0,
     
     init: function() {
         setInterval(SGA.Triagem.ajaxUpdate, SGA.updateInterval);
@@ -86,8 +87,13 @@ SGA.Triagem = {
         }
         
     },
-    
-    distribuiSenha: function(servico, prioridade, cliente, success) {
+            
+    distribuiSenha: function(servico, prioridade, complete) {
+        var cliente = {
+            nome: $('#cli_nome').val(),
+            doc: $('#cli_doc').val()
+        };
+        $('#cli_nome, #cli_doc').val('');
         if (!SGA.Triagem.pausado) {
             // evitando de gerar várias senhas com múltiplos cliques
             SGA.Triagem.pausado = true;
@@ -103,58 +109,46 @@ SGA.Triagem = {
                 success: function(response) {
                     SGA.Triagem.Impressao.imprimir(response.data);
                     SGA.Triagem.ajaxUpdate();
-                    if (typeof(success) === 'function') {
-                        success(response);
+                    if (typeof(complete) === 'function') {
+                        complete(response);
                     }
+                    var dialog = $("#dialog-senha");
+                    SGA.dialogs.modal(dialog, { 
+                        width: 450, 
+                        buttons: {},
+                        open: function() {
+                            var a = response.data.atendimento;
+                            dialog.find('.numero').text(a.senha);
+                            dialog.find('.servico').text(a.servico);
+                            dialog.find('.nome-prioridade').text(a.nomePrioridade);
+                            if (a.prioridade) {
+                                dialog.find('>div').addClass('prioridade');
+                            } else {
+                                dialog.find('>div').removeClass('prioridade');
+                            }
+                        }
+                    });
                     SGA.Triagem.pausado = false;
                 }
             });
-            $('#cli_nome, #cli_doc').val('');
         }
     },
-            
-    Web: {
-        
-        distribuiSenha: function(servico, prioridade, complete) {
-            var cliente = {
-                nome: $('#cli_nome').val(),
-                doc: $('#cli_doc').val()
-            };
-            $('#cli_nome, #cli_doc').val('');
-            SGA.Triagem.distribuiSenha(servico, prioridade, cliente, function(response) {
-                if (typeof(complete) === 'function') {
-                    complete(response);
-                }
-                var dialog = $("#dialog-senha");
-                SGA.dialogs.modal(dialog, { 
-                    width: 450, 
-                    buttons: {},
-                    open: function() {
-                        var a = response.data.atendimento;
-                        dialog.find('.numero').text(a.senha);
-                        dialog.find('.servico').text(a.servico);
-                        dialog.find('.nome-prioridade').text(a.nomePrioridade);
-                        if (a.prioridade) {
-                            dialog.find('>div').addClass('prioridade');
-                        } else {
-                            dialog.find('>div').removeClass('prioridade');
-                        }
-                    }
-                });
-            });
-        },
-        
-        senhaNormal: function(btn) {
-            btn = $(btn);
-            SGA.Triagem.Web.distribuiSenha(btn.data('id'), 1);
-        },
 
-        senhaPrioridade: function(btn, complete) {
-            btn = $(btn);
-            SGA.Triagem.Web.distribuiSenha(btn.data('id'), $('input:radio[name=prioridade]:checked').val(), complete);
-        },
-    
-        prioridade: function(btn) {
+    senhaNormal: function(btn) {
+        btn = $(btn);
+        SGA.Triagem.distribuiSenha(btn.data('id'), 1);
+    },
+
+    senhaPrioridade: function(btn, complete) {
+        btn = $(btn);
+        SGA.Triagem.distribuiSenha(btn.data('id'), $('input:radio[name=prioridade]:checked').val(), complete);
+    },
+
+    prioridade: function(btn) {
+        if (SGA.Triagem.prioridades.length === 1) {
+            // se so tiver uma prioridade, emite a senha direto
+            SGA.Triagem.distribuiSenha($(btn).data('id'), SGA.Triagem.prioridades[0]);
+        } else {
             var dialog = $("#dialog-prioridade");
             SGA.dialogs.modal(dialog, { 
                 create: function() {
@@ -169,7 +163,6 @@ SGA.Triagem = {
                 }
             });
         }
-
     },
 
     consultar: function() {

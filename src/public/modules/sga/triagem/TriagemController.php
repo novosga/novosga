@@ -25,7 +25,7 @@ class TriagemController extends ModuleController {
         if ($unidade) {
             $this->app()->view()->assign('servicos', $this->servicos($unidade));
         }
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Prioridade e WHERE e.status = 1 ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Prioridade e WHERE e.status = 1 AND e.peso > 0 ORDER BY e.nome");
         $this->app()->view()->assign('prioridades', $query->getResult());
     } 
     
@@ -33,15 +33,6 @@ class TriagemController extends ModuleController {
         $query = $this->em()->createQuery("SELECT e FROM novosga\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1 ORDER BY e.nome");
         $query->setParameter('unidade', $unidade->getId());
         return $query->getResult();
-    }
-
-    /**
-     * Versao do index do Triagem para monitores touchscreen
-     * @param novosga\SGAContext $context
-     */
-    public function touchscreen(SGAContext $context) {
-        $this->index($context);
-        $context->response()->setRenderView(false);
     }
     
     public function imprimir(SGAContext $context) {
@@ -139,11 +130,8 @@ class TriagemController extends ModuleController {
                 throw new Exception(_('Nenhum usuário na sessão'));
             }
             // verificando a prioridade
-            $prioridade = (int) Arrays::value($_POST, 'prioridade');
-            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM novosga\model\Prioridade e WHERE e.id = :id");
-            $query->setParameter('id', $prioridade);
-            $rs = $query->getSingleResult();
-            if ($rs['total'] == 0) {
+            $prioridade = $this->em()->find("novosga\model\Prioridade", (int) Arrays::value($_POST, 'prioridade'));
+            if (!$prioridade || $prioridade->getStatus() == 0) {
                 throw new Exception(_('Prioridade inválida'));
             }
             
@@ -182,7 +170,7 @@ class TriagemController extends ModuleController {
             ");
             $stmt->bindValue('unidade_id', $unidade->getId(), PDO::PARAM_INT);
             $stmt->bindValue('servico_id', $servico, PDO::PARAM_INT);
-            $stmt->bindValue('prioridade_id', $prioridade, PDO::PARAM_INT);
+            $stmt->bindValue('prioridade_id', $prioridade->getId(), PDO::PARAM_INT);
             $stmt->bindValue('usuario_tri_id', $usuario->getId(), PDO::PARAM_INT);
             $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA, PDO::PARAM_INT);
             $stmt->bindValue('nm_cli', Arrays::value($_POST, 'cli_nome', ''), PDO::PARAM_STR);

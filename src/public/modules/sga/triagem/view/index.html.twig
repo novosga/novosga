@@ -1,5 +1,5 @@
 {% extends "module.html.twig" %}
-{% block content %}
+{% block moduleContent %}
 <div id="client-info">
     <h4>{% trans %}Cliente{% endtrans %}</h4>
     <form role="form" class="form-inline" onsubmit="return false">
@@ -37,15 +37,17 @@
                 <button class="btn btn-primary" 
                         data-id="{{ servicoUnidade.servico.id }}" 
                         title="{% trans %}Distribuir senha normal{% endtrans %}" 
-                        onclick="SGA.Triagem.Web.senhaNormal(this)">
+                        onclick="SGA.Triagem.senhaNormal(this)">
                     {% trans %}Normal{% endtrans %}
                 </button>
-                <button class="btn btn-danger" 
-                        data-id="{{ servicoUnidade.servico.id }}" 
-                        title="{% trans %}Distribuir senha com prioridade{% endtrans %}" 
-                        onclick="SGA.Triagem.Web.prioridade(this)">
-                    {% trans %}Prioridade{% endtrans %}
-                </button>
+                {% if prioridades|length %}
+                    <button class="btn btn-danger" 
+                            data-id="{{ servicoUnidade.servico.id }}" 
+                            title="{% trans %}Distribuir senha com prioridade{% endtrans %}" 
+                            onclick="SGA.Triagem.prioridade(this)">
+                        {% trans %}Prioridade{% endtrans %}
+                    </button>
+                {% endif %}
             </span>
         </div>
     </div>
@@ -140,7 +142,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" 
-                        onclick="SGA.Triagem.Web.senhaPrioridade(this, function() { $('#dialog-prioridade').modal('hide'); });">
+                        onclick="SGA.Triagem.senhaPrioridade(this, function() { $('#dialog-prioridade').modal('hide'); });">
                     {% trans %}Gerar prioridade{% endtrans %}
                 </button>
             </div>
@@ -192,6 +194,7 @@
         SGA.Triagem.ids.push(servico.data('id'));
     });
     SGA.Triagem.ajaxUpdate();
+    SGA.Triagem.prioridades = [{% for p in prioridades %}{{ p.id }},{% endfor %}];
     SGA.Triagem.imprimir = {% if unidade.statusImpressao %}true{% else %}false{% endif %};
     SGA.Triagem.init();
 </script>
