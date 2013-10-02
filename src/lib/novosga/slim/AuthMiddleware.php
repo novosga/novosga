@@ -13,18 +13,21 @@ use \novosga\business\AcessoBusiness;
 class AuthMiddleware extends \Slim\Middleware {
     
     private $context;
+    public static $freePages = array('login', 'logout', 'api');
     
     public function __construct(SGAContext $context) {
         $this->context = $context;
     }
     
     public function call() {
-        $req = $this->app->request();
-        $res = $this->app->response();
-        $uri = $req->getResourceUri();
         if (\novosga\Config::SGA_INSTALLED) {
-            $user = $this->context->getUser();
-            if ($uri !== "/login") {
+            $req = $this->app->request();
+            $uri = substr($req->getResourceUri(), 1);
+            if (strpos($uri, '/')) {
+                $uri = substr($uri, 0, strpos($uri, '/'));
+            }
+            if (!in_array($uri, self::$freePages)) {
+                $user = $this->context->getUser();
                 $logged = $user != null;
                 if (!$logged) {
                     $this->app->redirect($req->getRootUri() . '/login');

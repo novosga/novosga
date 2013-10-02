@@ -1,5 +1,5 @@
 {% extends "module.html.twig" %}
-{% block content %}
+{% block moduleContent %}
 <div id="monitor">
     <form class="form-inline" role="search" onsubmit="return false">
         <div class="form-group">
@@ -14,17 +14,6 @@
     <div id="servico-{{ su.servico.id }}" class="servico {% if su.fila.size == 0 %}empty{% endif %}" data-id="{{ su.servico.id }}">
         <span class="title">{{ su.sigla }} - {{ su.nome }}</span>
         <ul class="fila">
-            {% for a in su.fila %}
-                <li class="{% if a.senha.isPrioridade %}prioridade{% endif %}">
-                    <a href="javascript:void(0)" 
-                       onclick="SGA.Monitor.Senha.view({{ a.id }})" 
-                       title="{{ a.senha.prioridade.nome }} ({{ a.tempoEspera }})">
-                        {{ a.senha }}
-                    </a>
-                </li>
-            {% else %}
-                <li class="empty">{% trans %}Fila vazia{% endtrans %}</li>
-            {% endfor %}
         </ul>
     </div>
     {% endfor %}

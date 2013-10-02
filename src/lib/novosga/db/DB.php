@@ -46,7 +46,7 @@ class DB {
                 self::createConn(Config::DB_USER, Config::DB_PASS, Config::DB_HOST, Config::DB_PORT, Config::DB_NAME, Config::DB_TYPE);
             }
             $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration(self::$conn, Config::IS_DEV);
-            $config->setAutoGenerateProxyClasses(true);
+            $config->setAutoGenerateProxyClasses(Config::IS_DEV);
             $dir = sys_get_temp_dir();
             $config->setProxyDir($dir);
             // caching

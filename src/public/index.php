@@ -105,7 +105,7 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
         $args = array_merge($args, array_slice($action, 1));
         $action = $action[0];
     }
-//    // prefixo do nome do controlador do modulo
+    // prefixo do nome do controlador do modulo
     $tokens = explode('.', $moduleKey);
     $namespace = MODULES_DIR . '\\' . $tokens[0] . '\\' . $tokens[1];
     $ctrlClassPrefix = $tokens[1];
@@ -129,6 +129,25 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     );
     $app->view()->set('module', $module);
     echo $app->render("$action.html.twig");
+});
+
+/*
+ * API
+ */
+$app->any('/api(/:action(/:params+))', function($action = '', $params = array()) use ($app) {
+    if (empty($action)) {
+        $app->notFound();
+    }
+    $em = \novosga\db\DB::getEntityManager();
+    $api = new \novosga\api\ApiV1($em);
+    // api action
+    $methodName = str_replace('/', '_', str_replace('-', '_', $action));
+    $method = new \ReflectionMethod($api, $methodName);
+    $rs = $method->invokeArgs($api, $params);
+    
+    header('Content-type: application/json');
+    echo json_encode($rs);
+    exit();
 });
 
 $app->run();

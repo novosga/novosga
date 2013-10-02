@@ -232,14 +232,9 @@ class InstallController extends InternalController {
      * @param array $data
      */
     public function step2(SGAContext $context, &$data) {
-        $default = 'en';
         $context->session()->set('error', true);
         $lang = SGA::defaultClientLanguage();
-        $filePrefix = ROOT . '/LICENSE_';
-        if (!file_exists($filePrefix . $lang)) {
-            $lang = $default;
-        }
-        $data['license'] = file_get_contents($filePrefix . $lang);
+        $data['license'] = file_get_contents(ROOT . '/LICENSE');
     }
     
     /**

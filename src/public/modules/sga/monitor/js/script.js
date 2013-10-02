@@ -14,6 +14,7 @@ SGA.Monitor = {
     
     init: function() {
         setInterval(SGA.Monitor.ajaxUpdate, SGA.updateInterval);
+        SGA.Monitor.ajaxUpdate();
     },
     
     ajaxUpdate: function() {

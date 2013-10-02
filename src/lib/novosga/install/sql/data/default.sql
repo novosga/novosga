@@ -18,12 +18,10 @@ INSERT INTO modulos (id, chave, nome, descricao, autor, tipo, status) VALUES (14
 
 -- prioridades
 INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (1, 'Sem prioridade', 'Atendimento normal', 0, 1);
-INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (2, 'Deficiente Auditivo', 'Atendimento prioritáro para Deficiente Auditivo', 1, 1);
-INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (3, 'Deficiente Físico', 'Atendimento prioritáro para Deficiente Físico', 1, 1);
-INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (4, 'Deficiente Visual', 'Atendimento prioritáro para Deficiente Visual', 1, 1);
-INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (5, 'Gestante', 'Atendimento prioritáro para Gestante', 1, 1);
-INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (6, 'Idoso', 'Atendimento prioritáro para Idoso', 1, 1);
-INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (7, 'Outros', 'Qualquer outra prioridade', 1, 1);
+INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (2, 'Portador de Deficiência', 'Atendimento prioritáro para portadores de deficiência', 1, 1);
+INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (3, 'Gestante', 'Atendimento prioritáro para gestantes', 1, 1);
+INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (4, 'Idoso', 'Atendimento prioritáro para idosos', 1, 1);
+INSERT INTO prioridades (id, nome, descricao, peso, status) VALUES (5, 'Outros', 'Qualquer outra prioridade', 1, 1);
 
 INSERT INTO locais (id, nome) VALUES (1, 'Guichê');
 INSERT INTO locais (id, nome) VALUES (2, 'Sala');

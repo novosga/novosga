@@ -14,7 +14,6 @@ class InstallMiddleware extends \Slim\Middleware {
     
     public function call() {
         $req = $this->app->request();
-        $res = $this->app->response();
         $uri = $req->getResourceUri();
         if (!\novosga\Config::SGA_INSTALLED && !self::isInstallPage($uri)) {
             $this->app->redirect($req->getRootUri() . '/install');
