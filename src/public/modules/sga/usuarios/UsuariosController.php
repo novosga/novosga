@@ -35,9 +35,9 @@ class UsuariosController extends CrudController {
         $items = array();
         foreach ($rs as $lotacao) {
             $items[] = array(
-                'grupo' => $lotacao->getGrupo()->getId(),
+                'grupo_id' => $lotacao->getGrupo()->getId(),
                 'grupo' => $lotacao->getGrupo()->getNome(),
-                'cargo' => $lotacao->getCargo()->getId(),
+                'cargo_id' => $lotacao->getCargo()->getId(),
                 'cargo' => $lotacao->getCargo()->getNome()
             );
         }
@@ -49,9 +49,9 @@ class UsuariosController extends CrudController {
         $items = array();
         foreach ($rs as $servico) {
             $items[] = array(
-                'unidade' => $servico->getUnidade()->getId(),
+                'unidade_id' => $servico->getUnidade()->getId(),
                 'unidade' => $servico->getUnidade()->getNome(),
-                'servico' => $servico->getServico()->getId(),
+                'servico_id' => $servico->getServico()->getId(),
                 'servico' => $servico->getServico()->getNome()
             );
         }

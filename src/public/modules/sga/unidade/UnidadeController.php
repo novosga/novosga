@@ -1,7 +1,6 @@
 <?php
 namespace modules\sga\unidade;
 
-use \novosga\SGA;
 use \novosga\SGAContext;
 use \novosga\util\Arrays;
 use \novosga\http\AjaxResponse;
@@ -22,35 +21,39 @@ class UnidadeController extends ModuleController {
         $unidade = $context->getUnidade();
         $this->app()->view()->assign('unidade', $unidade);
         if ($unidade) {
-            /*
-             * XXX: Os parametros abaixo (id da unidade e sigla) estao sendo concatenados direto na string devido a um bug do pdo_sqlsrv (windows)
-             */
-            // atualizando relacionamento entre unidade e servicos
-            $conn = $this->em()->getConnection();
-            $conn->executeUpdate("
-                INSERT INTO uni_serv 
-                SELECT 
-                    {$unidade->getId()}, id, 1, nome, 'A', 0 FROM servicos 
-                WHERE 
-                    id_macro IS NULL AND
-                    id NOT IN (SELECT servico_id FROM uni_serv WHERE unidade_id = :unidade)
-            ", array('unidade' => $unidade->getId()));
-            // todos servicos mestre
-            $query = $this->em()->createQuery("
-                SELECT 
-                    e 
-                FROM 
-                    novosga\model\ServicoUnidade e 
-                WHERE 
-                    e.unidade = :unidade 
-                ORDER BY 
-                    e.nome
-            ");
-            $query->setParameter('unidade', $unidade->getId());
-            $this->app()->view()->assign('servicos', $query->getResult());
-            $this->app()->view()->assign('paineis', PainelBusiness::paineis($unidade));
-            $query = $this->em()->createQuery("SELECT e FROM novosga\model\Local e ORDER BY e.nome");
-            $this->app()->view()->assign('locais', $query->getResult());
+            $locais = $this->em()->getRepository('novosga\model\Local')->findAll();
+            if (sizeof($locais)) {
+                $local = $locais[0];
+                /*
+                 * XXX: Os parametros abaixo (id da unidade e sigla) estao sendo concatenados direto na string devido a um bug do pdo_sqlsrv (windows)
+                 */
+                // atualizando relacionamento entre unidade e servicos
+                $conn = $this->em()->getConnection();
+                $conn->executeUpdate("
+                    INSERT INTO uni_serv 
+                    SELECT 
+                        {$unidade->getId()}, id, :local, nome, 'A', 0 FROM servicos 
+                    WHERE 
+                        id_macro IS NULL AND
+                        id NOT IN (SELECT servico_id FROM uni_serv WHERE unidade_id = :unidade)
+                ", array('unidade' => $unidade->getId(), 'local' => $local->getId()));
+                // todos servicos mestre
+                $query = $this->em()->createQuery("
+                    SELECT 
+                        e 
+                    FROM 
+                        novosga\model\ServicoUnidade e 
+                    WHERE 
+                        e.unidade = :unidade 
+                    ORDER BY 
+                        e.nome
+                ");
+                $query->setParameter('unidade', $unidade->getId());
+                $this->app()->view()->assign('servicos', $query->getResult());
+                $this->app()->view()->assign('paineis', PainelBusiness::paineis($unidade));
+                $query = $this->em()->createQuery("SELECT e FROM novosga\model\Local e ORDER BY e.nome");
+                $this->app()->view()->assign('locais', $query->getResult());
+            }
         }
     }
     

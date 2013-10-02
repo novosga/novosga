@@ -126,6 +126,37 @@ class ApiV1 extends Api {
     }
     
     /**
+     * Retorna as senhas para serem exibidas no painel
+     * @param int $unidade
+     * @param string $servicos | 1,2,3,4...
+     * @return array
+     */
+    public function painel($unidade) {
+        $servicos = \novosga\util\Arrays::value($_GET, 'servicos', '');
+        if (empty($servicos)) {
+            $servicos = 0;
+        }
+        $length = \novosga\model\util\Senha::LENGTH;
+        // servicos da unidade
+        return $this->em->createQuery("
+            SELECT 
+                e.id, e.siglaSenha as sigla, e.mensagem, e.numeroSenha as numero, 
+                e.guiche as local, e.numeroGuiche as numeroLocal,
+                $length as length
+            FROM
+                novosga\model\PainelSenha e
+                JOIN e.servico s
+            WHERE
+                e.unidade = :unidade AND
+                s.id IN (:servicos)
+            ORDER BY 
+                e.id DESC
+        ")->setParameter(':unidade', $unidade)
+            ->setParameter(':servicos', explode(',', $servicos))
+            ->getResult();
+    }
+    
+    /**
      * Retorna a fila de atendimento do usuário
      * @param int $usuario
      * @param int $unidade
@@ -150,7 +181,7 @@ class ApiV1 extends Api {
             // fila de atendimento
             return $this->em->createQuery("
                 SELECT 
-                    e.id, su.sigla, su.nome as servico, e.numeroSenha,
+                    e.id, su.sigla, su.nome as servico, e.numeroSenha as numero,
                     e.dataChegada, e.dataInicio, e.dataFim, e.status
                 FROM 
                     novosga\model\Atendimento e 
