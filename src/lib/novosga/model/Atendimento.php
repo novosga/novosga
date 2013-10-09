@@ -32,8 +32,8 @@ class Atendimento extends SequencialModel {
      * @JoinColumn(name="usuario_tri_id", referencedColumnName="id")
      */
     protected $usuarioTriagem;
-    /** @Column(type="integer", name="num_guiche", nullable=false) */
-    protected $guiche;
+    /** @Column(type="integer", name="num_local", nullable=false) */
+    protected $local;
     /** @Column(type="datetime", name="dt_cheg", length=50, nullable=false) */
     protected $dataChegada;
     /** @Column(type="datetime", name="dt_cha", length=50, nullable=true) */
@@ -194,12 +194,12 @@ class Atendimento extends SequencialModel {
         
     }
 
-    public function getGuiche() {
-        return $this->guiche;
+    public function getLocal() {
+        return $this->local;
     }
 
-    public function setGuiche($guiche) {
-        $this->guiche = $guiche;
+    public function setLocal($local) {
+        $this->local = $local;
     }
     
     public function getStatus() {

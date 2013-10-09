@@ -48,9 +48,9 @@ abstract class AtendimentoBusiness {
         $conn = $em->getConnection();
     	$stmt = $conn->prepare("
             INSERT INTO painel_senha 
-            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, local, num_guiche) 
+            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, local, num_local) 
             VALUES 
-            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :local, :num_guiche)
+            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :local, :num_local)
         ");
         $stmt->bindValue('unidade_id', $unidade->getId());
         $stmt->bindValue('servico_id', $atendimento->getServicoUnidade()->getServico()->getId());
@@ -58,7 +58,7 @@ abstract class AtendimentoBusiness {
         $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
         $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
         $stmt->bindValue('local', $atendimento->getServicoUnidade()->getLocal()->getNome());
-        $stmt->bindValue('num_guiche', $atendimento->getGuiche());
+        $stmt->bindValue('num_local', $atendimento->getLocal());
         $stmt->execute();
     }
 
@@ -82,11 +82,11 @@ abstract class AtendimentoBusiness {
                 INSERT INTO historico_atendimentos 
                 (
                     atendimento_id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
-                    nm_cli, num_guiche, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id
+                    nm_cli, num_local, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id
                 )
                 SELECT 
                     a.atendimento_id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
-                    a.nm_cli, a.num_guiche, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id
+                    a.nm_cli, a.num_local, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id
                 FROM 
                     atendimentos a
                 WHERE 

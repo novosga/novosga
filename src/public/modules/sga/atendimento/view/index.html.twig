@@ -1,6 +1,6 @@
 {% extends "module.html.twig" %}
 {% block moduleContent %}
-    <div id="dialog-guiche" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="dialog-local" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -8,10 +8,10 @@
                     <h4 class="modal-title">{% trans %}Guichê{% endtrans %}</h4>
                 </div>
                 <div class="modal-body">
-                    <form id="guiche_form" action="{{ baseUrl() }}/modules/{{ module.chave }}/set_guiche" method="post" role="form" class="form-inline">
+                    <form id="local_form" action="{{ baseUrl() }}/modules/{{ module.chave }}/set_local" method="post" role="form" class="form-inline">
                         <div class="form-group col-lg-2">
                             <label class="control-label">{% trans %}Número{% endtrans %}</label>
-                            <input type="text" id="numero_guiche" name="guiche" maxlength="3" class="form-control" value="{{ guicheCookie }}" />
+                            <input type="text" id="numero_local" name="local" maxlength="3" class="form-control" value="{{ localCookie }}" />
                         </div>
                         <div class="form-group">
                             <label class="control-label" title="{% trans %}Tipo de Atendimento{% endtrans %}">{% trans %}Atendimento{% endtrans %}</label>
@@ -23,10 +23,10 @@
                         </div>
                     </form>
                     <script type="text/javascript">
-                        $('#guiche_form').on('submit', function() {
-                            var numero = parseInt($('#numero_guiche').val());
+                        $('#local_form').on('submit', function() {
+                            var numero = parseInt($('#numero_local').val());
                             if (isNaN(numero) || numero <= 0) {
-                                $('#numero_guiche').val('');
+                                $('#numero_local').val('');
                                 return false;
                             }
                             return true;
@@ -34,26 +34,26 @@
                     </script>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="$('#guiche_form').submit(); return false">{% trans %}Salvar{% endtrans %}</button>
+                    <button type="button" class="btn btn-primary" onclick="$('#local_form').submit(); return false">{% trans %}Salvar{% endtrans %}</button>
                 </div>
             </div>
         </div>
     </div>
-    {# se ainda nao definiu o guiche, exibe automaticamente a dialog #}
-    {% if guiche <= 0 %}
+    {# se ainda nao definiu o numero do local, exibe automaticamente a dialog #}
+    {% if local <= 0 %}
         <script type="text/javascript">
-            SGA.dialogs.modal('#dialog-guiche'); 
-            $('#guiche').focus();
+            SGA.dialogs.modal('#dialog-local'); 
+            $('#local').focus();
         </script>
     {% else %}
-        {# guiche definido, exibe tela de atendimento #}
+        {# local definido, exibe tela de atendimento #}
         <div id="atendimento">
             <div class="row">
                 <div class="left">
-                    <div id="guiche">
-                        <span class="label-guiche">{% trans %}Guichê{% endtrans %}</span>
-                        <span class="numero">{{ guiche }}</span>
-                        <a href="#dialog-guiche" data-toggle="modal">{% trans %}Alterar{% endtrans %}</a>
+                    <div id="local">
+                        <span class="label-local">{% trans %}Guichê{% endtrans %}</span>
+                        <span class="numero">{{ local }}</span>
+                        <a href="#dialog-local" data-toggle="modal">{% trans %}Alterar{% endtrans %}</a>
                     </div>
                 </div>
                 <div class="right">
