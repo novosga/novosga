@@ -38,18 +38,18 @@ class AtendimentoController extends ModuleController {
         );
         $this->app()->view()->assign('tiposAtendimento', $tiposAtendimento);
         $this->app()->view()->assign('labelTipoAtendimento', $tiposAtendimento[$usuario->getTipoAtendimento()]);
-        $this->app()->view()->assign('guiche', $usuario->getGuiche());
-        $this->app()->view()->assign('guicheCookie', $context->cookie()->get('guiche'));
+        $this->app()->view()->assign('local', $usuario->getLocal());
+        $this->app()->view()->assign('localCookie', $context->cookie()->get('local'));
         $this->app()->view()->assign('tipoAtendimentoCookie', $context->cookie()->get('tipo'));
     }
     
-    public function set_guiche(SGAContext $context) {
-        $numero = (int) Arrays::value($_POST, 'guiche');
+    public function set_local(SGAContext $context) {
+        $numero = (int) Arrays::value($_POST, 'local');
         $tipo = (int) Arrays::value($_POST, 'tipo');
         if ($numero) {
-            $context->cookie()->set('guiche', $numero);
+            $context->cookie()->set('local', $numero);
             $context->cookie()->set('tipo', $tipo);
-            $context->getUser()->setGuiche($numero);
+            $context->getUser()->setLocal($numero);
             $context->getUser()->setTipoAtendimento($tipo);
             $context->setUser($context->getUser());
         }
@@ -156,7 +156,7 @@ class AtendimentoController extends ModuleController {
                 $proximo = $query->getOneOrNullResult();
                 if ($proximo) {
                     $proximo->setUsuario($context->getUser()->getWrapped());
-                    $proximo->setGuiche($context->getUser()->getGuiche());
+                    $proximo->setLocal($context->getUser()->getLocal());
                     $proximo->setStatus(AtendimentoBusiness::CHAMADO_PELA_MESA);
                     $proximo->setDataChamada(new \DateTime());
                     // atualiza o proximo da fila
@@ -164,12 +164,12 @@ class AtendimentoController extends ModuleController {
                         UPDATE 
                             novosga\model\Atendimento e 
                         SET 
-                            e.usuario = :usuario, e.guiche = :guiche, e.status = :novoStatus, e.dataChamada = :data
+                            e.usuario = :usuario, e.local = :local, e.status = :novoStatus, e.dataChamada = :data
                         WHERE 
                             e.id = :id AND e.status = :statusAtual
                     ");
                     $query->setParameter('usuario', $proximo->getUsuario()->getId());
-                    $query->setParameter('guiche', $proximo->getGuiche());
+                    $query->setParameter('local', $proximo->getLocal());
                     $query->setParameter('novoStatus', $proximo->getStatus());
                     $query->setParameter('data', $proximo->getDataChamada());
                     $query->setParameter('id', $proximo->getId());
@@ -382,7 +382,7 @@ class AtendimentoController extends ModuleController {
         // XXX: usando statement INSERT devido a bug do dblib (mssql) no linux com mapeamentos do Doctrine 
         $stmt = $this->em()->getConnection()->prepare("
             INSERT INTO atendimentos 
-                (num_guiche, dt_cheg, status, sigla_senha, num_senha, num_senha_serv, servico_id, unidade_id, usuario_id, usuario_tri_id, prioridade_id) 
+                (num_local, dt_cheg, status, sigla_senha, num_senha, num_senha_serv, servico_id, unidade_id, usuario_id, usuario_tri_id, prioridade_id) 
             VALUES 
                 (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade)
         ");

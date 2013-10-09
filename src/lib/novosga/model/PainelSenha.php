@@ -31,10 +31,10 @@ namespace novosga\model;
     protected $mensagem;
     
     /** @Column(type="string", name="local", length=15, nullable=false) */
-    protected $guiche;
+    protected $local;
     
-    /** @Column(type="integer", name="num_guiche", nullable=false) */
-    protected $numeroGuiche;
+    /** @Column(type="integer", name="num_local", nullable=false) */
+    protected $numeroLocal;
     
     public function getServico() {
         return $this->servico;
@@ -76,28 +76,28 @@ namespace novosga\model;
         $this->mensagem = $mensagem;
     }
 
-    public function getGuiche() {
-        return $this->guiche;
+    public function getLocal() {
+        return $this->local;
     }
 
-    public function setGuiche($guiche) {
-        $this->guiche = $guiche;
+    public function setLocal($local) {
+        $this->local = $local;
     }
 
-    public function getNumeroGuiche() {
-        return $this->numeroGuiche;
+    public function getNumeroLocal() {
+        return $this->numeroLocal;
     }
 
-    public function setNumeroGuiche($numeroGuiche) {
-        $this->numeroGuiche = $numeroGuiche;
+    public function setNumeroLocal($numeroLocal) {
+        $this->numeroLocal = $numeroLocal;
     }
     
     public function toArray() {
         return array(
             'id' => $this->getId(),
             'senha' => $this->getSiglaSenha() . str_pad($this->getNumeroSenha(), 3, '0', STR_PAD_LEFT),
-            'guiche' => $this->getGuiche(),
-            'numeroGuiche' => $this->getNumeroGuiche()
+            'local' => $this->getLocal(),
+            'numeroLocal' => $this->getNumeroLocal()
         );
     }
 

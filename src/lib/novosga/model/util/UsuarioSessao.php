@@ -19,7 +19,7 @@ class UsuarioSessao {
     private $id;
     private $unidade;
     private $unidadeId;
-    private $guiche;
+    private $local;
     private $ativo;
     private $lotacao;
     private $servicos;
@@ -42,17 +42,17 @@ class UsuarioSessao {
     }
     
     /**
-     * Retorna o número do guiche para atendimento na unidade atual
-     * @return type
+     * Retorna o número do local de atendimento (guiche, mesa, sala, etc) para atendimento na unidade atual
+     * @return integer
      */
-    public function getGuiche() {
-        return $this->guiche;
+    public function getLocal() {
+        return $this->local;
     }
 
-    public function setGuiche($guiche) {
-        $guiche = (int) $guiche;
-        if ($guiche > 0) {
-            $this->guiche = $guiche;
+    public function setLocal($local) {
+        $local = (int) $local;
+        if ($local > 0) {
+            $this->local = $local;
         } else {
             throw new Exception(_('Erro ao definir guiche do Usuário. Deve ser um número maior que zero.'));
         }
@@ -251,7 +251,7 @@ class UsuarioSessao {
     }
     
     public function __sleep() {
-        return array('id', 'unidadeId', 'sessionId', 'ativo', 'guiche', 'tipoAtendimento', 'permissoes');
+        return array('id', 'unidadeId', 'sessionId', 'ativo', 'local', 'tipoAtendimento', 'permissoes');
     }
     
     /**

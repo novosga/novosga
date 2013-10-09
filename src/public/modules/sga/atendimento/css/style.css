@@ -22,35 +22,35 @@
     float: left;
 }
 
-/* guiche */
+/* local */
 
-#atendimento #guiche {
+#atendimento #local {
     min-width: 130px;
     height: 150px;
     background-color: #F8CA00;
     border-bottom: 3px solid #333;
 }
 
-#atendimento #guiche span {
+#atendimento #local span {
     padding: 0 10px;
     font-weight: bold;
     text-align: center;
     display: block;
 }
 
-#atendimento #guiche .label-guiche {
+#atendimento #local .label-local {
     padding-top: 10px;
     padding-bottom: 5px;
     line-height: 14px;
 }
 
-#atendimento #guiche .numero {
+#atendimento #local .numero {
     font-size: 80px;
     line-height: 80px;
     padding: 5px 0;
 }
 
-#atendimento #guiche a {
+#atendimento #local a {
     color: #666;
     bottom: 10px;
     width: 100%;
@@ -59,7 +59,7 @@
     display: block;
 }
 
-#atendimento #guiche a:hover { color: #000; }
+#atendimento #local a:hover { color: #000; }
 
 /* controls */
 
@@ -185,9 +185,9 @@
     padding-left: 5px;
 }
 
-#atendimento #fila h3 span.tipo-1 { } /* todos */
-#atendimento #fila h3 span.tipo-2 { color: blue; } /* convencional */ 
-#atendimento #fila h3 span.tipo-3 { color: red; } /* prioridade */
+#atendimento #fila span.tipo-1 { } /* todos */
+#atendimento #fila span.tipo-2 { color: blue; } /* convencional */ 
+#atendimento #fila span.tipo-3 { color: red; } /* prioridade */
 
 #atendimento #fila ul {
     min-height: 40px;
