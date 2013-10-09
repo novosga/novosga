@@ -208,11 +208,9 @@ SGA.Atendimento = {
             // verifica se checkbox redirecionar esta marcado, para abrir a modal
             var redirecionar = $('#encerrar-redirecionar').is(':checked');
             if (redirecionar) {
-                var buttons = {};
-                SGA.dialogs.modal('#dialog-redirecionar', {
-                    width: 500,
-                    buttons: buttons
-                });
+                var modal = SGA.dialogs.modal('#dialog-redirecionar');
+                modal.find('button').hide();
+                modal.find('.btn-codificar').show();
                 return;
             }
         }
@@ -249,15 +247,9 @@ SGA.Atendimento = {
     },
     
     erro_triagem: function() {
-        var buttons = {};
-        buttons[SGA.Atendimento.labelRedirecionar] = function() {
-            var btn = $('#dialog-redirecionar').parent().find(':button');
-            SGA.Atendimento.redirecionar(btn);
-        }
-        SGA.dialogs.modal('#dialog-redirecionar', {
-            width: 500,
-            buttons: buttons
-        });
+        var modal = SGA.dialogs.modal('#dialog-redirecionar');
+        modal.find('button').hide();
+        modal.find('.btn-redirecionar').show();
     },
     
     redirecionar: function(btn) {

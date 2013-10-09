@@ -60,6 +60,11 @@ class Atendimento extends SequencialModel {
      * @JoinColumn(name="prioridade_id", referencedColumnName="id")
      */
     protected $prioridadeSenha;
+    /** 
+     * @ManyToOne(targetEntity="Atendimento") 
+     * @JoinColumn(name="atendimento_id", referencedColumnName="id")
+     */
+    protected $pai;
     
     // transient
     protected $cliente;
@@ -277,6 +282,13 @@ class Atendimento extends SequencialModel {
         $this->prioridadeSenha = $prioridadeSenha;
     }
 
+    public function getPai() {
+        return $this->pai;
+    }
+
+    public function setPai($pai) {
+        $this->pai = $pai;
+    }
     
     public function toString() {
         return $this->getSenha()->toString();

@@ -239,8 +239,11 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" onclick="SGA.Atendimento.codificar(this, true); return false;">
+                        <button type="button" class="btn btn-primary btn-redirecionar" onclick="SGA.Atendimento.redirecionar(this); return false;">
                             {% trans %}Redirecionar{% endtrans %}
+                        </button>
+                        <button type="button" class="btn btn-primary btn-codificar" onclick="SGA.Atendimento.codificar(this, true); return false;">
+                            {% trans %}Codificar e redirecionar{% endtrans %}
                         </button>
                     </div>
                 </div>
