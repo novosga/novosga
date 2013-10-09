@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[atendimentos](
     [usuario_tri_id] [int] NOT NULL,
     [servico_id] [int] NOT NULL,
     [prioridade_id] [int] NOT NULL,
+    [atendimento_id] [bigint],
     [status] [int] NOT NULL,
     [sigla_senha] [char](1) NOT NULL,
     [num_senha] [int] NOT NULL,
