@@ -36,6 +36,10 @@ namespace novosga\model;
     /** @Column(type="integer", name="num_guiche", nullable=false) */
     protected $numeroGuiche;
     
+    /** @Column(type="integer", name="peso", nullable=false) */
+    protected $peso;
+    
+    
     public function getServico() {
         return $this->servico;
     }
@@ -92,12 +96,21 @@ namespace novosga\model;
         $this->numeroGuiche = $numeroGuiche;
     }
     
+    public function getPeso() {
+        return $this->peso;
+    }
+
+    public function setPeso($peso) {
+        $this->peso = $peso;
+    }
+
     public function toArray() {
         return array(
             'id' => $this->getId(),
             'senha' => $this->getSiglaSenha() . str_pad($this->getNumeroSenha(), 3, '0', STR_PAD_LEFT),
             'guiche' => $this->getGuiche(),
-            'numeroGuiche' => $this->getNumeroGuiche()
+            'numeroGuiche' => $this->getNumeroGuiche(),
+            'peso' => $this->getPeso()
         );
     }
 
