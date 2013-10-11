@@ -141,7 +141,7 @@ class ApiV1 extends Api {
         return $this->em->createQuery("
             SELECT 
                 e.id, e.siglaSenha as sigla, e.mensagem, e.numeroSenha as numero, 
-                e.guiche as local, e.numeroGuiche as numeroLocal,
+                e.guiche as local, e.numeroGuiche as numeroLocal, e.peso,
                 $length as length
             FROM
                 novosga\model\PainelSenha e

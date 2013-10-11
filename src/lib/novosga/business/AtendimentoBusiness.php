@@ -59,6 +59,7 @@ abstract class AtendimentoBusiness {
         $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
         $stmt->bindValue('local', $atendimento->getServicoUnidade()->getLocal()->getNome());
         $stmt->bindValue('num_guiche', $atendimento->getGuiche());
+        $stmt->bindValue('peso', $atendimento->getPrioridadeSenha()->getPeso());
         $stmt->execute();
     }
 

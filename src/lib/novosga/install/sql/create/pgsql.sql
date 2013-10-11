@@ -118,7 +118,7 @@ CREATE TABLE painel_senha (
     msg_senha character varying(20) NOT NULL,
     local character varying(15) NOT NULL,
     num_guiche smallint NOT NULL,
-    dt_envio timestamp NULL
+    peso integer NOT NULL
 );
 
 CREATE TABLE prioridades (
