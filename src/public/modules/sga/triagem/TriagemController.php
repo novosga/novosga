@@ -156,9 +156,9 @@ class TriagemController extends ModuleController {
             $innerQuery2 = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery2, 1, 0);
             $stmt = $conn->prepare(" 
                 INSERT INTO atendimentos
-                (unidade_id, servico_id, prioridade_id, usuario_tri_id, status, nm_cli, ident_cli, num_guiche, dt_cheg, sigla_senha, num_senha, num_senha_serv)
+                (unidade_id, servico_id, prioridade_id, usuario_tri_id, status, nm_cli, ident_cli, num_local, dt_cheg, sigla_senha, num_senha, num_senha_serv)
                 SELECT
-                    :unidade_id, :servico_id, :prioridade_id, :usuario_tri_id, :status, :nm_cli, :ident_cli, :num_guiche, :dt_cheg, :sigla_senha, 
+                    :unidade_id, :servico_id, :prioridade_id, :usuario_tri_id, :status, :nm_cli, :ident_cli, :num_local, :dt_cheg, :sigla_senha, 
                     COALESCE(
                         (
                             $innerQuery
@@ -175,7 +175,7 @@ class TriagemController extends ModuleController {
             $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA, PDO::PARAM_INT);
             $stmt->bindValue('nm_cli', Arrays::value($_POST, 'cli_nome', ''), PDO::PARAM_STR);
             $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
-            $stmt->bindValue('num_guiche', 0, PDO::PARAM_INT);
+            $stmt->bindValue('num_local', 0, PDO::PARAM_INT);
             $stmt->bindValue('dt_cheg', DateUtil::nowSQL(), PDO::PARAM_STR);
             $stmt->bindValue('sigla_senha', $su->getSigla(), PDO::PARAM_STR);
             

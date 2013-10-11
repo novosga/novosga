@@ -42,6 +42,7 @@ var SGA = {
                     SGA.dialogs.opened = 0;
                 }
             });
+            return target;
         },
         
         error: {

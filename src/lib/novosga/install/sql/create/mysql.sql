@@ -23,12 +23,13 @@ CREATE TABLE atendimentos (
     usuario_tri_id integer NOT NULL,
     servico_id integer NOT NULL,
     prioridade_id integer NOT NULL,
+    atendimento_id bigint,
     status integer NOT NULL,
     sigla_senha char(1) NOT NULL,
     num_senha integer NOT NULL,
     num_senha_serv integer NOT NULL,
     nm_cli varchar(100) DEFAULT NULL,
-    num_guiche smallint NOT NULL,
+    num_local smallint NOT NULL,
     dt_cheg datetime NOT NULL,
     dt_cha datetime,
     dt_ini datetime,
@@ -111,7 +112,7 @@ CREATE TABLE historico_atendimentos (
     num_senha integer NOT NULL,
     num_senha_serv integer NOT NULL,
     nm_cli varchar(100) DEFAULT NULL,
-    num_guiche smallint NOT NULL,
+    num_local smallint NOT NULL,
     dt_cheg datetime NOT NULL,
     dt_cha datetime,
     dt_ini datetime,
@@ -164,7 +165,7 @@ CREATE TABLE painel_senha (
     sig_senha char(1) NOT NULL,
     msg_senha varchar(20) NOT NULL,
     local varchar(15) NOT NULL,
-    num_guiche smallint NOT NULL,
+    num_local smallint NOT NULL,
     peso integer NOT NULL
     PRIMARY KEY (id)
 ) 
@@ -288,6 +289,7 @@ ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (priorid
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_4 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_5 FOREIGN KEY (usuario_tri_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_6 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN KEY (cargo_id) REFERENCES cargos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (modulo_id) REFERENCES modulos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -371,7 +373,7 @@ AS
         atendimentos.num_senha, 
         atendimentos.num_senha_serv, 
         atendimentos.nm_cli, 
-        atendimentos.num_guiche, 
+        atendimentos.num_local, 
         atendimentos.dt_cheg, 
         atendimentos.dt_cha, 
         atendimentos.dt_ini, 
@@ -392,7 +394,7 @@ AS
         historico_atendimentos.num_senha, 
         historico_atendimentos.num_senha_serv, 
         historico_atendimentos.nm_cli, 
-        historico_atendimentos.num_guiche, 
+        historico_atendimentos.num_local, 
         historico_atendimentos.dt_cheg, 
         historico_atendimentos.dt_cha, 
         historico_atendimentos.dt_ini, 
