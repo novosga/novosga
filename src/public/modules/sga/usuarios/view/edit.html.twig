@@ -22,9 +22,9 @@
             {% if id > 0 %}
             <div class="form-group required">
                 <label for="status">Status</label>
-                <select id="status" class="form-control">
+                <select id="status" name="status" class="form-control">
                     <option value="">{% trans %}Selecione{% endtrans %}</option>
-                    <option value="1" {% if model.status == 1 %}selected="selected"{% endif %}>{% trans %}Ativo{% endtrans %}</option>
+                    <option value="1" {% if model.status == "1" %}selected="selected"{% endif %}>{% trans %}Ativo{% endtrans %}</option>
                     <option value="0" {% if model.status == "0" %}selected="selected"{% endif %}>{% trans %}Inativo{% endtrans %}</option>
                 </select>
             </div>
