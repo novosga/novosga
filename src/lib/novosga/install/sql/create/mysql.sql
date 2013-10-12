@@ -166,7 +166,7 @@ CREATE TABLE painel_senha (
     msg_senha varchar(20) NOT NULL,
     local varchar(15) NOT NULL,
     num_local smallint NOT NULL,
-    peso integer NOT NULL
+    peso integer NOT NULL,
     PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   

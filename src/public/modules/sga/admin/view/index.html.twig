@@ -78,7 +78,7 @@
             <div class="form-group">
                 <label class="form-label">{% trans %}Reiniciar senhas{% endtrans %}</label>
                 <button class="btn btn-danger"
-                        onclick="return SGA.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?'{% endtrans %}')">
+                        onclick="return SGA.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?{% endtrans %}')">
                     {% trans %}Reiniciar{% endtrans %}
                 </button>
             </div>
@@ -114,25 +114,55 @@
         SGA.Updater.checkVersion('#new-version');
     </script>
 </div>
-<div id="dialog-reiniciar" title="{% trans %}Configuração{% endtrans %}" style="display:none">
-    <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
+
+{# reiniciar #}
+<div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans %}Configuração{% endtrans %}</h4>
+            </div>
+            <div class="modal-body">
+                <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
 </div>
-<div id="dialog-painel" title="<?php SGA::out(_('Painel')) ?>" style="display:none">
-    <div>
-        <label>IP</label>
-        <span id="painel_ip"></span>
-    </div>
-    <div>
-        <label>{% trans %}Unidade{% endtrans %}</label>
-        <span id="painel_unidade"></span>
-    </div>
-    <div>
-        <label>{% trans %}Serviços{% endtrans %}</label>
-        <ul id="painel_servicos"></ul>
-    </div>
-    <div>
-        <label>{% trans %}Últimas senhas{% endtrans %}</label>
-        <ul id="painel_senhas"></ul>
+
+{# painel info #}
+<div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans %}Painel{% endtrans %}</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <label>IP</label>
+                    <span id="painel_ip"></span>
+                </div>
+                <div>
+                    <label>{% trans %}Unidade{% endtrans %}</label>
+                    <span id="painel_unidade"></span>
+                </div>
+                <div>
+                    <label>{% trans %}Serviços{% endtrans %}</label>
+                    <ul id="painel_servicos"></ul>
+                </div>
+                <div>
+                    <label>{% trans %}Últimas senhas{% endtrans %}</label>
+                    <ul id="painel_senhas"></ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

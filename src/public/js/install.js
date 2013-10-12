@@ -160,8 +160,7 @@ SGA.Install = {
                 $('#btn_next').prop('disabled', false);
             },
             error: function() {
-                $('#db_admin_error').show();
-                $('#db_admin_error p').text('Erro ao salvar dados do admin');
+                $('#db_admin_error').show().text('Erro ao salvar dados do admin');
             }
         });
     },
@@ -205,8 +204,7 @@ SGA.Install = {
                 } else {
                     selector = 'install_error';
                 }
-                $('#' + selector).show();
-                $('#' + selector + ' p').text(test.message);
+                $('#' + selector).show().text(test.message);
             },
             error: function() {
                 alert('Erro ao instalar o SGA');

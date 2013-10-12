@@ -127,7 +127,7 @@ CREATE TABLE [dbo].[painel_senha](
     [msg_senha] [varchar](20) NOT NULL,
     [local] [varchar](15) NOT NULL,
     [num_local] [smallint] NOT NULL,
-    [peso] [int] NOT NULL
+    [peso] [int] NOT NULL,
     PRIMARY KEY CLUSTERED (id)
 ) ON [PRIMARY]
 
