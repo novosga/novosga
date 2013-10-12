@@ -29,11 +29,17 @@
         {% endblock %}
     </head>
     <body>
-        <div class="navbar navbar-default">
+        <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".novosga-navbar">
+                    <span class="sr-only">Menu</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class="navbar-brand" href="{{ baseUrl() }}">Novo SGA</a>
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="collapse navbar-collapse novosga-navbar">
                 {% if unidade %}
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
@@ -78,7 +84,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </nav>
         <div class="container">
             {% block content %}
             {% endblock %}
