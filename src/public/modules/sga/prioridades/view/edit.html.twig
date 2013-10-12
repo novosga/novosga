@@ -9,6 +9,7 @@
         <label for="descricao" class="control-label">{% trans %}Descrição{% endtrans %}</label>
         <textarea id="descricao" name="descricao" class="form-control" rows="5">{{ model.descricao }}</textarea>
     </div>
+    {% if model.id != 1 %}
     <div class="form-group required">
         <label for="peso" class="control-label">{% trans %}Peso{% endtrans %}</label>
         <select id="peso" name="peso" class="form-control">
@@ -17,6 +18,7 @@
             {% endfor %}
         </select>
     </div>
+    {% endif %}
     <div class="form-group required">
         <label for="status" class="control-label">{% trans %}Status{% endtrans %}</label>
         <select id="status" name="status" class="form-control">

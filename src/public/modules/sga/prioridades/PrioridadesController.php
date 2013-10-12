@@ -43,6 +43,13 @@ class PrioridadesController extends CrudController {
         ));
         parent::edit($context, $id);
     }
+    
+    protected function preSave(SGAContext $context, SequencialModel $model) {
+        // nao pode alterar o peso do registro 1 (sem prioridade)
+        if ($model->getId() == 1) {
+            $model->setPeso(0);
+        }
+    }
 
     protected function preDelete(SGAContext $context, SequencialModel $model) {
         if ($model->getId() == 1) {

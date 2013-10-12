@@ -19,12 +19,12 @@ class CronController extends SGAController {
         exit();
     }
         
-    public function reiniciar_senhas(SGAContext $context) {
+    public function reset(SGAContext $context) {
         $response = new AjaxResponse();
         try {
             // verificando usuario e token de seguranca
             $em = DB::getEntityManager();
-            $login = $context->getParameter('login');
+            $login = $this->app()->request()->get('login');
             $query = $em->createQuery("SELECT e FROM novosga\model\Usuario e WHERE e.login = :login");
             $query->setParameter('login', $login);
             $query->setMaxResults(1);
@@ -32,8 +32,8 @@ class CronController extends SGAController {
             if (!$usuario) {
                 throw new \Exception(_('Usuário inválido'));
             }
-            $token = $context->getParameter('token');
-            if ($token != self::token($usuario->getLogin(), $usuario->getSenha())) {
+            $token = $this->app()->request()->get('token');
+            if ($token != self::token($usuario)) {
                 throw new \Exception(_('Token de segurança inválido'));
             }
             // acumulando atendimentos
@@ -47,15 +47,15 @@ class CronController extends SGAController {
         $context->response()->jsonResponse($response);
     }
     
-    public function token($login, $senha) {
-        return \novosga\Security::passEncode($login . ':' . $senha);
+    public function token($usuario) {
+        return \novosga\Security::passEncode($usuario->getId() . ':' . $usuario->getLogin());
     }
     
     public function cronUrl($page, UsuarioSessao $usuario) {
         $url = $this->app()->request()->getUrl();
         $uri = $this->app()->request()->getRootUri();
-        $token = $this->token($usuario->getLogin(), $usuario->getSenha());
-        return "$url/$uri/cron/$page&login={$usuario->getLogin()}&token=$token";
+        $token = $this->token($usuario);
+        return "{$url}{$uri}/cron/$page?login={$usuario->getLogin()}&token=$token";
     }
     
 }

@@ -64,7 +64,11 @@ class ApiV1 extends Api {
      * @param int $unidade
      * @return array
      */
-    public function servicos($unidade = 0) {
+    public function servicos() {
+        if (func_num_args() === 0) {
+            throw new \Exception(_('Unidade não informada'));
+        }
+        $unidade = func_get_arg(0);
         if ($unidade == 0) {
             // servicos globais
             return $this->em->createQuery('
@@ -100,7 +104,12 @@ class ApiV1 extends Api {
      * @param int $servico
      * @return array
      */
-    public function atendimentos($unidade, $servico = 0) {
+    public function atendimentos() {
+        if (func_num_args() === 0) {
+            throw new \Exception(_('Unidade não informada'));
+        }
+        $unidade = func_get_arg(0);
+        $servico = (func_num_args() > 1) ? func_get_arg(1) : 0;
         // servicos da unidade
         return $this->em->createQuery('
             SELECT 
@@ -131,7 +140,11 @@ class ApiV1 extends Api {
      * @param string $servicos | 1,2,3,4...
      * @return array
      */
-    public function painel($unidade) {
+    public function painel() {
+        if (func_num_args() === 0) {
+            throw new \Exception(_('Unidade não informada'));
+        }
+        $unidade = func_get_arg(0);
         $servicos = \novosga\util\Arrays::value($_GET, 'servicos', '');
         if (empty($servicos)) {
             $servicos = 0;
@@ -158,11 +171,16 @@ class ApiV1 extends Api {
     
     /**
      * Retorna a fila de atendimento do usuário
-     * @param int $usuario
      * @param int $unidade
+     * @param int $usuario
      * @return array
      */
-    public function fila($usuario, $unidade) {
+    public function fila() {
+        if (func_num_args() === 0) {
+            throw new \Exception(_('Unidade não informada'));
+        }
+        $unidade = func_get_arg(0);
+        $usuario = (func_num_args() > 1) ? func_get_arg(1) : 0;
         // servicos que o usuario atende
         $servicos = $this->em->createQuery('
             SELECT 

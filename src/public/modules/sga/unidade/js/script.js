@@ -58,20 +58,20 @@ SGA.Unidade = {
         },
         enable: function(btn) {
             btn = $(btn);
-            btn.prop("disabled", true);
+            btn.prop("disabled", true).addClass('hidden');
             SGA.Unidade.Servicos.request('habilita_servico', btn, function() {
                 $('.servico-' + btn.data('id')).prop('disabled', false)
-                $('#btn-disable-' + btn.data('id')).prop("disabled", false);
+                $('#btn-disable-' + btn.data('id')).prop("disabled", false).removeClass('hidden');
                 $('#sigla-' + btn.data('id')).focus();
             });
         },
         
         disable: function(btn) {
             btn = $(btn);
-            btn.prop("disabled", true);
+            btn.prop("disabled", true).addClass('hidden');
             SGA.Unidade.Servicos.request('desabilita_servico', btn, function() {
                 $('.servico-' + btn.data('id')).prop('disabled', true);
-                $('#btn-enable-' + btn.data('id')).prop("disabled", false);
+                $('#btn-enable-' + btn.data('id')).prop("disabled", false).removeClass('hidden');
             });
         },
         

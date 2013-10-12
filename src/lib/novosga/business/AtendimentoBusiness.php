@@ -48,9 +48,9 @@ abstract class AtendimentoBusiness {
         $conn = $em->getConnection();
     	$stmt = $conn->prepare("
             INSERT INTO painel_senha 
-            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, local, num_local) 
+            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, local, num_local, peso) 
             VALUES 
-            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :local, :num_local)
+            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :local, :num_local, :peso)
         ");
         $stmt->bindValue('unidade_id', $unidade->getId());
         $stmt->bindValue('servico_id', $atendimento->getServicoUnidade()->getServico()->getId());
@@ -58,12 +58,8 @@ abstract class AtendimentoBusiness {
         $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
         $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
         $stmt->bindValue('local', $atendimento->getServicoUnidade()->getLocal()->getNome());
-<<<<<<< HEAD
-        $stmt->bindValue('num_guiche', $atendimento->getGuiche());
-        $stmt->bindValue('peso', $atendimento->getPrioridadeSenha()->getPeso());
-=======
         $stmt->bindValue('num_local', $atendimento->getLocal());
->>>>>>> e7943f53d8bb45cc043920bdc60b90f684bdf82f
+        $stmt->bindValue('peso', $atendimento->getSenha()->getPrioridade()->getPeso());
         $stmt->execute();
     }
 
@@ -86,11 +82,11 @@ abstract class AtendimentoBusiness {
             $sql = "
                 INSERT INTO historico_atendimentos 
                 (
-                    atendimento_id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
+                    id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
                     nm_cli, num_local, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id
                 )
                 SELECT 
-                    a.atendimento_id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
+                    a.id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
                     a.nm_cli, a.num_local, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id
                 FROM 
                     atendimentos a
@@ -108,7 +104,7 @@ abstract class AtendimentoBusiness {
             $query->execute();
 
             // salva atendimentos codificados da unidade
-            $subquery = "SELECT a.atendimento_id FROM atendimentos a WHERE dt_cheg <= :data ";
+            $subquery = "SELECT a.id FROM atendimentos a WHERE dt_cheg <= :data ";
             if ($unidade > 0) {
                 $subquery .= " AND a.unidade_id = :unidade";
             }
@@ -119,7 +115,7 @@ abstract class AtendimentoBusiness {
                 FROM 
                     atend_codif ac
                 WHERE 
-                    atendimento_id IN (
+                    ac.atendimento_id IN (
                         $subquery
                     )
             ");
@@ -130,7 +126,7 @@ abstract class AtendimentoBusiness {
             $query->execute();
 
             // limpa atendimentos codificados da unidade
-            $subquery = "SELECT atendimento_id FROM atendimentos a WHERE a.dt_cheg <= :data ";
+            $subquery = "SELECT id FROM atendimentos a WHERE a.dt_cheg <= :data ";
             if ($unidade > 0) {
                 $subquery .= " AND a.unidade_id = :unidade";
             }
