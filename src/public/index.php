@@ -8,6 +8,7 @@ use \novosga\business\AcessoBusiness;
 \novosga\util\I18n::bind();
 
 $app = new SGA(array(
+    'debug' => false,
     'view' => new \novosga\view\SGAView()
 ));
 
@@ -60,6 +61,15 @@ $app->get('/install(/:page)', function($page = '') use ($app) {
 
 $app->post('/install/:action', function($action) use ($app) {
     $controller = new \novosga\install\InstallController();
+    $ref = new \ReflectionMethod($controller, $action);
+    if ($ref->isPublic()) {
+        $ref->invokeArgs($controller, array($app->getContext()));
+    }
+});
+
+
+$app->any('/cron(/:action)', function($action = '') use ($app) {
+    $controller = new \novosga\controller\CronController($app);
     $ref = new \ReflectionMethod($controller, $action);
     if ($ref->isPublic()) {
         $ref->invokeArgs($controller, array($app->getContext()));

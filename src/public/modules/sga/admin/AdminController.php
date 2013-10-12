@@ -68,7 +68,7 @@ class AdminController extends ModuleController {
         $this->app()->view()->assign('auth', $auth);
         $this->app()->view()->assign('numeracao', $numeracao);
         $this->app()->view()->assign('numeracoes', $this->numeracoes);
-        $this->app()->view()->assign('cronReiniciarSenhas', $cron->cronUrl('reiniciar_senhas', $context->getUser()));
+        $this->app()->view()->assign('cronReiniciarSenhas', $cron->cronUrl('reset', $context->getUser()));
     }
     
     public function auth_save(SGAContext $context) {
