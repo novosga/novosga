@@ -327,7 +327,7 @@
         <div id="sga-clock" title="{% trans %}Data e hora no servidor{% endtrans %}"></div>
         
         {# som executado quando a fila deixa de estar fazia #}
-        <audio id="audio-new" src="media/audio/ekiga-vm.wav" style="display:none"></audio>
+        <audio id="alert" src="{{ baseUrl() }}/sounds/ekiga-vm.wav" style="display:none"></audio>
         
         <script type="text/javascript">
             SGA.Clock.init("sga-clock", {{ time }});
