@@ -34,7 +34,7 @@ SGA.Atendimento = {
                             $('#chamar .chamar').prop('disabled', false);
                             // se a fila estava vazia e chegou um novo atendimento, entao toca o som
                             if (list.find('li.empty').length > 0) {
-                                document.getElementById("audio-new").play();
+                                document.getElementById("alert").play();
                             }
                         }
                         list.text('');
