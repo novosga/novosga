@@ -6,7 +6,12 @@
     "homepage": "http://www.novosga.org",
     "license": "MIT",
     "authors": [
-        {"name": "Rogério Alencar Lino Filho", "email": "rogeriolino@gmail.com"}
+        {
+            "name": "Rogério Alencar Lino Filho", 
+            "email": "rogeriolino@gmail.com",
+            "homepage": "http://rogeriolino.com",
+            "role": "Developer"
+        }
     ],
     "require": {
         "php": ">=5.3.2",
@@ -21,7 +26,13 @@
             "novosga": "lib/",
             "modules": "public/"
         }
+    },
+    "scripts": {
+        "pre-update-cmd": [
+            "novosga\\composer\\EventHandler::preUpdate"
+        ],
+        "post-update-cmd": [
+            "novosga\\composer\\EventHandler::postUpdate"
+        ]
     }
 }
-
-
