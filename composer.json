@@ -1,6 +1,6 @@
 {
     "name": "novosga/novosga",
-    "type": "application",
+    "type": "project",
     "description": "Sistema de Gerenciamento de Atendimento",
     "keywords": ["sga", "atendimento", "fila", "gerenciamento", "controle"],
     "homepage": "http://www.novosga.org",
