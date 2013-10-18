@@ -15,24 +15,11 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "slim/slim": "2.3",
-        "slim/views": "0.1.*",
-        "twig/twig": "1.13.*",
-        "twig/extensions": "1.*",
-        "doctrine/orm": "2.4.*"
+        "novosga/core": "dev-master"
     },
     "autoload": {
         "psr-0": {
-            "novosga": "lib/",
             "modules": "public/"
         }
-    },
-    "scripts": {
-        "pre-update-cmd": [
-            "novosga\\composer\\EventHandler::preUpdate"
-        ],
-        "post-update-cmd": [
-            "novosga\\composer\\EventHandler::postUpdate"
-        ]
     }
 }
