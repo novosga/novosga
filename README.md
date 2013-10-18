@@ -14,6 +14,12 @@ cd novosga
 php composer.phar install
 ```
 
+Ou 
+
+```sh
+php composer.phar create-project novosga/novosga novosga "dev-master"
+```
+
 ## Tecnologia
 
 A aplicação web continua escrita em PHP, porém compatível com as versões mais novas, desfrutando de melhorias e evolução da linguagem.
