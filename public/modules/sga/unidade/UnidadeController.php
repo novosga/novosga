@@ -85,7 +85,8 @@ class UnidadeController extends ModuleController {
                 $context->setUnidade($unidade);
             }
         }
-        echo (new AjaxResponse(true))->toJson();
+        $response = new AjaxResponse(true);
+        echo $response->toJson();
         exit();
     }
     
