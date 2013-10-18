@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Error | Novo SGA</title>
+    <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/bootstrap.min.css" />
+    <link rel="shortcut icon" href="{{ baseUrl() }}/images/favicon.png" />
+</head>
+<body>
+    <div class="container">
+        <h1>Oops!</h1>
+        
+        <h2>{% trans %}Mensagem{% endtrans %}</h2>
+        <pre>{{ exception.message }}</pre>
+        
+        <h2>Trace</h2>
+        <pre>{{ exception.traceAsString }}</pre>
+    </div>
+</body>
+</html>

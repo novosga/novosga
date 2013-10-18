@@ -1,0 +1,7 @@
+{% extends "crud/list.html.twig" %}
+{% block thead %}
+    <th>{% trans %}Nome{% endtrans %}</th>
+{% endblock %}
+{% block tbody %}
+    <td>{{ item.nome }}</td>
+{% endblock %}
