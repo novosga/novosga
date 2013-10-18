@@ -1,19 +1,16 @@
 # Novo SGA
 
-Versão do SGA Livre reformulada para o PHP 5.3+, utilizando ORM para abstração do banco e compatível com a versão de origem.
+Sistema de Gerenciamento de Atendimento adaptável para grandes e pequenas organizações.
 
-Visite o site e baixe a última versão estável: http://novosga.org
+Visite o site para maiores informações: http://novosga.org
 
-## Sobre
+## Instalação
 
-SGA é o acrônimo de Sistema de Gerenciamento de Atendimento, sistema desenvolvido pela Dataprev e liberado como código aberto através da versão SGA Livre.
+Instalação feita via [Composer](http://getcomposer.org/)
 
-Devido ao desenvolvimento do SGA Livre estar estagnado na mesma versão desde 2009, unindo a burocracia dos responsáveis pela comunidade no [Portal do Software Público](http://softwarepublico.gov.br/) surgiu a necessidade de criar uma nova versão para esse sistema que já roda em diversas localidades do Brasil.
-
-A parte web foi totalmente reformulada, deixando mais leve e intuitiva, com uma interface amigável e instalação super fácil. Já no painel foi alterado para funcionar na plataforma JavaFX, além de melhorias e novas funcionalidades. Outras melhorias e funcionalidades estão previstas e irão ser aplicadas durante o desenvolvimento do projeto.
-
-Tem alguma sugestão? Crie uma [issue](https://github.com/rogeriolino/novosga/issues) ou participe do desenvolvimento!
-
+```sh
+php composer.phar install "novosga/novosga:*"
+```
 
 ## Tecnologia
 
@@ -22,11 +19,9 @@ A aplicação web continua escrita em PHP, porém compatível com as versões ma
 - PHP 5.3
 - HTML5
 - CSS3
-- [JavaFX 2](http://docs.oracle.com/javafx/)
-- [Doctrine PHP 2.3](http://www.doctrine-project.org/projects/orm.html)
-- [jQuery 1.8+](http://jquery.com/)
-- [jQuery UI 1.9+](http://jqueryui.com/)
-- [Twitter Bootstrap for jQuery UI](http://addyosmani.github.com/jquery-ui-bootstrap/)
+- [Doctrine PHP 2.4](http://www.doctrine-project.org/projects/orm.html)
+- [jQuery 1.9](http://jquery.com/)
+- [Twitter Bootstrap 3](http://getbootstrap.com/)
 - [Highcharts](http://www.highcharts.com/)
 
 Testado no seguintes bancos:
@@ -46,4 +41,8 @@ Versão de desenvolvimento disponível online através do link: http://novosga.o
 
 Gostou dessa nova versão? Necessita de alguma funcionalidade ou quer apenas contribuir para manter o projeto a todo vapor?
 
-Entre em contato conosco!
+Entre em contato via [fórum](http://novosga.org/forum/), [blog](http://novosga.org/blog/) ou [issues](https://github.com/novosga/novosga/issues/)!
+
+**Author**: [Rogério Alencar Lino Filho](http://rogeriolino.com/)
+
+**Colaboradores**: https://github.com/novosga/novosga/contributors
