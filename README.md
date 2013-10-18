@@ -9,7 +9,9 @@ Visite o site para maiores informações: http://novosga.org
 Instalação feita via [Composer](http://getcomposer.org/)
 
 ```sh
-php composer.phar require "novosga/novosga:*"
+git clone https://github.com/novosga/novosga
+cd novosga
+php composer.phar install
 ```
 
 ## Tecnologia
