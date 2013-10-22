@@ -15,7 +15,9 @@ use \Novosga\Controller\CrudController;
 class ServicosController extends CrudController {
     
     protected function createModel() {
-        return new Servico();
+         $servico = new Servico();
+         $servico->setPeso(1);
+         return $servico;
     }
     
     protected function requiredFields() {

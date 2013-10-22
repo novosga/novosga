@@ -9,6 +9,31 @@
     <div class="tab-content">
         <div id="tab-geral" class="tab-pane active">
             <fieldset>
+                <legend>{% trans %}Banco de Dados{% endtrans %}</legend>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{% trans %}Chave{% endtrans %}</th>
+                            <th>{% trans %}Valor{% endtrans %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for k,v in dbValues %}
+                        <tr>
+                            <td>{{ k }}</td>
+                            <td>
+                                {% if k == "password" %}
+                                    ***
+                                {% else %}
+                                    {{ v }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </fieldset>
+            <fieldset>
                 <legend>{% trans %}Autenticação{% endtrans %}</legend>
                 <div id="auth_message" style="display:none">
                     <div class="alert alert-success">
@@ -132,7 +157,7 @@
                         <div class="panel-body">
                             <p>Participe diretamente do desenvolvimento relatando problemas (issues).</p>
                             <p>
-                                <a href="http://novosga.org/forum" class="btn btn-success" target="_blank">
+                                <a href="https://github.com/novosga/novosga" class="btn btn-success" target="_blank">
                                     <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
                                     {% trans %}Acessar{% endtrans %}
                                 </a>

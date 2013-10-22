@@ -23,20 +23,20 @@ class UnidadeController extends ModuleController {
             $locais = $this->em()->getRepository('Novosga\Model\Local')->findAll();
             if (sizeof($locais)) {
                 $local = $locais[0];
-                /*
-                 * XXX: Os parametros abaixo (id da unidade e sigla) estao sendo concatenados direto na string devido a um bug do pdo_sqlsrv (windows)
-                 */
-                // atualizando relacionamento entre unidade e servicos
+                // atualizando relacionamento entre unidade e servicos mestre
                 $conn = $this->em()->getConnection();
                 $conn->executeUpdate("
                     INSERT INTO uni_serv 
+                        (unidade_id, servico_id, local_id, nome, sigla, status, peso)
                     SELECT 
-                        {$unidade->getId()}, id, :local, nome, 'A', 0 FROM servicos 
+                        :unidade, id, :local, nome, 'A', 0, peso 
+                    FROM 
+                        servicos 
                     WHERE 
                         id_macro IS NULL AND
                         id NOT IN (SELECT servico_id FROM uni_serv WHERE unidade_id = :unidade)
                 ", array('unidade' => $unidade->getId(), 'local' => $local->getId()));
-                // todos servicos mestre
+                // todos servicos da unidade
                 $query = $this->em()->createQuery("
                     SELECT 
                         e 
@@ -49,6 +49,7 @@ class UnidadeController extends ModuleController {
                 ");
                 $query->setParameter('unidade', $unidade->getId());
                 $this->app()->view()->assign('servicos', $query->getResult());
+                // locais disponiveis
                 $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Local e ORDER BY e.nome");
                 $this->app()->view()->assign('locais', $query->getResult());
             }
