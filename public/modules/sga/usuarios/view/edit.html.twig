@@ -117,8 +117,8 @@
                                 <input type="checkbox" class="check-servico" onchange="SGA.Usuarios.multiCheck(this, 'btn-remove-servico')" />
                                 <input type="hidden" class="value" name="servicos[]" value="{{ item.unidade_id }},{{ item.servico_id }}" />
                             </td>
-                            <td class="servico">{{ item.servico }}</td>
                             <td class="unidade">{{ item.unidade }}</td>
+                            <td class="servico">{{ item.servico }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

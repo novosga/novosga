@@ -141,7 +141,9 @@ SGA.Usuarios = {
             var exceto = [];
             $('#servicos .check .value').each(function(i, e) {
                 var value = $(e).val().split(',');
-                exceto.push(value[1]);
+                if (value[0] === unidade) {
+                    exceto.push(value[1]);
+                }
             });
             SGA.ajax({
                 url: SGA.url('servicos_unidade'),
