@@ -1,37 +1,30 @@
 <?php
 $autoload = __DIR__ . '/vendor/autoload.php';
 if (!file_exists($autoload)) {
-    echo '<h1>Novo SGA</h1><p>Please run <strong>composer.phar install</strong> fisrt</p>';
+    echo '<h1>Novo SGA</h1>
+    <p>Por favor execute <strong>composer.phar install</strong> primeiro.</p>
+    <p>Please run <strong>composer.phar install</strong> fisrt.</p>';
     exit();
 }
 
-define("PATH", "");
 define("DS", DIRECTORY_SEPARATOR);
-define("ROOT", dirname(__FILE__));
-define("LIB", ROOT . DS . 'lib');
-define("PUBLIC_HTML", ROOT . DS . 'public');
-define("CORE_DIR", "novosga");
-define("CORE_PATH", LIB . DS . CORE_DIR);
-define("CACHE_DIR", "cache");
-define("CACHE_PATH", ROOT . DS . CACHE_DIR);
-define("LOCALE_DIR", "locale");
-define("LOCALE_PATH", CORE_PATH . DS . LOCALE_DIR);
-define("THEMES_DIR", "themes");
-define("THEMES_PATH", PUBLIC_HTML . DS . THEMES_DIR);
+define("NOVOSGA_ROOT", __DIR__);
+define("VENDOR_DIR", __DIR__ . DS . 'vendor');
+define("NOVOSGA_CONFIG", NOVOSGA_ROOT . DS . 'config');
+define("NOVOSGA_PUBLIC", NOVOSGA_ROOT . DS . 'public');
+define("NOVOSGA_LOCALE_DIR", NOVOSGA_ROOT . DS . "locale");
 define("MODULES_DIR", "modules");
-define("MODULES_PATH", PUBLIC_HTML . DS . MODULES_DIR);
-define("MODEL_DIR", "model");
-define("MODEL_PATH", CORE_PATH . DS . MODEL_DIR);
-define("VIEW_DIR", "view");
-define("VIEW_PATH", CORE_PATH . DS . VIEW_DIR);
-define("CTRL_DIR", "controller");
-define("CTRL_PATH", CORE_PATH . DS . CTRL_DIR);
-define("DB_DIR", "db");
-define("DB_PATH", CORE_PATH . DS . DB_DIR);
-define("CONTRIB_DIR", "contrib");
-define("CONTRIB_PATH", CORE_PATH . DS . CONTRIB_DIR);
-define("HOME_DIR", "home");
-define("HOME_PATH", ROOT . DS . HOME_DIR);
+define("MODULES_PATH", NOVOSGA_PUBLIC . DS . MODULES_DIR);
 
 require $autoload;
 
+// i18n
+\Novosga\Util\I18n::bind();
+
+$db = new Novosga\Db\DatabaseConfig(NOVOSGA_ROOT . '/config/database.php');
+
+define("NOVOSGA_INSTALLED", $db->isIntalled());
+if (NOVOSGA_INSTALLED) {
+    $tipoNumeracao = \Novosga\Model\Configuracao::get($db->createEntityManager(), \Novosga\Model\Util\Senha::TIPO_NUMERACAO);
+    define("NOVOSGA_TIPO_NUMERACAO", $tipoNumeracao ? $tipoNumeracao->getValor() : \Novosga\Model\Util\Senha::NUMERACAO_UNICA);
+}

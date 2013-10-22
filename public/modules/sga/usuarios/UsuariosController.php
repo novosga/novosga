@@ -2,14 +2,12 @@
 namespace modules\sga\usuarios;
 
 use \Exception;
-use \novosga\db\DB;
-use \novosga\SGAContext;
-use \novosga\util\Arrays;
-use \novosga\http\AjaxResponse;
-use \novosga\business\AcessoBusiness;
-use \novosga\model\SequencialModel;
-use \novosga\model\Usuario;
-use \novosga\controller\CrudController;
+use \Novosga\SGAContext;
+use \Novosga\Util\Arrays;
+use \Novosga\Http\AjaxResponse;
+use \Novosga\Model\SequencialModel;
+use \Novosga\Model\Usuario;
+use \Novosga\Controller\CrudController;
 
 /**
  * UsuariosController
@@ -29,7 +27,7 @@ class UsuariosController extends CrudController {
     public function edit(SGAContext $context, $id = 0) {
         parent::edit($context, $id);
         // lotacoes do usuario
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Lotacao e JOIN e.cargo c JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Lotacao e JOIN e.cargo c JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
         $query->setParameter('usuario', $this->model->getId());
         $rs = $query->getResult();
         $items = array();
@@ -43,7 +41,7 @@ class UsuariosController extends CrudController {
         }
         $this->app()->view()->assign('lotacoes', $items);
         // servicos do usuario
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\ServicoUsuario e WHERE e.usuario = :usuario");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $this->model->getId());
         $rs = $query->getResult();
         $items = array();
@@ -57,10 +55,10 @@ class UsuariosController extends CrudController {
         }
         $this->app()->view()->assign('servicos', $items);
         // unidades
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Unidade e ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e ORDER BY e.nome");
         $this->app()->view()->assign('unidades', $query->getResult());
         // cargos disponiveis
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Cargo e ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Cargo e ORDER BY e.nome");
         $this->app()->view()->assign('cargos', $query->getResult());
     }
     
@@ -81,14 +79,14 @@ class UsuariosController extends CrudController {
             $senha = Arrays::value($_POST, 'senha');
             $confirmacao = Arrays::value($_POST, 'senha2');
             // verifica e codifica a senha
-            $model->setSenha(AcessoBusiness::verificaSenha($senha, $confirmacao));
+            $model->setSenha($this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao));
             $model->setStatus(1);
             $model->setSessionId('');
         } else {
             $model->setStatus((int) Arrays::value($_POST, 'status'));
         }
         // verificando novo login ou alteracao
-        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM novosga\model\Usuario e WHERE e.login = :login AND e.id != :id");
+        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\Usuario e WHERE e.login = :login AND e.id != :id");
         $query->setParameter('login', $model->getLogin());
         $query->setParameter('id', $model->getId());
         $rs = $query->getSingleResult();
@@ -100,7 +98,7 @@ class UsuariosController extends CrudController {
     protected function postSave(SGAContext $context, SequencialModel $model) {
         $conn = $this->em()->getConnection();
         // lotacoes - atualizando permissoes do cargo
-        $query = $this->em()->createQuery("DELETE FROM novosga\model\Lotacao e WHERE e.usuario = :usuario");
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Lotacao e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $model->getId());
         $query->execute();
         $lotacoes = Arrays::value($_POST, 'lotacoes', array());
@@ -115,7 +113,7 @@ class UsuariosController extends CrudController {
             }
         }
         // servicos
-        $query = $this->em()->createQuery("DELETE FROM novosga\model\ServicoUsuario e WHERE e.usuario = :usuario");
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $model->getId());
         $query->execute();
         $servicos = Arrays::value($_POST, 'servicos', array());
@@ -139,7 +137,7 @@ class UsuariosController extends CrudController {
         $total = 0;
         $models = array('Atendimento', 'ViewAtendimento');
         foreach ($models as $atendimentoModel) {
-            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM novosga\model\\$atendimentoModel e WHERE e.usuario = :usuario");
+            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\\$atendimentoModel e WHERE e.usuario = :usuario");
             $query->setParameter('usuario', $model->getId());
             $rs = $query->getSingleResult();
             $total += $rs['total'];
@@ -150,14 +148,14 @@ class UsuariosController extends CrudController {
         // excluindo vinculos do usuario (servicos e lotacoes)
         $models = array('ServicoUsuario', 'Lotacao');
         foreach ($models as $vinculoModel) {
-            $query = $this->em()->createQuery("DELETE FROM novosga\model\\$vinculoModel e WHERE e.usuario = :usuario");
+            $query = $this->em()->createQuery("DELETE FROM Novosga\Model\\$vinculoModel e WHERE e.usuario = :usuario");
             $query->setParameter('usuario', $model->getId());
             $query->execute();
         }
     }
 
     protected function search($arg) {
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Usuario e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.login) LIKE :arg");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Usuario e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.login) LIKE :arg");
         $query->setParameter('arg', $arg);
         return $query;
     }
@@ -172,13 +170,13 @@ class UsuariosController extends CrudController {
             SELECT 
                 e
             FROM 
-                novosga\model\Grupo e 
+                Novosga\Model\Grupo e 
             WHERE 
                 NOT EXISTS (
                     SELECT 
                         g2.id 
                     FROM 
-                        novosga\model\Grupo g2 
+                        Novosga\Model\Grupo g2 
                     WHERE 
                         (
                             g2.left <= e.left AND g2.right >= e.right OR
@@ -194,7 +192,7 @@ class UsuariosController extends CrudController {
     
     /**
      * Retorna os grupos disponíveis para serem atribuidos ao usuário. Descartando os grupos com ids informados no parâmetro exceto.
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function grupos(SGAContext $context) {
         $exceto = $context->request()->getParameter('exceto');
@@ -209,12 +207,12 @@ class UsuariosController extends CrudController {
 
     /**
      * Retorna as permissões do cargo informado
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function permissoes_cargo(SGAContext $context) {
         $response = new AjaxResponse(true);
         $id = (int) $context->request()->getParameter('cargo');
-        $query = $this->em()->createQuery("SELECT m.nome FROM novosga\model\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
+        $query = $this->em()->createQuery("SELECT m.nome FROM Novosga\Model\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
         $query->setParameter('cargo', $id);
         $response->data = $query->getResult();
         $context->response()->jsonResponse($response);
@@ -222,7 +220,7 @@ class UsuariosController extends CrudController {
 
     /**
      * Retorna os serviços habilitados na unidade informada. Descartando os serviços com ids informados no parâmetro exceto
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function servicos_unidade(SGAContext $context) {
         $response = new AjaxResponse(true);
@@ -233,7 +231,7 @@ class UsuariosController extends CrudController {
             SELECT 
                 s.id, e.nome 
             FROM 
-                novosga\model\ServicoUnidade e 
+                Novosga\Model\ServicoUnidade e 
                 JOIN e.unidade u 
                 JOIN e.servico s 
             WHERE 
@@ -251,7 +249,7 @@ class UsuariosController extends CrudController {
     
     /**
      * Altera a senha do usuario que está sendo editado
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function alterar_senha(SGAContext $context) {
         $response = new AjaxResponse();
@@ -261,8 +259,8 @@ class UsuariosController extends CrudController {
         $usuario = $this->findById($id);
         if ($usuario) {
             try {
-                $hash = AcessoBusiness::verificaSenha($senha, $confirmacao);
-                $query = $this->em()->createQuery("UPDATE novosga\model\Usuario u SET u.senha = :senha WHERE u.id = :id");
+                $hash = $this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao);
+                $query = $this->em()->createQuery("UPDATE Novosga\Model\Usuario u SET u.senha = :senha WHERE u.id = :id");
                 $query->setParameter('senha', $hash);
                 $query->setParameter('id', $usuario->getId());
                 $query->execute();

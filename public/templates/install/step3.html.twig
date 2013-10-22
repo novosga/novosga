@@ -13,27 +13,27 @@
             </div>
             <div class="form-group">
                 <label>Tipo:</label>
-                <abbr class="db-type" title="{% trans %}Escolhido no passo 1{% endtrans %}">{{ rbmsName }}</abbr>
+                <abbr class="db-type" title="{% trans %}Escolhido no passo 1{% endtrans %}">{{ rdmsName }}</abbr>
             </div>
             <div class="form-group">
-                <label for="db_host">Host:</label>
-                <input type="text" id="db_host" class="form-control" onchange="SGA.Install.onChangeData()" />
+                <label for="host">Host:</label>
+                <input type="text" id="host" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="form-group">
-                <label for="db_port">Porta:</label>
-                <input type="text" id="db_port" class="form-control" onchange="SGA.Install.onChangeData()" />
+                <label for="port">Porta:</label>
+                <input type="text" id="port" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="form-group">
-                <label for="db_user">Usuário:</label>
-                <input type="text" id="db_user" class="form-control" onchange="SGA.Install.onChangeData()" />
+                <label for="user">Usuário:</label>
+                <input type="text" id="user" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="form-group">
-                <label for="db_pass">Senha:</label>
-                <input type="password" id="db_pass" class="form-control" onchange="SGA.Install.onChangeData()" />
+                <label for="password">Senha:</label>
+                <input type="password" id="password" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="form-group">
-                <label for="db_name">Database:</label>
-                <input type="text" id="db_name" class="form-control" onchange="SGA.Install.onChangeData()" />
+                <label for="dbname">Database:</label>
+                <input type="text" id="dbname" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="alert alert-block">É necessário testar o banco antes de prosseguir.
                 <button id="btn_test_db" class="btn btn-default" onclick="SGA.Install.testDB()"

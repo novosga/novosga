@@ -1,10 +1,10 @@
 <?php
 namespace modules\sga\prioridades;
 
-use \novosga\SGAContext;
-use \novosga\model\Prioridade;
-use \novosga\model\SequencialModel;
-use \novosga\controller\CrudController;
+use \Novosga\SGAContext;
+use \Novosga\Model\Prioridade;
+use \Novosga\Model\SequencialModel;
+use \Novosga\Controller\CrudController;
 
 /**
  * PrioridadesController
@@ -22,7 +22,7 @@ class PrioridadesController extends CrudController {
     }
 
     protected function search($arg) {
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Prioridade e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Prioridade e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg");
         $query->setParameter('arg', $arg);
         return $query;
     }

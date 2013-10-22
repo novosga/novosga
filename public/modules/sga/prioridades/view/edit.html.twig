@@ -18,6 +18,9 @@
             {% endfor %}
         </select>
     </div>
+    {% else %}
+        {# somente para manter a regra de validacao de campos obrigatorios #}
+        <input type="hidden" name="peso" value="0">
     {% endif %}
     <div class="form-group required">
         <label for="status" class="control-label">{% trans %}Status{% endtrans %}</label>

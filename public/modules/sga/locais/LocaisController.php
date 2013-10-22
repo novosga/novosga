@@ -1,8 +1,8 @@
 <?php
 namespace modules\sga\locais;
 
-use novosga\controller\CrudController;
-use novosga\model\Local;
+use Novosga\Controller\CrudController;
+use Novosga\Model\Local;
 
 /**
  * LocaisController
@@ -20,7 +20,7 @@ class LocaisController extends CrudController {
     }
 
     protected function search($arg) {
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Local e WHERE UPPER(e.nome) LIKE :arg");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Local e WHERE UPPER(e.nome) LIKE :arg");
         $query->setParameter('arg', $arg);
         return $query;
     }

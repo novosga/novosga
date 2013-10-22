@@ -1,11 +1,11 @@
 <?php
 namespace modules\sga\modulos;
 
-use \novosga\SGAContext;
-use \novosga\util\Arrays;
-use \novosga\model\Modulo;
-use \novosga\http\AjaxResponse;
-use \novosga\controller\ModuleController;
+use \Novosga\SGAContext;
+use \Novosga\Util\Arrays;
+use \Novosga\Model\Modulo;
+use \Novosga\Http\AjaxResponse;
+use \Novosga\Controller\ModuleController;
 use \Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
@@ -17,7 +17,7 @@ class ModulosController extends ModuleController {
     
     /**
      * Monta a lista das entidades, podendo filtra-las.
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function index(SGAContext $context) {
         $maxResults = 10;
@@ -36,13 +36,13 @@ class ModulosController extends ModuleController {
     }
 
     protected function search($arg) {
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Modulo e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.chave) LIKE :arg");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Modulo e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.chave) LIKE :arg");
         $query->setParameter('arg', $arg);
         return $query;
     }
     
     private function find($id) {
-        return $this->em()->find('novosga\model\Modulo', $id);
+        return $this->em()->find('Novosga\Model\Modulo', $id);
     }
 
     public function edit(SGAContext $context, $id = 0) {

@@ -1,27 +1,14 @@
 <?php
 require_once dirname(__DIR__) . '/bootstrap.php';
 
-use \novosga\SGA;
-use \novosga\business\AcessoBusiness;
-
-// i18n
-\novosga\util\I18n::bind();
+use \Novosga\SGA;
+use \Novosga\Business\AcessoBusiness;
 
 $app = new SGA(array(
-    'debug' => false,
-    'view' => new \novosga\view\SGAView()
+    'debug' => true,
+    'view' => new \Novosga\View\SGAView(),
+    'db' => $db
 ));
-
-$app->view()->set('version', SGA::VERSION);
-$app->view()->set('lang', novosga\util\I18n::lang());
-
-$app->view()->parserExtensions = array(
-    new \Slim\Views\TwigExtension(),
-    new \Twig_Extensions_Extension_I18n()
-);
-
-$app->add(new \novosga\slim\InstallMiddleware());
-$app->add(new \novosga\slim\AuthMiddleware($app->getContext()));
 
 $app->notFound(function() use ($app) {
     $app->render('error/404.html.twig');
@@ -33,11 +20,13 @@ $app->error(function(\Exception $e) use ($app) {
 });
 
 $app->get('/login', function() use ($app) {
+    $ctrl = new \Novosga\Controller\LoginController($app);
+    $ctrl->index($app->getContext());
     echo $app->render('login.html.twig');
 });
 
 $app->post('/login', function() use ($app) {
-    $ctrl = new \novosga\controller\LoginController($app);
+    $ctrl = new \Novosga\Controller\LoginController($app);
     $ctrl->validate($app->getContext());
 });
 
@@ -47,7 +36,7 @@ $app->get('/logout', function() use ($app) {
 });
 
 $app->get('/install(/:page)', function($page = '') use ($app) {
-    $controller = new \novosga\install\InstallController();
+    $controller = new \Novosga\Install\InstallController();
     if ($page === 'info') {
         $controller->info($app->getContext());
         exit();
@@ -60,7 +49,7 @@ $app->get('/install(/:page)', function($page = '') use ($app) {
 });
 
 $app->post('/install/:action', function($action) use ($app) {
-    $controller = new \novosga\install\InstallController();
+    $controller = new \Novosga\Install\InstallController();
     $ref = new \ReflectionMethod($controller, $action);
     if ($ref->isPublic()) {
         $ref->invokeArgs($controller, array($app->getContext()));
@@ -69,7 +58,7 @@ $app->post('/install/:action', function($action) use ($app) {
 
 
 $app->any('/cron(/:action)', function($action = '') use ($app) {
-    $controller = new \novosga\controller\CronController($app);
+    $controller = new \Novosga\Controller\CronController($app);
     $ref = new \ReflectionMethod($controller, $action);
     if ($ref->isPublic()) {
         $ref->invokeArgs($controller, array($app->getContext()));
@@ -77,37 +66,37 @@ $app->any('/cron(/:action)', function($action = '') use ($app) {
 });
 
 $app->get('/(home)', function() use ($app) {
-    $ctrl = new \novosga\controller\HomeController($app);
+    $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->index($app->getContext());
     echo $app->render('home.html.twig');
 });
 
 $app->post('/home/set_unidade', function() use ($app) {
-    $ctrl = new \novosga\controller\HomeController($app);
+    $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->unidade($app->getContext());
 });
 
 $app->get('/profile', function() use ($app) {
-    $ctrl = new \novosga\controller\HomeController($app);
+    $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->perfil($app->getContext());
     echo $app->render('profile.html.twig');
 });
 
 $app->post('/profile', function() use ($app) {
-    $ctrl = new \novosga\controller\HomeController($app);
+    $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->perfil($app->getContext());
     echo $app->render('profile.html.twig');
 });
 
 $app->post('/profile/password', function() use ($app) {
-    $ctrl = new \novosga\controller\HomeController($app);
+    $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->alterar_senha($app->getContext());
     echo $app->render('profile.html.twig');
 });
 
 $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app) {
     define('MODULE', $moduleKey);
-    if (!AcessoBusiness::checkAccess($app->getContext(), $moduleKey, $action)) {
+    if (!$app->getAcessoBusiness()->checkAccess($app->getContext(), $moduleKey, $action)) {
         $app->redirect($app->request()->getRootUri() . '/home');
     }
     $args = array($app->getContext());
@@ -148,8 +137,8 @@ $app->any('/api(/:action(/:params+))', function($action = '', $params = array())
     if (empty($action)) {
         $app->notFound();
     }
-    $em = \novosga\db\DB::getEntityManager();
-    $api = new \novosga\api\ApiV1($em);
+    $em = $app->getContext()->database()->createEntityManager();
+    $api = new \Novosga\Api\ApiV1($em);
     // api action
     $methodName = str_replace('/', '_', str_replace('-', '_', $action));
     $method = new \ReflectionMethod($api, $methodName);

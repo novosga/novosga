@@ -1,17 +1,16 @@
 <?php
 namespace modules\sga\admin;
 
-use \novosga\SGA;
-use \novosga\SGAContext;
-use \novosga\http\AjaxResponse;
-use \novosga\model\Configuracao;
-use \novosga\model\util\Senha;
-use \novosga\auth\Authentication;
-use \novosga\controller\ModuleController;
-use \novosga\business\PainelBusiness;
-use \novosga\business\AtendimentoBusiness;
-use \novosga\controller\CronController;
-use \novosga\model\Modulo;
+use \Novosga\SGA;
+use \Novosga\SGAContext;
+use \Novosga\Http\AjaxResponse;
+use \Novosga\Model\Configuracao;
+use \Novosga\Model\Util\Senha;
+use \Novosga\Auth\Authentication;
+use \Novosga\Controller\ModuleController;
+use \Novosga\Business\AtendimentoBusiness;
+use \Novosga\Controller\CronController;
+use \Novosga\Model\Modulo;
 
 /**
  * AdminView
@@ -27,14 +26,10 @@ class AdminController extends ModuleController {
     }
     
     public function index(SGAContext $context) {
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Unidade e ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e ORDER BY e.nome");
         $unidades = $query->getResult();
-        $paineis = array();
-        foreach ($unidades as $unidade) {
-            $paineis[$unidade->getId()] = PainelBusiness::paineis($unidade);
-        }
         // método de autenticação
-        $auth = Configuracao::get(Authentication::KEY);
+        $auth = Configuracao::get($this->em(), Authentication::KEY);
         if ($auth) {
             $auth = $auth->getValor();
         } else {
@@ -51,20 +46,19 @@ class AdminController extends ModuleController {
                     'filter' => '',
                 )
             );
-            Configuracao::set(Authentication::KEY, $auth);
+            Configuracao::set($this->em(), Authentication::KEY, $auth);
         }
         // tipo de numeração de senha
-        $numeracao = Configuracao::get(Senha::TIPO_NUMERACAO);
+        $numeracao = Configuracao::get($this->em(), Senha::TIPO_NUMERACAO);
         if ($numeracao) {
             $numeracao = $numeracao->getValor();
         } else {
             $numeracao = Senha::NUMERACAO_UNICA;
-            Configuracao::set(Senha::TIPO_NUMERACAO, $numeracao);
+            Configuracao::set($this->em(), Senha::TIPO_NUMERACAO, $numeracao);
         }
         $cron = new CronController($this->app());
         // view values
         $this->app()->view()->assign('unidades', $unidades);
-        $this->app()->view()->assign('paineis', $paineis);
         $this->app()->view()->assign('auth', $auth);
         $this->app()->view()->assign('numeracao', $numeracao);
         $this->app()->view()->assign('numeracoes', $this->numeracoes);
@@ -74,7 +68,7 @@ class AdminController extends ModuleController {
     public function auth_save(SGAContext $context) {
         $response = new AjaxResponse();
         try {
-            $auth = Configuracao::get(Authentication::KEY);
+            $auth = Configuracao::get($this->em(), Authentication::KEY);
             $value = $auth->getValor();
             $type = $context->request()->getParameter('type');
             $value['type'] = $type;
@@ -84,12 +78,12 @@ class AdminController extends ModuleController {
             foreach ($_POST as $k => $v) {
                 $value[$type][$k] = $v;
             }
-            $auth = \novosga\auth\AuthFactory::create($value);
+            $auth = \Novosga\Auth\AuthFactory::create($value);
             if (!$auth) {
                 throw new \Exception(_('Opção inválida'));
             }
             $auth->test();
-            Configuracao::set(Authentication::KEY, $value);
+            Configuracao::set($this->em(), Authentication::KEY, $value);
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
@@ -100,7 +94,8 @@ class AdminController extends ModuleController {
     public function acumular_atendimentos(SGAContext $context) {
         $response = new AjaxResponse();
         try {
-            AtendimentoBusiness::acumularAtendimentos();
+            $ab = new AtendimentoBusiness($this->em());
+            $ab->acumularAtendimentos();
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
@@ -115,20 +110,7 @@ class AdminController extends ModuleController {
             if (!array_key_exists($tipo, $this->numeracoes)) {
                 throw new \Exception(_('Valor inválido'));
             }
-            Configuracao::set(Senha::TIPO_NUMERACAO, $tipo);
-            $response->success = true;
-        } catch (\Exception $e) {
-            $response->message = $e->getMessage();
-        }
-        $context->response()->jsonResponse($response);
-    }
-    
-    public function painel_info(SGAContext $context) {
-        $response = new AjaxResponse();
-        try {
-            $unidade = (int) $context->request()->getParameter('unidade');
-            $host = (int) $context->request()->getParameter('host');
-            $response->data = PainelBusiness::painelInfo($unidade, $host);
+            Configuracao::set($this->em(), Senha::TIPO_NUMERACAO, $tipo);
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();

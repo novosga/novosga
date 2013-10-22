@@ -73,7 +73,7 @@
                             </td>
                             <td class="grupo">{{ item.grupo }}</td>
                             <td class="cargo">
-                                <a href="javascript:void(0)" onclick="SGA.Usuarios.permissoes('{{ item.cargo }}')" title="{% trans %}Visualizar permissões{% endtrans %}">{{ item.cargo }}</a>
+                                <a href="javascript:void(0)" onclick="SGA.Usuarios.permissoes('{{ item.cargo_id }}')" title="{% trans %}Visualizar permissões{% endtrans %}">{{ item.cargo }}</a>
                             </td>
                         </tr>
                         {% endfor %}

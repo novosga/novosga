@@ -1,15 +1,14 @@
 <?php
 namespace modules\sga\estatisticas;
 
-use \novosga\SGA;
-use \novosga\SGAContext;
-use \novosga\model\Atendimento;
-use \novosga\business\AtendimentoBusiness;
-use \novosga\model\Modulo;
-use \novosga\util\DateUtil;
-use \novosga\http\AjaxResponse;
+use \Novosga\SGA;
+use \Novosga\SGAContext;
+use \Novosga\Business\AtendimentoBusiness;
+use \Novosga\Model\Modulo;
+use \Novosga\Util\DateUtil;
+use \Novosga\Http\AjaxResponse;
 use \modules\sga\estatisticas\Relatorio;
-use \novosga\controller\ModuleController;
+use \Novosga\Controller\ModuleController;
 
 /**
  * EstatisticasController
@@ -45,7 +44,7 @@ class EstatisticasController extends ModuleController {
     public function index(SGAContext $context) {
         $dir = MODULES_DIR . '/' . str_replace('.', '/', $context->getModulo()->getChave());
         $context->setParameter('js', array($dir . '/js/highcharts.js', $dir . '/js/highcharts.exporting.js'));
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
         $unidades = $query->getResult();
         $this->app()->view()->assign('unidades', $unidades);
         $this->app()->view()->assign('relatorios', $this->relatorios);
@@ -56,7 +55,7 @@ class EstatisticasController extends ModuleController {
             $arr[$u->getId()] = $u->getNome();
         }
         $this->app()->view()->assign('unidadesJson', json_encode($arr));
-        $this->app()->view()->assign('now', \novosga\util\DateUtil::now(_('d/m/Y')));
+        $this->app()->view()->assign('now', \Novosga\Util\DateUtil::now(_('d/m/Y')));
     }
     
     /**
@@ -152,12 +151,12 @@ class EstatisticasController extends ModuleController {
             $this->app()->view()->assign('relatorio', $relatorio);
         }
         $this->app()->view()->assign('page', "relatorios/{$relatorio->getArquivo()}.html.twig");
-        $this->app()->view()->assign('isNumeracaoServico', \novosga\business\AtendimentoBusiness::isNumeracaoServico());
+        $this->app()->view()->assign('isNumeracaoServico', AtendimentoBusiness::isNumeracaoServico());
         $context->response()->setRenderView(false);
     }
     
     private function unidades() {
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
         return $query->getResult();
     }
     
@@ -165,7 +164,7 @@ class EstatisticasController extends ModuleController {
         if ($default == 0) {
             return $this->unidades();
         } else {
-            $unidade = $this->em()->find('novosga\model\Unidade', $default);
+            $unidade = $this->em()->find('Novosga\Model\Unidade', $default);
             if (!$unidade) {
                 throw new \Exception('Invalid parameter');
             }
@@ -181,7 +180,7 @@ class EstatisticasController extends ModuleController {
             SELECT 
                 COUNT(e) as total 
             FROM 
-                novosga\model\ViewAtendimento e
+                Novosga\Model\ViewAtendimento e
             WHERE 
                 e.dataChegada >= :inicio AND 
                 e.dataChegada <= :fim AND
@@ -211,7 +210,7 @@ class EstatisticasController extends ModuleController {
                 s.nome as servico,
                 COUNT(a) as total 
             FROM 
-                novosga\model\ViewAtendimento a
+                Novosga\Model\ViewAtendimento a
                 JOIN a.unidade u
                 JOIN a.servico s
             WHERE 
@@ -245,28 +244,14 @@ class EstatisticasController extends ModuleController {
             'atendimento' => _('Tempo de Atendimento'),
             'total' => _('Tempo Total')
         );
-        $columns = '';
-        // quando SQL Server usa a função DATEDIFF (registrada na classe DB)
-        if (\novosga\Config::DB_TYPE == 'mssql') {
-            $columns = '
-                AVG(DATEDIFF(a.dataChegada, a.dataChamada)) as espera,
-                AVG(DATEDIFF(a.dataChamada, a.dataInicio)) as deslocamento,
-                AVG(DATEDIFF(a.dataInicio, a.dataFim)) as atendimento,
-                AVG(DATEDIFF(a.dataChegada, a.dataFim)) as total
-            ';
-        } else {
-            $columns = '
+        $dql = "
+            SELECT 
                 AVG(a.dataChamada - a.dataChegada) as espera,
                 AVG(a.dataInicio - a.dataChamada) as deslocamento,
                 AVG(a.dataFim - a.dataInicio) as atendimento,
                 AVG(a.dataFim - a.dataChegada) as total
-            ';
-        }
-        $dql = "
-            SELECT 
-                $columns
             FROM 
-                novosga\model\ViewAtendimento a
+                Novosga\Model\ViewAtendimento a
                 JOIN a.unidade u
             WHERE 
                 a.dataChegada >= :inicio AND 
@@ -302,7 +287,7 @@ class EstatisticasController extends ModuleController {
             SELECT
                 e
             FROM
-                novosga\model\Servico e
+                Novosga\Model\Servico e
                 LEFT JOIN e.subServicos sub
             WHERE
                 e.mestre IS NULL
@@ -323,7 +308,7 @@ class EstatisticasController extends ModuleController {
             SELECT
                 e
             FROM
-                novosga\model\ServicoUnidade e
+                Novosga\Model\ServicoUnidade e
                 JOIN e.servico s
                 LEFT JOIN s.subServicos sub
             WHERE
@@ -350,7 +335,7 @@ class EstatisticasController extends ModuleController {
                 COUNT(c) as total,
                 s.nome
             FROM
-                novosga\model\ViewAtendimentoCodificado c
+                Novosga\Model\ViewAtendimentoCodificado c
                 JOIN c.servico s
                 JOIN c.atendimento e
             WHERE
@@ -383,7 +368,7 @@ class EstatisticasController extends ModuleController {
             SELECT
                 e
             FROM
-                novosga\model\ViewAtendimento e
+                Novosga\Model\ViewAtendimento e
             WHERE
                 e.unidade = :unidade AND
                 e.status = :status AND
@@ -413,7 +398,7 @@ class EstatisticasController extends ModuleController {
             SELECT
                 e
             FROM
-                novosga\model\ViewAtendimento e
+                Novosga\Model\ViewAtendimento e
             WHERE
                 e.unidade = :unidade AND
                 e.dataChegada >= :dataInicial AND
@@ -436,29 +421,16 @@ class EstatisticasController extends ModuleController {
     
     private function tempo_medio_atendentes($dataInicial, $dataFinal) {
         $dados = array();
-        // quando SQL Server usa a função DATEDIFF (registrada na classe DB)
-        if (\novosga\Config::DB_TYPE == 'mssql') {
-            $columns = '
-                AVG(DATEDIFF(a.dataChegada, a.dataChamada)) as espera,
-                AVG(DATEDIFF(a.dataChamada, a.dataInicio)) as deslocamento,
-                AVG(DATEDIFF(a.dataInicio, a.dataFim)) as atendimento,
-                AVG(DATEDIFF(a.dataChegada, a.dataFim)) as tempoTotal
-            ';
-        } else {
-            $columns = '
-                AVG(a.dataChamada - a.dataChegada) as espera,
-                AVG(a.dataInicio - a.dataChamada) as deslocamento,
-                AVG(a.dataFim - a.dataInicio) as atendimento,
-                AVG(a.dataFim - a.dataChegada) as tempoTotal
-            ';
-        }
         $query = $this->em()->createQuery("
             SELECT
                 CONCAT(u.nome, CONCAT(' ', u.sobrenome)) as atendente,
                 COUNT(a) as total,
-                $columns
+                AVG(a.dataChamada - a.dataChegada) as espera,
+                AVG(a.dataInicio - a.dataChamada) as deslocamento,
+                AVG(a.dataFim - a.dataInicio) as atendimento,
+                AVG(a.dataFim - a.dataChegada) as tempoTotal
             FROM
-                novosga\model\ViewAtendimento a
+                Novosga\Model\ViewAtendimento a
                 JOIN a.usuario u
             WHERE
                 a.dataChegada >= :dataInicial AND
@@ -508,16 +480,16 @@ class EstatisticasController extends ModuleController {
             SELECT
                 l
             FROM
-                novosga\model\Lotacao l
+                Novosga\Model\Lotacao l
                 LEFT JOIN l.usuario u
                 LEFT JOIN l.grupo g
                 LEFT JOIN l.cargo c
             WHERE
                 g.left <= (
-                    SELECT g2.left FROM novosga\model\Grupo g2 WHERE g2.id = (SELECT u2g.id FROM novosga\model\Unidade u2 INNER JOIN u2.grupo u2g WHERE u2.id = :unidade)
+                    SELECT g2.left FROM Novosga\Model\Grupo g2 WHERE g2.id = (SELECT u2g.id FROM Novosga\Model\Unidade u2 INNER JOIN u2.grupo u2g WHERE u2.id = :unidade)
                 ) AND
                 g.right >= (
-                    SELECT g3.right FROM novosga\model\Grupo g3 WHERE g3.id = (SELECT u3g.id FROM novosga\model\Unidade u3 INNER JOIN u3.grupo u3g WHERE u3.id = :unidade)
+                    SELECT g3.right FROM Novosga\Model\Grupo g3 WHERE g3.id = (SELECT u3g.id FROM Novosga\Model\Unidade u3 INNER JOIN u3.grupo u3g WHERE u3.id = :unidade)
                 )
             ORDER BY
                 u.login
@@ -538,7 +510,7 @@ class EstatisticasController extends ModuleController {
      */
     private function cargos() {
         $dados = array();
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Cargo e ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Cargo e ORDER BY e.nome");
         $cargos = $query->getResult();
         foreach ($cargos as $cargo) {
             $dados[$cargo->getId()] = array(

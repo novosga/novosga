@@ -1,14 +1,13 @@
 <?php
 namespace modules\sga\monitor;
 
-use \novosga\SGAContext;
-use \novosga\util\Arrays;
-use \novosga\util\DateUtil;
-use \novosga\model\Unidade;
-use \novosga\model\Atendimento;
-use \novosga\http\AjaxResponse;
-use \novosga\controller\ModuleController;
-use \novosga\business\AtendimentoBusiness;
+use \Novosga\SGAContext;
+use \Novosga\Util\Arrays;
+use \Novosga\Util\DateUtil;
+use \Novosga\Model\Unidade;
+use \Novosga\Http\AjaxResponse;
+use \Novosga\Controller\ModuleController;
+use \Novosga\Business\AtendimentoBusiness;
 
 /**
  * MonitorController
@@ -25,13 +24,13 @@ class MonitorController extends ModuleController {
             $this->app()->view()->assign('servicos', $this->servicos($unidade));
         }
         // lista de prioridades para ser utilizada ao redirecionar senha
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Prioridade e WHERE e.status = 1 ORDER BY e.peso, e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Prioridade e WHERE e.status = 1 ORDER BY e.peso, e.nome");
         $this->app()->view()->assign('prioridades', $query->getResult());
         $this->app()->view()->assign('milis', time() * 1000);
     }
     
     private function servicos(Unidade $unidade, $where = "") {
-        $dql = "SELECT e FROM novosga\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1";
+        $dql = "SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1";
         if (!empty($where)) {
             $dql .= " AND $where";
         }
@@ -50,14 +49,15 @@ class MonitorController extends ModuleController {
             if (sizeof($ids)) {
                 $response->data['total'] = 0;
                 $servicos = $this->servicos($unidade, " e.servico IN (" . implode(',', $ids) . ") ");
+                $em = $context->database()->createEntityManager();
                 for ($i = 0; $i < sizeof($servicos); $i++) {
                     $su = $servicos[$i];
-                    $total = $su->getFila()->size();
+                    $total = $su->getFila($em)->size();
                     // prevent overhead
                     if ($total) {
                         $fila = array();
                         for ($j = 0; $j < $total; $j++) {
-                            $atendimento = $su->getFila()->get($j); 
+                            $atendimento = $su->getFila($em)->get($j); 
                             $arr = $atendimento->toArray(true);
                             $fila[] = $arr;
                         }
@@ -76,7 +76,8 @@ class MonitorController extends ModuleController {
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $id = (int) $context->request()->getParameter('id');
-            $atendimento = \novosga\business\AtendimentoBusiness::buscaAtendimento($unidade, $id);
+            $ab = new AtendimentoBusiness($this->em());
+            $atendimento = $ab->buscaAtendimento($unidade, $id);
             if ($atendimento) {
                 $response->data = $atendimento->toArray();
                 $response->success = true;
@@ -89,14 +90,15 @@ class MonitorController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function buscar(SGAContext $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $numero = $context->request()->getParameter('numero');
-            $atendimentos = \novosga\business\AtendimentoBusiness::buscaAtendimentos($unidade, $numero);
+            $ab = new AtendimentoBusiness($this->em());
+            $atendimentos = $ab->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->toArray();
@@ -110,7 +112,7 @@ class MonitorController extends ModuleController {
     
     /**
      * Transfere o atendimento para outro serviço e prioridade
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function transferir(SGAContext $context) {
         $response = new AjaxResponse();
@@ -154,7 +156,7 @@ class MonitorController extends ModuleController {
     /**
      * Reativa o atendimento para o mesmo serviço e mesma prioridade.
      * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function reativar(SGAContext $context) {
         $response = new AjaxResponse();
@@ -191,7 +193,7 @@ class MonitorController extends ModuleController {
     
     /**
      * Atualiza o status da senha para cancelado
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function cancelar(SGAContext $context) {
         $response = new AjaxResponse();

@@ -3,13 +3,12 @@ namespace modules\sga\triagem;
 
 use \PDO;
 use \Exception;
-use \novosga\SGAContext;
-use \novosga\util\Arrays;
-use \novosga\util\DateUtil;
-use \novosga\model\Atendimento;
-use \novosga\http\AjaxResponse;
-use \novosga\controller\ModuleController;
-use \novosga\business\AtendimentoBusiness;
+use \Novosga\SGAContext;
+use \Novosga\Util\Arrays;
+use \Novosga\Util\DateUtil;
+use \Novosga\Http\AjaxResponse;
+use \Novosga\Controller\ModuleController;
+use \Novosga\Business\AtendimentoBusiness;
 
 /**
  * TriagemController
@@ -25,19 +24,19 @@ class TriagemController extends ModuleController {
         if ($unidade) {
             $this->app()->view()->assign('servicos', $this->servicos($unidade));
         }
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Prioridade e WHERE e.status = 1 AND e.peso > 0 ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Prioridade e WHERE e.status = 1 AND e.peso > 0 ORDER BY e.nome");
         $this->app()->view()->assign('prioridades', $query->getResult());
     } 
     
-    private function servicos(\novosga\model\Unidade $unidade) {
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1 ORDER BY e.nome");
+    private function servicos(\Novosga\Model\Unidade $unidade) {
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1 ORDER BY e.nome");
         $query->setParameter('unidade', $unidade->getId());
         return $query->getResult();
     }
     
     public function imprimir(SGAContext $context) {
         $id = (int) Arrays::value($_GET, 'id');
-        $atendimento = $this->em()->find("novosga\model\Atendimento", $id);
+        $atendimento = $this->em()->find("Novosga\Model\Atendimento", $id);
         if (!$atendimento) {
             $this->app()->redirect('index');
         }
@@ -90,12 +89,12 @@ class TriagemController extends ModuleController {
         $response = new AjaxResponse();
         if ($context->request()->isPost()) {
             $id = (int) $context->request()->getParameter('id');
-            $servico = $this->em()->find("novosga\model\Servico", $id);
+            $servico = $this->em()->find("Novosga\Model\Servico", $id);
             if ($servico) {
                 $response->data['nome'] = $servico->getNome();
                 $response->data['descricao'] = $servico->getDescricao();
                 // ultima senha
-                $query = $this->em()->createQuery("SELECT e FROM novosga\model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC");
+                $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC");
                 $query->setParameter('servico', $servico->getId());
                 $query->setParameter('unidade', $context->getUnidade()->getId());
                 $atendimentos = $query->getResult();
@@ -106,7 +105,7 @@ class TriagemController extends ModuleController {
                 }
                 // subservicos
                 $response->data['subservicos'] = array();
-                $query = $this->em()->createQuery("SELECT e FROM novosga\model\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
+                $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
                 $query->setParameter('mestre', $servico->getId());
                 $subservicos = $query->getResult();
                 foreach ($subservicos as $s) {
@@ -130,14 +129,14 @@ class TriagemController extends ModuleController {
                 throw new Exception(_('Nenhum usuário na sessão'));
             }
             // verificando a prioridade
-            $prioridade = $this->em()->find("novosga\model\Prioridade", (int) Arrays::value($_POST, 'prioridade'));
+            $prioridade = $this->em()->find("Novosga\Model\Prioridade", (int) Arrays::value($_POST, 'prioridade'));
             if (!$prioridade || $prioridade->getStatus() == 0) {
                 throw new Exception(_('Prioridade inválida'));
             }
             
             // verificando se o servico esta disponivel na unidade
             $servico = (int) Arrays::value($_POST, 'servico');
-            $query = $this->em()->createQuery("SELECT e FROM novosga\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
+            $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
             $query->setParameter('unidade', $unidade->getId());
             $query->setParameter('servico', $servico);
             $su = $query->getOneOrNullResult();
@@ -191,7 +190,7 @@ class TriagemController extends ModuleController {
                 throw new \Exception(_('Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de desenvolvimento informando esse problema, e o banco de dados que está usando'));
             }
             $response->data['id'] = $id;
-            $response->data['atendimento'] = $this->em()->find("novosga\model\Atendimento", $id)->toArray();
+            $response->data['atendimento'] = $this->em()->find("Novosga\Model\Atendimento", $id)->toArray();
         } catch (Exception $e) {
             $response->success = false;
             $response->message = $e->getMessage();
@@ -201,14 +200,15 @@ class TriagemController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function consulta_senha(SGAContext $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $numero = $context->request()->getParameter('numero');
-            $atendimentos = \novosga\business\AtendimentoBusiness::buscaAtendimentos($unidade, $numero);
+            $ab = new AtendimentoBusiness($this->em());
+            $atendimentos = $ab->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->toArray();

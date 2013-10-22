@@ -2,14 +2,16 @@
 namespace modules\sga\atendimento;
 
 use \Exception;
-use \novosga\SGAContext;
-use \novosga\util\Arrays;
-use \novosga\util\DateUtil;
-use \novosga\business\AtendimentoBusiness;
-use \novosga\controller\ModuleController;
-use \novosga\model\Atendimento;
-use \novosga\model\util\UsuarioSessao;
-use \novosga\http\AjaxResponse;
+use \Novosga\SGA;
+use \Novosga\SGAContext;
+use \Novosga\Util\Arrays;
+use \Novosga\Util\DateUtil;
+use \Novosga\Business\AtendimentoBusiness;
+use \Novosga\Controller\ModuleController;
+use \Novosga\Model\Atendimento;
+use \Novosga\Model\Util\UsuarioSessao;
+use \Novosga\Http\AjaxResponse;
+use \Novosga\Model\Modulo;
 
 /**
  * AtendimentoController
@@ -19,6 +21,12 @@ use \novosga\http\AjaxResponse;
 class AtendimentoController extends ModuleController {
     
     private $_atendimentoAtual;
+    private $atendimentoBusiness;
+    
+    public function __construct(SGA $app, Modulo $modulo) {
+        parent::__construct($app, $modulo);
+        $this->atendimentoBusiness = new AtendimentoBusiness($this->em());
+    }
     
     public function index(SGAContext $context) {
         $usuario = $context->getUser();
@@ -75,7 +83,7 @@ class AtendimentoController extends ModuleController {
             SELECT 
                 e 
             FROM 
-                novosga\model\Atendimento e 
+                Novosga\Model\Atendimento e 
                 JOIN e.prioridadeSenha p
                 JOIN e.servicoUnidade su 
                 JOIN su.servico s 
@@ -104,7 +112,7 @@ class AtendimentoController extends ModuleController {
                 AtendimentoBusiness::ATENDIMENTO_INICIADO,
                 AtendimentoBusiness::ATENDIMENTO_ENCERRADO
             );
-            $query = $this->em()->createQuery("SELECT e FROM novosga\model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)");
+            $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)");
             $query->setParameter('usuario', $usuario->getId());
             $query->setParameter('status', $status);
             $this->_atendimentoAtual = $query->getOneOrNullResult();
@@ -130,7 +138,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Chama ou rechama o próximo da fila
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function chamar(SGAContext $context) {
         $attempts = 0;
@@ -162,7 +170,7 @@ class AtendimentoController extends ModuleController {
                     // atualiza o proximo da fila
                     $query = $this->em()->createQuery("
                         UPDATE 
-                            novosga\model\Atendimento e 
+                            Novosga\Model\Atendimento e 
                         SET 
                             e.usuario = :usuario, e.local = :local, e.status = :novoStatus, e.dataChamada = :data
                         WHERE 
@@ -189,7 +197,7 @@ class AtendimentoController extends ModuleController {
         // response
         $response->success = $success;
         if ($success) {
-            AtendimentoBusiness::chamarSenha($unidade, $proximo);
+            $this->atendimentoBusiness->chamarSenha($unidade, $proximo);
             $response->data = $proximo->toArray();
         } else {
             if (!$proximo) {
@@ -228,7 +236,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * 
-     * @param novosga\model\Atendimento $atendimento
+     * @param Novosga\Model\Atendimento $atendimento
      * @param mixed $statusAtual (array[int] | int)
      * @param int $novoStatus
      * @param string $campoData
@@ -245,7 +253,7 @@ class AtendimentoController extends ModuleController {
         // atualizando atendimento
         $query = $this->em()->createQuery("
             UPDATE 
-                novosga\model\Atendimento e 
+                Novosga\Model\Atendimento e 
             SET 
                 e.status = :novoStatus $cond
             WHERE 
@@ -263,7 +271,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Inicia o atendimento com o proximo da fila
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function iniciar(SGAContext $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::ATENDIMENTO_INICIADO, 'dataInicio');
@@ -271,7 +279,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Marca o atendimento como nao compareceu
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function nao_compareceu(SGAContext $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::NAO_COMPARECEU, 'dataFim');
@@ -279,7 +287,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Marca o atendimento como encerrado
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function encerrar(SGAContext $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::ATENDIMENTO_INICIADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, null);
@@ -287,7 +295,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Marca o atendimento como encerrado e codificado
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function codificar(SGAContext $context) {
         $unidade = $context->getUnidade();
@@ -342,7 +350,7 @@ class AtendimentoController extends ModuleController {
     /**
      * Marca o atendimento como erro de triagem. E gera um novo atendimento para
      * o servico informado.
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function redirecionar(SGAContext $context) {
         $unidade = $context->getUnidade();
@@ -406,7 +414,7 @@ class AtendimentoController extends ModuleController {
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $id = (int) $context->request()->getParameter('id');
-            $atendimento = \novosga\business\AtendimentoBusiness::buscaAtendimento($unidade, $id);
+            $atendimento = $this->atendimentoBusiness->buscaAtendimento($unidade, $id);
             if ($atendimento) {
                 $response->data = $atendimento->toArray();
                 $response->success = true;
@@ -419,14 +427,14 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param novosga\SGAContext $context
+     * @param Novosga\SGAContext $context
      */
     public function consulta_senha(SGAContext $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $numero = $context->request()->getParameter('numero');
-            $atendimentos = \novosga\business\AtendimentoBusiness::buscaAtendimentos($unidade, $numero);
+            $atendimentos = $this->atendimentoBusiness->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->toArray();

@@ -1,12 +1,11 @@
 <?php
 namespace modules\sga\unidade;
 
-use \novosga\SGAContext;
-use \novosga\util\Arrays;
-use \novosga\http\AjaxResponse;
-use \novosga\controller\ModuleController;
-use \novosga\business\PainelBusiness;
-use \novosga\business\AtendimentoBusiness;
+use \Novosga\SGAContext;
+use \Novosga\Util\Arrays;
+use \Novosga\Http\AjaxResponse;
+use \Novosga\Controller\ModuleController;
+use \Novosga\Business\AtendimentoBusiness;
 
 /**
  * UnidadeController
@@ -21,7 +20,7 @@ class UnidadeController extends ModuleController {
         $unidade = $context->getUnidade();
         $this->app()->view()->assign('unidade', $unidade);
         if ($unidade) {
-            $locais = $this->em()->getRepository('novosga\model\Local')->findAll();
+            $locais = $this->em()->getRepository('Novosga\Model\Local')->findAll();
             if (sizeof($locais)) {
                 $local = $locais[0];
                 /*
@@ -42,7 +41,7 @@ class UnidadeController extends ModuleController {
                     SELECT 
                         e 
                     FROM 
-                        novosga\model\ServicoUnidade e 
+                        Novosga\Model\ServicoUnidade e 
                     WHERE 
                         e.unidade = :unidade 
                     ORDER BY 
@@ -50,24 +49,10 @@ class UnidadeController extends ModuleController {
                 ");
                 $query->setParameter('unidade', $unidade->getId());
                 $this->app()->view()->assign('servicos', $query->getResult());
-                $this->app()->view()->assign('paineis', PainelBusiness::paineis($unidade));
-                $query = $this->em()->createQuery("SELECT e FROM novosga\model\Local e ORDER BY e.nome");
+                $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Local e ORDER BY e.nome");
                 $this->app()->view()->assign('locais', $query->getResult());
             }
         }
-    }
-    
-    public function painel_info(SGAContext $context) {
-        $response = new AjaxResponse();
-        try {
-            $unidade = $context->getUnidade();
-            $host = (int) $context->request()->getParameter('host');
-            $response->data = PainelBusiness::painelInfo($unidade, $host);
-            $response->success = true;
-        } catch (\Exception $e) {
-            $response->message = $e->getMessage();
-        }
-        $context->response()->jsonResponse($response);
     }
     
     public function update_impressao(SGAContext $context) {
@@ -75,13 +60,13 @@ class UnidadeController extends ModuleController {
         $mensagem = Arrays::value($_POST, 'mensagem', '');
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $query = $this->em()->createQuery("UPDATE novosga\model\Unidade e SET e.statusImpressao = :status, e.mensagemImpressao = :mensagem WHERE e.id = :unidade");
+            $query = $this->em()->createQuery("UPDATE Novosga\Model\Unidade e SET e.statusImpressao = :status, e.mensagemImpressao = :mensagem WHERE e.id = :unidade");
             $query->setParameter('status', $impressao);
             $query->setParameter('mensagem', $mensagem);
             $query->setParameter('unidade', $unidade->getId());
             if ($query->execute()) {
                 // atualizando sessao
-                $unidade = $this->em()->find('novosga\model\Unidade', $unidade->getId());
+                $unidade = $this->em()->find('Novosga\Model\Unidade', $unidade->getId());
                 $context->setUnidade($unidade);
             }
         }
@@ -96,7 +81,7 @@ class UnidadeController extends ModuleController {
         if (!$servico_id || !$unidade) {
             return false;
         }
-        $query = $this->em()->createQuery("UPDATE novosga\model\ServicoUnidade e SET e.status = :status WHERE e.unidade = :unidade AND e.servico = :servico");
+        $query = $this->em()->createQuery("UPDATE Novosga\Model\ServicoUnidade e SET e.status = :status WHERE e.unidade = :unidade AND e.servico = :servico");
         $query->setParameter('status', $status);
         $query->setParameter('servico', $servico_id);
         $query->setParameter('unidade', $unidade->getId());
@@ -119,14 +104,14 @@ class UnidadeController extends ModuleController {
         $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('id');
         try {
-            $query = $this->em()->createQuery("SELECT e FROM novosga\model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
+            $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
             $query->setParameter('servico', $id);
             $query->setParameter('unidade', $context->getUser()->getUnidade()->getId());
             $su = $query->getSingleResult();
 
             $sigla = $context->request()->getParameter('sigla');
             $nome = $context->request()->getParameter('nome');
-            $local = $this->em()->find("novosga\model\Local", (int) $context->request()->getParameter('local'));
+            $local = $this->em()->find("Novosga\Model\Local", (int) $context->request()->getParameter('local'));
             
             $su->setSigla($sigla);
             $su->setNome($nome);
@@ -145,9 +130,9 @@ class UnidadeController extends ModuleController {
     public function reverte_nome(SGAContext $context) {
         $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('id');
-        $servico = $this->em()->find('novosga\model\Servico', $id);
+        $servico = $this->em()->find('Novosga\Model\Servico', $id);
         if ($servico) {
-            $query = $this->em()->createQuery("UPDATE novosga\model\ServicoUnidade e SET e.nome = :nome WHERE e.unidade = :unidade AND e.servico = :servico");
+            $query = $this->em()->createQuery("UPDATE Novosga\Model\ServicoUnidade e SET e.nome = :nome WHERE e.unidade = :unidade AND e.servico = :servico");
             $query->setParameter('nome', $servico->getNome());
             $query->setParameter('servico', $servico->getId());
             $query->setParameter('unidade', $context->getUser()->getUnidade()->getId());
@@ -165,7 +150,8 @@ class UnidadeController extends ModuleController {
         $unidade = $context->getUnidade();
         if ($unidade) {
             try {
-                AtendimentoBusiness::acumularAtendimentos($unidade);
+                $ab = new AtendimentoBusiness($this->em());
+                $ab->acumularAtendimentos($unidade);
                 $response->success = true;
             } catch (\Exception $e) {
                 $response->message = $e->getMessage();

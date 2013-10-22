@@ -174,14 +174,12 @@
     clear: both;
 }
 
-#atendimento #fila h3 {
-    font-weight: bold;
+#atendimento #fila h4 {
     padding: 5px 0 5px 10px;
     display: block;
 }
 
-#atendimento #fila h3 span {
-    font-weight: normal;
+#atendimento #fila h4 span {
     padding-left: 5px;
 }
 
@@ -211,6 +209,10 @@
 
 #atendimento #fila ul li .proximo {
     font-size: 20px;
+}
+
+#atendimento #fila ul li .prioridade {
+    color: #ff3300;
 }
 
 #atendimento #fila ul li.empty {

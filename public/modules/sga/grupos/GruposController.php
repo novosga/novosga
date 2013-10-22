@@ -1,11 +1,11 @@
 <?php
 namespace modules\sga\grupos;
 
-use \novosga\SGAContext;
-use \novosga\util\Arrays;
-use \novosga\model\SequencialModel;
-use \novosga\model\Grupo;
-use \novosga\controller\TreeModelController;
+use \Novosga\SGAContext;
+use \Novosga\Util\Arrays;
+use \Novosga\Model\SequencialModel;
+use \Novosga\Model\Grupo;
+use \Novosga\Controller\TreeModelController;
 
 /**
  * GruposController
@@ -45,17 +45,18 @@ class GruposController extends TreeModelController {
          * Então move todas as unidades para esse novo grupo
          */
         if ($this->adicionando) {
-            $unidades = $this->countUnidades($model->getParent());
+            $em = $context->database()->createEntityManager();
+            $unidades = $this->countUnidades($model->getParent($em));
             if ($unidades > 0) {
                 $query = $this->em()->createQuery("
                     UPDATE 
-                        novosga\model\Unidade e 
+                        Novosga\Model\Unidade e 
                     SET
                         e.grupo = :novo
                     WHERE 
                         e.grupo = :grupo
                 ");
-                $query->setParameter('grupo', $model->getParent()->getId());
+                $query->setParameter('grupo', $model->getParent($em)->getId());
                 $query->setParameter('novo', $model->getId());
                 $query->execute();
             }
@@ -67,7 +68,7 @@ class GruposController extends TreeModelController {
             SELECT 
                 e 
             FROM 
-                novosga\model\Grupo e 
+                Novosga\Model\Grupo e 
             WHERE 
                 UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg 
             ORDER BY 
@@ -83,7 +84,7 @@ class GruposController extends TreeModelController {
             SELECT 
                 COUNT(e) as total
             FROM 
-                novosga\model\Unidade e 
+                Novosga\Model\Unidade e 
             WHERE 
                 e.grupo = :grupo
         ");
@@ -94,15 +95,15 @@ class GruposController extends TreeModelController {
     
     /**
      * Verifica se o grupo a ser excluído possui relacionamento com alguma unidade
-     * @param novosga\SGAContext $context
-     * @param novosga\model\SequencialModel $model
+     * @param Novosga\SGAContext $context
+     * @param Novosga\Model\SequencialModel $model
      */
     protected function preDelete(SGAContext $context, SequencialModel $model) {
         $query = $this->em()->createQuery("
             SELECT 
                 COUNT(e) as total
             FROM 
-                novosga\model\Unidade e
+                Novosga\Model\Unidade e
                 INNER JOIN e.grupo g
             WHERE 
                 g.left >= :esquerda AND

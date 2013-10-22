@@ -1,13 +1,10 @@
 {% extends "module.html.twig" %}
 {% block content %}
 <div>
-    <div id="new-version" class="alert alert-info" style="display:none">
-        {% trans %}Nova versão disponível{% endtrans %}
-    </div>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab-geral" data-toggle="tab">{% trans %}Sistema{% endtrans %}</a></li>
         <li><a href="#tab-triagem" data-toggle="tab">{% trans %}Triagem{% endtrans %}</a></li>
-        <li><a href="#tab-paineis" data-toggle="tab">{% trans %}Painéis{% endtrans %}</a></li>
+        <li><a href="#tab-sobre" data-toggle="tab">{% trans %}Sobre{% endtrans %}</a></li>
     </ul>
     <div class="tab-content">
         <div id="tab-geral" class="tab-pane active">
@@ -87,31 +84,67 @@
                 <code>{{ cronReiniciarSenhas }}</code>
             </div>
         </div>
-        <div id="tab-paineis" class="tab-pane">
-            {% for unidade in unidades %}
-                <div class="clear">
-                    <h3>{{ unidade.nome }}</h3>
-                    <ul class="paineis">
-                        {% if paineis[unidade.id] %}
-                            {% for painel in paineis[unidade.id] %}
-                            <li>
-                                <a href="javascript:void(0)" 
-                                   onclick="SGA.Admin.painelInfo({{ unidade.id }}, {{ painel.host }})" 
-                                   title="{% trans %}Visualizar serviços{% endtrans %}">
-                                    <span>IP</span>
-                                    <span class="ip">{{ painel.ip }}</span>
+        <div id="tab-sobre" class="tab-pane">
+            <h1>Novo SGA</h1>
+            <p>Sistema de Gerenciamento de Atendimento</p>
+            <h2>{% trans %}Versão{% endtrans %} v{{ version }}</h2>
+            <p>Confira as últimas notícias sobre o Novo SGA através do blog <a href="http://novosga.org">http://novosga.org</a></p>
+            <h2>Comunidade</h2>
+            <p>Procurando ajuda? Acesse um dos canais do projeto através dos links abaixo:</p>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Blog
+                        </div>
+                        <div class="panel-body">
+                            <p>Notícias relacionadas aos projetos do Novo SGA e lançamento de novas versões</p>
+                            <p>
+                                <a href="http://novosga.org/blog" class="btn btn-success" target="_blank">
+                                    <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
+                                    {% trans %}Acessar{% endtrans %}
                                 </a>
-                            </li>
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
+                            </p>
+                        </div>
+                   </div>
                 </div>
-            {% endfor %}
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Fórum
+                        </div>
+                        <div class="panel-body">
+                            <p>Canal para tirar dúvidas sobre o uso ou instalação dos projetos.</p>
+                            <p>
+                                <a href="http://novosga.org/forum" class="btn btn-success" target="_blank">
+                                    <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
+                                    {% trans %}Acessar{% endtrans %}
+                                </a>
+                            </p>
+                        </div>
+                   </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Github
+                        </div>
+                        <div class="panel-body">
+                            <p>Participe diretamente do desenvolvimento relatando problemas (issues).</p>
+                            <p>
+                                <a href="http://novosga.org/forum" class="btn btn-success" target="_blank">
+                                    <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
+                                    {% trans %}Acessar{% endtrans %}
+                                </a>
+                            </p>
+                        </div>
+                   </div>
+                </div>
+            </div>
         </div>
     </div>
     <script type="text/javascript"> 
         SGA.Admin.Auth.init();
-        SGA.Updater.checkVersion('#new-version');
     </script>
 </div>
 
@@ -133,36 +166,4 @@
     </div>
 </div>
 
-{# painel info #}
-<div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans %}Painel{% endtrans %}</h4>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <label>IP</label>
-                    <span id="painel_ip"></span>
-                </div>
-                <div>
-                    <label>{% trans %}Unidade{% endtrans %}</label>
-                    <span id="painel_unidade"></span>
-                </div>
-                <div>
-                    <label>{% trans %}Serviços{% endtrans %}</label>
-                    <ul id="painel_servicos"></ul>
-                </div>
-                <div>
-                    <label>{% trans %}Últimas senhas{% endtrans %}</label>
-                    <ul id="painel_senhas"></ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
-            </div>
-        </div>
-    </div>
-</div>
 {% endblock %}

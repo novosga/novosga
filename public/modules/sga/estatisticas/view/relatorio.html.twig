@@ -8,9 +8,12 @@
     <link rel="shortcut icon" href="{{ baseUrl() }}/images/favicon.png" />
 </head>
 <body>
-    <div id="report">
+    <div id="report" class="container">
         <div id="report-header">
-            <a href="javascript:window.print()" class="print">{% trans %}Imprimir{% endtrans %}</a>
+            <a href="javascript:window.print()" class="print">
+                <span class="glyphicon glyphicon-print"></span>
+                {% trans %}Imprimir{% endtrans %}
+            </a>
             <h1>{{ relatorio.titulo }}</h1>
         </div>
         <div id="report-body">

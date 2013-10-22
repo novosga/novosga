@@ -139,7 +139,7 @@ SGA.Install = {
                 input.value = SGA.Install.dbData[i];
             }
         }
-        $('#db_host').focus();
+        $('#host').focus();
     },
         
     setAdminData: function() {

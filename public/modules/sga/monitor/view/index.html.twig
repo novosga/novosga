@@ -11,7 +11,7 @@
         </button>
     </form>
     {% for su in servicos %}
-    <div id="servico-{{ su.servico.id }}" class="servico {% if su.fila.size == 0 %}empty{% endif %}" data-id="{{ su.servico.id }}">
+    <div id="servico-{{ su.servico.id }}" class="servico empty" data-id="{{ su.servico.id }}">
         <span class="title">{{ su.sigla }} - {{ su.nome }}</span>
         <ul class="fila">
         </ul>

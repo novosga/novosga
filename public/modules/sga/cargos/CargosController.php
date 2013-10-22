@@ -1,11 +1,11 @@
 <?php
 namespace modules\sga\cargos;
 
-use \novosga\SGAContext;
-use \novosga\util\Arrays;
-use \novosga\model\SequencialModel;
-use \novosga\model\Cargo;
-use \novosga\controller\TreeModelController;
+use \Novosga\SGAContext;
+use \Novosga\Util\Arrays;
+use \Novosga\Model\SequencialModel;
+use \Novosga\Model\Cargo;
+use \Novosga\Controller\TreeModelController;
 
 /**
  * CargosController
@@ -35,7 +35,7 @@ class CargosController extends TreeModelController {
 
     protected function postSave(SGAContext $context, SequencialModel $model) {
         // atualizando permissoes do cargo
-        $query = $this->em()->createQuery("DELETE FROM novosga\model\Permissao e WHERE e.cargo = :cargo");
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
         $query->execute();
         $permissoes = Arrays::value($_POST, 'permissoes');
@@ -53,14 +53,14 @@ class CargosController extends TreeModelController {
 
     /**
      * Deletando vinculos (permissoes e lotacoes)
-     * @param novosga\SGAContext $context
-     * @param novosga\model\SequencialModel $model
+     * @param Novosga\SGAContext $context
+     * @param Novosga\Model\SequencialModel $model
      */
     protected function preDelete(SGAContext $context, SequencialModel $model) {
-        $query = $this->em()->createQuery("DELETE FROM novosga\model\Permissao p WHERE p.cargo = :cargo");
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Permissao p WHERE p.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
         $query->execute();
-        $query = $this->em()->createQuery("DELETE FROM novosga\model\Lotacao l WHERE l.cargo = :cargo");
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Lotacao l WHERE l.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
         $query->execute();
     }
@@ -70,7 +70,7 @@ class CargosController extends TreeModelController {
             SELECT 
                 e 
             FROM 
-                novosga\model\Cargo e 
+                Novosga\Model\Cargo e 
             WHERE 
                 UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg  
             ORDER BY 
@@ -82,12 +82,12 @@ class CargosController extends TreeModelController {
     
     public function edit(SGAContext $context, $id = 0) {
         parent::edit($context, $id);
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Modulo e WHERE e.status = 1 AND e.tipo = :tipo ORDER BY e.nome");
-        $query->setParameter('tipo', \novosga\model\Modulo::MODULO_UNIDADE);
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Modulo e WHERE e.status = 1 AND e.tipo = :tipo ORDER BY e.nome");
+        $query->setParameter('tipo', \Novosga\Model\Modulo::MODULO_UNIDADE);
         $modulosUnidade = $query->getResult();
-        $query->setParameter('tipo', \novosga\model\Modulo::MODULO_GLOBAL);
+        $query->setParameter('tipo', \Novosga\Model\Modulo::MODULO_GLOBAL);
         $modulosGlobal = $query->getResult();
-        $query = $this->em()->createQuery("SELECT e FROM novosga\model\Permissao e WHERE e.cargo = :cargo");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $this->model->getId());
         $permissoes = $query->getResult();
         $this->app()->view()->assign('tipos', array(_('Unidade'), _('Global')));
