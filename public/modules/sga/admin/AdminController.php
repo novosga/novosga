@@ -61,10 +61,6 @@ class AdminController extends ModuleController {
         $this->app()->view()->assign('unidades', $unidades);
         // database config
         $this->app()->view()->assign('dbValues', $context->database()->values());
-        $this->app()->view()->assign('dbDriver', $context->database()->get('driver'));
-        $this->app()->view()->assign('dbHost', $context->database()->get('host'));
-        $this->app()->view()->assign('dbName', $context->database()->get('dbname'));
-        $this->app()->view()->assign('dbUser', $context->database()->get('user'));
         // authentication config
         $this->app()->view()->assign('auth', $auth);
         $this->app()->view()->assign('numeracao', $numeracao);
