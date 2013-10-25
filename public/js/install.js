@@ -1,6 +1,6 @@
 /**
  * Novo SGA - Install
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 var SGA = SGA || {};
 

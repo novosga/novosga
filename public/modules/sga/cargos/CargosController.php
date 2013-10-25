@@ -10,7 +10,7 @@ use \Novosga\Controller\TreeModelController;
 /**
  * CargosController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class CargosController extends TreeModelController {
 

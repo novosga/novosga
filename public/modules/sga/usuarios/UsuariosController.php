@@ -12,7 +12,7 @@ use \Novosga\Controller\CrudController;
 /**
  * UsuariosController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class UsuariosController extends CrudController {
 

@@ -16,7 +16,7 @@ use \Novosga\Model\Modulo;
 /**
  * AtendimentoController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class AtendimentoController extends ModuleController {
     

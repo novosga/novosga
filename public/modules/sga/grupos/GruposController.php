@@ -10,7 +10,7 @@ use \Novosga\Controller\TreeModelController;
 /**
  * GruposController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class GruposController extends TreeModelController {
     

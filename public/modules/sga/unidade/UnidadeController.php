@@ -12,7 +12,7 @@ use \Novosga\Business\AtendimentoBusiness;
  * 
  * Controlador do módulo de configuração da unidade
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class UnidadeController extends ModuleController {
     

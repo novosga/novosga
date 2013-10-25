@@ -1,6 +1,6 @@
 /**
  * Novo SGA - Locais
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 var SGA = SGA || {};
 

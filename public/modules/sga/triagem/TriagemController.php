@@ -13,7 +13,7 @@ use \Novosga\Business\AtendimentoBusiness;
 /**
  * TriagemController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class TriagemController extends ModuleController {
 

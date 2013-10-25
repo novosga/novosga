@@ -12,7 +12,7 @@ use \Novosga\Business\AtendimentoBusiness;
 /**
  * MonitorController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class MonitorController extends ModuleController {
 

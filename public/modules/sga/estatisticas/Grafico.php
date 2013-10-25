@@ -4,7 +4,7 @@ namespace modules\sga\estatisticas;
 /**
  * Grafico
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Grafico extends Relatorio {
     

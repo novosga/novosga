@@ -14,7 +14,7 @@ use \Novosga\Model\Modulo;
 
 /**
  * AdminView
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class AdminController extends ModuleController {
     

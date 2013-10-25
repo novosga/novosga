@@ -9,7 +9,7 @@ use \Novosga\Controller\CrudController;
 /**
  * UnidadesController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class UnidadesController extends CrudController {
 

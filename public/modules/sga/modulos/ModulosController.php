@@ -11,7 +11,7 @@ use \Doctrine\ORM\Tools\Pagination\Paginator;
 /**
  * ModulosController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class ModulosController extends ModuleController {
     

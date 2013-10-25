@@ -9,7 +9,7 @@ use \Novosga\Controller\CrudController;
 /**
  * PrioridadesController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class PrioridadesController extends CrudController {
     

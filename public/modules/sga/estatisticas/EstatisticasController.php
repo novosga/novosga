@@ -13,7 +13,7 @@ use \Novosga\Controller\ModuleController;
 /**
  * EstatisticasController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class EstatisticasController extends ModuleController {
     

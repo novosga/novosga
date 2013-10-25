@@ -1,4 +1,4 @@
 /**
  * Novo SGA - Unidades
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */

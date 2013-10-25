@@ -7,7 +7,7 @@ use Novosga\Model\Local;
 /**
  * LocaisController
  *
- * @author rogeriolino
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class LocaisController extends CrudController {
     
