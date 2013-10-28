@@ -46,16 +46,16 @@ class EstatisticasController extends ModuleController {
         $context->setParameter('js', array($dir . '/js/highcharts.js', $dir . '/js/highcharts.exporting.js'));
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
         $unidades = $query->getResult();
-        $this->app()->view()->assign('unidades', $unidades);
-        $this->app()->view()->assign('relatorios', $this->relatorios);
-        $this->app()->view()->assign('graficos', $this->graficos);
-        $this->app()->view()->assign('statusAtendimento', AtendimentoBusiness::situacoes());
+        $this->app()->view()->set('unidades', $unidades);
+        $this->app()->view()->set('relatorios', $this->relatorios);
+        $this->app()->view()->set('graficos', $this->graficos);
+        $this->app()->view()->set('statusAtendimento', AtendimentoBusiness::situacoes());
         $arr = array();
         foreach ($unidades as $u) {
             $arr[$u->getId()] = $u->getNome();
         }
-        $this->app()->view()->assign('unidadesJson', json_encode($arr));
-        $this->app()->view()->assign('now', \Novosga\Util\DateUtil::now(_('d/m/Y')));
+        $this->app()->view()->set('unidadesJson', json_encode($arr));
+        $this->app()->view()->set('now', \Novosga\Util\DateUtil::now(_('d/m/Y')));
     }
     
     /**
@@ -119,8 +119,8 @@ class EstatisticasController extends ModuleController {
         $unidade = ($unidade > 0) ? $unidade : 0;
         if (isset($this->relatorios[$id])) {
             $relatorio = $this->relatorios[$id];
-            $this->app()->view()->assign('dataInicial', DateUtil::format($dataInicial, _('d/m/Y')));
-            $this->app()->view()->assign('dataFinal', DateUtil::format($dataFinal, _('d/m/Y')));
+            $this->app()->view()->set('dataInicial', DateUtil::format($dataInicial, _('d/m/Y')));
+            $this->app()->view()->set('dataFinal', DateUtil::format($dataFinal, _('d/m/Y')));
             $dataFinal = $dataFinal . ' 23:59:59';
             switch ($id) {
             case 1:
@@ -148,10 +148,14 @@ class EstatisticasController extends ModuleController {
                 $relatorio->setDados($this->cargos());
                 break;
             }
-            $this->app()->view()->assign('relatorio', $relatorio);
+            $this->app()->view()->set('relatorio', $relatorio);
         }
-        $this->app()->view()->assign('page', "relatorios/{$relatorio->getArquivo()}.html.twig");
-        $this->app()->view()->assign('isNumeracaoServico', AtendimentoBusiness::isNumeracaoServico());
+        $this->app()->view()->set('page', "relatorios/{$relatorio->getArquivo()}.html.twig");
+        $this->app()->view()->set('isNumeracaoServico', AtendimentoBusiness::isNumeracaoServico());
+        
+        // filtros
+        $this->app()->view()->getInstance()->addFilter(new \Novosga\Twig\SecFormat());
+        
         $context->response()->setRenderView(false);
     }
     

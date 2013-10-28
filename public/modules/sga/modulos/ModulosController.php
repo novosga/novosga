@@ -28,11 +28,11 @@ class ModulosController extends ModuleController {
         $query->setFirstResult($page * $maxResults);
         $items = new Paginator($query);
         $total = count($items);
-        $this->app()->view()->assign('search', $search);
-        $this->app()->view()->assign('items', $items);
-        $this->app()->view()->assign('total', $total);
-        $this->app()->view()->assign('page', $page);
-        $this->app()->view()->assign('pages', ceil($total / $maxResults));
+        $this->app()->view()->set('search', $search);
+        $this->app()->view()->set('items', $items);
+        $this->app()->view()->set('total', $total);
+        $this->app()->view()->set('page', $page);
+        $this->app()->view()->set('pages', ceil($total / $maxResults));
     }
 
     protected function search($arg) {
@@ -51,9 +51,9 @@ class ModulosController extends ModuleController {
         if (!$modulo) {
             $this->app()->redirect('index');
         }
-        $this->app()->view()->assign('modulo', $modulo);
-        $this->app()->view()->assign('css', $this->getCss($modulo));
-        $this->app()->view()->assign('javascript', $this->getJs($modulo));
+        $this->app()->view()->set('modulo', $modulo);
+        $this->app()->view()->set('css', $this->getCss($modulo));
+        $this->app()->view()->set('javascript', $this->getJs($modulo));
     }
     
     public function load(SGAContext $context) {

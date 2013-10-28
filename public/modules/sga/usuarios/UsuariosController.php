@@ -39,7 +39,7 @@ class UsuariosController extends CrudController {
                 'cargo' => $lotacao->getCargo()->getNome()
             );
         }
-        $this->app()->view()->assign('lotacoes', $items);
+        $this->app()->view()->set('lotacoes', $items);
         // servicos do usuario
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $this->model->getId());
@@ -53,13 +53,13 @@ class UsuariosController extends CrudController {
                 'servico' => $servico->getServico()->getNome()
             );
         }
-        $this->app()->view()->assign('servicos', $items);
+        $this->app()->view()->set('servicos', $items);
         // unidades
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e ORDER BY e.nome");
-        $this->app()->view()->assign('unidades', $query->getResult());
+        $this->app()->view()->set('unidades', $query->getResult());
         // cargos disponiveis
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Cargo e ORDER BY e.nome");
-        $this->app()->view()->assign('cargos', $query->getResult());
+        $this->app()->view()->set('cargos', $query->getResult());
     }
     
     protected function preSave(SGAContext $context, SequencialModel $model) {

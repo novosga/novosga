@@ -58,14 +58,14 @@ class AdminController extends ModuleController {
         }
         $cron = new CronController($this->app());
         // view values
-        $this->app()->view()->assign('unidades', $unidades);
+        $this->app()->view()->set('unidades', $unidades);
         // database config
-        $this->app()->view()->assign('dbValues', $context->database()->values());
+        $this->app()->view()->set('dbValues', $context->database()->values());
         // authentication config
-        $this->app()->view()->assign('auth', $auth);
-        $this->app()->view()->assign('numeracao', $numeracao);
-        $this->app()->view()->assign('numeracoes', $this->numeracoes);
-        $this->app()->view()->assign('cronReiniciarSenhas', $cron->cronUrl('reset', $context->getUser()));
+        $this->app()->view()->set('auth', $auth);
+        $this->app()->view()->set('numeracao', $numeracao);
+        $this->app()->view()->set('numeracoes', $this->numeracoes);
+        $this->app()->view()->set('cronReiniciarSenhas', $cron->cronUrl('reset', $context->getUser()));
     }
     
     public function auth_save(SGAContext $context) {

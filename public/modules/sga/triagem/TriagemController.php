@@ -20,12 +20,12 @@ class TriagemController extends ModuleController {
     
     public function index(SGAContext $context) {
         $unidade = $context->getUser()->getUnidade();
-        $this->app()->view()->assign('unidade', $unidade);
+        $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
-            $this->app()->view()->assign('servicos', $this->servicos($unidade));
+            $this->app()->view()->set('servicos', $this->servicos($unidade));
         }
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Prioridade e WHERE e.status = 1 AND e.peso > 0 ORDER BY e.nome");
-        $this->app()->view()->assign('prioridades', $query->getResult());
+        $this->app()->view()->set('prioridades', $query->getResult());
     } 
     
     private function servicos(\Novosga\Model\Unidade $unidade) {
@@ -41,8 +41,8 @@ class TriagemController extends ModuleController {
             $this->app()->redirect('index');
         }
         $context->response()->setRenderView(false);
-        $this->app()->view()->assign('atendimento', $atendimento);
-        $this->app()->view()->assign('data', DateUtil::now("d/m/Y H:i"));
+        $this->app()->view()->set('atendimento', $atendimento);
+        $this->app()->view()->set('data', DateUtil::now("d/m/Y H:i"));
     }
     
     public function ajax_update(SGAContext $context) {

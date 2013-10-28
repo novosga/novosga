@@ -28,7 +28,7 @@ class PrioridadesController extends CrudController {
     }
     
     public function edit(SGAContext $context, $id = 0) {
-        $this->app()->view()->assign('pesos', array(
+        $this->app()->view()->set('pesos', array(
             0 => _('Normal'), 
             1 => '1', 
             2 => '2', 
@@ -36,7 +36,7 @@ class PrioridadesController extends CrudController {
             4 => '4', 
             5 => '5'
         ));
-        $this->app()->view()->assign('status', array(
+        $this->app()->view()->set('status', array(
             '' => _('Selecione'), 
             1 => _('Ativo'), 
             0 => _('Inativo')

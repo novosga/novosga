@@ -1,12 +1,11 @@
 <?php
-require_once dirname(__DIR__) . '/bootstrap.php';
+require_once  '../bootstrap.php';
 
 use \Novosga\SGA;
-use \Novosga\Business\AcessoBusiness;
 
 $app = new SGA(array(
-    'debug' => true,
-    'view' => new \Novosga\View\SGAView(),
+    'debug' => NOVOSGA_DEV,
+    'cache' => NOVOSGA_CACHE,
     'db' => $db
 ));
 
@@ -117,16 +116,17 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     $ctrlClass = '\\' . $namespace . '\\' . $ctrlClass;
     $ctrl = new $ctrlClass($app, $module);
     
+    $app->view()->twigTemplateDirs = array(
+        NOVOSGA_TEMPLATES,
+        MODULES_PATH . "/{$tokens[0]}/{$tokens[1]}/view"
+    );
+    $app->view()->set('module', $module);
+    
     // controller action
     $methodName = str_replace('/', '_', str_replace('-', '_', $action));
     $method = new \ReflectionMethod($ctrl, $methodName);
     $method->invokeArgs($ctrl, $args);
     
-    $app->view()->twigTemplateDirs = array(
-        __DIR__ . "/templates",
-        __DIR__ . "/modules/{$tokens[0]}/{$tokens[1]}/view"
-    );
-    $app->view()->set('module', $module);
     echo $app->render("$action.html.twig");
 });
 

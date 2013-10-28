@@ -54,7 +54,7 @@ class ServicosController extends CrudController {
         parent::edit($context, $id);
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Servico e WHERE e.mestre IS NULL AND e.id != :id ORDER BY e.nome ASC");
         $query->setParameter('id', $this->model->getId());
-        $this->app()->view()->assign('macros', $query->getResult());
+        $this->app()->view()->set('macros', $query->getResult());
     }
     
     /**

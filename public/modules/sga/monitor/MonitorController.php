@@ -18,15 +18,15 @@ class MonitorController extends ModuleController {
 
     public function index(SGAContext $context) {
         $unidade = $context->getUser()->getUnidade();
-        $this->app()->view()->assign('unidade', $unidade);
+        $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
             // servicos
-            $this->app()->view()->assign('servicos', $this->servicos($unidade));
+            $this->app()->view()->set('servicos', $this->servicos($unidade));
         }
         // lista de prioridades para ser utilizada ao redirecionar senha
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Prioridade e WHERE e.status = 1 ORDER BY e.peso, e.nome");
-        $this->app()->view()->assign('prioridades', $query->getResult());
-        $this->app()->view()->assign('milis', time() * 1000);
+        $this->app()->view()->set('prioridades', $query->getResult());
+        $this->app()->view()->set('milis', time() * 1000);
     }
     
     private function servicos(Unidade $unidade, $where = "") {

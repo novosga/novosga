@@ -34,21 +34,21 @@ class AtendimentoController extends ModuleController {
         if (!$usuario || !$unidade) {
             $this->app()->gotoHome();
         }
-        $this->app()->view()->assign('time', time() * 1000);
-        $this->app()->view()->assign('unidade', $unidade);
-        $this->app()->view()->assign('atendimento', $this->atendimentoAndamento($usuario));
-        $this->app()->view()->assign('servicos', $usuario->getServicos());
-        $this->app()->view()->assign('servicosIndisponiveis', $usuario->getServicosIndisponiveis());
+        $this->app()->view()->set('time', time() * 1000);
+        $this->app()->view()->set('unidade', $unidade);
+        $this->app()->view()->set('atendimento', $this->atendimentoAndamento($usuario));
+        $this->app()->view()->set('servicos', $usuario->getServicos());
+        $this->app()->view()->set('servicosIndisponiveis', $usuario->getServicosIndisponiveis());
         $tiposAtendimento = array(
             UsuarioSessao::ATEND_TODOS => _('Todos'), 
             UsuarioSessao::ATEND_CONVENCIONAL => _('Convencional'), 
             UsuarioSessao::ATEND_PRIORIDADE => _('Prioridade')
         );
-        $this->app()->view()->assign('tiposAtendimento', $tiposAtendimento);
-        $this->app()->view()->assign('labelTipoAtendimento', $tiposAtendimento[$usuario->getTipoAtendimento()]);
-        $this->app()->view()->assign('local', $usuario->getLocal());
-        $this->app()->view()->assign('localCookie', $context->cookie()->get('local'));
-        $this->app()->view()->assign('tipoAtendimentoCookie', $context->cookie()->get('tipo'));
+        $this->app()->view()->set('tiposAtendimento', $tiposAtendimento);
+        $this->app()->view()->set('labelTipoAtendimento', $tiposAtendimento[$usuario->getTipoAtendimento()]);
+        $this->app()->view()->set('local', $usuario->getLocal());
+        $this->app()->view()->set('localCookie', $context->cookie()->get('local'));
+        $this->app()->view()->set('tipoAtendimentoCookie', $context->cookie()->get('tipo'));
     }
     
     public function set_local(SGAContext $context) {

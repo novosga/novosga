@@ -18,7 +18,7 @@ class UnidadeController extends ModuleController {
     
     public function index(SGAContext $context) {
         $unidade = $context->getUnidade();
-        $this->app()->view()->assign('unidade', $unidade);
+        $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
             $locais = $this->em()->getRepository('Novosga\Model\Local')->findAll();
             if (sizeof($locais)) {
@@ -48,10 +48,10 @@ class UnidadeController extends ModuleController {
                         e.nome
                 ");
                 $query->setParameter('unidade', $unidade->getId());
-                $this->app()->view()->assign('servicos', $query->getResult());
+                $this->app()->view()->set('servicos', $query->getResult());
                 // locais disponiveis
                 $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Local e ORDER BY e.nome");
-                $this->app()->view()->assign('locais', $query->getResult());
+                $this->app()->view()->set('locais', $query->getResult());
             }
         }
     }

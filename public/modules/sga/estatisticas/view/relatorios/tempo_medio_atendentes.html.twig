@@ -17,10 +17,10 @@
         <tr>
             <td class="strong">{{ dado.atendente }}</td>
             <td>{{ dado.total }}</td>
-            <td>{{ dado.espera }}</td>
-            <td>{{ dado.deslocamento }}</td>
-            <td>{{ dado.atendimento }}</td>
-            <td>{{ dado.tempoTotal }}</td>
+            <td>{{ dado.espera|secFormat }}</td>
+            <td>{{ dado.deslocamento|secFormat }}</td>
+            <td>{{ dado.atendimento|secFormat }}</td>
+            <td>{{ dado.tempoTotal|secFormat }}</td>
         </tr>
         {% endfor %}
     </tbody>

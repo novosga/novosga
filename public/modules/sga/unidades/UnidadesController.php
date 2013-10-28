@@ -45,7 +45,7 @@ class UnidadesController extends CrudController {
     
     public function edit(SGAContext $context, $id = 0) {
         parent::edit($context, $id);
-        $this->app()->view()->assign('grupos', $this->getGruposFolhasDisponiveis($this->model));
+        $this->app()->view()->set('grupos', $this->getGruposFolhasDisponiveis($this->model));
     }
     
     /**

@@ -90,9 +90,9 @@ class CargosController extends TreeModelController {
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $this->model->getId());
         $permissoes = $query->getResult();
-        $this->app()->view()->assign('tipos', array(_('Unidade'), _('Global')));
-        $this->app()->view()->assign('modulos', array($modulosUnidade, $modulosGlobal));
-        $this->app()->view()->assign('permissoes', $permissoes);
+        $this->app()->view()->set('tipos', array(_('Unidade'), _('Global')));
+        $this->app()->view()->set('modulos', array($modulosUnidade, $modulosGlobal));
+        $this->app()->view()->set('permissoes', $permissoes);
     }
 
 }
