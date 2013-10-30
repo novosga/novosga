@@ -25,7 +25,7 @@
 }
 
 #client-info div {
-    padding: 10px;
+    padding: 7px 10px;
     float: left;
 }
 
@@ -42,13 +42,11 @@
 }
 
 #triagem-servicos .triagem-servico {
-    width: 50%;
-    float: left;
+    padding: 5px;
 }
 
 #triagem-servicos .triagem-servico div {
     padding: 8px 10px;
-    margin: 5px;
     position: relative;
     overflow: hidden;
     

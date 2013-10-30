@@ -4,19 +4,19 @@
     <h4>{% trans %}Cliente{% endtrans %}</h4>
     <form role="form" class="form-inline" onsubmit="return false">
         <div class="form-group">
-            <label for="cli_nome" class="form-label">{% trans %}Nome{% endtrans %}:</label>
-            <input type="text" id="cli_nome" class="nome form-control" maxlength="50" />
+            <label for="cli_nome" class="sr-only">{% trans %}Nome{% endtrans %}</label>
+            <input type="text" id="cli_nome" class="nome form-control" maxlength="50" placeholder="{% trans %}Nome{% endtrans %}" />
         </div>
         <div class="form-group">
-            <label for="cli_doc" class="form-label">{% trans %}Documento{% endtrans %}:</label>
-            <input type="text" id="cli_doc" class="doc form-control" maxlength="20" />
+            <label for="cli_doc" class="sr-only">{% trans %}Documento{% endtrans %}</label>
+            <input type="text" id="cli_doc" class="doc form-control" maxlength="20" placeholder="{% trans %}Documento{% endtrans %}" />
         </div>
     </form>
 </div>
 <div id="triagem-servicos">
     {% for servicoUnidade in servicos %}
-    <div id="triagem-servico-{{ servicoUnidade.servico.id }}" data-id="{{ servicoUnidade.servico.id }}" class="triagem-servico">
-        <div class="">
+    <div id="triagem-servico-{{ servicoUnidade.servico.id }}" data-id="{{ servicoUnidade.servico.id }}" class="triagem-servico col-lg-6">
+        <div>
             <span class="text">
                 <a href="javascript:void(0)" 
                    title="{{ servicoUnidade.sigla }} - {{ servicoUnidade.nome }}"
