@@ -17,7 +17,7 @@ php composer.phar install
 Ou 
 
 ```sh
-php composer.phar create-project novosga/novosga novosga "dev-master"
+php composer.phar create-project novosga/novosga novosga "1.0.0-RC"
 ```
 
 ## Tecnologia
