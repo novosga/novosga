@@ -9,7 +9,7 @@
     <p>{% trans %}Clique em Instalar para iniciar o processo de instalação do sistema.{% endtrans %}</p>
     <div class="alert alert-warning">
         <strong>{% trans %}Atenção{% endtrans %}</strong>: 
-        {% trans %}Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão 1.0.0 ou superior) no banco especificado, a mesma será sobrescrita (atualizada).{% endtrans %}
+        {% trans %}Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão 1.0.0 ou inferior) no banco especificado, a mesma será sobrescrita (atualizada).{% endtrans %}
     </div>
     <div class="btns">
         <button id="btn_install_final" onclick="SGA.Install.doInstall()" class="btn btn-success"

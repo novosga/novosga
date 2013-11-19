@@ -60,4 +60,33 @@ SGA.Admin = {
         });
     },
     
+    checkVersion: function() {
+        var self = this;
+        this.intervalId = self.intervalId || 0;
+        clearInterval(self.intervalId);
+        var icon = $('#btn-checkversion').prop('disabled', true).find('span');
+        icon.css('visibility', 'hidden');
+        self.intervalId = setInterval(function() {
+            icon.css('visibility', icon.css('visibility') === 'visible' ? 'hidden' : 'visible');
+        }, 200);
+        $.ajax({
+            url: 'https://api.github.com/repos/novosga/novosga/tags',
+            success: function(response) {
+                clearInterval(self.intervalId);
+                $('#btn-checkversion').hide();
+                var latest = response[0];
+                if (SGA.version !== latest.name.replace('v', '')) {
+                    $('#btn-downloader')
+                            .show()
+                            .prop('href', latest.zipball_url)
+                            .find('.version')
+                            .text(latest.name);
+                } else {
+                    $('#update-alert').show();
+                }
+            }
+        });
+        return false;
+    }
+    
 };
