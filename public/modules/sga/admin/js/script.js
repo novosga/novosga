@@ -62,7 +62,7 @@ SGA.Admin = {
     
     checkVersion: function() {
         var self = this;
-        this.intervalId = self.intervalId || 0;
+        self.intervalId = self.intervalId || 0;
         clearInterval(self.intervalId);
         var icon = $('#btn-checkversion').prop('disabled', true).find('span');
         icon.css('visibility', 'hidden');
