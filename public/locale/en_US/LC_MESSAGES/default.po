@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: novosga\n"
-"POT-Creation-Date: 2013-11-19 15:06-0300\n"
-"PO-Revision-Date: 2013-11-19 16:04-0300\n"
+"POT-Creation-Date: 2013-12-05 17:58-0300\n"
+"PO-Revision-Date: 2013-12-05 17:58-0300\n"
 "Last-Translator: \n"
 "Language-Team: English (http://www.transifex.com/projects/p/novosga/language/"
 "en/)\n"
@@ -17,9 +17,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.7\n"
+"X-Poedit-Basepath: ../../../../\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-Basepath: ../../../../\n"
 "X-Poedit-SearchPath-0: cache\n"
 "X-Poedit-SearchPath-1: public\n"
 "X-Poedit-SearchPath-2: vendor/novosga\n"
@@ -120,9 +120,8 @@ msgstr "Previous"
 
 #: cache/1a/04/7c2dbd1940c9942fc5542cc6a335b4b5c1b8ec8be46b668e58c78c12d9c1.php:127
 #: cache/25/78/77c49c58759e9ec5a7c7b1cf73b3f8dd44747ff42568a8d04fedd2ea93d4.php:127
-#, fuzzy
 msgid "Próximo"
-msgstr "Call next"
+msgstr "Next"
 
 #: cache/1b/d6/0e0ff933cd730b601043a87c8ccf2e9b4ff9d3f1c9db524b38db66d0c793.php:35
 msgid "Hoje"
@@ -137,9 +136,8 @@ msgid "Relatórios"
 msgstr "Reports"
 
 #: cache/1b/d6/0e0ff933cd730b601043a87c8ccf2e9b4ff9d3f1c9db524b38db66d0c793.php:50
-#, fuzzy
 msgid "Atendimentos realizados em %now%"
-msgstr "Attending realized in %s"
+msgstr "Attending realized in %now%"
 
 #: cache/1b/d6/0e0ff933cd730b601043a87c8ccf2e9b4ff9d3f1c9db524b38db66d0c793.php:70
 #: cache/1b/d6/0e0ff933cd730b601043a87c8ccf2e9b4ff9d3f1c9db524b38db66d0c793.php:89
@@ -240,7 +238,7 @@ msgstr "Parent"
 #: cache/8d/8a/9f0bd41eaa231e60eac0f306c5df1b699518480c0a782624cca2f6465178.php:30
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:22
 msgid "Período de %dataInicial% a %dataFinal%"
-msgstr "From %dataInicial% till %dataFinal%"
+msgstr ""
 
 #: cache/2f/f5/cabe20cb880bf4a0b6ba3411351f289e41e524fb7ffebfb14b2f9d3778e3.php:38
 #: cache/5b/57/d2af49077fab17237e610e6e581ce34e6112c3e78b6e6f15a32ee0187226.php:193
@@ -298,7 +296,6 @@ msgid "Fim"
 msgstr "End"
 
 #: cache/2f/f5/cabe20cb880bf4a0b6ba3411351f289e41e524fb7ffebfb14b2f9d3778e3.php:68
-#, fuzzy
 msgid "Tempo de duração do atendimento (Fim - Início)"
 msgstr "Total servicing's time ( Start - End )"
 
@@ -370,9 +367,8 @@ msgid "Autenticação"
 msgstr "Authentication"
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:113
-#, fuzzy
 msgid "Configuração salva com sucesso"
-msgstr "Installation successfully finished"
+msgstr ""
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:120
 msgid "Tipo"
@@ -426,9 +422,8 @@ msgid "Salvar"
 msgstr "Save"
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:236
-#, fuzzy
 msgid "Tipo de numeração"
-msgstr "Creation date"
+msgstr "Sequence type"
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:265
 #: cache/84/45/ba1da43179cfdae1b26ecfa2ff1df15d269d266cb8c40fa10604644acab9.php:296
@@ -441,9 +436,8 @@ msgstr "You are about to reset the tickets for all units. continue ?"
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:274
 #: cache/84/45/ba1da43179cfdae1b26ecfa2ff1df15d269d266cb8c40fa10604644acab9.php:304
-#, fuzzy
 msgid "Reiniciar"
-msgstr "Reset tickets"
+msgstr "Reset"
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:281
 msgid "Cron URL"
@@ -451,7 +445,7 @@ msgstr "Cron URL"
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:301
 msgid "Verificar nova versão"
-msgstr "Check for new version"
+msgstr "Check for update"
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:312
 msgid "Parabéns, você possui a versão mais recente"
@@ -460,9 +454,8 @@ msgstr ""
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:332
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:351
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:370
-#, fuzzy
 msgid "Acessar"
-msgstr "Access"
+msgstr "Go"
 
 #: cache/33/77/d9663f2693d6190b5d6b6ecce55841f43282b8faf8018ee1b19df00f1da7.php:394
 #: cache/84/45/ba1da43179cfdae1b26ecfa2ff1df15d269d266cb8c40fa10604644acab9.php:323
@@ -510,7 +503,6 @@ msgid "Serviço"
 msgstr "Service"
 
 #: cache/48/e2/e132d1bedc78ac9db577bfd14f38759390c62ef75d4d583eeace188b0101.php:70
-#, fuzzy
 msgid "Nome Usuário"
 msgstr "Username"
 
@@ -520,9 +512,8 @@ msgstr "Enter"
 
 #: cache/4e/ef/f2c936e8e6e64b4c8aa68a36c3a0de52cc65c8f2914cca343c6dff695b34.php:34
 #: cache/4e/ef/f2c936e8e6e64b4c8aa68a36c3a0de52cc65c8f2914cca343c6dff695b34.php:60
-#, fuzzy
 msgid "Instalar"
-msgstr "Installed"
+msgstr "Install"
 
 #: cache/4e/ef/f2c936e8e6e64b4c8aa68a36c3a0de52cc65c8f2914cca343c6dff695b34.php:42
 msgid "Clique em Instalar para iniciar o processo de instalação do sistema."
@@ -533,24 +524,19 @@ msgid "Atenção"
 msgstr "Alert"
 
 #: cache/4e/ef/f2c936e8e6e64b4c8aa68a36c3a0de52cc65c8f2914cca343c6dff695b34.php:51
-#, fuzzy
 msgid ""
 "Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão "
 "1.0.0 ou inferior) no banco especificado, a mesma será sobrescrita "
 "(atualizada)."
 msgstr ""
-"If you continue this installation, all data in the specified database will "
-"be overwritten."
 
 #: cache/4e/ef/f2c936e8e6e64b4c8aa68a36c3a0de52cc65c8f2914cca343c6dff695b34.php:58
-#, fuzzy
 msgid "Clique para iniciar o processo final de instalação."
 msgstr "Click Install to start the installation process"
 
 #: cache/4e/ef/f2c936e8e6e64b4c8aa68a36c3a0de52cc65c8f2914cca343c6dff695b34.php:69
-#, fuzzy
 msgid "Clique para iniciar a utilização do SGA."
-msgstr "Click Install to start the installation process"
+msgstr ""
 
 #: cache/4e/ef/f2c936e8e6e64b4c8aa68a36c3a0de52cc65c8f2914cca343c6dff695b34.php:71
 msgid "Ir para tela de login"
@@ -601,15 +587,13 @@ msgid "Prioridade"
 msgstr "Priority"
 
 #: cache/5b/57/d2af49077fab17237e610e6e581ce34e6112c3e78b6e6f15a32ee0187226.php:161
-#, fuzzy
 msgid "Nenhum serviço habilitado para a unidade atual"
-msgstr "Service not avaliable in the actual unit"
+msgstr ""
 
 #: cache/5b/57/d2af49077fab17237e610e6e581ce34e6112c3e78b6e6f15a32ee0187226.php:175
 #: cache/83/8c/4469a6acda7d6c3b9581dedbfc25b44890e8bfd839fe8874e0a01eba6153.php:493
-#, fuzzy
 msgid "Consultar senha"
-msgstr "Cancel ticket"
+msgstr "Search ticket"
 
 #: cache/5b/57/d2af49077fab17237e610e6e581ce34e6112c3e78b6e6f15a32ee0187226.php:200
 #: cache/5b/57/d2af49077fab17237e610e6e581ce34e6112c3e78b6e6f15a32ee0187226.php:345
@@ -625,12 +609,10 @@ msgid "Número"
 msgstr "Number"
 
 #: cache/5b/57/d2af49077fab17237e610e6e581ce34e6112c3e78b6e6f15a32ee0187226.php:239
-#, fuzzy
 msgid "Última senha"
-msgstr "Last tickets"
+msgstr "Last ticket"
 
 #: cache/5b/57/d2af49077fab17237e610e6e581ce34e6112c3e78b6e6f15a32ee0187226.php:246
-#, fuzzy
 msgid "Nome original do serviço"
 msgstr "Orignal service name"
 
@@ -719,9 +701,8 @@ msgid "Testar"
 msgstr "Test"
 
 #: cache/6a/07/d28426440f032abc6849028b098ef6eb4c317aab1a21c589a794da54ba91.php:43
-#, fuzzy
 msgid "Página não encontrada"
-msgstr "Page not found: %s"
+msgstr "Page not found"
 
 #: cache/6b/83/e6cd8a46c84a6eb8490512264b0411d65e2d6fe25245adf4a83389c9769b.php:66
 #: cache/8a/df/380d5bac881d2531af654e023d07c064b65bac78200ee346e03f43a9c2eb.php:41
@@ -754,7 +735,6 @@ msgstr "Attending"
 
 #: cache/72/5e/226c51e9f43382a48d9601e1b35f2753e95cf229d2a42a02e795baf08b3d.php:197
 #: cache/83/8c/4469a6acda7d6c3b9581dedbfc25b44890e8bfd839fe8874e0a01eba6153.php:677
-#, fuzzy
 msgid "Tempo de espera"
 msgstr "Waiting time"
 
@@ -828,9 +808,8 @@ msgid "Arquivo"
 msgstr "File"
 
 #: cache/74/02/5f461d6be90c7eb803c57312861bf6c2d0c6bc3deb1db57f1cdd8429c2ee.php:111
-#, fuzzy
 msgid "Diretório"
-msgstr "Report"
+msgstr "Directory"
 
 #: cache/74/02/5f461d6be90c7eb803c57312861bf6c2d0c6bc3deb1db57f1cdd8429c2ee.php:116
 msgid "Permissão requerida"
@@ -894,9 +873,8 @@ msgstr "Delete"
 
 #: cache/80/3c/b43fe81bf133041499b70aeb81ae9eb2f89ef0b6414faa1bb0bcbaf04608.php:143
 #: cache/b4/a5/10d70ab8407ca6a0a204bd3263919955fb6fd6c76f4dcbadc00d211725ab.php:143
-#, fuzzy
 msgid "Campo obrigatório"
-msgstr "Required fields"
+msgstr "Required field"
 
 #: cache/83/8c/4469a6acda7d6c3b9581dedbfc25b44890e8bfd839fe8874e0a01eba6153.php:38
 #: cache/83/8c/4469a6acda7d6c3b9581dedbfc25b44890e8bfd839fe8874e0a01eba6153.php:130
@@ -904,9 +882,8 @@ msgid "Guichê"
 msgstr "Box"
 
 #: cache/83/8c/4469a6acda7d6c3b9581dedbfc25b44890e8bfd839fe8874e0a01eba6153.php:61
-#, fuzzy
 msgid "Tipo de Atendimento"
-msgstr "Servicing's time"
+msgstr "Attending type"
 
 #: cache/83/8c/4469a6acda7d6c3b9581dedbfc25b44890e8bfd839fe8874e0a01eba6153.php:138
 #: cache/87/ac/e542205edcfbf9b98b1aee422677568e3430d6ee7986943d9144d246af84.php:162
@@ -989,12 +966,10 @@ msgid "Novo Serviço"
 msgstr "New service"
 
 #: cache/83/8c/4469a6acda7d6c3b9581dedbfc25b44890e8bfd839fe8874e0a01eba6153.php:551
-#, fuzzy
 msgid "Codificar e redirecionar"
-msgstr "Redirect"
+msgstr ""
 
 #: cache/83/8c/4469a6acda7d6c3b9581dedbfc25b44890e8bfd839fe8874e0a01eba6153.php:670
-#, fuzzy
 msgid "Data de chegada"
 msgstr "Date of arrival"
 
@@ -1115,9 +1090,8 @@ msgid "Período de %s a %s"
 msgstr "From %s till %s"
 
 #: cache/a5/ee/265a6e0c876f8c44c1a3d3e2113efe4e712ea6769f17bb3c84f4c20534dd.php:42
-#, fuzzy
 msgid "Total"
-msgstr "Total time"
+msgstr "Total"
 
 #: cache/a8/dc/e52bb98beda3a3a3b148b53155cb1b6906ed0edee12bd6a4deafa5075380.php:35
 #: cache/d9/34/1edd81aab7f3268629c4ed506ae49c9d7a64179f4d4b931250c423681c63.php:34
@@ -1221,17 +1195,14 @@ msgid "Imprimir"
 msgstr "Print"
 
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:34
-#, fuzzy
 msgid "Atendimentos"
 msgstr "Attending"
 
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:38
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:111
-#, fuzzy
 msgid "Tempo médio de espera"
-msgstr "Waiting time"
+msgstr "Average waiting time"
 
-# Tempo médio de espera
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:40
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:109
 msgid "TME"
@@ -1239,11 +1210,9 @@ msgstr "AWT"
 
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:44
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:117
-#, fuzzy
 msgid "Tempo médio de deslocamento"
-msgstr "Dislocation time"
+msgstr "Average dislocation time"
 
-# Tempo médio de deslocamento
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:46
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:115
 msgid "TMD"
@@ -1251,18 +1220,15 @@ msgstr "ADT"
 
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:50
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:123
-#, fuzzy
 msgid "Tempo médio de atendimento"
 msgstr "Average Servicing Time "
 
-# Tempo médio do atendimento
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:52
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:121
 msgid "TMA"
 msgstr "AST"
 
 #: cache/b5/e0/d36ac5e6128b48522829a1141ac7a9a6abc31d642b48c2c34bc89c9f2adc.php:56
-#, fuzzy
 msgid "Tempo total"
 msgstr "Total time"
 
@@ -1315,13 +1281,11 @@ msgstr "m/d/Y"
 
 #: cache/df/f1/93e95c4879f8dac798076a99fcc093d8f0b4b5e869cd60bd93232740ae93.php:153
 #: cache/ec/9e/b8a201734a432a5ec9577c936d50276594de59ad7ee5fefd7bc6300b2304.php:153
-#, fuzzy
 msgid "Trocar unidade"
 msgstr "Change unity"
 
 #: cache/df/f1/93e95c4879f8dac798076a99fcc093d8f0b4b5e869cd60bd93232740ae93.php:168
 #: cache/ec/9e/b8a201734a432a5ec9577c936d50276594de59ad7ee5fefd7bc6300b2304.php:168
-#, fuzzy
 msgid "Escolher unidade"
 msgstr "Choose unity"
 
@@ -1345,19 +1309,16 @@ msgid "Incremental única"
 msgstr ""
 
 #: public/modules/sga/admin/AdminController.php:25
-#, fuzzy
 msgid "Incremental por serviço"
-msgstr "Servicing by service "
+msgstr ""
 
 #: public/modules/sga/admin/AdminController.php:86
-#, fuzzy
 msgid "Opção inválida"
-msgstr "Invalid option: %s"
+msgstr "Invalid option"
 
 #: public/modules/sga/admin/AdminController.php:114
-#, fuzzy
 msgid "Valor inválido"
-msgstr "Invalid panel"
+msgstr "Invalid value"
 
 #: public/modules/sga/atendimento/AtendimentoController.php:43
 msgid "Todos"
@@ -1366,7 +1327,7 @@ msgstr "All"
 #: public/modules/sga/atendimento/AtendimentoController.php:44
 #: vendor/novosga/core/src/Novosga/Model/Util/Senha.php:96
 msgid "Convencional"
-msgstr "All"
+msgstr "Normal"
 
 #: public/modules/sga/atendimento/AtendimentoController.php:206
 msgid "Já existe um atendimento em andamento"
@@ -1389,19 +1350,19 @@ msgstr "No Servicing on at this moment"
 
 #: public/modules/sga/atendimento/AtendimentoController.php:332
 #: public/modules/sga/atendimento/AtendimentoController.php:372
-#, fuzzy, php-format
+#, php-format
 msgid "Erro ao redirecionar atendimento %s para o serviço %s"
-msgstr "Redirect attending when closing"
+msgstr ""
 
 #: public/modules/sga/atendimento/AtendimentoController.php:337
-#, fuzzy, php-format
+#, php-format
 msgid "Erro ao codificar o atendimento %s"
-msgstr "Error inserting register: %s"
+msgstr ""
 
 #: public/modules/sga/atendimento/AtendimentoController.php:376
-#, fuzzy, php-format
+#, php-format
 msgid "Erro ao mudar status do atendimento %s para encerrado"
-msgstr "Error defining attending status. Must be greater than zero."
+msgstr ""
 
 #: public/modules/sga/atendimento/AtendimentoController.php:422
 #: public/modules/sga/monitor/MonitorController.php:85
@@ -1438,12 +1399,10 @@ msgid "Serviços Disponíveis - Unidade"
 msgstr "Services available - Unit"
 
 #: public/modules/sga/estatisticas/EstatisticasController.php:35
-#, fuzzy
 msgid "Serviços codificados"
-msgstr "Realized services"
+msgstr ""
 
 #: public/modules/sga/estatisticas/EstatisticasController.php:36
-#, fuzzy
 msgid "Atendimentos concluídos"
 msgstr "Finished servicing"
 
@@ -1452,12 +1411,10 @@ msgid "Atendimentos em todos os status"
 msgstr "Servicing at all status"
 
 #: public/modules/sga/estatisticas/EstatisticasController.php:38
-#, fuzzy
 msgid "Tempos médios por Atendente"
-msgstr "Average Servicing Time "
+msgstr ""
 
 #: public/modules/sga/estatisticas/EstatisticasController.php:40
-#, fuzzy
 msgid "Cargos"
 msgstr "Job"
 
@@ -1582,11 +1539,9 @@ msgid "Não é possível excluir si próprio."
 msgstr ""
 
 #: public/modules/sga/usuarios/UsuariosController.php:146
-#, fuzzy
 msgid ""
 "Não é possível excluir esse usuário pois o mesmo já realizou atendimentos."
 msgstr ""
-"This Unit can't be excluded since it already has registered Servicing in it."
 
 #: public/modules/sga/usuarios/UsuariosController.php:272
 #: vendor/novosga/core/src/Novosga/Controller/CronController.php:33
@@ -1615,7 +1570,7 @@ msgstr ""
 
 #: vendor/novosga/core/src/Novosga/Auth/LdapAuthentication.php:79
 msgid "Extensão LDAP não disponível no servidor."
-msgstr ""
+msgstr "LDAP extension not found"
 
 #: vendor/novosga/core/src/Novosga/Business/AcessoBusiness.php:33
 msgid "A senha deve possuir no mínimo 6 caracteres."
@@ -1678,9 +1633,8 @@ msgid "Erro ao salvar o novo registro. Favor tentar novamente"
 msgstr "Error saving new register. Please retry"
 
 #: vendor/novosga/core/src/Novosga/Controller/CrudController.php:156
-#, fuzzy
 msgid "Registro excluído com sucesso"
-msgstr "Record successfully changed"
+msgstr "Record successfully removed"
 
 #: vendor/novosga/core/src/Novosga/Controller/HomeController.php:26
 msgid "Somente via POST"
@@ -1701,9 +1655,8 @@ msgid ""
 msgstr ""
 
 #: vendor/novosga/core/src/Novosga/Controller/LoginController.php:58
-#, fuzzy
 msgid "Usuário ou senha inválido"
-msgstr "Invalid user"
+msgstr "Invalid user or password"
 
 #: vendor/novosga/core/src/Novosga/Controller/TreeModelController.php:32
 #, php-format
@@ -1865,75 +1818,3 @@ msgstr "Ticket number must be an integer greater than zero"
 #: vendor/novosga/core/src/Novosga/Model/Util/UsuarioSessao.php:62
 msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
 msgstr "Error defining user box. Must be a number greater than zero."
-
-#~ msgid "Diretório utilizado para upload de arquivos"
-#~ msgstr "File upload directory"
-
-#~ msgid "Diretório utilizado para guardar os arquivos de sessão"
-#~ msgstr "User session file directory"
-
-#~ msgid "Informações"
-#~ msgstr "Info"
-
-#~ msgid "Cron"
-#~ msgstr "Cron"
-
-#~ msgid "Usuário Inválido. Por favor, tente novamente."
-#~ msgstr "Invalid username or password. Please try again."
-
-#~ msgid "Painel"
-#~ msgstr "Panel"
-
-#~ msgid "Painéis"
-#~ msgstr "Panels"
-
-#~ msgid "Visualizar serviços"
-#~ msgstr "Show services"
-
-#~ msgid "Versão para auto triagem"
-#~ msgstr "Auto screening version"
-
-#~ msgid "Escolha abaixo o serviço que deseja ser atendido"
-#~ msgstr "Choose here the service you need to be assisted about"
-
-#~ msgid "Alterar para modo tela cheia"
-#~ msgstr "Switch to fullscreen mode"
-
-#~ msgid "Atendimento Normal"
-#~ msgstr "Normal attending"
-
-#~ msgid "Atendimento Prioritário"
-#~ msgstr "Priority attending"
-
-#~ msgid "Reverter nome para nome original"
-#~ msgstr "Revert name to original name"
-
-#~ msgid "Arquivo não encontrado: %s"
-#~ msgstr "File not found: %s"
-
-#~ msgid "Classe não encontrada: %s"
-#~ msgstr "Class not found: %s"
-
-#~ msgid "Não encontrada página \"%s\" no módulo \"%s\""
-#~ msgstr "Page \"%s\" not found on \"%s\" module"
-
-#~ msgid ""
-#~ "Erro ao definir id da entidade (\"%s\"): Deve ser maior que zero. Passado "
-#~ "%s"
-#~ msgstr ""
-#~ "Error defining entity (\"%s\") id: Must be greater than zero. Given %s "
-
-#~ msgid "A legenda da senha deve ser uma String"
-#~ msgstr "Ticket label must be a string"
-
-#~ msgid "acessando como <strong>%s</strong>"
-#~ msgstr "logged as <strong>%s</strong>"
-
-#~ msgid "Visualizar perfil"
-#~ msgstr "Show profile"
-
-#~ msgid "Valor informado não é instância de TreeModel: %s"
-#~ msgstr "A TreeModel instance is required, given: %s"
-
-#~ msgid "Deseja realmente excluir?"
-#~ msgstr "Do you really want to delete?"
