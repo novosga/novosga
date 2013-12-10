@@ -33,7 +33,7 @@ class UnidadeController extends ModuleController {
                     FROM 
                         servicos 
                     WHERE 
-                        id_macro IS NULL AND
+                        macro_id IS NULL AND
                         id NOT IN (SELECT servico_id FROM uni_serv WHERE unidade_id = :unidade)
                 ", array('unidade' => $unidade->getId(), 'local' => $local->getId()));
                 // todos servicos da unidade

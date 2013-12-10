@@ -169,7 +169,7 @@
                                                 </a>
                                                 {% if servico.subServicos|length > 0 %}
                                                     <ul>
-                                                    {% for sub in servico.subServicos %}
+                                                    {% for sub in su.servico.subServicos %}
                                                         <li id="servico-{{ sub.id }}">
                                                             <a href="javascript:void(0)" 
                                                                onclick="SGA.Atendimento.addServico(this)" 
