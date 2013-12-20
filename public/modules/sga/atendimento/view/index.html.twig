@@ -167,7 +167,7 @@
                                                    title="{% trans %}Adicionar{% endtrans %}">
                                                     {{ su.servico.nome }}
                                                 </a>
-                                                {% if servico.subServicos|length > 0 %}
+                                                {% if su.servico.subServicos|length > 0 %}
                                                     <ul>
                                                     {% for sub in su.servico.subServicos %}
                                                         <li id="servico-{{ sub.id }}">
