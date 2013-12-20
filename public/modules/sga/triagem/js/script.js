@@ -26,7 +26,17 @@ SGA.Triagem = {
             data: {id: servico},
             success: function(response) {
                 var dialog = $("#dialog-servico");
-                dialog.find('p.ultima-senha').text(response.data.senha);
+                dialog.find('p.ultima-senha span').text(response.data.senha);
+                var btnPrint = dialog.find('p.ultima-senha a');
+                btnPrint.off();
+                if (response.data.senhaId) {
+                    btnPrint.on('click', function() {
+                        SGA.Triagem.Impressao.loadIframe({ id: response.data.senhaId });
+                        return false;
+                    });
+                } else {
+                    btnPrint.hide();
+                }
                 dialog.find('p.nome').text(response.data.nome);
                 dialog.find('p.descricao').text(response.data.descricao);
                 var subservicos = dialog.find('ul.subservicos.notempty');
@@ -175,8 +185,9 @@ SGA.Triagem = {
                 if (response.data.total > 0) {
                     for (var i = 0; i < response.data.total; i++) {
                         var atendimento = response.data.atendimentos[i];
+                        var btnPrint = '<a href="#" class="glyphicon glyphicon-print" onclick="SGA.Triagem.Impressao.loadIframe({ id: ' + atendimento.id +' }); return false;"></a>';
                         var tr = '<tr>';
-                        tr += '<td>' + atendimento.senha + '</td>';
+                        tr += '<td>' + atendimento.senha + ' ' + btnPrint + '</td>';
                         tr += '<td>' + atendimento.servico + '</td>';
                         tr += '<td>' + SGA.formatDate(atendimento.chegada) + '</td>';
                         tr += '<td>' + SGA.formatTime(atendimento.inicio) + '</td>';

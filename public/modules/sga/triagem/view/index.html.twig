@@ -1,5 +1,10 @@
 {% extends "module.html.twig" %}
 {% block moduleContent %}
+
+<div class="ultima-senha">
+    
+</div>
+
 <div id="client-info">
     <h4>{% trans %}Cliente{% endtrans %}</h4>
     <form role="form" class="form-inline" onsubmit="return false">
@@ -102,7 +107,10 @@
             <div class="modal-body">
                 <div>
                     <h4>{% trans %}Última senha{% endtrans %}</h4>
-                    <p class="ultima-senha"></p>
+                    <p class="ultima-senha">
+                        <span></span>
+                        <a href="#" class="glyphicon glyphicon-print" title="{% trans %}Reimprimir{% endtrans %}"></a>
+                    </p>
                 </div>
                 <div>
                     <h4>{% trans %}Nome original do serviço{% endtrans %}</h4>

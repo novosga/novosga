@@ -100,8 +100,10 @@ class TriagemController extends ModuleController {
                 $atendimentos = $query->getResult();
                 if (sizeof($atendimentos)) {
                     $response->data['senha'] = $atendimentos[0]->getSenha()->toString();
+                    $response->data['senhaId'] = $atendimentos[0]->getId();
                 } else {
                     $response->data['senha'] = '-';
+                    $response->data['senhaId'] = '';
                 }
                 // subservicos
                 $response->data['subservicos'] = array();
