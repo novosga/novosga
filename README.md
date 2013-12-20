@@ -8,16 +8,18 @@ Visite o site para maiores informações: http://novosga.org
 
 Instalação feita via [Composer](http://getcomposer.org/)
 
+*Produção*
+
+```sh
+php composer.phar create-project novosga/novosga novosga "1.*"
+```
+
+*Ou a versão de desenvolvimento*
+
 ```sh
 git clone https://github.com/novosga/novosga
 cd novosga
 php composer.phar install
-```
-
-Ou 
-
-```sh
-php composer.phar create-project novosga/novosga novosga "1.0.0-RC"
 ```
 
 ## Tecnologia
