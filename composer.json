@@ -15,11 +15,16 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "novosga/core": "1.0.*"
+        "slim/slim": "2.3",
+        "slim/views": "0.1.0",
+        "twig/twig": "1.14.2",
+        "twig/extensions": "1.0.0",
+        "doctrine/orm": "2.4.0"
     },
     "autoload": {
         "psr-0": {
-            "modules": "public/"
+            "Novosga\\": "src/",
+            "modules\\": "public/"
         }
     }
 }
