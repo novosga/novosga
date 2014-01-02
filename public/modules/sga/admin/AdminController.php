@@ -81,7 +81,7 @@ class AdminController extends ModuleController {
             foreach ($_POST as $k => $v) {
                 $value[$type][$k] = $v;
             }
-            $auth = \Novosga\Auth\AuthFactory::create($value);
+            $auth = \Novosga\Auth\AuthFactory::create($context, $type, $value);
             if (!$auth) {
                 throw new \Exception(_('Opção inválida'));
             }
