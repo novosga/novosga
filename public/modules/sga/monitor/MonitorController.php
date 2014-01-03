@@ -174,7 +174,7 @@ class MonitorController extends ModuleController {
                         status = :status,
                         dt_fim = NULL
                     WHERE 
-                        atendimento_id = :id AND 
+                        id = :id AND 
                         unidade_id = :unidade AND
                         status IN ({$status})
                 ");
