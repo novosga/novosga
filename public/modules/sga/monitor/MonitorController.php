@@ -135,7 +135,7 @@ class MonitorController extends ModuleController {
                         servico_id = :servico,
                         prioridade_id = :prioridade
                     WHERE 
-                        atendimento_id = :id AND 
+                        id = :id AND 
                         unidade_id = :unidade AND
                         dt_fim IS NULL
                 ");
@@ -210,7 +210,7 @@ class MonitorController extends ModuleController {
                         status = :status,
                         dt_fim = :data
                     WHERE 
-                        atendimento_id = :id AND 
+                        id = :id AND 
                         unidade_id = :unidade AND
                         dt_fim IS NULL
                 ");
