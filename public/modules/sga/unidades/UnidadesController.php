@@ -34,6 +34,10 @@ class UnidadesController extends CrudController {
         if (!$grupo || !$grupo->isLeaf()) {
             throw new \Exception(_('Grupo inválido'));
         }
+        if (!$model->getId()) {
+            $model->setStatusImpressao(1);
+            $model->setMensagemImpressao('Novo SGA');
+        }
         $model->setGrupo($grupo);
     }
 

@@ -49,7 +49,7 @@ INSERT INTO cargos_mod_perm (cargo_id, modulo_id, permissao) VALUES (1, 14, 3);
 INSERT INTO grupos (id, nome, descricao, esquerda, direita, nivel) VALUES (1, 'Raíz', 'Grupo Raíz', 1, 2, 0);
 
 -- unidade padrao
-INSERT INTO unidades (id, grupo_id, codigo, nome, status, stat_imp, msg_imp) VALUES (1, 1, '1', 'Unidade Padrão', 1, 0, 'Novo SGA');
+INSERT INTO unidades (id, grupo_id, codigo, nome, status, stat_imp, msg_imp) VALUES (1, 1, '1', 'Unidade Padrão', 1, 1, 'Novo SGA');
 
 -- administrador
 INSERT INTO usuarios (id, login, nome, sobrenome, senha, ult_acesso, status, session_id) VALUES (1, '{login}', '{nome}', '{sobrenome}', '{senha}', NULL, 1, '');
