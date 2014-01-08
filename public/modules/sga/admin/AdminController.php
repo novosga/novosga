@@ -9,7 +9,6 @@ use \Novosga\Model\Util\Senha;
 use \Novosga\Auth\Authentication;
 use \Novosga\Controller\ModuleController;
 use \Novosga\Business\AtendimentoBusiness;
-use \Novosga\Controller\CronController;
 use \Novosga\Model\Modulo;
 
 /**
@@ -56,7 +55,6 @@ class AdminController extends ModuleController {
             $numeracao = Senha::NUMERACAO_UNICA;
             Configuracao::set($this->em(), Senha::TIPO_NUMERACAO, $numeracao);
         }
-        $cron = new CronController($this->app());
         // view values
         $this->app()->view()->set('unidades', $unidades);
         // database config
@@ -65,7 +63,6 @@ class AdminController extends ModuleController {
         $this->app()->view()->set('auth', $auth);
         $this->app()->view()->set('numeracao', $numeracao);
         $this->app()->view()->set('numeracoes', $this->numeracoes);
-        $this->app()->view()->set('cronReiniciarSenhas', $cron->cronUrl('reset', $context->getUser()));
     }
     
     public function auth_save(SGAContext $context) {

@@ -55,15 +55,6 @@ $app->post('/install/:action', function($action) use ($app) {
     }
 });
 
-
-$app->any('/cron(/:action)', function($action = '') use ($app) {
-    $controller = new \Novosga\Controller\CronController($app);
-    $ref = new \ReflectionMethod($controller, $action);
-    if ($ref->isPublic()) {
-        $ref->invokeArgs($controller, array($app->getContext()));
-    }
-});
-
 $app->get('/(home)', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->index($app->getContext());
