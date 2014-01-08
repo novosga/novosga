@@ -17,8 +17,7 @@ class Grupo extends TreeModel {
     protected $nome;
     /** @Column(type="string", name="descricao", length=150, nullable=false) */
     protected $descricao;
-    // XXX: retirado relacionamento bidirecional devido a bug do dblib/mssql no linux (multiplas consultas)
-    /** @ OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY") */
+    /** @OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY") */
     protected $unidade;
 
 

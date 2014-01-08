@@ -2,11 +2,11 @@
 {% block formContent %}
     <div class="form-group required">
         <label for="codigo">{% trans %}Código{% endtrans %}</label>
-        <input id="codigo" type="text" name="codigo" class="form-control" value="{{ model.codigo }}" />
+        <input id="codigo" type="text" name="codigo" class="form-control" value="{{ model.codigo }}" maxlength="10" />
     </div>
     <div class="form-group required">
         <label for="nome">{% trans %}Nome{% endtrans %}</label>
-        <input id="nome" type="text" name="nome" class="form-control" value="{{ model.nome }}" />
+        <input id="nome" type="text" name="nome" class="form-control" value="{{ model.nome }}" maxlength="50" />
     </div>
     <div class="form-group required">
         <label for="grupo">{% trans %}Grupo{% endtrans %}</label>

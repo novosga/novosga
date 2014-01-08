@@ -8,15 +8,15 @@
         <div id="tab-geral" class="tab-pane active">
             <div class="form-group required">
                 <label for="login">{% trans %}Nome de usuário{% endtrans %}</label>
-                <input id="login" type="text" name="login" class="form-control" value="{{ model.login }}" onkeyup="SGA.Form.loginValue(this)" />
+                <input id="login" type="text" name="login" class="form-control" value="{{ model.login }}" onkeyup="SGA.Form.loginValue(this)" maxlength="20" />
             </div>
             <div class="form-group required">
                 <label for="nome">{% trans %}Nome{% endtrans %}</label>
-                <input id="nome" type="text" name="nome" class="form-control" value="{{ model.nome }}" />
+                <input id="nome" type="text" name="nome" class="form-control" value="{{ model.nome }}" maxlength="20" />
             </div>
             <div class="form-group required">
                 <label for="descricao">{% trans %}Sobrenome{% endtrans %}</label>
-                <input id="descricao" type="text" name="sobrenome" class="form-control" value="{{ model.sobrenome }}" />
+                <input id="descricao" type="text" name="sobrenome" class="form-control" value="{{ model.sobrenome }}" maxlength="100" />
             </div>
             {# ja cadastra o usuario como ativo #}
             {% if id > 0 %}
@@ -44,11 +44,11 @@
             {% if not id %}
                 <div class="form-group required">
                     <label for="senha">{% trans %}Senha{% endtrans %}</label>
-                    <input id="senha" type="password" name="senha" class="form-control" />
+                    <input id="senha" type="password" name="senha" class="form-control" maxlength="40" />
                 </div>
                 <div class="form-group required">
                     <label for="confirmacao">{% trans %}Confirmar senha{% endtrans %}</label>
-                    <input id="confirmacao" type="password" name="senha2" class="form-control" />
+                    <input id="confirmacao" type="password" name="senha2" class="form-control" maxlength="40" />
                 </div>
             {% endif %}
         </div>
