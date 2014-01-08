@@ -11,6 +11,7 @@ SGA.Atendimento = {
     marcarNaoCompareceu: '',
     marcarErroTriagem: '',
     nenhumServicoSelecionado: '',
+    defaultTitle: '',
     
     init: function(status) {
         setInterval(SGA.Atendimento.ajaxUpdate, SGA.updateInterval);
@@ -20,6 +21,10 @@ SGA.Atendimento = {
             $('#numero_busca').val('');
             $('#result_table tbody').html('');
         });
+        SGA.Atendimento.defaultTitle = document.title;
+        if (!SGA.Notification.allowed()) {
+            $('#notification').show();
+        }
     },
     
     ajaxUpdate: function() {
@@ -35,10 +40,12 @@ SGA.Atendimento = {
                             // se a fila estava vazia e chegou um novo atendimento, entao toca o som
                             if (list.find('li.empty').length > 0) {
                                 document.getElementById("alert").play();
+                                SGA.Notification.show('Atendimento', 'Novo atendimento na fila');
                             }
                         }
                         list.text('');
                         if (response.data.length > 0) {
+                            document.body.focus();
                             for (var i = 0; i < response.data.length; i++) {
                                 var atendimento = response.data[i];
                                 var cssClass = atendimento.prioridade ? 'prioridade' : '';
@@ -50,9 +57,11 @@ SGA.Atendimento = {
                                 var item = '<li><a class="' + cssClass + '" href="javascript:void(0)" onclick="' + onclick + '" title="' + title + '">' + atendimento.senha + '</a></li>';
                                 list.append(item);
                             }
+                            document.title = "(" + response.data.length + ") " + SGA.Atendimento.defaultTitle;
                         } else {
                             $('#chamar .chamar').prop('disabled', true);
                             list.append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
+                            document.title = SGA.Atendimento.defaultTitle;
                         }
                     }
                 }

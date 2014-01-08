@@ -678,14 +678,30 @@ var SGA = {
     },
             
     Notification: {
+        
+        request: function(btn) {
+            if (Notification) {
+                Notification.requestPermission(function(permission) {
+                    if (!('permission' in Notification)) {
+                        Notification.permission = permission;
+                    }
+                    $(btn).hide();
+                });
+            }
+        },
+        
+        allowed: function() {
+            if (window.webkitNotifications) {
+                return window.webkitNotifications.checkPermission() === 0;
+            }
+            return Notification && Notification.permission === "granted";
+        },
 
         show: function(title, content) {
-            if (window.webkitNotification) {
-                if (window.webkitNotification.checkPermission() !== 0) {
-                    window.webkitNotification.requestPermission();
-                } else {
-                    window.webkitNotification.createNotification(title, content);
-                }
+            if (this.allowed()) {
+                new Notification(title, { body: content, icon: SGA.baseUrl + '/images/favicon.png' });
+            } else {
+                this.request();
             }
         }
 

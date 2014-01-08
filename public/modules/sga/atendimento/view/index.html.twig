@@ -217,6 +217,10 @@
                 <span class="glyphicon glyphicon-search"></span>&nbsp;
                 {% trans %}Consultar senha{% endtrans %}
             </a>
+            <button id="notification" type="button" class="btn btn-warning" onclick="SGA.Notification.request(this)" style="display: none">
+                <span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;
+                {% trans %}Habilitar notificação{% endtrans %}
+            </button>
         </p>
         
         {# dialog redirecionar #}
@@ -323,7 +327,7 @@
                 </div>
             </div>
         </div>
-        
+                
         <div id="sga-clock" title="{% trans %}Data e hora no servidor{% endtrans %}"></div>
         
         {# som executado quando a fila deixa de estar fazia #}
