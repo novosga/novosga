@@ -21,7 +21,7 @@
     <tbody>
         {% for a in dado.atendimentos %}
         <tr>
-            <td>{{ a.siglaSenha }}{% if isNumeracaoServico %}{{ a.numeroSenhaServico }}{% else %}{{ a.numeroSenha }}{% endif %}</td>
+            <td rowspan="2" class="vam tac">{{ a.siglaSenha }}{% if isNumeracaoServico %}{{ a.numeroSenhaServico }}{% else %}{{ a.numeroSenha }}{% endif %}</td>
             <td>{{ a.nomeCliente }}</td>
             <td>{{ a.dataChegada|date('d/m/Y') }}</td>
             <td>{{ a.dataChamada|date('H:i:s') }}</td>
@@ -29,8 +29,26 @@
             <td>{{ a.dataFim|date('H:i:s') }}</td>
             <td>{{ a.tempoAtendimento }}</td>
             <td>{{ a.tempoPermanencia }}</td>
-            <td>{{ a.servico.nome }}</td>
             <td>{{ a.usuario.login }}</td>
+            <td>{{ a.servico.nome }}</td>
+        </tr>
+        <tr>
+            <td colspan="10" class="sub-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>{% trans %}Serviços Codificados{% endtrans %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in a.codificados %}
+                        <tr>
+                            <td>{{c.servico.nome}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

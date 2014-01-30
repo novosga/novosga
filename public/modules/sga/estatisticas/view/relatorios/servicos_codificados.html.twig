@@ -1,7 +1,7 @@
 {% for dado in relatorio.dados %}
 <div class="header">
     <h2>{{ dado.unidade }}</h2>
-    <p>{% trans %}Período de %s a %s{% endtrans %}</p>
+    <p>{% trans %}Período de {{ dataInicial }} a {{ dataFinal }}{% endtrans %}</p>
 </div>
 <table class="table table-striped">
     <thead>

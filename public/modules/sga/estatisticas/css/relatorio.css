@@ -25,16 +25,9 @@
     text-align: center;
 }
 
-#report #report-body thead tr {
-    background: #ddd;
-}
-
 #report #report-body thead th {
     padding: 10px 8px;
 }
-
-#report tr.par { background-color: #f1f1f1; }
-
 
 #report #report-footer {
     color: #ccc;
@@ -54,3 +47,6 @@
 table.subservicos td.nome {
     padding-left: 50px;
 }
+
+.vam { vertical-align: middle !important; }
+.tac { text-align: center !important; }

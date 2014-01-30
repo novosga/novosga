@@ -22,7 +22,7 @@ class ViewAtendimentoCodificado extends Model {
      * @JoinColumn(name="servico_id", referencedColumnName="id")
      */
     protected $servico;
-    /** @Column(type="smallint", name="peso", nullable=false) */
+    /** @Column(type="smallint", name="valor_peso", nullable=false) */
     protected $peso;
     
     public function getAtendimento() {

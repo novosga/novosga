@@ -59,7 +59,11 @@ class ViewAtendimento extends SequencialModel {
     protected $numeroSenha;
     /** @Column(type="integer", name="num_senha_serv", nullable=false) */
     protected $numeroSenhaServico;
-    
+    /**
+     * @OneToMany(targetEntity="ViewAtendimentoCodificado", mappedBy="atendimento")
+     * @var ViewAtendimento[]
+     */
+    protected $codificados;
     
     public function getUnidade() {
         return $this->unidade;
@@ -207,6 +211,14 @@ class ViewAtendimento extends SequencialModel {
 
     public function setNumeroSenhaServico($numeroSenhaServico) {
         $this->numeroSenhaServico = $numeroSenhaServico;
+    }
+    
+    public function getCodificados() {
+        return $this->codificados;
+    }
+
+    public function setCodificados(ViewAtendimento $codificados) {
+        $this->codificados = $codificados;
     }
 
 }
