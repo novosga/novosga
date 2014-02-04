@@ -7,7 +7,6 @@
     <thead>
         <tr>
             <th>{% trans %}Senha|Bilhete{% endtrans %}</th>
-            <th>{% trans %}Cliente{% endtrans %}</th>
             <th>{% trans %}Data{% endtrans %}</th>
             <th title="{% trans %}Hora de Chamada{% endtrans %}">{% trans %}Chamada{% endtrans %}</th>
             <th title="{% trans %}Hora do Início do atendimento{% endtrans %}">{% trans %}Início{% endtrans %}</th>
@@ -22,13 +21,12 @@
         {% for a in dado.atendimentos %}
         <tr>
             <td rowspan="2" class="vam tac">{{ a.siglaSenha }}{% if isNumeracaoServico %}{{ a.numeroSenhaServico }}{% else %}{{ a.numeroSenha }}{% endif %}</td>
-            <td>{{ a.nomeCliente }}</td>
             <td>{{ a.dataChegada|date('d/m/Y') }}</td>
             <td>{{ a.dataChamada|date('H:i:s') }}</td>
             <td>{{ a.dataInicio|date('H:i:s') }}</td>
             <td>{{ a.dataFim|date('H:i:s') }}</td>
-            <td>{{ a.tempoAtendimento }}</td>
-            <td>{{ a.tempoPermanencia }}</td>
+            <td>{{ a.tempoAtendimento|date('%H:%I:%S') }}</td>
+            <td>{{ a.tempoPermanencia|date('%H:%I:%S') }}</td>
             <td>{{ a.usuario.login }}</td>
             <td>{{ a.servico.nome }}</td>
         </tr>

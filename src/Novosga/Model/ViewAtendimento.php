@@ -220,5 +220,44 @@ class ViewAtendimento extends SequencialModel {
     public function setCodificados(ViewAtendimento $codificados) {
         $this->codificados = $codificados;
     }
+    
+    /**
+     * Retorna o tempo de espera do cliente até ser atendido.
+     * A diferença entre a data de chegada até a data atual.
+     * 
+     * @return \DateInterval
+     */
+    public function getTempoEspera() {
+        $now = new \DateTime();
+        return $now->diff($this->getDataChegada());
+    }
+
+    /**
+     * Retorna o tempo de permanência do cliente na unidade.
+     * A diferença entre a data de chegada até a data de fim de atendimento.
+     * 
+     * @return \DateInterval
+     */
+    public function getTempoPermanencia() {
+        if ($this->getDataFim()) {
+            return $this->getDataFim()->diff($this->getDataChegada());
+        }
+        return new \DateInterval();
+        
+    }
+    
+    /**
+     * Retorna o tempo total do atendimento.
+     * A diferença entre a data de início e fim do atendimento.
+     * 
+     * @return \DateInterval
+     */
+    public function getTempoAtendimento() {
+        if ($this->getDataFim()) {
+            return $this->getDataFim()->diff($this->getDataInicio());
+        }
+        return new \DateInterval();
+        
+    }
 
 }
