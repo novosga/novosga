@@ -42,6 +42,14 @@ $app->post('/token', function() use ($server) {
 });
 
 /**
+ * Verifica o acesso, retornando se o token informado ainda está valido
+ */
+$app->get('/check', function() use ($server) {
+    $server->checkAccess();
+    echo json_encode(array('success' => true));
+});
+
+/**
  * Retorna todas as unidades disponíveis
  * 
  * GET /unidades
