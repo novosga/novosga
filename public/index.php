@@ -121,23 +121,4 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     echo $app->render("$action.html.twig");
 });
 
-/*
- * API
- */
-$app->any('/api(/:action(/:params+))', function($action = '', $params = array()) use ($app) {
-    if (empty($action)) {
-        $app->notFound();
-    }
-    $em = $app->getContext()->database()->createEntityManager();
-    $api = new \Novosga\Api\ApiV1($em);
-    // api action
-    $methodName = str_replace('/', '_', str_replace('-', '_', $action));
-    $method = new \ReflectionMethod($api, $methodName);
-    $rs = $method->invokeArgs($api, $params);
-    
-    header('Content-type: application/json');
-    echo json_encode($rs);
-    exit();
-});
-
 $app->run();

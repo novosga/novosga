@@ -64,12 +64,8 @@ class ApiV1 extends Api {
      * @param int $unidade
      * @return array
      */
-    public function servicos() {
-        if (func_num_args() === 0) {
-            throw new \Exception(_('Unidade não informada'));
-        }
-        $unidade = func_get_arg(0);
-        if ($unidade == 0) {
+    public function servicos($unidade = 0) {
+        if ($unidade <= 0) {
             // servicos globais
             return $this->em->createQuery('
                 SELECT 
@@ -220,6 +216,14 @@ class ApiV1 extends Api {
                 ->getResult();
         }
         return array();
+    }
+    
+    /**
+     * Distribui uma nova senha
+     */
+    public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente) {
+        $ab = new AtendimentoBusiness($this->em());
+        return $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente);
     }
     
 }

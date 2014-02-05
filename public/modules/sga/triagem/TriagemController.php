@@ -123,79 +123,17 @@ class TriagemController extends ModuleController {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         $usuario = $context->getUser();
+        $servico = (int) Arrays::value($_POST, 'servico');
+        $prioridade = (int) Arrays::value($_POST, 'prioridade');
+        $nomeCliente = Arrays::value($_POST, 'cli_nome', '');
+        $documentoCliente = Arrays::value($_POST, 'cli_doc', '');
         try {
-            if (!$unidade) {
-                throw new Exception(_('Nenhum unidade escolhida'));
-            }
-            if (!$usuario) {
-                throw new Exception(_('Nenhum usuário na sessão'));
-            }
-            // verificando a prioridade
-            $prioridade = $this->em()->find("Novosga\Model\Prioridade", (int) Arrays::value($_POST, 'prioridade'));
-            if (!$prioridade || $prioridade->getStatus() == 0) {
-                throw new Exception(_('Prioridade inválida'));
-            }
-            
-            // verificando se o servico esta disponivel na unidade
-            $servico = (int) Arrays::value($_POST, 'servico');
-            $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
-            $query->setParameter('unidade', $unidade->getId());
-            $query->setParameter('servico', $servico);
-            $su = $query->getOneOrNullResult();
-            if (!$su) {
-                throw new Exception(_('Serviço não disponível para a unidade atual'));
-            }
-            $conn = $this->em()->getConnection();
-            /*
-             * XXX: Os parametros abaixo (id da unidade e sigla) estao sendo concatenados direto na string devido a um bug do pdo_sqlsrv (windows)
-             */
-            // ultimo numero gerado (total)
-            $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.unidade_id = {$unidade->getId()} ORDER BY num_senha DESC";
-            $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1, 0);
-            // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
-            $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.unidade_id = {$unidade->getId()} AND a.sigla_senha = '{$su->getSigla()}' ORDER BY num_senha_serv DESC";
-            $innerQuery2 = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery2, 1, 0);
-            $stmt = $conn->prepare(" 
-                INSERT INTO atendimentos
-                (unidade_id, servico_id, prioridade_id, usuario_tri_id, status, nm_cli, ident_cli, num_local, dt_cheg, sigla_senha, num_senha, num_senha_serv)
-                SELECT
-                    :unidade_id, :servico_id, :prioridade_id, :usuario_tri_id, :status, :nm_cli, :ident_cli, :num_local, :dt_cheg, :sigla_senha, 
-                    COALESCE(
-                        (
-                            $innerQuery
-                        ) , 0) + 1,
-                    COALESCE(
-                        (
-                            $innerQuery2
-                        ) , 0) + 1
-            ");
-            $stmt->bindValue('unidade_id', $unidade->getId(), PDO::PARAM_INT);
-            $stmt->bindValue('servico_id', $servico, PDO::PARAM_INT);
-            $stmt->bindValue('prioridade_id', $prioridade->getId(), PDO::PARAM_INT);
-            $stmt->bindValue('usuario_tri_id', $usuario->getId(), PDO::PARAM_INT);
-            $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA, PDO::PARAM_INT);
-            $stmt->bindValue('nm_cli', Arrays::value($_POST, 'cli_nome', ''), PDO::PARAM_STR);
-            $stmt->bindValue('ident_cli', Arrays::value($_POST, 'cli_doc', ''), PDO::PARAM_STR);
-            $stmt->bindValue('num_local', 0, PDO::PARAM_INT);
-            $stmt->bindValue('dt_cheg', DateUtil::nowSQL(), PDO::PARAM_STR);
-            $stmt->bindValue('sigla_senha', $su->getSigla(), PDO::PARAM_STR);
-            
-            $response->success = ($stmt->execute() == true);
-            if (!$response->success) {
-                throw new Exception(_('Erro ao tentar gerar nova senha'));
-            }
-            $id = $conn->lastInsertId();
-            if (!$id) {
-                $id = $conn->lastInsertId('atendimentos_id_seq');
-            }
-            if (!$id) {
-                throw new \Exception(_('Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de desenvolvimento informando esse problema, e o banco de dados que está usando'));
-            }
-            $response->data['id'] = $id;
-            $response->data['atendimento'] = $this->em()->find("Novosga\Model\Atendimento", $id)->toArray();
+            $ab = new AtendimentoBusiness($this->em());
+            $response->data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente);
+            $response->success = true;
         } catch (Exception $e) {
-            $response->success = false;
             $response->message = $e->getMessage();
+            $response->success = false;
         }
         $context->response()->jsonResponse($response);
     }
