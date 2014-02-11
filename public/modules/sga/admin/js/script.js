@@ -39,6 +39,90 @@ SGA.Admin = {
         }
     },
     
+    WebApi: {
+        
+        addClient: function(btn) {
+            btn.disabled = true;
+            var dialog = $('#dialog-clientid');
+            var data = dialog.find('form').serialize();
+            dialog.find('input').prop('disabled', true);
+            $.ajax({
+                url: SGA.baseUrl + '/modules/sga.admin/add_oauth_client',
+                type: 'post',
+                data: data,
+                success: function() {
+                    SGA.Admin.WebApi.loadClients();
+                    dialog.find('input').val('');
+                    dialog.modal('hide');
+                },
+                complete: function() {
+                    btn.disabled = false;
+                    dialog.find('input').prop('disabled', false);
+                }
+            });
+        },
+        
+        loadClients: function() {
+            $.ajax({
+                url: SGA.baseUrl + '/modules/sga.admin/get_all_oauth_client',
+                success: function(response) {
+                    var table = $('#oauth_clients tbody');
+                    table.html('');
+                    if (response && response.data) {
+                        for (var i = 0; i < response.data.length; i++) {
+                            var client = response.data[i];
+                            table.append(
+                                $('<tr></tr>')
+                                    .append('<td>' + client.client_id + '</td>')
+                                    .append('<td>' + client.client_secret + '</td>')
+                                    .append('<td>' + client.redirect_uri + '</td>')
+                                    .append(
+                                        $('<td class="buttons"></td>')
+                                            .append(
+                                                $('<a href="#" data-id="' + client.client_id + '" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>')
+                                                .on('click', function() {
+                                                    var elem = $(this);
+                                                    $.ajax({
+                                                        url: SGA.baseUrl + '/modules/sga.admin/get_oauth_client?client_id=' + elem.data('id'),
+                                                        success: function(response) {
+                                                            var dialog = $('#dialog-clientid');
+                                                            if (response && response.data) {
+                                                                for (var i in response.data) {
+                                                                    dialog.find('#' + i).val(response.data[i]);
+                                                                }
+                                                            }
+                                                            dialog.modal('show');
+                                                        }
+                                                    });
+                                                    return false;
+                                                })
+                                            )
+                                            .append(
+                                                $('<a href="#" data-id="' + client.client_id + '" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>')
+                                                .on('click', function() {
+                                                    if (confirm('Deseja mesmo remover o cliente?')) {
+                                                        var elem = $(this);
+                                                        $.ajax({
+                                                            url: SGA.baseUrl + '/modules/sga.admin/delete_oauth_client',
+                                                            data: { client_id: elem.data('id') },
+                                                            success: function(response) {
+                                                                SGA.Admin.WebApi.loadClients();
+                                                            }
+                                                        });
+                                                    }
+                                                    return false;
+                                                })
+                                            )
+                                    )
+                            );
+                        }
+                    }
+                }
+            });
+        }
+        
+    },
+    
     reiniciarSenhas: function(alert) {
         if (confirm(alert)) {
             SGA.ajax({

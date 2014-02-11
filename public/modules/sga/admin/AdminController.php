@@ -118,4 +118,63 @@ class AdminController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
+    public function add_oauth_client(SGAContext $context) {
+        $response = new AjaxResponse();
+        if ($context->request()->isPost()) {
+            try {
+                $client_id = $context->request()->getParameter('client_id');
+                $client_secret = $context->request()->getParameter('client_secret');
+                $redirect_uri = $context->request()->getParameter('redirect_uri');
+                // apaga se ja existir
+                $this->delete_auth_client_by_id($client_id);
+                // insere novo cliente
+                $conn = $this->em()->getConnection();
+                $stmt = $conn->prepare('INSERT INTO oauth_clients (client_id, client_secret, redirect_uri) VALUES (:client_id, :client_secret, :redirect_uri)');
+                $stmt->bindValue('client_id', $client_id);
+                $stmt->bindValue('client_secret', $client_secret);
+                $stmt->bindValue('redirect_uri', $redirect_uri);
+                $stmt->execute();
+                $response->success = true;
+            } catch (\Exception $e) {
+                $response->message = $e->getMessage();
+            }
+        }
+        $context->response()->jsonResponse($response);
+    }
+    
+    public function get_oauth_client(SGAContext $context) {
+        $response = new AjaxResponse(true);
+        $client_id = $context->request()->getParameter('client_id');
+        $conn = $this->em()->getConnection();
+        $stmt = $conn->prepare('SELECT client_id, client_secret, redirect_uri FROM oauth_clients WHERE client_id = :client_id');
+        $stmt->bindValue('client_id', $client_id);
+        $stmt->execute();
+        $response->data = $stmt->fetch();
+        $context->response()->jsonResponse($response);
+    }
+    
+    public function get_all_oauth_client(SGAContext $context) {
+        $response = new AjaxResponse(true);
+        $conn = $this->em()->getConnection();
+        $stmt = $conn->prepare('SELECT client_id, client_secret, redirect_uri FROM oauth_clients ORDER BY client_id');
+        $stmt->execute();
+        $response->data = $stmt->fetchAll();
+        $context->response()->jsonResponse($response);
+    }
+    
+    public function delete_oauth_client(SGAContext $context) {
+        $response = new AjaxResponse(true);
+        $conn = $this->em()->getConnection();
+        $client_id = $context->request()->getParameter('client_id');
+        $this->delete_auth_client_by_id($client_id);
+        $context->response()->jsonResponse($response);
+    }
+    
+    private function delete_auth_client_by_id($client_id) {
+        $conn = $this->em()->getConnection();
+        $stmt = $conn->prepare('DELETE FROM oauth_clients WHERE client_id = :client_id');
+        $stmt->bindValue('client_id', $client_id);
+        $stmt->execute();
+    }
+    
 }
