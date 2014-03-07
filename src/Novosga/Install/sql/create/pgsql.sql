@@ -199,7 +199,7 @@ CREATE TABLE oauth_clients (
 );
 
 CREATE TABLE oauth_scopes (
-    type VARCHAR(255) NOT NULL DEFAULT "supported", 
+    type VARCHAR(255) NOT NULL DEFAULT 'supported', 
     scope VARCHAR(2000), 
     client_id VARCHAR (80)
 );
