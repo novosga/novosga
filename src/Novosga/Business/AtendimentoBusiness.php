@@ -125,7 +125,7 @@ class AtendimentoBusiness extends ModelBusiness {
             }
             $query->execute();
 
-            // limpa atendimentos codificados da unidade
+            // limpa atendimentos codificados da unidade 
             $subquery = "SELECT id FROM atendimentos WHERE dt_cheg <= :data ";
             if ($unidade > 0) {
                 $subquery .= " AND unidade_id = :unidade";
@@ -137,8 +137,20 @@ class AtendimentoBusiness extends ModelBusiness {
                 $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
             }
             $query->execute();
-
+            
             // limpa atendimentos da unidade
+            // por causa do auto relacionamento, primeiro apaga os registros filhos
+            $sql = 'DELETE FROM atendimentos WHERE dt_cheg <= :data AND atendimento_id IS NOT NULL';
+            if ($unidade > 0) {
+                $sql .= " AND unidade_id = :unidade";
+            }
+            $query = $conn->prepare($sql);
+            $query->bindValue('data', $data, PDO::PARAM_STR);
+            if ($unidade > 0) {
+                $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
+            }
+            $query->execute();
+            // agora apaga os demais registros (os atendimentos pais)
             $sql = 'DELETE FROM atendimentos WHERE dt_cheg <= :data ';
             if ($unidade > 0) {
                 $sql .= " AND unidade_id = :unidade";
