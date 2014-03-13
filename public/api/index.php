@@ -14,8 +14,12 @@ $api = new \Novosga\Api\ApiV1($em);
  * API
  */
 
-$app->error(function (Exception $e) use ($app) {
+$app->error(function(Exception $e) use ($app) {
     echo json_encode(array('error' => $e->getMessage(), 'code' => $e->getCode()));
+});
+
+$app->notFound(function() use ($app) {
+    echo json_encode(array('error' => 'Not found', 'code' => '404'));
 });
 
 /**
@@ -115,6 +119,19 @@ $app->get('/prioridades', function() use ($api) {
  */
 $app->get('/servicos(/:unidade)', function($unidade = 0) use ($api) {
     echo json_encode($api->servicos($unidade));
+});
+
+
+$app->get('/painel(/:unidade)', function($unidade = 0) use ($app, $api) {
+    $servicos = $app->request()->get('servicos');
+    if (empty($servicos)) {
+        $servicos = 0;
+    }
+    // filtrando apenas inteiros (possiveis ids)
+    $servicos = array_filter(explode(',', $servicos), function($value) {
+        return $value > 0;
+    });
+    echo json_encode($api->painel($unidade, $servicos));
 });
 
 /**

@@ -136,15 +136,7 @@ class ApiV1 extends Api {
      * @param string $servicos | 1,2,3,4...
      * @return array
      */
-    public function painel() {
-        if (func_num_args() === 0) {
-            throw new \Exception(_('Unidade não informada'));
-        }
-        $unidade = func_get_arg(0);
-        $servicos = \Novosga\Util\Arrays::value($_GET, 'servicos', '');
-        if (empty($servicos)) {
-            $servicos = 0;
-        }
+    public function painel($unidade, array $servicos) {
         $length = \Novosga\Model\Util\Senha::LENGTH;
         // servicos da unidade
         return $this->em->createQuery("
@@ -160,8 +152,8 @@ class ApiV1 extends Api {
                 s.id IN (:servicos)
             ORDER BY 
                 e.id DESC
-        ")->setParameter(':unidade', $unidade)
-            ->setParameter(':servicos', explode(',', $servicos))
+        ")->setParameter(':unidade', (int) $unidade)
+            ->setParameter(':servicos', $servicos)
             ->setMaxResults(10)
             ->getResult();
     }
