@@ -6,14 +6,14 @@ CREATE TABLE oauth_clients (
     client_secret VARCHAR(80) NOT NULL, 
     redirect_uri VARCHAR(2000) NOT NULL, 
     grant_types VARCHAR(80), 
+    scope VARCHAR(100), 
     user_id VARCHAR(80), 
     PRIMARY KEY (client_id)
 );
 
 CREATE TABLE oauth_scopes (
-    type VARCHAR(255) NOT NULL DEFAULT 'supported', 
-    scope VARCHAR(2000), 
-    client_id VARCHAR (80)
+    scope TEXT, 
+    is_default BOOLEAN
 );
 
 CREATE TABLE oauth_access_tokens (
