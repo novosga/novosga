@@ -10,7 +10,7 @@ use \Novosga\Business\AcessoBusiness;
  */
 class SGA extends \Slim\Slim {
     
-    const VERSION = "1.1.2";
+    const VERSION = "1.1.3";
     const CHARSET = "utf-8";
     
     // SESSION KEYS
