@@ -14,13 +14,13 @@
         }
     ],
     "require": {
-        "php": ">=5.3.2",
+        "php": ">=5.3.9",
         "slim/slim": "2.3",
         "slim/views": "0.1.0",
         "twig/twig": "1.14.2",
         "twig/extensions": "1.0.0",
         "doctrine/orm": "2.4.0",
-        "bshaffer/oauth2-server-php": "*"
+        "bshaffer/oauth2-server-php": "1.2"
     },
     "autoload": {
         "psr-0": {
