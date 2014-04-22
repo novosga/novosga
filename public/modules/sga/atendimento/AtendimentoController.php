@@ -92,6 +92,7 @@ class AtendimentoController extends ModuleController {
                 su.unidade = :unidade AND
                 s.id IN (:servicos) $cond
             ORDER BY 
+                ((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada)) DESC,
                 p.peso DESC,
                 e.numeroSenha ASC
         ");

@@ -1,10 +1,9 @@
 <?php
 namespace Novosga\Install;
 
-use Doctrine\ORM\EntityManager;
 use Exception;
 use Novosga\Controller\InternalController;
-use Novosga\Db\DatabaseConfig;
+use Novosga\Config\DatabaseConfig;
 use Novosga\Http\AjaxResponse;
 use Novosga\Model\Configuracao;
 use Novosga\Security;
@@ -437,14 +436,7 @@ class InstallController extends InternalController {
                 if (!$data) {
                     throw new Exception(_('Os dados da instalação não foram encontrados. Favor iniciar novamente'));
                 }
-                
-                $configFile = NOVOSGA_CONFIG . DS . 'database.php';
-                // verifica se será possível escrever a configuração no arquivo de configuracao
-                if (file_exists($configFile) && !is_writable($configFile)) {
-                    $msg = _('Arquivo de configuação (%s) somente leitura');
-                    throw new Exception(sprintf($msg, $configFile));
-                }
-                
+                                
                 $db = new DatabaseConfig($data->database);
                 $em = $db->createEntityManager();
                 $conn = $em->getConnection();
@@ -493,7 +485,7 @@ class InstallController extends InternalController {
                 Configuracao::set($em, 'version', SGA::VERSION);
                 
                 // atualizando arquivo de configuracao
-                self::createDatabseConfig($configFile, $data->database);
+                $db->save();
                 // se sucesso limpa a sessao
                 $context->session()->clear();
             } catch (Exception $e) {
@@ -511,11 +503,6 @@ class InstallController extends InternalController {
     
     private function postErrorResponse() {
         return new AjaxResponse(false, _('Requisição inválida'));
-    }
-    
-    public static function createDatabseConfig($filename, array $db) {
-        $arr = Arrays::toString($db);
-        file_put_contents($filename, "<?php\nreturn $arr;");
     }
     
     public static function migrationScripts($from, $to) {

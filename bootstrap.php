@@ -24,7 +24,7 @@ require $autoload;
 // i18n
 \Novosga\Util\I18n::bind();
 
-$db = new Novosga\Db\DatabaseConfig(NOVOSGA_ROOT . '/config/database.php');
+$db = new Novosga\Config\DatabaseConfig();
 
 define("NOVOSGA_INSTALLED", $db->isIntalled());
 if (NOVOSGA_INSTALLED) {

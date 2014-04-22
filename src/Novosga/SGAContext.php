@@ -10,7 +10,7 @@ use \Novosga\Model\Util\UsuarioSessao;
 use \Novosga\Model\Modulo;
 use \Novosga\Model\Unidade;
 use \Novosga\Util\Arrays;
-use \Novosga\Db\DatabaseConfig;
+use \Novosga\Config\DatabaseConfig;
 
 /**
  * SGAContext
@@ -75,7 +75,7 @@ class SGAContext {
     
     /**
      * 
-     * @return \Novosga\Db\DatabaseConfig
+     * @return \Novosga\Config\DatabaseConfig
      */
     public function database() {
         return $this->database;

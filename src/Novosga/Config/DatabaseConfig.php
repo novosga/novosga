@@ -1,7 +1,7 @@
 <?php
-namespace Novosga\Db;
+namespace Novosga\Config;
 
-use \Novosga\Util\Arrays;
+use \Novosga\Config\ConfigFile;
 use \Doctrine\Common\Cache\ApcCache;
 use \Doctrine\Common\Cache\ArrayCache;
 use \Doctrine\Common\Cache\CacheProvider;
@@ -12,23 +12,14 @@ use \Doctrine\ORM\Tools\Setup;
 /**
  * Classe DB
  */
-class DatabaseConfig {
+class DatabaseConfig extends ConfigFile {
     
     protected $isDev;
-    protected $conn;
     protected $em;
     protected $cacheDriver;
     
-    public function __construct($prop = array(), $isDev = true) {
-        if ($prop) {
-            if (is_array($prop)) {
-                $this->conn = $prop;
-            } else {
-                if (file_exists($prop)) {
-                    $this->conn = require $prop;
-                }
-            }
-        }
+    public function __construct($data = array(), $isDev = true) {
+        parent::__construct('database', $data, $isDev);
         $this->isDev = $isDev;
     }
     
@@ -36,24 +27,12 @@ class DatabaseConfig {
         return $this->get('driver') && $this->get('host');
     }
     
-    public function set($name, $value) {
-        $this->conn[$name] = $value;
-    }
-    
-    public function get($name) {
-        return Arrays::value($this->conn, $name, null);
-    }
-    
-    public function values() {
-        return $this->conn;
-    }
-    
     /**
      * @return EntityManager
      */
     public function createEntityManager() {
         if (!$this->em) {
-            $paths = array(VENDOR_DIR . '/novosga/core/src/Novosga/Model');
+            $paths = array(NOVOSGA_ROOT . '/src/Novosga/Model');
             $config = Setup::createAnnotationMetadataConfiguration($paths, $this->isDev);
             $config->setAutoGenerateProxyClasses($this->isDev);
             $dir = sys_get_temp_dir();
@@ -63,7 +42,7 @@ class DatabaseConfig {
             $config->setMetadataCacheImpl($this->cacheDriver);
             $config->setQueryCacheImpl($this->cacheDriver);
             $config->setResultCacheImpl($this->cacheDriver);
-            $this->em = EntityManager::create($this->conn, $config);
+            $this->em = EntityManager::create($this->data, $config);
         }
         return $this->em;
     }
