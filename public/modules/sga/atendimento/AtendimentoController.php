@@ -79,23 +79,19 @@ class AtendimentoController extends ModuleController {
             $s = ($usuario->getTipoAtendimento() == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
             $cond = " AND p.peso $s 0";
         }
-        $query = $this->em()->createQuery("
-            SELECT 
-                e 
-            FROM 
-                Novosga\Model\Atendimento e 
-                JOIN e.prioridadeSenha p
-                JOIN e.servicoUnidade su 
-                JOIN su.servico s 
-            WHERE 
-                e.status = :status AND
-                su.unidade = :unidade AND
-                s.id IN (:servicos) $cond
-            ORDER BY 
-                ((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada)) DESC,
-                p.peso DESC,
-                e.numeroSenha ASC
-        ");
+        $query = $this->em()
+                ->createQueryBuilder()
+                ->select('e')
+                ->from('Novosga\Model\Atendimento', 'e')
+                ->join('e.prioridadeSenha', 'p')
+                ->join('e.servicoUnidade', 'su')
+                ->join('su.servico', 's')
+                ->where("e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos) $cond")
+                ->addOrderBy("((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))", "DESC")
+                ->addOrderBy("p.peso", "DESC")
+                ->addOrderBy("e.numeroSenha", "ASC")
+                ->getQuery()
+        ;
         $query->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
         $query->setParameter('unidade', $usuario->getUnidade()->getId());
         $query->setParameter('servicos', $ids);
