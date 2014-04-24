@@ -33,7 +33,7 @@ class FilaBusiness extends ModelBusiness {
      * @param integer $tipo
      * @return QueryBuilder
      */
-    public function atendimento($unidade, array $servicos, $tipo) {
+    public function atendimento($unidade, array $servicos, $tipo = UsuarioSessao::ATEND_TODOS) {
         if ($unidade instanceof Unidade) {
             $unidade = $unidade->getId();
         }
