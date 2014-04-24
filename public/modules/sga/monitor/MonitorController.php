@@ -1,13 +1,15 @@
 <?php
 namespace modules\sga\monitor;
 
-use \Novosga\SGAContext;
-use \Novosga\Util\Arrays;
-use \Novosga\Util\DateUtil;
-use \Novosga\Model\Unidade;
-use \Novosga\Http\AjaxResponse;
-use \Novosga\Controller\ModuleController;
-use \Novosga\Business\AtendimentoBusiness;
+use Exception;
+use Novosga\Business\AtendimentoBusiness;
+use Novosga\Business\FilaBusiness;
+use Novosga\Controller\ModuleController;
+use Novosga\Http\AjaxResponse;
+use Novosga\Model\Unidade;
+use Novosga\SGAContext;
+use Novosga\Util\Arrays;
+use Novosga\Util\DateUtil;
 
 /**
  * MonitorController
@@ -43,6 +45,7 @@ class MonitorController extends ModuleController {
     public function ajax_update(SGAContext $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
+        $filaBusiness = new FilaBusiness($this->em());
         if ($unidade) {
             $ids = Arrays::value($_GET, 'ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
@@ -50,19 +53,24 @@ class MonitorController extends ModuleController {
                 $response->data['total'] = 0;
                 $servicos = $this->servicos($unidade, " e.servico IN (" . implode(',', $ids) . ") ");
                 $em = $context->database()->createEntityManager();
-                for ($i = 0; $i < sizeof($servicos); $i++) {
-                    $su = $servicos[$i];
-                    $total = $su->getFila($em)->size();
-                    // prevent overhead
-                    if ($total) {
-                        $fila = array();
-                        for ($j = 0; $j < $total; $j++) {
-                            $atendimento = $su->getFila($em)->get($j); 
-                            $arr = $atendimento->toArray(true);
-                            $fila[] = $arr;
+                if ($servicos) {
+                    foreach ($servicos as $su) {
+                        $rs = $filaBusiness
+                                    ->servico($unidade, $su->getServico())
+                                    ->getQuery()
+                                    ->getResult()
+                        ;
+                        $total = count($rs);
+                        // prevent overhead
+                        if ($total) {
+                            $fila = array();
+                            foreach ($rs as $atendimento) {
+                                $arr = $atendimento->toArray(true);
+                                $fila[] = $arr;
+                            }
+                            $response->data['servicos'][$su->getServico()->getId()] = $fila;
+                            $response->data['total']++;
                         }
-                        $response->data['servicos'][$su->getServico()->getId()] = $fila;
-                        $response->data['total']++;
                     }
                 }
                 $response->success = true;
@@ -90,7 +98,7 @@ class MonitorController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function buscar(SGAContext $context) {
         $response = new AjaxResponse();
@@ -112,7 +120,7 @@ class MonitorController extends ModuleController {
     
     /**
      * Transfere o atendimento para outro serviço e prioridade
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function transferir(SGAContext $context) {
         $response = new AjaxResponse();
@@ -144,7 +152,7 @@ class MonitorController extends ModuleController {
                 $stmt->bindValue('id', $id);
                 $stmt->bindValue('unidade', $unidade->getId());
                 $response->success = $stmt->execute() > 0;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $response->message = $e->getMessage();
             }
         } else{
@@ -156,7 +164,7 @@ class MonitorController extends ModuleController {
     /**
      * Reativa o atendimento para o mesmo serviço e mesma prioridade.
      * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function reativar(SGAContext $context) {
         $response = new AjaxResponse();
@@ -182,7 +190,7 @@ class MonitorController extends ModuleController {
                 $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA);
                 $stmt->bindValue('unidade', $unidade->getId());
                 $response->success = $stmt->execute() > 0;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $response->message = $e->getMessage();
             }
         } else{
@@ -193,7 +201,7 @@ class MonitorController extends ModuleController {
     
     /**
      * Atualiza o status da senha para cancelado
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function cancelar(SGAContext $context) {
         $response = new AjaxResponse();
@@ -219,7 +227,7 @@ class MonitorController extends ModuleController {
                 $stmt->bindValue('id', $id);
                 $stmt->bindValue('unidade', $unidade->getId());
                 $response->success = $stmt->execute() > 0;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $response->message = $e->getMessage();
             }
         } else{

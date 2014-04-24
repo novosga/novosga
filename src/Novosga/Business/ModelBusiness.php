@@ -10,6 +10,9 @@ use \Doctrine\ORM\EntityManager;
  */
 abstract class ModelBusiness {
     
+    /**
+     * @var EntityManager
+     */
     protected $em;
     
     public function __construct(EntityManager $em) {

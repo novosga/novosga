@@ -1,17 +1,19 @@
 <?php
 namespace modules\sga\atendimento;
 
-use \Exception;
-use \Novosga\SGA;
-use \Novosga\SGAContext;
-use \Novosga\Util\Arrays;
-use \Novosga\Util\DateUtil;
-use \Novosga\Business\AtendimentoBusiness;
-use \Novosga\Controller\ModuleController;
-use \Novosga\Model\Atendimento;
-use \Novosga\Model\Util\UsuarioSessao;
-use \Novosga\Http\AjaxResponse;
-use \Novosga\Model\Modulo;
+use DateTime;
+use Exception;
+use Novosga\Business\AtendimentoBusiness;
+use Novosga\Business\FilaBusiness;
+use Novosga\Controller\ModuleController;
+use Novosga\Http\AjaxResponse;
+use Novosga\Model\Atendimento;
+use Novosga\Model\Modulo;
+use Novosga\Model\Util\UsuarioSessao;
+use Novosga\SGA;
+use Novosga\SGAContext;
+use Novosga\Util\Arrays;
+use Novosga\Util\DateUtil;
 
 /**
  * AtendimentoController
@@ -74,27 +76,13 @@ class AtendimentoController extends ModuleController {
         if (empty($ids)) {
             $ids[] = 0;
         }
-        $cond = '';
-        if ($usuario->getTipoAtendimento() != UsuarioSessao::ATEND_TODOS) {
-            $s = ($usuario->getTipoAtendimento() == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
-            $cond = " AND p.peso $s 0";
-        }
-        $query = $this->em()
-                ->createQueryBuilder()
-                ->select('e')
-                ->from('Novosga\Model\Atendimento', 'e')
-                ->join('e.prioridadeSenha', 'p')
-                ->join('e.servicoUnidade', 'su')
-                ->join('su.servico', 's')
-                ->where("e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos) $cond")
-                ->addOrderBy("((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))", "DESC")
-                ->addOrderBy("p.peso", "DESC")
-                ->addOrderBy("e.numeroSenha", "ASC")
-                ->getQuery()
+        
+        $filaBusiness = new FilaBusiness($this->em());
+        
+        $query = $filaBusiness
+                    ->atendimento($usuario->getUnidade(), $ids, $usuario->getTipoAtendimento())
+                    ->getQuery()
         ;
-        $query->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
-        $query->setParameter('unidade', $usuario->getUnidade()->getId());
-        $query->setParameter('servicos', $ids);
         return $query;
     }
     
@@ -135,7 +123,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Chama ou rechama o próximo da fila
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function chamar(SGAContext $context) {
         $attempts = 0;
@@ -163,7 +151,7 @@ class AtendimentoController extends ModuleController {
                     $proximo->setUsuario($context->getUser()->getWrapped());
                     $proximo->setLocal($context->getUser()->getLocal());
                     $proximo->setStatus(AtendimentoBusiness::CHAMADO_PELA_MESA);
-                    $proximo->setDataChamada(new \DateTime());
+                    $proximo->setDataChamada(new DateTime());
                     // atualiza o proximo da fila
                     $query = $this->em()->createQuery("
                         UPDATE 
@@ -233,7 +221,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * 
-     * @param Novosga\Model\Atendimento $atendimento
+     * @param Atendimento $atendimento
      * @param mixed $statusAtual (array[int] | int)
      * @param int $novoStatus
      * @param string $campoData
@@ -268,7 +256,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Inicia o atendimento com o proximo da fila
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function iniciar(SGAContext $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::ATENDIMENTO_INICIADO, 'dataInicio');
@@ -276,7 +264,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Marca o atendimento como nao compareceu
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function nao_compareceu(SGAContext $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::NAO_COMPARECEU, 'dataFim');
@@ -284,7 +272,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Marca o atendimento como encerrado
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function encerrar(SGAContext $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::ATENDIMENTO_INICIADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, null);
@@ -292,7 +280,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Marca o atendimento como encerrado e codificado
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function codificar(SGAContext $context) {
         $unidade = $context->getUnidade();
@@ -347,7 +335,7 @@ class AtendimentoController extends ModuleController {
     /**
      * Marca o atendimento como erro de triagem. E gera um novo atendimento para
      * o servico informado.
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function redirecionar(SGAContext $context) {
         $unidade = $context->getUnidade();
@@ -424,7 +412,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param Novosga\SGAContext $context
+     * @param SGAContext $context
      */
     public function consulta_senha(SGAContext $context) {
         $response = new AjaxResponse();
