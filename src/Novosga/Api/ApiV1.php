@@ -21,7 +21,8 @@ class ApiV1 extends Api {
             FROM
                 Novosga\Model\Prioridade e
             WHERE 
-                e.status = 1
+                e.status = 1 AND
+                e.peso > 0
             ORDER BY 
                 e.nome ASC
         ')->getResult();
