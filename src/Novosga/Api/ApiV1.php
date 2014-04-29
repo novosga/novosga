@@ -50,7 +50,7 @@ class ApiV1 extends Api {
     public function unidades() {
         return $this->em->createQuery('
             SELECT 
-                e.id, e.codigo, e.nome
+                e.id, e.codigo, e.nome, e.mensagemImpressao
             FROM
                 Novosga\Model\Unidade e
             WHERE
@@ -143,7 +143,7 @@ class ApiV1 extends Api {
         return $this->em->createQuery("
             SELECT 
                 e.id, e.siglaSenha as sigla, e.mensagem, e.numeroSenha as numero, 
-                e.local, e.numeroLocal as numeroLocal, e.peso,
+                e.local, e.numeroLocal as numeroLocal, e.peso, s.nome as servico,
                 $length as length
             FROM
                 Novosga\Model\PainelSenha e
