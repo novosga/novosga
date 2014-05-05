@@ -163,11 +163,11 @@ $app->post('/distribui', function() use ($app, $api, $server, $em) {
 
 // response
 
-header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
 header('Access-Control-Allow-Credentials: true');
 header("Access-Control-Max-Age: 1000");
 header("Access-Control-Allow-Headers: origin, x-requested-with, content-type");
-header("Content-Type: application/json");
 
+$app->contentType('application/json');
 $app->run();
