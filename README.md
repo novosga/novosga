@@ -53,6 +53,6 @@ Gostou dessa nova versão? Necessita de alguma funcionalidade ou quer apenas con
 
 Entre em contato via [fórum](http://novosga.org/forum/), [blog](http://novosga.org/blog/) ou [issues](https://github.com/novosga/novosga/issues/)!
 
-**Author**: [Rogério Alencar Lino Filho](http://rogeriolino.com/)
+**Autor**: [Rogério Alencar Lino Filho](http://rogeriolino.com/)
 
 **Colaboradores**: https://github.com/novosga/novosga/contributors
