@@ -79,28 +79,7 @@ class ModulosController extends ModuleController {
     }
     
     public function save(SGAContext $context) {
-        $response = new AjaxResponse();
-        $id = (int) $context->request()->getParameter('id');
-        $type = $context->request()->getParameter('type');
-        $data = $context->request()->getParameter('data');
-        if (Arrays::contains(array('js', 'css'), $type)) {
-            $modulo = $this->find($id);
-            if ($modulo) {
-                $filename = ($type == 'css') ? 'css/style.css' : 'js/script.js';
-                $filename = $modulo->getRealPath() . DS . $filename;
-                if (is_writable($filename)) {
-                    file_put_contents($filename, $data);
-                    $response->success = true;
-                } else {
-                    $response->message = _('Permissão negada');
-                }
-            } else {
-                $response->message = _('Módulo inválido');
-            }
-        } else {
-            $response->message = _('Tipo de recurso inválido');
-        }
-        $context->response()->jsonResponse($response);
+        $context->response()->jsonResponse(new AjaxResponse(false, \Novosga\SGA::DEMO_ALERT));
     }
     
     private function getCss(Modulo $modulo) {
@@ -109,6 +88,10 @@ class ModulosController extends ModuleController {
     
     private function getJs(Modulo $modulo) {
         return file_get_contents($modulo->getrealPath() . DS . 'js/script.js');
+    }
+    
+    protected function preDelete(SGAContext $context, SequencialModel $model) {
+        throw new \Exception(\Novosga\SGA::DEMO_ALERT);
     }
     
 }

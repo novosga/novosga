@@ -10,6 +10,8 @@ use \Novosga\Business\AcessoBusiness;
  */
 class SGA extends \Slim\Slim {
     
+    const DEMO_ALERT = 'Permissão negada: Versão demo';
+    
     const VERSION = "1.1.4";
     const CHARSET = "utf-8";
     

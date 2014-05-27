@@ -63,95 +63,11 @@ class UsuariosController extends CrudController {
     }
     
     protected function preSave(SGAContext $context, SequencialModel $model) {
-        $login = Arrays::value($_POST, 'login');
-        if (!preg_match('/^[a-zA-Z0-9\.]+$/', $login)) {
-            throw new Exception(_('O login deve conter somente letras e números.'));
-        }
-        if (strlen($login) < 5 || strlen($login) > 20) {
-            throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
-        }
-        $lotacoes = Arrays::value($_POST, 'lotacoes', array());
-        if (empty($lotacoes)) {
-            throw new Exception(_('O usuário deve possuir pelo menos uma lotação.'));
-        }
-        if ($model->getId() == 0) {
-            // para novos usuarios, tem que informar a senha
-            $senha = Arrays::value($_POST, 'senha');
-            $confirmacao = Arrays::value($_POST, 'senha2');
-            // verifica e codifica a senha
-            $model->setSenha($this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao));
-            $model->setStatus(1);
-            $model->setSessionId('');
-        } else {
-            $model->setStatus((int) Arrays::value($_POST, 'status'));
-        }
-        // verificando novo login ou alteracao
-        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\Usuario e WHERE e.login = :login AND e.id != :id");
-        $query->setParameter('login', $model->getLogin());
-        $query->setParameter('id', $model->getId());
-        $rs = $query->getSingleResult();
-        if ($rs['total']) {
-            throw new \Exception(_('O login informado já está cadastrado para outro usuário.'));
-        }
-    }
-    
-    protected function postSave(SGAContext $context, SequencialModel $model) {
-        $conn = $this->em()->getConnection();
-        // lotacoes - atualizando permissoes do cargo
-        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Lotacao e WHERE e.usuario = :usuario");
-        $query->setParameter('usuario', $model->getId());
-        $query->execute();
-        $lotacoes = Arrays::value($_POST, 'lotacoes', array());
-        if (!empty($lotacoes)) {
-            $stmt = $conn->prepare("INSERT INTO usu_grup_cargo (grupo_id, cargo_id, usuario_id) VALUES (:grupo, :cargo, :usuario)");
-            foreach ($lotacoes as $item) {
-                $value = explode(',', $item);
-                $stmt->bindValue('grupo', $value[0], \PDO::PARAM_INT);
-                $stmt->bindValue('cargo', $value[1], \PDO::PARAM_INT);
-                $stmt->bindValue('usuario', $model->getId(), \PDO::PARAM_INT);
-                $stmt->execute();
-            }
-        }
-        // servicos
-        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario");
-        $query->setParameter('usuario', $model->getId());
-        $query->execute();
-        $servicos = Arrays::value($_POST, 'servicos', array());
-        if (!empty($servicos)) {
-            $stmt = $conn->prepare("INSERT INTO usu_serv (unidade_id, servico_id, usuario_id) VALUES (:unidade, :servico, :usuario)");
-            foreach ($servicos as $servico) {
-                $value = explode(',', $servico);
-                $stmt->bindValue('unidade', $value[0], \PDO::PARAM_INT);
-                $stmt->bindValue('servico', $value[1], \PDO::PARAM_INT);
-                $stmt->bindValue('usuario', $model->getId(), \PDO::PARAM_INT);
-                $stmt->execute();
-            }
-        }
+        throw new \Exception(\Novosga\SGA::DEMO_ALERT);
     }
     
     protected function preDelete(SGAContext $context, SequencialModel $model) {
-        if ($context->getUser()->getId() === $model->getId()) {
-            throw new \Exception(_('Não é possível excluir si próprio.'));
-        }
-        // verificando a quantidade de atendimentos do usuario
-        $total = 0;
-        $models = array('Atendimento', 'ViewAtendimento');
-        foreach ($models as $atendimentoModel) {
-            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\\$atendimentoModel e WHERE e.usuario = :usuario");
-            $query->setParameter('usuario', $model->getId());
-            $rs = $query->getSingleResult();
-            $total += $rs['total'];
-        }
-        if ($total > 0) {
-            throw new \Exception(_('Não é possível excluir esse usuário pois o mesmo já realizou atendimentos.'));
-        }
-        // excluindo vinculos do usuario (servicos e lotacoes)
-        $models = array('ServicoUsuario', 'Lotacao');
-        foreach ($models as $vinculoModel) {
-            $query = $this->em()->createQuery("DELETE FROM Novosga\Model\\$vinculoModel e WHERE e.usuario = :usuario");
-            $query->setParameter('usuario', $model->getId());
-            $query->execute();
-        }
+        throw new \Exception(\Novosga\SGA::DEMO_ALERT);
     }
 
     protected function search($arg) {
@@ -252,26 +168,7 @@ class UsuariosController extends CrudController {
      * @param Novosga\SGAContext $context
      */
     public function alterar_senha(SGAContext $context) {
-        $response = new AjaxResponse();
-        $id = (int) $context->request()->getParameter('id');
-        $senha = $context->request()->getParameter('senha');
-        $confirmacao = $context->request()->getParameter('confirmacao');
-        $usuario = $this->findById($id);
-        if ($usuario) {
-            try {
-                $hash = $this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao);
-                $query = $this->em()->createQuery("UPDATE Novosga\Model\Usuario u SET u.senha = :senha WHERE u.id = :id");
-                $query->setParameter('senha', $hash);
-                $query->setParameter('id', $usuario->getId());
-                $query->execute();
-                $response->success = true;
-            } catch (Exception $e) {
-                $response->message = $e->getMessage();
-            }
-        } else {
-            $response->message = _('Usuário inválido');
-        }
-        $context->response()->jsonResponse($response);
+        $context->response()->jsonResponse(new AjaxResponse(false, \Novosga\SGA::DEMO_ALERT));
     }
     
 }

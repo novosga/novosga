@@ -65,34 +65,7 @@ class HomeController extends SGAController {
     }
     
     public function alterar_senha(SGAContext $context) {
-        $response = new AjaxResponse();
-        $usuario = $context->getUser();
-        try {
-            if (!$usuario) {
-                throw new \Exception(_('Nenhum usuário na sessão'));
-            }
-            $atual = $context->request()->getParameter('atual');
-            $senha = $context->request()->getParameter('senha');
-            $confirmacao = $context->request()->getParameter('confirmacao');
-            $hash = $this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao);
-            $em = $context->database()->createEntityManager();
-            // verificando senha atual
-            $query = $em->createQuery("SELECT u.senha FROM Novosga\Model\Usuario u WHERE u.id = :id");
-            $query->setParameter('id', $usuario->getId());
-            $rs = $query->getSingleResult();
-            if ($rs['senha'] != Security::passEncode($atual)) {
-                throw new \Exception(_('Senha atual não confere'));
-            }
-            // atualizando o banco
-            $query = $em->createQuery("UPDATE Novosga\Model\Usuario u SET u.senha = :senha WHERE u.id = :id");
-            $query->setParameter('senha', $hash);
-            $query->setParameter('id', $usuario->getId());
-            $query->execute();
-            $response->success = true;
-        } catch (\Exception $e) {
-            $response->message = $e->getMessage();
-        }
-        $context->response()->jsonResponse($response);
+        $context->response()->jsonResponse(new AjaxResponse(false, \Novosga\SGA::DEMO_ALERT));
     }
     
     public function desativar_sessao(SGAContext $context) {

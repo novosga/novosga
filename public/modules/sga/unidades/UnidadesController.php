@@ -75,36 +75,8 @@ class UnidadesController extends CrudController {
         return $query->getResult();
     }
     
-    /**
-     * Remove a unidade caso a mesma não possua atendimento. Se possuir uma 
-     * exceção será lançada.
-     * @param Novosga\SGAContext $context
-     * @param Novosga\Model\SequencialModel $model
-     * @throws \Exception
-     * @throws \modules\sga\unidades\Exception
-     */
-    protected function doDelete(SGAContext $context, SequencialModel $model) {
-        // verificando se ja tem atendimentos
-        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\ViewAtendimento e WHERE e.unidade = :unidade");
-        $query->setParameter('unidade', $model->getId());
-        $rs = $query->getSingleResult();
-        if ($rs['total'] > 0) {
-            throw new \Exception(_('Não pode excluir essa unidade porque a mesma já possui atendimentos.'));
-        }
-        $this->em()->beginTransaction();
-        try {
-            // removendo servicos
-            $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade");
-            $query->setParameter('unidade', $model->getId());
-            $query->execute();
-            // removendo a unidade
-            $this->em()->remove($model);
-            $this->em()->commit();
-            $this->em()->flush();
-        } catch (\Exception $e) {
-            $this->em()->rollback();
-            throw $e;
-        }
+    protected function preDelete(SGAContext $context, SequencialModel $model) {
+        throw new \Exception(\Novosga\SGA::DEMO_ALERT);
     }
     
 }
