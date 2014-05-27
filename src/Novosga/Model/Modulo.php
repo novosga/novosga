@@ -114,24 +114,6 @@ namespace Novosga\Model;
         $this->status = $status;
     }
 
-    /**
-     * Retorna o diretorio do Modulo
-     * @return String
-     */
-    public function getDir() {
-        if (!$this->dir) {
-            $this->dir = self::dir($this->chave);
-        }
-        return $this->dir;
-    }
-    
-    public function getPath() {
-        if (!$this->path) {
-            $this->path = self::path($this->chave);
-        }
-        return $this->path;
-    }
-
     public function getRealPath() {
         if (!$this->realPath) {
             $this->realPath = self::realPath($this->chave);
@@ -139,20 +121,11 @@ namespace Novosga\Model;
         return $this->realPath;
     }
     
-    public static function dir($chave) {
-        return join(DS, explode('.', $chave));
-    }
-    
-    public static function path($chave) {
-        return MODULES_DIR . DS . self::dir($chave);
-    }
-    
     public static function realPath($chave) {
-        return MODULES_PATH . DS . self::dir($chave);
+        return MODULES_PATH . DS . $chave;
     }
 	
     /**
-     * Retorna String com Chave do módulo
      * @return String
      */
     public function toString() {

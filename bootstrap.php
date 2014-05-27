@@ -8,23 +8,23 @@ if (!file_exists($autoload)) {
 }
 
 define("DS", DIRECTORY_SEPARATOR);
-define("NOVOSGA_DEV", true);
+define("NOVOSGA_DEV", false);
 define("NOVOSGA_ROOT", __DIR__);
 define("VENDOR_DIR", __DIR__ . DS . 'vendor');
 define("NOVOSGA_CONFIG", NOVOSGA_ROOT . DS . 'config');
 define("NOVOSGA_CACHE", NOVOSGA_ROOT . DS . 'cache');
 define("NOVOSGA_PUBLIC", NOVOSGA_ROOT . DS . 'public');
-define("NOVOSGA_TEMPLATES", NOVOSGA_PUBLIC . DS . 'templates');
-define("NOVOSGA_LOCALE_DIR", NOVOSGA_PUBLIC . DS . "locale");
+define("NOVOSGA_TEMPLATES", NOVOSGA_ROOT . DS . 'templates');
+define("NOVOSGA_LOCALE_DIR", NOVOSGA_ROOT . DS . "locales");
 define("MODULES_DIR", "modules");
-define("MODULES_PATH", NOVOSGA_PUBLIC . DS . MODULES_DIR);
+define("MODULES_PATH", NOVOSGA_ROOT . DS . MODULES_DIR);
 
-require $autoload;
+$loader = require $autoload;
 
 // i18n
 \Novosga\Util\I18n::bind();
 
-$db = new Novosga\Db\DatabaseConfig(NOVOSGA_ROOT . '/config/database.php');
+$db = new Novosga\Db\DatabaseConfig(NOVOSGA_ROOT . '/config/database.php', NOVOSGA_DEV);
 
 define("NOVOSGA_INSTALLED", $db->isIntalled());
 if (NOVOSGA_INSTALLED) {

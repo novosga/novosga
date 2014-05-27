@@ -6,6 +6,7 @@ use \Novosga\SGA;
 $app = new SGA(array(
     'debug' => NOVOSGA_DEV,
     'cache' => NOVOSGA_CACHE,
+    'templates.path' => NOVOSGA_TEMPLATES,
     'db' => $db
 ));
 
@@ -84,7 +85,7 @@ $app->post('/profile/password', function() use ($app) {
     echo $app->render('profile.html.twig');
 });
 
-$app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app) {
+$app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app, $loader) {
     define('MODULE', $moduleKey);
     if (!$app->getAcessoBusiness()->checkAccess($app->getContext(), $moduleKey, $action)) {
         $app->redirect($app->request()->getRootUri() . '/home');
@@ -96,6 +97,12 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     }
     // prefixo do nome do controlador do modulo
     $tokens = explode('.', $moduleKey);
+    
+    // module resouce .htaccess fallback
+    if (in_array($action, array('js', 'css', 'images'))) {
+        showModuleResource($moduleKey, $action, $args[1]);
+    }
+    
     $namespace = MODULES_DIR . '\\' . $tokens[0] . '\\' . $tokens[1];
     $ctrlClassPrefix = $tokens[1];
     
@@ -109,7 +116,7 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     
     $app->view()->twigTemplateDirs = array(
         NOVOSGA_TEMPLATES,
-        MODULES_PATH . "/{$tokens[0]}/{$tokens[1]}/view"
+        MODULES_PATH . "/{$tokens[0]}/{$tokens[1]}/views"
     );
     $app->view()->set('module', $module);
     
@@ -120,5 +127,36 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     
     echo $app->render("$action.html.twig");
 });
+
+/**
+ * Return to response the module resource
+ * @param type $moduleKey
+ * @param type $dir
+ * @param type $file
+ */
+function showModuleResource($moduleKey, $dir, $file) {
+   $filename = MODULES_PATH . DS . join(DS, explode(".", $moduleKey)) . DS . $dir . DS . $file;
+   if (file_exists($filename)) {
+        switch ($dir) {
+            case 'images':
+                $imginfo = getimagesize($filename);
+                $mime = $imginfo['mime'];
+                break;
+            case 'js':
+                $mime = 'text/javascript';
+                break;
+            case 'css':
+                $mime = 'text/css';
+                break;
+            default:
+                $mime = 'text/plain';
+        }
+        header("Content-type: $mime");
+        echo file_get_contents($filename);
+    } else {
+        throw new Exception(sprintf("Resource not found: %s", $filename));
+    }
+    exit();
+}
 
 $app->run();

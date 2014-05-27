@@ -1,0 +1,71 @@
+{% extends "module.html.twig" %}
+{% block content %}
+    <input id="modulo_id" type="hidden" value="{{ modulo.id }}" />
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab-sobre" data-toggle="tab">{% trans %}Sobre{% endtrans %}</a></li>
+        <li><a href="#tab-css" data-toggle="tab">CSS</a></li>
+        <li><a href="#tab-javascript" data-toggle="tab">Javascript</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="tab-sobre" class="tab-pane active">
+            <div class="info">
+                <div class="icon">
+                    <img src="{{ baseUrl() }}/modules/{{ modulo.chave }}/icon.png" />
+                </div>
+                <div class="text nome">
+                    <label>{% trans %}Nome{% endtrans %}</label>
+                    <span>{{ modulo.nome }}</span>
+                </div>
+                <div class="text autor">
+                    <label>{% trans %}Autor{% endtrans %}</label>
+                    <span>{{ modulo.autor }}</span>
+                </div>
+                <div class="text chave">
+                    <label>{% trans %}Chave{% endtrans %}</label>
+                    <span>{{ modulo.chave }}</span>
+                </div>
+                <div class="text descricao">
+                    <label>{% trans %}Descrição{% endtrans %}</label>
+                    <p>{{ modulo.descricao }}</p>
+                </div>
+            </div>
+        </div>
+        <div id="tab-css" class="tab-pane">
+            <div class="resource-buttons">
+                <h4 class="css">CSS</h4>
+                <button onclick="SGA.Modulos.Resource.save('css')"
+                        class="btn btn-primary">
+                    <span class="glyphicon glyphicon-save"></span>
+                    {% trans %}Salvar{% endtrans %}
+                </button>
+                <button onclick="SGA.Modulos.Resource.load('css')"
+                        class="btn btn-default">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    {% trans %}Recarregar{% endtrans %}
+                </button>
+            </div>
+            <textarea id="css" class="form-control" rows="20">{{ css }}</textarea>
+        </div>
+        <div id="tab-javascript" class="tab-pane">
+            <div class="resource-buttons">
+                <h4 class="js">Javascript</h4>
+                <button onclick="SGA.Modulos.Resource.save('js')"
+                        class="btn btn-primary">
+                    <span class="glyphicon glyphicon-save"></span>
+                    {% trans %}Salvar{% endtrans %}
+                </button>
+                <button onclick="SGA.Modulos.Resource.load('js')"
+                        class="btn btn-default">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    {% trans %}Recarregar{% endtrans %}
+                </button>
+            </div>
+            <textarea id="js" class="form-control" rows="20">{{ javascript }}</textarea>
+        </div>
+    </div>
+    <div class="buttons">
+        <a href="{{ baseUrl() }}/modules/{{ module.chave }}" class="btn btn-default">
+            {% trans %}Voltar{% endtrans %}
+        </a>
+    </div>
+{% endblock %}
