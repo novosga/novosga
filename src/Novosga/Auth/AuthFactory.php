@@ -1,8 +1,8 @@
 <?php
 namespace Novosga\Auth;
 
-use \Novosga\Util\Arrays;
-use \Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Context;
 
 /**
  * Authentication

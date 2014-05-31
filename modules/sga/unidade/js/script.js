@@ -92,8 +92,10 @@ SGA.Unidade = {
             if (id > 0) {
                 SGA.ajax({
                     url: SGA.url('reverte_nome'),
-                    data: {id: id},
                     type: 'post',
+                    data: {
+                        id: id
+                    },
                     success: function(response) {
                         $('#nome-' + id).val(response.data.nome);
                     }

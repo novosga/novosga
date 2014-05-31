@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Api;
 
-use \Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Api

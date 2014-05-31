@@ -172,6 +172,7 @@ SGA.Usuarios = {
     alterarSenha: function() {
         SGA.ajax({
             url: SGA.url('alterar_senha'),
+            type: 'post',
             data: {
                 id: $('#senha_id').val(),
                 senha: $('#senha_senha').val(), 

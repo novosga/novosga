@@ -5,7 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 use Novosga\Controller\InternalController;
 use Novosga\Db\DatabaseConfig;
-use Novosga\Http\AjaxResponse;
+use Novosga\Http\JsonResponse;
 use Novosga\Model\Configuracao;
 use Novosga\Security;
 use Novosga\SGA;
@@ -50,7 +50,7 @@ class InstallController extends InternalController {
             $this->app()->redirect($this->request()->getRootUri());
         }
         $steps = $this->getSteps();
-        $index = (int) $context->request()->getParameter(SGA::K_INSTALL);
+        $index = (int) $context->request()->get(SGA::K_INSTALL);
         // após o step 3 (banco de dados) verifica se já tem uma versão do sga instalada
         if ($index == 4) {
             $this->checkMigration($context);
@@ -278,7 +278,7 @@ class InstallController extends InternalController {
             $data['data'] = new InstallData();
             $session->set(InstallData::SESSION_KEY, $data['data']);
         }
-        $data['currVersion'] = $context->getParameter('currVersion');
+        $data['currVersion'] = $context->get('currVersion');
     }
     
     /**
@@ -297,9 +297,9 @@ class InstallController extends InternalController {
     public function set_adapter(Context $context) {
         $context->session()->del('adapter');
         $context->session()->del('adapter_driver');
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         if ($context->request()->isPost()) {
-            $adapter = Arrays::value($_POST, 'adapter');
+            $adapter = $context->request()->post('adapter');
             if (array_key_exists($adapter, InstallData::$dbTypes)) {
                 $response->success = true;
                 $context->session()->set('adapter', $adapter);
@@ -310,7 +310,7 @@ class InstallController extends InternalController {
         } else {
             $response = $this->postErrorResponse();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function info(Context $context) {
@@ -332,7 +332,7 @@ class InstallController extends InternalController {
     
     public function test_db(Context $context) {
         if ($context->request()->isPost()) {
-            $response = new AjaxResponse(true, _('Banco de Dados testado com sucesso!'));
+            $response = new JsonResponse(true, _('Banco de Dados testado com sucesso!'));
             $session = $context->session();
             $data = $session->get(InstallData::SESSION_KEY);
             try {
@@ -365,7 +365,7 @@ class InstallController extends InternalController {
         } else {
             $response = $this->postErrorResponse();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     private function checkMigration(Context $context) {
@@ -378,7 +378,7 @@ class InstallController extends InternalController {
     
     public function set_admin(Context $context) {
         if ($context->request()->isPost()) {
-            $response = new AjaxResponse(true, _('Dados do usuário informados com sucesso'));
+            $response = new JsonResponse(true, _('Dados do usuário informados com sucesso'));
             $session = $context->session();
             $data = $session->get(InstallData::SESSION_KEY);
             if (!$data) {
@@ -390,13 +390,13 @@ class InstallController extends InternalController {
                         throw new Exception($message);
                     }
                 }
-                $_POST['senha_2'] = Arrays::value($_POST, 'senha_2');
+                $_POST['senha_2'] = $context->request()->post('senha_2');
 
                 $adm = array();
-                $adm['login'] = Arrays::value($_POST, 'login');
-                $adm['nome'] = Arrays::value($_POST, 'nome');
-                $adm['sobrenome'] = Arrays::value($_POST, 'sobrenome');
-                $adm['senha'] = Arrays::value($_POST, 'senha');
+                $adm['login'] = $context->request()->post('login');
+                $adm['nome'] = $context->request()->post('nome');
+                $adm['sobrenome'] = $context->request()->post('sobrenome');
+                $adm['senha'] = $context->request()->post('senha');
 
                 if (!ctype_alnum($adm['login'])) {
                     throw new Exception(_('O login deve conter somente letras e números.'));
@@ -421,12 +421,12 @@ class InstallController extends InternalController {
         } else {
             $response = $this->postErrorResponse();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function do_install(Context $context) {
         if ($context->request()->isPost()) {
-            $response = new AjaxResponse(true, _('Instalação concluída com sucesso'));
+            $response = new JsonResponse(true, _('Instalação concluída com sucesso'));
             $conn = null;
             $session = $context->session();
             try {
@@ -506,11 +506,11 @@ class InstallController extends InternalController {
         } else {
             $response = $this->postErrorResponse();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     private function postErrorResponse() {
-        return new AjaxResponse(false, _('Requisição inválida'));
+        return new JsonResponse(false, _('Requisição inválida'));
     }
     
     public static function createDatabseConfig($filename, array $db) {

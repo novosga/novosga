@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Slim;
 
-use \Novosga\Context;
+use Novosga\Context;
 
 /**
  * SlimFramework middleware para verificar

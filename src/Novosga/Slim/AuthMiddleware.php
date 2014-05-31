@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Slim;
 
-use \Novosga\Model\Modulo;
-use \Novosga\Context;
-use \Slim\Middleware;
+use Novosga\Model\Modulo;
+use Novosga\Context;
+use Slim\Middleware;
 
 /**
  * SlimFramework middleware para verificar

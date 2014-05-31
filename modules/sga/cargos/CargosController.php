@@ -1,11 +1,11 @@
 <?php
 namespace modules\sga\cargos;
 
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Model\SequencialModel;
-use \Novosga\Model\Cargo;
-use \Novosga\Controller\TreeModelController;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Model\SequencialModel;
+use Novosga\Model\Cargo;
+use Novosga\Controller\TreeModelController;
 
 /**
  * CargosController
@@ -23,7 +23,7 @@ class CargosController extends TreeModelController {
     }
 
     protected function preSave(Context $context, SequencialModel $model) {
-        $id_pai = (int) Arrays::value($_POST, 'id_pai', 0);
+        $id_pai = (int) $context->request()->post('id_pai', 0);
         $pai = $this->em()->find(get_class($model), $id_pai);
         if ($pai) {
             $model->setParent($pai);
@@ -38,7 +38,7 @@ class CargosController extends TreeModelController {
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
         $query->execute();
-        $permissoes = Arrays::value($_POST, 'permissoes');
+        $permissoes = $context->request()->post('permissoes');
         $conn = $this->em()->getConnection();
         $stmt = $conn->prepare("INSERT INTO cargos_mod_perm (modulo_id, cargo_id, permissao) VALUES (:modulo, :cargo, :permissao)");
         if (!empty($permissoes)) {

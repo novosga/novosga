@@ -1,11 +1,10 @@
 <?php
 namespace Novosga\Controller;
 
-use \Novosga\Context;
-use \Novosga\Business\AcessoBusiness;
-use \Novosga\Controller\SGAController;
-use \Novosga\Security;
-use \Novosga\Http\AjaxResponse;
+use Novosga\Context;
+use Novosga\Controller\SGAController;
+use Novosga\Security;
+use Novosga\Http\JsonResponse;
 
 /**
  * HomeController
@@ -19,8 +18,8 @@ class HomeController extends SGAController {
     }
     
     public function unidade(Context $context) {
-        $response = new AjaxResponse();
-        $id = (int) $context->request()->getParameter('unidade');
+        $response = new JsonResponse();
+        $id = (int) $context->request()->post('unidade');
         try {
             if (!$context->request()->isPost()) {
                 throw new \Exception(_('Somente via POST'));
@@ -33,7 +32,7 @@ class HomeController extends SGAController {
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function perfil(Context $context) {
@@ -42,8 +41,8 @@ class HomeController extends SGAController {
         // se editando
         if ($context->request()->isPost()) {
             // atualizando sessao
-            $usuario->setNome($context->request()->getParameter('nome'));
-            $usuario->setSobrenome($context->request()->getParameter('sobrenome'));
+            $usuario->setNome($context->request()->post('nome'));
+            $usuario->setSobrenome($context->request()->post('sobrenome'));
             $context->setUser($usuario);
             // atualizando banco
             $query = $context->database()->createEntityManager()->createQuery("
@@ -65,15 +64,15 @@ class HomeController extends SGAController {
     }
     
     public function alterar_senha(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $usuario = $context->getUser();
         try {
             if (!$usuario) {
                 throw new \Exception(_('Nenhum usuário na sessão'));
             }
-            $atual = $context->request()->getParameter('atual');
-            $senha = $context->request()->getParameter('senha');
-            $confirmacao = $context->request()->getParameter('confirmacao');
+            $atual = $context->request()->post('atual');
+            $senha = $context->request()->post('senha');
+            $confirmacao = $context->request()->post('confirmacao');
             $hash = $this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao);
             $em = $context->database()->createEntityManager();
             // verificando senha atual
@@ -92,15 +91,15 @@ class HomeController extends SGAController {
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function desativar_sessao(Context $context) {
-        $response = new AjaxResponse(true);
+        $response = new JsonResponse(true);
         $usuario = $context->getUser();
         $usuario->setAtivo(false);
         $context->setUser($usuario);
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
 }

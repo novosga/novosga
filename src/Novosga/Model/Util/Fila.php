@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Model\Util;
 
-use \Novosga\Model\Model;
-use \Novosga\Model\Atendimento;
-use \Novosga\Util\Arrays;
+use Novosga\Model\Model;
+use Novosga\Model\Atendimento;
+use Novosga\Util\Arrays;
 
 /**
  * Lista dos atendimentos ao Servico da Unidade

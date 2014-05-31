@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Model;
 
-use \Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager;
 
 /**
  * 

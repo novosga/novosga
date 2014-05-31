@@ -1,13 +1,13 @@
 <?php
 namespace Novosga\Db;
 
-use \Novosga\Util\Arrays;
-use \Doctrine\Common\Cache\ApcCache;
-use \Doctrine\Common\Cache\ArrayCache;
-use \Doctrine\Common\Cache\CacheProvider;
-use \Doctrine\Common\Cache\XcacheCache;
-use \Doctrine\ORM\EntityManager;
-use \Doctrine\ORM\Tools\Setup;
+use Novosga\Util\Arrays;
+use Doctrine\Common\Cache\ApcCache;
+use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\Common\Cache\CacheProvider;
+use Doctrine\Common\Cache\XcacheCache;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
 
 /**
  * Classe DB

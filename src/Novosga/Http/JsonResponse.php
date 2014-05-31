@@ -2,11 +2,11 @@
 namespace Novosga\Http;
 
 /**
- * AjaxResponse
+ * JsonResponse
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AjaxResponse {
+class JsonResponse {
     
     public $success;
     public $message;

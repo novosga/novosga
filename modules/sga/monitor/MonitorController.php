@@ -1,13 +1,13 @@
 <?php
 namespace modules\sga\monitor;
 
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Util\DateUtil;
-use \Novosga\Model\Unidade;
-use \Novosga\Http\AjaxResponse;
-use \Novosga\Controller\ModuleController;
-use \Novosga\Business\AtendimentoBusiness;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Util\DateUtil;
+use Novosga\Model\Unidade;
+use Novosga\Http\JsonResponse;
+use Novosga\Controller\ModuleController;
+use Novosga\Business\AtendimentoBusiness;
 
 /**
  * MonitorController
@@ -41,10 +41,10 @@ class MonitorController extends ModuleController {
     }
     
     public function ajax_update(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
-            $ids = Arrays::value($_GET, 'ids');
+            $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
             if (sizeof($ids)) {
                 $response->data['total'] = 0;
@@ -68,14 +68,14 @@ class MonitorController extends ModuleController {
                 $response->success = true;
             }
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function info_senha(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $id = (int) $context->request()->getParameter('id');
+            $id = (int) $context->request()->get('id');
             $ab = new AtendimentoBusiness($this->em());
             $atendimento = $ab->buscaAtendimento($unidade, $id);
             if ($atendimento) {
@@ -85,7 +85,7 @@ class MonitorController extends ModuleController {
                 $response->message = _('Atendimento inválido');
             }
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -93,10 +93,10 @@ class MonitorController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function buscar(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $numero = $context->request()->getParameter('numero');
+            $numero = $context->request()->get('numero');
             $ab = new AtendimentoBusiness($this->em());
             $atendimentos = $ab->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
@@ -107,7 +107,7 @@ class MonitorController extends ModuleController {
         } else{
             $response->message = _('Nenhuma unidade selecionada');
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -115,17 +115,17 @@ class MonitorController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function transferir(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             try {
-                $id = (int) $context->request()->getParameter('id');
+                $id = (int) $context->request()->post('id');
                 /*
                  * TODO: verificar e tratar erro para ids invalidos. E verificar 
                  * se o servico informado esta disponivel para a unidade.
                  */
-                $servico = (int) $context->request()->getParameter('servico');
-                $prioridade = (int) $context->request()->getParameter('prioridade');
+                $servico = (int) $context->request()->post('servico');
+                $prioridade = (int) $context->request()->post('prioridade');
                 $conn = $this->em()->getConnection();
                 // transfere apenas se a data fim for nula (nao finalizados)
                 $stmt = $conn->prepare("
@@ -150,7 +150,7 @@ class MonitorController extends ModuleController {
         } else{
             $response->message = _('Nenhuma unidade selecionada');
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -159,11 +159,11 @@ class MonitorController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function reativar(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             try {
-                $id = (int) $context->request()->getParameter('id');
+                $id = (int) $context->request()->post('id');
                 $conn = $this->em()->getConnection();
                 $status = join(',', array(AtendimentoBusiness::SENHA_CANCELADA, AtendimentoBusiness::NAO_COMPARECEU));
                 // reativa apenas se estiver finalizada (data fim diferente de nulo)
@@ -188,7 +188,7 @@ class MonitorController extends ModuleController {
         } else{
             $response->message = _('Nenhuma unidade selecionada');
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -196,11 +196,11 @@ class MonitorController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function cancelar(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             try {
-                $id = (int) $context->request()->getParameter('id');
+                $id = (int) $context->request()->post('id');
                 $conn = $this->em()->getConnection();
                 // cancela apenas se a data fim for nula
                 $stmt = $conn->prepare("
@@ -225,7 +225,7 @@ class MonitorController extends ModuleController {
         } else{
             $response->message = _('Nenhuma unidade selecionada');
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
 }

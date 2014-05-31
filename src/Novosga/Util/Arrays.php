@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Util;
 
-use \Novosga\Util\Objects;
+use Novosga\Util\Objects;
 
 /**
  * Arrays Utils

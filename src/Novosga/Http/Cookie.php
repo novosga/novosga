@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Http;
 
-use \Novosga\Util\Arrays;
+use Novosga\Util\Arrays;
 
 /**
  * Cookie Wrapper

@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Controller;
 
-use \Novosga\Controller\SGAController;
+use Novosga\Controller\SGAController;
 
 /**
  * Class pai dos controladores internos do SGA

@@ -1,10 +1,10 @@
 <?php
 namespace Novosga\Controller;
 
-use \Exception;
-use \Novosga\Context;
-use \Novosga\Model\TreeModel;
-use \Novosga\Model\SequencialModel;
+use Exception;
+use Novosga\Context;
+use Novosga\Model\TreeModel;
+use Novosga\Model\SequencialModel;
 
 /**
  * TreeModelController

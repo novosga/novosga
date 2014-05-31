@@ -1,11 +1,11 @@
 <?php
 namespace modules\sga\grupos;
 
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Model\SequencialModel;
-use \Novosga\Model\Grupo;
-use \Novosga\Controller\TreeModelController;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Model\SequencialModel;
+use Novosga\Model\Grupo;
+use Novosga\Controller\TreeModelController;
 
 /**
  * GruposController
@@ -25,7 +25,7 @@ class GruposController extends TreeModelController {
     }
 
     protected function preSave(Context $context, SequencialModel $model) {
-        $id_pai = (int) Arrays::value($_POST, 'id_pai', 0);
+        $id_pai = (int) $context->request()->post('id_pai', 0);
         $pai = $this->em()->find(get_class($model), $id_pai);
         if ($pai) {
             $model->setParent($pai);

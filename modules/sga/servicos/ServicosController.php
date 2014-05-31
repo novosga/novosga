@@ -1,11 +1,11 @@
 <?php
 namespace modules\sga\servicos;
 
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Model\SequencialModel;
-use \Novosga\Model\Servico;
-use \Novosga\Controller\CrudController;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Model\SequencialModel;
+use Novosga\Model\Servico;
+use Novosga\Controller\CrudController;
 
 /**
  * ServicosController
@@ -25,7 +25,7 @@ class ServicosController extends CrudController {
     }
 
     protected function preSave(Context $context, SequencialModel $model) {
-        $id_macro = (int) Arrays::value($_POST, 'id_macro');
+        $id_macro = (int) $context->request()->post('id_macro');
         $macro = $this->em()->find("Novosga\Model\Servico", $id_macro);
         $model->setMestre($macro);
     }
@@ -90,8 +90,8 @@ class ServicosController extends CrudController {
     
     
     public function subservicos(Context $context) {
-        $response = new \Novosga\Http\AjaxResponse();
-        $id = Arrays::value($_GET, 'id');
+        $response = new \Novosga\Http\JsonResponse();
+        $id = $context->request()->get('id');
         $servico = $this->findById($id);
         if ($servico) {
             foreach ($servico->getSubServicos() as $sub) {

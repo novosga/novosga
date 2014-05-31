@@ -28,8 +28,8 @@ SGA.Admin = {
             if (SGA.Form.checkRequireds('#auth-' + data.type)) {
                 SGA.ajax({
                     url: SGA.url('auth_save'),
-                    data: data,
                     type: 'post',
+                    data: data,
                     success: function(response) {
                         $('#auth_message').show();
                     }
@@ -104,6 +104,7 @@ SGA.Admin = {
                                                         var elem = $(this);
                                                         $.ajax({
                                                             url: SGA.baseUrl + '/modules/sga.admin/delete_oauth_client',
+                                                            type: 'post',
                                                             data: { client_id: elem.data('id') },
                                                             success: function(response) {
                                                                 SGA.Admin.WebApi.loadClients();
@@ -127,6 +128,7 @@ SGA.Admin = {
         if (confirm(alert)) {
             SGA.ajax({
                 url: SGA.url('acumular_atendimentos'),
+                type: 'post',
                 success: function(response) {
                     SGA.dialogs.modal("#dialog-reiniciar");
                 }
@@ -138,7 +140,10 @@ SGA.Admin = {
     changeNumeracao: function() {
         SGA.ajax({
             url: SGA.url('change_numeracao'),
-            data: {tipo: $('#numeracao').val()},
+            type: 'post',
+            data: {
+                tipo: $('#numeracao').val()
+            },
             success: function(response) {
             }
         });

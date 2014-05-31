@@ -1,15 +1,15 @@
 <?php
 namespace modules\sga\admin;
 
-use \Novosga\SGA;
-use \Novosga\Context;
-use \Novosga\Http\AjaxResponse;
-use \Novosga\Model\Configuracao;
-use \Novosga\Model\Util\Senha;
-use \Novosga\Auth\Authentication;
-use \Novosga\Controller\ModuleController;
-use \Novosga\Business\AtendimentoBusiness;
-use \Novosga\Model\Modulo;
+use Novosga\SGA;
+use Novosga\Context;
+use Novosga\Http\JsonResponse;
+use Novosga\Model\Configuracao;
+use Novosga\Model\Util\Senha;
+use Novosga\Auth\Authentication;
+use Novosga\Controller\ModuleController;
+use Novosga\Business\AtendimentoBusiness;
+use Novosga\Model\Modulo;
 
 /**
  * AdminView
@@ -66,11 +66,11 @@ class AdminController extends ModuleController {
     }
     
     public function auth_save(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         try {
             $auth = Configuracao::get($this->em(), Authentication::KEY);
             $value = $auth->getValor();
-            $type = $context->request()->getParameter('type');
+            $type = $context->request()->post('type');
             $value['type'] = $type;
             if (!isset($value[$type])) {
                 $value[$type] = array();
@@ -88,25 +88,31 @@ class AdminController extends ModuleController {
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function acumular_atendimentos(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         try {
+            if (!$context->request()->isPost()) {
+                throw new Exception(_('Somente via POST'));
+            }
             $ab = new AtendimentoBusiness($this->em());
             $ab->acumularAtendimentos();
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function change_numeracao(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         try {
-            $tipo = (int) $context->request()->getParameter('tipo');
+            if (!$context->request()->isPost()) {
+                throw new Exception(_('Somente via POST'));
+            }
+            $tipo = (int) $context->request()->post('tipo');
             if (!array_key_exists($tipo, $this->numeracoes)) {
                 throw new \Exception(_('Valor inválido'));
             }
@@ -115,59 +121,60 @@ class AdminController extends ModuleController {
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function add_oauth_client(Context $context) {
-        $response = new AjaxResponse();
-        if ($context->request()->isPost()) {
-            try {
-                $client_id = $context->request()->getParameter('client_id');
-                $client_secret = $context->request()->getParameter('client_secret');
-                $redirect_uri = $context->request()->getParameter('redirect_uri');
-                // apaga se ja existir
-                $this->delete_auth_client_by_id($client_id);
-                // insere novo cliente
-                $conn = $this->em()->getConnection();
-                $stmt = $conn->prepare('INSERT INTO oauth_clients (client_id, client_secret, redirect_uri) VALUES (:client_id, :client_secret, :redirect_uri)');
-                $stmt->bindValue('client_id', $client_id);
-                $stmt->bindValue('client_secret', $client_secret);
-                $stmt->bindValue('redirect_uri', $redirect_uri);
-                $stmt->execute();
-                $response->success = true;
-            } catch (\Exception $e) {
-                $response->message = $e->getMessage();
+        $response = new JsonResponse();
+        try {
+            if (!$context->request()->isPost()) {
+                throw new Exception(_('Somente via POST'));
             }
+            $client_id = $context->request()->post('client_id');
+            $client_secret = $context->request()->post('client_secret');
+            $redirect_uri = $context->request()->post('redirect_uri');
+            // apaga se ja existir
+            $this->delete_auth_client_by_id($client_id);
+            // insere novo cliente
+            $conn = $this->em()->getConnection();
+            $stmt = $conn->prepare('INSERT INTO oauth_clients (client_id, client_secret, redirect_uri) VALUES (:client_id, :client_secret, :redirect_uri)');
+            $stmt->bindValue('client_id', $client_id);
+            $stmt->bindValue('client_secret', $client_secret);
+            $stmt->bindValue('redirect_uri', $redirect_uri);
+            $stmt->execute();
+            $response->success = true;
+        } catch (\Exception $e) {
+            $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function get_oauth_client(Context $context) {
-        $response = new AjaxResponse(true);
-        $client_id = $context->request()->getParameter('client_id');
+        $response = new JsonResponse(true);
+        $client_id = $context->request()->get('client_id');
         $conn = $this->em()->getConnection();
         $stmt = $conn->prepare('SELECT client_id, client_secret, redirect_uri FROM oauth_clients WHERE client_id = :client_id');
         $stmt->bindValue('client_id', $client_id);
         $stmt->execute();
         $response->data = $stmt->fetch();
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function get_all_oauth_client(Context $context) {
-        $response = new AjaxResponse(true);
+        $response = new JsonResponse(true);
         $conn = $this->em()->getConnection();
         $stmt = $conn->prepare('SELECT client_id, client_secret, redirect_uri FROM oauth_clients ORDER BY client_id');
         $stmt->execute();
         $response->data = $stmt->fetchAll();
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function delete_oauth_client(Context $context) {
-        $response = new AjaxResponse(true);
+        $response = new JsonResponse(true);
         $conn = $this->em()->getConnection();
-        $client_id = $context->request()->getParameter('client_id');
+        $client_id = $context->request()->post('client_id');
         $this->delete_auth_client_by_id($client_id);
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     private function delete_auth_client_by_id($client_id) {

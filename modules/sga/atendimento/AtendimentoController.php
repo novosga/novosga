@@ -1,17 +1,17 @@
 <?php
 namespace modules\sga\atendimento;
 
-use \Exception;
-use \Novosga\SGA;
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Util\DateUtil;
-use \Novosga\Business\AtendimentoBusiness;
-use \Novosga\Controller\ModuleController;
-use \Novosga\Model\Atendimento;
-use \Novosga\Model\Util\UsuarioSessao;
-use \Novosga\Http\AjaxResponse;
-use \Novosga\Model\Modulo;
+use Exception;
+use Novosga\SGA;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Util\DateUtil;
+use Novosga\Business\AtendimentoBusiness;
+use Novosga\Controller\ModuleController;
+use Novosga\Model\Atendimento;
+use Novosga\Model\Util\UsuarioSessao;
+use Novosga\Http\JsonResponse;
+use Novosga\Model\Modulo;
 
 /**
  * AtendimentoController
@@ -52,8 +52,8 @@ class AtendimentoController extends ModuleController {
     }
     
     public function set_local(Context $context) {
-        $numero = (int) Arrays::value($_POST, 'local');
-        $tipo = (int) Arrays::value($_POST, 'tipo');
+        $numero = (int) $context->request()->post('local');
+        $tipo = (int) $context->request()->post('tipo');
         if ($numero) {
             $context->cookie()->set('local', $numero);
             $context->cookie()->set('tipo', $tipo);
@@ -121,7 +121,7 @@ class AtendimentoController extends ModuleController {
     }
     
     public function get_fila(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
             // fila de atendimento do atendente atual
@@ -133,7 +133,7 @@ class AtendimentoController extends ModuleController {
             }
             $response->success = true;
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -141,72 +141,79 @@ class AtendimentoController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function chamar(Context $context) {
-        $attempts = 0;
-        $maxAttempts = 5;
-        $proximo = null;
-        $success = false;
-        $response = new AjaxResponse();
-        $usuario = $context->getUser();
-        $unidade = $context->getUnidade();
-        if (!$usuario) {
-            $this->app()->redirect('/home');
-        }
-        // verifica se ja esta atendendo alguem
-        $atual = $this->atendimentoAndamento($usuario);
-        // se ja existe um atendimento em andamento (chamando senha novamente)
-        if ($atual) {
-            $success = true;
-            $proximo = $atual;
-        } else {
-            do {
-                $query = $this->atendimentosQuery($usuario);
-                $query->setMaxResults(1);
-                $proximo = $query->getOneOrNullResult();
-                if ($proximo) {
-                    $proximo->setUsuario($context->getUser()->getWrapped());
-                    $proximo->setLocal($context->getUser()->getLocal());
-                    $proximo->setStatus(AtendimentoBusiness::CHAMADO_PELA_MESA);
-                    $proximo->setDataChamada(new \DateTime());
-                    // atualiza o proximo da fila
-                    $query = $this->em()->createQuery("
-                        UPDATE 
-                            Novosga\Model\Atendimento e 
-                        SET 
-                            e.usuario = :usuario, e.local = :local, e.status = :novoStatus, e.dataChamada = :data
-                        WHERE 
-                            e.id = :id AND e.status = :statusAtual
-                    ");
-                    $query->setParameter('usuario', $proximo->getUsuario()->getId());
-                    $query->setParameter('local', $proximo->getLocal());
-                    $query->setParameter('novoStatus', $proximo->getStatus());
-                    $query->setParameter('data', $proximo->getDataChamada());
-                    $query->setParameter('id', $proximo->getId());
-                    $query->setParameter('statusAtual', AtendimentoBusiness::SENHA_EMITIDA);
-                    /* 
-                     * caso entre o intervalo do select e o update, o proximo ja tiver sido chamado
-                     * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
-                     */
-                    $success = $query->execute() > 0;
-                    $attempts++;
+        $response = new JsonResponse();
+        try {
+            if (!$context->request()->isPost()) {
+                throw new Exception(_('Somente via POST'));
+            }
+            $attempts = 0;
+            $maxAttempts = 5;
+            $proximo = null;
+            $success = false;
+            $usuario = $context->getUser();
+            $unidade = $context->getUnidade();
+            if (!$usuario) {
+                throw new Exception(_('Nenhum usuário na sessão'));
+            }
+            // verifica se ja esta atendendo alguem
+            $atual = $this->atendimentoAndamento($usuario);
+            // se ja existe um atendimento em andamento (chamando senha novamente)
+            if ($atual) {
+                $success = true;
+                $proximo = $atual;
+            } else {
+                do {
+                    $query = $this->atendimentosQuery($usuario);
+                    $query->setMaxResults(1);
+                    $proximo = $query->getOneOrNullResult();
+                    if ($proximo) {
+                        $proximo->setUsuario($context->getUser()->getWrapped());
+                        $proximo->setLocal($context->getUser()->getLocal());
+                        $proximo->setStatus(AtendimentoBusiness::CHAMADO_PELA_MESA);
+                        $proximo->setDataChamada(new \DateTime());
+                        // atualiza o proximo da fila
+                        $query = $this->em()->createQuery("
+                            UPDATE 
+                                Novosga\Model\Atendimento e 
+                            SET 
+                                e.usuario = :usuario, e.local = :local, e.status = :novoStatus, e.dataChamada = :data
+                            WHERE 
+                                e.id = :id AND e.status = :statusAtual
+                        ");
+                        $query->setParameter('usuario', $proximo->getUsuario()->getId());
+                        $query->setParameter('local', $proximo->getLocal());
+                        $query->setParameter('novoStatus', $proximo->getStatus());
+                        $query->setParameter('data', $proximo->getDataChamada());
+                        $query->setParameter('id', $proximo->getId());
+                        $query->setParameter('statusAtual', AtendimentoBusiness::SENHA_EMITIDA);
+                        /* 
+                         * caso entre o intervalo do select e o update, o proximo ja tiver sido chamado
+                         * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
+                         */
+                        $success = $query->execute() > 0;
+                        $attempts++;
+                    } else {
+                        // nao existe proximo
+                        break;
+                    }
+                } while (!$success && $attempts < $maxAttempts);
+            }
+            // response
+            if (!$success) {
+                if (!$proximo) {
+                    throw new Exception(_('Fila vazia'));
                 } else {
-                    // nao existe proximo
-                    break;
+                    throw new Exception(_('Já existe um atendimento em andamento'));
                 }
-            } while (!$success && $attempts < $maxAttempts);
-        }
-        // response
-        $response->success = $success;
-        if ($success) {
+            }
+            $response->success = $success;
             $this->atendimentoBusiness->chamarSenha($unidade, $proximo);
             $response->data = $proximo->toArray();
-        } else {
-            if (!$proximo) {
-                $response->message = _('Fila vazia');
-            } else {
-                $response->message = _('Já existe um atendimento em andamento');
-            }
+        } catch (Exception $e) {
+            $response->success = false;
+            $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -220,7 +227,7 @@ class AtendimentoController extends ModuleController {
         if (!$usuario) {
             $this->app()->gotoHome();
         }
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $atual = $this->atendimentoAndamento($usuario);
         if ($atual) {
             // atualizando atendimento
@@ -231,7 +238,7 @@ class AtendimentoController extends ModuleController {
         } else {
             $response->message = _('Nenhum atendimento disponível');
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -274,7 +281,7 @@ class AtendimentoController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function iniciar(Context $context) {
-        $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::ATENDIMENTO_INICIADO, 'dataInicio');
+        return $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::ATENDIMENTO_INICIADO, 'dataInicio');
     }
     
     /**
@@ -282,7 +289,7 @@ class AtendimentoController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function nao_compareceu(Context $context) {
-        $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::NAO_COMPARECEU, 'dataFim');
+        return $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::NAO_COMPARECEU, 'dataFim');
     }
     
     /**
@@ -290,7 +297,7 @@ class AtendimentoController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function encerrar(Context $context) {
-        $this->mudaStatusAtualResponse($context, AtendimentoBusiness::ATENDIMENTO_INICIADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, null);
+        return $this->mudaStatusAtualResponse($context, AtendimentoBusiness::ATENDIMENTO_INICIADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, null);
     }
     
     /**
@@ -298,9 +305,12 @@ class AtendimentoController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function codificar(Context $context) {
-        $unidade = $context->getUnidade();
-        $response = new AjaxResponse(false);
+        $response = new JsonResponse(false);
         try {
+            if (!$context->request()->isPost()) {
+                throw new Exception(_('Somente via POST'));
+            }
+            $unidade = $context->getUnidade();
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade escolhida'));
             }
@@ -309,42 +319,41 @@ class AtendimentoController extends ModuleController {
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
             }
-            $servicos = $context->request()->getParameter('servicos');
+            $servicos = $context->request()->post('servicos');
             $servicos = Arrays::valuesToInt(explode(',', $servicos));
             if (empty($servicos)) {
-                $response->message = _('Nenhum serviço selecionado');
-            } else {
-                $conn = $this->em()->getConnection();
-                $conn->beginTransaction();
-                $stmt = $conn->prepare("INSERT INTO atend_codif (atendimento_id, servico_id, valor_peso) VALUES (:atendimento, :servico, 1)");
-                foreach ($servicos as $s) {
-                    $stmt->bindValue('atendimento', $atual->getId());
-                    // TODO: verificar se o usuario realmente pode atender o servico informado
-                    $stmt->bindValue('servico', $s);
-                    $stmt->execute();
-                }
-                // verifica se esta encerrando e redirecionando
-                $redirecionar = $context->request()->getParameter('redirecionar');
-                if ($redirecionar) {
-                    $servico = $context->request()->getParameter('novoServico');
-                    $redirecionado = $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
-                    if (!$redirecionado) {
-                        throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
-                    }
-                }
-                $response->success = $this->mudaStatusAtendimento($atual, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
-                if (!$response->success) {
-                    throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
-                }
-                $conn->commit();
+                throw new Exception(_('Nenhum serviço selecionado'));
             }
+            $conn = $this->em()->getConnection();
+            $conn->beginTransaction();
+            $stmt = $conn->prepare("INSERT INTO atend_codif (atendimento_id, servico_id, valor_peso) VALUES (:atendimento, :servico, 1)");
+            foreach ($servicos as $s) {
+                $stmt->bindValue('atendimento', $atual->getId());
+                // TODO: verificar se o usuario realmente pode atender o servico informado
+                $stmt->bindValue('servico', $s);
+                $stmt->execute();
+            }
+            // verifica se esta encerrando e redirecionando
+            $redirecionar = $context->request()->post('redirecionar');
+            if ($redirecionar) {
+                $servico = $context->request()->post('novoServico');
+                $redirecionado = $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
+                if (!$redirecionado) {
+                    throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
+                }
+            }
+            $response->success = $this->mudaStatusAtendimento($atual, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
+            if (!$response->success) {
+                throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
+            }
+            $conn->commit();
         } catch (Exception $e) {
             if ($conn && $conn->isTransactionActive()) {
                 $conn->rollBack();
             }
             $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -354,13 +363,16 @@ class AtendimentoController extends ModuleController {
      */
     public function redirecionar(Context $context) {
         $unidade = $context->getUnidade();
-        $response = new AjaxResponse(false);
+        $response = new JsonResponse(false);
         try {
+            if (!$context->request()->isPost()) {
+                throw new Exception(_('Somente via POST'));
+            }
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade escolhida'));
             }
             $usuario = $context->getUser();
-            $servico = (int) $context->request()->getParameter('servico');
+            $servico = (int) $context->request()->post('servico');
             $atual = $this->atendimentoAndamento($usuario);
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
@@ -382,7 +394,7 @@ class AtendimentoController extends ModuleController {
             }
             $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     private function redireciona_atendimento(Atendimento $atendimento, $servico, $unidade, UsuarioSessao $usuario) {
@@ -410,10 +422,10 @@ class AtendimentoController extends ModuleController {
     }
     
     public function info_senha(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $id = (int) $context->request()->getParameter('id');
+            $id = (int) $context->request()->get('id');
             $atendimento = $this->atendimentoBusiness->buscaAtendimento($unidade, $id);
             if ($atendimento) {
                 $response->data = $atendimento->toArray();
@@ -422,7 +434,7 @@ class AtendimentoController extends ModuleController {
                 $response->message = _('Atendimento inválido');
             }
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -430,10 +442,10 @@ class AtendimentoController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function consulta_senha(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $numero = $context->request()->getParameter('numero');
+            $numero = $context->request()->get('numero');
             $atendimentos = $this->atendimentoBusiness->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
@@ -443,7 +455,7 @@ class AtendimentoController extends ModuleController {
         } else{
             $response->message = _('Nenhuma unidade selecionada');
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
 }

@@ -1,11 +1,11 @@
 <?php
 namespace modules\sga\unidade;
 
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Http\AjaxResponse;
-use \Novosga\Controller\ModuleController;
-use \Novosga\Business\AtendimentoBusiness;
+use Exception;
+use Novosga\Business\AtendimentoBusiness;
+use Novosga\Context;
+use Novosga\Controller\ModuleController;
+use Novosga\Http\JsonResponse;
 
 /**
  * UnidadeController
@@ -57,10 +57,14 @@ class UnidadeController extends ModuleController {
     }
     
     public function update_impressao(Context $context) {
-        $impressao = (int) Arrays::value($_POST, 'impressao');
-        $mensagem = Arrays::value($_POST, 'mensagem', '');
-        $unidade = $context->getUser()->getUnidade();
-        if ($unidade) {
+        $response = new JsonResponse();
+        try {
+            if (!$context->request()->isPost()) {
+                throw new \Exception(_('Somente via POST'));
+            }
+            $impressao = (int) $context->request()->post('impressao');
+            $mensagem = $context->request()->post('mensagem', '');
+            $unidade = $context->getUser()->getUnidade();
             $query = $this->em()->createQuery("UPDATE Novosga\Model\Unidade e SET e.statusImpressao = :status, e.mensagemImpressao = :mensagem WHERE e.id = :unidade");
             $query->setParameter('status', $impressao);
             $query->setParameter('mensagem', $mensagem);
@@ -69,50 +73,59 @@ class UnidadeController extends ModuleController {
                 // atualizando sessao
                 $unidade = $this->em()->find('Novosga\Model\Unidade', $unidade->getId());
                 $context->setUnidade($unidade);
+                $response->success = true;
             }
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
         }
-        $response = new AjaxResponse(true);
-        echo $response->toJson();
-        exit();
+        return $response;
     }
     
     private function change_status(Context $context, $status) {
-        $servico_id = (int) Arrays::value($_POST, 'id');
-        $unidade = $context->getUser()->getUnidade();
-        if (!$servico_id || !$unidade) {
-            return false;
+        $response = new JsonResponse();
+        try {
+            if (!$context->request()->isPost()) {
+                throw new \Exception(_('Somente via POST'));
+            }
+            $servico_id = (int) $context->request()->post('id');
+            $unidade = $context->getUser()->getUnidade();
+            if (!$servico_id || !$unidade) {
+                return false;
+            }
+            $query = $this->em()->createQuery("UPDATE Novosga\Model\ServicoUnidade e SET e.status = :status WHERE e.unidade = :unidade AND e.servico = :servico");
+            $query->setParameter('status', $status);
+            $query->setParameter('servico', $servico_id);
+            $query->setParameter('unidade', $unidade->getId());
+            $response->success = $query->execute();
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
         }
-        $query = $this->em()->createQuery("UPDATE Novosga\Model\ServicoUnidade e SET e.status = :status WHERE e.unidade = :unidade AND e.servico = :servico");
-        $query->setParameter('status', $status);
-        $query->setParameter('servico', $servico_id);
-        $query->setParameter('unidade', $unidade->getId());
-        return $query->execute();
+        return $response;
     }
     
     public function habilita_servico(Context $context) {
-        $response = new AjaxResponse();
-        $response->success = $this->change_status($context, 1);
-        $context->response()->jsonResponse($response);
+        return $this->change_status($context, 1);
     }
     
     public function desabilita_servico(Context $context) {
-        $response = new AjaxResponse();
-        $response->success = $this->change_status($context, 0);
-        $context->response()->jsonResponse($response);
+        return $this->change_status($context, 0);
     }
     
     public function update_servico(Context $context) {
-        $response = new AjaxResponse();
-        $id = (int) $context->request()->getParameter('id');
+        $response = new JsonResponse();
         try {
+            if (!$context->request()->isPost()) {
+                throw new \Exception(_('Somente via POST'));
+            }
+            $id = (int) $context->request()->post('id');
             $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
             $query->setParameter('servico', $id);
             $query->setParameter('unidade', $context->getUser()->getUnidade()->getId());
             $su = $query->getSingleResult();
 
-            $sigla = $context->request()->getParameter('sigla');
-            $nome = $context->request()->getParameter('nome');
-            $local = $this->em()->find("Novosga\Model\Local", (int) $context->request()->getParameter('local'));
+            $sigla = $context->request()->post('sigla');
+            $nome = $context->request()->post('nome');
+            $local = $this->em()->find("Novosga\Model\Local", (int) $context->request()->post('local'));
             
             $su->setSigla($sigla);
             $su->setNome($nome);
@@ -122,17 +135,23 @@ class UnidadeController extends ModuleController {
             $this->em()->merge($su);
             $this->em()->flush();
             $response->success = true;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function reverte_nome(Context $context) {
-        $response = new AjaxResponse();
-        $id = (int) $context->request()->getParameter('id');
-        $servico = $this->em()->find('Novosga\Model\Servico', $id);
-        if ($servico) {
+        $response = new JsonResponse();
+        try {
+            if (!$context->request()->isPost()) {
+                throw new \Exception(_('Somente via POST'));
+            }
+            $id = (int) $context->request()->post('id');
+            $servico = $this->em()->find('Novosga\Model\Servico', $id);
+            if (!$servico) {
+                throw new Exception(_('Serviço inválido'));
+            }
             $query = $this->em()->createQuery("UPDATE Novosga\Model\ServicoUnidade e SET e.nome = :nome WHERE e.unidade = :unidade AND e.servico = :servico");
             $query->setParameter('nome', $servico->getNome());
             $query->setParameter('servico', $servico->getId());
@@ -140,27 +159,29 @@ class UnidadeController extends ModuleController {
             $query->execute();
             $response->data['nome'] = $servico->getNome();
             $response->success = true;
-        } else {
-            $response->message = _('Serviço inválido');
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function acumular_atendimentos(Context $context) {
-        $response = new AjaxResponse();
-        $unidade = $context->getUnidade();
-        if ($unidade) {
-            try {
-                $ab = new AtendimentoBusiness($this->em());
-                $ab->acumularAtendimentos($unidade);
-                $response->success = true;
-            } catch (\Exception $e) {
-                $response->message = $e->getMessage();
+        $response = new JsonResponse();
+        try {
+            if (!$context->request()->isPost()) {
+                throw new \Exception(_('Somente via POST'));
             }
-        } else {
-            $response->message = _('Nenhum unidade definida');
+            $unidade = $context->getUnidade();
+            if (!$unidade) {
+                throw new Exception(_('Nenhum unidade definida'));
+            }
+            $ab = new AtendimentoBusiness($this->em());
+            $ab->acumularAtendimentos($unidade);
+            $response->success = true;
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
 }

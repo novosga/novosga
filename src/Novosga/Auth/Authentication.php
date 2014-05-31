@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Auth;
 
-use \Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Authentication

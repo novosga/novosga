@@ -1,13 +1,13 @@
 <?php
 namespace Novosga\Controller;
 
-use \Exception;
-use \Novosga\Model\SequencialModel;
-use \Novosga\Controller\ModuleController;
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Util\Objects;
-use \Doctrine\ORM\Tools\Pagination\Paginator;
+use Exception;
+use Novosga\Model\SequencialModel;
+use Novosga\Controller\ModuleController;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Util\Objects;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * CrudController
@@ -54,8 +54,8 @@ abstract class CrudController extends ModuleController {
      */
     public function index(Context $context) {
         $maxResults = 10;
-        $page = (int) Arrays::value($_GET, 'p', 0);
-        $search = trim(Arrays::value($_GET, 's', ''));
+        $page = (int) $context->request()->get('p', 0);
+        $search = trim($context->request()->get('s', ''));
         $query = $this->search("%". strtoupper($search) . "%");
         $query->setMaxResults($maxResults);
         $query->setFirstResult($page * $maxResults);
@@ -94,13 +94,13 @@ abstract class CrudController extends ModuleController {
             $requiredFields = $this->requiredFields();
             try {
                 foreach ($requiredFields as $field) {
-                    $value = trim(Arrays::value($_POST, $field));
+                    $value = trim($context->request()->post($field));
                     if (empty($value) && $value !== '0') {
                         throw new \Exception(_('Preencha os campos obrigatórios'));
                     }
                     Objects::set($this->model, $field, $_POST[$field]);
                 }
-                $id = Arrays::value($_POST, 'id', 0);
+                $id = $context->request()->post('id', 0);
                 if ($id > 0) { // editando
                     $this->model->setId($id);
                     $this->doSave($context, $this->model);
@@ -148,7 +148,7 @@ abstract class CrudController extends ModuleController {
     protected function postSave(Context $context, SequencialModel $model) {}
     
     public function delete(Context $context) {
-        $id = (int) Arrays::value($_POST, 'id');
+        $id = (int) $context->request()->post('id');
         $model = $this->findById($id);
         if ($model) {
             try {

@@ -1,8 +1,8 @@
 <?php
 namespace Novosga\Controller;
 
-use \Novosga\SGA;
-use \Novosga\Context;
+use Novosga\SGA;
+use Novosga\Context;
 
 /**
  * SGA module controller

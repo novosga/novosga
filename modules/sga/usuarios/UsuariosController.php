@@ -1,13 +1,13 @@
 <?php
 namespace modules\sga\usuarios;
 
-use \Exception;
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Http\AjaxResponse;
-use \Novosga\Model\SequencialModel;
-use \Novosga\Model\Usuario;
-use \Novosga\Controller\CrudController;
+use Exception;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Http\JsonResponse;
+use Novosga\Model\SequencialModel;
+use Novosga\Model\Usuario;
+use Novosga\Controller\CrudController;
 
 /**
  * UsuariosController
@@ -63,27 +63,27 @@ class UsuariosController extends CrudController {
     }
     
     protected function preSave(Context $context, SequencialModel $model) {
-        $login = Arrays::value($_POST, 'login');
+        $login = $context->request()->post('login');
         if (!preg_match('/^[a-zA-Z0-9\.]+$/', $login)) {
             throw new Exception(_('O login deve conter somente letras e números.'));
         }
         if (strlen($login) < 5 || strlen($login) > 20) {
             throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
         }
-        $lotacoes = Arrays::value($_POST, 'lotacoes', array());
+        $lotacoes = $context->request()->post('lotacoes', array());
         if (empty($lotacoes)) {
             throw new Exception(_('O usuário deve possuir pelo menos uma lotação.'));
         }
         if ($model->getId() == 0) {
             // para novos usuarios, tem que informar a senha
-            $senha = Arrays::value($_POST, 'senha');
-            $confirmacao = Arrays::value($_POST, 'senha2');
+            $senha = $context->request()->post('senha');
+            $confirmacao = $context->request()->post('senha2');
             // verifica e codifica a senha
             $model->setSenha($this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao));
             $model->setStatus(1);
             $model->setSessionId('');
         } else {
-            $model->setStatus((int) Arrays::value($_POST, 'status'));
+            $model->setStatus((int) $context->request()->post('status'));
         }
         // verificando novo login ou alteracao
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\Usuario e WHERE e.login = :login AND e.id != :id");
@@ -101,7 +101,7 @@ class UsuariosController extends CrudController {
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Lotacao e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $model->getId());
         $query->execute();
-        $lotacoes = Arrays::value($_POST, 'lotacoes', array());
+        $lotacoes = $context->request()->post('lotacoes', array());
         if (!empty($lotacoes)) {
             $stmt = $conn->prepare("INSERT INTO usu_grup_cargo (grupo_id, cargo_id, usuario_id) VALUES (:grupo, :cargo, :usuario)");
             foreach ($lotacoes as $item) {
@@ -116,7 +116,7 @@ class UsuariosController extends CrudController {
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $model->getId());
         $query->execute();
-        $servicos = Arrays::value($_POST, 'servicos', array());
+        $servicos = $context->request()->post('servicos', array());
         if (!empty($servicos)) {
             $stmt = $conn->prepare("INSERT INTO usu_serv (unidade_id, servico_id, usuario_id) VALUES (:unidade, :servico, :usuario)");
             foreach ($servicos as $servico) {
@@ -195,14 +195,14 @@ class UsuariosController extends CrudController {
      * @param Novosga\Context $context
      */
     public function grupos(Context $context) {
-        $exceto = $context->request()->getParameter('exceto');
+        $exceto = $context->request()->get('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
-        $response = new AjaxResponse(true);
+        $response = new JsonResponse(true);
         $grupos = $this->grupos_disponiveis($exceto);
         foreach ($grupos as $g) {
             $response->data[] = array('id' => $g->getId(), 'nome' => $g->getNome());
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
 
     /**
@@ -210,12 +210,12 @@ class UsuariosController extends CrudController {
      * @param Novosga\Context $context
      */
     public function permissoes_cargo(Context $context) {
-        $response = new AjaxResponse(true);
-        $id = (int) $context->request()->getParameter('cargo');
+        $response = new JsonResponse(true);
+        $id = (int) $context->request()->get('cargo');
         $query = $this->em()->createQuery("SELECT m.nome FROM Novosga\Model\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
         $query->setParameter('cargo', $id);
         $response->data = $query->getResult();
-        $context->response()->jsonResponse($response);
+        return $response;
     }
 
     /**
@@ -223,9 +223,9 @@ class UsuariosController extends CrudController {
      * @param Novosga\Context $context
      */
     public function servicos_unidade(Context $context) {
-        $response = new AjaxResponse(true);
-        $id = (int) $context->request()->getParameter('unidade');
-        $exceto = $context->request()->getParameter('exceto');
+        $response = new JsonResponse(true);
+        $id = (int) $context->request()->get('unidade');
+        $exceto = $context->request()->get('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
         $query = $this->em()->createQuery("
             SELECT 
@@ -244,7 +244,7 @@ class UsuariosController extends CrudController {
         $query->setParameter('unidade', $id);
         $query->setParameter('exceto', $exceto);
         $response->data = $query->getResult();
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -252,10 +252,10 @@ class UsuariosController extends CrudController {
      * @param Novosga\Context $context
      */
     public function alterar_senha(Context $context) {
-        $response = new AjaxResponse();
-        $id = (int) $context->request()->getParameter('id');
-        $senha = $context->request()->getParameter('senha');
-        $confirmacao = $context->request()->getParameter('confirmacao');
+        $response = new JsonResponse();
+        $id = (int) $context->request()->post('id');
+        $senha = $context->request()->post('senha');
+        $confirmacao = $context->request()->post('confirmacao');
         $usuario = $this->findById($id);
         if ($usuario) {
             try {
@@ -271,7 +271,7 @@ class UsuariosController extends CrudController {
         } else {
             $response->message = _('Usuário inválido');
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
 }

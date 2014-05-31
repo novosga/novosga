@@ -65,7 +65,10 @@ SGA.Monitor = {
         view: function(id) {
             SGA.ajax({
                 url: SGA.url('info_senha'),
-                data: {id: id},
+                type: 'post',
+                data: {
+                    id: id
+                },
                 success: function(response) {
                     if (response.success) {
                         var dialog = $(SGA.Monitor.Senha.dialogView);
@@ -162,7 +165,10 @@ SGA.Monitor = {
             if (window.confirm(SGA.Monitor.alertReativar)) {
                 SGA.ajax({
                     url: SGA.url('reativar'),
-                    data: { id: id },
+                    type: 'post',
+                    data: { 
+                        id: id 
+                    },
                     complete: function() {
                         $(SGA.Monitor.Senha.dialogView).modal('hide');
                         $(SGA.Monitor.Senha.dialogSearch).modal('hide');
@@ -175,7 +181,10 @@ SGA.Monitor = {
             if (window.confirm(SGA.Monitor.alertCancelar)) {
                 SGA.ajax({
                     url: SGA.url('cancelar'),
-                    data: { id: id },
+                    type: 'post',
+                    data: { 
+                        id: id 
+                    },
                     complete: function() {
                         $(SGA.Monitor.Senha.dialogView).modal('hide');
                     }

@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Model\Util;
 
-use \Novosga\Model\Usuario;
-use \Novosga\Model\Unidade;
-use \Doctrine\ORM\EntityManager;
+use Novosga\Model\Usuario;
+use Novosga\Model\Unidade;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Usuario utilizado para salvar na sessao. Assim evitar de salvar

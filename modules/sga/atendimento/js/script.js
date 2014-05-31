@@ -107,6 +107,7 @@ SGA.Atendimento = {
         $(prop.button).prop('disabled', true);
         SGA.ajax({
             url: SGA.url(prop.action),
+            type: 'post',
             data: prop.data || {},
             success: function(response) {
                 if (prop.success) {
@@ -239,7 +240,9 @@ SGA.Atendimento = {
     infoSenha: function(id) {
         SGA.ajax({
             url: SGA.url('info_senha'),
-            data: {id: id},
+            data: {
+                id: id
+            },
             success: function(response) {
                 if (response.success) {
                     var a = response.data;
@@ -291,7 +294,9 @@ SGA.Atendimento = {
     consultar: function() {
         SGA.ajax({
             url: SGA.url('consulta_senha'),
-            data: {numero: $('#numero_busca').val()},
+            data: {
+                numero: $('#numero_busca').val()
+            },
             success: function(response) {
                 var result = $('#result_table tbody');
                 result.html('');

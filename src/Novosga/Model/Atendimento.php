@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Model;
 
-use \Novosga\Model\Util\Cliente;
-use \Novosga\Model\Util\Senha;
-use \Novosga\Business\AtendimentoBusiness;
+use Novosga\Model\Util\Cliente;
+use Novosga\Model\Util\Senha;
+use Novosga\Business\AtendimentoBusiness;
 
 /**
  * Classe Atendimento

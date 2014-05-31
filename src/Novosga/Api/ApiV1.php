@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Api;
 
-use \Novosga\Business\AtendimentoBusiness;
+use Novosga\Business\AtendimentoBusiness;
 
 /**
  * Api V1

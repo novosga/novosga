@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Controller;
 
-use \Novosga\SGA;
-use \Novosga\Model\Modulo;
-use \Novosga\Controller\SGAController;
+use Novosga\SGA;
+use Novosga\Model\Modulo;
+use Novosga\Controller\SGAController;
 
 /**
  * Classe pai dos controladores dos modulos

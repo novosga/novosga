@@ -1,7 +1,7 @@
 <?php
 namespace Novosga;
 
-use \Novosga\Business\AcessoBusiness;
+use Novosga\Business\AcessoBusiness;
 
 /**
  * SGA Slim Framework App

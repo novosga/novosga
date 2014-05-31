@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Controller;
 
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Controller\InternalController;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Controller\InternalController;
 
 /**
  * LoginController
@@ -35,8 +35,8 @@ class LoginController extends InternalController {
     }
     
     public function validate(Context $context) {
-        $username = Arrays::value($_POST, 'username');
-        $password = Arrays::value($_POST, 'password');
+        $username = $context->request()->post('username');
+        $password = $context->request()->post('password');
         $error = null;
         if (!empty($username) && !empty($password)) {
             $user = $this->app()->auth($username, $password);

@@ -1,16 +1,16 @@
 <?php
 namespace Novosga;
 
-use \Novosga\SGA;
-use \Novosga\Http\Session;
-use \Novosga\Http\Cookie;
-use \Novosga\Http\Request;
-use \Novosga\Http\Response;
-use \Novosga\Model\Util\UsuarioSessao;
-use \Novosga\Model\Modulo;
-use \Novosga\Model\Unidade;
-use \Novosga\Util\Arrays;
-use \Novosga\Db\DatabaseConfig;
+use Novosga\SGA;
+use Novosga\Http\Session;
+use Novosga\Http\Cookie;
+use Novosga\Http\Request;
+use Novosga\Http\Response;
+use Novosga\Model\Util\UsuarioSessao;
+use Novosga\Model\Modulo;
+use Novosga\Model\Unidade;
+use Novosga\Util\Arrays;
+use Novosga\Db\DatabaseConfig;
 
 /**
  * Context
@@ -21,7 +21,6 @@ class Context {
     
     private $app;
     private $session;
-    private $request;
     private $response;
     private $cookie;
     private $user;
@@ -33,7 +32,6 @@ class Context {
         $this->app = $app;
         $this->session = new Session();
         $this->cookie = new Cookie();
-        $this->request = new Request();
         $this->response = new Response();
         $this->database = $database;
     }
@@ -63,7 +61,7 @@ class Context {
      * @return Request
      */
     public function request() {
-        return $this->request;
+        return $this->app()->request();
     }
     
     /**

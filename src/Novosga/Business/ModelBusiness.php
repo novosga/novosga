@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Business;
 
-use \Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager;
 
 /**
  * ModelBusiness

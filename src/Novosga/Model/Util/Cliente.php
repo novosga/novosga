@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Model\Util;
 
-use \Novosga\Model\Model;
+use Novosga\Model\Model;
 
 /**
  * Classe auxiliar

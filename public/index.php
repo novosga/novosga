@@ -123,9 +123,12 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     // controller action
     $methodName = str_replace('/', '_', str_replace('-', '_', $action));
     $method = new \ReflectionMethod($ctrl, $methodName);
-    $method->invokeArgs($ctrl, $args);
-    
-    echo $app->render("$action.html.twig");
+    $response = $method->invokeArgs($ctrl, $args);
+    if ($response && $response instanceof \Novosga\Http\JsonResponse) {
+        echo $response->toJson();
+    } else {
+        echo $app->render("$action.html.twig");
+    }
 });
 
 /**

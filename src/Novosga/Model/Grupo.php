@@ -1,8 +1,8 @@
 <?php
 namespace Novosga\Model;
 
-use \Novosga\Model\TreeModel;
-use \Novosga\Model\Unidade;
+use Novosga\Model\TreeModel;
+use Novosga\Model\Unidade;
 
 /**
  * Classe Grupo

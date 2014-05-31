@@ -1,11 +1,11 @@
 <?php
 namespace Novosga\Business;
 
-use \Exception;
-use \Novosga\Context;
-use \Novosga\Model\Modulo;
-use \Novosga\Model\Util\UsuarioSessao;
-use \Novosga\Security;
+use Exception;
+use Novosga\Context;
+use Novosga\Model\Modulo;
+use Novosga\Model\Util\UsuarioSessao;
+use Novosga\Security;
 
 /**
  * AcessoBusiness
@@ -58,7 +58,7 @@ class AcessoBusiness {
     public function checkAccess(Context $context, $key, $value) {
         if (!$this->isValidSession($context)) {
             if ($context->request()->isAjax()) {
-                $response = new \Novosga\Http\AjaxResponse();
+                $response = new \Novosga\Http\JsonResponse();
                 $response->success = false;
                 // verifica se a sessão está inativa ou inválida
                 if (!$context->getUser() || !$context->getUser()->isAtivo()) {
@@ -66,7 +66,7 @@ class AcessoBusiness {
                 } else {
                     $response->invalid = true;
                 }
-                $context->response()->jsonResponse($response);
+                return $response;
             } else {
                 $this->app()->redirect('/login');
             }

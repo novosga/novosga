@@ -1,14 +1,14 @@
 <?php
 namespace modules\sga\estatisticas;
 
-use \Novosga\SGA;
-use \Novosga\Context;
-use \Novosga\Business\AtendimentoBusiness;
-use \Novosga\Model\Modulo;
-use \Novosga\Util\DateUtil;
-use \Novosga\Http\AjaxResponse;
-use \modules\sga\estatisticas\Relatorio;
-use \Novosga\Controller\ModuleController;
+use Novosga\SGA;
+use Novosga\Context;
+use Novosga\Business\AtendimentoBusiness;
+use Novosga\Model\Modulo;
+use Novosga\Util\DateUtil;
+use Novosga\Http\JsonResponse;
+use modules\sga\estatisticas\Relatorio;
+use Novosga\Controller\ModuleController;
 
 /**
  * EstatisticasController
@@ -62,11 +62,11 @@ class EstatisticasController extends ModuleController {
      * Retorna os gráficos do dia a partir da unidade informada
      */
     public function today(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         try {
             $ini = DateUtil::now('Y-m-d');
             $fim = DateUtil::nowSQL(); // full datetime
-            $unidade = (int) $context->request()->getParameter('unidade');
+            $unidade = (int) $context->request()->get('unidade');
             $status = $this->total_atendimentos_status($ini, $fim, $unidade);
             $response->data['legendas'] = AtendimentoBusiness::situacoes();
             $response->data['status'] = $status[$unidade];
@@ -76,16 +76,16 @@ class EstatisticasController extends ModuleController {
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function grafico(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         try {
-            $id = (int) $context->request()->getParameter('grafico');
-            $dataInicial = $context->request()->getParameter('inicial');
-            $dataFinal = $context->request()->getParameter('final') . ' 23:59:59';
-            $unidade = (int) $context->request()->getParameter('unidade');
+            $id = (int) $context->request()->get('grafico');
+            $dataInicial = $context->request()->get('inicial');
+            $dataFinal = $context->request()->get('final') . ' 23:59:59';
+            $unidade = (int) $context->request()->get('unidade');
             $unidade = ($unidade > 0) ? $unidade : 0;
             if (!isset($this->graficos[$id])) {
                 throw new Exception(_('Gráfico inválido'));
@@ -108,14 +108,14 @@ class EstatisticasController extends ModuleController {
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function relatorio(Context $context) {
-        $id = (int) $context->request()->getParameter('relatorio');
-        $dataInicial = $context->request()->getParameter('inicial');
-        $dataFinal = $context->request()->getParameter('final');
-        $unidade = (int) $context->request()->getParameter('unidade');
+        $id = (int) $context->request()->get('relatorio');
+        $dataInicial = $context->request()->get('inicial');
+        $dataFinal = $context->request()->get('final');
+        $unidade = (int) $context->request()->get('unidade');
         $unidade = ($unidade > 0) ? $unidade : 0;
         if (isset($this->relatorios[$id])) {
             $relatorio = $this->relatorios[$id];

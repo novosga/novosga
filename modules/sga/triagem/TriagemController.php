@@ -1,14 +1,14 @@
 <?php
 namespace modules\sga\triagem;
 
-use \PDO;
-use \Exception;
-use \Novosga\Context;
-use \Novosga\Util\Arrays;
-use \Novosga\Util\DateUtil;
-use \Novosga\Http\AjaxResponse;
-use \Novosga\Controller\ModuleController;
-use \Novosga\Business\AtendimentoBusiness;
+use PDO;
+use Exception;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Util\DateUtil;
+use Novosga\Http\JsonResponse;
+use Novosga\Controller\ModuleController;
+use Novosga\Business\AtendimentoBusiness;
 
 /**
  * TriagemController
@@ -35,7 +35,7 @@ class TriagemController extends ModuleController {
     }
     
     public function imprimir(Context $context) {
-        $id = (int) Arrays::value($_GET, 'id');
+        $id = (int) $context->request()->get('id');
         $atendimento = $this->em()->find("Novosga\Model\Atendimento", $id);
         if (!$atendimento) {
             $this->app()->redirect('index');
@@ -46,10 +46,10 @@ class TriagemController extends ModuleController {
     }
     
     public function ajax_update(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
-            $ids = Arrays::value($_GET, 'ids');
+            $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
             if (sizeof($ids)) {
                 $conn = $this->em()->getConnection();
@@ -82,13 +82,13 @@ class TriagemController extends ModuleController {
                 $response->success = true;
             }
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function servico_info(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         if ($context->request()->isPost()) {
-            $id = (int) $context->request()->getParameter('id');
+            $id = (int) $context->request()->get('id');
             $servico = $this->em()->find("Novosga\Model\Servico", $id);
             if ($servico) {
                 $response->data['nome'] = $servico->getNome();
@@ -116,17 +116,17 @@ class TriagemController extends ModuleController {
             }
             $response->success = true;
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     public function distribui_senha(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUnidade();
         $usuario = $context->getUser();
-        $servico = (int) Arrays::value($_POST, 'servico');
-        $prioridade = (int) Arrays::value($_POST, 'prioridade');
-        $nomeCliente = Arrays::value($_POST, 'cli_nome', '');
-        $documentoCliente = Arrays::value($_POST, 'cli_doc', '');
+        $servico = (int) $context->request()->post('servico');
+        $prioridade = (int) $context->request()->post('prioridade');
+        $nomeCliente = $context->request()->post('cli_nome', '');
+        $documentoCliente = $context->request()->post('cli_doc', '');
         try {
             $ab = new AtendimentoBusiness($this->em());
             $response->data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente);
@@ -135,7 +135,7 @@ class TriagemController extends ModuleController {
             $response->message = $e->getMessage();
             $response->success = false;
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     /**
@@ -143,10 +143,10 @@ class TriagemController extends ModuleController {
      * @param Novosga\Context $context
      */
     public function consulta_senha(Context $context) {
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
-            $numero = $context->request()->getParameter('numero');
+            $numero = $context->request()->get('numero');
             $ab = new AtendimentoBusiness($this->em());
             $atendimentos = $ab->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
@@ -157,7 +157,7 @@ class TriagemController extends ModuleController {
         } else{
             $response->message = _('Nenhuma unidade selecionada');
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
 }

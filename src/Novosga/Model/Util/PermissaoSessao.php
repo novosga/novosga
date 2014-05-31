@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Model\Util;
 
-use \Novosga\Model\Permissao;
+use Novosga\Model\Permissao;
 
 /**
  * Usuario utilizado para salvar na sessao. Assim evitar de salvar

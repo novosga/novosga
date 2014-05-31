@@ -1,10 +1,10 @@
 <?php
 namespace modules\sga\prioridades;
 
-use \Novosga\Context;
-use \Novosga\Model\Prioridade;
-use \Novosga\Model\SequencialModel;
-use \Novosga\Controller\CrudController;
+use Novosga\Context;
+use Novosga\Model\Prioridade;
+use Novosga\Model\SequencialModel;
+use Novosga\Controller\CrudController;
 
 /**
  * PrioridadesController

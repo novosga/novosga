@@ -1,10 +1,10 @@
 <?php
 namespace modules\sga\unidades;
 
-use \Novosga\Context;
-use \Novosga\Model\SequencialModel;
-use \Novosga\Model\Unidade;
-use \Novosga\Controller\CrudController;
+use Novosga\Context;
+use Novosga\Model\SequencialModel;
+use Novosga\Model\Unidade;
+use Novosga\Controller\CrudController;
 
 /**
  * UnidadesController
@@ -29,7 +29,7 @@ class UnidadesController extends CrudController {
         if ($rs['total']) {
             throw new \Exception(_('Código de Unidade já existe'));
         }
-        $grupo_id = (int) $context->request()->getParameter('grupo_id');
+        $grupo_id = (int) $context->request()->post('grupo_id');
         $grupo = $this->em()->find('Novosga\Model\Grupo', $grupo_id);
         if (!$grupo || !$grupo->isLeaf()) {
             throw new \Exception(_('Grupo inválido'));

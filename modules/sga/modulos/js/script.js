@@ -24,6 +24,7 @@ SGA.Modulos = {
         save: function(type) {
             SGA.ajax({
                 url: SGA.url('save'),
+                type: 'post',
                 data: {
                     id: $('#modulo_id').val(),
                     type: type,
