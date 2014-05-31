@@ -2,7 +2,7 @@
 namespace Novosga\Auth;
 
 use \Novosga\Util\Arrays;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 
 /**
  * Authentication
@@ -11,7 +11,7 @@ use \Novosga\SGAContext;
  */
 class AuthFactory {
     
-    public static function createList(SGAContext $context, array $config = array()) {
+    public static function createList(Context $context, array $config = array()) {
         $methods = array();
         $type = Arrays::value($config, 'type');
         $auth = self::create($context, $type, $config);
@@ -25,7 +25,7 @@ class AuthFactory {
         return $methods;
     }
     
-    public static function create(SGAContext $context, $type, array $config = array()) {
+    public static function create(Context $context, $type, array $config = array()) {
         $config = Arrays::value($config, $type, array());
         $em = $context->database()->createEntityManager();
         switch ($type) {

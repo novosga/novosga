@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Controller;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Business\AcessoBusiness;
 use \Novosga\Controller\SGAController;
 use \Novosga\Security;
@@ -15,10 +15,10 @@ use \Novosga\Http\AjaxResponse;
  */
 class HomeController extends SGAController {
     
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
     }
     
-    public function unidade(SGAContext $context) {
+    public function unidade(Context $context) {
         $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('unidade');
         try {
@@ -36,7 +36,7 @@ class HomeController extends SGAController {
         $context->response()->jsonResponse($response);
     }
     
-    public function perfil(SGAContext $context) {
+    public function perfil(Context $context) {
         $usuario = $context->getUser();
         $salvo = false;
         // se editando
@@ -64,7 +64,7 @@ class HomeController extends SGAController {
         $this->app()->view()->set('usuario', $usuario);
     }
     
-    public function alterar_senha(SGAContext $context) {
+    public function alterar_senha(Context $context) {
         $response = new AjaxResponse();
         $usuario = $context->getUser();
         try {
@@ -95,7 +95,7 @@ class HomeController extends SGAController {
         $context->response()->jsonResponse($response);
     }
     
-    public function desativar_sessao(SGAContext $context) {
+    public function desativar_sessao(Context $context) {
         $response = new AjaxResponse(true);
         $usuario = $context->getUser();
         $usuario->setAtivo(false);

@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\cargos;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Model\SequencialModel;
 use \Novosga\Model\Cargo;
@@ -22,7 +22,7 @@ class CargosController extends TreeModelController {
         return array('nome', 'descricao');
     }
 
-    protected function preSave(SGAContext $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model) {
         $id_pai = (int) Arrays::value($_POST, 'id_pai', 0);
         $pai = $this->em()->find(get_class($model), $id_pai);
         if ($pai) {
@@ -33,7 +33,7 @@ class CargosController extends TreeModelController {
         }
     }
 
-    protected function postSave(SGAContext $context, SequencialModel $model) {
+    protected function postSave(Context $context, SequencialModel $model) {
         // atualizando permissoes do cargo
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
@@ -53,10 +53,10 @@ class CargosController extends TreeModelController {
 
     /**
      * Deletando vinculos (permissoes e lotacoes)
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function preDelete(SGAContext $context, SequencialModel $model) {
+    protected function preDelete(Context $context, SequencialModel $model) {
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Permissao p WHERE p.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
         $query->execute();
@@ -80,7 +80,7 @@ class CargosController extends TreeModelController {
         return $query;
     }
     
-    public function edit(SGAContext $context, $id = 0) {
+    public function edit(Context $context, $id = 0) {
         parent::edit($context, $id);
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Modulo e WHERE e.status = 1 AND e.tipo = :tipo ORDER BY e.nome");
         $query->setParameter('tipo', \Novosga\Model\Modulo::MODULO_UNIDADE);

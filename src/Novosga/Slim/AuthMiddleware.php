@@ -2,7 +2,7 @@
 namespace Novosga\Slim;
 
 use \Novosga\Model\Modulo;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Slim\Middleware;
 
 /**
@@ -16,7 +16,7 @@ class AuthMiddleware extends Middleware {
     private $context;
     public static $freePages = array('login', 'logout', 'api');
     
-    public function __construct(SGAContext $context) {
+    public function __construct(Context $context) {
         $this->context = $context;
     }
     

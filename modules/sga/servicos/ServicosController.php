@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\servicos;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Model\SequencialModel;
 use \Novosga\Model\Servico;
@@ -24,7 +24,7 @@ class ServicosController extends CrudController {
         return array('nome', 'descricao', 'status');
     }
 
-    protected function preSave(SGAContext $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model) {
         $id_macro = (int) Arrays::value($_POST, 'id_macro');
         $macro = $this->em()->find("Novosga\Model\Servico", $id_macro);
         $model->setMestre($macro);
@@ -50,7 +50,7 @@ class ServicosController extends CrudController {
         return $query;
     }
 
-    public function edit(SGAContext $context, $id = 0) {
+    public function edit(Context $context, $id = 0) {
         parent::edit($context, $id);
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Servico e WHERE e.mestre IS NULL AND e.id != :id ORDER BY e.nome ASC");
         $query->setParameter('id', $this->model->getId());
@@ -61,7 +61,7 @@ class ServicosController extends CrudController {
      * Verifica se já existe unidade usando o serviço.
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function preDelete(SGAContext $context, SequencialModel $model) {
+    protected function preDelete(Context $context, SequencialModel $model) {
         $error = _('Já existem atendimentos para o serviço que está tentando remover');
         // quantidade de atendimentos do servico
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico");
@@ -84,12 +84,12 @@ class ServicosController extends CrudController {
         $query->execute();
     }
     
-    protected function postDelete(SGAContext $context, SequencialModel $model) {
+    protected function postDelete(Context $context, SequencialModel $model) {
         $this->em()->commit();
     }
     
     
-    public function subservicos(SGAContext $context) {
+    public function subservicos(Context $context) {
         $response = new \Novosga\Http\AjaxResponse();
         $id = Arrays::value($_GET, 'id');
         $servico = $this->findById($id);

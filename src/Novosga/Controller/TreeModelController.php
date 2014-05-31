@@ -2,7 +2,7 @@
 namespace Novosga\Controller;
 
 use \Exception;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Model\TreeModel;
 use \Novosga\Model\SequencialModel;
 
@@ -14,7 +14,7 @@ use \Novosga\Model\SequencialModel;
  */
 abstract class TreeModelController extends CrudController {
     
-    public function edit(SGAContext $context, $id = 0) {
+    public function edit(Context $context, $id = 0) {
         parent::edit($context, $id);
         $className = get_class($this->model);
         $query = $this->em()->createQuery("SELECT e FROM $className e WHERE e.id != :id ORDER BY e.left");
@@ -27,7 +27,7 @@ abstract class TreeModelController extends CrudController {
      * Insere ou atualiza a entidade no banco
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function doSave(SGAContext $context, SequencialModel $model) {
+    protected function doSave(Context $context, SequencialModel $model) {
         if (!($model instanceof TreeModel)) {
             throw new Exception(sprintf(_('Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s'), get_class($model)));
         }
@@ -151,7 +151,7 @@ abstract class TreeModelController extends CrudController {
     }
     
     
-    protected function doDelete(SGAContext $context, SequencialModel $model) {
+    protected function doDelete(Context $context, SequencialModel $model) {
         if ($model->getLeft() == 1) {
             throw new Exception(_('Não pode remover a raiz'));
         }

@@ -2,7 +2,7 @@
 namespace Novosga\Business;
 
 use \Exception;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Model\Modulo;
 use \Novosga\Model\Util\UsuarioSessao;
 use \Novosga\Security;
@@ -38,11 +38,11 @@ class AcessoBusiness {
         return Security::passEncode($senha);
     }
     
-    public function isLogged(SGAContext $context) {
+    public function isLogged(Context $context) {
         return $context->getUser() != null;
     }
     
-    public function isValidSession(SGAContext $context) {
+    public function isValidSession(Context $context) {
         $user = $context->getUser();
         if ($user && !$user->isAtivo()) {
             return false;
@@ -55,7 +55,7 @@ class AcessoBusiness {
         return $user->getSessionId() == $rs['sessionId'];
     }
     
-    public function checkAccess(SGAContext $context, $key, $value) {
+    public function checkAccess(Context $context, $key, $value) {
         if (!$this->isValidSession($context)) {
             if ($context->request()->isAjax()) {
                 $response = new \Novosga\Http\AjaxResponse();
@@ -104,7 +104,7 @@ class AcessoBusiness {
         }
     }
     
-    public function modulos(SGAContext $context, UsuarioSessao $usuario, $tipo) {
+    public function modulos(Context $context, UsuarioSessao $usuario, $tipo) {
         if (!empty($this->modulos[$tipo])) {
             return $this->modulos[$tipo];
         }
@@ -132,7 +132,7 @@ class AcessoBusiness {
         return $modulos;
     }
     
-    public function unidades(SGAContext $context, UsuarioSessao $usuario) {
+    public function unidades(Context $context, UsuarioSessao $usuario) {
         if (!empty($this->unidades)) {
             return $this->unidades;
         }

@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\monitor;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Util\DateUtil;
 use \Novosga\Model\Unidade;
@@ -16,7 +16,7 @@ use \Novosga\Business\AtendimentoBusiness;
  */
 class MonitorController extends ModuleController {
 
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         $unidade = $context->getUser()->getUnidade();
         $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
@@ -40,7 +40,7 @@ class MonitorController extends ModuleController {
         return $query->getResult();
     }
     
-    public function ajax_update(SGAContext $context) {
+    public function ajax_update(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
@@ -71,7 +71,7 @@ class MonitorController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function info_senha(SGAContext $context) {
+    public function info_senha(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
@@ -90,9 +90,9 @@ class MonitorController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function buscar(SGAContext $context) {
+    public function buscar(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
@@ -112,9 +112,9 @@ class MonitorController extends ModuleController {
     
     /**
      * Transfere o atendimento para outro serviço e prioridade
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function transferir(SGAContext $context) {
+    public function transferir(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
@@ -156,9 +156,9 @@ class MonitorController extends ModuleController {
     /**
      * Reativa o atendimento para o mesmo serviço e mesma prioridade.
      * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function reativar(SGAContext $context) {
+    public function reativar(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
@@ -193,9 +193,9 @@ class MonitorController extends ModuleController {
     
     /**
      * Atualiza o status da senha para cancelado
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function cancelar(SGAContext $context) {
+    public function cancelar(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {

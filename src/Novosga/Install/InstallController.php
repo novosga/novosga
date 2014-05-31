@@ -9,7 +9,7 @@ use Novosga\Http\AjaxResponse;
 use Novosga\Model\Configuracao;
 use Novosga\Security;
 use Novosga\SGA;
-use Novosga\SGAContext;
+use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Util\Strings;
 
@@ -45,7 +45,7 @@ class InstallController extends InternalController {
         return self::$steps;
     }
 
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         if (NOVOSGA_INSTALLED) {
             $this->app()->redirect($this->request()->getRootUri());
         }
@@ -61,7 +61,7 @@ class InstallController extends InternalController {
         $context->setParameter(self::CURR_STEP, $steps[$index]);
     }
     
-    public function doStep(SGAContext $context, $step) {
+    public function doStep(Context $context, $step) {
         $context->session()->del('error');
         $steps = $this->getSteps();
         $data = array(
@@ -109,10 +109,10 @@ class InstallController extends InternalController {
      * Passo para escolher o banco de dados a ser utilizado
      * na instalação
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step0(SGAContext $context, array &$data) {
+    public function step0(Context $context, array &$data) {
         $currAdapter = $context->session()->get('adapter');
         // desabilita o proximo, para liberar so quando marcar uma opção
         $context->session()->set('error', $currAdapter == null);
@@ -147,10 +147,10 @@ class InstallController extends InternalController {
      * Step 1
      * Passo para verificação de requisitos mínimos para rodar o Novo SGA
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step1(SGAContext $context, array &$data) {
+    public function step1(Context $context, array &$data) {
         $fatal = false;
         $adapter = InstallData::$dbTypes[$context->session()->get('adapter')];
         $driver = $context->session()->get('adapter_driver');
@@ -231,10 +231,10 @@ class InstallController extends InternalController {
      * 
      * Licença do software
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step2(SGAContext $context, &$data) {
+    public function step2(Context $context, &$data) {
         $context->session()->set('error', true);
         $data['license'] = file_get_contents(NOVOSGA_ROOT . '/LICENSE');
     }
@@ -244,10 +244,10 @@ class InstallController extends InternalController {
      * 
      * Informações de conexão ao banco de dados
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step3(SGAContext $context, &$data) {
+    public function step3(Context $context, &$data) {
         $data['data'] = $context->session()->get(InstallData::SESSION_KEY);
         if (!$data['data']) {
             $data['data'] = new InstallData();
@@ -268,10 +268,10 @@ class InstallController extends InternalController {
      * 
      * Informações do usuário administrador
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step4(SGAContext $context, &$data) {
+    public function step4(Context $context, &$data) {
         $session = $context->session();
         $data['data'] = $session->get(InstallData::SESSION_KEY);
         if (!$data['data']) {
@@ -286,15 +286,15 @@ class InstallController extends InternalController {
      * 
      * Licença do software
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step5(SGAContext $context, &$data) {
+    public function step5(Context $context, &$data) {
     }
     
     // post actions
     
-    public function set_adapter(SGAContext $context) {
+    public function set_adapter(Context $context) {
         $context->session()->del('adapter');
         $context->session()->del('adapter_driver');
         $response = new AjaxResponse();
@@ -313,7 +313,7 @@ class InstallController extends InternalController {
         $context->response()->jsonResponse($response);
     }
     
-    public function info(SGAContext $context) {
+    public function info(Context $context) {
         if (!NOVOSGA_INSTALLED) {
             echo SGA::info();
         } else {
@@ -330,7 +330,7 @@ class InstallController extends InternalController {
          return dirname(__FILE__). DS . 'sql' . DS . 'data' . DS . 'default.sql';
     }
     
-    public function test_db(SGAContext $context) {
+    public function test_db(Context $context) {
         if ($context->request()->isPost()) {
             $response = new AjaxResponse(true, _('Banco de Dados testado com sucesso!'));
             $session = $context->session();
@@ -368,7 +368,7 @@ class InstallController extends InternalController {
         $context->response()->jsonResponse($response);
     }
     
-    private function checkMigration(SGAContext $context) {
+    private function checkMigration(Context $context) {
         $data = $context->session()->get(InstallData::SESSION_KEY);
         $db = new DatabaseConfig($data->database);
         $em = $db->createEntityManager();
@@ -376,7 +376,7 @@ class InstallController extends InternalController {
         $context->setParameter('currVersion', $version ? $version->getValor() : "");
     }
     
-    public function set_admin(SGAContext $context) {
+    public function set_admin(Context $context) {
         if ($context->request()->isPost()) {
             $response = new AjaxResponse(true, _('Dados do usuário informados com sucesso'));
             $session = $context->session();
@@ -424,7 +424,7 @@ class InstallController extends InternalController {
         $context->response()->jsonResponse($response);
     }
     
-    public function do_install(SGAContext $context) {
+    public function do_install(Context $context) {
         if ($context->request()->isPost()) {
             $response = new AjaxResponse(true, _('Instalação concluída com sucesso'));
             $conn = null;

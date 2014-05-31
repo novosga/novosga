@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Slim;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 
 /**
  * SlimFramework middleware para verificar
@@ -13,7 +13,7 @@ class InstallMiddleware extends \Slim\Middleware {
     
     private $context;
     
-    public function __construct(SGAContext $context) {
+    public function __construct(Context $context) {
         $this->context = $context;
     }
     

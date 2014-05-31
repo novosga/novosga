@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\grupos;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Model\SequencialModel;
 use \Novosga\Model\Grupo;
@@ -24,7 +24,7 @@ class GruposController extends TreeModelController {
         return array('nome', 'descricao');
     }
 
-    protected function preSave(SGAContext $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model) {
         $id_pai = (int) Arrays::value($_POST, 'id_pai', 0);
         $pai = $this->em()->find(get_class($model), $id_pai);
         if ($pai) {
@@ -39,7 +39,7 @@ class GruposController extends TreeModelController {
         }
     }
     
-    protected function postSave(SGAContext $context, SequencialModel $model) {
+    protected function postSave(Context $context, SequencialModel $model) {
         /* 
          * Se o pai tem unidades vinculadas a ele, é porque esse é o primeiro filho.
          * Então move todas as unidades para esse novo grupo
@@ -95,10 +95,10 @@ class GruposController extends TreeModelController {
     
     /**
      * Verifica se o grupo a ser excluído possui relacionamento com alguma unidade
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function preDelete(SGAContext $context, SequencialModel $model) {
+    protected function preDelete(Context $context, SequencialModel $model) {
         $query = $this->em()->createQuery("
             SELECT 
                 COUNT(e) as total

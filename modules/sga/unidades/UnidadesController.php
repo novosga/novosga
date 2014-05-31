@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\unidades;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Model\SequencialModel;
 use \Novosga\Model\Unidade;
 use \Novosga\Controller\CrudController;
@@ -21,7 +21,7 @@ class UnidadesController extends CrudController {
         return array('codigo', 'nome', 'status');
     }
 
-    protected function preSave(SGAContext $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model) {
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\Unidade e WHERE e.codigo = :codigo AND e.id != :id");
         $query->setParameter('codigo', $model->getCodigo());
         $query->setParameter('id', $model->getId());
@@ -47,7 +47,7 @@ class UnidadesController extends CrudController {
         return $query;
     }
     
-    public function edit(SGAContext $context, $id = 0) {
+    public function edit(Context $context, $id = 0) {
         parent::edit($context, $id);
         $this->app()->view()->set('grupos', $this->getGruposFolhasDisponiveis($this->model));
     }
@@ -78,12 +78,12 @@ class UnidadesController extends CrudController {
     /**
      * Remove a unidade caso a mesma não possua atendimento. Se possuir uma 
      * exceção será lançada.
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      * @param Novosga\Model\SequencialModel $model
      * @throws \Exception
      * @throws \modules\sga\unidades\Exception
      */
-    protected function doDelete(SGAContext $context, SequencialModel $model) {
+    protected function doDelete(Context $context, SequencialModel $model) {
         // verificando se ja tem atendimentos
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\ViewAtendimento e WHERE e.unidade = :unidade");
         $query->setParameter('unidade', $model->getId());

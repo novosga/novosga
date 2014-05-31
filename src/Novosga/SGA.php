@@ -34,7 +34,7 @@ class SGA extends \Slim\Slim {
         $this->view()->set('version', SGA::VERSION);
         $this->view()->set('lang', \Novosga\Util\I18n::lang());
         
-        $this->context = new SGAContext($this, $userSettings['db']);
+        $this->context = new Context($this, $userSettings['db']);
         
         $this->view()->parserExtensions = array(
             new \Slim\Views\TwigExtension(),
@@ -49,7 +49,7 @@ class SGA extends \Slim\Slim {
     }
     
     /**
-     * @return SGAContext
+     * @return Context
      */
     public function getContext() {
         return $this->context;

@@ -2,7 +2,7 @@
 namespace Novosga\Controller;
 
 use \Novosga\SGA;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 
 /**
  * SGA module controller
@@ -25,6 +25,6 @@ abstract class SGAController {
     }
 
 
-    public function index(SGAContext $context) {}
+    public function index(Context $context) {}
     
 }

@@ -13,11 +13,11 @@ use \Novosga\Util\Arrays;
 use \Novosga\Db\DatabaseConfig;
 
 /**
- * SGAContext
+ * Context
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class SGAContext {
+class Context {
     
     private $app;
     private $session;

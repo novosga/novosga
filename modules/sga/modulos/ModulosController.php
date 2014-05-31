@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\modulos;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Model\Modulo;
 use \Novosga\Http\AjaxResponse;
@@ -17,9 +17,9 @@ class ModulosController extends ModuleController {
     
     /**
      * Monta a lista das entidades, podendo filtra-las.
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         $maxResults = 10;
         $page = (int) Arrays::value($_GET, 'p', 0);
         $search = trim(Arrays::value($_GET, 's', ''));
@@ -45,7 +45,7 @@ class ModulosController extends ModuleController {
         return $this->em()->find('Novosga\Model\Modulo', $id);
     }
 
-    public function edit(SGAContext $context, $id = 0) {
+    public function edit(Context $context, $id = 0) {
         $id = (int) $id;
         $modulo = $this->find($id);
         if (!$modulo) {
@@ -56,7 +56,7 @@ class ModulosController extends ModuleController {
         $this->app()->view()->set('javascript', $this->getJs($modulo));
     }
     
-    public function load(SGAContext $context) {
+    public function load(Context $context) {
         $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('id');
         $type = $context->request()->getParameter('type');
@@ -78,7 +78,7 @@ class ModulosController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function save(SGAContext $context) {
+    public function save(Context $context) {
         $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('id');
         $type = $context->request()->getParameter('type');

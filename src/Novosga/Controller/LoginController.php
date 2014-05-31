@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Controller;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Controller\InternalController;
 
@@ -12,7 +12,7 @@ use \Novosga\Controller\InternalController;
  */
 class LoginController extends InternalController {
     
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         if ($this->app()->getAcessoBusiness()->isLogged($context)) {
             if ($this->app()->getAcessoBusiness()->isValidSession($context)) {
                 if ($context->getModulo()) {
@@ -34,7 +34,7 @@ class LoginController extends InternalController {
         }
     }
     
-    public function validate(SGAContext $context) {
+    public function validate(Context $context) {
         $username = Arrays::value($_POST, 'username');
         $password = Arrays::value($_POST, 'password');
         $error = null;

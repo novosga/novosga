@@ -3,7 +3,7 @@ namespace modules\sga\triagem;
 
 use \PDO;
 use \Exception;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Util\DateUtil;
 use \Novosga\Http\AjaxResponse;
@@ -18,7 +18,7 @@ use \Novosga\Business\AtendimentoBusiness;
 class TriagemController extends ModuleController {
 
     
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         $unidade = $context->getUser()->getUnidade();
         $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
@@ -34,7 +34,7 @@ class TriagemController extends ModuleController {
         return $query->getResult();
     }
     
-    public function imprimir(SGAContext $context) {
+    public function imprimir(Context $context) {
         $id = (int) Arrays::value($_GET, 'id');
         $atendimento = $this->em()->find("Novosga\Model\Atendimento", $id);
         if (!$atendimento) {
@@ -45,7 +45,7 @@ class TriagemController extends ModuleController {
         $this->app()->view()->set('data', DateUtil::now("d/m/Y H:i"));
     }
     
-    public function ajax_update(SGAContext $context) {
+    public function ajax_update(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
@@ -85,7 +85,7 @@ class TriagemController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function servico_info(SGAContext $context) {
+    public function servico_info(Context $context) {
         $response = new AjaxResponse();
         if ($context->request()->isPost()) {
             $id = (int) $context->request()->getParameter('id');
@@ -119,7 +119,7 @@ class TriagemController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function distribui_senha(SGAContext $context) {
+    public function distribui_senha(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         $usuario = $context->getUser();
@@ -140,9 +140,9 @@ class TriagemController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function consulta_senha(SGAContext $context) {
+    public function consulta_senha(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {

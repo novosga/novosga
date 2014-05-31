@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\unidade;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Http\AjaxResponse;
 use \Novosga\Controller\ModuleController;
@@ -16,7 +16,7 @@ use \Novosga\Business\AtendimentoBusiness;
  */
 class UnidadeController extends ModuleController {
     
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         $unidade = $context->getUnidade();
         $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
@@ -56,7 +56,7 @@ class UnidadeController extends ModuleController {
         }
     }
     
-    public function update_impressao(SGAContext $context) {
+    public function update_impressao(Context $context) {
         $impressao = (int) Arrays::value($_POST, 'impressao');
         $mensagem = Arrays::value($_POST, 'mensagem', '');
         $unidade = $context->getUser()->getUnidade();
@@ -76,7 +76,7 @@ class UnidadeController extends ModuleController {
         exit();
     }
     
-    private function change_status(SGAContext $context, $status) {
+    private function change_status(Context $context, $status) {
         $servico_id = (int) Arrays::value($_POST, 'id');
         $unidade = $context->getUser()->getUnidade();
         if (!$servico_id || !$unidade) {
@@ -89,19 +89,19 @@ class UnidadeController extends ModuleController {
         return $query->execute();
     }
     
-    public function habilita_servico(SGAContext $context) {
+    public function habilita_servico(Context $context) {
         $response = new AjaxResponse();
         $response->success = $this->change_status($context, 1);
         $context->response()->jsonResponse($response);
     }
     
-    public function desabilita_servico(SGAContext $context) {
+    public function desabilita_servico(Context $context) {
         $response = new AjaxResponse();
         $response->success = $this->change_status($context, 0);
         $context->response()->jsonResponse($response);
     }
     
-    public function update_servico(SGAContext $context) {
+    public function update_servico(Context $context) {
         $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('id');
         try {
@@ -128,7 +128,7 @@ class UnidadeController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function reverte_nome(SGAContext $context) {
+    public function reverte_nome(Context $context) {
         $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('id');
         $servico = $this->em()->find('Novosga\Model\Servico', $id);
@@ -146,7 +146,7 @@ class UnidadeController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function acumular_atendimentos(SGAContext $context) {
+    public function acumular_atendimentos(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {

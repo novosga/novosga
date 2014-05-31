@@ -2,7 +2,7 @@
 namespace modules\sga\admin;
 
 use \Novosga\SGA;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Http\AjaxResponse;
 use \Novosga\Model\Configuracao;
 use \Novosga\Model\Util\Senha;
@@ -24,7 +24,7 @@ class AdminController extends ModuleController {
         $this->numeracoes = array(Senha::NUMERACAO_UNICA => _('Incremental única'), Senha::NUMERACAO_SERVICO => _('Incremental por serviço'));
     }
     
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e ORDER BY e.nome");
         $unidades = $query->getResult();
         // método de autenticação
@@ -65,7 +65,7 @@ class AdminController extends ModuleController {
         $this->app()->view()->set('numeracoes', $this->numeracoes);
     }
     
-    public function auth_save(SGAContext $context) {
+    public function auth_save(Context $context) {
         $response = new AjaxResponse();
         try {
             $auth = Configuracao::get($this->em(), Authentication::KEY);
@@ -91,7 +91,7 @@ class AdminController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function acumular_atendimentos(SGAContext $context) {
+    public function acumular_atendimentos(Context $context) {
         $response = new AjaxResponse();
         try {
             $ab = new AtendimentoBusiness($this->em());
@@ -103,7 +103,7 @@ class AdminController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function change_numeracao(SGAContext $context) {
+    public function change_numeracao(Context $context) {
         $response = new AjaxResponse();
         try {
             $tipo = (int) $context->request()->getParameter('tipo');
@@ -118,7 +118,7 @@ class AdminController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function add_oauth_client(SGAContext $context) {
+    public function add_oauth_client(Context $context) {
         $response = new AjaxResponse();
         if ($context->request()->isPost()) {
             try {
@@ -142,7 +142,7 @@ class AdminController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function get_oauth_client(SGAContext $context) {
+    public function get_oauth_client(Context $context) {
         $response = new AjaxResponse(true);
         $client_id = $context->request()->getParameter('client_id');
         $conn = $this->em()->getConnection();
@@ -153,7 +153,7 @@ class AdminController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function get_all_oauth_client(SGAContext $context) {
+    public function get_all_oauth_client(Context $context) {
         $response = new AjaxResponse(true);
         $conn = $this->em()->getConnection();
         $stmt = $conn->prepare('SELECT client_id, client_secret, redirect_uri FROM oauth_clients ORDER BY client_id');
@@ -162,7 +162,7 @@ class AdminController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function delete_oauth_client(SGAContext $context) {
+    public function delete_oauth_client(Context $context) {
         $response = new AjaxResponse(true);
         $conn = $this->em()->getConnection();
         $client_id = $context->request()->getParameter('client_id');

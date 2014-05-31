@@ -2,7 +2,7 @@
 namespace modules\sga\estatisticas;
 
 use \Novosga\SGA;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Business\AtendimentoBusiness;
 use \Novosga\Model\Modulo;
 use \Novosga\Util\DateUtil;
@@ -41,7 +41,7 @@ class EstatisticasController extends ModuleController {
         );
     }
 
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         $dir = MODULES_DIR . '/' . $context->getModulo()->getChave();
         $context->setParameter('js', array(__DIR__ . '/js/highcharts.js', __DIR__ . '/js/highcharts.exporting.js'));
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
@@ -61,7 +61,7 @@ class EstatisticasController extends ModuleController {
     /**
      * Retorna os gráficos do dia a partir da unidade informada
      */
-    public function today(SGAContext $context) {
+    public function today(Context $context) {
         $response = new AjaxResponse();
         try {
             $ini = DateUtil::now('Y-m-d');
@@ -79,7 +79,7 @@ class EstatisticasController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function grafico(SGAContext $context) {
+    public function grafico(Context $context) {
         $response = new AjaxResponse();
         try {
             $id = (int) $context->request()->getParameter('grafico');
@@ -111,7 +111,7 @@ class EstatisticasController extends ModuleController {
         $context->response()->jsonResponse($response);
     }
     
-    public function relatorio(SGAContext $context) {
+    public function relatorio(Context $context) {
         $id = (int) $context->request()->getParameter('relatorio');
         $dataInicial = $context->request()->getParameter('inicial');
         $dataFinal = $context->request()->getParameter('final');

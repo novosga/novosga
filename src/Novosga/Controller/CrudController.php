@@ -4,7 +4,7 @@ namespace Novosga\Controller;
 use \Exception;
 use \Novosga\Model\SequencialModel;
 use \Novosga\Controller\ModuleController;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Util\Objects;
 use \Doctrine\ORM\Tools\Pagination\Paginator;
@@ -50,9 +50,9 @@ abstract class CrudController extends ModuleController {
     
     /**
      * Monta a lista das entidades, podendo filtra-las.
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         $maxResults = 10;
         $page = (int) Arrays::value($_GET, 'p', 0);
         $search = trim(Arrays::value($_GET, 's', ''));
@@ -70,10 +70,10 @@ abstract class CrudController extends ModuleController {
     
     /**
      * Exibe o formulário de cadastro, tanto novo quanto para alteração
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      * @throws \Exception
      */
-    public function edit(SGAContext $context, $id = 0) {
+    public function edit(Context $context, $id = 0) {
         $id = (int) $id;
         if ($id > 0) { // editando
             $this->model = $this->findById($id);
@@ -133,7 +133,7 @@ abstract class CrudController extends ModuleController {
      * Insere ou atualiza a entidade no banco
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function doSave(SGAContext $context, SequencialModel $model) {
+    protected function doSave(Context $context, SequencialModel $model) {
         $this->preSave($context, $model);
         if ($model->getId() > 0) {
             $this->em()->merge($model);
@@ -144,10 +144,10 @@ abstract class CrudController extends ModuleController {
         $this->postSave($context, $model);
     }
     
-    protected function preSave(SGAContext $context, SequencialModel $model) {}
-    protected function postSave(SGAContext $context, SequencialModel $model) {}
+    protected function preSave(Context $context, SequencialModel $model) {}
+    protected function postSave(Context $context, SequencialModel $model) {}
     
-    public function delete(SGAContext $context) {
+    public function delete(Context $context) {
         $id = (int) Arrays::value($_POST, 'id');
         $model = $this->findById($id);
         if ($model) {
@@ -169,14 +169,14 @@ abstract class CrudController extends ModuleController {
      * Remove a entidade do banco
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function doDelete(SGAContext $context, SequencialModel $model) {
+    protected function doDelete(Context $context, SequencialModel $model) {
         $this->preDelete($context, $model);
         $this->em()->remove($model);
         $this->postDelete($context, $model);
         $this->em()->flush();
     }
     
-    protected function preDelete(SGAContext $context, SequencialModel $model) {}
-    protected function postDelete(SGAContext $context, SequencialModel $model) {}
+    protected function preDelete(Context $context, SequencialModel $model) {}
+    protected function postDelete(Context $context, SequencialModel $model) {}
     
 }

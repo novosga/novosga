@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\prioridades;
 
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Model\Prioridade;
 use \Novosga\Model\SequencialModel;
 use \Novosga\Controller\CrudController;
@@ -27,7 +27,7 @@ class PrioridadesController extends CrudController {
         return $query;
     }
     
-    public function edit(SGAContext $context, $id = 0) {
+    public function edit(Context $context, $id = 0) {
         $this->app()->view()->set('pesos', array(
             0 => _('Normal'), 
             1 => '1', 
@@ -44,14 +44,14 @@ class PrioridadesController extends CrudController {
         parent::edit($context, $id);
     }
     
-    protected function preSave(SGAContext $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model) {
         // nao pode alterar o peso do registro 1 (sem prioridade)
         if ($model->getId() == 1) {
             $model->setPeso(0);
         }
     }
 
-    protected function preDelete(SGAContext $context, SequencialModel $model) {
+    protected function preDelete(Context $context, SequencialModel $model) {
         if ($model->getId() == 1) {
             throw new \Exception(_('Não pode remover essa prioridade'));
         }

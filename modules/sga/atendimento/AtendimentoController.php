@@ -3,7 +3,7 @@ namespace modules\sga\atendimento;
 
 use \Exception;
 use \Novosga\SGA;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Util\DateUtil;
 use \Novosga\Business\AtendimentoBusiness;
@@ -28,7 +28,7 @@ class AtendimentoController extends ModuleController {
         $this->atendimentoBusiness = new AtendimentoBusiness($this->em());
     }
     
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         $usuario = $context->getUser();
         $unidade = $context->getUnidade();
         if (!$usuario || !$unidade) {
@@ -51,7 +51,7 @@ class AtendimentoController extends ModuleController {
         $this->app()->view()->set('tipoAtendimentoCookie', $context->cookie()->get('tipo'));
     }
     
-    public function set_local(SGAContext $context) {
+    public function set_local(Context $context) {
         $numero = (int) Arrays::value($_POST, 'local');
         $tipo = (int) Arrays::value($_POST, 'tipo');
         if ($numero) {
@@ -120,7 +120,7 @@ class AtendimentoController extends ModuleController {
         return $this->_atendimentoAtual;
     }
     
-    public function get_fila(SGAContext $context) {
+    public function get_fila(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
@@ -138,9 +138,9 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Chama ou rechama o próximo da fila
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function chamar(SGAContext $context) {
+    public function chamar(Context $context) {
         $attempts = 0;
         $maxAttempts = 5;
         $proximo = null;
@@ -215,7 +215,7 @@ class AtendimentoController extends ModuleController {
      * @param int $novoStatus
      * @param string $campoData
      */
-    private function mudaStatusAtualResponse(SGAContext $context, $statusAtual, $novoStatus, $campoData) {
+    private function mudaStatusAtualResponse(Context $context, $statusAtual, $novoStatus, $campoData) {
         $usuario = $context->getUser();
         if (!$usuario) {
             $this->app()->gotoHome();
@@ -271,33 +271,33 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Inicia o atendimento com o proximo da fila
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function iniciar(SGAContext $context) {
+    public function iniciar(Context $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::ATENDIMENTO_INICIADO, 'dataInicio');
     }
     
     /**
      * Marca o atendimento como nao compareceu
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function nao_compareceu(SGAContext $context) {
+    public function nao_compareceu(Context $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::CHAMADO_PELA_MESA, AtendimentoBusiness::NAO_COMPARECEU, 'dataFim');
     }
     
     /**
      * Marca o atendimento como encerrado
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function encerrar(SGAContext $context) {
+    public function encerrar(Context $context) {
         $this->mudaStatusAtualResponse($context, AtendimentoBusiness::ATENDIMENTO_INICIADO, AtendimentoBusiness::ATENDIMENTO_ENCERRADO, null);
     }
     
     /**
      * Marca o atendimento como encerrado e codificado
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function codificar(SGAContext $context) {
+    public function codificar(Context $context) {
         $unidade = $context->getUnidade();
         $response = new AjaxResponse(false);
         try {
@@ -350,9 +350,9 @@ class AtendimentoController extends ModuleController {
     /**
      * Marca o atendimento como erro de triagem. E gera um novo atendimento para
      * o servico informado.
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function redirecionar(SGAContext $context) {
+    public function redirecionar(Context $context) {
         $unidade = $context->getUnidade();
         $response = new AjaxResponse(false);
         try {
@@ -409,7 +409,7 @@ class AtendimentoController extends ModuleController {
         return $stmt->execute();
     }
     
-    public function info_senha(SGAContext $context) {
+    public function info_senha(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
@@ -427,9 +427,9 @@ class AtendimentoController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function consulta_senha(SGAContext $context) {
+    public function consulta_senha(Context $context) {
         $response = new AjaxResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {

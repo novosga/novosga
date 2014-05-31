@@ -2,7 +2,7 @@
 namespace modules\sga\usuarios;
 
 use \Exception;
-use \Novosga\SGAContext;
+use \Novosga\Context;
 use \Novosga\Util\Arrays;
 use \Novosga\Http\AjaxResponse;
 use \Novosga\Model\SequencialModel;
@@ -24,7 +24,7 @@ class UsuariosController extends CrudController {
         return array('login', 'nome', 'sobrenome');
     }
     
-    public function edit(SGAContext $context, $id = 0) {
+    public function edit(Context $context, $id = 0) {
         parent::edit($context, $id);
         // lotacoes do usuario
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Lotacao e JOIN e.cargo c JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
@@ -62,7 +62,7 @@ class UsuariosController extends CrudController {
         $this->app()->view()->set('cargos', $query->getResult());
     }
     
-    protected function preSave(SGAContext $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model) {
         $login = Arrays::value($_POST, 'login');
         if (!preg_match('/^[a-zA-Z0-9\.]+$/', $login)) {
             throw new Exception(_('O login deve conter somente letras e números.'));
@@ -95,7 +95,7 @@ class UsuariosController extends CrudController {
         }
     }
     
-    protected function postSave(SGAContext $context, SequencialModel $model) {
+    protected function postSave(Context $context, SequencialModel $model) {
         $conn = $this->em()->getConnection();
         // lotacoes - atualizando permissoes do cargo
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Lotacao e WHERE e.usuario = :usuario");
@@ -129,7 +129,7 @@ class UsuariosController extends CrudController {
         }
     }
     
-    protected function preDelete(SGAContext $context, SequencialModel $model) {
+    protected function preDelete(Context $context, SequencialModel $model) {
         if ($context->getUser()->getId() === $model->getId()) {
             throw new \Exception(_('Não é possível excluir si próprio.'));
         }
@@ -192,9 +192,9 @@ class UsuariosController extends CrudController {
     
     /**
      * Retorna os grupos disponíveis para serem atribuidos ao usuário. Descartando os grupos com ids informados no parâmetro exceto.
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function grupos(SGAContext $context) {
+    public function grupos(Context $context) {
         $exceto = $context->request()->getParameter('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
         $response = new AjaxResponse(true);
@@ -207,9 +207,9 @@ class UsuariosController extends CrudController {
 
     /**
      * Retorna as permissões do cargo informado
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function permissoes_cargo(SGAContext $context) {
+    public function permissoes_cargo(Context $context) {
         $response = new AjaxResponse(true);
         $id = (int) $context->request()->getParameter('cargo');
         $query = $this->em()->createQuery("SELECT m.nome FROM Novosga\Model\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
@@ -220,9 +220,9 @@ class UsuariosController extends CrudController {
 
     /**
      * Retorna os serviços habilitados na unidade informada. Descartando os serviços com ids informados no parâmetro exceto
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function servicos_unidade(SGAContext $context) {
+    public function servicos_unidade(Context $context) {
         $response = new AjaxResponse(true);
         $id = (int) $context->request()->getParameter('unidade');
         $exceto = $context->request()->getParameter('exceto');
@@ -249,9 +249,9 @@ class UsuariosController extends CrudController {
     
     /**
      * Altera a senha do usuario que está sendo editado
-     * @param Novosga\SGAContext $context
+     * @param Novosga\Context $context
      */
-    public function alterar_senha(SGAContext $context) {
+    public function alterar_senha(Context $context) {
         $response = new AjaxResponse();
         $id = (int) $context->request()->getParameter('id');
         $senha = $context->request()->getParameter('senha');
