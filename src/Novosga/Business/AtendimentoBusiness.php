@@ -144,6 +144,8 @@ class AtendimentoBusiness extends ModelBusiness {
             if ($unidade > 0) {
                 $sql .= " AND unidade_id = :unidade";
             }
+            // delete decrescente devido a multiplos redirecionamentos  #136
+            $sql .= "  ORDER BY id DESC"; 
             $query = $conn->prepare($sql);
             $query->bindValue('data', $data, PDO::PARAM_STR);
             if ($unidade > 0) {

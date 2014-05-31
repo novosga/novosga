@@ -26,6 +26,7 @@ SGA.Unidade = {
             if (confirm(alert)) {
                 SGA.ajax({
                     url: SGA.url('acumular_atendimentos'),
+                    type: 'post',
                     success: function(response) {
                         SGA.dialogs.modal("#dialog-reiniciar");
                     }
