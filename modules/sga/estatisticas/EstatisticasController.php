@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\estatisticas;
 
-use Novosga\SGA;
+use Novosga\App;
 use Novosga\Context;
 use Novosga\Business\AtendimentoBusiness;
 use Novosga\Model\Modulo;
@@ -22,7 +22,7 @@ class EstatisticasController extends ModuleController {
     private $graficos;
     private $relatorios;
     
-    public function __construct(SGA $app, Modulo $modulo) {
+    public function __construct(App $app, Modulo $modulo) {
         parent::__construct($app, $modulo);
         $this->graficos = array(
             1 => new Grafico(_('Atendimentos por status'), 'pie', 'unidade,date'),

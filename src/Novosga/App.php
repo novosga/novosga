@@ -4,11 +4,11 @@ namespace Novosga;
 use Novosga\Business\AcessoBusiness;
 
 /**
- * SGA Slim Framework App
+ * Novo SGA App
  * 
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class SGA extends \Slim\Slim {
+class App extends \Slim\Slim {
     
     const VERSION = "1.1.4";
     const CHARSET = "utf-8";
@@ -31,7 +31,7 @@ class SGA extends \Slim\Slim {
         }
         parent::__construct($userSettings);
         
-        $this->view()->set('version', SGA::VERSION);
+        $this->view()->set('version', App::VERSION);
         $this->view()->set('lang', \Novosga\Util\I18n::lang());
         
         $this->context = new Context($this, $userSettings['db']);

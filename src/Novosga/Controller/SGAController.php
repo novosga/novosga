@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Controller;
 
-use Novosga\SGA;
+use Novosga\App;
 use Novosga\Context;
 
 /**
@@ -13,7 +13,7 @@ abstract class SGAController {
     
     private $app;
     
-    public function __construct(SGA $app) {
+    public function __construct(App $app) {
         $this->app = $app;
     }
     

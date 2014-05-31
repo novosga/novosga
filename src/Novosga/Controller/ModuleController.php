@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Controller;
 
-use Novosga\SGA;
+use Novosga\App;
 use Novosga\Model\Modulo;
 use Novosga\Controller\SGAController;
 
@@ -15,7 +15,7 @@ abstract class ModuleController extends SGAController {
     protected $title;
     protected $subtitle;
     
-    public function __construct(SGA $app, Modulo $modulo) {
+    public function __construct(App $app, Modulo $modulo) {
         parent::__construct($app);
         $this->title = _($modulo->getNome());
         $this->subtitle = _($modulo->getDescricao());

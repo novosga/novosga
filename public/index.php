@@ -1,9 +1,9 @@
 <?php
 require_once  '../bootstrap.php';
 
-use \Novosga\SGA;
+use \Novosga\App;
 
-$app = new SGA(array(
+$app = new App(array(
     'debug' => NOVOSGA_DEV,
     'cache' => NOVOSGA_CACHE,
     'templates.path' => NOVOSGA_TEMPLATES,

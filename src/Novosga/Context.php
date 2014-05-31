@@ -1,7 +1,7 @@
 <?php
 namespace Novosga;
 
-use Novosga\SGA;
+use Novosga\App;
 use Novosga\Http\Session;
 use Novosga\Http\Cookie;
 use Novosga\Http\Request;
@@ -28,7 +28,7 @@ class Context {
     private $database;
     private $parameters = array();
     
-    public function __construct(SGA $app, DatabaseConfig $database) {
+    public function __construct(App $app, DatabaseConfig $database) {
         $this->app = $app;
         $this->session = new Session();
         $this->cookie = new Cookie();
@@ -84,7 +84,7 @@ class Context {
      */
     public function getUser() {
         if ($this->user == null) {
-            $this->user = $this->session()->getGlobal(SGA::K_CURRENT_USER);
+            $this->user = $this->session()->getGlobal(App::K_CURRENT_USER);
             if ($this->user) {
                 $this->user->setEm($this->database()->createEntityManager());
             }
@@ -94,7 +94,7 @@ class Context {
 
     public function setUser(UsuarioSessao $user = null) {
         $this->user = $user;
-        $this->session()->setGlobal(SGA::K_CURRENT_USER, $user);
+        $this->session()->setGlobal(App::K_CURRENT_USER, $user);
     }
 
     /**

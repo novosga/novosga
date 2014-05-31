@@ -8,7 +8,7 @@ use Novosga\Db\DatabaseConfig;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Configuracao;
 use Novosga\Security;
-use Novosga\SGA;
+use Novosga\App;
 use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Util\Strings;
@@ -50,7 +50,7 @@ class InstallController extends InternalController {
             $this->app()->redirect($this->request()->getRootUri());
         }
         $steps = $this->getSteps();
-        $index = (int) $context->request()->get(SGA::K_INSTALL);
+        $index = (int) $context->request()->get(App::K_INSTALL);
         // após o step 3 (banco de dados) verifica se já tem uma versão do sga instalada
         if ($index == 4) {
             $this->checkMigration($context);
@@ -116,7 +116,7 @@ class InstallController extends InternalController {
         $currAdapter = $context->session()->get('adapter');
         // desabilita o proximo, para liberar so quando marcar uma opção
         $context->session()->set('error', $currAdapter == null);
-        $data['version'] = SGA::VERSION;
+        $data['version'] = App::VERSION;
         $scriptHeader = function($file) {
             $header = array();
             $lines = file($file);
@@ -315,7 +315,7 @@ class InstallController extends InternalController {
     
     public function info(Context $context) {
         if (!NOVOSGA_INSTALLED) {
-            echo SGA::info();
+            echo App::info();
         } else {
             echo _('Por questões de segurança as informações sobre o ambiente são desabilitadas após a instalação.');
         }
@@ -453,7 +453,7 @@ class InstallController extends InternalController {
                 $version = Configuracao::get($em, 'version');
                 // atualizando/migrando
                 if ($version) {
-                    $scripts = self::migrationScripts($version->getValor(), SGA::VERSION);
+                    $scripts = self::migrationScripts($version->getValor(), App::VERSION);
                     foreach ($scripts as $sql) {
                         if (!is_readable($sql)) {
                             $msg = _('Script SQL de instalação não encontrado (%s)');
@@ -490,7 +490,7 @@ class InstallController extends InternalController {
                 //$conn->commit();
 
                 // atualiza versao no banco
-                Configuracao::set($em, 'version', SGA::VERSION);
+                Configuracao::set($em, 'version', App::VERSION);
                 
                 // atualizando arquivo de configuracao
                 self::createDatabseConfig($configFile, $data->database);

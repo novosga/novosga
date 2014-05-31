@@ -2,7 +2,7 @@
 namespace modules\sga\atendimento;
 
 use Exception;
-use Novosga\SGA;
+use Novosga\App;
 use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Util\DateUtil;
@@ -23,7 +23,7 @@ class AtendimentoController extends ModuleController {
     private $_atendimentoAtual;
     private $atendimentoBusiness;
     
-    public function __construct(SGA $app, Modulo $modulo) {
+    public function __construct(App $app, Modulo $modulo) {
         parent::__construct($app, $modulo);
         $this->atendimentoBusiness = new AtendimentoBusiness($this->em());
     }

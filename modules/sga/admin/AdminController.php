@@ -1,7 +1,7 @@
 <?php
 namespace modules\sga\admin;
 
-use Novosga\SGA;
+use Novosga\App;
 use Novosga\Context;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Configuracao;
@@ -19,7 +19,7 @@ class AdminController extends ModuleController {
     
     private $numeracoes;
     
-    public function __construct(SGA $app, Modulo $modulo) {
+    public function __construct(App $app, Modulo $modulo) {
         parent::__construct($app, $modulo);
         $this->numeracoes = array(Senha::NUMERACAO_UNICA => _('Incremental única'), Senha::NUMERACAO_SERVICO => _('Incremental por serviço'));
     }
