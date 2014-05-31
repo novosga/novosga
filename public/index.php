@@ -138,7 +138,9 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
  * @param type $file
  */
 function showModuleResource($moduleKey, $dir, $file) {
-   $filename = MODULES_PATH . DS . join(DS, explode(".", $moduleKey)) . DS . $dir . DS . $file;
+   $filename = join(DS, array(
+        MODULES_PATH, join(DS, explode(".", $moduleKey)), 'public', $dir, $file)
+    );
    if (file_exists($filename)) {
         switch ($dir) {
             case 'images':
