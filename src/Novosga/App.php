@@ -38,10 +38,12 @@ class App extends \Slim\Slim {
         
         $this->view()->parserExtensions = array(
             new \Slim\Views\TwigExtension(),
-            new \Twig_Extensions_Extension_I18n(),
-            new \Twig_Extension_Debug()
+            new \Twig_Extensions_Extension_I18n()
         );
-
+        if ($userSettings['debug']) {
+            $this->view()->parserExtensions[] = new \Twig_Extension_Debug();
+        }
+        
         $this->add(new \Novosga\Slim\InstallMiddleware($this->getContext()));
         $this->add(new \Novosga\Slim\AuthMiddleware($this->getContext()));
         
