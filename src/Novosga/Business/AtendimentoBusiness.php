@@ -45,23 +45,30 @@ class AtendimentoBusiness extends ModelBusiness {
         return $arr[$status];
     }
     
+    /**
+     * Adiciona uma nova senha na fila de chamada do painel de senhas
+     * @param \Novosga\Model\Unidade $unidade
+     * @param \Novosga\Model\Atendimento $atendimento
+     */
     public function chamarSenha(Unidade $unidade, Atendimento $atendimento) {
-        $conn = $this->em->getConnection();
-    	$stmt = $conn->prepare("
-            INSERT INTO painel_senha 
-            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, local, num_local, peso) 
-            VALUES 
-            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :local, :num_local, :peso)
-        ");
-        $stmt->bindValue('unidade_id', $unidade->getId());
-        $stmt->bindValue('servico_id', $atendimento->getServicoUnidade()->getServico()->getId());
-        $stmt->bindValue('num_senha', $atendimento->getSenha()->getNumero());
-        $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
-        $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
-        $stmt->bindValue('local', $atendimento->getServicoUnidade()->getLocal()->getNome());
-        $stmt->bindValue('num_local', $atendimento->getLocal());
-        $stmt->bindValue('peso', $atendimento->getSenha()->getPrioridade()->getPeso());
-        $stmt->execute();
+        $senha = new \Novosga\Model\PainelSenha();
+        $senha->setUnidade($unidade);
+        $senha->setServico($atendimento->getServicoUnidade()->getServico());
+        $senha->setNumeroSenha($atendimento->getSenha()->getNumero());
+        $senha->setSiglaSenha($atendimento->getSenha()->getSigla());
+        $senha->setMensagem($atendimento->getSenha()->getLegenda());
+        // local
+        $senha->setLocal($atendimento->getServicoUnidade()->getLocal()->getNome());
+        $senha->setNumeroLocal($atendimento->getLocal());
+        // prioridade
+        $senha->setPeso($atendimento->getSenha()->getPrioridade()->getPeso());
+        $senha->setPrioridade($atendimento->getSenha()->getPrioridade()->getNome());
+        // cliente
+        $senha->setNomeCliente($atendimento->getCliente()->getNome());
+        $senha->setDocumentoCliente($atendimento->getCliente()->getDocumento());
+        
+        $this->em->persist($senha);
+        $this->em->flush();
     }
 
     /**

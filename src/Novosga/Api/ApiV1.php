@@ -144,6 +144,7 @@ class ApiV1 extends Api {
             SELECT 
                 e.id, e.siglaSenha as sigla, e.mensagem, e.numeroSenha as numero, 
                 e.local, e.numeroLocal as numeroLocal, e.peso, s.nome as servico,
+                e.prioridade, e.nomeCliente, e.documentoCliente,
                 $length as length
             FROM
                 Novosga\Model\PainelSenha e

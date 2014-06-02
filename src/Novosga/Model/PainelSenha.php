@@ -15,29 +15,57 @@ namespace Novosga\Model;
      * @JoinColumn(name="servico_id", referencedColumnName="id", nullable=false)
      */
     protected $servico;
+    
     /**
      * @ManyToOne(targetEntity="Unidade")
      * @JoinColumn(name="unidade_id", referencedColumnName="id", nullable=false)
      */
     protected $unidade;
     
-    /** @Column(type="integer", name="num_senha", nullable=false) */
+    /** 
+     * @Column(type="integer", name="num_senha", nullable=false) 
+     */
     protected $numeroSenha;
     
-    /** @Column(type="string", name="sig_senha", length=1, nullable=false) */
+    /** 
+     * @Column(type="string", name="sig_senha", length=1, nullable=false) 
+     */
     protected $siglaSenha;
     
-    /** @Column(type="string", name="msg_senha", length=20, nullable=false) */
+    /** 
+     * @Column(type="string", name="msg_senha", length=20, nullable=false) 
+     */
     protected $mensagem;
     
-    /** @Column(type="string", name="local", length=15, nullable=false) */
+    /** 
+     * @Column(type="string", name="local", length=15, nullable=false) 
+     */
     protected $local;
     
-    /** @Column(type="smallint", name="num_local", nullable=false) */
+    /** 
+     * @Column(type="smallint", name="num_local", nullable=false) 
+     */
     protected $numeroLocal;
     
-    /** @Column(type="smallint", name="peso", nullable=false) */
+    /** 
+     * @Column(type="smallint", name="peso", nullable=false) 
+     */
     protected $peso;
+    
+    /** 
+     * @Column(type="string", name="prioridade", length=100, nullable=true) 
+     */
+    protected $prioridade;
+    
+    /** 
+     * @Column(type="string", name="nome_cliente", length=100, nullable=true) 
+     */
+    protected $nomeCliente;
+    
+    /** 
+     * @Column(type="string", name="documento_cliente", length=30, nullable=true) 
+     */
+    protected $documentoCliente;
     
     
     public function getServico() {
@@ -103,14 +131,41 @@ namespace Novosga\Model;
     public function setPeso($peso) {
         $this->peso = $peso;
     }
+    
+    public function getPrioridade() {
+        return $this->prioridade;
+    }
 
+    public function getNomeCliente() {
+        return $this->nomeCliente;
+    }
+
+    public function getDocumentoCliente() {
+        return $this->documentoCliente;
+    }
+
+    public function setPrioridade($prioridade) {
+        $this->prioridade = $prioridade;
+    }
+
+    public function setNomeCliente($nomeCliente) {
+        $this->nomeCliente = $nomeCliente;
+    }
+
+    public function setDocumentoCliente($documentoCliente) {
+        $this->documentoCliente = $documentoCliente;
+    }
+        
     public function toArray() {
         return array(
             'id' => $this->getId(),
             'senha' => $this->getSiglaSenha() . str_pad($this->getNumeroSenha(), 3, '0', STR_PAD_LEFT),
             'local' => $this->getLocal(),
             'numeroLocal' => $this->getNumeroLocal(),
-            'peso' => $this->getPeso()
+            'peso' => $this->getPeso(),
+            'prioridade' => $this->getPrioridade(),
+            'nomeCliente' => $this->getNomeCliente(),
+            'documentoCliente' => $this->getDocumentoCliente()
         );
     }
 
