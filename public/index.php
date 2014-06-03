@@ -52,7 +52,10 @@ $app->post('/install/:action', function($action) use ($app) {
     $controller = new \Novosga\Install\InstallController();
     $ref = new \ReflectionMethod($controller, $action);
     if ($ref->isPublic()) {
-        $ref->invokeArgs($controller, array($app->getContext()));
+        $response = $ref->invokeArgs($controller, array($app->getContext()));
+        if ($response && $response instanceof \Novosga\Http\JsonResponse) {
+            echo $response->toJson();
+        }
     }
 });
 
