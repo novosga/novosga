@@ -161,6 +161,14 @@ $app->post('/distribui', function() use ($app, $api, $server, $em) {
     echo json_encode($data);
 });
 
+/*
+ * Check extra route from configuration file
+ */
+$config = new Novosga\Config\ApiConfig();
+foreach ($config->routes() as $pattern => $callable) {
+    $app->any($pattern, $callable);
+}
+
 // response
 
 header("Access-Control-Allow-Origin: *");

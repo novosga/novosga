@@ -4,7 +4,7 @@ namespace Novosga\Install;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use Novosga\Controller\InternalController;
-use Novosga\Db\DatabaseConfig;
+use Novosga\Config\DatabaseConfig;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Configuracao;
 use Novosga\Security;
@@ -278,7 +278,7 @@ class InstallController extends InternalController {
             $data['data'] = new InstallData();
             $session->set(InstallData::SESSION_KEY, $data['data']);
         }
-        $data['currVersion'] = $context->get('currVersion');
+        $data['currVersion'] = $context->getParameter('currVersion');
     }
     
     /**

@@ -1,0 +1,24 @@
+<?php
+namespace Novosga\Config;
+
+/**
+ * Api configuration file
+ * 
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
+class ApiConfig extends ConfigFile {
+    
+    
+    public function name() {
+        return 'api.php';
+    }
+    
+    /**
+     * Extra route configuration
+     * @return array
+     */
+    public function routes() {
+        return \Novosga\Util\Arrays::value($this->values(), 'routes', array());
+    }
+
+}
