@@ -23,7 +23,7 @@ abstract class ConfigFile {
     public abstract function name();
 
     public function load() {
-        $filename = NOVOSGA_ROOT . '/config/' . $this->name();
+        $filename = NOVOSGA_CONFIG . DS . $this->name();
         if (file_exists($filename)) {
             $this->data = require $filename;
         }
