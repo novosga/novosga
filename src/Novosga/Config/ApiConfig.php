@@ -14,11 +14,19 @@ class ApiConfig extends ConfigFile {
     }
     
     /**
+     * Extra  configuration
+     * @return array
+     */
+    public function extra() {
+        return \Novosga\Util\Arrays::value($this->values(), 'extra', array());
+    }
+    
+    /**
      * Extra route configuration
      * @return array
      */
     public function routes() {
-        return \Novosga\Util\Arrays::value($this->values(), 'routes', array());
+        return \Novosga\Util\Arrays::value($this->extra(), 'routes', array());
     }
 
 }
