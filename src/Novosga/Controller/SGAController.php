@@ -18,7 +18,7 @@ abstract class SGAController {
     }
     
     /**
-     * @return SGA
+     * @return App
      */
     public final function app() {
         return $this->app;
