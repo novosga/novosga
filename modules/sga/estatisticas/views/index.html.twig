@@ -49,11 +49,11 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group required option date" style="display:none">
+                <div class="form-group required option date date-range" style="display:none">
                     <label for="chart-dataInicial">{% trans %}Data inicial{% endtrans %}</label>
                     <input id="chart-dataInicial" name="inicial" type="text" class="form-control datepicker" value="{{ now }}" />
                 </div>
-                <div class="form-group required option date" style="display:none">
+                <div class="form-group required option date-range" style="display:none">
                     <label for="chart-dataFinal">{% trans %}Data final{% endtrans %}</label>
                     <input id="chart-dataFinal" name="final" type="text" class="form-control datepicker" value="{{ now }}" />
                 </div>
@@ -87,11 +87,11 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="form-group required option date" style="display:none">
+                <div class="form-group required option date date-range" style="display:none">
                     <label for="report-dataInicial">{% trans %}Data inicial{% endtrans %}</label>
                     <input id="report-dataInicial" type="text" class="form-control datepicker" value="{{ now }}" />
                 </div>
-                <div class="form-group required option date" style="display:none">
+                <div class="form-group required option date-range" style="display:none">
                     <label for="report-dataFinal">{% trans %}Data final{% endtrans %}</label>
                     <input id="report-dataFinal" type="text" class="form-control datepicker" value="{{ now }}" />
                 </div>
