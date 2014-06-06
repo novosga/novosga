@@ -1,6 +1,7 @@
 <?php
 namespace modules\sga\estatisticas;
 
+use Exception;
 use Novosga\App;
 use Novosga\Context;
 use Novosga\Business\AtendimentoBusiness;
@@ -25,17 +26,17 @@ class EstatisticasController extends ModuleController {
     public function __construct(App $app, Modulo $modulo) {
         parent::__construct($app, $modulo);
         $this->graficos = array(
-            1 => new Grafico(_('Atendimentos por status'), 'pie', 'unidade,date'),
-            2 => new Grafico(_('Atendimentos por serviço'), 'pie', 'unidade,date'),
-            3 => new Grafico(_('Tempo médio do atendimento'), 'bar', 'unidade,date')
+            1 => new Grafico(_('Atendimentos por status'), 'pie', 'unidade,date-range'),
+            2 => new Grafico(_('Atendimentos por serviço'), 'pie', 'unidade,date-range'),
+            3 => new Grafico(_('Tempo médio do atendimento'), 'bar', 'unidade,date-range')
         );
         $this->relatorios = array(
             1 => new Relatorio(_('Serviços Disponíveis - Global'), 'servicos_disponiveis_global'),
             2 => new Relatorio(_('Serviços Disponíveis - Unidade'), 'servicos_disponiveis_unidades', 'unidade'),
-            3 => new Relatorio(_('Serviços codificados'), 'servicos_codificados', 'unidade,date'),
-            4 => new Relatorio(_('Atendimentos concluídos'), 'atendimentos_concluidos', 'unidade,date'),
-            5 => new Relatorio(_('Atendimentos em todos os status'), 'atendimentos_status', 'unidade,date'),
-            6 => new Relatorio(_('Tempos médios por Atendente'), 'tempo_medio_atendentes', 'date'),
+            3 => new Relatorio(_('Serviços codificados'), 'servicos_codificados', 'unidade,date-range'),
+            4 => new Relatorio(_('Atendimentos concluídos'), 'atendimentos_concluidos', 'unidade,date-range'),
+            5 => new Relatorio(_('Atendimentos em todos os status'), 'atendimentos_status', 'unidade,date-range'),
+            6 => new Relatorio(_('Tempos médios por Atendente'), 'tempo_medio_atendentes', 'date-range'),
             7 => new Relatorio(_('Lotações'), 'lotacoes', 'unidade'),
             8 => new Relatorio(_('Cargos'), 'cargos'),
         );
@@ -524,5 +525,5 @@ class EstatisticasController extends ModuleController {
         }
         return $dados;
     }
-
+    
 }
