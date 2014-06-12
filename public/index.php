@@ -117,10 +117,11 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     $ctrlClass = '\\' . $namespace . '\\' . $ctrlClass;
     $ctrl = new $ctrlClass($app, $module);
     
-    $app->view()->twigTemplateDirs = array(
-        NOVOSGA_TEMPLATES,
-        MODULES_PATH . "/{$tokens[0]}/{$tokens[1]}/views"
-    );
+    $moduleDir = MODULES_PATH . "/{$tokens[0]}/{$tokens[1]}";
+    // module locale
+    \Novosga\Util\I18n::bindDomain($moduleKey, "$moduleDir/locales");
+    // module views
+    $app->view()->twigTemplateDirs = array(NOVOSGA_TEMPLATES, "$moduleDir/views");
     $app->view()->set('module', $module);
     
     // controller action
