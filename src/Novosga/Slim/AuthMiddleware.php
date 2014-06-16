@@ -29,26 +29,25 @@ class AuthMiddleware extends Middleware {
             }
             if (!in_array($uri, self::$freePages)) {
                 $user = $this->context->getUser();
-                $logged = $user != null;
-                if (!$logged) {
-                    $this->app->redirect($req->getRootUri() . '/login');
-                }
                 if ($user) {
                     // verifica se ha outra pessoa usando o mesmo usuario
                     if ($user->getSessionId() != session_id()) {
-                        $this->app->redirect($req->getRootUri() . '/logout');
+                        $this->app->response->redirect($req->getRootUri() . '/logout');
+                    } else {
+                        $unidade = $user->getUnidade();
+                        $acessoBusiness = $this->context->app()->getAcessoBusiness();
+                        // modulos globais
+                        $this->app->view()->set('modulosGlobal', $acessoBusiness->modulos($this->context, $user, Modulo::MODULO_GLOBAL));
+                        // modulos unidades
+                        if ($unidade) {
+                            $this->app->view()->set('modulosUnidade', $acessoBusiness->modulos($this->context, $user, Modulo::MODULO_UNIDADE));
+                        }
+                        $this->app->view()->set('unidades', $acessoBusiness->unidades($this->context, $user));
+                        $this->app->view()->set('unidade', $unidade);
+                        $this->app->view()->set('usuario', $user);
                     }
-                    $unidade = $user->getUnidade();
-                    $acessoBusiness = $this->context->app()->getAcessoBusiness();
-                    // modulos globais
-                    $this->app->view()->set('modulosGlobal', $acessoBusiness->modulos($this->context, $user, Modulo::MODULO_GLOBAL));
-                    // modulos unidades
-                    if ($unidade) {
-                        $this->app->view()->set('modulosUnidade', $acessoBusiness->modulos($this->context, $user, Modulo::MODULO_UNIDADE));
-                    }
-                    $this->app->view()->set('unidades', $acessoBusiness->unidades($this->context, $user));
-                    $this->app->view()->set('unidade', $unidade);
-                    $this->app->view()->set('usuario', $user);
+                } else {
+                    $this->app->response->redirect($req->getRootUri() . '/login');
                 }
             }
         }

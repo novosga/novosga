@@ -14,7 +14,6 @@ use Novosga\Model\Atendimento;
 use Novosga\Model\Modulo;
 use Novosga\Model\Util\UsuarioSessao;
 use Novosga\Http\JsonResponse;
-use Novosga\Model\Modulo;
 
 /**
  * AtendimentoController
