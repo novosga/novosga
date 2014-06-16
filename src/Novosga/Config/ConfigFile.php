@@ -21,9 +21,13 @@ abstract class ConfigFile {
     }
     
     public abstract function name();
+    
+    public final function filename() {
+        return NOVOSGA_CONFIG . DS . $this->name();
+    }
 
     public function load() {
-        $filename = NOVOSGA_CONFIG . DS . $this->name();
+        $filename = $this->filename();
         if (file_exists($filename)) {
             $this->data = require $filename;
         }
@@ -39,6 +43,16 @@ abstract class ConfigFile {
     
     public function values() {
         return $this->data;
+    }
+    
+    public function save() {
+        $filename = $this->filename();
+        // verifica se será possível escrever a configuração no arquivo de configuracao
+        if (file_exists($filename) && !is_writable($filename)) {
+            throw new Exception(sprintf(_('Arquivo de configuação (%s) somente leitura'), $this->filename));
+        }
+        $arr = Arrays::toString($this->data);
+        file_put_contents($filename, "<?php\nreturn $arr;");
     }
     
 }

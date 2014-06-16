@@ -1,14 +1,17 @@
 <?php
 namespace modules\sga\atendimento;
 
+use DateTime;
 use Exception;
 use Novosga\App;
 use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Util\DateUtil;
 use Novosga\Business\AtendimentoBusiness;
+use Novosga\Business\FilaBusiness;
 use Novosga\Controller\ModuleController;
 use Novosga\Model\Atendimento;
+use Novosga\Model\Modulo;
 use Novosga\Model\Util\UsuarioSessao;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Modulo;
@@ -74,30 +77,13 @@ class AtendimentoController extends ModuleController {
         if (empty($ids)) {
             $ids[] = 0;
         }
-        $cond = '';
-        if ($usuario->getTipoAtendimento() != UsuarioSessao::ATEND_TODOS) {
-            $s = ($usuario->getTipoAtendimento() == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
-            $cond = " AND p.peso $s 0";
-        }
-        $query = $this->em()->createQuery("
-            SELECT 
-                e 
-            FROM 
-                Novosga\Model\Atendimento e 
-                JOIN e.prioridadeSenha p
-                JOIN e.servicoUnidade su 
-                JOIN su.servico s 
-            WHERE 
-                e.status = :status AND
-                su.unidade = :unidade AND
-                s.id IN (:servicos) $cond
-            ORDER BY 
-                p.peso DESC,
-                e.numeroSenha ASC
-        ");
-        $query->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
-        $query->setParameter('unidade', $usuario->getUnidade()->getId());
-        $query->setParameter('servicos', $ids);
+        
+        $filaBusiness = new FilaBusiness($this->em());
+        
+        $query = $filaBusiness
+                    ->atendimento($usuario->getUnidade(), $ids, $usuario->getTipoAtendimento())
+                    ->getQuery()
+        ;
         return $query;
     }
     
@@ -170,7 +156,7 @@ class AtendimentoController extends ModuleController {
                         $proximo->setUsuario($context->getUser()->getWrapped());
                         $proximo->setLocal($context->getUser()->getLocal());
                         $proximo->setStatus(AtendimentoBusiness::CHAMADO_PELA_MESA);
-                        $proximo->setDataChamada(new \DateTime());
+                        $proximo->setDataChamada(new DateTime());
                         // atualiza o proximo da fila
                         $query = $this->em()->createQuery("
                             UPDATE 
@@ -243,7 +229,7 @@ class AtendimentoController extends ModuleController {
     
     /**
      * 
-     * @param Novosga\Model\Atendimento $atendimento
+     * @param Atendimento $atendimento
      * @param mixed $statusAtual (array[int] | int)
      * @param int $novoStatus
      * @param string $campoData

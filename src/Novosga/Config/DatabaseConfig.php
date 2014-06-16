@@ -1,12 +1,13 @@
 <?php
 namespace Novosga\Config;
 
-use Doctrine\Common\Cache\ApcCache;
-use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\CacheProvider;
-use Doctrine\Common\Cache\XcacheCache;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Tools\Setup;
+use \Novosga\Config\ConfigFile;
+use \Doctrine\Common\Cache\ApcCache;
+use \Doctrine\Common\Cache\ArrayCache;
+use \Doctrine\Common\Cache\CacheProvider;
+use \Doctrine\Common\Cache\XcacheCache;
+use \Doctrine\ORM\EntityManager;
+use \Doctrine\ORM\Tools\Setup;
 
 /**
  * Database configuration
@@ -19,7 +20,7 @@ class DatabaseConfig extends ConfigFile {
     protected $cacheDriver;
     protected $isDev = false;
     
-    
+
     public function isIntalled() {
         return $this->get('driver') && $this->get('host');
     }
@@ -36,7 +37,7 @@ class DatabaseConfig extends ConfigFile {
         $this->isDev = $isDev;
     }
 
-        
+    
     /**
      * @return EntityManager
      */
