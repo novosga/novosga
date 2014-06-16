@@ -65,7 +65,7 @@ SGA.Monitor = {
         view: function(id) {
             SGA.ajax({
                 url: SGA.url('info_senha'),
-                type: 'post',
+                type: 'get',
                 data: {
                     id: id
                 },
@@ -149,6 +149,7 @@ SGA.Monitor = {
         transferir: function() {
             SGA.ajax({
                 url: SGA.url('transferir'),
+                type: 'post',
                 data: {
                     id: $('#transfere_id').val(),
                     servico: $('#transfere_servico').val(),

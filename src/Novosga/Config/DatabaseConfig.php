@@ -46,8 +46,7 @@ class DatabaseConfig extends ConfigFile {
             $paths = array(NOVOSGA_ROOT . '/src/Novosga/Model');
             $config = Setup::createAnnotationMetadataConfiguration($paths, $this->isDev);
             $config->setAutoGenerateProxyClasses($this->isDev);
-            $dir = sys_get_temp_dir();
-            $config->setProxyDir($dir);
+            $config->setProxyDir(NOVOSGA_CACHE);
             // caching
             $this->cacheDriver = $this->createDoctrineCache($this->isDev);
             $config->setMetadataCacheImpl($this->cacheDriver);

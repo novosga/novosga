@@ -98,11 +98,7 @@ class MonitorController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-<<<<<<< HEAD:modules/sga/monitor/MonitorController.php
      * @param Novosga\Context $context
-=======
-     * @param SGAContext $context
->>>>>>> df96f9051c14315bf98559376f44261e7b6e1b54:public/modules/sga/monitor/MonitorController.php
      */
     public function buscar(Context $context) {
         $response = new JsonResponse();
@@ -124,11 +120,7 @@ class MonitorController extends ModuleController {
     
     /**
      * Transfere o atendimento para outro serviço e prioridade
-<<<<<<< HEAD:modules/sga/monitor/MonitorController.php
      * @param Novosga\Context $context
-=======
-     * @param SGAContext $context
->>>>>>> df96f9051c14315bf98559376f44261e7b6e1b54:public/modules/sga/monitor/MonitorController.php
      */
     public function transferir(Context $context) {
         $response = new JsonResponse();

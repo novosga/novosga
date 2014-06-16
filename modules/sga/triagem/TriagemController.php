@@ -87,34 +87,37 @@ class TriagemController extends ModuleController {
     
     public function servico_info(Context $context) {
         $response = new JsonResponse();
-        if ($context->request()->isPost()) {
-            $id = (int) $context->request()->get('id');
+        $id = (int) $context->request()->get('id');
+        try {
             $servico = $this->em()->find("Novosga\Model\Servico", $id);
-            if ($servico) {
-                $response->data['nome'] = $servico->getNome();
-                $response->data['descricao'] = $servico->getDescricao();
-                // ultima senha
-                $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC");
-                $query->setParameter('servico', $servico->getId());
-                $query->setParameter('unidade', $context->getUnidade()->getId());
-                $atendimentos = $query->getResult();
-                if (sizeof($atendimentos)) {
-                    $response->data['senha'] = $atendimentos[0]->getSenha()->toString();
-                    $response->data['senhaId'] = $atendimentos[0]->getId();
-                } else {
-                    $response->data['senha'] = '-';
-                    $response->data['senhaId'] = '';
-                }
-                // subservicos
-                $response->data['subservicos'] = array();
-                $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
-                $query->setParameter('mestre', $servico->getId());
-                $subservicos = $query->getResult();
-                foreach ($subservicos as $s) {
-                    $response->data['subservicos'][] = $s->getNome();
-                }
+            if (!$servico) {
+                throw new Exception(_('Serviço inválido'));
+            }
+            $response->data['nome'] = $servico->getNome();
+            $response->data['descricao'] = $servico->getDescricao();
+            // ultima senha
+            $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC");
+            $query->setParameter('servico', $servico->getId());
+            $query->setParameter('unidade', $context->getUnidade()->getId());
+            $atendimentos = $query->getResult();
+            if (sizeof($atendimentos)) {
+                $response->data['senha'] = $atendimentos[0]->getSenha()->toString();
+                $response->data['senhaId'] = $atendimentos[0]->getId();
+            } else {
+                $response->data['senha'] = '-';
+                $response->data['senhaId'] = '';
+            }
+            // subservicos
+            $response->data['subservicos'] = array();
+            $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
+            $query->setParameter('mestre', $servico->getId());
+            $subservicos = $query->getResult();
+            foreach ($subservicos as $s) {
+                $response->data['subservicos'][] = $s->getNome();
             }
             $response->success = true;
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
         }
         return $response;
     }

@@ -19,11 +19,13 @@ SGA.Triagem = {
         });
     },
     
-    servicoInfo: function(servico, title) {
+    servicoInfo: function(servico) {
         SGA.ajax({
-            type: 'post',
+            type: 'get',
             url: SGA.url('servico_info'),
-            data: {id: servico},
+            data: {
+                id: servico
+            },
             success: function(response) {
                 var dialog = $("#dialog-servico");
                 dialog.find('p.ultima-senha span').text(response.data.senha);
@@ -60,7 +62,9 @@ SGA.Triagem = {
         if (!SGA.paused) {
             SGA.ajax({
                 url: SGA.url('ajax_update'),
-                data: {ids: SGA.Triagem.ids.join(',')},
+                data: {
+                    ids: SGA.Triagem.ids.join(',')
+                },
                 success: function(response) {
                     $('.fila .total').text('-');
                     if (response.success) {
@@ -109,13 +113,13 @@ SGA.Triagem = {
             SGA.Triagem.pausado = true;
             SGA.ajax({
                 url: SGA.url('distribui_senha'),
+                type: 'post',
                 data: {
                     servico: servico, 
                     prioridade: prioridade,
                     cli_nome: cliente.nome || '',
                     cli_doc: cliente.doc || ''
                 },
-                type: 'post',
                 success: function(response) {
                     SGA.Triagem.Impressao.imprimir(response.data);
                     SGA.Triagem.ajaxUpdate();
