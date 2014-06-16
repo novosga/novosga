@@ -112,35 +112,6 @@ class ServicoUnidade extends Model {
         return $this->sigla;
     }
     
-    /**
-     * Retorna a fila de atendimentos para esse servico. Fazendo o carregamento sobre demanda
-     * @return type
-     */
-    public function getFila(\Doctrine\ORM\EntityManager $em) {
-        if (!$this->fila) {
-            $query = $em->createQuery("
-                SELECT 
-                    e 
-                FROM 
-                    Novosga\Model\Atendimento e 
-                    JOIN e.servicoUnidade su 
-                    JOIN e.prioridadeSenha p
-                WHERE 
-                    su.servico = :servico AND 
-                    su.unidade = :unidade AND
-                    e.status = :status
-                ORDER BY
-                    p.peso DESC,
-                    e.numeroSenha ASC
-            ");
-            $query->setParameter('servico', $this->getServico()->getId());
-            $query->setParameter('unidade', $this->getUnidade()->getId());
-            $query->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
-            $this->fila = new Fila($query->getResult());
-        }
-        return $this->fila;
-    }
-    
     public function toString() {
         return $this->sigla . ' - ' . $this->getServico()->toString();
     }

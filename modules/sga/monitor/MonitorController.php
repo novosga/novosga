@@ -1,6 +1,7 @@
 <?php
 namespace modules\sga\monitor;
 
+use Exception;
 use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Util\DateUtil;
@@ -8,6 +9,7 @@ use Novosga\Model\Unidade;
 use Novosga\Http\JsonResponse;
 use Novosga\Controller\ModuleController;
 use Novosga\Business\AtendimentoBusiness;
+use Novosga\Business\FilaBusiness;
 
 /**
  * MonitorController
@@ -43,6 +45,7 @@ class MonitorController extends ModuleController {
     public function ajax_update(Context $context) {
         $response = new JsonResponse();
         $unidade = $context->getUnidade();
+        $filaBusiness = new FilaBusiness($this->em());
         if ($unidade) {
             $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
@@ -50,19 +53,24 @@ class MonitorController extends ModuleController {
                 $response->data['total'] = 0;
                 $servicos = $this->servicos($unidade, " e.servico IN (" . implode(',', $ids) . ") ");
                 $em = $context->database()->createEntityManager();
-                for ($i = 0; $i < sizeof($servicos); $i++) {
-                    $su = $servicos[$i];
-                    $total = $su->getFila($em)->size();
-                    // prevent overhead
-                    if ($total) {
-                        $fila = array();
-                        for ($j = 0; $j < $total; $j++) {
-                            $atendimento = $su->getFila($em)->get($j); 
-                            $arr = $atendimento->toArray(true);
-                            $fila[] = $arr;
+                if ($servicos) {
+                    foreach ($servicos as $su) {
+                        $rs = $filaBusiness
+                                    ->servico($unidade, $su->getServico())
+                                    ->getQuery()
+                                    ->getResult()
+                        ;
+                        $total = count($rs);
+                        // prevent overhead
+                        if ($total) {
+                            $fila = array();
+                            foreach ($rs as $atendimento) {
+                                $arr = $atendimento->toArray(true);
+                                $fila[] = $arr;
+                            }
+                            $response->data['servicos'][$su->getServico()->getId()] = $fila;
+                            $response->data['total']++;
                         }
-                        $response->data['servicos'][$su->getServico()->getId()] = $fila;
-                        $response->data['total']++;
                     }
                 }
                 $response->success = true;
@@ -90,7 +98,11 @@ class MonitorController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
+<<<<<<< HEAD:modules/sga/monitor/MonitorController.php
      * @param Novosga\Context $context
+=======
+     * @param SGAContext $context
+>>>>>>> df96f9051c14315bf98559376f44261e7b6e1b54:public/modules/sga/monitor/MonitorController.php
      */
     public function buscar(Context $context) {
         $response = new JsonResponse();
@@ -112,7 +124,11 @@ class MonitorController extends ModuleController {
     
     /**
      * Transfere o atendimento para outro serviço e prioridade
+<<<<<<< HEAD:modules/sga/monitor/MonitorController.php
      * @param Novosga\Context $context
+=======
+     * @param SGAContext $context
+>>>>>>> df96f9051c14315bf98559376f44261e7b6e1b54:public/modules/sga/monitor/MonitorController.php
      */
     public function transferir(Context $context) {
         $response = new JsonResponse();
@@ -144,7 +160,7 @@ class MonitorController extends ModuleController {
                 $stmt->bindValue('id', $id);
                 $stmt->bindValue('unidade', $unidade->getId());
                 $response->success = $stmt->execute() > 0;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $response->message = $e->getMessage();
             }
         } else{
@@ -182,7 +198,7 @@ class MonitorController extends ModuleController {
                 $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA);
                 $stmt->bindValue('unidade', $unidade->getId());
                 $response->success = $stmt->execute() > 0;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $response->message = $e->getMessage();
             }
         } else{
@@ -219,7 +235,7 @@ class MonitorController extends ModuleController {
                 $stmt->bindValue('id', $id);
                 $stmt->bindValue('unidade', $unidade->getId());
                 $response->success = $stmt->execute() > 0;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $response->message = $e->getMessage();
             }
         } else{
