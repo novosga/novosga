@@ -387,9 +387,9 @@ class AtendimentoController extends ModuleController {
         // XXX: usando statement INSERT devido a bug do dblib (mssql) no linux com mapeamentos do Doctrine 
         $stmt = $this->em()->getConnection()->prepare("
             INSERT INTO atendimentos 
-                (num_local, dt_cheg, status, sigla_senha, num_senha, num_senha_serv, servico_id, unidade_id, usuario_id, usuario_tri_id, prioridade_id, atendimento_id) 
+                (num_local, dt_cheg, status, sigla_senha, num_senha, num_senha_serv, servico_id, unidade_id, usuario_id, usuario_tri_id, prioridade_id, atendimento_id, nm_cli, ident_cli) 
             VALUES 
-                (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade, :pai)
+                (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade, :pai, :nome_cliente, :documento_cliente)
         ");
         // mudando a data de chegada para a data do redirecionamento
         $stmt->bindValue('data', DateUtil::nowSQL());
@@ -403,6 +403,8 @@ class AtendimentoController extends ModuleController {
         $stmt->bindValue('usuario_triagem', $usuario->getWrapped()->getId());
         $stmt->bindValue('prioridade', $atendimento->getSenha()->getPrioridade()->getId());
         $stmt->bindValue('pai', $atendimento->getId());
+        $stmt->bindValue('nome_cliente', $atendimento->getCliente()->getNome());
+        $stmt->bindValue('documento_cliente', $atendimento->getCliente()->getDocumento());
         return $stmt->execute();
     }
     
