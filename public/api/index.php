@@ -261,7 +261,10 @@ $app->post('/distribui', function() use ($app, $api, $server, $em) {
  */
 $config = new Novosga\Config\ApiConfig();
 foreach ($config->routes() as $pattern => $callable) {
-    $app->any($pattern, $callable);
+    if (substr($pattern, 0, 1) !== '/') {
+        $pattern .= '/';
+    }
+    $app->any("/extra{$pattern}", $callable);
 }
 
 // response
