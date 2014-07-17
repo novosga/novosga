@@ -32,7 +32,14 @@ class AuthMiddleware extends Middleware {
                 if ($user) {
                     // verifica se ha outra pessoa usando o mesmo usuario
                     if ($user->getSessionId() != session_id()) {
-                        $this->app->response->redirect($req->getRootUri() . '/logout');
+                        if ($this->app->request->isAjax()) {
+                            // se for ajax devolve o json informando sobre a sessao invalida
+                            $response = new \Novosga\Http\JsonResponse();
+                            $response->invalid = true;
+                            echo $response->toJson();
+                            exit();
+                        }
+                        $this->app->redirect($req->getRootUri() . '/logout');
                     } else {
                         $unidade = $user->getUnidade();
                         $acessoBusiness = $this->context->app()->getAcessoBusiness();
@@ -47,7 +54,14 @@ class AuthMiddleware extends Middleware {
                         $this->app->view()->set('usuario', $user);
                     }
                 } else {
-                    $this->app->response->redirect($req->getRootUri() . '/login');
+                    if ($this->app->request->isAjax()) {
+                        // se for ajax devolve o json informando sobre a sessao inativa
+                        $response = new \Novosga\Http\JsonResponse();
+                        $response->inactive = true;
+                        echo $response->toJson();
+                        exit();
+                    }
+                    $this->app->redirect($req->getRootUri() . '/login');
                 }
             }
         }

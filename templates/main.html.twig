@@ -21,6 +21,8 @@
             SGA.version = '{{ version }}';
             SGA.dialogs.error.title = '{% trans %}Erro{% endtrans %}';
             SGA.dateFormat = '{% trans %}d/m/Y{% endtrans %}';
+            SGA.invalidSession = '{% trans %}Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.{% endtrans %}';
+            SGA.inactiveSession = '{% trans %}Sessão expirada. Favor efetuar o login novamente.{% endtrans %}';
         </script>
         {% block head %}
         {% endblock %}
