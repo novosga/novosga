@@ -44,7 +44,7 @@ class AcessoBusiness {
     
     public function isValidSession(Context $context) {
         $user = $context->getUser();
-        if ($user && !$user->isAtivo()) {
+        if (!$user || !$user->isAtivo()) {
             return false;
         }
         // verificando session id
@@ -68,7 +68,7 @@ class AcessoBusiness {
                 }
                 return $response;
             } else {
-                $this->app()->redirect('/login');
+                $context->app()->gotoLogin();
             }
         }
         $modulo = $context->getModulo();
