@@ -384,28 +384,29 @@ class AtendimentoController extends ModuleController {
     
     private function redireciona_atendimento(Atendimento $atendimento, $servico, $unidade, UsuarioSessao $usuario) {
         // copiando a senha do atendimento atual
-        // XXX: usando statement INSERT devido a bug do dblib (mssql) no linux com mapeamentos do Doctrine 
-        $stmt = $this->em()->getConnection()->prepare("
-            INSERT INTO atendimentos 
-                (num_local, dt_cheg, status, sigla_senha, num_senha, num_senha_serv, servico_id, unidade_id, usuario_id, usuario_tri_id, prioridade_id, atendimento_id, nm_cli, ident_cli) 
-            VALUES 
-                (0, :data, :status, :sigla, :numero, :numero_servico, :servico, :unidade, :usuario, :usuario_triagem, :prioridade, :pai, :nome_cliente, :documento_cliente)
-        ");
-        // mudando a data de chegada para a data do redirecionamento
-        $stmt->bindValue('data', DateUtil::nowSQL());
-        $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA);
-        $stmt->bindValue('sigla', $atendimento->getSenha()->getSigla());
-        $stmt->bindValue('numero', $atendimento->getNumeroSenha());
-        $stmt->bindValue('numero_servico', $atendimento->getNumeroSenhaServico());
-        $stmt->bindValue('servico', $servico);
-        $stmt->bindValue('unidade', $unidade->getId());
-        $stmt->bindValue('usuario', $usuario->getWrapped()->getId());
-        $stmt->bindValue('usuario_triagem', $usuario->getWrapped()->getId());
-        $stmt->bindValue('prioridade', $atendimento->getSenha()->getPrioridade()->getId());
-        $stmt->bindValue('pai', $atendimento->getId());
-        $stmt->bindValue('nome_cliente', $atendimento->getCliente()->getNome());
-        $stmt->bindValue('documento_cliente', $atendimento->getCliente()->getDocumento());
-        return $stmt->execute();
+        $su = $this->em()
+                ->createQuery('SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade')
+                ->setParameter('servico', $servico)
+                ->setParameter('unidade', $unidade)
+                ->getSingleResult();
+        ;
+        $novo = new Atendimento();
+        $novo->setLocal(0);
+        $novo->setServicoUnidade($su);
+        $novo->setPai($atendimento);
+        $novo->setDataChegada(new \DateTime());
+        $novo->setStatus(AtendimentoBusiness::SENHA_EMITIDA);
+        $novo->setSiglaSenha($atendimento->getSenha()->getSigla());
+        $novo->setNumeroSenha($atendimento->getNumeroSenha());
+        $novo->setNumeroSenhaServico($atendimento->getNumeroSenhaServico());
+        $novo->setUsuario($usuario->getWrapped());
+        $novo->setUsuarioTriagem($usuario->getWrapped());
+        $novo->setPrioridadeSenha($atendimento->getSenha()->getPrioridade());
+        $novo->setNomeCliente($atendimento->getCliente()->getNome());
+        $novo->setDocumentoCliente($atendimento->getCliente()->getDocumento());
+        $this->em()->persist($novo);
+        $this->em()->flush();
+        return $novo->getId();
     }
     
     public function info_senha(Context $context) {

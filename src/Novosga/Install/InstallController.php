@@ -45,7 +45,7 @@ class InstallController extends InternalController {
 
     public function index(Context $context) {
         if (NOVOSGA_INSTALLED) {
-            $this->app()->redirect($this->request()->getRootUri());
+            $context->app()->gotoHome();
         }
         $steps = $this->getSteps();
         $index = (int) $context->request()->get(App::K_INSTALL);

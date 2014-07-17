@@ -271,6 +271,15 @@ class Atendimento extends SequencialModel {
         return $this->cliente;
     }
     
+    public function setNomeCliente($nomeCliente) {
+        $this->nomeCliente = $nomeCliente;
+    }
+
+    public function setDocumentoCliente($documentoCliente) {
+        $this->documentoCliente = $documentoCliente;
+    }
+
+        
     /**
      * @return Senha
      */

@@ -29,17 +29,7 @@ class InstallData {
                 'linux' => 'pdo_mysql',
                 'win' => 'pdo_mysql'
             )
-        ), 
-        'mssql' => array(
-            'label' => 'PDO SQLSRV (Win) / PDO SyBase (Linux)', 
-            'rdms' => 'MS SQL Server', 
-            'version' => '1.0.0',
-            'port' => '1433',
-            'driver' => array(
-                'linux' => 'pdo_dblib',
-                'win' => 'pdo_sqlsrv'
-            )
-        ),
+        )
     );
     
     public static $dbFields = array(
