@@ -2,7 +2,7 @@
 namespace Novosga\Controller;
 
 use Novosga\Context;
-use Novosga\Controller\SGAController;
+use Novosga\Controller\AppController;
 use Novosga\Security;
 use Novosga\Http\JsonResponse;
 
@@ -12,7 +12,7 @@ use Novosga\Http\JsonResponse;
  * @author Rogerio Lino <rogeriolino@gmail.com>
  *
  */
-class HomeController extends SGAController {
+class HomeController extends AppController {
     
     public function index(Context $context) {
     }

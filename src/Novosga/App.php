@@ -77,7 +77,7 @@ class App extends \Slim\Slim {
     }
     
     /**
-     * Autentica o usuario do SGA
+     * Autentica o usuario do sistema
      * @param type $user
      * @param type $pass
      * @return Usuario|null

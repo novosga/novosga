@@ -5,11 +5,11 @@ use Novosga\App;
 use Novosga\Context;
 
 /**
- * SGA module controller
+ * App module controller
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class SGAController {
+abstract class AppController {
     
     private $app;
     

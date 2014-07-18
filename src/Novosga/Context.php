@@ -37,7 +37,7 @@ class Context {
     }
     
     /**
-     * @return SGA
+     * @return App
      */
     public function app() {
         return $this->app;
