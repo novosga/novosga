@@ -32,7 +32,7 @@ $app->post('/login', function() use ($app) {
 
 $app->get('/logout', function() use ($app) {
     $app->getContext()->session()->destroy();
-    $app->redirect($app->request()->getRootUri() . '/login');
+    $app->gotoLogin();
 });
 
 $app->get('/install(/:page)', function($page = '') use ($app) {
@@ -91,7 +91,7 @@ $app->post('/profile/password', function() use ($app) {
 $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app, $loader) {
     define('MODULE', $moduleKey);
     if (!$app->getAcessoBusiness()->checkAccess($app->getContext(), $moduleKey, $action)) {
-        $app->redirect($app->request()->getRootUri() . '/home');
+        $app->gotoHome();
     }
     $args = array($app->getContext());
     if (is_array($action)) {

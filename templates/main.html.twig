@@ -29,59 +29,61 @@
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".novosga-navbar">
-                    <span class="sr-only">Menu</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ baseUrl() }}">Novo SGA</a>
-            </div>
-            <div class="collapse navbar-collapse novosga-navbar">
-                {% if unidade %}
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ unidade }} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            {% for modulo in modulosUnidade %}
-                            <li><a href="{{ baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
-                            {% endfor %}
-                            <li>
-                                <a href="#dialog-unidade" data-toggle="modal">
-                                    {% trans %}Trocar unidade{% endtrans %}
-                                    &nbsp;<span class="glyphicon glyphicon-transfer"></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-                {% else %}
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#dialog-unidade" class="dropdown-toggle" data-toggle="modal">{% trans %}Escolher unidade{% endtrans %}</a>
-                    </li>
-                </ul>
-                {% endif %}
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Global{% endtrans %} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            {% for modulo in modulosGlobal %}
-                            <li><a href="{{ baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.nome }} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ baseUrl() }}/profile"><span class="glyphicon glyphicon-user"></span> {% trans %}Perfil{% endtrans %}</a></li>
-                            <li><a href="{{ baseUrl() }}/logout"><span class="glyphicon glyphicon-off"></span> {% trans %}Sair{% endtrans %}</a></li>
-                        </ul>
-                    </li>
-                </ul>
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".novosga-navbar">
+                        <span class="sr-only">Menu</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ baseUrl() }}">Novo SGA</a>
+                </div>
+                <div class="collapse navbar-collapse novosga-navbar">
+                    {% if unidade %}
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ unidade }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                {% for modulo in modulosUnidade %}
+                                <li><a href="{{ baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
+                                {% endfor %}
+                                <li>
+                                    <a href="#dialog-unidade" data-toggle="modal">
+                                        {% trans %}Trocar unidade{% endtrans %}
+                                        &nbsp;<span class="glyphicon glyphicon-transfer"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    {% else %}
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#dialog-unidade" class="dropdown-toggle" data-toggle="modal">{% trans %}Escolher unidade{% endtrans %}</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Global{% endtrans %} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                {% for modulo in modulosGlobal %}
+                                <li><a href="{{ baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.nome }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ baseUrl() }}/profile"><span class="glyphicon glyphicon-user"></span> {% trans %}Perfil{% endtrans %}</a></li>
+                                <li><a href="{{ baseUrl() }}/logout"><span class="glyphicon glyphicon-off"></span> {% trans %}Sair{% endtrans %}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
         <div class="container">
