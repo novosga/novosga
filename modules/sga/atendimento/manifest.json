@@ -1,0 +1,13 @@
+{
+    "type": 0,
+    "name": "Atendimento",
+    "description": "Efetue o atendimento às senhas distribuídas dos serviços que você atende",
+    "homepage": "http://novosga.org",
+    "authors": [
+        {
+            "name": "Rogério Lino",
+            "email": "rogeriolino@gmail.com",
+            "homepage": "http://rogeriolino.com"
+        }
+    ]
+}

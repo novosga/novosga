@@ -1,0 +1,13 @@
+{
+    "type": 0,
+    "name": "Triagem",
+    "description": "Gerencie a distribuíção das senhas da unidade atual",
+    "homepage": "http://novosga.org",
+    "authors": [
+        {
+            "name": "Rogério Lino",
+            "email": "rogeriolino@gmail.com",
+            "homepage": "http://rogeriolino.com"
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "type": 1,
+    "name": "Unidades",
+    "description": "Gerencie as unidades do sistema",
+    "homepage": "http://novosga.org",
+    "authors": [
+        {
+            "name": "Rogério Lino",
+            "email": "rogeriolino@gmail.com",
+            "homepage": "http://rogeriolino.com"
+        }
+    ]
+}

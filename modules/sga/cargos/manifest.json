@@ -1,0 +1,13 @@
+{
+    "type": 1,
+    "name": "Cargos",
+    "description": "Gerencie os cargos do sistema",
+    "homepage": "http://novosga.org",
+    "authors": [
+        {
+            "name": "Rogério Lino",
+            "email": "rogeriolino@gmail.com",
+            "homepage": "http://rogeriolino.com"
+        }
+    ]
+}

@@ -47,14 +47,17 @@ class ModulosController extends ModuleController {
     }
 
     public function edit(Context $context, $id = 0) {
-        $id = (int) $id;
-        $modulo = $this->find($id);
-        if (!$modulo) {
-            $this->app()->redirect('index');
+        if ($context->request()->isPost()) {
+            
+        } else {
+            $id = (int) $id;
+            $modulo = $this->find($id);
+            if ($modulo) {
+                $this->app()->view()->set('modulo', $modulo);
+                $this->app()->view()->set('css', $this->getCss($modulo));
+                $this->app()->view()->set('javascript', $this->getJs($modulo));
+            }
         }
-        $this->app()->view()->set('modulo', $modulo);
-        $this->app()->view()->set('css', $this->getCss($modulo));
-        $this->app()->view()->set('javascript', $this->getJs($modulo));
     }
     
     public function load(Context $context) {
@@ -91,8 +94,8 @@ class ModulosController extends ModuleController {
             if (!$modulo) {
                 throw new Exception(_('Módulo inválido'));
             }
-            $filename = ($type == 'css') ? 'css/style.css' : 'js/script.js';
-            $filename = $modulo->getRealPath() . DS . $filename;
+            $filename = ($type == 'css') ? '/public/css/style.css' : '/public/js/script.js';
+            $filename = $modulo->getRealPath() . $filename;
             if (!is_writable($filename)) {
                 throw new Exception(_('Permissão negada'));
             }
@@ -105,12 +108,46 @@ class ModulosController extends ModuleController {
         return $response;
     }
     
+    public function install(Context $context) {
+        $response = new JsonResponse();
+        try {
+            // file upload handling
+            $ext = 'zip';
+            $fu = new FileUpload('uploadfile');
+            $result = $fu->handleUpload(NOVOSGA_CACHE, array($ext));
+            if (!$result) {
+                throw new \Exception($fu->getErrorMsg());
+            }
+            // install module
+            $business = new \Novosga\Business\ModuloBusiness($this->em());
+            $business->install($fu->getSavedFile(), $fu->getExtension());
+            // response
+            $response->success = true;
+            $response->message = _('Módulo instalado com sucesso');
+        } catch (\Exception $e) {
+            $response->message = $e->getMessage();
+        }
+        return $response;
+    }
+    
+    public function uninstall(Context $context, $key) {
+        $response = new JsonResponse();
+        try {
+            $business = new \Novosga\Business\ModuloBusiness($this->em());
+            $business->uninstall($key);
+            $response->success = true;
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
+        }
+        return $response;
+    }
+
     private function getCss(Modulo $modulo) {
-        return file_get_contents($modulo->getRealPath() . DS . 'css/style.css');
+        return file_get_contents($modulo->getRealPath() . '/public/css/style.css');
     }
     
     private function getJs(Modulo $modulo) {
-        return file_get_contents($modulo->getrealPath() . DS . 'js/script.js');
+        return file_get_contents($modulo->getrealPath() . '/public/js/script.js');
     }
     
 }

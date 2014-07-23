@@ -1,0 +1,13 @@
+{
+    "type": 1,
+    "name": "Módulos",
+    "description": "Gerencie os módulos instalados",
+    "homepage": "http://novosga.org",
+    "authors": [
+        {
+            "name": "Rogério Lino",
+            "email": "rogeriolino@gmail.com",
+            "homepage": "http://rogeriolino.com"
+        }
+    ]
+}
