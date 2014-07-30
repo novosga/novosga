@@ -4,6 +4,7 @@ namespace Novosga\Business;
 use Exception;
 use Novosga\Model\Modulo;
 use Novosga\Model\Util\ModuleManifest;
+use Novosga\Util\FileUtils;
 use ZipArchive;
 
 /**
@@ -19,7 +20,7 @@ class ModuloBusiness extends ModelBusiness {
      * @param string $ext
      * @return Modulo
      */
-    public function install8($zipname, $ext = 'zip') {
+    public function install($zipname, $ext = 'zip') {
         $moduleDir = $this->extract($zipname, $ext);
         $this->verify($moduleDir);
 
@@ -38,7 +39,7 @@ class ModuloBusiness extends ModelBusiness {
         if (!$module) {
             throw new Exception(sprintf(_('Módulo %s não instalado'), $key));
         }
-        @rmdir($module->getRealPath());
+        FileUtils::rmdir($module->getRealPath());
         $this->em->remove($module);
         $this->em->flush();
     }
@@ -65,7 +66,7 @@ class ModuloBusiness extends ModelBusiness {
         $path = explode(".", $name);
 
         if (sizeof($path) !== 2) {
-            @unlink($zipname);
+            FileUtils::rm($zipname);
             throw new Exception(sprintf(_('Formato inválido do nome do módulo: %s. Era esperado {vendorName}.{moduleName}.%s'), basename($zipname), $ext));
         }
 
@@ -82,19 +83,19 @@ class ModuloBusiness extends ModelBusiness {
         $zip->extractTo(NOVOSGA_CACHE);
         $zip->close();
         
-        @unlink($zipname);
+        FileUtils::rm($zipname);
 
         // vendor dir
         if (!is_dir($dir) && !@mkdir($dir)) {
-            @unlink(NOVOSGA_CACHE . DS . $name);
+            FileUtils::rm(NOVOSGA_CACHE . DS . $name);
             throw new Exception(_('Não foi possível criar o diretório do módulo'));
         }
 
         if (!@rename(NOVOSGA_CACHE . DS . $name, $moduleDir)) {
-            @unlink(NOVOSGA_CACHE . DS . $name);
+            FileUtils::rm(NOVOSGA_CACHE . DS . $name);
             throw new Exception(_('Não foi possível mover os arquivos para o diretório dos módulos'));
         }
-        @unlink(NOVOSGA_CACHE . DS . $name);
+        FileUtils::rm(NOVOSGA_CACHE . DS . $name);
         return $moduleDir;
     }
     
@@ -130,7 +131,7 @@ class ModuloBusiness extends ModelBusiness {
      */
     public function parseManifest($moduleDir, $key) {
         $data = file_get_contents($moduleDir . DS . "manifest.json");
-        $json = json_decode($json, true);
+        $json = json_decode($data, true);
         if (!$json) {
             throw new Exception(_('O Manifest não contém um JSON válido'));
         }

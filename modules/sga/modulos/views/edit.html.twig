@@ -97,20 +97,22 @@
                     <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
                     {% trans %}Novo{% endtrans %}
                 </a>
-                <button id="uninstall" type="button" class="btn btn-danger">
-                    <span class="glyphicon glyphicon-trash"></span>
-                    {% trans %}Desinstalar{% endtrans %}
-                </button>
+                <form action="{{ baseUrl() }}/modules/{{ module.chave }}/delete/{{ modulo.id }}" method="post" onsubmit="return confirm('{% trans %}Deseja realmente desinstalar esse módulo?{% endtrans %}')" class="pull-right">
+                    <button type="submit" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-trash"></span>
+                        {% trans %}Desinstalar{% endtrans %}
+                    </button>
+                </form>
             </div>
             <script>
-                $('input:checkbox').bootstrapSwitch();
-                
-                $('#uninstall').on('click', function() {
-                    if (confirm('{% trans %}Deseja realmente desinstalar esse módulo?{% endtrans %}')) {
-                        SGA.ajax({
-                            url: '{{ baseUrl() }}/modules/uninstall/{{ module.chave }}',
-                        });
-                    }
+                $('input:checkbox').bootstrapSwitch().on('switchChange.bootstrapSwitch', function(event, state) {
+                    SGA.ajax({
+                        type: 'post',
+                        url: "{{ baseUrl() }}/modules/{{ module.chave }}/toggle",
+                        data: {
+                            id: {{ modulo.id }}
+                        }
+                    });
                 });
             </script>
         {% else %}
@@ -136,7 +138,7 @@
 
                     new ss.SimpleUpload({
                         button: btn,
-                        url: '{{ baseUrl() }}/modules/install',
+                        url: '{{ baseUrl() }}/modules/{{ module.chave }}/install',
                         name: 'uploadfile',
                         responseType: 'json',
                         allowedExtensions: ['zip'],

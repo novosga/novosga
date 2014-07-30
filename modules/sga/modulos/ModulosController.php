@@ -130,16 +130,21 @@ class ModulosController extends ModuleController {
         return $response;
     }
     
-    public function uninstall(Context $context, $key) {
-        $response = new JsonResponse();
-        try {
-            $business = new \Novosga\Business\ModuloBusiness($this->em());
-            $business->uninstall($key);
-            $response->success = true;
-        } catch (Exception $e) {
-            $response->message = $e->getMessage();
+    public function delete(Context $context, $id) {
+        $modulo = $this->find($id);
+        $business = new \Novosga\Business\ModuloBusiness($this->em());
+        $business->uninstall($modulo->getChave());
+        $this->app()->redirect("{$context->request()->getRootUri()}/modules/sga.modulos");
+    }
+    
+    public function toggle(Context $context) {
+        $modulo = $this->find($context->request()->post('id'));
+        if ($modulo) {
+            $modulo->setStatus(!$modulo->getStatus());
+            $this->em()->merge($modulo);
+            $this->em()->flush();
         }
-        return $response;
+        return new JsonResponse(true);
     }
 
     private function getCss(Modulo $modulo) {
