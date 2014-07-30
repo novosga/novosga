@@ -10,6 +10,7 @@ use Novosga\Controller\ModuleController;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Modulo;
 use Novosga\Util\Arrays;
+use Novosga\Util\FileUtils;
 
 /**
  * ModulosController
@@ -121,8 +122,9 @@ class ModulosController extends ModuleController {
                 throw new Exception($fu->getErrorMsg());
             }
             // install module
-            $business = new ModuloBusiness($context);
+            $business = new ModuloBusiness($this->em());
             $business->extractAndInstall($fu->getSavedFile(), $fu->getExtension());
+            FileUtils::rm($fu->getSavedFile());
             // response
             $response->success = true;
             $response->message = _('Módulo instalado com sucesso');
@@ -134,7 +136,7 @@ class ModulosController extends ModuleController {
     
     public function delete(Context $context, $id) {
         $modulo = $this->find($id);
-        $business = new ModuloBusiness($context);
+        $business = new ModuloBusiness($this->em());
         $business->uninstall($modulo->getChave());
         $this->app()->redirect("{$context->request()->getRootUri()}/modules/sga.modulos");
     }

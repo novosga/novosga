@@ -2,7 +2,7 @@
 namespace modules\sga\locais;
 
 use Exception;
-use Novosga\Context;
+use Doctrine\ORM\EntityManager;
 use Novosga\Model\Local;
 
 /**
@@ -14,11 +14,10 @@ class DataFixture {
     
     /**
      * 
-     * @param \Novosga\Context $context
+     * @param EntityManager $em
      * @throws Exception
      */
-    public function install(Context $context) {
-        $em = $context->database()->createEntityManager();
+    public function install(EntityManager $em) {
         try {
             $em->beginTransaction();
             $em->persist($this->create(_('Guichê')));

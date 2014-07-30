@@ -121,6 +121,11 @@
                     <span class="glyphicon glyphicon-file"></span>&nbsp;
                     {% trans %}Escolha o arquivo{% endtrans %}
                 </button>
+                <a href="{{ baseUrl() }}/modules/{{ module.chave }}"
+                        class="btn btn-default">
+                    <span class="glyphicon glyphicon-chevron-left"></span>&nbsp;
+                    {% trans %}Voltar{% endtrans %}
+                </a>
                 <div id="pic-progress-wrap" class="progress-wrap">
                 </div>
                 <p class="help-block">Selecione o arquivo ZIP de instalação módulo.</p>

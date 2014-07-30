@@ -52,7 +52,7 @@
                     <span class="glyphicon glyphicon-edit"></span>
                 </a>
                 <button class="btn btn-danger" title="{% trans %}Excluir{% endtrans %}"
-                        onclick="SGA.Form.confirm('{% trans %}Realmente deseja excluir?{% endtrans %}', function() { $('#delete-id').val({{ item.id }}).parent().submit(); })">
+                        onclick="SGA.Form.confirm('{% trans %}Realmente deseja excluir?{% endtrans %}', function() { $('#delete-form').prop('action', '{{ baseUrl() }}/modules/{{ module.chave }}/delete/{{ item.id }}').submit(); })">
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
             </td>
@@ -60,8 +60,7 @@
         {% endfor %}
     </tbody>
 </table>
-<form action="{{ baseUrl() }}/modules/{{ module.chave }}/delete" method="post">
-    <input type="hidden" id="delete-id" name="id" />
+<form id="delete-form" action="" method="post">
 </form>
 {% if pages > 1 %}
 <div class="crud-pagination">

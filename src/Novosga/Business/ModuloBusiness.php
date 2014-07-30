@@ -2,7 +2,6 @@
 namespace Novosga\Business;
 
 use Exception;
-use Novosga\Context;
 use Novosga\Model\Modulo;
 use Novosga\Model\Util\ModuleManifest;
 use Novosga\Util\FileUtils;
@@ -16,23 +15,14 @@ use ZipArchive;
 class ModuloBusiness extends ModelBusiness {
     
     /**
-     * @var Context
-     */
-    private $context;
-    
-    function __construct(Context $context) {
-        parent::__construct($context->database()->createEntityManager());
-        $this->context = $context;
-    }
-    
-    /**
      * 
      * @param string $moduleDir
      * @return Modulo
      */
-    public function install($moduleDir, $name) {
-        $this->verify($moduleDir);
-        $manifest = $this->parseManifest($moduleDir, $name);
+    public function install($moduleDir, $key) {
+        $this->verifyKey($key);
+        $this->verifyDir($moduleDir);
+        $manifest = $this->parseManifest($moduleDir, $key);
         
         $this->invokeScripts($manifest, 'pre-install');
         
@@ -46,12 +36,12 @@ class ModuloBusiness extends ModelBusiness {
     
     /**
      * @param string $zipname
-     * @param string $ext
      * @return Modulo
      */
-    public function extractAndInstall($zipname, $ext = 'zip') {
-        $moduleDir = $this->extract($zipname, $ext);
-        return $this->install($moduleDir, $this->key($zipname, $ext));
+    public function extractAndInstall($zipname) {
+        $moduleDir = $this->extract($zipname);
+        $name = str_replace(".zip", "", basename($zipname));
+        return $this->install($moduleDir, $name);
     }
     
     /**
@@ -60,7 +50,7 @@ class ModuloBusiness extends ModelBusiness {
      * @throws Exception
      */
     public function uninstall($key) {
-        $module = $this->em->createQuery('SELECT e FROM NovoSGA\Model\Modulo e WHERE e.chave = :key')
+        $module = $this->em->createQuery('SELECT e FROM Novosga\Model\Modulo e WHERE e.chave = :key')
                 ->setParameter('key', $key)
                 ->getOneOrNullResult();
         if (!$module) {
@@ -75,34 +65,23 @@ class ModuloBusiness extends ModelBusiness {
         FileUtils::rmdir($module->getRealPath());
     }
     
-    /**
-     * 
-     * @param string $zipname
-     * @param string $ext
-     * @return string
-     */
-    public function key($zipname, $ext = 'zip') {
-        return str_replace(".$ext", "", basename($zipname));
-    }
     
     /**
      * 
      * @param string $zipname
-     * @param string $ext file extension
      * @return string The module dir 
      * @throws Exception
      */
-    public function extract($zipname, $ext) {
-        $name = $this->key($zipname, $ext);
-        $path = explode(".", $name);
-
-        if (sizeof($path) !== 2) {
-            FileUtils::rm($zipname);
-            throw new Exception(sprintf(_('Formato inválido do nome do módulo: %s. Era esperado {vendorName}.{moduleName}.%s'), basename($zipname), $ext));
-        }
-
+    public function extract($zipname) {
+        $name = str_replace(".zip", "", basename($zipname));
+        $path = $this->verifyKey($name);
+        
         $dir = MODULES_PATH . DS . $path[0];
         $moduleDir = $dir . DS . $path[1];
+        
+        if (!file_exists($zipname)) {
+            throw new Exception(sprintf(_('Arquivo não encontrado: %s'), $zipname));
+        }
 
         if (file_exists($moduleDir)) {
             throw new Exception(_('Já possui um módulo com o mesmo nome'));
@@ -114,8 +93,6 @@ class ModuloBusiness extends ModelBusiness {
         $zip->extractTo(NOVOSGA_CACHE);
         $zip->close();
         
-        FileUtils::rm($zipname);
-
         // vendor dir
         if (!is_dir($dir) && !@mkdir($dir)) {
             FileUtils::rm(NOVOSGA_CACHE . DS . $name);
@@ -135,7 +112,7 @@ class ModuloBusiness extends ModelBusiness {
      * @param string $moduleDir
      * @throws Exception
      */
-    public function verify($moduleDir) {
+    public function verifyDir($moduleDir) {
         $moduleName = basename($moduleDir);
         // module structure
         $files = array(
@@ -151,6 +128,20 @@ class ModuloBusiness extends ModelBusiness {
                 throw new Exception(sprintf(_('Arquivo %s não encontrado'), $file));
             }
         }
+    }
+    
+    /**
+     * 
+     * @param string $key {vendorName}.{moduleName}
+     * @return array 0 => {vendorName}, 1 => {moduleName}
+     * @throws Exception
+     */
+    public function verifyKey($key) {
+        $path = explode(".", $key);
+        if (sizeof($path) !== 2) {
+            throw new Exception(sprintf(_('Formato inválido do nome do módulo: %s. Era esperado {vendorName}.{moduleName}'), $key));
+        }
+        return $path;
     }
     
     /**
@@ -182,7 +173,7 @@ class ModuloBusiness extends ModelBusiness {
 
                 $obj = new $className;
                 $method = new \ReflectionMethod($obj, $tokens[1]);
-                $method->invokeArgs($obj, array($this->context));
+                $method->invokeArgs($obj, array($this->em));
             }
         }
     }

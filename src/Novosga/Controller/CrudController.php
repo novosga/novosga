@@ -147,8 +147,7 @@ abstract class CrudController extends ModuleController {
     protected function preSave(Context $context, SequencialModel $model) {}
     protected function postSave(Context $context, SequencialModel $model) {}
     
-    public function delete(Context $context) {
-        $id = (int) $context->request()->post('id');
+    public function delete(Context $context, $id) {
         $model = $this->findById($id);
         if ($model) {
             try {

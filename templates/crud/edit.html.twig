@@ -1,6 +1,6 @@
 {% extends "module.html.twig" %}
 {% block moduleContent %}
-    <form id="crud-form" method="post" action="">
+    <form id="crud-form" method="post" action="#">
         <input type="hidden" name="id" value="{{ model.id }}" />
         
         {% if flash['success'] %}
@@ -42,8 +42,7 @@
         </div>
     </form>
     {% if model.id > 0 %}
-    <form id="form-delete" action="{{ baseUrl() }}/modules/{{ module.chave }}/delete" method="post">
-        <input type="hidden" name="id" value="{{ model.id }}" />
+    <form id="form-delete" action="{{ baseUrl() }}/modules/{{ module.chave }}/delete/{{ model.id }}" method="post">
     </form>
     {% endif %}
     {% block dialogs %}
