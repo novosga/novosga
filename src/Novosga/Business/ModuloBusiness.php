@@ -2,6 +2,7 @@
 namespace Novosga\Business;
 
 use Exception;
+use Novosga\Context;
 use Novosga\Model\Modulo;
 use Novosga\Model\Util\ModuleManifest;
 use Novosga\Util\FileUtils;
@@ -15,23 +16,49 @@ use ZipArchive;
 class ModuloBusiness extends ModelBusiness {
     
     /**
+     * @var Context
+     */
+    private $context;
+    
+    function __construct(Context $context) {
+        parent::__construct($context->database()->createEntityManager());
+        $this->context = $context;
+    }
+    
+    /**
      * 
-     * @param string $zipname
-     * @param string $ext
+     * @param string $moduleDir
      * @return Modulo
      */
-    public function install($zipname, $ext = 'zip') {
-        $moduleDir = $this->extract($zipname, $ext);
+    public function install($moduleDir, $name) {
         $this->verify($moduleDir);
-
-        $manifest = $this->parseManifest($moduleDir, $this->key($zipname, $ext));
+        $manifest = $this->parseManifest($moduleDir, $name);
+        
+        $this->invokeScripts($manifest, 'pre-install');
         
         $this->em->persist($manifest->getModule());
         $this->em->flush();
         
+        $this->invokeScripts($manifest, 'post-install');
+        
         return $manifest->getModule();
     }
     
+    /**
+     * @param string $zipname
+     * @param string $ext
+     * @return Modulo
+     */
+    public function extractAndInstall($zipname, $ext = 'zip') {
+        $moduleDir = $this->extract($zipname, $ext);
+        return $this->install($moduleDir, $this->key($zipname, $ext));
+    }
+    
+    /**
+     * 
+     * @param string $key
+     * @throws Exception
+     */
     public function uninstall($key) {
         $module = $this->em->createQuery('SELECT e FROM NovoSGA\Model\Modulo e WHERE e.chave = :key')
                 ->setParameter('key', $key)
@@ -39,9 +66,13 @@ class ModuloBusiness extends ModelBusiness {
         if (!$module) {
             throw new Exception(sprintf(_('Módulo %s não instalado'), $key));
         }
-        FileUtils::rmdir($module->getRealPath());
         $this->em->remove($module);
         $this->em->flush();
+        
+        $manifest = $this->parseManifest($module->getRealPath(), $module->getChave());
+        $this->invokeScripts($manifest, 'post-remove');
+        
+        FileUtils::rmdir($module->getRealPath());
     }
     
     /**
@@ -58,7 +89,7 @@ class ModuloBusiness extends ModelBusiness {
      * 
      * @param string $zipname
      * @param string $ext file extension
-     * @return array 
+     * @return string The module dir 
      * @throws Exception
      */
     public function extract($zipname, $ext) {
@@ -136,6 +167,24 @@ class ModuloBusiness extends ModelBusiness {
             throw new Exception(_('O Manifest não contém um JSON válido'));
         }
         return new ModuleManifest($key, $json);
+    }
+    
+    private function invokeScripts(ModuleManifest $manifest, $name) {
+        $scripts = $manifest->getScript($name);
+        if (is_array($scripts) && sizeof($scripts)) {
+            foreach ($scripts as $script) {
+                $tokens = explode("::", $script);
+                if (sizeof($tokens) !== 2) {
+                    throw new Exception(_('Formato do nome do script inválido. Era experado <ClassName>::<methodName>.'));
+                }
+                $namespace = "modules\\" . join("\\", explode(".", $manifest->getModule()->getChave()));
+                $className = "$namespace\\" . ucfirst($tokens[0]);
+
+                $obj = new $className;
+                $method = new \ReflectionMethod($obj, $tokens[1]);
+                $method->invokeArgs($obj, array($this->context));
+            }
+        }
     }
     
 }

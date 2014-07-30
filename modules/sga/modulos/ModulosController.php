@@ -1,8 +1,10 @@
 <?php
+
 namespace modules\sga\modulos;
 
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Novosga\Business\ModuloBusiness;
 use Novosga\Context;
 use Novosga\Controller\ModuleController;
 use Novosga\Http\JsonResponse;
@@ -116,23 +118,23 @@ class ModulosController extends ModuleController {
             $fu = new FileUpload('uploadfile');
             $result = $fu->handleUpload(NOVOSGA_CACHE, array($ext));
             if (!$result) {
-                throw new \Exception($fu->getErrorMsg());
+                throw new Exception($fu->getErrorMsg());
             }
             // install module
-            $business = new \Novosga\Business\ModuloBusiness($this->em());
-            $business->install($fu->getSavedFile(), $fu->getExtension());
+            $business = new ModuloBusiness($context);
+            $business->extractAndInstall($fu->getSavedFile(), $fu->getExtension());
             // response
             $response->success = true;
             $response->message = _('Módulo instalado com sucesso');
-        } catch (\Exception $e) {
-            $response->message = $e->getMessage();
+        } catch (Exception $e) {
+            $response->message = $e->getMessage(). '<br>' . $e->getTraceAsString();
         }
         return $response;
     }
     
     public function delete(Context $context, $id) {
         $modulo = $this->find($id);
-        $business = new \Novosga\Business\ModuloBusiness($this->em());
+        $business = new ModuloBusiness($context);
         $business->uninstall($modulo->getChave());
         $this->app()->redirect("{$context->request()->getRootUri()}/modules/sga.modulos");
     }

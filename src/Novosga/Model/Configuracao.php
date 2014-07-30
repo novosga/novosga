@@ -82,7 +82,7 @@ class Configuracao extends Model {
     
     /**
      * Cria ou atualiza uma configuração
-     * @param type $key
+     * @param string $key
      * @return Novosga\Model\Configuracao
      */
     public static function set(EntityManager $em, $key, $value) {
@@ -98,6 +98,17 @@ class Configuracao extends Model {
             $em->persist($config);
             $em->flush();
         }
+    }
+    
+    /**
+     * Apaga uma configuração
+     * @param string $key
+     * @return boolean
+     */
+    public static function del(EntityManager $em, $key) {
+        $query = $em->createQuery("DELETE FROM Novosga\Model\Configuracao e WHERE e.chave = :key");
+        $query->setParameter('key', $key);
+        return $query->execute();
     }
 
 }
