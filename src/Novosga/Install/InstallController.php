@@ -328,6 +328,10 @@ class InstallController extends InternalController {
          return dirname(__FILE__). DS . 'sql' . DS . 'data' . DS . 'default.sql';
     }
     
+    private function modules() {
+         return glob(MODULES_PATH . DS . 'sga' . DS . '*', GLOB_ONLYDIR);
+    }
+    
     public function test_db(Context $context) {
         if ($context->request()->isPost()) {
             $response = new JsonResponse(true, _('Banco de Dados testado com sucesso!'));
@@ -388,7 +392,6 @@ class InstallController extends InternalController {
                         throw new Exception($message);
                     }
                 }
-                $_POST['senha_2'] = $context->request()->post('senha_2');
 
                 $adm = array();
                 $adm['login'] = $context->request()->post('login');
@@ -405,10 +408,9 @@ class InstallController extends InternalController {
                 if (strlen($adm['senha']) < 6) {
                     throw new Exception(_('A senha deve possuir 6 ou mais letras/números.'));
                 }
-                if ($_POST['senha'] != $_POST['senha_2']) {
+                if ($adm['senha'] != $context->request()->post('senha_2')) {
                     throw new Exception(_('A senha não confere com a confirmação de senha.'));
                 }
-                $adm['senha_2'] = '';
                 $data->admin = $adm;
 
             } catch (Exception $e) {
@@ -457,20 +459,29 @@ class InstallController extends InternalController {
                 // nova instalacao
                 else {
                     $sqlInitFile = $this->script_create($session->get('adapter'));
-                    $sqlDataFile = $this->script_data();
                     // verifica se consegue ler o arquivo de criacao do banco
                     if (!is_readable($sqlInitFile)) {
                         $msg = _('Script SQL de instalação não encontrado (%s)');
                         throw new Exception(sprintf($msg, $sqlInitFile));
                     }
+                    // executando arquivo sql de criacao
+                    $conn->exec(file_get_contents($sqlInitFile));
+                    
+                    // instalando modulos
+                    $mb = new \Novosga\Business\ModuloBusiness($em);
+                    $modules = $this->modules();
+                    foreach ($modules as $dir) {
+                        $mb->install($dir, "sga." . basename($dir));
+                    }
+                    
+                    // finalizando instalacao com SQL auxiliar
+                    $sqlDataFile = $this->script_data();
                     // verifica se consegue ler o arquivo dos dados iniciais
                     if (!is_readable($sqlDataFile)) {
                         $msg = _('Script SQL de instalação não encontrado (%s)');
                         throw new Exception(sprintf($msg, $sqlDataFile));
                     }
                     
-                    // executando arquivo sql de criacao
-                    $conn->exec(file_get_contents($sqlInitFile));
                     // executando arquivo sql de dados iniciais
                     $adm = $data->admin;
                     $adm['senha'] = Security::passEncode($adm['senha']);

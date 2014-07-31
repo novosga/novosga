@@ -9,5 +9,10 @@
             "email": "rogeriolino@gmail.com",
             "homepage": "http://rogeriolino.com"
         }
-    ]
+    ],
+    "scripts": {
+        "post-install": [
+            "DataFixture::install"
+        ]
+    }
 }
