@@ -2,13 +2,13 @@
 # Translators:
 # Beat_Slayer <beat_slayer@live.nl>, 2013
 # janpaiva <jancleberpaiva@gmail.com>, 2013
-# Rogério Alencar Lino Filho <rogeriolino@gmail.com>, 2013
+# Rogério Lino <rogeriolino@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: novosga\n"
-"POT-Creation-Date: 2013-12-05 17:58-0300\n"
-"PO-Revision-Date: 2013-12-05 17:58-0300\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2014-07-31 09:19-0300\n"
+"PO-Revision-Date: 2014-07-31 09:19-0300\n"
+"Last-Translator: Rogério Lino <rogeriolino@gmail.com>\n"
 "Language-Team: English (http://www.transifex.com/projects/p/novosga/language/"
 "en/)\n"
 "Language: en\n"
@@ -17,249 +17,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.7\n"
-"X-Poedit-Basepath: ../../../../\n"
 "X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-Basepath: ../../../\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: cache\n"
-"X-Poedit-SearchPath-1: public\n"
-"X-Poedit-SearchPath-2: vendor/novosga\n"
-
-msgid "Código"
-msgstr "Code"
-
-msgid "Nome"
-msgstr "Name"
-
-msgid "Grupo"
-msgstr "Group"
-
-msgid "Status"
-msgstr "Status"
-
-msgid "Ativo"
-msgstr "Active"
-
-msgid "Inativo"
-msgstr "Inactive"
-
-msgid "Instalação"
-msgstr "Installation"
-
-msgid "Anterior"
-msgstr "Previous"
-
-msgid "Próximo"
-msgstr "Next"
-
-msgid "Hoje"
-msgstr "Today"
-
-msgid "Gráficos"
-msgstr "Charts"
-
-msgid "Relatórios"
-msgstr "Reports"
-
-msgid "Atendimentos realizados em %now%"
-msgstr "Attending realized in %now%"
-
-msgid "Atendimentos por situação"
-msgstr "Attending by situation"
-
-msgid "Atendimentos por serviço"
-msgstr "Servicing by service "
-
-msgid "Gráfico"
-msgstr "Chart"
-
-msgid "Selecione"
-msgstr "Choose"
-
-msgid "Unidade"
-msgstr "Unity"
-
-msgid "Todas"
-msgstr "All"
-
-msgid "Data inicial"
-msgstr "Start date"
-
-msgid "Data final"
-msgstr "End date"
-
-msgid "Gerar gráfico"
-msgstr "Generate chart"
-
-msgid "Relatório"
-msgstr "Report"
-
-msgid "Gerar relatório"
-msgstr "Generate report"
-
-msgid "dd/mm/yy"
-msgstr "mm/dd/yy"
-
-msgid "Nome de usuário"
-msgstr "Username"
-
-msgid "Descrição"
-msgstr "Description"
-
-msgid "Pai"
-msgstr "Parent"
-
-msgid "Período de %dataInicial% a %dataFinal%"
-msgstr ""
-
-msgid "Senha|Bilhete"
-msgstr "Ticket"
-
-msgid "Cliente"
-msgstr "Customer"
-
-msgid "Data"
-msgstr "Date"
-
-msgid "Hora de Chamada"
-msgstr "Calling time"
-
-msgid "Chamada"
-msgstr "Calling"
-
-msgid "Hora do Início do atendimento"
-msgstr "Servicing's start time"
-
-msgid "Início"
-msgstr "Home"
-
-msgid "Hora do Fim do atendimento"
-msgstr "Servicing's end time"
-
-msgid "Fim"
-msgstr "End"
-
-msgid "Tempo de duração do atendimento (Fim - Início)"
-msgstr "Total servicing's time ( Start - End )"
-
-msgid "Duração"
-msgstr "Duration"
-
-msgid "Tempo de permanência no local (Fim - Chegada)"
-msgstr ""
-
-msgid "Permanência"
-msgstr ""
-
-msgid "Serviço escolhido na triagem"
-msgstr "Service chosen on screening"
-
-msgid "Serviço Triado"
-msgstr "Screened service"
-
-msgid "Atendente"
-msgstr "Attendant"
-
-msgid "Sistema"
-msgstr "System"
-
-msgid "Triagem"
-msgstr "Screening"
-
-msgid "Sobre"
-msgstr "About"
-
-msgid "Banco de Dados"
-msgstr "Database"
-
-msgid "Chave"
-msgstr "Key"
-
-msgid "Valor"
-msgstr "Value"
-
-msgid "Autenticação"
-msgstr "Authentication"
-
-msgid "Configuração salva com sucesso"
-msgstr ""
-
-msgid "Tipo"
-msgstr "Type"
-
-msgid "LDAP e Banco de Dados"
-msgstr "LDAP and Database"
-
-msgid "Servidor"
-msgstr "Server"
-
-msgid "Porta"
-msgstr "Port"
-
-msgid "Base DN"
-msgstr "Base DN"
-
-msgid "Login Attribute"
-msgstr "Login Attribute"
-
-msgid "Usuário"
-msgstr "User"
-
-msgid "Senha"
-msgstr "Password"
-
-msgid "Filtro"
-msgstr "Filter"
-
-msgid "Salvar"
-msgstr "Save"
-
-msgid "Tipo de numeração"
-msgstr "Sequence type"
-
-msgid "Reiniciar senhas"
-msgstr "Reset tickets"
-
-msgid "Deseja realmente reiniciar as senhas de todas unidades?"
-msgstr "You are about to reset the tickets for all units. continue ?"
-
-msgid "Reiniciar"
-msgstr "Reset"
-
-msgid "Cron URL"
-msgstr "Cron URL"
-
-msgid "Verificar nova versão"
-msgstr "Check for update"
-
-msgid "Parabéns, você possui a versão mais recente"
-msgstr ""
-
-msgid "Acessar"
-msgstr "Go"
-
-msgid "Configuração"
-msgstr "Configuration"
-
-msgid "Senhas reiniciadas com sucesso"
-msgstr "Ticket number queues successfully reset  "
-
-msgid "Fechar"
-msgstr "Close"
-
-msgid "Módulos"
-msgstr "Modules"
-
-msgid "Sigla"
-msgstr "Char"
-
-msgid "Serviço"
-msgstr "Service"
-
-msgid "Nome Usuário"
-msgstr "Username"
-
-msgid "Entrar"
-msgstr "Enter"
+"X-Poedit-SearchPath-1: src\n"
+"X-Poedit-SearchPath-2: modules/sga\n"
 
 msgid "Instalar"
 msgstr "Install"
@@ -285,8 +48,248 @@ msgstr ""
 msgid "Ir para tela de login"
 msgstr "Go to login screen"
 
+msgid "Nome"
+msgstr "Name"
+
+msgid "Macro"
+msgstr "Master"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Ativo"
+msgstr "Active"
+
+msgid "Inativo"
+msgstr "Inactive"
+
+msgid "Chave"
+msgstr "Key"
+
+msgid "Instalação"
+msgstr "Installation"
+
+msgid "Anterior"
+msgstr "Previous"
+
+msgid "Próximo"
+msgstr "Next"
+
+msgid ""
+"<strong>Atenção:</strong> O banco de dados especificado precisa existir. A "
+"aplicação procurará por versões anteriores para atualizar o banco. Caso não "
+"exista uma versão, ou não queira atualizar, certifique-se que a banco esteja "
+"vazio."
+msgstr ""
+"<strong>Beware:<strong> The specified database must exist. This application "
+"will look for previous installations and eventually update its database. In "
+"case a previous version is not present or that the previous version is not "
+"supposed to be updated, make sure that the database is empty."
+
+msgid "Banco de Dados"
+msgstr "Database"
+
+msgid "Escolhido no passo 1"
+msgstr "Selected in the step 1"
+
+msgid "Clique para testar a conexão com o Banco de Dados."
+msgstr ""
+
+msgid "Testar"
+msgstr "Test"
+
+msgid "Geral"
+msgstr "General"
+
+msgid "Acesso"
+msgstr "Access"
+
+msgid "Nome de usuário"
+msgstr "Username"
+
+msgid "Sobrenome"
+msgstr "Lastname"
+
+msgid "Selecione"
+msgstr "Choose"
+
+msgid "Alterar"
+msgstr "Edit"
+
+msgid "Alterar senha do usuário"
+msgstr "Change user password"
+
+msgid "Senha"
+msgstr "Password"
+
+msgid "Confirmar senha"
+msgstr "Password confirm"
+
+msgid "Lotações"
+msgstr "Lotations"
+
+msgid ""
+"Lotação é o par de grupo e cargo, utilizado para definir o papel e acesso do "
+"usuário às unidades."
+msgstr ""
+"Lotation its the pair of group and job, used to define the user profile on "
+"the units access."
+
+msgid "Grupo"
+msgstr "Group"
+
+msgid "Cargo"
+msgstr "Job"
+
+msgid "Visualizar permissões"
+msgstr "Show permissions"
+
+msgid "Remover selecionados"
+msgstr "Remove selected"
+
+msgid "Adicionar"
+msgstr "Add"
+
+msgid "Atendimento"
+msgstr "Attending"
+
+msgid "Serviços que o usuário (atendente) atende em cada lotação."
+msgstr "Services that the user (attendant) attend at each lotation."
+
+msgid "Serviço"
+msgstr "Service"
+
+msgid "Unidade"
+msgstr "Unity"
+
+msgid "Lotação"
+msgstr "Lotation"
+
+msgid "Serviços"
+msgstr "Services"
+
+msgid "Permissões"
+msgstr "Permissions"
+
+msgid "Módulos"
+msgstr "Modules"
+
+msgid "Alterar senha"
+msgstr "Change password"
+
+msgid "Senha alterada com sucesso"
+msgstr "Password successfully updated"
+
+msgid "Realmente deseja excluir?"
+msgstr "Do you really want to delete?"
+
+msgid "Página não encontrada"
+msgstr "Page not found"
+
+msgid "Início"
+msgstr "Home"
+
+msgid "buscar"
+msgstr "search"
+
+msgid "Buscar"
+msgstr "Search"
+
+msgid "Novo"
+msgstr "New"
+
+msgid "Editar"
+msgstr "Edit"
+
+msgid "Excluir"
+msgstr "Delete"
+
 msgid "Peso"
 msgstr "Weight"
+
+msgid "Perfil"
+msgstr "Profile"
+
+msgid "Visualize e atualize o seu perfil"
+msgstr "See and update your profile"
+
+msgid "Perfil atualizado com sucesso"
+msgstr "Your profile has been successfully updated"
+
+msgid "Login"
+msgstr "Username"
+
+msgid "Salvar"
+msgstr "Save"
+
+msgid "Senha atual"
+msgstr "Current password"
+
+msgid "Nova senha"
+msgstr "New password"
+
+msgid "Confirmar nova senha"
+msgstr "Password confirm"
+
+msgid "Fechar"
+msgstr "Close"
+
+msgid "Descrição"
+msgstr "Description"
+
+msgid "Subserviços"
+msgstr "Subservices "
+
+msgid "Período de %dataInicial% a %dataFinal%"
+msgstr ""
+
+msgid "Usuário"
+msgstr "User"
+
+msgid "Atendimentos"
+msgstr "Attending"
+
+msgid "Tempo médio de espera"
+msgstr "Average waiting time"
+
+msgid "TME"
+msgstr "AWT"
+
+msgid "Tempo médio de deslocamento"
+msgstr "Average dislocation time"
+
+msgid "TMD"
+msgstr "ADT"
+
+msgid "Tempo médio de atendimento"
+msgstr "Average Servicing Time "
+
+msgid "TMA"
+msgstr "AST"
+
+msgid "Tempo total"
+msgstr "Total time"
+
+msgid "Legenda"
+msgstr "Legend"
+
+msgid "Código"
+msgstr "Code"
+
+msgid "Voltar"
+msgstr "Back"
+
+msgid "Campos obrigatórios"
+msgstr "Required fields"
+
+msgid "Campo obrigatório"
+msgstr "Required field"
+
+msgid "Mensagem"
+msgstr "Message"
+
+msgid "Cliente"
+msgstr "Customer"
 
 msgid "Documento"
 msgstr "Document"
@@ -315,17 +318,21 @@ msgstr ""
 msgid "Consultar senha"
 msgstr "Search ticket"
 
+msgid "Senha|Bilhete"
+msgstr "Ticket"
+
 msgid "Número"
 msgstr "Number"
 
 msgid "Última senha"
 msgstr "Last ticket"
 
+#, fuzzy
+msgid "Reimprimir"
+msgstr "Print"
+
 msgid "Nome original do serviço"
 msgstr "Orignal service name"
-
-msgid "Subserviços"
-msgstr "Subservices "
 
 msgid "Não há subserviços"
 msgstr "No subservices"
@@ -348,52 +355,335 @@ msgstr "Start date"
 msgid "Data fim"
 msgstr "End date"
 
+msgid "Triagem"
+msgstr "Screening"
+
+msgid "Atendente"
+msgstr "Attendant"
+
 msgid "Situação"
 msgstr "Status"
 
-msgid "Mensagem"
-msgstr "Message"
+msgid "Pai"
+msgstr "Parent"
+
+msgid "Sistema"
+msgstr "System"
+
+msgid "Sobre"
+msgstr "About"
+
+msgid "Valor"
+msgstr "Value"
+
+msgid "Autenticação"
+msgstr "Authentication"
+
+msgid "Configuração salva com sucesso"
+msgstr ""
+
+msgid "Tipo"
+msgstr "Type"
+
+msgid "LDAP e Banco de Dados"
+msgstr "LDAP and Database"
+
+msgid "Servidor"
+msgstr "Server"
+
+msgid "Porta"
+msgstr "Port"
+
+msgid "Base DN"
+msgstr "Base DN"
+
+msgid "Login Attribute"
+msgstr "Login Attribute"
+
+msgid "Filtro"
+msgstr "Filter"
+
+msgid "Tipo de numeração"
+msgstr "Sequence type"
+
+msgid "Reiniciar senhas"
+msgstr "Reset tickets"
+
+msgid "Deseja realmente reiniciar as senhas de todas unidades?"
+msgstr "You are about to reset the tickets for all units. continue ?"
+
+msgid "Reiniciar"
+msgstr "Reset"
+
+#, fuzzy
+msgid "Clientes"
+msgstr "Customer"
+
+msgid "Verificar nova versão"
+msgstr "Check for update"
+
+msgid "Parabéns, você possui a versão mais recente"
+msgstr ""
+
+msgid "Acessar"
+msgstr "Go"
+
+msgid "Configuração"
+msgstr "Configuration"
+
+msgid "Senhas reiniciadas com sucesso"
+msgstr "Ticket number queues successfully reset  "
 
 msgid ""
-"<strong>Atenção:</strong> O banco de dados especificado precisa existir. A "
-"aplicação procurará por versões anteriores para atualizar o banco. Caso não "
-"exista uma versão, ou não queira atualizar, certifique-se que a banco esteja "
-"vazio."
+"As modificações na sigla e nome do serviço são salvas automaticamente ao "
+"sair do campo."
 msgstr ""
-"<strong>Beware:<strong> The specified database must exist. This application "
-"will look for previous installations and eventually update its database. In "
-"case a previous version is not present or that the previous version is not "
-"supposed to be updated, make sure that the database is empty."
+"Modifications on the acronym and name of the service are saved automatically "
+"when you switch the fields."
 
-msgid "Escolhido no passo 1"
-msgstr "Selected in the step 1"
+msgid "Sigla"
+msgstr "Char"
 
-msgid "Clique para testar a conexão com o Banco de Dados."
+msgid "Local"
+msgstr "Location"
+
+msgid "Habilitar"
+msgstr "Enable"
+
+msgid "Desabilitar"
+msgstr "Disable"
+
+msgid "Impressão"
+msgstr "Print"
+
+msgid "Ativar impressão de senha"
+msgstr "Enable ticket print"
+
+msgid "Deseja realmente reiniciar as senhas?"
+msgstr "Do you really want to reset the tickets?"
+
+msgid "Data"
+msgstr "Date"
+
+msgid "Hora de Chamada"
+msgstr "Calling time"
+
+msgid "Chamada"
+msgstr "Calling"
+
+msgid "Hora do Início do atendimento"
+msgstr "Servicing's start time"
+
+msgid "Hora do Fim do atendimento"
+msgstr "Servicing's end time"
+
+msgid "Fim"
+msgstr "End"
+
+msgid "Serviço escolhido na triagem"
+msgstr "Service chosen on screening"
+
+msgid "Serviço Triado"
+msgstr "Screened service"
+
+msgid "Erro"
+msgstr "Error"
+
+msgid "d/m/Y"
+msgstr "m/d/Y"
+
+msgid ""
+"Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra "
+"máquina."
 msgstr ""
 
-msgid "Testar"
-msgstr "Test"
+msgid "Sessão expirada. Favor efetuar o login novamente."
+msgstr ""
 
-msgid "Página não encontrada"
-msgstr "Page not found"
+msgid "Trocar unidade"
+msgstr "Change unity"
 
-msgid "Autor"
-msgstr "Author"
+msgid "Escolher unidade"
+msgstr "Choose unity"
+
+msgid "Global"
+msgstr "Global"
+
+msgid "Sair"
+msgstr "Logout"
+
+msgid "Favor escolher a unidade"
+msgstr "Please choose a Unity"
+
+msgid "Enviar"
+msgstr "Send"
+
+msgid "Tempo de duração do atendimento (Fim - Início)"
+msgstr "Total servicing's time ( Start - End )"
+
+msgid "Duração"
+msgstr "Duration"
+
+msgid "Tempo de permanência no local (Fim - Chegada)"
+msgstr ""
+
+msgid "Permanência"
+msgstr ""
+
+#, fuzzy
+msgid "Serviços Codificados"
+msgstr "Realized services"
+
+msgid "Bem-vindo, %usuario%"
+msgstr "Welcome, %usuario%"
+
+msgid ""
+"Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código "
+"aberto e gratuito."
+msgstr "Novo SGA, open source web based servicing queue management system."
+
+msgid "Visualize abaixo os módulos disponíveis para a sua unidade"
+msgstr "See bellow the available modules for your unit"
+
+msgid "Visualize abaixo os módulos globais disponíveis que você possui acesso"
+msgstr "See bellow the available global modules for you"
+
+msgid "Guichê"
+msgstr "Box"
+
+msgid "Tipo de Atendimento"
+msgstr "Attending type"
+
+msgid "Chamar próximo"
+msgstr "Call next"
+
+msgid "Chamar novamente"
+msgstr "Call again"
+
+msgid "Iniciar atendimento"
+msgstr "Start attending"
+
+msgid "Não compareceu"
+msgstr "No-show"
+
+msgid "Encerrar atendimento"
+msgstr "Finish attending"
+
+msgid "Erro de triagem"
+msgstr "Screening error"
+
+msgid "Serviços disponíveis"
+msgstr "Available services"
+
+msgid "Serviços realizados"
+msgstr "Realized services"
+
+msgid "Marque para codificar e redirecionar o atendimento atual"
+msgstr "Select to encode and redirect the current attending"
+
+msgid "Redirecionar atendimento ao encerrar"
+msgstr "Redirect attending when closing"
+
+msgid "Minha fila"
+msgstr "My queue"
+
+msgid "Habilitar notificação"
+msgstr ""
+
+msgid "Redirecionar"
+msgstr "Redirect"
+
+msgid "Novo Serviço"
+msgstr "New service"
+
+msgid "Codificar e redirecionar"
+msgstr ""
+
+msgid "Data de chegada"
+msgstr "Date of arrival"
+
+msgid "Tempo de espera"
+msgstr "Waiting time"
+
+msgid "Data e hora no servidor"
+msgstr "Server datetime"
+
+msgid "Fila vazia"
+msgstr "Empty queue"
+
+msgid "Remover"
+msgstr "Remove"
+
+msgid "Realmente deseja marcar como erro de triagem?"
+msgstr "Do you really wish to declare screening error?"
+
+msgid "Realmente deseja marcar como não compareceu?"
+msgstr "Are you sure that you want to mark this ticket as no-show?"
+
+msgid "Nenhum serviço selecionado"
+msgstr "No service selected"
 
 msgid "Recarregar"
 msgstr "Reload"
 
-msgid "Voltar"
-msgstr "Back"
+#, fuzzy
+msgid "Deseja realmente desinstalar esse módulo?"
+msgstr "Do you really wish to cancel that ticket?"
+
+#, fuzzy
+msgid "Desinstalar"
+msgstr "Install"
+
+msgid "Escolha o arquivo"
+msgstr ""
+
+msgid "Imprimir"
+msgstr "Print"
+
+msgid "Hoje"
+msgstr "Today"
+
+msgid "Gráficos"
+msgstr "Charts"
+
+msgid "Relatórios"
+msgstr "Reports"
+
+msgid "Atendimentos realizados em %now%"
+msgstr "Attending realized in %now%"
+
+msgid "Atendimentos por situação"
+msgstr "Attending by situation"
+
+msgid "Atendimentos por serviço"
+msgstr "Servicing by service "
+
+msgid "Gráfico"
+msgstr "Chart"
+
+msgid "Todas"
+msgstr "All"
+
+msgid "Data inicial"
+msgstr "Start date"
+
+msgid "Data final"
+msgstr "End date"
+
+msgid "Gerar gráfico"
+msgstr "Generate chart"
+
+msgid "Relatório"
+msgstr "Report"
+
+msgid "Gerar relatório"
+msgstr "Generate report"
+
+msgid "dd/mm/yy"
+msgstr "mm/dd/yy"
 
 msgid "buscar senha"
 msgstr "search ticket"
-
-msgid "Atendimento"
-msgstr "Attending"
-
-msgid "Tempo de espera"
-msgstr "Waiting time"
 
 msgid "Reativar senha"
 msgstr "Reactivate ticket"
@@ -416,14 +706,20 @@ msgstr "New priority"
 msgid "Transferir"
 msgstr "Transfer"
 
-msgid "Data e hora no servidor"
-msgstr "Server datetime"
-
 msgid "Deseja realmente cancelar essa senha?"
 msgstr "Do you really wish to cancel that ticket?"
 
 msgid "Deseja realmente reativar essa senha?"
 msgstr "Do you really wish to reactivate that ticket?"
+
+msgid "Nome Usuário"
+msgstr "Username"
+
+msgid "Entrar"
+msgstr "Enter"
+
+msgid "Total"
+msgstr "Total"
 
 msgid ""
 "A instalação não pode continuar enquanto os requisitos abaixos não forem "
@@ -480,195 +776,6 @@ msgstr "PHP Info"
 msgid "Visualizar"
 msgstr "View"
 
-msgid "Campos obrigatórios"
-msgstr "Required fields"
-
-msgid "Realmente deseja excluir?"
-msgstr "Do you really want to delete?"
-
-msgid "Excluir"
-msgstr "Delete"
-
-msgid "Campo obrigatório"
-msgstr "Required field"
-
-msgid "Guichê"
-msgstr "Box"
-
-msgid "Tipo de Atendimento"
-msgstr "Attending type"
-
-msgid "Alterar"
-msgstr "Edit"
-
-msgid "Chamar próximo"
-msgstr "Call next"
-
-msgid "Chamar novamente"
-msgstr "Call again"
-
-msgid "Iniciar atendimento"
-msgstr "Start attending"
-
-msgid "Não compareceu"
-msgstr "No-show"
-
-msgid "Encerrar atendimento"
-msgstr "Finish attending"
-
-msgid "Erro de triagem"
-msgstr "Screening error"
-
-msgid "Serviços disponíveis"
-msgstr "Available services"
-
-msgid "Adicionar"
-msgstr "Add"
-
-msgid "Serviços realizados"
-msgstr "Realized services"
-
-msgid "Marque para codificar e redirecionar o atendimento atual"
-msgstr "Select to encode and redirect the current attending"
-
-msgid "Redirecionar atendimento ao encerrar"
-msgstr "Redirect attending when closing"
-
-msgid "Minha fila"
-msgstr "My queue"
-
-msgid "Redirecionar"
-msgstr "Redirect"
-
-msgid "Novo Serviço"
-msgstr "New service"
-
-msgid "Codificar e redirecionar"
-msgstr ""
-
-msgid "Data de chegada"
-msgstr "Date of arrival"
-
-msgid "Fila vazia"
-msgstr "Empty queue"
-
-msgid "Remover"
-msgstr "Remove"
-
-msgid "Realmente deseja marcar como erro de triagem?"
-msgstr "Do you really wish to declare screening error?"
-
-msgid "Realmente deseja marcar como não compareceu?"
-msgstr "Are you sure that you want to mark this ticket as no-show?"
-
-msgid "Nenhum serviço selecionado"
-msgstr "No service selected"
-
-msgid "Serviços"
-msgstr "Services"
-
-msgid ""
-"As modificações na sigla e nome do serviço são salvas automaticamente ao "
-"sair do campo."
-msgstr ""
-"Modifications on the acronym and name of the service are saved automatically "
-"when you switch the fields."
-
-msgid "Local"
-msgstr "Location"
-
-msgid "Habilitar"
-msgstr "Enable"
-
-msgid "Desabilitar"
-msgstr "Disable"
-
-msgid "Impressão"
-msgstr "Print"
-
-msgid "Ativar impressão de senha"
-msgstr "Enable ticket print"
-
-msgid "Deseja realmente reiniciar as senhas?"
-msgstr "Do you really want to reset the tickets?"
-
-msgid "Perfil"
-msgstr "Profile"
-
-msgid "Visualize e atualize o seu perfil"
-msgstr "See and update your profile"
-
-msgid "Perfil atualizado com sucesso"
-msgstr "Your profile has been successfully updated"
-
-msgid "Login"
-msgstr "Username"
-
-msgid "Sobrenome"
-msgstr "Lastname"
-
-msgid "Alterar senha"
-msgstr "Change password"
-
-msgid "Senha atual"
-msgstr "Current password"
-
-msgid "Nova senha"
-msgstr "New password"
-
-msgid "Confirmar nova senha"
-msgstr "Password confirm"
-
-msgid "Senha alterada com sucesso"
-msgstr "Password successfully updated"
-
-msgid "Cargo"
-msgstr "Job"
-
-#, php-format
-msgid "Período de %s a %s"
-msgstr "From %s till %s"
-
-msgid "Total"
-msgstr "Total"
-
-msgid "Geral"
-msgstr "General"
-
-msgid "Acesso"
-msgstr "Access"
-
-msgid "Alterar senha do usuário"
-msgstr "Change user password"
-
-msgid "Confirmar senha"
-msgstr "Password confirm"
-
-msgid "Lotações"
-msgstr "Lotations"
-
-msgid ""
-"Lotação é o par de grupo e cargo, utilizado para definir o papel e acesso do "
-"usuário às unidades."
-msgstr ""
-"Lotation its the pair of group and job, used to define the user profile on "
-"the units access."
-
-msgid "Visualizar permissões"
-msgstr "Show permissions"
-
-msgid "Remover selecionados"
-msgstr "Remove selected"
-
-msgid "Serviços que o usuário (atendente) atende em cada lotação."
-msgstr "Services that the user (attendant) attend at each lotation."
-
-msgid "Lotação"
-msgstr "Lotation"
-
-msgid "Permissões"
-msgstr "Permissions"
-
 msgid "Bem-vindo a instalação da versão web do Novo SGA."
 msgstr ""
 
@@ -680,274 +787,18 @@ msgid ""
 "listados abaixo:"
 msgstr ""
 
+msgid "Autor"
+msgstr "Author"
+
 msgid "Data de criação"
 msgstr "Creation date"
 
 msgid "Os requisitos para instalação do sistema irão depender da opção acima."
 msgstr ""
 
-msgid "buscar"
-msgstr "search"
-
-msgid "Buscar"
-msgstr "Search"
-
-msgid "Novo"
-msgstr "New"
-
-msgid "Editar"
-msgstr "Edit"
-
-msgid "Imprimir"
-msgstr "Print"
-
-msgid "Atendimentos"
-msgstr "Attending"
-
-msgid "Tempo médio de espera"
-msgstr "Average waiting time"
-
-msgid "TME"
-msgstr "AWT"
-
-msgid "Tempo médio de deslocamento"
-msgstr "Average dislocation time"
-
-msgid "TMD"
-msgstr "ADT"
-
-msgid "Tempo médio de atendimento"
-msgstr "Average Servicing Time "
-
-msgid "TMA"
-msgstr "AST"
-
-msgid "Tempo total"
-msgstr "Total time"
-
-msgid "Legenda"
-msgstr "Legend"
-
-msgid "Bem-vindo, %usuario%"
-msgstr "Welcome, %usuario%"
-
-msgid ""
-"Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código "
-"aberto e gratuito."
-msgstr "Novo SGA, open source web based servicing queue management system."
-
-msgid "Visualize abaixo os módulos disponíveis para a sua unidade"
-msgstr "See bellow the available modules for your unit"
-
-msgid "Global"
-msgstr "Global"
-
-msgid "Visualize abaixo os módulos globais disponíveis que você possui acesso"
-msgstr "See bellow the available global modules for you"
-
-msgid "Macro"
-msgstr "Master"
-
-msgid "Erro"
-msgstr "Error"
-
-msgid "d/m/Y"
-msgstr "m/d/Y"
-
-msgid "Trocar unidade"
-msgstr "Change unity"
-
-msgid "Escolher unidade"
-msgstr "Choose unity"
-
-msgid "Sair"
-msgstr "Logout"
-
-msgid "Favor escolher a unidade"
-msgstr "Please choose a Unity"
-
-msgid "Enviar"
-msgstr "Send"
-
-msgid "Incremental única"
-msgstr ""
-
-msgid "Incremental por serviço"
-msgstr ""
-
-msgid "Opção inválida"
-msgstr "Invalid option"
-
-msgid "Valor inválido"
-msgstr "Invalid value"
-
-msgid "Todos"
-msgstr "All"
-
-msgid "Convencional"
-msgstr "Normal"
-
-msgid "Já existe um atendimento em andamento"
-msgstr "There is already a servicing on"
-
-msgid "Nenhum atendimento disponível"
-msgstr "No servicing available "
-
-msgid "Nenhum unidade escolhida"
-msgstr "No unity selected"
-
-msgid "Nenhum atendimento em andamento"
-msgstr "No Servicing on at this moment"
-
-#, php-format
-msgid "Erro ao redirecionar atendimento %s para o serviço %s"
-msgstr ""
-
-#, php-format
-msgid "Erro ao codificar o atendimento %s"
-msgstr ""
-
-#, php-format
-msgid "Erro ao mudar status do atendimento %s para encerrado"
-msgstr ""
-
-msgid "Atendimento inválido"
-msgstr "Invalid attending"
-
-msgid "Nenhuma unidade selecionada"
-msgstr "No unity selected"
-
-msgid "Favor escolher o Cargo pai"
-msgstr "Please choose parent Job"
-
-msgid "Atendimentos por status"
-msgstr "Servicing by status"
-
-msgid "Tempo médio do atendimento"
-msgstr "Average Servicing Time "
-
-msgid "Serviços Disponíveis - Global"
-msgstr "Services available - Global "
-
-msgid "Serviços Disponíveis - Unidade"
-msgstr "Services available - Unit"
-
-msgid "Serviços codificados"
-msgstr ""
-
-msgid "Atendimentos concluídos"
-msgstr "Finished servicing"
-
-msgid "Atendimentos em todos os status"
-msgstr "Servicing at all status"
-
-msgid "Tempos médios por Atendente"
-msgstr ""
-
-msgid "Cargos"
-msgstr "Job"
-
-msgid "Gráfico inválido"
-msgstr "Invalid chart"
-
-msgid "Tempo de Espera"
-msgstr "Waiting time"
-
-msgid "Tempo de Deslocamento"
-msgstr "Dislocation time"
-
-msgid "Tempo de Atendimento"
-msgstr "Servicing's time"
-
-msgid "Tempo Total"
-msgstr "Total time"
-
-msgid "Favor escolher o Grupo pai"
-msgstr "Please choose parent Group"
-
-msgid ""
-"Esse grupo não pode ser excluído porque possui relacionamento com uma ou "
-"mais unidades."
-msgstr ""
-
-msgid "Módulo inválido"
-msgstr "Invalid module"
-
-msgid "Tipo de recurso inválido"
-msgstr "Resource type invalid"
-
-msgid "Permissão negada"
-msgstr "Permission denied"
-
-msgid "Não pode remover essa prioridade"
-msgstr "This priority can't be removed"
-
-msgid "Já existem atendimentos para o serviço que está tentando remover"
-msgstr ""
-
-msgid "Nenhum usuário na sessão"
-msgstr "No user logged in"
-
-msgid "Prioridade inválida"
-msgstr "Invalid priority"
-
-msgid "Serviço não disponível para a unidade atual"
-msgstr "Service not avaliable in the actual unit"
-
-msgid "Erro ao tentar gerar nova senha"
-msgstr "Error generating a new ticket number"
-
-msgid ""
-"Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de "
-"desenvolvimento informando esse problema, e o banco de dados que está usando"
-msgstr ""
-"Error retrieving the database generated ID. Please contact the development "
-"team and inform the this error along with the database type you are using."
-
-msgid "Serviço inválido"
-msgstr "Invalid service"
-
-msgid "Nenhum unidade definida"
-msgstr "No unit defined"
-
-msgid "Código de Unidade já existe"
-msgstr "Unity code already exists"
-
-msgid "Grupo inválido"
-msgstr "Invalid grupo"
-
-msgid "Não pode excluir essa unidade porque a mesma já possui atendimentos."
-msgstr ""
-"This Unit can't be excluded since it already has registered Servicing in it."
-
-msgid "O login deve conter somente letras e números."
-msgstr "The username must contain only letters and / or numbers"
-
-msgid "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
-msgstr "The username must be at least 5 and a maximum of 20 characters."
-
-msgid "O usuário deve possuir pelo menos uma lotação."
-msgstr ""
-
-msgid "O login informado já está cadastrado para outro usuário."
-msgstr "The informed login is already in use by another user."
-
-msgid "Não é possível excluir si próprio."
-msgstr ""
-
-msgid ""
-"Não é possível excluir esse usuário pois o mesmo já realizou atendimentos."
-msgstr ""
-
-msgid "Usuário inválido"
-msgstr "Invalid user"
-
 #, php-format
 msgid "Módulo \"%s\" não econtrado."
 msgstr "Module \"%s\" not found"
-
-msgid "Unidade não informada"
-msgstr ""
 
 msgid ""
 "Não foi possível conectar ao servidor LDAP. Favor verificar se as "
@@ -989,8 +840,65 @@ msgstr "Screening error"
 msgid "Atendimento encerrado e codificado"
 msgstr "Attending finished and encoded"
 
-msgid "Token de segurança inválido"
-msgstr "Invalid security token"
+msgid "Nenhum unidade escolhida"
+msgstr "No unity selected"
+
+msgid "Nenhum usuário na sessão"
+msgstr "No user logged in"
+
+msgid "Prioridade inválida"
+msgstr "Invalid priority"
+
+msgid "Serviço não disponível para a unidade atual"
+msgstr "Service not avaliable in the actual unit"
+
+msgid "Erro ao tentar gerar nova senha"
+msgstr "Error generating a new ticket number"
+
+msgid ""
+"Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de "
+"desenvolvimento informando esse problema, e o banco de dados que está usando"
+msgstr ""
+"Error retrieving the database generated ID. Please contact the development "
+"team and inform the this error along with the database type you are using."
+
+#, fuzzy, php-format
+msgid "Módulo %s não instalado"
+msgstr "Module \"%s\" not found"
+
+#, fuzzy, php-format
+msgid "Arquivo não encontrado: %s"
+msgstr "Page not found"
+
+msgid "Já possui um módulo com o mesmo nome"
+msgstr ""
+
+msgid "Não foi possível criar o diretório do módulo"
+msgstr ""
+
+msgid "Não foi possível mover os arquivos para o diretório dos módulos"
+msgstr ""
+
+#, fuzzy, php-format
+msgid "Arquivo %s não encontrado"
+msgstr "Module \"%s\" not found"
+
+#, php-format
+msgid ""
+"Formato inválido do nome do módulo: %s. Era esperado {vendorName}."
+"{moduleName}"
+msgstr ""
+
+msgid "O Manifest não contém um JSON válido"
+msgstr ""
+
+msgid ""
+"Formato do nome do script inválido. Era experado <ClassName>::<methodName>."
+msgstr ""
+
+#, php-format
+msgid "Arquivo de configuação (%s) somente leitura"
+msgstr "Config file (%s) has a Read Only attribute"
 
 msgid "Preencha os campos obrigatórios"
 msgstr "Please fill the required fields"
@@ -1012,14 +920,6 @@ msgstr "POST only"
 
 msgid "Senha atual não confere"
 msgstr "Current password don't match"
-
-msgid "Sessão expirada. Favor efetuar o login novamente."
-msgstr ""
-
-msgid ""
-"Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra "
-"máquina."
-msgstr ""
 
 msgid "Usuário ou senha inválido"
 msgstr "Invalid user or password"
@@ -1099,6 +999,12 @@ msgstr "No SQL file has been found for the selected type of data base"
 msgid "Dados do usuário informados com sucesso"
 msgstr "User's data successfully added"
 
+msgid "O login deve conter somente letras e números."
+msgstr "The username must contain only letters and / or numbers"
+
+msgid "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
+msgstr "The username must be at least 5 and a maximum of 20 characters."
+
 msgid "A senha deve possuir 6 ou mais letras/números."
 msgstr "A password must contain at least 6 characters."
 
@@ -1113,10 +1019,6 @@ msgstr "SGA is already installed"
 
 msgid "Os dados da instalação não foram encontrados. Favor iniciar novamente"
 msgstr "No installation data found. Please try again."
-
-#, php-format
-msgid "Arquivo de configuação (%s) somente leitura"
-msgstr "Config file (%s) has a Read Only attribute"
 
 #, php-format
 msgid "Script SQL de instalação não encontrado (%s)"
@@ -1140,5 +1042,217 @@ msgstr "Ticket acronym must be a char."
 msgid "O numero da senha deve ser um inteiro maior que zero"
 msgstr "Ticket number must be an integer greater than zero"
 
+msgid "Convencional"
+msgstr "Normal"
+
 msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
 msgstr "Error defining user box. Must be a number greater than zero."
+
+msgid "Incremental única"
+msgstr ""
+
+msgid "Incremental por serviço"
+msgstr ""
+
+msgid "Opção inválida"
+msgstr "Invalid option"
+
+msgid "Valor inválido"
+msgstr "Invalid value"
+
+msgid "Todos"
+msgstr "All"
+
+msgid "Já existe um atendimento em andamento"
+msgstr "There is already a servicing on"
+
+msgid "Nenhum atendimento disponível"
+msgstr "No servicing available "
+
+msgid "Nenhum atendimento em andamento"
+msgstr "No Servicing on at this moment"
+
+#, php-format
+msgid "Erro ao redirecionar atendimento %s para o serviço %s"
+msgstr ""
+
+#, php-format
+msgid "Erro ao codificar o atendimento %s"
+msgstr ""
+
+#, php-format
+msgid "Erro ao mudar status do atendimento %s para encerrado"
+msgstr ""
+
+msgid "Atendimento inválido"
+msgstr "Invalid attending"
+
+msgid "Nenhuma unidade selecionada"
+msgstr "No unity selected"
+
+msgid "Favor escolher o Cargo pai"
+msgstr "Please choose parent Job"
+
+#, fuzzy
+msgid "Administrador"
+msgstr "Administrator settings"
+
+msgid "Administrador geral do sistema"
+msgstr ""
+
+msgid "Atendimentos por status"
+msgstr "Servicing by status"
+
+msgid "Tempo médio do atendimento"
+msgstr "Average Servicing Time "
+
+msgid "Serviços Disponíveis - Global"
+msgstr "Services available - Global "
+
+msgid "Serviços Disponíveis - Unidade"
+msgstr "Services available - Unit"
+
+msgid "Serviços codificados"
+msgstr ""
+
+msgid "Atendimentos concluídos"
+msgstr "Finished servicing"
+
+msgid "Atendimentos em todos os status"
+msgstr "Servicing at all status"
+
+msgid "Tempos médios por Atendente"
+msgstr ""
+
+msgid "Cargos"
+msgstr "Job"
+
+msgid "Gráfico inválido"
+msgstr "Invalid chart"
+
+msgid "Tempo de Espera"
+msgstr "Waiting time"
+
+msgid "Tempo de Deslocamento"
+msgstr "Dislocation time"
+
+msgid "Tempo de Atendimento"
+msgstr "Servicing's time"
+
+msgid "Tempo Total"
+msgstr "Total time"
+
+msgid "Raíz"
+msgstr ""
+
+#, fuzzy
+msgid "Grupo Raíz"
+msgstr "Group"
+
+msgid "Favor escolher o Grupo pai"
+msgstr "Please choose parent Group"
+
+msgid ""
+"Esse grupo não pode ser excluído porque possui relacionamento com uma ou "
+"mais unidades."
+msgstr ""
+
+msgid "Sala"
+msgstr ""
+
+msgid "Mesa"
+msgstr ""
+
+msgid "Tipo de recurso inválido"
+msgstr "Resource type invalid"
+
+msgid "Módulo inválido"
+msgstr "Invalid module"
+
+msgid "Permissão negada"
+msgstr "Permission denied"
+
+#, fuzzy
+msgid "Módulo instalado com sucesso"
+msgstr "Your profile has been successfully updated"
+
+#, fuzzy
+msgid "Sem prioridade"
+msgstr "Generate priority"
+
+#, fuzzy
+msgid "Atendimento normal"
+msgstr "Attending finished"
+
+msgid "Portador de Deficiência"
+msgstr ""
+
+msgid "Atendimento prioritáro para portadores de deficiência"
+msgstr ""
+
+msgid "Gestante"
+msgstr ""
+
+#, fuzzy
+msgid "Atendimento prioritáro para gestantes"
+msgstr "Servicing by status"
+
+msgid "Idoso"
+msgstr ""
+
+#, fuzzy
+msgid "Atendimento prioritáro para idosos"
+msgstr "Invalid attending"
+
+msgid "Outros"
+msgstr ""
+
+#, fuzzy
+msgid "Qualquer outra prioridade"
+msgstr "Generate priority"
+
+msgid "Não pode remover essa prioridade"
+msgstr "This priority can't be removed"
+
+msgid "Já existem atendimentos para o serviço que está tentando remover"
+msgstr ""
+
+msgid "Serviço inválido"
+msgstr "Invalid service"
+
+#, fuzzy
+msgid "Unidade Padrão"
+msgstr "Unity"
+
+#, fuzzy
+msgid "Novo SGA"
+msgstr "New"
+
+msgid "Nenhum unidade definida"
+msgstr "No unit defined"
+
+msgid "Código de Unidade já existe"
+msgstr "Unity code already exists"
+
+msgid "Grupo inválido"
+msgstr "Invalid grupo"
+
+msgid "Não pode excluir essa unidade porque a mesma já possui atendimentos."
+msgstr ""
+"This Unit can't be excluded since it already has registered Servicing in it."
+
+msgid "O usuário deve possuir pelo menos uma lotação."
+msgstr ""
+
+msgid "O login informado já está cadastrado para outro usuário."
+msgstr "The informed login is already in use by another user."
+
+msgid "Não é possível excluir si próprio."
+msgstr ""
+
+msgid ""
+"Não é possível excluir esse usuário pois o mesmo já realizou atendimentos."
+msgstr ""
+
+msgid "Usuário inválido"
+msgstr "Invalid user"
