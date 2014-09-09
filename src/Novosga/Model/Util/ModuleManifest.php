@@ -40,8 +40,8 @@ class ModuleManifest {
             $this->module = new Modulo();
             $this->module->setChave($this->key);
             $this->module->setTipo((int) Arrays::value($this->data, 'type', 0));
-            $this->module->setNome(Arrays::value($this->data, 'name'));
-            $this->module->setDescricao(Arrays::value($this->data, 'description'));
+            $this->module->setNome(_(Arrays::value($this->data, 'name')));
+            $this->module->setDescricao(_(Arrays::value($this->data, 'description')));
             $this->module->setStatus(0);
         }
         return $this->module;

@@ -1,11 +1,11 @@
-# 
+#
 # Translators:
 # Rogério Lino <rogeriolino@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Novo SGA\n"
 "POT-Creation-Date: 2014-07-31 09:13-0300\n"
-"PO-Revision-Date: 2014-07-31 09:16-0300\n"
+"PO-Revision-Date: 2014-09-09 15:18-0300\n"
 "Last-Translator: Rogério Lino <rogeriolino@gmail.com>\n"
 "Language-Team: Português (idioma padrão)\n"
 "Language: pt_BR\n"
@@ -141,9 +141,6 @@ msgstr ""
 msgid "Adicionar"
 msgstr ""
 
-msgid "Atendimento"
-msgstr ""
-
 msgid "Serviços que o usuário (atendente) atende em cada lotação."
 msgstr ""
 
@@ -156,13 +153,7 @@ msgstr ""
 msgid "Lotação"
 msgstr ""
 
-msgid "Serviços"
-msgstr ""
-
 msgid "Permissões"
-msgstr ""
-
-msgid "Módulos"
 msgstr ""
 
 msgid "Alterar senha"
@@ -346,9 +337,6 @@ msgstr ""
 msgid "Data fim"
 msgstr ""
 
-msgid "Triagem"
-msgstr ""
-
 msgid "Atendente"
 msgstr ""
 
@@ -416,9 +404,6 @@ msgid "Parabéns, você possui a versão mais recente"
 msgstr ""
 
 msgid "Acessar"
-msgstr ""
-
-msgid "Configuração"
 msgstr ""
 
 msgid "Senhas reiniciadas com sucesso"
@@ -1102,9 +1087,6 @@ msgstr ""
 msgid "Tempos médios por Atendente"
 msgstr ""
 
-msgid "Cargos"
-msgstr ""
-
 msgid "Gráfico inválido"
 msgstr ""
 
@@ -1223,4 +1205,90 @@ msgid ""
 msgstr ""
 
 msgid "Usuário inválido"
+msgstr ""
+
+# modulos
+
+msgid "Administração"
+msgstr ""
+
+msgid "Configurações gerais do sistema"
+msgstr ""
+
+msgid "Atendimento"
+msgstr ""
+
+msgid "Efetue o atendimento às senhas distribuídas dos serviços que você atende"
+msgstr ""
+
+msgid "Cargos"
+msgstr ""
+
+msgid "Gerencie os cargos do sistema"
+msgstr ""
+
+msgid "Estatísticas"
+msgstr ""
+
+msgid "Visualize e exporte estastísticas e relatórios sobre o sistema"
+msgstr ""
+
+msgid "Grupos"
+msgstr ""
+
+msgid "Gerencie os grupos do sistema"
+msgstr ""
+
+msgid "Locais"
+msgstr ""
+
+msgid "Gerencie os locais de atendimento"
+msgstr ""
+
+msgid "Módulos"
+msgstr ""
+
+msgid "Gerencie os módulos instalados"
+msgstr ""
+
+msgid "Monitor"
+msgstr ""
+
+msgid "Gerencie as senhas aguardando atendimento"
+msgstr ""
+
+msgid "Prioridades"
+msgstr ""
+
+msgid "Gerencie os prioridades do sistema"
+msgstr ""
+
+msgid "Serviços"
+msgstr ""
+
+msgid "Gerencie os serviços do sistema"
+msgstr ""
+
+msgid "Triagem"
+msgstr ""
+
+msgid "Gerencie a distribuíção das senhas da unidade atual"
+msgstr ""
+
+msgid "Configuração"
+msgstr ""
+
+msgid "Módulo para gerenciamento da unidade atual"
+msgstr ""
+
+msgid "Unidades"
+msgstr ""
+
+msgid "Gerencie as unidades do sistema"
+msgstr ""
+
+msgid "Usuários"
+msgstr ""
+
+msgid "Gerencie os usuários do sistema"
 msgstr ""
