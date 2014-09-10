@@ -71,10 +71,11 @@ SGA.Admin = {
                     if (response && response.data) {
                         for (var i = 0; i < response.data.length; i++) {
                             var client = response.data[i];
+                            var secret = new Array(client.client_secret.length + 1).join('*');
                             table.append(
                                 $('<tr></tr>')
                                     .append('<td>' + client.client_id + '</td>')
-                                    .append('<td>' + client.client_secret + '</td>')
+                                    .append('<td><a href="#" data-secret="' + client.client_secret + '" data-default="' + secret + '">' + secret + '</a></td>')
                                     .append('<td>' + client.redirect_uri + '</td>')
                                     .append(
                                         $('<td class="buttons"></td>')
@@ -116,6 +117,16 @@ SGA.Admin = {
                                             )
                                     )
                             );
+                            table.find('[data-secret]').on('click', function() {
+                                var elem = $(this);
+                                var hide = elem.data('default');
+                                if (elem.text() === hide) {
+                                    elem.text(elem.data('secret'));
+                                } else {
+                                    elem.text(hide);
+                                }
+                                return false;
+                            });
                         }
                     }
                 }

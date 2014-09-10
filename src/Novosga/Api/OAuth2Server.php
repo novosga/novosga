@@ -30,7 +30,9 @@ class OAuth2Server extends Server {
         ));
         $this->addGrantType(new ClientCredentials($this->storage));
         $this->addGrantType(new AuthorizationCode($this->storage));
-        $this->addGrantType(new RefreshToken($this->storage));
+        $this->addGrantType(new RefreshToken($this->storage, array(
+            'always_issue_new_refresh_token' => true
+        )));
         $this->addGrantType(new UserCredentials($this->storage));
         $this->em = $em;
     }

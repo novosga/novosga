@@ -171,7 +171,6 @@ class AdminController extends ModuleController {
     
     public function delete_oauth_client(Context $context) {
         $response = new JsonResponse(true);
-        $conn = $this->em()->getConnection();
         $client_id = $context->request()->post('client_id');
         $this->delete_auth_client_by_id($client_id);
         return $response;

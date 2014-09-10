@@ -129,7 +129,8 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     $method = new \ReflectionMethod($ctrl, $methodName);
     $response = $method->invokeArgs($ctrl, $args);
     if ($response && $response instanceof \Novosga\Http\JsonResponse) {
-        echo $response->toJson();
+        $app->response()->header('Content-type', 'application/json');
+        $app->response()->write($response->toJson());
     } else {
         echo $app->render("$action.html.twig");
     }
