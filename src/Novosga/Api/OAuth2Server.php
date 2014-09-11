@@ -39,7 +39,7 @@ class OAuth2Server extends Server {
     
     public function checkAccess() {
         if (!$this->verifyResourceRequest(Request::createFromGlobals())) {
-            throw new Exception('Permission denied', 404);
+            throw new Exception('Permission denied', 403);
         }
     }
     
