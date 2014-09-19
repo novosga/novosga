@@ -37,7 +37,6 @@ A aplicação web escrita em PHP utilizando as melhores práticas de desenvolvim
 Testado no seguintes bancos:
 - [PostgreSQL](http://www.postgresql.org/)
 - [MySQL](http://www.mysql.org)
-- MS SQL
 
 
 ## Demo
