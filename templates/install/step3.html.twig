@@ -20,22 +20,23 @@
                 <input type="text" id="host" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="form-group">
-                <label for="port">Porta:</label>
+                <label for="port">{% trans %}Porta{% endtrans %}:</label>
                 <input type="text" id="port" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="form-group">
-                <label for="user">Usuário:</label>
+                <label for="user">{% trans %}Usuário {% endtrans %}:</label>
                 <input type="text" id="user" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="form-group">
-                <label for="password">Senha:</label>
+                <label for="password">{% trans %}Senha{% endtrans %}:</label>
                 <input type="password" id="password" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
             <div class="form-group">
                 <label for="dbname">Database:</label>
                 <input type="text" id="dbname" class="form-control" onchange="SGA.Install.onChangeData()" />
             </div>
-            <div class="alert alert-block">É necessário testar o banco antes de prosseguir.
+            <div class="alert alert-block">
+                {% trans %}É necessário testar o banco antes de prosseguir.{% endtrans %}
                 <button id="btn_test_db" class="btn btn-default" onclick="SGA.Install.testDB()"
                         title="{% trans %}Clique para testar a conexão com o Banco de Dados.{% endtrans %}">{% trans %}Testar{% endtrans %}</button>
             </div>
