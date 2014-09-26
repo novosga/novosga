@@ -1,24 +1,27 @@
 #
 # Translators:
-# Beat_Slayer <beat_slayer@live.nl>, 2013
-# janpaiva <jancleberpaiva@gmail.com>, 2013
-# Rogério Lino <rogeriolino@gmail.com>, 2013
+# Afonso Salgado <beat_slayer@live.nl>, 2013
+# daniel.silvestre <daniel.silvestre@gmail.com>, 2014
+# Jan Cleber Paiva <jancleberpaiva@gmail.com>, 2013
+# Rafael Tiussi Broseghini, 2014
+# Rogério Lino <rogeriolino@gmail.com>, 2013-2014
+# Rafael Tiussi Broseghini, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: novosga\n"
-"POT-Creation-Date: 2014-07-31 09:19-0300\n"
-"PO-Revision-Date: 2014-07-31 09:19-0300\n"
+"POT-Creation-Date: 2014-07-31 09:13-0300\n"
+"PO-Revision-Date: 2014-09-26 13:52-0300\n"
 "Last-Translator: Rogério Lino <rogeriolino@gmail.com>\n"
 "Language-Team: English (http://www.transifex.com/projects/p/novosga/language/"
 "en/)\n"
-"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.7\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: ../../../\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: cache\n"
 "X-Poedit-SearchPath-1: src\n"
@@ -43,7 +46,7 @@ msgid "Clique para iniciar o processo final de instalação."
 msgstr "Click Install to start the installation process"
 
 msgid "Clique para iniciar a utilização do SGA."
-msgstr ""
+msgstr "Click to start using SGA."
 
 msgid "Ir para tela de login"
 msgstr "Go to login screen"
@@ -93,7 +96,7 @@ msgid "Escolhido no passo 1"
 msgstr "Selected in the step 1"
 
 msgid "Clique para testar a conexão com o Banco de Dados."
-msgstr ""
+msgstr "Click to test database connection."
 
 msgid "Testar"
 msgstr "Test"
@@ -150,9 +153,6 @@ msgstr "Remove selected"
 msgid "Adicionar"
 msgstr "Add"
 
-msgid "Atendimento"
-msgstr "Attending"
-
 msgid "Serviços que o usuário (atendente) atende em cada lotação."
 msgstr "Services that the user (attendant) attend at each lotation."
 
@@ -165,14 +165,8 @@ msgstr "Unity"
 msgid "Lotação"
 msgstr "Lotation"
 
-msgid "Serviços"
-msgstr "Services"
-
 msgid "Permissões"
 msgstr "Permissions"
-
-msgid "Módulos"
-msgstr "Modules"
 
 msgid "Alterar senha"
 msgstr "Change password"
@@ -241,7 +235,7 @@ msgid "Subserviços"
 msgstr "Subservices "
 
 msgid "Período de %dataInicial% a %dataFinal%"
-msgstr ""
+msgstr "From %dataInicial% to %dataFinal%"
 
 msgid "Usuário"
 msgstr "User"
@@ -313,7 +307,7 @@ msgid "Prioridade"
 msgstr "Priority"
 
 msgid "Nenhum serviço habilitado para a unidade atual"
-msgstr ""
+msgstr "No active service on the current unity"
 
 msgid "Consultar senha"
 msgstr "Search ticket"
@@ -327,9 +321,8 @@ msgstr "Number"
 msgid "Última senha"
 msgstr "Last ticket"
 
-#, fuzzy
 msgid "Reimprimir"
-msgstr "Print"
+msgstr "Reprint"
 
 msgid "Nome original do serviço"
 msgstr "Orignal service name"
@@ -355,9 +348,6 @@ msgstr "Start date"
 msgid "Data fim"
 msgstr "End date"
 
-msgid "Triagem"
-msgstr "Screening"
-
 msgid "Atendente"
 msgstr "Attendant"
 
@@ -380,7 +370,7 @@ msgid "Autenticação"
 msgstr "Authentication"
 
 msgid "Configuração salva com sucesso"
-msgstr ""
+msgstr "Configuration saved successfully"
 
 msgid "Tipo"
 msgstr "Type"
@@ -415,21 +405,17 @@ msgstr "You are about to reset the tickets for all units. continue ?"
 msgid "Reiniciar"
 msgstr "Reset"
 
-#, fuzzy
 msgid "Clientes"
-msgstr "Customer"
+msgstr "Clients"
 
 msgid "Verificar nova versão"
 msgstr "Check for update"
 
 msgid "Parabéns, você possui a versão mais recente"
-msgstr ""
+msgstr "Congratulations, you have the latest version"
 
 msgid "Acessar"
 msgstr "Go"
-
-msgid "Configuração"
-msgstr "Configuration"
 
 msgid "Senhas reiniciadas com sucesso"
 msgstr "Ticket number queues successfully reset  "
@@ -495,10 +481,10 @@ msgstr "m/d/Y"
 msgid ""
 "Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra "
 "máquina."
-msgstr ""
+msgstr "Invalid Session. This user is probably logged on to another computer."
 
 msgid "Sessão expirada. Favor efetuar o login novamente."
-msgstr ""
+msgstr "Session expired. Please log in again."
 
 msgid "Trocar unidade"
 msgstr "Change unity"
@@ -530,9 +516,8 @@ msgstr ""
 msgid "Permanência"
 msgstr ""
 
-#, fuzzy
 msgid "Serviços Codificados"
-msgstr "Realized services"
+msgstr ""
 
 msgid "Bem-vindo, %usuario%"
 msgstr "Welcome, %usuario%"
@@ -588,7 +573,7 @@ msgid "Minha fila"
 msgstr "My queue"
 
 msgid "Habilitar notificação"
-msgstr ""
+msgstr "Enable notification"
 
 msgid "Redirecionar"
 msgstr "Redirect"
@@ -626,16 +611,14 @@ msgstr "No service selected"
 msgid "Recarregar"
 msgstr "Reload"
 
-#, fuzzy
 msgid "Deseja realmente desinstalar esse módulo?"
-msgstr "Do you really wish to cancel that ticket?"
+msgstr "Do you really want to uninstall this module?"
 
-#, fuzzy
 msgid "Desinstalar"
-msgstr "Install"
+msgstr "Uninstall"
 
 msgid "Escolha o arquivo"
-msgstr ""
+msgstr "Choose the file"
 
 msgid "Imprimir"
 msgstr "Print"
@@ -777,7 +760,7 @@ msgid "Visualizar"
 msgstr "View"
 
 msgid "Bem-vindo a instalação da versão web do Novo SGA."
-msgstr ""
+msgstr "Welcome to the installation of the web version of the New SGA."
 
 msgid "Versão"
 msgstr "Version"
@@ -785,7 +768,7 @@ msgstr "Version"
 msgid ""
 "Favor escolher o seu sistema de banco de dados preferido a partir dos "
 "listados abaixo:"
-msgstr ""
+msgstr "Please choose your preferred database system from the list below:"
 
 msgid "Autor"
 msgstr "Author"
@@ -862,39 +845,39 @@ msgstr ""
 "Error retrieving the database generated ID. Please contact the development "
 "team and inform the this error along with the database type you are using."
 
-#, fuzzy, php-format
+#, php-format
 msgid "Módulo %s não instalado"
-msgstr "Module \"%s\" not found"
+msgstr "Module %s not installed"
 
-#, fuzzy, php-format
+#, php-format
 msgid "Arquivo não encontrado: %s"
-msgstr "Page not found"
+msgstr "File not found: %s"
 
 msgid "Já possui um módulo com o mesmo nome"
-msgstr ""
+msgstr "A module with the same name exists"
 
 msgid "Não foi possível criar o diretório do módulo"
-msgstr ""
+msgstr "Unable to create module directory"
 
 msgid "Não foi possível mover os arquivos para o diretório dos módulos"
-msgstr ""
+msgstr "Unable to move files to modules directory"
 
-#, fuzzy, php-format
+#, php-format
 msgid "Arquivo %s não encontrado"
-msgstr "Module \"%s\" not found"
+msgstr "File %s not found"
 
 #, php-format
 msgid ""
 "Formato inválido do nome do módulo: %s. Era esperado {vendorName}."
 "{moduleName}"
-msgstr ""
+msgstr "Invalid module name format: %s. Expected {vendorName}.{moduleName}"
 
 msgid "O Manifest não contém um JSON válido"
-msgstr ""
+msgstr "The Manifest does not contain a valid JSON"
 
 msgid ""
 "Formato do nome do script inválido. Era experado <ClassName>::<methodName>."
-msgstr ""
+msgstr "Invalid script name format. Expected <ClassName>::<methodName>"
 
 #, php-format
 msgid "Arquivo de configuação (%s) somente leitura"
@@ -1049,10 +1032,10 @@ msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
 msgstr "Error defining user box. Must be a number greater than zero."
 
 msgid "Incremental única"
-msgstr ""
+msgstr "Unique number sequence"
 
 msgid "Incremental por serviço"
-msgstr ""
+msgstr "Sequence number by service"
 
 msgid "Opção inválida"
 msgstr "Invalid option"
@@ -1093,12 +1076,11 @@ msgstr "No unity selected"
 msgid "Favor escolher o Cargo pai"
 msgstr "Please choose parent Job"
 
-#, fuzzy
 msgid "Administrador"
-msgstr "Administrator settings"
+msgstr "Administrator"
 
 msgid "Administrador geral do sistema"
-msgstr ""
+msgstr "Global system administrator"
 
 msgid "Atendimentos por status"
 msgstr "Servicing by status"
@@ -1124,9 +1106,6 @@ msgstr "Servicing at all status"
 msgid "Tempos médios por Atendente"
 msgstr ""
 
-msgid "Cargos"
-msgstr "Job"
-
 msgid "Gráfico inválido"
 msgstr "Invalid chart"
 
@@ -1143,11 +1122,10 @@ msgid "Tempo Total"
 msgstr "Total time"
 
 msgid "Raíz"
-msgstr ""
+msgstr "Root"
 
-#, fuzzy
 msgid "Grupo Raíz"
-msgstr "Group"
+msgstr "Main Group"
 
 msgid "Favor escolher o Grupo pai"
 msgstr "Please choose parent Group"
@@ -1156,12 +1134,13 @@ msgid ""
 "Esse grupo não pode ser excluído porque possui relacionamento com uma ou "
 "mais unidades."
 msgstr ""
+"This group can not be deleted because it is linked to one or more unities."
 
 msgid "Sala"
-msgstr ""
+msgstr "Room"
 
 msgid "Mesa"
-msgstr ""
+msgstr "Desk"
 
 msgid "Tipo de recurso inválido"
 msgstr "Resource type invalid"
@@ -1172,17 +1151,14 @@ msgstr "Invalid module"
 msgid "Permissão negada"
 msgstr "Permission denied"
 
-#, fuzzy
 msgid "Módulo instalado com sucesso"
-msgstr "Your profile has been successfully updated"
+msgstr "Module successfully installed"
 
-#, fuzzy
 msgid "Sem prioridade"
-msgstr "Generate priority"
+msgstr "No priority"
 
-#, fuzzy
 msgid "Atendimento normal"
-msgstr "Attending finished"
+msgstr "Normal attending"
 
 msgid "Portador de Deficiência"
 msgstr ""
@@ -1191,25 +1167,22 @@ msgid "Atendimento prioritáro para portadores de deficiência"
 msgstr ""
 
 msgid "Gestante"
-msgstr ""
+msgstr "Pregnant woman"
 
-#, fuzzy
 msgid "Atendimento prioritáro para gestantes"
-msgstr "Servicing by status"
+msgstr ""
 
 msgid "Idoso"
-msgstr ""
+msgstr "Elderly"
 
-#, fuzzy
 msgid "Atendimento prioritáro para idosos"
-msgstr "Invalid attending"
+msgstr ""
 
 msgid "Outros"
-msgstr ""
+msgstr "Others"
 
-#, fuzzy
 msgid "Qualquer outra prioridade"
-msgstr "Generate priority"
+msgstr "Other priority"
 
 msgid "Não pode remover essa prioridade"
 msgstr "This priority can't be removed"
@@ -1220,13 +1193,11 @@ msgstr ""
 msgid "Serviço inválido"
 msgstr "Invalid service"
 
-#, fuzzy
 msgid "Unidade Padrão"
-msgstr "Unity"
+msgstr "Default unity"
 
-#, fuzzy
 msgid "Novo SGA"
-msgstr "New"
+msgstr "Novo SGA"
 
 msgid "Nenhum unidade definida"
 msgstr "No unit defined"
@@ -1248,7 +1219,7 @@ msgid "O login informado já está cadastrado para outro usuário."
 msgstr "The informed login is already in use by another user."
 
 msgid "Não é possível excluir si próprio."
-msgstr ""
+msgstr "It is not possible to delete yourself."
 
 msgid ""
 "Não é possível excluir esse usuário pois o mesmo já realizou atendimentos."
@@ -1256,3 +1227,89 @@ msgstr ""
 
 msgid "Usuário inválido"
 msgstr "Invalid user"
+
+# modulos
+msgid "Administração"
+msgstr "Administration"
+
+msgid "Configurações gerais do sistema"
+msgstr "General settings"
+
+msgid "Atendimento"
+msgstr "Attending"
+
+msgid ""
+"Efetue o atendimento às senhas distribuídas dos serviços que você atende"
+msgstr ""
+
+msgid "Cargos"
+msgstr "Job"
+
+msgid "Gerencie os cargos do sistema"
+msgstr ""
+
+msgid "Estatísticas"
+msgstr "Statistics"
+
+msgid "Visualize e exporte estastísticas e relatórios sobre o sistema"
+msgstr ""
+
+msgid "Grupos"
+msgstr "Groups"
+
+msgid "Gerencie os grupos do sistema"
+msgstr "Manage system groups"
+
+msgid "Locais"
+msgstr "Places"
+
+msgid "Gerencie os locais de atendimento"
+msgstr ""
+
+msgid "Módulos"
+msgstr "Modules"
+
+msgid "Gerencie os módulos instalados"
+msgstr "Manage installed modules"
+
+msgid "Monitor"
+msgstr ""
+
+msgid "Gerencie as senhas aguardando atendimento"
+msgstr ""
+
+msgid "Prioridades"
+msgstr "Priorities"
+
+msgid "Gerencie os prioridades do sistema"
+msgstr "Manage system priorities"
+
+msgid "Serviços"
+msgstr "Services"
+
+msgid "Gerencie os serviços do sistema"
+msgstr "Manage system services"
+
+msgid "Triagem"
+msgstr "Screening"
+
+msgid "Gerencie a distribuíção das senhas da unidade atual"
+msgstr ""
+
+msgid "Configuração"
+msgstr "Configuration"
+
+msgid "Módulo para gerenciamento da unidade atual"
+msgstr ""
+
+msgid "Unidades"
+msgstr "Unities"
+
+msgid "Gerencie as unidades do sistema"
+msgstr "Manage system unities"
+
+msgid "Usuários"
+msgstr "Users"
+
+msgid "Gerencie os usuários do sistema"
+msgstr "Manage system users"

@@ -29,10 +29,7 @@ msgstr ""
 msgid "Atenção"
 msgstr ""
 
-msgid ""
-"Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão "
-"1.0.0 ou inferior) no banco especificado, a mesma será sobrescrita "
-"(atualizada)."
+msgid "Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão 1.0.0 ou inferior) no banco especificado, a mesma será sobrescrita (atualizada)."
 msgstr ""
 
 msgid "Clique para iniciar o processo final de instalação."

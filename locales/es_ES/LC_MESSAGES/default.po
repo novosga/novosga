@@ -1,23 +1,25 @@
 #
+#
 # Translators:
-# oepastor <oepastor@aol.com>, 2013-2014
-# Rogério Lino <rogeriolino@gmail.com>, 2013
+# antram <informatica@vera.es>, 2014
+# Oscar Pastorino <oepastor@aol.com>, 2013-2014
+# Rogério Lino <rogeriolino@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: novosga\n"
-"POT-Creation-Date: 2014-07-31 09:19-0300\n"
-"PO-Revision-Date: 2014-07-31 09:19-0300\n"
+"POT-Creation-Date: 2014-07-31 09:13-0300\n"
+"PO-Revision-Date: 2014-09-26 13:54-0300\n"
 "Last-Translator: Rogério Lino <rogeriolino@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/novosga/language/"
 "es/)\n"
-"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.7\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-Basepath: ../../../\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: cache\n"
 "X-Poedit-SearchPath-1: src\n"
@@ -39,8 +41,8 @@ msgid ""
 "(atualizada)."
 msgstr ""
 "Al hacer clic en Instalar, en caso que exista una instalación anterior de "
-"Novo SGA (versión 1.0.0 o inferior) en la base de datos especificada, la "
-"misma será sobreescrita (actualizada)."
+"Novo SGA en la base de datos especificada, la misma será sobreescrita "
+"(actualizada)."
 
 msgid "Clique para iniciar o processo final de instalação."
 msgstr "Clic para iniciar el proceso final de instalación"
@@ -153,9 +155,6 @@ msgstr "Eliminar seleccionados"
 msgid "Adicionar"
 msgstr "Agregar"
 
-msgid "Atendimento"
-msgstr "Tratamiento"
-
 msgid "Serviços que o usuário (atendente) atende em cada lotação."
 msgstr "Servicios que el usuario (operador) atiende en cada dotación"
 
@@ -168,14 +167,8 @@ msgstr "Unidad"
 msgid "Lotação"
 msgstr "Dotación"
 
-msgid "Serviços"
-msgstr "Servicios"
-
 msgid "Permissões"
 msgstr "Perisos"
-
-msgid "Módulos"
-msgstr "Módulos"
 
 msgid "Alterar senha"
 msgstr "Modificar contraseña"
@@ -330,9 +323,8 @@ msgstr "Número"
 msgid "Última senha"
 msgstr "Ultimo Número"
 
-#, fuzzy
 msgid "Reimprimir"
-msgstr "Imprimir"
+msgstr "Volver a imprimir"
 
 msgid "Nome original do serviço"
 msgstr "Nombre original del servicio"
@@ -357,9 +349,6 @@ msgstr "Data de inicio"
 
 msgid "Data fim"
 msgstr "Data de finalización"
-
-msgid "Triagem"
-msgstr "Selección"
 
 msgid "Atendente"
 msgstr "Operador"
@@ -418,9 +407,8 @@ msgstr "Desea reiniciar las llamadas de todas las unidades?"
 msgid "Reiniciar"
 msgstr "Reiniciar"
 
-#, fuzzy
 msgid "Clientes"
-msgstr "Cliente"
+msgstr "Clientes"
 
 msgid "Verificar nova versão"
 msgstr "Verificar nueva versión"
@@ -430,9 +418,6 @@ msgstr "Felicidades, usted tiene la versión más reciente."
 
 msgid "Acessar"
 msgstr "Acceder"
-
-msgid "Configuração"
-msgstr "Configuración"
 
 msgid "Senhas reiniciadas com sucesso"
 msgstr "Llamadas reiniciadas exitosamente"
@@ -535,9 +520,8 @@ msgstr "Tiempo de permanencia en el local (Fin - Llegada)"
 msgid "Permanência"
 msgstr "Permanencia"
 
-#, fuzzy
 msgid "Serviços Codificados"
-msgstr "Servicios codificados"
+msgstr "Servicios Codificados"
 
 msgid "Bem-vindo, %usuario%"
 msgstr "Bienvenido, %usuario%"
@@ -595,7 +579,7 @@ msgid "Minha fila"
 msgstr "Mi fila"
 
 msgid "Habilitar notificação"
-msgstr ""
+msgstr "Habilitar notificación"
 
 msgid "Redirecionar"
 msgstr "Redireccionar"
@@ -633,16 +617,14 @@ msgstr "Ningún servicio seleccionado"
 msgid "Recarregar"
 msgstr "Recargar"
 
-#, fuzzy
 msgid "Deseja realmente desinstalar esse módulo?"
-msgstr "Desea realmente cancelar ese número?"
+msgstr "¿Desea realmente desinstalar este módulo?"
 
-#, fuzzy
 msgid "Desinstalar"
-msgstr "Instalar"
+msgstr "Desinstalar"
 
 msgid "Escolha o arquivo"
-msgstr ""
+msgstr "Seleccione un archivo"
 
 msgid "Imprimir"
 msgstr "Imprimir"
@@ -874,40 +856,41 @@ msgstr ""
 "de desarrollo informando este problema y el tipo de base de datos que está "
 "utilizando"
 
-#, fuzzy, php-format
+#, php-format
 msgid "Módulo %s não instalado"
-msgstr "Módulo \"%s\" no encontrado"
+msgstr "Módulo %s no instalado"
 
-#, fuzzy, php-format
+#, php-format
 msgid "Arquivo não encontrado: %s"
-msgstr "Página no encontrada"
+msgstr "Archivo no encontrado: %s"
 
 msgid "Já possui um módulo com o mesmo nome"
-msgstr ""
+msgstr "No se puede crear el módulo de directorio"
 
-#, fuzzy
 msgid "Não foi possível criar o diretório do módulo"
-msgstr "No es posible eliminarse a si mismo."
+msgstr ""
 
 msgid "Não foi possível mover os arquivos para o diretório dos módulos"
 msgstr ""
 
-#, fuzzy, php-format
+#, php-format
 msgid "Arquivo %s não encontrado"
-msgstr "Módulo \"%s\" no encontrado"
+msgstr "Archivo %s no encontrado."
 
 #, php-format
 msgid ""
 "Formato inválido do nome do módulo: %s. Era esperado {vendorName}."
 "{moduleName}"
 msgstr ""
+"Formato no válido en el nombre del módulo: %s. Se espera {vendorName}."
+"{moduleName}"
 
 msgid "O Manifest não contém um JSON válido"
-msgstr ""
+msgstr "El manifiesto no contine un archivo JSON válido."
 
 msgid ""
 "Formato do nome do script inválido. Era experado <ClassName>::<methodName>."
-msgstr ""
+msgstr "Formato de nombre no válido. EJ: <ClassName>::<methodName>."
 
 #, php-format
 msgid "Arquivo de configuação (%s) somente leitura"
@@ -1110,12 +1093,11 @@ msgstr "Ninguna unidad seleccionada"
 msgid "Favor escolher o Cargo pai"
 msgstr "Por favor seleccione Cargo padre"
 
-#, fuzzy
 msgid "Administrador"
-msgstr "Configurar Administrador"
+msgstr "Administrador"
 
 msgid "Administrador geral do sistema"
-msgstr ""
+msgstr "Administrador general del sistema."
 
 msgid "Atendimentos por status"
 msgstr "Atención por status"
@@ -1141,9 +1123,6 @@ msgstr "Atenciones en todos los status"
 msgid "Tempos médios por Atendente"
 msgstr "Tiempos medios por operador"
 
-msgid "Cargos"
-msgstr "Cargos"
-
 msgid "Gráfico inválido"
 msgstr "Gráfico inválido"
 
@@ -1160,11 +1139,10 @@ msgid "Tempo Total"
 msgstr "Tiempo Total"
 
 msgid "Raíz"
-msgstr ""
+msgstr "Raíz"
 
-#, fuzzy
 msgid "Grupo Raíz"
-msgstr "Grupo"
+msgstr "Grupo Raíz"
 
 msgid "Favor escolher o Grupo pai"
 msgstr "Por favor escoger el Grupo padre"
@@ -1177,10 +1155,10 @@ msgstr ""
 "unidades."
 
 msgid "Sala"
-msgstr ""
+msgstr "Sala"
 
 msgid "Mesa"
-msgstr ""
+msgstr "Mesa"
 
 msgid "Tipo de recurso inválido"
 msgstr "Tipo de recurso inválido"
@@ -1191,44 +1169,38 @@ msgstr "Módulo inválido"
 msgid "Permissão negada"
 msgstr "Permiso denegado"
 
-#, fuzzy
 msgid "Módulo instalado com sucesso"
-msgstr "Perfil actualizado exitosamente"
+msgstr "Módulo instalado correctamente."
 
-#, fuzzy
 msgid "Sem prioridade"
-msgstr "Generar prioridad"
+msgstr "Sin prioridad"
 
-#, fuzzy
 msgid "Atendimento normal"
-msgstr "Atención cerrada"
+msgstr "Normal"
 
 msgid "Portador de Deficiência"
-msgstr ""
+msgstr "Usuario con alguna deficiencia."
 
 msgid "Atendimento prioritáro para portadores de deficiência"
-msgstr ""
+msgstr "Prioridad para usuarios con alguna deficiencia."
 
 msgid "Gestante"
-msgstr ""
+msgstr "Embarazada"
 
-#, fuzzy
 msgid "Atendimento prioritáro para gestantes"
-msgstr "Atención por status"
+msgstr "Prioridad para embarazadas."
 
 msgid "Idoso"
-msgstr ""
+msgstr "Personas Mayores"
 
-#, fuzzy
 msgid "Atendimento prioritáro para idosos"
-msgstr "Atención inválida"
+msgstr "Prioridad para personas mayores"
 
 msgid "Outros"
-msgstr ""
+msgstr "Otros"
 
-#, fuzzy
 msgid "Qualquer outra prioridade"
-msgstr "Generar prioridad"
+msgstr "Cualquier otra prioridad"
 
 msgid "Não pode remover essa prioridade"
 msgstr "No puede eliminar esa prioridad"
@@ -1239,13 +1211,11 @@ msgstr "Ya existen atenciones para el servicio que está intentando eliminar"
 msgid "Serviço inválido"
 msgstr "Servicio inválido"
 
-#, fuzzy
 msgid "Unidade Padrão"
-msgstr "Unidad"
+msgstr "Unidad estándar"
 
-#, fuzzy
 msgid "Novo SGA"
-msgstr "Nuevo"
+msgstr "Novo SGA"
 
 msgid "Nenhum unidade definida"
 msgstr "Ninguna unidad definida"
@@ -1275,3 +1245,89 @@ msgstr ""
 
 msgid "Usuário inválido"
 msgstr "Usuario inválido"
+
+# modulos
+msgid "Administração"
+msgstr "Administración"
+
+msgid "Configurações gerais do sistema"
+msgstr "Configuración general del sistema."
+
+msgid "Atendimento"
+msgstr "Tratamiento"
+
+msgid ""
+"Efetue o atendimento às senhas distribuídas dos serviços que você atende"
+msgstr ""
+
+msgid "Cargos"
+msgstr "Cargos"
+
+msgid "Gerencie os cargos do sistema"
+msgstr "Administración de cargos"
+
+msgid "Estatísticas"
+msgstr "Estadísticas"
+
+msgid "Visualize e exporte estastísticas e relatórios sobre o sistema"
+msgstr "Visualize e exporte estastísticas relacionadas con el sistema"
+
+msgid "Grupos"
+msgstr "Grupos"
+
+msgid "Gerencie os grupos do sistema"
+msgstr "Administración de grupos del sistema"
+
+msgid "Locais"
+msgstr "Locales"
+
+msgid "Gerencie os locais de atendimento"
+msgstr "Administración de turnos"
+
+msgid "Módulos"
+msgstr "Módulos"
+
+msgid "Gerencie os módulos instalados"
+msgstr "Administración de módulos instalados"
+
+msgid "Monitor"
+msgstr "Monitor"
+
+msgid "Gerencie as senhas aguardando atendimento"
+msgstr "Administración de contraseñas del sistema de turnos"
+
+msgid "Prioridades"
+msgstr "Prioridades"
+
+msgid "Gerencie os prioridades do sistema"
+msgstr "Administración de prioridades del sistema"
+
+msgid "Serviços"
+msgstr "Servicios"
+
+msgid "Gerencie os serviços do sistema"
+msgstr "Administración de servicios del sistema"
+
+msgid "Triagem"
+msgstr "Selección"
+
+msgid "Gerencie a distribuíção das senhas da unidade atual"
+msgstr ""
+
+msgid "Configuração"
+msgstr "Configuración"
+
+msgid "Módulo para gerenciamento da unidade atual"
+msgstr "Módulos de administración de la unidad actual"
+
+msgid "Unidades"
+msgstr "Unidades"
+
+msgid "Gerencie as unidades do sistema"
+msgstr "Administración de las unidades del sistema"
+
+msgid "Usuários"
+msgstr "Usuarios"
+
+msgid "Gerencie os usuários do sistema"
+msgstr "Administración de usuarios del sistema"
