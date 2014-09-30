@@ -80,7 +80,7 @@ var SGA = {
     },
         
     reload: function() {
-        window.location = window.location;
+        window.location.reload();
     },
             
     secToTime: function(seconds) {

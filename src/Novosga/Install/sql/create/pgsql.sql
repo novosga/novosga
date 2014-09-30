@@ -21,7 +21,7 @@ CREATE TABLE atendimentos (
     prioridade_id integer NOT NULL,
     atendimento_id bigint,
     status smallint NOT NULL,
-    sigla_senha varchar(1) NOT NULL,
+    sigla_senha varchar(3) NOT NULL,
     num_senha integer NOT NULL,
     num_senha_serv integer NOT NULL,
     nm_cli varchar(100) DEFAULT NULL::varchar,
@@ -77,7 +77,7 @@ CREATE TABLE historico_atendimentos (
     servico_id integer NOT NULL,
     prioridade_id integer NOT NULL,
     status integer NOT NULL,
-    sigla_senha varchar(1) NOT NULL,
+    sigla_senha varchar(3) NOT NULL,
     num_senha integer NOT NULL,
     num_senha_serv integer NOT NULL,
     nm_cli varchar(100) DEFAULT NULL::varchar,
@@ -151,7 +151,7 @@ CREATE TABLE uni_serv (
     servico_id integer NOT NULL,
     local_id integer NOT NULL,
     nome varchar(50) NOT NULL,
-    sigla varchar(1) NOT NULL,
+    sigla varchar(3) NOT NULL,
     status smallint NOT NULL,
     peso smallint NOT NULL
 );
