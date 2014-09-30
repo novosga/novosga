@@ -33,7 +33,7 @@ class ServicoUnidade extends Model {
     protected $local;
     /** @Column(type="string", name="nome", length=50, nullable=false) */
     protected $nome;
-    /** @Column(type="string", name="sigla", length=1, nullable=false) */
+    /** @Column(type="string", name="sigla", length=3, nullable=false) */
     protected $sigla;
     /** @Column(type="smallint", name="status", nullable=false) */
     protected $status;
