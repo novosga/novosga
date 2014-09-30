@@ -53,7 +53,7 @@ class ViewAtendimento extends SequencialModel {
     protected $nomeCliente;
     /** @Column(type="string", name="ident_cli", length=11, nullable=true) */
     protected $documentoCliente;
-    /** @Column(type="string", name="sigla_senha", length=1, nullable=false) */
+    /** @Column(type="string", name="sigla_senha", length=3, nullable=false) */
     protected $siglaSenha;
     /** @Column(type="integer", name="num_senha", nullable=false) */
     protected $numeroSenha;
