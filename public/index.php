@@ -67,7 +67,8 @@ $app->get('/(home)', function() use ($app) {
 
 $app->post('/home/set_unidade', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
-    $ctrl->unidade($app->getContext());
+    $response = $ctrl->unidade($app->getContext());
+    echo $response->toJson();
 });
 
 $app->get('/profile', function() use ($app) {
