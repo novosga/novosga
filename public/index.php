@@ -67,7 +67,8 @@ $app->get('/(home)', function() use ($app) {
 
 $app->post('/home/set_unidade', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
-    $ctrl->unidade($app->getContext());
+    $response = $ctrl->unidade($app->getContext());
+    echo $response->toJson();
 });
 
 $app->get('/profile', function() use ($app) {
@@ -102,7 +103,7 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     $tokens = explode('.', $moduleKey);
     
     // module resouce .htaccess fallback
-    if (in_array($action, array('js', 'css', 'images'))) {
+    if (in_array($action, array('js', 'css', 'images','sounds'))) {
         showModuleResource($moduleKey, $action, $args[1]);
     }
     
@@ -158,6 +159,20 @@ function showModuleResource($moduleKey, $dir, $file) {
             case 'css':
                 $mime = 'text/css';
                 break;
+            case 'sounds':
+        	$ext = pathinfo($filename, PATHINFO_EXTENSION);
+        	switch ($ext) {
+        	    case 'wav':
+        		$mime = 'audio/wav';
+        		break;
+        	    case 'mp3':
+        		$mime = 'audio/mpeg';
+        		break;
+        	    case 'ogg':
+        		$mime = 'audio/ogg';
+        		break;
+        	}
+    		break;
             default:
                 $mime = 'text/plain';
         }
