@@ -69,6 +69,8 @@ class AtendimentoBusiness extends ModelBusiness {
         
         $this->em->persist($senha);
         $this->em->flush();
+        
+        \Novosga\Config\AppConfig::getInstance()->hook("attending.call", $atendimento, $senha);
     }
 
     /**
@@ -293,17 +295,66 @@ class AtendimentoBusiness extends ModelBusiness {
         if (!$success) {
             throw new Exception(_('Erro ao tentar gerar nova senha'));
         }
-        $id = $conn->lastInsertId();
+        $id = $conn->lastInsertId('atendimentos_id_seq');
         if (!$id) {
-            $id = $conn->lastInsertId('atendimentos_id_seq');
+            $id = $conn->lastInsertId();
         }
         if (!$id) {
             throw new \Exception(_('Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de desenvolvimento informando esse problema, e o banco de dados que está usando'));
         }
+        $atendimento = $this->em->find("Novosga\Model\Atendimento", $id);
+        if (!$atendimento) {
+            throw new \Exception(sprintf(_('O último ID retornado pelo banco não é de um atendimento válido: %s'), $id));
+        }
+        
+        \Novosga\Config\AppConfig::getInstance()->hook("attending.create", $atendimento);
+        
         return array(
             'id' => $id,
-            'atendimento' => $this->em->find("Novosga\Model\Atendimento", $id)->toArray()
+            'atendimento' => $atendimento->toArray()
         );
+    }
+    
+    public function transferir(Atendimento $atendimento, Unidade $unidade, $novoServico, $novaPrioridade) {
+        $conn = $this->em->getConnection();
+        // transfere apenas se a data fim for nula (nao finalizados)
+        $stmt = $conn->prepare("
+            UPDATE 
+                atendimentos
+            SET 
+                servico_id = :servico,
+                prioridade_id = :prioridade
+            WHERE 
+                id = :id AND 
+                unidade_id = :unidade AND
+                dt_fim IS NULL
+        ");
+        $stmt->bindValue('servico', $novoServico);
+        $stmt->bindValue('prioridade', $novaPrioridade);
+        $stmt->bindValue('id', $atendimento->getId());
+        $stmt->bindValue('unidade', $unidade->getId());
+        return $stmt->execute() > 0;
+    }
+    
+    public function cancelar(Atendimento $atendimento, Unidade $unidade, $novoServico, $novaPrioridade) {
+        $conn = $this->em->getConnection();
+        $stmt = $conn->prepare("
+            UPDATE 
+                atendimentos
+            SET 
+                status = :status,
+                dt_fim = :data
+            WHERE 
+                id = :id AND 
+                unidade_id = :unidade AND
+                dt_fim IS NULL
+        ");
+        // cancela apenas se a data fim for nula
+        $stmt->bindValue('status', AtendimentoBusiness::SENHA_CANCELADA);
+        $stmt->bindValue('data', DateUtil::nowSQL());
+        $stmt->bindValue('id', $id);
+        $stmt->bindValue('unidade', $unidade->getId());
+        return $stmt->execute() > 0;
     }
     
 }
