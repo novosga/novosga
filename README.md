@@ -21,6 +21,7 @@ git clone https://github.com/novosga/novosga
 cd novosga
 php composer.phar install
 ```
+Note: After installation remember to change the owner of the novosga directory: Example su chown apache:apache novosga -R
 
 ## Tecnologia
 
