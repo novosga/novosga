@@ -85,7 +85,7 @@ class UnidadesController extends CrudController {
      */
     protected function doDelete(Context $context, SequencialModel $model) {
         // DEMO VERSION
-        throw new \Exception(\Novosga\SGA::DEMO_ALERT);
+        throw new \Exception(\Novosga\App::DEMO_ALERT);
 
         // verificando se ja tem atendimentos
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\ViewAtendimento e WHERE e.unidade = :unidade");

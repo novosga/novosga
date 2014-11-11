@@ -64,7 +64,7 @@ class UsuariosController extends CrudController {
     
     protected function preSave(Context $context, SequencialModel $model) {
         // DEMO VERSION
-        throw new \Exception(\Novosga\SGA::DEMO_ALERT);
+        throw new \Exception(\Novosga\App::DEMO_ALERT);
 
         $login = $context->request()->post('login');
         if (!preg_match('/^[a-zA-Z0-9\.]+$/', $login)) {
@@ -134,7 +134,7 @@ class UsuariosController extends CrudController {
     
     protected function preDelete(Context $context, SequencialModel $model) {
         // DEMO VERSION
-        throw new \Exception(\Novosga\SGA::DEMO_ALERT);
+        throw new \Exception(\Novosga\App::DEMO_ALERT);
 
         if ($context->getUser()->getId() === $model->getId()) {
             throw new \Exception(_('Não é possível excluir si próprio.'));
@@ -259,7 +259,7 @@ class UsuariosController extends CrudController {
      */
     public function alterar_senha(Context $context) {
         // DEMO VERSION
-        $context->response()->jsonResponse(new AjaxResponse(false, \Novosga\SGA::DEMO_ALERT));
+        return new JsonResponse(false, \Novosga\App::DEMO_ALERT);
 
         $response = new JsonResponse();
         $id = (int) $context->request()->post('id');

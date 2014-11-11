@@ -65,7 +65,7 @@ class HomeController extends AppController {
     
     public function alterar_senha(Context $context) {
         // DEMO VERSION
-        $context->response()->jsonResponse(new AjaxResponse(false, \Novosga\SGA::DEMO_ALERT));
+        return new JsonResponse(false, \Novosga\App::DEMO_ALERT);
 
         $response = new JsonResponse();
         $usuario = $context->getUser();
