@@ -1,16 +1,14 @@
 <?php
 namespace Novosga\Install;
 
-use Doctrine\ORM\EntityManager;
 use Exception;
 use Novosga\Controller\InternalController;
-use Novosga\Db\DatabaseConfig;
-use Novosga\Http\AjaxResponse;
+use Novosga\Config\DatabaseConfig;
+use Novosga\Http\JsonResponse;
 use Novosga\Model\Configuracao;
 use Novosga\Security;
-use Novosga\SGA;
-use Novosga\SGAContext;
-use Novosga\Util\Arrays;
+use Novosga\App;
+use Novosga\Context;
 use Novosga\Util\Strings;
 
 /**
@@ -45,12 +43,12 @@ class InstallController extends InternalController {
         return self::$steps;
     }
 
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         if (NOVOSGA_INSTALLED) {
-            $this->app()->redirect($this->request()->getRootUri());
+            $context->app()->gotoHome();
         }
         $steps = $this->getSteps();
-        $index = (int) $context->request()->getParameter(SGA::K_INSTALL);
+        $index = (int) $context->request()->get(App::K_INSTALL);
         // após o step 3 (banco de dados) verifica se já tem uma versão do sga instalada
         if ($index == 4) {
             $this->checkMigration($context);
@@ -61,7 +59,7 @@ class InstallController extends InternalController {
         $context->setParameter(self::CURR_STEP, $steps[$index]);
     }
     
-    public function doStep(SGAContext $context, $step) {
+    public function doStep(Context $context, $step) {
         $context->session()->del('error');
         $steps = $this->getSteps();
         $data = array(
@@ -109,14 +107,14 @@ class InstallController extends InternalController {
      * Passo para escolher o banco de dados a ser utilizado
      * na instalação
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step0(SGAContext $context, array &$data) {
+    public function step0(Context $context, array &$data) {
         $currAdapter = $context->session()->get('adapter');
         // desabilita o proximo, para liberar so quando marcar uma opção
         $context->session()->set('error', $currAdapter == null);
-        $data['version'] = SGA::VERSION;
+        $data['version'] = App::VERSION;
         $scriptHeader = function($file) {
             $header = array();
             $lines = file($file);
@@ -147,10 +145,10 @@ class InstallController extends InternalController {
      * Step 1
      * Passo para verificação de requisitos mínimos para rodar o Novo SGA
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step1(SGAContext $context, array &$data) {
+    public function step1(Context $context, array &$data) {
         $fatal = false;
         $adapter = InstallData::$dbTypes[$context->session()->get('adapter')];
         $driver = $context->session()->get('adapter_driver');
@@ -231,10 +229,10 @@ class InstallController extends InternalController {
      * 
      * Licença do software
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step2(SGAContext $context, &$data) {
+    public function step2(Context $context, &$data) {
         $context->session()->set('error', true);
         $data['license'] = file_get_contents(NOVOSGA_ROOT . '/LICENSE');
     }
@@ -244,10 +242,10 @@ class InstallController extends InternalController {
      * 
      * Informações de conexão ao banco de dados
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step3(SGAContext $context, &$data) {
+    public function step3(Context $context, &$data) {
         $data['data'] = $context->session()->get(InstallData::SESSION_KEY);
         if (!$data['data']) {
             $data['data'] = new InstallData();
@@ -268,10 +266,10 @@ class InstallController extends InternalController {
      * 
      * Informações do usuário administrador
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step4(SGAContext $context, &$data) {
+    public function step4(Context $context, &$data) {
         $session = $context->session();
         $data['data'] = $session->get(InstallData::SESSION_KEY);
         if (!$data['data']) {
@@ -286,20 +284,20 @@ class InstallController extends InternalController {
      * 
      * Licença do software
      * 
-     * @param SGAContext $context
+     * @param Context $context
      * @param array $data
      */
-    public function step5(SGAContext $context, &$data) {
+    public function step5(Context $context, &$data) {
     }
     
     // post actions
     
-    public function set_adapter(SGAContext $context) {
+    public function set_adapter(Context $context) {
         $context->session()->del('adapter');
         $context->session()->del('adapter_driver');
-        $response = new AjaxResponse();
+        $response = new JsonResponse();
         if ($context->request()->isPost()) {
-            $adapter = Arrays::value($_POST, 'adapter');
+            $adapter = $context->request()->post('adapter');
             if (array_key_exists($adapter, InstallData::$dbTypes)) {
                 $response->success = true;
                 $context->session()->set('adapter', $adapter);
@@ -310,12 +308,12 @@ class InstallController extends InternalController {
         } else {
             $response = $this->postErrorResponse();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
-    public function info(SGAContext $context) {
+    public function info(Context $context) {
         if (!NOVOSGA_INSTALLED) {
-            echo SGA::info();
+            echo App::info();
         } else {
             echo _('Por questões de segurança as informações sobre o ambiente são desabilitadas após a instalação.');
         }
@@ -330,9 +328,13 @@ class InstallController extends InternalController {
          return dirname(__FILE__). DS . 'sql' . DS . 'data' . DS . 'default.sql';
     }
     
-    public function test_db(SGAContext $context) {
+    private function modules() {
+         return glob(MODULES_PATH . DS . 'sga' . DS . '*', GLOB_ONLYDIR);
+    }
+    
+    public function test_db(Context $context) {
         if ($context->request()->isPost()) {
-            $response = new AjaxResponse(true, _('Banco de Dados testado com sucesso!'));
+            $response = new JsonResponse(true, _('Banco de Dados testado com sucesso!'));
             $session = $context->session();
             $data = $session->get(InstallData::SESSION_KEY);
             try {
@@ -365,10 +367,10 @@ class InstallController extends InternalController {
         } else {
             $response = $this->postErrorResponse();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
-    private function checkMigration(SGAContext $context) {
+    private function checkMigration(Context $context) {
         $data = $context->session()->get(InstallData::SESSION_KEY);
         $db = new DatabaseConfig($data->database);
         $em = $db->createEntityManager();
@@ -376,9 +378,9 @@ class InstallController extends InternalController {
         $context->setParameter('currVersion', $version ? $version->getValor() : "");
     }
     
-    public function set_admin(SGAContext $context) {
+    public function set_admin(Context $context) {
         if ($context->request()->isPost()) {
-            $response = new AjaxResponse(true, _('Dados do usuário informados com sucesso'));
+            $response = new JsonResponse(true, _('Dados do usuário informados com sucesso'));
             $session = $context->session();
             $data = $session->get(InstallData::SESSION_KEY);
             if (!$data) {
@@ -390,13 +392,12 @@ class InstallController extends InternalController {
                         throw new Exception($message);
                     }
                 }
-                $_POST['senha_2'] = Arrays::value($_POST, 'senha_2');
 
                 $adm = array();
-                $adm['login'] = Arrays::value($_POST, 'login');
-                $adm['nome'] = Arrays::value($_POST, 'nome');
-                $adm['sobrenome'] = Arrays::value($_POST, 'sobrenome');
-                $adm['senha'] = Arrays::value($_POST, 'senha');
+                $adm['login'] = $context->request()->post('login');
+                $adm['nome'] = $context->request()->post('nome');
+                $adm['sobrenome'] = $context->request()->post('sobrenome');
+                $adm['senha'] = $context->request()->post('senha');
 
                 if (!ctype_alnum($adm['login'])) {
                     throw new Exception(_('O login deve conter somente letras e números.'));
@@ -407,10 +408,9 @@ class InstallController extends InternalController {
                 if (strlen($adm['senha']) < 6) {
                     throw new Exception(_('A senha deve possuir 6 ou mais letras/números.'));
                 }
-                if ($_POST['senha'] != $_POST['senha_2']) {
+                if ($adm['senha'] != $context->request()->post('senha_2')) {
                     throw new Exception(_('A senha não confere com a confirmação de senha.'));
                 }
-                $adm['senha_2'] = '';
                 $data->admin = $adm;
 
             } catch (Exception $e) {
@@ -421,12 +421,12 @@ class InstallController extends InternalController {
         } else {
             $response = $this->postErrorResponse();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
-    public function do_install(SGAContext $context) {
+    public function do_install(Context $context) {
         if ($context->request()->isPost()) {
-            $response = new AjaxResponse(true, _('Instalação concluída com sucesso'));
+            $response = new JsonResponse(true, _('Instalação concluída com sucesso'));
             $conn = null;
             $session = $context->session();
             try {
@@ -437,14 +437,7 @@ class InstallController extends InternalController {
                 if (!$data) {
                     throw new Exception(_('Os dados da instalação não foram encontrados. Favor iniciar novamente'));
                 }
-                
-                $configFile = NOVOSGA_CONFIG . DS . 'database.php';
-                // verifica se será possível escrever a configuração no arquivo de configuracao
-                if (file_exists($configFile) && !is_writable($configFile)) {
-                    $msg = _('Arquivo de configuação (%s) somente leitura');
-                    throw new Exception(sprintf($msg, $configFile));
-                }
-                
+                                
                 $db = new DatabaseConfig($data->database);
                 $em = $db->createEntityManager();
                 $conn = $em->getConnection();
@@ -453,7 +446,7 @@ class InstallController extends InternalController {
                 $version = Configuracao::get($em, 'version');
                 // atualizando/migrando
                 if ($version) {
-                    $scripts = self::migrationScripts($version->getValor(), SGA::VERSION);
+                    $scripts = self::migrationScripts($version->getValor(), App::VERSION);
                     foreach ($scripts as $sql) {
                         if (!is_readable($sql)) {
                             $msg = _('Script SQL de instalação não encontrado (%s)');
@@ -466,20 +459,29 @@ class InstallController extends InternalController {
                 // nova instalacao
                 else {
                     $sqlInitFile = $this->script_create($session->get('adapter'));
-                    $sqlDataFile = $this->script_data();
                     // verifica se consegue ler o arquivo de criacao do banco
                     if (!is_readable($sqlInitFile)) {
                         $msg = _('Script SQL de instalação não encontrado (%s)');
                         throw new Exception(sprintf($msg, $sqlInitFile));
                     }
+                    // executando arquivo sql de criacao
+                    $conn->exec(file_get_contents($sqlInitFile));
+                    
+                    // instalando modulos
+                    $mb = new \Novosga\Business\ModuloBusiness($em);
+                    $modules = $this->modules();
+                    foreach ($modules as $dir) {
+                        $mb->install($dir, "sga." . basename($dir));
+                    }
+                    
+                    // finalizando instalacao com SQL auxiliar
+                    $sqlDataFile = $this->script_data();
                     // verifica se consegue ler o arquivo dos dados iniciais
                     if (!is_readable($sqlDataFile)) {
                         $msg = _('Script SQL de instalação não encontrado (%s)');
                         throw new Exception(sprintf($msg, $sqlDataFile));
                     }
                     
-                    // executando arquivo sql de criacao
-                    $conn->exec(file_get_contents($sqlInitFile));
                     // executando arquivo sql de dados iniciais
                     $adm = $data->admin;
                     $adm['senha'] = Security::passEncode($adm['senha']);
@@ -490,10 +492,10 @@ class InstallController extends InternalController {
                 //$conn->commit();
 
                 // atualiza versao no banco
-                Configuracao::set($em, 'version', SGA::VERSION);
+                Configuracao::set($em, 'version', App::VERSION);
                 
                 // atualizando arquivo de configuracao
-                self::createDatabseConfig($configFile, $data->database);
+                $db->save();
                 // se sucesso limpa a sessao
                 $context->session()->clear();
             } catch (Exception $e) {
@@ -506,16 +508,11 @@ class InstallController extends InternalController {
         } else {
             $response = $this->postErrorResponse();
         }
-        $context->response()->jsonResponse($response);
+        return $response;
     }
     
     private function postErrorResponse() {
-        return new AjaxResponse(false, _('Requisição inválida'));
-    }
-    
-    public static function createDatabseConfig($filename, array $db) {
-        $arr = Arrays::toString($db);
-        file_put_contents($filename, "<?php\nreturn $arr;");
+        return new JsonResponse(false, _('Requisição inválida'));
     }
     
     public static function migrationScripts($from, $to) {

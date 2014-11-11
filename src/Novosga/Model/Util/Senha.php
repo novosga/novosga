@@ -1,8 +1,8 @@
 <?php
 namespace Novosga\Model\Util;
 
-use \Novosga\Model\Model;
-use \Novosga\Model\Prioridade;
+use Novosga\Model\Model;
+use Novosga\Model\Prioridade;
 
 /**
  * Classe Senha

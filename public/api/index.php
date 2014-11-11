@@ -121,7 +121,25 @@ $app->get('/servicos(/:unidade)', function($unidade = 0) use ($api) {
     echo json_encode($api->servicos($unidade));
 });
 
-
+/**
+ * Retorna a senhas a serem chamadas pelo painel da unidade. Uma lista de serviços
+ * deve ser informada na query string (separados por vírgula)
+ * 
+ * GET /painel/1?servicos=1
+ * < 200
+ * [
+ *   {
+ *     id: 4,
+ *     sigla: "A",
+ *     mensagem: "Convencional",
+ *     numero: 1,
+ *     local: "Guichê",
+ *     numeroLocal: 99,
+ *     peso: 0,
+ *     length: 3
+ *   }
+ * ]
+ */
 $app->get('/painel(/:unidade)', function($unidade = 0) use ($app, $api) {
     $servicos = $app->request()->get('servicos');
     if (empty($servicos)) {
@@ -135,15 +153,92 @@ $app->get('/painel(/:unidade)', function($unidade = 0) use ($app, $api) {
 });
 
 /**
+ * Retorna a fila de atendimento do usuário na unidade informada.
+ * 
+ * GET /fila/usuario/1/1
+ * < 200
+ * [
+ *   {
+ *     id: 7,
+ *     senha: "A002",
+ *     servico: "Serviço 1",
+ *     prioridade: true,
+ *     nomePrioridade: "Gestante",
+ *     chegada: "2014-04-23 08:41:00",
+ *     espera: "00:18:22",
+ *     numero: "A002",
+ *     triagem: "admin",
+ *     status: 1,
+ *     nomeStatus: "Senha emitida",
+ *     cliente: {
+ *       nome: "",
+ *       documento: ""
+ *     }
+ *   }
+ * ]
+ */
+$app->get('/fila/usuario/:unidade/:usuario', function($unidade, $usuario) use ($app, $api) {
+    $arr = array();
+    $fila = $api->filaUsuario($unidade, $usuario);
+    foreach ($fila as $a) {
+        $arr[] = $a->toArray();
+    }
+    echo json_encode($arr);
+});
+
+/**
+ * Retorna a fila de atendimento para os servicos da unidade. Uma lista de serviços
+ * deve ser informada na query string (separados por vírgula)
+ * 
+ * GET /fila/servicos/1?servicos=1
+ * < 200
+ * [
+ *   {
+ *     id: 7,
+ *     senha: "A002",
+ *     servico: "Serviço 1",
+ *     prioridade: true,
+ *     nomePrioridade: "Gestante",
+ *     chegada: "2014-04-23 08:41:00",
+ *     espera: "00:18:22",
+ *     numero: "A002",
+ *     triagem: "admin",
+ *     status: 1,
+ *     nomeStatus: "Senha emitida",
+ *     cliente: {
+ *       nome: "",
+ *       documento: ""
+ *     }
+ *   }
+ * ]
+ */
+$app->get('/fila/servicos/:unidade', function($unidade) use ($app, $api) {
+    $servicos = $app->request()->get('servicos');
+    if (empty($servicos)) {
+        $servicos = 0;
+    }
+    // filtrando apenas inteiros (possiveis ids)
+    $servicos = array_filter(explode(',', $servicos), function($value) {
+        return $value > 0;
+    });
+    $arr = array();
+    $fila = $api->filaServicos($unidade, $servicos);
+    foreach ($fila as $a) {
+        $arr[] = $a->toArray();
+    }
+    echo json_encode($arr);
+});
+
+/**
  * Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.
  * 
- * Parâmetros:
+ * POST /distribui
+ * form data:
  *   int unidade (id da unidade do atendimento)
  *   int servico (id do serviço do atendimento)
  *   int prioridade (id da prioridade do atendimento, 1 para sem prioridade)
  *   string nome_cliente (nome do cliente a ser atendido)
  *   string doc_cliente (documento do cliente a ser atendido)
- * POST /distribui
  */
 $app->post('/distribui', function() use ($app, $api, $server, $em) {
     $server->checkAccess();
@@ -160,6 +255,17 @@ $app->post('/distribui', function() use ($app, $api, $server, $em) {
     $data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente);
     echo json_encode($data);
 });
+
+/*
+ * Check extra route from configuration file
+ */
+$config = new Novosga\Config\ApiConfig();
+foreach ($config->routes() as $pattern => $callable) {
+    if (substr($pattern, 0, 1) !== '/') {
+        $pattern .= '/';
+    }
+    $app->any("/extra{$pattern}", $callable);
+}
 
 // response
 

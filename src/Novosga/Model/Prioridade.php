@@ -8,13 +8,24 @@ namespace Novosga\Model;
  */
 class Prioridade extends SequencialModel {
 
-    /** @Column(type="string", name="nome", length=30, nullable=false) */
+    /** 
+     * @Column(type="string", name="nome", length=30, nullable=false) 
+     */
     protected $nome;
-    /** @Column(type="string", name="descricao", length=100, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="descricao", length=100, nullable=false) 
+     */
     protected $descricao;
-    /** @Column(type="smallint", name="peso", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="peso", nullable=false) 
+     */
     protected $peso;
-    /** @Column(type="smallint", name="status", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="status", nullable=false) 
+     */
     protected $status;
 
     public function __construct() {

@@ -21,6 +21,7 @@ git clone https://github.com/novosga/novosga
 cd novosga
 php composer.phar install
 ```
+Note: After installation remember to change the owner of the novosga directory: Example su chown apache:apache novosga -R
 
 ## Tecnologia
 
@@ -37,7 +38,6 @@ A aplicação web escrita em PHP utilizando as melhores práticas de desenvolvim
 Testado no seguintes bancos:
 - [PostgreSQL](http://www.postgresql.org/)
 - [MySQL](http://www.mysql.org)
-- MS SQL
 
 
 ## Demo

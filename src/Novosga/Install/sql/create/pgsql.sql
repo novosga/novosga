@@ -94,7 +94,6 @@ CREATE TABLE modulos (
     chave varchar(50) NOT NULL,
     nome varchar(25) NOT NULL,
     descricao varchar(100) NOT NULL,
-    autor varchar(25) NOT NULL,
     tipo smallint NOT NULL,
     status smallint NOT NULL
 );
@@ -119,7 +118,10 @@ CREATE TABLE painel_senha (
     msg_senha varchar(20) NOT NULL,
     local varchar(15) NOT NULL,
     num_local smallint NOT NULL,
-    peso smallint NOT NULL
+    peso smallint NOT NULL,
+    prioridade VARCHAR(100),
+    nome_cliente VARCHAR(100),
+    documento_cliente VARCHAR(30)
 );
 
 CREATE TABLE prioridades (

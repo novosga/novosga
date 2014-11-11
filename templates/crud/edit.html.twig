@@ -1,0 +1,55 @@
+{% extends "module.html.twig" %}
+{% block moduleContent %}
+    <form id="crud-form" method="post" action="#">
+        <input type="hidden" name="id" value="{{ model.id }}" />
+        
+        {% if flash['success'] %}
+        <div class="alert alert-success">
+            {{ flash['success'] }}
+        </div>
+        {% endif %}
+        
+        {% if flash['error'] %}
+        <div class="alert alert-danger">
+            {{ flash['error'] }}
+        </div>
+        {% endif %}
+        
+        {% block formContent %}
+        {% endblock %}
+        <div class="buttons">
+            <span class="btns">
+                <button type="submit"
+                        class="btn btn-primary">
+                    <span class="glyphicon glyphicon-save"></span>&nbsp;
+                    {% trans %}Salvar{% endtrans %}
+                </button>
+                <a href="{{ baseUrl() }}/modules/{{ module.chave }}"
+                        class="btn btn-default">
+                    <span class="glyphicon glyphicon-chevron-left"></span>&nbsp;
+                    {% trans %}Voltar{% endtrans %}
+                </a>
+            </span>
+            <p class="required-desc">{% trans %}Campos obrigatórios{% endtrans %}</p>
+            {% if model.id > 0 %}
+            <button id="btn-delete"
+                    class="btn btn-danger"
+                    onclick="SGA.Form.confirm('{% trans %}Realmente deseja excluir?{% endtrans %}', function() { $('#form-delete').submit() }); return false;">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp;
+                {% trans %}Excluir{% endtrans %}
+            </button>
+            {% endif %}
+        </div>
+    </form>
+    {% if model.id > 0 %}
+    <form id="form-delete" action="{{ baseUrl() }}/modules/{{ module.chave }}/delete/{{ model.id }}" method="post">
+    </form>
+    {% endif %}
+    {% block dialogs %}
+    {% endblock %}
+    <script type="text/javascript">
+        SGA.Form.labels.required = '{% trans %}Campo obrigatório{% endtrans %}';
+        SGA.Form.validate('crud-form');
+    </script>
+    
+{% endblock %}

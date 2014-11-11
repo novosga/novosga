@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Util;
 
-use \Exception;
-use \ReflectionClass;
-use \Novosga\Util\Arrays;
+use Exception;
+use ReflectionClass;
+use Novosga\Util\Arrays;
 
 /**
  * Objects utils

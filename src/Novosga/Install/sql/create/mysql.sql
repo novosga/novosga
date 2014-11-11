@@ -14,7 +14,7 @@ CREATE TABLE atend_codif (
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
-ENGINE = INNODB;
+ENGINE = MyISAM;
 
 CREATE TABLE atendimentos (
     id bigint NOT NULL AUTO_INCREMENT,
@@ -39,7 +39,7 @@ CREATE TABLE atendimentos (
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
-ENGINE = INNODB;
+ENGINE = MyISAM;
 
 
 CREATE TABLE cargos (
@@ -97,7 +97,7 @@ CREATE TABLE historico_atend_codif (
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
-ENGINE = INNODB;
+ENGINE = MyISAM;
 
 
 CREATE TABLE historico_atendimentos (
@@ -122,14 +122,13 @@ CREATE TABLE historico_atendimentos (
 ) 
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
-ENGINE = INNODB;
+ENGINE = MyISAM;
 
 CREATE TABLE modulos (
     id integer NOT NULL AUTO_INCREMENT,
     chave varchar(50) NOT NULL,
     nome varchar(25) NOT NULL,
     descricao varchar(100) NOT NULL,
-    autor varchar(25) NOT NULL,
     tipo smallint NOT NULL,
     status smallint NOT NULL,
     PRIMARY KEY (id)
@@ -167,6 +166,9 @@ CREATE TABLE painel_senha (
     local varchar(15) NOT NULL,
     num_local smallint NOT NULL,
     peso smallint NOT NULL,
+    prioridade VARCHAR(100),
+    nome_cliente VARCHAR(100),
+    documento_cliente VARCHAR(30),
     PRIMARY KEY (id)
 ) 
 DEFAULT CHARACTER SET utf8   

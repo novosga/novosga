@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Api;
 
-use \Novosga\Business\AtendimentoBusiness;
+use Novosga\Business\AtendimentoBusiness;
 
 /**
  * Api V1
@@ -96,45 +96,9 @@ class ApiV1 extends Api {
     }
     
     /**
-     * Retorna a fila de atendimento global da unidade. Especificando o serviço ou não
+     * Retorna as senhas para serem exibidas no painel (max result 10)
      * @param int $unidade
-     * @param int $servico
-     * @return array
-     */
-    public function atendimentos() {
-        if (func_num_args() === 0) {
-            throw new \Exception(_('Unidade não informada'));
-        }
-        $unidade = func_get_arg(0);
-        $servico = (func_num_args() > 1) ? func_get_arg(1) : 0;
-        // servicos da unidade
-        return $this->em->createQuery('
-            SELECT 
-                e.id, su.sigla, su.nome as servico, e.numeroSenha,
-                e.dataChegada, e.dataInicio, e.dataFim, e.status
-            FROM
-                Novosga\Model\Atendimento e
-                JOIN e.servicoUnidade su
-                JOIN su.servico s
-                JOIN e.prioridadeSenha p
-            WHERE
-                su.unidade = :unidade AND
-                (
-                    s.id = :servico OR
-                    :servico = 0
-                )
-            ORDER BY 
-                p.peso DESC,
-                e.numeroSenha ASC
-        ')->setParameter(':unidade', $unidade)
-            ->setParameter(':servico', $servico)
-            ->getResult();
-    }
-    
-    /**
-     * Retorna as senhas para serem exibidas no painel
-     * @param int $unidade
-     * @param string $servicos | 1,2,3,4...
+     * @param string $servicos (1,2,3,4...)
      * @return array
      */
     public function painel($unidade, array $servicos) {
@@ -144,6 +108,7 @@ class ApiV1 extends Api {
             SELECT 
                 e.id, e.siglaSenha as sigla, e.mensagem, e.numeroSenha as numero, 
                 e.local, e.numeroLocal as numeroLocal, e.peso, s.nome as servico,
+                e.prioridade, e.nomeCliente, e.documentoCliente,
                 $length as length
             FROM
                 Novosga\Model\PainelSenha e
@@ -159,18 +124,26 @@ class ApiV1 extends Api {
             ->getResult();
     }
     
+    public function filaServicos($unidade, $servicos) {
+        if (!empty($servicos)) {
+            // fila de atendimento
+            $filaBusiness = new \Novosga\Business\FilaBusiness($this->em);
+            return $filaBusiness
+                        ->atendimento($unidade, $servicos)
+                        ->getQuery()
+                        ->getResult()
+            ;
+        }
+        return array();
+    }
+    
     /**
      * Retorna a fila de atendimento do usuário
      * @param int $unidade
      * @param int $usuario
      * @return array
      */
-    public function fila() {
-        if (func_num_args() === 0) {
-            throw new \Exception(_('Unidade não informada'));
-        }
-        $unidade = func_get_arg(0);
-        $usuario = (func_num_args() > 1) ? func_get_arg(1) : 0;
+    public function filaUsuario($unidade, $usuario) {
         // servicos que o usuario atende
         $servicos = $this->em->createQuery('
             SELECT 
@@ -182,33 +155,12 @@ class ApiV1 extends Api {
                 e.usuario = :usuario AND 
                 e.unidade = :unidade AND 
                 s.status = 1
-        ')->setParameter('unidade', $unidade)
+        ')
+            ->setParameter('unidade', $unidade)
             ->setParameter('usuario', $usuario)
-            ->getResult();
-        if (!empty($servicos)) {
-            // fila de atendimento
-            return $this->em->createQuery("
-                SELECT 
-                    e.id, su.sigla, su.nome as servico, e.numeroSenha as numero,
-                    e.dataChegada, e.dataInicio, e.dataFim, e.status
-                FROM 
-                    Novosga\Model\Atendimento e 
-                    JOIN e.prioridadeSenha p
-                    JOIN e.servicoUnidade su 
-                    JOIN su.servico s 
-                WHERE 
-                    e.status = :status AND
-                    su.unidade = :unidade AND
-                    s.id IN (:servicos)
-                ORDER BY 
-                    p.peso DESC,
-                    e.numeroSenha ASC
-            ")->setParameter('servicos', $servicos)
-                ->setParameter('unidade', $unidade)
-                ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
-                ->getResult();
-        }
-        return array();
+            ->getResult()
+        ;
+        return $this->filaServicos($unidade, $servicos);
     }
     
     /**

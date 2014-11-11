@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Controller;
 
-use \Novosga\SGAContext;
-use \Novosga\Util\Arrays;
-use \Novosga\Controller\InternalController;
+use Novosga\Context;
+use Novosga\Util\Arrays;
+use Novosga\Controller\InternalController;
 
 /**
  * LoginController
@@ -12,7 +12,7 @@ use \Novosga\Controller\InternalController;
  */
 class LoginController extends InternalController {
     
-    public function index(SGAContext $context) {
+    public function index(Context $context) {
         if ($this->app()->getAcessoBusiness()->isLogged($context)) {
             if ($this->app()->getAcessoBusiness()->isValidSession($context)) {
                 if ($context->getModulo()) {
@@ -34,9 +34,9 @@ class LoginController extends InternalController {
         }
     }
     
-    public function validate(SGAContext $context) {
-        $username = Arrays::value($_POST, 'username');
-        $password = Arrays::value($_POST, 'password');
+    public function validate(Context $context) {
+        $username = $context->request()->post('username');
+        $password = $context->request()->post('password');
         $error = null;
         if (!empty($username) && !empty($password)) {
             $user = $this->app()->auth($username, $password);

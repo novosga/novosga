@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Business;
 
-use \Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManager;
 
 /**
  * ModelBusiness
@@ -10,6 +10,9 @@ use \Doctrine\ORM\EntityManager;
  */
 abstract class ModelBusiness {
     
+    /**
+     * @var EntityManager
+     */
     protected $em;
     
     public function __construct(EntityManager $em) {

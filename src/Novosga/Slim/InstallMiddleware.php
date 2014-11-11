@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Slim;
 
-use \Novosga\SGAContext;
+use Novosga\Context;
 
 /**
  * SlimFramework middleware para verificar
@@ -13,7 +13,7 @@ class InstallMiddleware extends \Slim\Middleware {
     
     private $context;
     
-    public function __construct(SGAContext $context) {
+    public function __construct(Context $context) {
         $this->context = $context;
     }
     
@@ -22,9 +22,11 @@ class InstallMiddleware extends \Slim\Middleware {
         $uri = $req->getResourceUri();
         $installed = NOVOSGA_INSTALLED;
         if (!$installed && !self::isInstallPage($uri)) {
-            $this->app->redirect($req->getRootUri() . '/install');
+            $res = $this->app->response();
+            $res->redirect($req->getRootUri() . '/install');
         } else if ($installed && self::isInstallPage($uri)) {
-            $this->app->redirect($req->getRootUri() . '/login');
+            $res = $this->app->response();
+            $res->redirect($req->getRootUri() . '/login');
         } else {
             $this->next->call();
         }

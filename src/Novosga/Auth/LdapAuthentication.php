@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Auth;
 
-use \Novosga\Util\Arrays;
+use Novosga\Util\Arrays;
 
 /**
  * LDAP Authentication

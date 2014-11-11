@@ -45,23 +45,32 @@ class AtendimentoBusiness extends ModelBusiness {
         return $arr[$status];
     }
     
+    /**
+     * Adiciona uma nova senha na fila de chamada do painel de senhas
+     * @param \Novosga\Model\Unidade $unidade
+     * @param \Novosga\Model\Atendimento $atendimento
+     */
     public function chamarSenha(Unidade $unidade, Atendimento $atendimento) {
-        $conn = $this->em->getConnection();
-    	$stmt = $conn->prepare("
-            INSERT INTO painel_senha 
-            (unidade_id, servico_id, num_senha, sig_senha, msg_senha, local, num_local, peso) 
-            VALUES 
-            (:unidade_id, :servico_id, :num_senha, :sig_senha, :msg_senha, :local, :num_local, :peso)
-        ");
-        $stmt->bindValue('unidade_id', $unidade->getId());
-        $stmt->bindValue('servico_id', $atendimento->getServicoUnidade()->getServico()->getId());
-        $stmt->bindValue('num_senha', $atendimento->getSenha()->getNumero());
-        $stmt->bindValue('sig_senha', $atendimento->getSenha()->getSigla());
-        $stmt->bindValue('msg_senha', $atendimento->getSenha()->getLegenda());
-        $stmt->bindValue('local', $atendimento->getServicoUnidade()->getLocal()->getNome());
-        $stmt->bindValue('num_local', $atendimento->getLocal());
-        $stmt->bindValue('peso', $atendimento->getSenha()->getPrioridade()->getPeso());
-        $stmt->execute();
+        $senha = new \Novosga\Model\PainelSenha();
+        $senha->setUnidade($unidade);
+        $senha->setServico($atendimento->getServicoUnidade()->getServico());
+        $senha->setNumeroSenha($atendimento->getSenha()->getNumero());
+        $senha->setSiglaSenha($atendimento->getSenha()->getSigla());
+        $senha->setMensagem($atendimento->getSenha()->getLegenda());
+        // local
+        $senha->setLocal($atendimento->getServicoUnidade()->getLocal()->getNome());
+        $senha->setNumeroLocal($atendimento->getLocal());
+        // prioridade
+        $senha->setPeso($atendimento->getSenha()->getPrioridade()->getPeso());
+        $senha->setPrioridade($atendimento->getSenha()->getPrioridade()->getNome());
+        // cliente
+        $senha->setNomeCliente($atendimento->getCliente()->getNome());
+        $senha->setDocumentoCliente($atendimento->getCliente()->getDocumento());
+        
+        $this->em->persist($senha);
+        $this->em->flush();
+        
+        \Novosga\Config\AppConfig::getInstance()->hook("attending.call", $atendimento, $senha);
     }
 
     /**
@@ -144,6 +153,8 @@ class AtendimentoBusiness extends ModelBusiness {
             if ($unidade > 0) {
                 $sql .= " AND unidade_id = :unidade";
             }
+            // delete decrescente devido a multiplos redirecionamentos  #136
+            $sql .= "  ORDER BY id DESC"; 
             $query = $conn->prepare($sql);
             $query->bindValue('data', $data, PDO::PARAM_STR);
             if ($unidade > 0) {
@@ -249,14 +260,11 @@ class AtendimentoBusiness extends ModelBusiness {
             throw new Exception(_('Serviço não disponível para a unidade atual'));
         }
         $conn = $this->em->getConnection();
-        /*
-         * XXX: Os parametros abaixo (id da unidade e sigla) estao sendo concatenados direto na string devido a um bug do pdo_sqlsrv (windows)
-         */
         // ultimo numero gerado (total)
-        $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.unidade_id = {$unidade->getId()} ORDER BY num_senha DESC";
+        $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.unidade_id = :unidade_id ORDER BY num_senha DESC";
         $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1, 0);
         // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
-        $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.unidade_id = {$unidade->getId()} AND a.sigla_senha = '{$su->getSigla()}' ORDER BY num_senha_serv DESC";
+        $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.unidade_id = :unidade_id AND a.sigla_senha = :sigla_senha ORDER BY num_senha_serv DESC";
         $innerQuery2 = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery2, 1, 0);
         $stmt = $conn->prepare(" 
             INSERT INTO atendimentos
@@ -287,17 +295,66 @@ class AtendimentoBusiness extends ModelBusiness {
         if (!$success) {
             throw new Exception(_('Erro ao tentar gerar nova senha'));
         }
-        $id = $conn->lastInsertId();
+        $id = $conn->lastInsertId('atendimentos_id_seq');
         if (!$id) {
-            $id = $conn->lastInsertId('atendimentos_id_seq');
+            $id = $conn->lastInsertId();
         }
         if (!$id) {
             throw new \Exception(_('Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de desenvolvimento informando esse problema, e o banco de dados que está usando'));
         }
+        $atendimento = $this->em->find("Novosga\Model\Atendimento", $id);
+        if (!$atendimento) {
+            throw new \Exception(sprintf(_('O último ID retornado pelo banco não é de um atendimento válido: %s'), $id));
+        }
+        
+        \Novosga\Config\AppConfig::getInstance()->hook("attending.create", $atendimento);
+        
         return array(
             'id' => $id,
-            'atendimento' => $this->em->find("Novosga\Model\Atendimento", $id)->toArray()
+            'atendimento' => $atendimento->toArray()
         );
+    }
+    
+    public function transferir(Atendimento $atendimento, Unidade $unidade, $novoServico, $novaPrioridade) {
+        $conn = $this->em->getConnection();
+        // transfere apenas se a data fim for nula (nao finalizados)
+        $stmt = $conn->prepare("
+            UPDATE 
+                atendimentos
+            SET 
+                servico_id = :servico,
+                prioridade_id = :prioridade
+            WHERE 
+                id = :id AND 
+                unidade_id = :unidade AND
+                dt_fim IS NULL
+        ");
+        $stmt->bindValue('servico', $novoServico);
+        $stmt->bindValue('prioridade', $novaPrioridade);
+        $stmt->bindValue('id', $atendimento->getId());
+        $stmt->bindValue('unidade', $unidade->getId());
+        return $stmt->execute() > 0;
+    }
+    
+    public function cancelar(Atendimento $atendimento, Unidade $unidade, $novoServico, $novaPrioridade) {
+        $conn = $this->em->getConnection();
+        $stmt = $conn->prepare("
+            UPDATE 
+                atendimentos
+            SET 
+                status = :status,
+                dt_fim = :data
+            WHERE 
+                id = :id AND 
+                unidade_id = :unidade AND
+                dt_fim IS NULL
+        ");
+        // cancela apenas se a data fim for nula
+        $stmt->bindValue('status', AtendimentoBusiness::SENHA_CANCELADA);
+        $stmt->bindValue('data', DateUtil::nowSQL());
+        $stmt->bindValue('id', $id);
+        $stmt->bindValue('unidade', $unidade->getId());
+        return $stmt->execute() > 0;
     }
     
 }

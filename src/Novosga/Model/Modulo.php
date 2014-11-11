@@ -14,17 +14,29 @@ namespace Novosga\Model;
     const MODULO_UNIDADE = 0;
     const MODULO_GLOBAL = 1;
 
-    /** @Column(type="string", name="chave", length=50, nullable=false, unique=true) */
+    /** 
+     * @Column(type="string", name="chave", length=50, nullable=false, unique=true) 
+     */
     protected $chave;
-    /** @Column(type="string", name="nome", length=25, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="nome", length=25, nullable=false) 
+     */
     protected $nome;
-    /** @Column(type="string", name="autor", length=25, nullable=false) */
-    protected $autor;
-    /** @Column(type="string", name="descricao", length=100, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="descricao", length=100, nullable=false) 
+     */
     protected $descricao;
-    /** @Column(type="smallint", name="tipo", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="tipo", nullable=false) 
+     */
     protected $tipo;
-    /** @Column(type="smallint", name="status", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="status", nullable=false) 
+     */
     protected $status;
     
     // transient
@@ -66,22 +78,6 @@ namespace Novosga\Model;
         return $this->nome;
     }
 
-    /**
-     * Define o autor do Modulo
-     * @param String $autor
-     */
-    public function setAutor($autor) {
-        $this->autor = $autor;
-    }
-
-    /**
-     * Retorna o autor do Modulo
-     * @return String
-     */
-    public function getAutor() {
-        return $this->autor;
-    }
-    
     public function setDescricao($descricao) {
         $this->descricao = $descricao;
     }
@@ -114,24 +110,6 @@ namespace Novosga\Model;
         $this->status = $status;
     }
 
-    /**
-     * Retorna o diretorio do Modulo
-     * @return String
-     */
-    public function getDir() {
-        if (!$this->dir) {
-            $this->dir = self::dir($this->chave);
-        }
-        return $this->dir;
-    }
-    
-    public function getPath() {
-        if (!$this->path) {
-            $this->path = self::path($this->chave);
-        }
-        return $this->path;
-    }
-
     public function getRealPath() {
         if (!$this->realPath) {
             $this->realPath = self::realPath($this->chave);
@@ -139,20 +117,11 @@ namespace Novosga\Model;
         return $this->realPath;
     }
     
-    public static function dir($chave) {
-        return join(DS, explode('.', $chave));
-    }
-    
-    public static function path($chave) {
-        return MODULES_DIR . DS . self::dir($chave);
-    }
-    
     public static function realPath($chave) {
-        return MODULES_PATH . DS . self::dir($chave);
+        return MODULES_PATH . DS . join(DS, explode(".", $chave));
     }
 	
     /**
-     * Retorna String com Chave do módulo
      * @return String
      */
     public function toString() {

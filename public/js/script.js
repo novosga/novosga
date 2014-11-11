@@ -188,7 +188,10 @@ var SGA = {
                         } else {
                             message = SGA.invalidSession;
                         }
-                        SGA.dialogs.error.create({message: message, close: function() { SGA.reload(); }});
+                        SGA.dialogs.error.create({
+                            message: message, 
+                            close: SGA.reload
+                        });
                     } else {
                         SGA.dialogs.error.create({
                             message: response.message,

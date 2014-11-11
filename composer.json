@@ -15,17 +15,17 @@
     ],
     "require": {
         "php": ">=5.3.9",
-        "slim/slim": "2.3",
-        "slim/views": "0.1.0",
-        "twig/twig": "1.14.2",
-        "twig/extensions": "1.0.0",
+        "slim/slim": "2.4.3",
+        "slim/views": "0.1.2",
+        "twig/twig": "1.15.1",
+        "twig/extensions": "1.0.1",
         "doctrine/orm": "2.4.0",
-        "bshaffer/oauth2-server-php": "v1.3"
+        "bshaffer/oauth2-server-php": "v1.5"
     },
     "autoload": {
         "psr-0": {
             "Novosga\\": "src/",
-            "modules\\": "public/"
+            "modules\\": "./"
         }
     }
 }

@@ -1,0 +1,82 @@
+{% extends "module.html.twig" %}
+{% block moduleContent %}
+<div class="search">
+    <form method="get" action="{{ baseUrl() }}/modules/{{ module.chave }}" class="form-inline" role="search">
+        <div class="form-group">
+            <input id="search-box" 
+                   type="search" 
+                   name="s" 
+                   value="{{ search }}" 
+                   class="form-search form-control"
+                   placeholder="{% trans %}buscar{% endtrans %}" />
+            <script type="text/javascript">SGA.Form.searchBox("search-box")</script>
+        </div>
+        <button type="submit" class="btn btn-default">
+            <span class="glyphicon glyphicon-search"></span>&nbsp;
+            {% trans %}Buscar{% endtrans %}
+        </button>
+        <a href="{{ baseUrl() }}/modules/{{ module.chave }}/edit" class="btn btn-primary btn-add">
+            <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
+            {% trans %}Novo{% endtrans %}
+        </a>
+    </form>
+</div>
+{% if flash['success'] %}
+<div class="alert alert-success">
+    {{ flash['success'] }}
+</div>
+{% endif %}
+
+{% if flash['error'] %}
+<div class="alert alert-danger">
+    {{ flash['error'] }}
+</div>
+{% endif %}
+<table class="table table-responsive table-hover table-striped table-responsive">
+    <thead>
+        <tr>
+            <th>#</th>
+            {% block thead %}
+            {% endblock %}
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.id }}</td>
+            {% block tbody %}
+            {% endblock %}
+            <td class="buttons">
+                <a href="{{ module.chave }}/edit/{{ item.id }}" class="btn btn-default" title="{% trans %}Editar{% endtrans %}">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <button class="btn btn-danger" title="{% trans %}Excluir{% endtrans %}"
+                        onclick="SGA.Form.confirm('{% trans %}Realmente deseja excluir?{% endtrans %}', function() { $('#delete-form').prop('action', '{{ baseUrl() }}/modules/{{ module.chave }}/delete/{{ item.id }}').submit(); })">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<form id="delete-form" action="" method="post">
+</form>
+{% if pages > 1 %}
+<div class="crud-pagination">
+    <ul class="pagination">
+        <li {% if page == 0 %}class="disabled"{% endif %}>
+            <a href="?p=0">&laquo;</a>
+        </li>
+        {% for i in range(1, pages) %}
+        <li {% if i - 1 == page %}class="active"{% endif %}>
+            <a href="?p={{ i - 1 }}">{{ i }}</a>
+        </li>
+        {% endfor %}
+        <li {% if page == pages -1 %}class="disabled"{% endif %}>
+            <a href="?p={{ pages - 1}}">&raquo;</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

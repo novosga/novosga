@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Model;
 
-use \Novosga\Business\AtendimentoBusiness;
+use Novosga\Business\AtendimentoBusiness;
 
 /**
  * Classe ViewAtendimento

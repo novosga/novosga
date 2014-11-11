@@ -1,9 +1,9 @@
 <?php
 namespace Novosga\Model;
 
-use \Novosga\Model\Util\Cliente;
-use \Novosga\Model\Util\Senha;
-use \Novosga\Business\AtendimentoBusiness;
+use Novosga\Model\Util\Cliente;
+use Novosga\Model\Util\Senha;
+use Novosga\Business\AtendimentoBusiness;
 
 /**
  * Classe Atendimento
@@ -22,44 +22,80 @@ class Atendimento extends SequencialModel {
      * })
      */
     protected $servicoUnidade;
+    
     /** 
      * @ManyToOne(targetEntity="Usuario") 
      * @JoinColumn(name="usuario_id", referencedColumnName="id")
      */
     protected $usuario;
+    
     /** 
      * @ManyToOne(targetEntity="Usuario") 
      * @JoinColumn(name="usuario_tri_id", referencedColumnName="id", nullable=false)
      */
     protected $usuarioTriagem;
-    /** @Column(type="smallint", name="num_local", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="num_local", nullable=false) 
+     */
     protected $local;
-    /** @Column(type="datetime", name="dt_cheg", length=50, nullable=false) */
+    
+    /** 
+     * @Column(type="datetime", name="dt_cheg", length=50, nullable=false) 
+     */
     protected $dataChegada;
-    /** @Column(type="datetime", name="dt_cha", length=50, nullable=true) */
+    
+    /** 
+     * @Column(type="datetime", name="dt_cha", length=50, nullable=true) 
+     */
     protected $dataChamada;
-    /** @Column(type="datetime", name="dt_ini", length=50, nullable=true) */
+    
+    /** 
+     * @Column(type="datetime", name="dt_ini", length=50, nullable=true) 
+     */
     protected $dataInicio;
-    /** @Column(type="datetime", name="dt_fim", length=50, nullable=true) */
+    
+    /** 
+     * @Column(type="datetime", name="dt_fim", length=50, nullable=true) 
+     */
     protected $dataFim;
-    /** @Column(type="smallint", name="status", length=50, nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="status", length=50, nullable=false) 
+     */
     protected $status;
     
-    /** @Column(type="string", name="nm_cli", length=100, nullable=true) */
+    /** 
+     * @Column(type="string", name="nm_cli", length=100, nullable=true) 
+     */
     protected $nomeCliente;
-    /** @Column(type="string", name="ident_cli", length=11, nullable=true) */
+    
+    /** 
+     * @Column(type="string", name="ident_cli", length=11, nullable=true) 
+     */
     protected $documentoCliente;
-    /** @Column(type="string", name="sigla_senha", length=1, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="sigla_senha", length=1, nullable=false) 
+     */
     protected $siglaSenha;
-    /** @Column(type="integer", name="num_senha", nullable=false) */
+    
+    /** 
+     * @Column(type="integer", name="num_senha", nullable=false) 
+     */
     protected $numeroSenha;
-    /** @Column(type="integer", name="num_senha_serv", nullable=false) */
+    
+    /** 
+     * @Column(type="integer", name="num_senha_serv", nullable=false) 
+     */
     protected $numeroSenhaServico;
+    
     /** 
      * @ManyToOne(targetEntity="Prioridade") 
      * @JoinColumn(name="prioridade_id", referencedColumnName="id", nullable=false)
      */
     protected $prioridadeSenha;
+    
     /** 
      * @ManyToOne(targetEntity="Atendimento") 
      * @JoinColumn(name="atendimento_id", referencedColumnName="id")
@@ -223,6 +259,9 @@ class Atendimento extends SequencialModel {
         }
     }
 
+    /**
+     * @return Cliente
+     */
     public function getCliente() {
         if (!$this->cliente) {
             $this->cliente = new Cliente();
@@ -232,6 +271,18 @@ class Atendimento extends SequencialModel {
         return $this->cliente;
     }
     
+    public function setNomeCliente($nomeCliente) {
+        $this->nomeCliente = $nomeCliente;
+    }
+
+    public function setDocumentoCliente($documentoCliente) {
+        $this->documentoCliente = $documentoCliente;
+    }
+
+        
+    /**
+     * @return Senha
+     */
     public function getSenha() {
         if (!$this->senha) {
             $this->senha = new Senha();

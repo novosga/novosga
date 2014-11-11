@@ -10,11 +10,12 @@ class I18n {
     
     const DEFAULT_LANG = 'pt';
     const DEFAULT_LOCALE = 'pt_BR';
+    const DEFAULT_DOMAIN = 'default';
     
     private static $lang;
     private static $locale;
-    private static $locales = array(
-        'pt' => array('pt_BR'),
+    private static $availableLocales = array(
+        'pt' => array('pt_BR', 'pt_PT'),
         'en' => array('en_US'),
         'es' => array('es_ES')
     );
@@ -40,11 +41,11 @@ class I18n {
         foreach ($langs as $lang => $q) {
             $lang = explode('-', $lang);
             // se o locale esta disponivel
-            if (isset(self::$locales[$lang[0]])) {
-                $locales = self::$locales[$lang[0]];
+            if (isset(self::$availableLocales[$lang[0]])) {
+                $locales = self::$availableLocales[$lang[0]];
                 $l = $lang[0] . '_' . strtoupper(sizeof($lang) > 1 ? $lang[1] : $lang[0]);
                 // se nao existir o idioma da regiao, pega o primeiro
-                self::$locale = (isset($locales[$l])) ? $locales[$l] : $locales[0];
+                self::$locale = (in_array($l, $locales)) ? $l : $locales[0];
                 self::$lang = $lang[0];
                 break;
             }
@@ -80,9 +81,13 @@ class I18n {
         putenv("LANGUAGE=$locale");
         putenv("LC_ALL=$locale");
         putenv("LC_MESSAGES=$locale");
-        bindtextdomain("default", NOVOSGA_LOCALE_DIR);
-        textdomain("default");
-        bind_textdomain_codeset("default", "UTF-8");
+        textdomain(self::DEFAULT_DOMAIN);
+        self::bindDomain(self::DEFAULT_DOMAIN, NOVOSGA_LOCALE_DIR);
+    }
+    
+    public static function bindDomain($domain, $directory) {
+        bindtextdomain($domain, $directory);
+        bind_textdomain_codeset($domain, "UTF-8");
     }
     
 }

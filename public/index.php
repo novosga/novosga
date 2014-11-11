@@ -1,11 +1,12 @@
 <?php
 require_once  '../bootstrap.php';
 
-use \Novosga\SGA;
+use \Novosga\App;
 
-$app = new SGA(array(
+$app = new App(array(
     'debug' => NOVOSGA_DEV,
     'cache' => NOVOSGA_CACHE,
+    'templates.path' => NOVOSGA_TEMPLATES,
     'db' => $db
 ));
 
@@ -31,7 +32,7 @@ $app->post('/login', function() use ($app) {
 
 $app->get('/logout', function() use ($app) {
     $app->getContext()->session()->destroy();
-    $app->redirect($app->request()->getRootUri() . '/login');
+    $app->gotoLogin();
 });
 
 $app->get('/install(/:page)', function($page = '') use ($app) {
@@ -51,7 +52,10 @@ $app->post('/install/:action', function($action) use ($app) {
     $controller = new \Novosga\Install\InstallController();
     $ref = new \ReflectionMethod($controller, $action);
     if ($ref->isPublic()) {
-        $ref->invokeArgs($controller, array($app->getContext()));
+        $response = $ref->invokeArgs($controller, array($app->getContext()));
+        if ($response && $response instanceof \Novosga\Http\JsonResponse) {
+            echo $response->toJson();
+        }
     }
 });
 
@@ -63,7 +67,8 @@ $app->get('/(home)', function() use ($app) {
 
 $app->post('/home/set_unidade', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
-    $ctrl->unidade($app->getContext());
+    $response = $ctrl->unidade($app->getContext());
+    echo $response->toJson();
 });
 
 $app->get('/profile', function() use ($app) {
@@ -84,10 +89,10 @@ $app->post('/profile/password', function() use ($app) {
     echo $app->render('profile.html.twig');
 });
 
-$app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app) {
+$app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app, $loader) {
     define('MODULE', $moduleKey);
     if (!$app->getAcessoBusiness()->checkAccess($app->getContext(), $moduleKey, $action)) {
-        $app->redirect($app->request()->getRootUri() . '/home');
+        $app->gotoHome();
     }
     $args = array($app->getContext());
     if (is_array($action)) {
@@ -96,6 +101,12 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     }
     // prefixo do nome do controlador do modulo
     $tokens = explode('.', $moduleKey);
+    
+    // module resouce .htaccess fallback
+    if (in_array($action, array('js', 'css', 'images','sounds'))) {
+        showModuleResource($moduleKey, $action, $args[1]);
+    }
+    
     $namespace = MODULES_DIR . '\\' . $tokens[0] . '\\' . $tokens[1];
     $ctrlClassPrefix = $tokens[1];
     
@@ -107,18 +118,70 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     $ctrlClass = '\\' . $namespace . '\\' . $ctrlClass;
     $ctrl = new $ctrlClass($app, $module);
     
-    $app->view()->twigTemplateDirs = array(
-        NOVOSGA_TEMPLATES,
-        MODULES_PATH . "/{$tokens[0]}/{$tokens[1]}/view"
-    );
+    $moduleDir = MODULES_PATH . "/{$tokens[0]}/{$tokens[1]}";
+    // module locale
+    \Novosga\Util\I18n::bindDomain($moduleKey, "$moduleDir/locales");
+    // module views
+    $app->view()->twigTemplateDirs = array(NOVOSGA_TEMPLATES, "$moduleDir/views");
     $app->view()->set('module', $module);
     
     // controller action
     $methodName = str_replace('/', '_', str_replace('-', '_', $action));
     $method = new \ReflectionMethod($ctrl, $methodName);
-    $method->invokeArgs($ctrl, $args);
-    
-    echo $app->render("$action.html.twig");
+    $response = $method->invokeArgs($ctrl, $args);
+    if ($response && $response instanceof \Novosga\Http\JsonResponse) {
+        $app->response()->header('Content-type', 'application/json');
+        $app->response()->write($response->toJson());
+    } else {
+        echo $app->render("$action.html.twig");
+    }
 });
+
+/**
+ * Return to response the module resource
+ * @param type $moduleKey
+ * @param type $dir
+ * @param type $file
+ */
+function showModuleResource($moduleKey, $dir, $file) {
+   $filename = join(DS, array(
+        MODULES_PATH, join(DS, explode(".", $moduleKey)), 'public', $dir, $file)
+    );
+   if (file_exists($filename)) {
+        switch ($dir) {
+            case 'images':
+                $imginfo = getimagesize($filename);
+                $mime = $imginfo['mime'];
+                break;
+            case 'js':
+                $mime = 'text/javascript';
+                break;
+            case 'css':
+                $mime = 'text/css';
+                break;
+            case 'sounds':
+        	$ext = pathinfo($filename, PATHINFO_EXTENSION);
+        	switch ($ext) {
+        	    case 'wav':
+        		$mime = 'audio/wav';
+        		break;
+        	    case 'mp3':
+        		$mime = 'audio/mpeg';
+        		break;
+        	    case 'ogg':
+        		$mime = 'audio/ogg';
+        		break;
+        	}
+    		break;
+            default:
+                $mime = 'text/plain';
+        }
+        header("Content-type: $mime");
+        echo file_get_contents($filename);
+    } else {
+        throw new Exception(sprintf("Resource not found: %s", $filename));
+    }
+    exit();
+}
 
 $app->run();
