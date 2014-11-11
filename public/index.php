@@ -85,8 +85,8 @@ $app->post('/profile', function() use ($app) {
 
 $app->post('/profile/password', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
-    $ctrl->alterar_senha($app->getContext());
-    echo $app->render('profile.html.twig');
+    $response = $ctrl->alterar_senha($app->getContext());
+    echo $response->toJson();
 });
 
 $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app, $loader) {
