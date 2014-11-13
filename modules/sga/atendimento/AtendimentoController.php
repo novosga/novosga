@@ -309,14 +309,14 @@ class AtendimentoController extends ModuleController {
             if (empty($servicos)) {
                 throw new Exception(_('Nenhum serviço selecionado'));
             }
-            $conn = $this->em()->getConnection();
-            $conn->beginTransaction();
-            $stmt = $conn->prepare("INSERT INTO atend_codif (atendimento_id, servico_id, valor_peso) VALUES (:atendimento, :servico, 1)");
+            
+            $this->em()->beginTransaction();
             foreach ($servicos as $s) {
-                $stmt->bindValue('atendimento', $atual->getId());
-                // TODO: verificar se o usuario realmente pode atender o servico informado
-                $stmt->bindValue('servico', $s);
-                $stmt->execute();
+                $codificado = new \Novosga\Model\AtendimentoCodificado();
+                $codificado->setAtendimento($atual);
+                $codificado->setServico($this->em()->find('Novosga\Model\Servico', $s));
+                $codificado->setPeso(1);
+                $this->em()->persist($codificado);
             }
             // verifica se esta encerrando e redirecionando
             $redirecionar = $context->request()->post('redirecionar');
@@ -331,10 +331,13 @@ class AtendimentoController extends ModuleController {
             if (!$response->success) {
                 throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
             }
-            $conn->commit();
+            
+            $this->em()->commit();
+            $this->em()->flush();
         } catch (Exception $e) {
-            if ($conn && $conn->isTransactionActive()) {
-                $conn->rollBack();
+            try {
+                $this->em()->rollback();
+            } catch (Exception $ex) {
             }
             $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
         }
@@ -362,8 +365,6 @@ class AtendimentoController extends ModuleController {
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
             }
-            $conn = $this->em()->getConnection();
-            $conn->beginTransaction();
             $redirecionado = $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
             if (!$redirecionado) {
                 throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
@@ -372,11 +373,7 @@ class AtendimentoController extends ModuleController {
             if (!$response->success) {
                 throw new Exception(sprintf(_('Erro ao mudar status do atendimento %s para encerrado'), $atual->getId()));
             }
-            $conn->commit();
         } catch (Exception $e) {
-            if ($conn && $conn->isTransactionActive()) {
-                $conn->rollBack();
-            }
             $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
         }
         return $response;

@@ -76,6 +76,7 @@ CREATE TABLE historico_atendimentos (
     usuario_tri_id integer NOT NULL,
     servico_id integer NOT NULL,
     prioridade_id integer NOT NULL,
+    atendimento_id bigint,
     status integer NOT NULL,
     sigla_senha varchar(1) NOT NULL,
     num_senha integer NOT NULL,
@@ -264,6 +265,7 @@ ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ib
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_5 FOREIGN KEY (usuario_tri_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_6 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY paineis ADD CONSTRAINT paineis_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_1 FOREIGN KEY (host) REFERENCES paineis (host) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv (unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -333,6 +335,7 @@ AS
         atendimentos.usuario_tri_id, 
         atendimentos.servico_id, 
         atendimentos.prioridade_id, 
+        atendimentos.atendimento_id, 
         atendimentos.status, 
         atendimentos.sigla_senha, 
         atendimentos.num_senha, 
@@ -354,6 +357,7 @@ AS
         historico_atendimentos.usuario_tri_id, 
         historico_atendimentos.servico_id, 
         historico_atendimentos.prioridade_id, 
+        historico_atendimentos.atendimento_id, 
         historico_atendimentos.status, 
         historico_atendimentos.sigla_senha, 
         historico_atendimentos.num_senha, 

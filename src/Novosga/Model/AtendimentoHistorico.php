@@ -1,22 +1,19 @@
 <?php
 namespace Novosga\Model;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
 /**
- * Classe ViewAtendimento
- * representa a view de historico de atendimento do banco de dados
+ * AtendimentoHistorico
+ * historico de atendimento do banco de dados
  * 
  * @Entity
- * @Table(name="view_historico_atendimentos")
+ * @Table(name="historico_atendimentos")
  */
-class ViewAtendimento extends AbstractAtendimento 
+class AtendimentoHistorico extends AbstractAtendimento 
 {
-
+    
     /**
-     * @OneToMany(targetEntity="ViewAtendimentoCodificado", mappedBy="atendimento")
-     * @var ViewAtendimentoCodificado[]
+     * @OneToMany(targetEntity="wAtendimentoCodificadoHistorico", mappedBy="atendimento")
+     * @var wAtendimentoCodificadoHistorico[]
      */
     protected $codificados;
     

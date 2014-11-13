@@ -65,30 +65,34 @@ class TriagemController extends ModuleController {
             $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
             if (sizeof($ids)) {
-                $conn = $this->em()->getConnection();
-                $sql = "
+                $dql = "
                     SELECT 
-                        servico_id as id, COUNT(*) as total 
+                        s.id, COUNT(e) as total 
                     FROM 
-                        atendimentos
+                        Novosga\Model\Atendimento e
+                        JOIN e.servico s
                     WHERE 
-                        unidade_id = :unidade AND 
-                        servico_id IN (" . implode(',', $ids) . ")
+                        e.unidade = :unidade AND 
+                        e.servico IN (:servicos)
                 ";
                 // total senhas do servico (qualquer status)
-                $stmt = $conn->prepare($sql . " GROUP BY servico_id");
-                $stmt->bindValue('unidade', $unidade->getId(), PDO::PARAM_INT);
-                $stmt->execute();
-                $rs = $stmt->fetchAll();
+                $rs = $this->em()
+                        ->createQuery($dql . " GROUP BY e.servico")
+                        ->setParameter('unidade', $unidade)
+                        ->setParameter('servicos', $ids)
+                        ->getArrayResult();
+                ;
                 foreach ($rs as $r) {
                     $response->data[$r['id']] = array('total' => $r['total'], 'fila' => 0);
                 }
                 // total senhas esperando
-                $stmt = $conn->prepare($sql . " AND status = :status GROUP BY servico_id");
-                $stmt->bindValue('unidade', $unidade->getId(), PDO::PARAM_INT);
-                $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA, PDO::PARAM_INT);
-                $stmt->execute();
-                $rs = $stmt->fetchAll();
+                $rs = $this->em()
+                        ->createQuery($dql . " AND e.status = :status GROUP BY e.servico")
+                        ->setParameter('unidade', $unidade)
+                        ->setParameter('servicos', $ids)
+                        ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
+                        ->getArrayResult();
+                ;
                 foreach ($rs as $r) {
                     $response->data[$r['id']]['fila'] = $r['total'];
                 }

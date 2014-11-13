@@ -124,39 +124,34 @@ class MonitorController extends ModuleController {
      */
     public function transferir(Context $context) {
         $response = new JsonResponse();
-        $unidade = $context->getUser()->getUnidade();
-        if ($unidade) {
-            try {
-                $id = (int) $context->request()->post('id');
-                /*
-                 * TODO: verificar e tratar erro para ids invalidos. E verificar 
-                 * se o servico informado esta disponivel para a unidade.
-                 */
-                $servico = (int) $context->request()->post('servico');
-                $prioridade = (int) $context->request()->post('prioridade');
-                $conn = $this->em()->getConnection();
-                // transfere apenas se a data fim for nula (nao finalizados)
-                $stmt = $conn->prepare("
-                    UPDATE 
-                        atendimentos
-                    SET 
-                        servico_id = :servico,
-                        prioridade_id = :prioridade
-                    WHERE 
-                        id = :id AND 
-                        unidade_id = :unidade AND
-                        dt_fim IS NULL
-                ");
-                $stmt->bindValue('servico', $servico);
-                $stmt->bindValue('prioridade', $prioridade);
-                $stmt->bindValue('id', $id);
-                $stmt->bindValue('unidade', $unidade->getId());
-                $response->success = $stmt->execute() > 0;
-            } catch (Exception $e) {
-                $response->message = $e->getMessage();
+        try {
+            $unidade = $context->getUser()->getUnidade();
+            if (!$unidade) {
+                throw new Exception(_('Nenhuma unidade selecionada'));
             }
-        } else{
-            $response->message = _('Nenhuma unidade selecionada');
+            
+            $id = (int) $context->request()->post('id');
+            $atendimento = $this->em()->find('Novosga\Model\Atendimento', $id);
+            if (!$atendimento) {
+                throw new Exception(_('Atendimento inválido'));
+            }
+            
+            $servicoId = (int) $context->request()->post('servico');
+            $servico = $this->em()->find('Novosga\Model\Servico', $servicoId);
+            if (!$servico) {
+                throw new Exception(_('Serviço inválido'));
+            }
+            
+            $prioridadeId = (int) $context->request()->post('prioridade');
+            $prioridade = $this->em()->find('Novosga\Model\Prioridade', $prioridadeId);
+            if (!$prioridade) {
+                throw new Exception(_('Prioridade inválida'));
+            }
+
+            $ab = new AtendimentoBusiness($this->em());
+            $response->success = $ab->transferir($atendimento, $unidade, $servico, $prioridade);
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
         }
         return $response;
     }
@@ -169,32 +164,21 @@ class MonitorController extends ModuleController {
     public function reativar(Context $context) {
         $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
-        if ($unidade) {
-            try {
-                $id = (int) $context->request()->post('id');
-                $conn = $this->em()->getConnection();
-                $status = join(',', array(AtendimentoBusiness::SENHA_CANCELADA, AtendimentoBusiness::NAO_COMPARECEU));
-                // reativa apenas se estiver finalizada (data fim diferente de nulo)
-                $stmt = $conn->prepare("
-                    UPDATE 
-                        atendimentos
-                    SET 
-                        status = :status,
-                        dt_fim = NULL
-                    WHERE 
-                        id = :id AND 
-                        unidade_id = :unidade AND
-                        status IN ({$status})
-                ");
-                $stmt->bindValue('id', $id);
-                $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA);
-                $stmt->bindValue('unidade', $unidade->getId());
-                $response->success = $stmt->execute() > 0;
-            } catch (Exception $e) {
-                $response->message = $e->getMessage();
+        try {
+            if (!$unidade) {
+                $response->message = _('Nenhuma unidade selecionada');
             }
-        } else{
-            $response->message = _('Nenhuma unidade selecionada');
+            
+            $id = (int) $context->request()->post('id');
+            $atendimento = $this->em()->find('Novosga\Model\Atendimento', $id);
+            if (!$atendimento) {
+                throw new Exception(_('Atendimento inválido'));
+            }
+            
+            $ab = new AtendimentoBusiness($this->em());
+            $response->success = $ab->reativar($atendimento, $unidade);
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
         }
         return $response;
     }
@@ -206,32 +190,21 @@ class MonitorController extends ModuleController {
     public function cancelar(Context $context) {
         $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
-        if ($unidade) {
-            try {
-                $id = (int) $context->request()->post('id');
-                $conn = $this->em()->getConnection();
-                // cancela apenas se a data fim for nula
-                $stmt = $conn->prepare("
-                    UPDATE 
-                        atendimentos
-                    SET 
-                        status = :status,
-                        dt_fim = :data
-                    WHERE 
-                        id = :id AND 
-                        unidade_id = :unidade AND
-                        dt_fim IS NULL
-                ");
-                $stmt->bindValue('status', AtendimentoBusiness::SENHA_CANCELADA);
-                $stmt->bindValue('data', DateUtil::nowSQL());
-                $stmt->bindValue('id', $id);
-                $stmt->bindValue('unidade', $unidade->getId());
-                $response->success = $stmt->execute() > 0;
-            } catch (Exception $e) {
-                $response->message = $e->getMessage();
+        try {
+            if (!$unidade) {
+                $response->message = _('Nenhuma unidade selecionada');
             }
-        } else{
-            $response->message = _('Nenhuma unidade selecionada');
+            
+            $id = (int) $context->request()->post('id');
+            $atendimento = $this->em()->find('Novosga\Model\Atendimento', $id);
+            if (!$atendimento) {
+                throw new Exception(_('Atendimento inválido'));
+            }
+            
+            $ab = new AtendimentoBusiness($this->em());
+            $response->success = $ab->cancelar($atendimento, $unidade);
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
         }
         return $response;
     }

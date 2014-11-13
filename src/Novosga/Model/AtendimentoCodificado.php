@@ -2,19 +2,20 @@
 namespace Novosga\Model;
 
 /**
- * Classe ViewAtendimento Codificado
- * representa a view de historico de atendimento codificado (servico realizado)
+ * Classe Atendimento Codificado
+ * representa o atendimento codificado (servico realizado)
  * 
  * @Entity
- * @Table(name="view_historico_atend_codif")
+ * @Table(name="atend_codif")
  */
-class ViewAtendimentoCodificado extends AbstractAtendimentoCodificado 
+class AtendimentoCodificado extends AbstractAtendimentoCodificado 
 {
     
     /** 
      * @Id 
-     * @ManyToOne(targetEntity="ViewAtendimento") 
+     * @ManyToOne(targetEntity="Atendimento") 
      * @JoinColumn(name="atendimento_id", referencedColumnName="id")
+     * @var Atendimento
      */
     protected $atendimento;
     
@@ -22,7 +23,7 @@ class ViewAtendimentoCodificado extends AbstractAtendimentoCodificado
         return $this->atendimento;
     }
 
-    public function setAtendimento($atendimento) {
+    public function setAtendimento(AbstractAtendimento $atendimento) {
         $this->atendimento = $atendimento;
         return $this;
     }

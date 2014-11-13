@@ -1,14 +1,22 @@
 <?php
 namespace Novosga\Business;
 
-use PDO;
+use DateTime;
+use Doctrine\DBAL\LockMode;
+use Doctrine\ORM\OptimisticLockException;
 use Exception;
-use Novosga\Util\DateUtil;
+use Novosga\Config\AppConfig;
+use Novosga\Model\Atendimento;
+use Novosga\Model\Contador;
+use Novosga\Model\PainelSenha;
+use Novosga\Model\Prioridade;
+use Novosga\Model\Servico;
 use Novosga\Model\Unidade;
 use Novosga\Model\Usuario;
+use Novosga\Model\Util\Senha;
 use Novosga\Model\Util\UsuarioSessao;
-use Novosga\Model\Servico;
-use Novosga\Model\Atendimento;
+use Novosga\Util\DateUtil;
+use PDO;
 
 /**
  * AtendimentoBusiness
@@ -47,11 +55,11 @@ class AtendimentoBusiness extends ModelBusiness {
     
     /**
      * Adiciona uma nova senha na fila de chamada do painel de senhas
-     * @param \Novosga\Model\Unidade $unidade
-     * @param \Novosga\Model\Atendimento $atendimento
+     * @param Unidade $unidade
+     * @param Atendimento $atendimento
      */
     public function chamarSenha(Unidade $unidade, Atendimento $atendimento) {
-        $senha = new \Novosga\Model\PainelSenha();
+        $senha = new PainelSenha();
         $senha->setUnidade($unidade);
         $senha->setServico($atendimento->getServicoUnidade()->getServico());
         $senha->setNumeroSenha($atendimento->getSenha()->getNumero());
@@ -70,7 +78,7 @@ class AtendimentoBusiness extends ModelBusiness {
         $this->em->persist($senha);
         $this->em->flush();
         
-        \Novosga\Config\AppConfig::getInstance()->hook("attending.call", $atendimento, $senha);
+        AppConfig::getInstance()->hook("attending.call", $atendimento, $senha);
     }
 
     /**
@@ -80,115 +88,89 @@ class AtendimentoBusiness extends ModelBusiness {
      * @throws Exception
      */
     public function acumularAtendimentos($unidade = 0) {
-        if ($unidade instanceof \Novosga\Model\Unidade) {
+        if ($unidade instanceof Unidade) {
             $unidade = $unidade->getId();
         }
-        try {
-            $conn = $this->em->getConnection();
-            $data = DateUtil::nowSQL();
-            $conn->beginTransaction();
-            // salva atendimentos da unidade
-            $sql = "
-                INSERT INTO historico_atendimentos 
-                (
-                    id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
-                    nm_cli, num_local, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id
+        $data = DateUtil::nowSQL();
+        $conn = $this->em->getConnection();
+
+        // copia os atendimentos para o historico
+        $sql = "
+            INSERT INTO historico_atendimentos 
+            (
+                id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
+                nm_cli, num_local, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id, atendimento_id
+            )
+            SELECT 
+                a.id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
+                a.nm_cli, a.num_local, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id, a.atendimento_id
+            FROM 
+                atendimentos a
+            WHERE 
+                a.dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
+        ";
+        $query = $conn->prepare($sql);
+        $query->bindValue('data', $data, PDO::PARAM_STR);
+        $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
+        $query->execute();
+
+        // copia os atendimentos codificados para o historico
+        $query = $conn->prepare("
+            INSERT INTO historico_atend_codif
+            SELECT 
+                ac.atendimento_id, ac.servico_id, ac.valor_peso
+            FROM 
+                atend_codif ac
+            WHERE 
+                ac.atendimento_id IN (
+                    SELECT a.id FROM atendimentos a WHERE dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
                 )
-                SELECT 
-                    a.id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
-                    a.nm_cli, a.num_local, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id
-                FROM 
-                    atendimentos a
-                WHERE 
-                    a.dt_cheg <= :data
-            ";
-            if ($unidade > 0) {
-                $sql .= " AND a.unidade_id = :unidade";
-            }
-            $query = $conn->prepare($sql);
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            if ($unidade > 0) {
-                $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
-            }
-            $query->execute();
+        ");
+        $query->bindValue('data', $data, PDO::PARAM_STR);
+        $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
+        $query->execute();
 
-            // salva atendimentos codificados da unidade
-            $subquery = "SELECT a.id FROM atendimentos a WHERE dt_cheg <= :data ";
-            if ($unidade > 0) {
-                $subquery .= " AND a.unidade_id = :unidade";
-            }
-            $query = $conn->prepare("
-                INSERT INTO historico_atend_codif
-                SELECT 
-                    ac.atendimento_id, ac.servico_id, ac.valor_peso
-                FROM 
-                    atend_codif ac
-                WHERE 
-                    ac.atendimento_id IN (
-                        $subquery
+        // limpa atendimentos codificados
+        $this->em->createQuery('
+                    DELETE Novosga\Model\AtendimentoCodificado e WHERE e.atendimento IN (
+                        SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
                     )
-            ");
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            if ($unidade > 0) {
-                $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
-            }
-            $query->execute();
+                ')
+                ->setParameter('data', $data)
+                ->setParameter('unidade', $unidade)
+                ->execute()
+        ;
 
-            // limpa atendimentos codificados da unidade 
-            $subquery = "SELECT id FROM atendimentos WHERE dt_cheg <= :data ";
-            if ($unidade > 0) {
-                $subquery .= " AND unidade_id = :unidade";
-            }
-            $sql = "DELETE FROM atend_codif WHERE atendimento_id IN ( $subquery )";
-            $query = $conn->prepare($sql);
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            if ($unidade > 0) {
-                $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
-            }
-            $query->execute();
-            
-            // limpa atendimentos da unidade
-            // por causa do auto relacionamento, primeiro apaga os registros filhos
-            $sql = 'DELETE FROM atendimentos WHERE dt_cheg <= :data AND atendimento_id IS NOT NULL';
-            if ($unidade > 0) {
-                $sql .= " AND unidade_id = :unidade";
-            }
-            // delete decrescente devido a multiplos redirecionamentos  #136
-            $sql .= "  ORDER BY id DESC"; 
-            $query = $conn->prepare($sql);
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            if ($unidade > 0) {
-                $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
-            }
-            $query->execute();
-            // agora apaga os demais registros (os atendimentos pais)
-            $sql = 'DELETE FROM atendimentos WHERE dt_cheg <= :data ';
-            if ($unidade > 0) {
-                $sql .= " AND unidade_id = :unidade";
-            }
-            $query = $conn->prepare($sql);
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            if ($unidade > 0) {
-                $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
-            }
-            $query->execute();
-            
-            // limpa a tabela de senhas a serem exibidas no painel
-            $query = $conn->prepare("DELETE FROM painel_senha");
-            $query->execute();
+        // limpa o auto-relacionamento para poder excluir os atendimento sem dar erro de constraint (#136)
+        $this->em->createQuery('UPDATE Novosga\Model\Atendimento e SET e.pai = NULL WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
+                ->setParameter('unidade', $unidade)
+                ->setParameter('data', $data)
+                ->execute()
+        ;
 
-            $conn->commit();
-        } catch (Exception $e) {
-            if ($conn->isTransactionActive()) {
-                $conn->rollBack();
-            }
-            throw new Exception($e->getMessage());
-        }
+        // limpa atendimentos da unidade
+        $this->em->createQuery('DELETE Novosga\Model\Atendimento e WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
+                ->setParameter('data', $data)
+                ->setParameter('unidade', $unidade)
+                ->execute()
+        ;
+
+        // limpa a tabela de senhas a serem exibidas no painel
+        $this->em->createQuery('DELETE Novosga\Model\PainelSenha e WHERE (e.unidade = :unidade OR :unidade = 0)')
+                ->setParameter('unidade', $unidade)
+                ->execute()
+        ;
+
+        // zera o contador das senhas
+        $this->em->createQuery('UPDATE Novosga\Model\Contador e SET e.total = 0 WHERE (e.unidade = :unidade OR :unidade = 0)')
+                ->setParameter('unidade', $unidade)
+                ->execute()
+        ;
     }
     
     public static function isNumeracaoServico() {
         if (defined('NOVOSGA_TIPO_NUMERACAO')) {
-            return NOVOSGA_TIPO_NUMERACAO == \Novosga\Model\Util\Senha::NUMERACAO_SERVICO;
+            return NOVOSGA_TIPO_NUMERACAO == Senha::NUMERACAO_SERVICO;
         }
         return false;
     }
@@ -233,128 +215,227 @@ class AtendimentoBusiness extends ModelBusiness {
     }
     
     public function distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente) {
+        // verificando a unidade
         if (!($unidade instanceof Unidade)) {
             $unidade = $this->em->find("Novosga\Model\Unidade", (int) $unidade);
         }
         if (!$unidade) {
             throw new Exception(_('Nenhum unidade escolhida'));
         }
-        if (!($usuario instanceof Usuario || $usuario instanceof UsuarioSessao)) {
-            $usuario = $this->em->find("Novosga\Model\Usuario", (int) $usuario);
+        // verificando o usuario na sessao
+        if (!($usuario instanceof Usuario) || $usuario instanceof UsuarioSessao) {
+            if ($usuario instanceof UsuarioSessao) {
+                $usuario = $usuario->getWrapped();
+            } else {
+                $usuario = $this->em->find("Novosga\Model\Usuario", (int) $usuario);
+            }
         }
         if (!$usuario) {
             throw new Exception(_('Nenhum usuário na sessão'));
         }
+        // verificando o servico
+        if (!($servico instanceof Servico)) {
+            $servico = $this->em->find("Novosga\Model\Servico", (int) $servico);
+        }
+        if (!$servico) {
+            throw new Exception(_('Serviço inválido'));
+        }
         // verificando a prioridade
-        $prioridade = $this->em->find("Novosga\Model\Prioridade", $prioridade);
+        if (!($prioridade instanceof Prioridade)) {
+            $prioridade = $this->em->find("Novosga\Model\Prioridade", (int) $prioridade);
+        }
         if (!$prioridade || $prioridade->getStatus() == 0) {
             throw new Exception(_('Prioridade inválida'));
         }
-        $servico = ($servico instanceof Servico) ? $servico->getId() : (int) $servico;
+        
         // verificando se o servico esta disponivel na unidade
         $query = $this->em->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
-        $query->setParameter('unidade', $unidade->getId());
+        $query->setParameter('unidade', $unidade);
         $query->setParameter('servico', $servico);
         $su = $query->getOneOrNullResult();
         if (!$su) {
             throw new Exception(_('Serviço não disponível para a unidade atual'));
         }
-        $conn = $this->em->getConnection();
-        // ultimo numero gerado (total)
-        $innerQuery = "SELECT num_senha FROM atendimentos a WHERE a.unidade_id = :unidade_id ORDER BY num_senha DESC";
-        $innerQuery = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery, 1, 0);
-        // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
-        $innerQuery2 = "SELECT num_senha_serv FROM atendimentos a WHERE a.unidade_id = :unidade_id AND a.sigla_senha = :sigla_senha ORDER BY num_senha_serv DESC";
-        $innerQuery2 = $conn->getDatabasePlatform()->modifyLimitQuery($innerQuery2, 1, 0);
-        $stmt = $conn->prepare(" 
-            INSERT INTO atendimentos
-            (unidade_id, servico_id, prioridade_id, usuario_tri_id, status, nm_cli, ident_cli, num_local, dt_cheg, sigla_senha, num_senha, num_senha_serv)
-            SELECT
-                :unidade_id, :servico_id, :prioridade_id, :usuario_tri_id, :status, :nm_cli, :ident_cli, :num_local, :dt_cheg, :sigla_senha, 
-                COALESCE(
-                    (
-                        $innerQuery
-                    ) , 0) + 1,
-                COALESCE(
-                    (
-                        $innerQuery2
-                    ) , 0) + 1
-        ");
-        $stmt->bindValue('unidade_id', $unidade->getId(), PDO::PARAM_INT);
-        $stmt->bindValue('servico_id', $servico, PDO::PARAM_INT);
-        $stmt->bindValue('prioridade_id', $prioridade->getId(), PDO::PARAM_INT);
-        $stmt->bindValue('usuario_tri_id', $usuario->getId(), PDO::PARAM_INT);
-        $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA, PDO::PARAM_INT);
-        $stmt->bindValue('nm_cli', $nomeCliente, PDO::PARAM_STR);
-        $stmt->bindValue('ident_cli', $documentoCliente, PDO::PARAM_STR);
-        $stmt->bindValue('num_local', 0, PDO::PARAM_INT);
-        $stmt->bindValue('dt_cheg', DateUtil::nowSQL(), PDO::PARAM_STR);
-        $stmt->bindValue('sigla_senha', $su->getSigla(), PDO::PARAM_STR);
+        
+        $contador = $this->em->find('Novosga\Model\Contador', $unidade);
+        if (!$contador) {
+            $contador = new Contador();
+            $contador->setUnidade($unidade);
+            $contador->setTotal(0);
+            $this->em->persist($contador);
+            $this->em->flush();
+        }
+        
+        $numeroSenha = $contador->getTotal() + 1;
+        $contador->setTotal($numeroSenha);
+        
+        $atendimento = new Atendimento();
+        $atendimento->setServicoUnidade($su);
+        $atendimento->setPrioridade($prioridade);
+        $atendimento->setUsuarioTriagem($usuario);
+        $atendimento->setStatus(AtendimentoBusiness::SENHA_EMITIDA);
+        $atendimento->setLocal(0);
+        $atendimento->setNomeCliente($nomeCliente);
+        $atendimento->setDocumentoCliente($documentoCliente);
+        $atendimento->setSiglaSenha($su->getSigla());
 
-        $success = ($stmt->execute() == true);
-        if (!$success) {
-            throw new Exception(_('Erro ao tentar gerar nova senha'));
+        try {
+            $attempts = 5;
+            $this->em->beginTransaction();
+            do {
+                try {
+                    // assert version
+                    $this->em->lock($contador, LockMode::PESSIMISTIC_WRITE, $numeroSenha);
+
+                    // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
+                    try {
+                        $numeroSenhaServico = (int) $this->em->createQuery('
+                                SELECT 
+                                    e.numeroSenhaServico
+                                FROM 
+                                    Novosga\Model\Atendimento e 
+                                    JOIN e.servicoUnidade su
+                                WHERE 
+                                    su.unidade = :unidade AND 
+                                    e.siglaSenha = :sigla 
+                                ORDER BY 
+                                    e.numeroSenhaServico DESC
+                            ')
+                                ->setParameter('unidade', $unidade)
+                                ->setParameter('sigla', $su->getSigla())
+                                ->setMaxResults(1)
+                                ->getSingleScalarResult()
+                        ;
+                    } catch (Exception $e) {
+                        $numeroSenhaServico = 0;
+                    }
+
+                    $atendimento->setDataChegada(new DateTime());
+                    $atendimento->setNumeroSenha($numeroSenha);
+                    $atendimento->setNumeroSenhaServico($numeroSenhaServico + 1);
+                    
+                    $this->em->persist($atendimento);
+                    $this->em->merge($contador);
+                    $this->em->commit();
+                    $this->em->flush();
+                    break;
+                } catch(OptimisticLockException $e) {
+                    $attempts--;
+                    if ($attempts <= 0) {
+                        throw $e;
+                    }
+                    usleep(100);
+                }
+            } while ($attempts > 0);
+
+            if ($attempts === 0) {
+                throw new Exception(_('Erro ao tentar gerar nova senha'));
+            }
+
+            if (!$atendimento || !$atendimento->getId()) {
+                throw new \Exception(sprintf(_('O último ID retornado pelo banco não é de um atendimento válido: %s'), $id));
+            }
+
+            AppConfig::getInstance()->hook("attending.create", $atendimento);
+
+            return array(
+                'id' => $atendimento->getId(),
+                'atendimento' => $atendimento->toArray()
+            );
+        } catch (Exception $e) {
+            try {
+                $this->em->rollback();
+            } catch (Exception $ex) {
+            }
+            throw $e;
         }
-        $id = $conn->lastInsertId('atendimentos_id_seq');
-        if (!$id) {
-            $id = $conn->lastInsertId();
-        }
-        if (!$id) {
-            throw new \Exception(_('Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de desenvolvimento informando esse problema, e o banco de dados que está usando'));
-        }
-        $atendimento = $this->em->find("Novosga\Model\Atendimento", $id);
-        if (!$atendimento) {
-            throw new \Exception(sprintf(_('O último ID retornado pelo banco não é de um atendimento válido: %s'), $id));
-        }
-        
-        \Novosga\Config\AppConfig::getInstance()->hook("attending.create", $atendimento);
-        
-        return array(
-            'id' => $id,
-            'atendimento' => $atendimento->toArray()
-        );
     }
     
+    /**
+     * Transfere o atendimento para outro serviço e prioridade
+     * 
+     * @param Atendimento $atendimento
+     * @param Unidade $unidade
+     * @param integer|Servico $novoServico
+     * @param integer|Prioridade $novaPrioridade
+     * @return boolean
+     */
     public function transferir(Atendimento $atendimento, Unidade $unidade, $novoServico, $novaPrioridade) {
-        $conn = $this->em->getConnection();
         // transfere apenas se a data fim for nula (nao finalizados)
-        $stmt = $conn->prepare("
-            UPDATE 
-                atendimentos
-            SET 
-                servico_id = :servico,
-                prioridade_id = :prioridade
-            WHERE 
-                id = :id AND 
-                unidade_id = :unidade AND
-                dt_fim IS NULL
-        ");
-        $stmt->bindValue('servico', $novoServico);
-        $stmt->bindValue('prioridade', $novaPrioridade);
-        $stmt->bindValue('id', $atendimento->getId());
-        $stmt->bindValue('unidade', $unidade->getId());
-        return $stmt->execute() > 0;
+        return $this->em->createQuery('
+                UPDATE 
+                    Novosga\Model\Atendimento e
+                SET 
+                    e.servico = :servico,
+                    e.prioridade = :prioridade
+                WHERE 
+                    e.id = :id AND 
+                    e.unidade = :unidade AND
+                    e.dataFim IS NULL
+                ')
+                ->setParameter('servico', $novoServico)
+                ->setParameter('prioridade', $novaPrioridade)
+                ->setParameter('id', $atendimento)
+                ->setParameter('unidade', $unidade)
+                ->execute() > 0
+        ;
     }
     
-    public function cancelar(Atendimento $atendimento, Unidade $unidade, $novoServico, $novaPrioridade) {
-        $conn = $this->em->getConnection();
-        $stmt = $conn->prepare("
-            UPDATE 
-                atendimentos
-            SET 
-                status = :status,
-                dt_fim = :data
-            WHERE 
-                id = :id AND 
-                unidade_id = :unidade AND
-                dt_fim IS NULL
-        ");
+    /**
+     * Atualiza o status da senha para cancelado
+     * 
+     * @param Atendimento $atendimento
+     * @param Unidade $unidade
+     * @return boolean
+     */
+    public function cancelar(Atendimento $atendimento, Unidade $unidade) {
         // cancela apenas se a data fim for nula
-        $stmt->bindValue('status', AtendimentoBusiness::SENHA_CANCELADA);
-        $stmt->bindValue('data', DateUtil::nowSQL());
-        $stmt->bindValue('id', $id);
-        $stmt->bindValue('unidade', $unidade->getId());
-        return $stmt->execute() > 0;
+        return $this->em->createQuery('
+                UPDATE 
+                    Novosga\Model\Atendimento e
+                SET 
+                    e.status = :status,
+                    e.dataFim = :data
+                WHERE 
+                    e.id = :id AND 
+                    e.unidade = :unidade AND
+                    e.dataFim IS NULL
+                ')
+                ->setParameter('status', AtendimentoBusiness::SENHA_CANCELADA)
+                ->setParameter('data', new DateTime())
+                ->setParameter('id', $atendimento)
+                ->setParameter('unidade', $unidade)
+                ->execute() > 0
+        ;
+    }
+    
+    /**
+     * Reativa o atendimento para o mesmo serviço e mesma prioridade.
+     * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu
+     * 
+     * @param Atendimento $atendimento
+     * @param Unidade $unidade
+     * @return boolean
+     */
+    public function reativar(Atendimento $atendimento, Unidade $unidade) {
+        // reativa apenas se estiver finalizada (data fim diferente de nulo)
+        return $this->em->createQuery('
+                UPDATE 
+                    Novosga\Model\Atendimento e
+                SET 
+                    e.status = :status,
+                    e.dataFim = NULL
+                WHERE 
+                    e.id = :id AND 
+                    e.unidade = :unidade AND
+                    e.status IN (:statuses)
+                ')
+                ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
+                ->setParameter('statuses', array(AtendimentoBusiness::SENHA_CANCELADA, AtendimentoBusiness::NAO_COMPARECEU))
+                ->setParameter('id', $atendimento)
+                ->setParameter('unidade', $unidade)
+                ->execute() > 0
+        ;
     }
     
 }
