@@ -2,13 +2,15 @@
 namespace modules\sga\triagem;
 
 use PDO;
+use DateTime;
 use Exception;
+use Novosga\Config\AppConfig;
 use Novosga\Context;
 use Novosga\Util\Arrays;
-use Novosga\Util\DateUtil;
 use Novosga\Http\JsonResponse;
 use Novosga\Controller\ModuleController;
 use Novosga\Business\AtendimentoBusiness;
+use Novosga\Model\Unidade;
 
 /**
  * TriagemController
@@ -28,7 +30,7 @@ class TriagemController extends ModuleController {
         $this->app()->view()->set('prioridades', $query->getResult());
     } 
     
-    private function servicos(\Novosga\Model\Unidade $unidade) {
+    private function servicos(Unidade $unidade) {
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1 ORDER BY e.nome");
         $query->setParameter('unidade', $unidade->getId());
         return $query->getResult();
@@ -40,8 +42,20 @@ class TriagemController extends ModuleController {
         if (!$atendimento) {
             $this->app()->redirect('index');
         }
+        
+        // custom view parameters
+        $params = AppConfig::getInstance()->get("triagem.print.params");
+        if (is_array($params)) {
+            foreach ($params as $k => $v) {
+                $this->app()->view()->set($k, $v);
+            }
+        }
+        
         $this->app()->view()->set('atendimento', $atendimento);
-        $this->app()->view()->set('data', new \DateTime());
+        $this->app()->view()->set('data', new DateTime());
+        
+        // custom print template
+        return AppConfig::getInstance()->get("triagem.print.template");
     }
     
     public function ajax_update(Context $context) {
@@ -142,7 +156,7 @@ class TriagemController extends ModuleController {
     
     /**
      * Busca os atendimentos a partir do número da senha
-     * @param Novosga\Context $context
+     * @param Context $context
      */
     public function consulta_senha(Context $context) {
         $response = new JsonResponse();

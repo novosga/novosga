@@ -129,11 +129,22 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     $methodName = str_replace('/', '_', str_replace('-', '_', $action));
     $method = new \ReflectionMethod($ctrl, $methodName);
     $response = $method->invokeArgs($ctrl, $args);
-    if ($response && $response instanceof \Novosga\Http\JsonResponse) {
+    if ($response instanceof \Novosga\Http\JsonResponse) {
         $app->response()->header('Content-type', 'application/json');
         $app->response()->write($response->toJson());
     } else {
-        echo $app->render("$action.html.twig");
+        // render as template the returned template name or action name pattern
+        if (is_string($response)) {
+            $dir = dirname($response);
+            if ($dir && $dir !== '.') {
+                // defined a template outside the default twigTemplateDirs
+                $app->view()->twigTemplateDirs[] = $dir;
+            }
+            $template = basename($response);
+        } else {
+            $template = "$action.html.twig";
+        }
+        echo $app->render($template);
     }
 });
 
