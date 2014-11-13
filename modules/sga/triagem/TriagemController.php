@@ -40,9 +40,8 @@ class TriagemController extends ModuleController {
         if (!$atendimento) {
             $this->app()->redirect('index');
         }
-        $context->response()->setRenderView(false);
         $this->app()->view()->set('atendimento', $atendimento);
-        $this->app()->view()->set('data', DateUtil::now("d/m/Y H:i"));
+        $this->app()->view()->set('data', new \DateTime());
     }
     
     public function ajax_update(Context $context) {

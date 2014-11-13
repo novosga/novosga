@@ -156,8 +156,6 @@ class EstatisticasController extends ModuleController {
         
         // filtros
         $this->app()->view()->getInstance()->addFilter(new \Novosga\Twig\SecFormat());
-        
-        $context->response()->setRenderView(false);
     }
     
     private function unidades() {
