@@ -71,13 +71,7 @@ $app->post('/home/set_unidade', function() use ($app) {
     echo $response->toJson();
 });
 
-$app->get('/profile', function() use ($app) {
-    $ctrl = new \Novosga\Controller\HomeController($app);
-    $ctrl->perfil($app->getContext());
-    echo $app->render('profile.html.twig');
-});
-
-$app->post('/profile', function() use ($app) {
+$app->any('/profile', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->perfil($app->getContext());
     echo $app->render('profile.html.twig');
@@ -87,6 +81,12 @@ $app->post('/profile/password', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
     $response = $ctrl->alterar_senha($app->getContext());
     echo $response->toJson();
+});
+
+$app->get('/ticket/print/:id/:hash', function($id, $hash) use ($app) {
+    $ctrl = new \Novosga\Controller\TicketController($app);
+    $template = $ctrl->printAction($app->getContext(), $id, $hash);
+    echo $app->render($template);
 });
 
 $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app, $loader) {
@@ -143,6 +143,11 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
             $template = basename($response);
         } else {
             $template = "$action.html.twig";
+        }
+        // for security purposes allow only .html.twig files
+        $ext = ".html.twig";
+        if (substr($template, -strlen($ext)) !== $ext) {
+            throw new Exception('Você está tentando exibir um arquivo de template inválido.');
         }
         echo $app->render($template);
     }

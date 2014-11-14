@@ -31,4 +31,18 @@ class Atendimento extends AbstractAtendimento
         return $this;
     }
     
+    /**
+     * Atendimento hash
+     * @return string
+     */
+    public function hash() {
+        return sha1("{$this->getId()}:{$this->getDataChegada()->getTimestamp()}");
+    }
+    
+    public function toArray($minimal = false) {
+        $arr = parent::toArray($minimal);
+        $arr['hash'] = $this->hash();
+        return $arr;
+    }
+    
 }

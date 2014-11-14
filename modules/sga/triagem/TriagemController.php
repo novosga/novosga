@@ -38,24 +38,8 @@ class TriagemController extends ModuleController {
     
     public function imprimir(Context $context) {
         $id = (int) $context->request()->get('id');
-        $atendimento = $this->em()->find("Novosga\Model\Atendimento", $id);
-        if (!$atendimento) {
-            $this->app()->redirect('index');
-        }
-        
-        // custom view parameters
-        $params = AppConfig::getInstance()->get("triagem.print.params");
-        if (is_array($params)) {
-            foreach ($params as $k => $v) {
-                $this->app()->view()->set($k, $v);
-            }
-        }
-        
-        $this->app()->view()->set('atendimento', $atendimento);
-        $this->app()->view()->set('data', new DateTime());
-        
-        // custom print template
-        return AppConfig::getInstance()->get("triagem.print.template");
+        $ctrl = new \Novosga\Controller\TicketController($this->app());
+        return $ctrl->printTicket($ctrl->getAtendimento($id));
     }
     
     public function ajax_update(Context $context) {

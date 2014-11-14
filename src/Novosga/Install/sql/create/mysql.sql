@@ -6,6 +6,12 @@
 -- tables
 --
 
+CREATE TABLE contador (
+    unidade_id INT NOT NULL,
+    total INT NOT NULL DEFAULT 0,
+    PRIMARY KEY(unidade_id)
+);
+
 CREATE TABLE atend_codif (
     atendimento_id bigint NOT NULL AUTO_INCREMENT,
     servico_id integer NOT NULL,
@@ -314,6 +320,7 @@ CREATE TABLE oauth_refresh_tokens (
 -- keys
 --
 
+ALTER TABLE contador ADD FOREIGN KEY (unidade_id) REFERENCES unidades (id);
 ALTER TABLE atend_codif ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atend_codif ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;

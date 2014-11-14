@@ -9,17 +9,23 @@
                 </div>
                 <div class="modal-body">
                     <form id="local_form" action="{{ baseUrl() }}/modules/{{ module.chave }}/set_local" method="post" role="form" class="form-inline">
-                        <div class="form-group col-lg-2">
-                            <label class="control-label">{% trans %}Número{% endtrans %}</label>
-                            <input type="text" id="numero_local" name="local" maxlength="3" class="form-control" value="{{ localCookie }}" />
-                        </div>
-                        <div class="form-group">
-                            <label class="control-label" title="{% trans %}Tipo de Atendimento{% endtrans %}">{% trans %}Atendimento{% endtrans %}</label>
-                            <select id="tipo_atendimento" name="tipo" class="form-control">
-                                {% for v,l in tiposAtendimento %}
-                                <option value="{{ v }}" {% if tipoAtendimentoCookie == v %}selected="selected"{% endif %}>{{ l }}</option>
-                                {% endfor %}
-                            </select>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">{% trans %}Número{% endtrans %}</label>
+                                    <input type="text" id="numero_local" name="local" maxlength="3" class="form-control" value="{{ localCookie }}" />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label" title="{% trans %}Tipo de Atendimento{% endtrans %}">{% trans %}Atendimento{% endtrans %}</label>
+                                    <select id="tipo_atendimento" name="tipo" class="form-control">
+                                        {% for v,l in tiposAtendimento %}
+                                        <option value="{{ v }}" {% if tipoAtendimentoCookie == v %}selected="selected"{% endif %}>{{ l }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </form>
                     <script type="text/javascript">

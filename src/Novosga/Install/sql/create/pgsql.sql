@@ -6,6 +6,12 @@
 -- tables
 --
 
+CREATE TABLE contador (
+    unidade_id INT NOT NULL,
+    total INT NOT NULL DEFAULT 0,
+    PRIMARY KEY(unidade_id)
+);
+
 CREATE TABLE atend_codif (
     atendimento_id bigint NOT NULL,
     servico_id integer NOT NULL,
@@ -250,6 +256,7 @@ ALTER TABLE ONLY unidades ADD CONSTRAINT unidades_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_pkey PRIMARY KEY (usuario_id, grupo_id);
 ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_pkey PRIMARY KEY (unidade_id, servico_id, usuario_id);
 ALTER TABLE ONLY usuarios ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY contador ADD FOREIGN KEY (unidade_id) REFERENCES unidades (id);
 ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
