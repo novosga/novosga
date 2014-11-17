@@ -44,6 +44,7 @@ class CargosController extends TreeModelController {
                 $permissao = new \Novosga\Model\Permissao();
                 $permissao->setModulo($this->em()->find('Novosga\Model\Modulo', $modulo));
                 $permissao->setCargo($model);
+                $permissao->setPermissao(3);
                 $this->em()->persist($permissao);
             }
             $this->em()->flush();
