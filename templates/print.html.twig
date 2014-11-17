@@ -12,7 +12,7 @@
     <div id="senha">
         <div id="senha-header">
             {{ unidade.nome }}<br />
-            <span class="data">{{ data|date('d/m/Y H:i') }}</span>
+            <span class="data">{{ now|date('d/m/Y H:i') }}</span>
         </div>
         <div id="senha-body">
             {{ atendimento.senha }}

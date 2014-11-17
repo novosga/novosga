@@ -68,7 +68,7 @@ class TicketController extends AppController
         }
         
         $this->app()->view()->set('atendimento', $atendimento);
-        $this->app()->view()->set('data', new DateTime());
+        $this->app()->view()->set('now', new DateTime());
         
         // custom print template
         $template = AppConfig::getInstance()->get("ticket.print.template");
