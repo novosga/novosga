@@ -104,7 +104,11 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     
     // module resouce .htaccess fallback
     if (in_array($action, array('js', 'css', 'images','sounds'))) {
-        showModuleResource($moduleKey, $action, $args[1]);
+        try {
+            showModuleResource($moduleKey, $action, $args[1]);
+        } catch (Exception $e) {
+            $app->notFound();
+        }
     }
     
     $namespace = MODULES_DIR . '\\' . $tokens[0] . '\\' . $tokens[1];
