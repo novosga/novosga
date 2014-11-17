@@ -95,7 +95,7 @@ SGA.Unidade = {
 };
 
 $(function() {
-   $('input:checkbox').bootstrapSwitch().on('switchChange.bootstrapSwitch', function(event, state) {
+   $('#servicos input:checkbox').bootstrapSwitch().on('switchChange.bootstrapSwitch', function(event, state) {
        SGA.Unidade.Servicos.toggle(event.target);
     }); 
 });
