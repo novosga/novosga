@@ -50,10 +50,9 @@ class TicketController extends AppController
     }
     
     /**
-     * Imprime a senha informado pelo ID do atendimento
+     * Imprime a senha informada pelo atendimento
      * 
-     * @param Context $context
-     * @param integer $id
+     * @param \Novosga\Model\Atendimento $atendimento
      * @return string
      * @throws Exception
      */
@@ -61,6 +60,9 @@ class TicketController extends AppController
     {
         // custom view parameters
         $params = AppConfig::getInstance()->get("ticket.print.params");
+        if (is_callable($params)) {
+            $params = $params($atendimento);
+        }
         if (is_array($params)) {
             foreach ($params as $k => $v) {
                 $this->app()->view()->set($k, $v);
