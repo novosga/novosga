@@ -12,8 +12,8 @@ class AtendimentoHistorico extends AbstractAtendimento
 {
     
     /**
-     * @OneToMany(targetEntity="wAtendimentoCodificadoHistorico", mappedBy="atendimento")
-     * @var wAtendimentoCodificadoHistorico[]
+     * @OneToMany(targetEntity="AtendimentoCodificadoHistorico", mappedBy="atendimento")
+     * @var AtendimentoCodificadoHistorico[]
      */
     protected $codificados;
     

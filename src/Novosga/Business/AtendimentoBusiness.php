@@ -93,10 +93,16 @@ class AtendimentoBusiness extends ModelBusiness {
         }
         $data = DateUtil::nowSQL();
         $conn = $this->em->getConnection();
+        
+        // tables name
+        $historicoTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoHistorico')->getTableName();
+        $historicoCodifTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoCodificadoHistorico')->getTableName();
+        $atendimentoTable = $this->em->getClassMetadata('Novosga\Model\Atendimento')->getTableName();
+        $atendimentoCodifTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoCodificado')->getTableName();
 
         // copia os atendimentos para o historico
         $sql = "
-            INSERT INTO historico_atendimentos 
+            INSERT INTO $historicoTable 
             (
                 id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
                 nm_cli, num_local, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id, atendimento_id
@@ -105,7 +111,7 @@ class AtendimentoBusiness extends ModelBusiness {
                 a.id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
                 a.nm_cli, a.num_local, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id, a.atendimento_id
             FROM 
-                atendimentos a
+                $atendimentoTable a
             WHERE 
                 a.dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
         ";
@@ -116,14 +122,14 @@ class AtendimentoBusiness extends ModelBusiness {
 
         // copia os atendimentos codificados para o historico
         $query = $conn->prepare("
-            INSERT INTO historico_atend_codif
+            INSERT INTO $historicoCodifTable
             SELECT 
                 ac.atendimento_id, ac.servico_id, ac.valor_peso
             FROM 
-                atend_codif ac
+                $atendimentoCodifTable ac
             WHERE 
                 ac.atendimento_id IN (
-                    SELECT a.id FROM atendimentos a WHERE dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
+                    SELECT a.id FROM $atendimentoTable a WHERE dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
                 )
         ");
         $query->bindValue('data', $data, PDO::PARAM_STR);
