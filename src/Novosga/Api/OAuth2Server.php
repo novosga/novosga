@@ -21,10 +21,7 @@ class OAuth2Server extends Server {
     private $em;
     
     public function __construct(EntityManager $em) {
-        $conn = $em->getConnection()->getWrappedConnection();
-        $this->storage = new OAuth2Storage($conn, array(
-            
-        ));
+        $this->storage = new OAuth2Storage($em);
         parent::__construct($this->storage, array(
             'www_realm' => 'NovoSGA'
         ));

@@ -8,20 +8,41 @@ namespace Novosga\Model;
  */
 class Usuario extends SequencialModel {
     
-    /** @Column(type="string", name="login", length=20, nullable=false, unique=true) */
+    /** 
+     * @Column(type="string", name="login", length=20, nullable=false, unique=true) 
+     */
     protected $login;
-    /** @Column(type="string", name="nome", length=20, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="nome", length=20, nullable=false) 
+     */
     protected $nome;
-    /** @Column(type="string", name="sobrenome", length=100, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="sobrenome", length=100, nullable=false) 
+     */
     protected $sobrenome;
-    /** @Column(type="string", name="senha", length=60, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="senha", length=60, nullable=false) 
+     */
     protected $senha;
-    /** @Column(type="smallint", name="status", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="status", nullable=false) 
+     */
     protected $status;
-    /** @Column(type="datetime", name="ult_acesso", nullable=true) */
+    
+    /** 
+     * @Column(type="datetime", name="ult_acesso", nullable=true) 
+     */
     protected $ultimoAcesso;
-    /** @Column(type="string", name="session_id", length=50, nullable=true) */
+    
+    /** 
+     * @Column(type="string", name="session_id", length=50, nullable=true) 
+     */
     protected $sessionId;
+    
     /** 
      * @OneToMany(targetEntity="Lotacao", mappedBy="usuario")
      */
