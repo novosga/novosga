@@ -122,7 +122,10 @@
         $("#report-id").on('change', function() {
             SGA.Estatisticas.Relatorio.change($(this));
         });
-        //$(".datepicker" ).datepicker({dateFormat: '{% trans %}dd/mm/yy{% endtrans %}'});
+        $(".datepicker" ).datepicker({
+            language: 'pt-BR',
+            format: '{% trans %}dd/mm/yyyy{% endtrans %}'
+        });
         SGA.Form.validate('report-form');
     </script>
 </div>
