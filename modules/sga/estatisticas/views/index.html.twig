@@ -1,4 +1,10 @@
 {% extends "module.html.twig" %}
+
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ resources('css/datepicker3.css', module.chave) }}" />
+{% endblock %}
+    
 {% block content %}
 <div>
     <ul class="nav nav-tabs">
@@ -101,8 +107,10 @@
             </form>
         </div>
     </div>
-    <script type="text/javascript" src="{{ baseUrl() }}/modules/{{ module.chave }}/js/highcharts.js"></script>
-    <script type="text/javascript" src="{{ baseUrl() }}/modules/{{ module.chave }}/js/highcharts.exporting.js"></script>
+    <script type="text/javascript" src="{{ resources('js/highcharts.js', module.chave) }}"></script>
+    <script type="text/javascript" src="{{ resources('js/highcharts.exporting.js', module.chave) }}"></script>
+    <script type="text/javascript" src="{{ resources('js/bootstrap-datepicker.js', module.chave) }}"></script>
+    <script type="text/javascript" src="{{ resources('js/bootstrap-datepicker.pt-BR.js', module.chave) }}"></script>
     <script type="text/javascript"> 
         // unidades
         SGA.Estatisticas.unidades = {% autoescape false %}{{ unidadesJson }}{% endautoescape %};

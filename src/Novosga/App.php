@@ -22,6 +22,9 @@ class App extends \Slim\Slim {
     public function __construct(array $userSettings = array()) {
         $twig = new \Slim\Views\Twig();
         $userSettings = array_merge($userSettings, array(
+            'debug' => NOVOSGA_DEV,
+            'cache' => NOVOSGA_CACHE,
+            'templates.path' => NOVOSGA_TEMPLATES,
             'view' => $twig
         ));
         if (!$userSettings['debug']) {
@@ -34,20 +37,32 @@ class App extends \Slim\Slim {
         $this->view()->set('version', App::VERSION);
         $this->view()->set('lang', \Novosga\Util\I18n::lang());
         
-        $this->context = new Context($this, $userSettings['db']);
-        
         $this->view()->parserExtensions = array(
             new \Slim\Views\TwigExtension(),
-            new \Twig_Extensions_Extension_I18n()
+            new \Twig_Extensions_Extension_I18n(),
+            new Twig\Extensions()
         );
+        
         if ($userSettings['debug']) {
             $this->view()->parserExtensions[] = new \Twig_Extension_Debug();
         }
         
-        $this->add(new \Novosga\Slim\InstallMiddleware($this->getContext()));
-        $this->add(new \Novosga\Slim\AuthMiddleware($this->getContext()));
-        
+        $app = $this;
+        $app->notFound(function() use ($app) {
+            $app->render('error/404.html.twig');
+        });
+
+        $app->error(function(\Exception $e) use ($app) {
+            $app->view()->set('exception', $e);
+            $app->render('error/500.html.twig');
+        });
+    }
+    
+    public function prepare(Config\DatabaseConfig $db) {
+        $this->context = new Context($this, $db);
         $this->acessoBusiness = new AcessoBusiness();
+        $this->add(new \Novosga\Slim\InstallMiddleware($this->context));
+        $this->add(new \Novosga\Slim\AuthMiddleware($this->context));
     }
     
     /**
@@ -74,6 +89,20 @@ class App extends \Slim\Slim {
     
     public function gotoModule() {
         $this->redirect($this->request()->getRootUri() . '/modules/' . $this->getContext()->getModulo()->getChave());
+    }
+    
+    public function moduleResource($moduleKey, $resource) {
+        $filename = join(DS, array(
+            MODULES_PATH, join(DS, explode(".", $moduleKey)), 'public', $resource)
+        );
+        if (file_exists($filename)) {
+            $mime = \Novosga\Util\FileUtils::mime($filename);
+            header("Content-type: $mime");
+            echo file_get_contents($filename);
+            exit();
+        } else {
+            throw new Exception(sprintf("Resource not found: %s", $filename));
+        }
     }
     
     /**

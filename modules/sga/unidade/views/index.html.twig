@@ -2,8 +2,8 @@
 
 {% block head %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/modules/{{ module.chave }}/css/bootstrap-switch.min.css?v={{ version }}">
-    <script type="text/javascript" src="{{ baseUrl() }}/modules/{{ module.chave }}/js/bootstrap-switch.min.js?v={{ version }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ resources('css/bootstrap-switch.min.css', module.chave) }}">
+    <script type="text/javascript" src="{{ resources('js/bootstrap-switch.min.js', module.chave) }}"></script>
 {% endblock %}
 
 {% block content %}

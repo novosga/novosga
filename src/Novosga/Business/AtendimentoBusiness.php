@@ -169,8 +169,12 @@ class AtendimentoBusiness extends ModelBusiness {
     }
     
     public static function isNumeracaoServico() {
-        if (defined('NOVOSGA_TIPO_NUMERACAO')) {
-            return NOVOSGA_TIPO_NUMERACAO == Senha::NUMERACAO_SERVICO;
+        if (NOVOSGA_INSTALLED) {
+            $db = \Novosga\Config\DatabaseConfig::getInstance();
+            $tipoNumeracao = \Novosga\Model\Configuracao::get($db->createEntityManager(), Senha::TIPO_NUMERACAO);
+            if ($tipoNumeracao) {
+                return $tipoNumeracao->getValor() == Senha::NUMERACAO_SERVICO;
+            }
         }
         return false;
     }

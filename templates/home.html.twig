@@ -18,7 +18,7 @@
                 {% for modulo in modulosUnidade %}
                 <li>
                     <a href="{{ baseUrl() }}/modules/{{ modulo.chave }}">
-                        <img src="{{ baseUrl() }}/modules/{{ modulo.chave }}/images/icon.png" />
+                        <img src="{{ resources('images/icon.png', modulo.chave) }}" />
                         <span class="name">{{ modulo.nome }}</span>
                     </a>
                 </li>
@@ -34,7 +34,7 @@
                 {% for modulo in modulosGlobal %}
                 <li>
                     <a href="{{ baseUrl() }}/modules/{{ modulo.chave }}">
-                        <img src="{{ baseUrl() }}/modules/{{ modulo.chave }}/images/icon.png" />
+                        <img src="{{ resources('images/icon.png', modulo.chave) }}" />
                         <span class="name">{{ modulo.nome }}</span>
                     </a>
                 </li>
