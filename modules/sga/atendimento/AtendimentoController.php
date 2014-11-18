@@ -131,8 +131,7 @@ class AtendimentoController extends ModuleController {
             if (!$context->request()->isPost()) {
                 throw new Exception(_('Somente via POST'));
             }
-            $attempts = 0;
-            $maxAttempts = 5;
+            $attempts = 5;
             $proximo = null;
             $success = false;
             $usuario = $context->getUser();
@@ -176,12 +175,12 @@ class AtendimentoController extends ModuleController {
                          * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
                          */
                         $success = $query->execute() > 0;
-                        $attempts++;
+                        $attempts--;
                     } else {
                         // nao existe proximo
                         break;
                     }
-                } while (!$success && $attempts < $maxAttempts);
+                } while (!$success && $attempts > 0);
             }
             // response
             if (!$success) {
