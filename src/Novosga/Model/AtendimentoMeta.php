@@ -2,18 +2,17 @@
 namespace Novosga\Model;
 
 /**
- * Classe Atendimento Codificado
- * representa o atendimento codificado (servico realizado)
+ * AtendimentoMeta
  * 
  * @Entity
- * @Table(name="atend_codif")
+ * @Table(name="atend_meta")
  */
-class AtendimentoCodificado extends AbstractAtendimentoCodificado 
+class AtendimentoMeta extends AbstractAtendimentoMeta
 {
     
     /** 
      * @Id 
-     * @ManyToOne(targetEntity="Atendimento") 
+     * @ManyToOne(targetEntity="Atendimento")
      * @JoinColumn(name="atendimento_id", referencedColumnName="id")
      * @var Atendimento
      */

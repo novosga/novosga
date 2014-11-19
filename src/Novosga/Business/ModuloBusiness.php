@@ -17,12 +17,15 @@ class ModuloBusiness extends ModelBusiness {
     /**
      * 
      * @param string $moduleDir
+     * @param string $key Module keyname
+     * @param boolean $status Default module status
      * @return Modulo
      */
-    public function install($moduleDir, $key) {
+    public function install($moduleDir, $key, $status = 0) {
         $this->verifyKey($key);
         $this->verifyDir($moduleDir);
         $manifest = $this->parseManifest($moduleDir, $key);
+        $manifest->getModule()->setStatus($status);
         
         $this->invokeScripts($manifest, 'pre-install');
         

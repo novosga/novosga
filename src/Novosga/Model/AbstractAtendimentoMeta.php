@@ -2,43 +2,44 @@
 namespace Novosga\Model;
 
 /**
- * AbstractAtendimentoCodificado
- * atendimento codificado (servico realizado)
+ * AbstractAtendimentoMeta
+ * Atendimento metadata
  * 
  * @MappedSuperClass
  */
-abstract class AbstractAtendimentoCodificado extends Model 
+abstract class AbstractAtendimentoMeta extends Model 
 {
     
     /** 
      * @Id 
-     * @ManyToOne(targetEntity="Servico") 
-     * @JoinColumn(name="servico_id", referencedColumnName="id")
+     * @Column(name="name", type="string", length=50, nullable=false)
      */
-    protected $servico;
+    protected $name;
     
     /** 
-     * @Column(type="smallint", name="valor_peso", nullable=false) 
+     * @Column(name="value", type="string", columnDefinition="text") 
      */
-    protected $peso;
+    protected $value;
     
     public abstract function getAtendimento();
     public abstract function setAtendimento(AbstractAtendimento $atendimento);
-
-    public function getServico() {
-        return $this->servico;
+    
+    public function getName() {
+        return $this->name;
     }
 
-    public function setServico($servico) {
-        $this->servico = $servico;
+    public function getValue() {
+        return $this->value;
     }
 
-    public function getPeso() {
-        return $this->peso;
+    public function setName($name) {
+        $this->name = $name;
+        return $this;
     }
 
-    public function setPeso($peso) {
-        $this->peso = $peso;
+    public function setValue($value) {
+        $this->value = $value;
+        return $this;
     }
 
 }

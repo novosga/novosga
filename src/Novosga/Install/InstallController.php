@@ -471,7 +471,7 @@ class InstallController extends InternalController {
                     $mb = new \Novosga\Business\ModuloBusiness($em);
                     $modules = $this->modules();
                     foreach ($modules as $dir) {
-                        $mb->install($dir, "sga." . basename($dir));
+                        $mb->install($dir, "sga." . basename($dir), 1);
                     }
                     
                     // finalizando instalacao com SQL auxiliar

@@ -2,13 +2,12 @@
 namespace Novosga\Model;
 
 /**
- * Classe ViewAtendimento Codificado
- * representa a view de historico de atendimento codificado (servico realizado)
+ * ViewAtendimentoMeta
  * 
  * @Entity
- * @Table(name="view_historico_atend_codif")
+ * @Table(name="view_historico_atend_meta")
  */
-class ViewAtendimentoCodificado extends AbstractAtendimentoCodificado 
+class ViewAtendimentoCodificado extends AbstractAtendimentoMeta
 {
     
     /** 
