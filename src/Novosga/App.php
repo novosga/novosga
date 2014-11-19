@@ -1,6 +1,7 @@
 <?php
 namespace Novosga;
 
+use Exception;
 use Novosga\Business\AcessoBusiness;
 
 /**

@@ -22,6 +22,16 @@ DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
+CREATE TABLE atend_meta (
+    atendimento_id bigint NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT,
+    PRIMARY KEY (atendimento_id, name) 
+)
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = MyISAM;
+
 CREATE TABLE atendimentos (
     id bigint NOT NULL AUTO_INCREMENT,
     unidade_id integer NOT NULL,
@@ -101,6 +111,16 @@ CREATE TABLE historico_atend_codif (
     valor_peso smallint NOT NULL,
     PRIMARY KEY (atendimento_id, servico_id)
 ) 
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = MyISAM;
+
+CREATE TABLE historico_atend_meta (
+    atendimento_id bigint NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT,
+    PRIMARY KEY (atendimento_id, name) 
+)
 DEFAULT CHARACTER SET utf8   
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
@@ -324,6 +344,7 @@ ALTER TABLE contador ADD FOREIGN KEY (unidade_id) REFERENCES unidades (id);
 ALTER TABLE atend_codif ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atend_codif ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE atend_meta ADD CONSTRAINT atend_meta_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_4 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE atendimentos ADD CONSTRAINT atendimentos_ibfk_5 FOREIGN KEY (usuario_tri_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -332,6 +353,7 @@ ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN KEY (c
 ALTER TABLE cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (modulo_id) REFERENCES modulos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE historico_atend_meta ADD CONSTRAINT historico_atend_meta_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -396,6 +418,22 @@ AS
         historico_atend_codif.valor_peso 
     FROM 
         historico_atend_codif;
+
+CREATE VIEW view_historico_atend_meta
+AS
+    SELECT 
+        atend_meta.atendimento_id, 
+        atend_meta.name, 
+        atend_meta.value
+    FROM 
+        atend_meta
+    UNION ALL 
+    SELECT 
+        historico_atend_meta.atendimento_id, 
+        historico_atend_meta.name, 
+        historico_atend_meta.value
+    FROM 
+        historico_atend_meta;
 
 CREATE VIEW view_historico_atendimentos 
 AS

@@ -18,6 +18,12 @@ CREATE TABLE atend_codif (
     valor_peso smallint NOT NULL
 );
 
+CREATE TABLE atend_meta (
+    atendimento_id bigint NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT
+);
+
 CREATE TABLE atendimentos (
     id bigserial NOT NULL,
     unidade_id integer NOT NULL,
@@ -73,6 +79,12 @@ CREATE TABLE historico_atend_codif (
     atendimento_id bigint NOT NULL,
     servico_id integer NOT NULL,
     valor_peso smallint NOT NULL
+);
+
+CREATE TABLE historico_atend_meta (
+    atendimento_id bigint NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT
 );
 
 CREATE TABLE historico_atendimentos (
@@ -237,6 +249,7 @@ CREATE TABLE oauth_refresh_tokens (
 --
 
 ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_pkey PRIMARY KEY (atendimento_id, servico_id);
+ALTER TABLE ONLY atend_meta ADD CONSTRAINT atend_meta_pkey PRIMARY KEY (atendimento_id, name);
 ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY cargos ADD CONSTRAINT cargos_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_pkey PRIMARY KEY (cargo_id, modulo_id);
@@ -258,6 +271,7 @@ ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_pkey PRIMARY KEY (unidade_id, 
 ALTER TABLE ONLY usuarios ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY contador ADD FOREIGN KEY (unidade_id) REFERENCES unidades (id);
 ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY atend_meta ADD CONSTRAINT atend_meta_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -268,6 +282,7 @@ ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN K
 ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (modulo_id) REFERENCES modulos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY historico_atend_meta ADD CONSTRAINT historico_atend_meta_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -331,6 +346,22 @@ AS
         historico_atend_codif.valor_peso 
     FROM 
         historico_atend_codif;
+
+CREATE VIEW view_historico_atend_meta 
+AS
+    SELECT 
+        atend_codif.atendimento_id, 
+        atend_codif.name, 
+        atend_codif.value 
+    FROM 
+        atend_meta 
+    UNION ALL 
+    SELECT 
+        historico_atend_codif.atendimento_id, 
+        historico_atend_codif.name, 
+        historico_atend_codif.value 
+    FROM 
+        historico_atend_meta;
 
 
 CREATE VIEW view_historico_atendimentos 
