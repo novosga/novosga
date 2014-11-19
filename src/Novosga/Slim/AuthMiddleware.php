@@ -14,7 +14,7 @@ use Slim\Middleware;
 class AuthMiddleware extends Middleware {
     
     private $context;
-    public static $freePages = array('login', 'logout', 'api');
+    public static $freePages = array('login', 'logout', 'api', 'print');
     
     public function __construct(Context $context) {
         $this->context = $context;

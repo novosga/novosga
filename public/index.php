@@ -70,7 +70,7 @@ $app->post('/profile/password', function() use ($app) {
     echo $response->toJson();
 });
 
-$app->get('/ticket/print/:id/:hash', function($id, $hash) use ($app) {
+$app->get('/print/:id/:hash', function($id, $hash) use ($app) {
     $ctrl = new \Novosga\Controller\TicketController($app);
     $template = $ctrl->printAction($app->getContext(), $id, $hash);
     echo $app->render($template);
@@ -126,19 +126,9 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     } else {
         // render as template the returned template name or action name pattern
         if (is_string($response)) {
-            $dir = dirname($response);
-            if ($dir && $dir !== '.') {
-                // defined a template outside the default twigTemplateDirs
-                $app->view()->twigTemplateDirs[] = $dir;
-            }
-            $template = basename($response);
+            $template = $response;
         } else {
             $template = "$action.html.twig";
-        }
-        // for security purposes allow only .html.twig files
-        $ext = ".html.twig";
-        if (substr($template, -strlen($ext)) !== $ext) {
-            throw new Exception('Você está tentando exibir um arquivo de template inválido.');
         }
         echo $app->render($template);
     }

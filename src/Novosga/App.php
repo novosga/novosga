@@ -107,6 +107,24 @@ class App extends \Slim\Slim {
     }
     
     /**
+     * {@inheritdoc}
+     */
+    public function render($template, $data = array(), $status = null) {
+        $dir = dirname($template);
+        if ($dir && $dir !== '.') {
+            // defined a template outside the default twigTemplateDirs
+            $this->view()->twigTemplateDirs[] = $dir;
+        }
+        $template = basename($template);
+        // for security purposes allow only .html.twig files
+        $ext = ".html.twig";
+        if (substr($template, -strlen($ext)) !== $ext) {
+            throw new Exception('Você está tentando exibir um arquivo de template inválido.');
+        }
+        return parent::render($template, $data, $status);
+    }
+    
+    /**
      * Autentica o usuario do sistema
      * @param type $user
      * @param type $pass
