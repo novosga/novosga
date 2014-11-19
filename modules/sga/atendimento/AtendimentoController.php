@@ -338,7 +338,7 @@ class AtendimentoController extends ModuleController {
                 $this->em()->rollback();
             } catch (Exception $ex) {
             }
-            $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
+            $response->message = $e->getMessage();
         }
         return $response;
     }
@@ -373,7 +373,7 @@ class AtendimentoController extends ModuleController {
                 throw new Exception(sprintf(_('Erro ao mudar status do atendimento %s para encerrado'), $atual->getId()));
             }
         } catch (Exception $e) {
-            $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
+            $response->message = $e->getMessage();
         }
         return $response;
     }
