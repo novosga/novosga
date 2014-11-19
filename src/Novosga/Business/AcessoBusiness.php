@@ -115,6 +115,7 @@ class AcessoBusiness {
             FROM 
                 Novosga\Model\Modulo e
             WHERE 
+                e.status = 1 AND
                 e.tipo = :tipo AND
                 e.id IN (:ids)
             ORDER BY
