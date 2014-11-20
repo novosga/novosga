@@ -31,7 +31,10 @@ class AuthMiddleware extends Middleware {
                 $user = $this->context->getUser();
                 if ($user) {
                     // verifica se ha outra pessoa usando o mesmo usuario
-                    if ($user->getSessionId() != session_id()) {
+                    /* 
+                     * VERSAO DEMO: desabilitando verificacao de sessao
+                     */
+                    if (false && $user->getSessionId() != session_id()) {
                         if ($this->app->request->isAjax()) {
                             // se for ajax devolve o json informando sobre a sessao invalida
                             $response = new \Novosga\Http\JsonResponse();
