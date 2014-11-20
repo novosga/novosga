@@ -161,8 +161,7 @@ class InstallController extends InternalController {
             array('name' => 'PDO', 'key' => 'pdo', 'version_required' => '1.0.0', 'ext' => true),
             array('name' => $adapter['label'], 'key' => $driver, 'version_required' => $adapter['version'], 'ext' => true),
             array('name' => 'json', 'key' => 'json', 'ext' => true),
-            array('name' => 'gettext', 'key' => 'gettext', 'ext' => true),
-            array('name' => 'mcrypt', 'key' => 'mcrypt', 'ext' => true)
+            array('name' => 'gettext', 'key' => 'gettext', 'ext' => true)
         );
         foreach ($requiredsSetup as &$req) {
             $success = true;
