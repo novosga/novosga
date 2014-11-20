@@ -13,7 +13,7 @@ class App extends \Slim\Slim {
     
     const DEMO_ALERT = 'Permissão negada: Versão demo';
     
-    const VERSION = "1.3.0";
+    const VERSION = "1.3.0-demo";
     const CHARSET = "utf-8";
     
     // SESSION KEYS
