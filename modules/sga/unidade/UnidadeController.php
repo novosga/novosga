@@ -81,7 +81,7 @@ class UnidadeController extends ModuleController {
         return $response;
     }
     
-    private function change_status(Context $context, $status) {
+    public function toggle_servico(Context $context, $status) {
         $response = new JsonResponse();
         try {
             if (!$context->request()->isPost()) {
@@ -101,14 +101,6 @@ class UnidadeController extends ModuleController {
             $response->message = $e->getMessage();
         }
         return $response;
-    }
-    
-    public function habilita_servico(Context $context) {
-        return $this->change_status($context, 1);
-    }
-    
-    public function desabilita_servico(Context $context) {
-        return $this->change_status($context, 0);
     }
     
     public function update_servico(Context $context) {

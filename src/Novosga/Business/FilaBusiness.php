@@ -94,7 +94,7 @@ class FilaBusiness extends ModelBusiness {
             ->createQueryBuilder()
             ->select('e')
             ->from('Novosga\Model\Atendimento', 'e')
-            ->join('e.prioridadeSenha', 'p')
+            ->join('e.prioridade', 'p')
             ->join('e.servicoUnidade', 'su')
         ;
     }

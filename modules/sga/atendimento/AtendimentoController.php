@@ -131,8 +131,7 @@ class AtendimentoController extends ModuleController {
             if (!$context->request()->isPost()) {
                 throw new Exception(_('Somente via POST'));
             }
-            $attempts = 0;
-            $maxAttempts = 5;
+            $attempts = 5;
             $proximo = null;
             $success = false;
             $usuario = $context->getUser();
@@ -176,12 +175,12 @@ class AtendimentoController extends ModuleController {
                          * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
                          */
                         $success = $query->execute() > 0;
-                        $attempts++;
+                        $attempts--;
                     } else {
                         // nao existe proximo
                         break;
                     }
-                } while (!$success && $attempts < $maxAttempts);
+                } while (!$success && $attempts > 0);
             }
             // response
             if (!$success) {
@@ -309,14 +308,14 @@ class AtendimentoController extends ModuleController {
             if (empty($servicos)) {
                 throw new Exception(_('Nenhum serviço selecionado'));
             }
-            $conn = $this->em()->getConnection();
-            $conn->beginTransaction();
-            $stmt = $conn->prepare("INSERT INTO atend_codif (atendimento_id, servico_id, valor_peso) VALUES (:atendimento, :servico, 1)");
+            
+            $this->em()->beginTransaction();
             foreach ($servicos as $s) {
-                $stmt->bindValue('atendimento', $atual->getId());
-                // TODO: verificar se o usuario realmente pode atender o servico informado
-                $stmt->bindValue('servico', $s);
-                $stmt->execute();
+                $codificado = new \Novosga\Model\AtendimentoCodificado();
+                $codificado->setAtendimento($atual);
+                $codificado->setServico($this->em()->find('Novosga\Model\Servico', $s));
+                $codificado->setPeso(1);
+                $this->em()->persist($codificado);
             }
             // verifica se esta encerrando e redirecionando
             $redirecionar = $context->request()->post('redirecionar');
@@ -331,12 +330,15 @@ class AtendimentoController extends ModuleController {
             if (!$response->success) {
                 throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
             }
-            $conn->commit();
+            
+            $this->em()->commit();
+            $this->em()->flush();
         } catch (Exception $e) {
-            if ($conn && $conn->isTransactionActive()) {
-                $conn->rollBack();
+            try {
+                $this->em()->rollback();
+            } catch (Exception $ex) {
             }
-            $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
+            $response->message = $e->getMessage();
         }
         return $response;
     }
@@ -362,8 +364,6 @@ class AtendimentoController extends ModuleController {
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
             }
-            $conn = $this->em()->getConnection();
-            $conn->beginTransaction();
             $redirecionado = $this->redireciona_atendimento($atual, $servico, $unidade, $usuario);
             if (!$redirecionado) {
                 throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
@@ -372,12 +372,8 @@ class AtendimentoController extends ModuleController {
             if (!$response->success) {
                 throw new Exception(sprintf(_('Erro ao mudar status do atendimento %s para encerrado'), $atual->getId()));
             }
-            $conn->commit();
         } catch (Exception $e) {
-            if ($conn && $conn->isTransactionActive()) {
-                $conn->rollBack();
-            }
-            $response->message = $e->getMessage() . '<br><br><br>' . $e->getTraceAsString();
+            $response->message = $e->getMessage();
         }
         return $response;
     }

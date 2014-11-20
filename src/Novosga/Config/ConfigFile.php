@@ -38,6 +38,17 @@ abstract class ConfigFile {
     }
     
     public function get($name) {
+        if (strpos($name, ".") !== false) {
+            $tokens = explode(".", $name);
+            $value = $this->data;
+            foreach ($tokens as $token) {
+                if ($value === null) {
+                    break;
+                }
+                $value = Arrays::value($value, $token, null);
+            }
+            return $value;
+        }
         return Arrays::value($this->data, $name, null);
     }
     

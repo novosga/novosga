@@ -153,11 +153,6 @@ class EstatisticasController extends ModuleController {
         }
         $this->app()->view()->set('page', "relatorios/{$relatorio->getArquivo()}.html.twig");
         $this->app()->view()->set('isNumeracaoServico', AtendimentoBusiness::isNumeracaoServico());
-        
-        // filtros
-        $this->app()->view()->getInstance()->addFilter(new \Novosga\Twig\SecFormat());
-        
-        $context->response()->setRenderView(false);
     }
     
     private function unidades() {

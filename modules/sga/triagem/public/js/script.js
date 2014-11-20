@@ -32,7 +32,7 @@ SGA.Triagem = {
                 var btnPrint = dialog.find('p.ultima-senha a');
                 btnPrint.off();
                 if (response.data.senhaId) {
-                    btnPrint.on('click', function() {
+                    btnPrint.show().on('click', function() {
                         SGA.Triagem.Impressao.loadIframe({ id: response.data.senhaId });
                         return false;
                     });

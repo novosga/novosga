@@ -6,16 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="shortcut icon" href="{{ baseUrl() }}/images/favicon.png" />
-        <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/style.css" />
-        <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/bootstrap.min.css?v={{ version }}" />
+        <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/bootstrap-theme.min.css?v={{ version }}" />
+        <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/style.css?v={{ version }}" />
         <!--[if lt IE 9]>
         <script src="{{ baseUrl() }}/js/html5shiv.js"></script>
         <script src="{{ baseUrl() }}/js/respond.min.js"></script>
         <![endif]-->
         <script type="text/javascript" src="{{ baseUrl() }}/js/jquery.js?v={{ version }}"></script>
-        <script type="text/javascript" src="{{ baseUrl() }}/js/script.js?v={{ version }}"></script>
         <script type="text/javascript" src="{{ baseUrl() }}/js/bootstrap.min.js?v={{ version }}"></script>
+        <script type="text/javascript" src="{{ baseUrl() }}/js/script.js?v={{ version }}"></script>
         <script type="text/javascript"> 
             SGA.baseUrl = '{{ baseUrl() }}'; 
             SGA.version = '{{ version }}';

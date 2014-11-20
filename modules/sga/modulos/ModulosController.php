@@ -129,7 +129,7 @@ class ModulosController extends ModuleController {
             $response->success = true;
             $response->message = _('Módulo instalado com sucesso');
         } catch (Exception $e) {
-            $response->message = $e->getMessage(). '<br>' . $e->getTraceAsString();
+            $response->message = $e->getMessage();
         }
         return $response;
     }

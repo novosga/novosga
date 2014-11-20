@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <title>{{ relatorio.titulo }}</title>
-    <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/css/style.css?v={{ version }}" />
-    <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/modules/{{ module.chave }}/css/relatorio.css?v={{ version }}" />
-    <link rel="shortcut icon" href="{{ baseUrl() }}/images/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="{{ resources('css/bootstrap.min.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ resources('css/style.css') }}" />
+    <link type="text/css" rel="stylesheet" href="{{ resources('css/relatorio.css', module.chave) }}" />
+    <link rel="shortcut icon" href="{{ resources('images/favicon.png') }}" />
 </head>
 <body>
     <div id="report" class="container">

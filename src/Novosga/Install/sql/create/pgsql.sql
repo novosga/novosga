@@ -6,10 +6,22 @@
 -- tables
 --
 
+CREATE TABLE contador (
+    unidade_id INT NOT NULL,
+    total INT NOT NULL DEFAULT 0,
+    PRIMARY KEY(unidade_id)
+);
+
 CREATE TABLE atend_codif (
     atendimento_id bigint NOT NULL,
     servico_id integer NOT NULL,
     valor_peso smallint NOT NULL
+);
+
+CREATE TABLE atend_meta (
+    atendimento_id bigint NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT
 );
 
 CREATE TABLE atendimentos (
@@ -69,6 +81,12 @@ CREATE TABLE historico_atend_codif (
     valor_peso smallint NOT NULL
 );
 
+CREATE TABLE historico_atend_meta (
+    atendimento_id bigint NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT
+);
+
 CREATE TABLE historico_atendimentos (
     id bigint NOT NULL,
     unidade_id integer,
@@ -76,6 +94,7 @@ CREATE TABLE historico_atendimentos (
     usuario_tri_id integer NOT NULL,
     servico_id integer NOT NULL,
     prioridade_id integer NOT NULL,
+    atendimento_id bigint,
     status integer NOT NULL,
     sigla_senha varchar(1) NOT NULL,
     num_senha integer NOT NULL,
@@ -230,6 +249,7 @@ CREATE TABLE oauth_refresh_tokens (
 --
 
 ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_pkey PRIMARY KEY (atendimento_id, servico_id);
+ALTER TABLE ONLY atend_meta ADD CONSTRAINT atend_meta_pkey PRIMARY KEY (atendimento_id, name);
 ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY cargos ADD CONSTRAINT cargos_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_pkey PRIMARY KEY (cargo_id, modulo_id);
@@ -249,7 +269,9 @@ ALTER TABLE ONLY unidades ADD CONSTRAINT unidades_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_pkey PRIMARY KEY (usuario_id, grupo_id);
 ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_pkey PRIMARY KEY (unidade_id, servico_id, usuario_id);
 ALTER TABLE ONLY usuarios ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY contador ADD FOREIGN KEY (unidade_id) REFERENCES unidades (id);
 ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY atend_meta ADD CONSTRAINT atend_meta_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY atend_codif ADD CONSTRAINT atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY atendimentos ADD CONSTRAINT atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -260,10 +282,12 @@ ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_1 FOREIGN K
 ALTER TABLE ONLY cargos_mod_perm ADD CONSTRAINT cargos_mod_perm_ibfk_2 FOREIGN KEY (modulo_id) REFERENCES modulos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atend_codif ADD CONSTRAINT historico_atend_codif_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY historico_atend_meta ADD CONSTRAINT historico_atend_meta_ibfk_1 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_1 FOREIGN KEY (prioridade_id) REFERENCES prioridades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv(unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_4 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_5 FOREIGN KEY (usuario_tri_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY historico_atendimentos ADD CONSTRAINT historico_atendimentos_ibfk_6 FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY paineis ADD CONSTRAINT paineis_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_1 FOREIGN KEY (host) REFERENCES paineis (host) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_2 FOREIGN KEY (unidade_id, servico_id) REFERENCES uni_serv (unidade_id, servico_id) ON UPDATE RESTRICT ON DELETE RESTRICT;
@@ -323,6 +347,22 @@ AS
     FROM 
         historico_atend_codif;
 
+CREATE VIEW view_historico_atend_meta 
+AS
+    SELECT 
+        atend_codif.atendimento_id, 
+        atend_codif.name, 
+        atend_codif.value 
+    FROM 
+        atend_meta 
+    UNION ALL 
+    SELECT 
+        historico_atend_codif.atendimento_id, 
+        historico_atend_codif.name, 
+        historico_atend_codif.value 
+    FROM 
+        historico_atend_meta;
+
 
 CREATE VIEW view_historico_atendimentos 
 AS
@@ -333,6 +373,7 @@ AS
         atendimentos.usuario_tri_id, 
         atendimentos.servico_id, 
         atendimentos.prioridade_id, 
+        atendimentos.atendimento_id, 
         atendimentos.status, 
         atendimentos.sigla_senha, 
         atendimentos.num_senha, 
@@ -354,6 +395,7 @@ AS
         historico_atendimentos.usuario_tri_id, 
         historico_atendimentos.servico_id, 
         historico_atendimentos.prioridade_id, 
+        historico_atendimentos.atendimento_id, 
         historico_atendimentos.status, 
         historico_atendimentos.sigla_senha, 
         historico_atendimentos.num_senha, 
