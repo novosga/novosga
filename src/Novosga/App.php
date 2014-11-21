@@ -50,12 +50,12 @@ class App extends \Slim\Slim {
         
         $app = $this;
         $app->notFound(function() use ($app) {
-            $app->render('error/404.html.twig');
+            $app->render(NOVOSGA_TEMPLATES . '/error/404.html.twig');
         });
 
         $app->error(function(\Exception $e) use ($app) {
             $app->view()->set('exception', $e);
-            $app->render('error/500.html.twig');
+            $app->render(NOVOSGA_TEMPLATES . '/error/500.html.twig');
         });
     }
     
