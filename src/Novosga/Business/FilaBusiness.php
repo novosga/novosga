@@ -2,6 +2,7 @@
 namespace Novosga\Business;
 
 use Doctrine\ORM\QueryBuilder;
+use Novosga\Config\AppConfig;
 use Novosga\Model\Servico;
 use Novosga\Model\Unidade;
 use Novosga\Model\Util\UsuarioSessao;
@@ -13,16 +14,23 @@ use Novosga\Model\Util\UsuarioSessao;
  */
 class FilaBusiness extends ModelBusiness {
     
-    public static $orders = array(
-        'time' => array(
-            "((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))", "DESC"
+    // default queue ordering
+    public static $ordering = array(
+        // wait time
+        array(
+            "exp" => "((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))", 
+            "order" => "DESC"
         ),
-        'priority' => array(
-            "p.peso", "DESC"
+        // priority
+        array(
+            "exp" => "p.peso", 
+            "order" => "DESC"
         ),
-        'number' => array(
-            "e.numeroSenha", "ASC"
-        )
+        // ticket number
+        array(
+            "exp" => "e.numeroSenha", 
+            "order" => "ASC"
+        ),
     );
     
     
@@ -104,13 +112,17 @@ class FilaBusiness extends ModelBusiness {
      * @param QueryBuilder $builder
      */
     public function applyOrders(QueryBuilder $builder) {
-        foreach (self::$orders as $order) {
-            if (is_array($order)) {
-                if (sizeof($order) === 1) {
-                    $order[1] = "ASC";
-                }
-                $builder->addOrderBy($order[0], $order[1]);
+        $ordering = AppConfig::getInstance()->get("queue.ordering");
+        if (!$ordering || empty($ordering)) {
+            $ordering = self::$ordering;
+        }
+        foreach ($ordering as $item) {
+            if (!isset($item['exp'])) {
+                break;
             }
+            $exp = $item['exp'];
+            $order = isset($item['order']) ? $item['order'] : 'ASC';
+            $builder->addOrderBy($exp, $order);
         }
     }
     
