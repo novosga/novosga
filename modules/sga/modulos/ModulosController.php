@@ -85,6 +85,9 @@ class ModulosController extends ModuleController {
     }
     
     public function save(Context $context) {
+        // DEMO VERSION
+        $context->response()->jsonResponse(new AjaxResponse(false, \Novosga\SGA::DEMO_ALERT));
+
         $response = new JsonResponse();
         try {
             $id = (int) $context->request()->post('id');
