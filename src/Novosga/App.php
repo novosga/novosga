@@ -110,12 +110,12 @@ class App extends \Slim\Slim {
      * {@inheritdoc}
      */
     public function render($template, $data = array(), $status = null) {
-        $dir = dirname($template);
-        if ($dir && $dir !== '.') {
+        if (substr($template, 0, 1) === '/' || substr($template, 0, 2) === '..') {
             // defined a template outside the default twigTemplateDirs
+            $dir = dirname($template);
             $this->view()->twigTemplateDirs[] = $dir;
+            $template = basename($template);
         }
-        $template = basename($template);
         // for security purposes allow only .html.twig files
         $ext = ".html.twig";
         if (substr($template, -strlen($ext)) !== $ext) {

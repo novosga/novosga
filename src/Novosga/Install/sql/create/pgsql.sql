@@ -1,6 +1,5 @@
 -- @adapter=PostgreSQL
--- @author=rogeriolino
--- @date=2012-12-06
+-- @author=Rogério Lino
 
 --
 -- tables
@@ -211,8 +210,7 @@ CREATE TABLE usuarios (
 CREATE TABLE usu_meta (
     usuario_id integer NOT NULL,
     name varchar(50) NOT NULL,
-    value TEXT,
-    PRIMARY KEY (usuario_id, name) 
+    value TEXT 
 );
 
 -- oauth2
@@ -359,16 +357,16 @@ AS
 CREATE VIEW view_historico_atend_meta 
 AS
     SELECT 
-        atend_codif.atendimento_id, 
-        atend_codif.name, 
-        atend_codif.value 
+        atend_meta.atendimento_id, 
+        atend_meta.name, 
+        atend_meta.value 
     FROM 
         atend_meta 
     UNION ALL 
     SELECT 
-        historico_atend_codif.atendimento_id, 
-        historico_atend_codif.name, 
-        historico_atend_codif.value 
+        historico_atend_meta.atendimento_id, 
+        historico_atend_meta.name, 
+        historico_atend_meta.value 
     FROM 
         historico_atend_meta;
 

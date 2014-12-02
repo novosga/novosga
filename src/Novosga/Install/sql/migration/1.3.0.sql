@@ -16,10 +16,7 @@ CREATE TABLE atend_meta (
     name varchar(50) NOT NULL,
     value TEXT,
     PRIMARY KEY (atendimento_id, name) 
-)
-DEFAULT CHARACTER SET utf8   
-COLLATE utf8_general_ci
-ENGINE = MyISAM;
+);
 
 ALTER TABLE atend_meta ADD FOREIGN KEY (atendimento_id) REFERENCES atendimentos (id);
 
@@ -28,10 +25,7 @@ CREATE TABLE usu_meta (
     name varchar(50) NOT NULL,
     value TEXT,
     PRIMARY KEY (usuario_id, name) 
-)
-DEFAULT CHARACTER SET utf8   
-COLLATE utf8_general_ci
-ENGINE = MyISAM;
+);
 
 ALTER TABLE usu_meta ADD FOREIGN KEY (usuario_id) REFERENCES usuarios (id);
 
@@ -40,10 +34,7 @@ CREATE TABLE historico_atend_meta (
     name varchar(50) NOT NULL,
     value TEXT,
     PRIMARY KEY (atendimento_id, name) 
-)
-DEFAULT CHARACTER SET utf8   
-COLLATE utf8_general_ci
-ENGINE = MyISAM;
+);
 
 ALTER TABLE historico_atend_meta ADD FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos (id);
 

@@ -61,7 +61,7 @@ class TriagemController extends ModuleController {
                 ";
                 // total senhas do servico (qualquer status)
                 $rs = $this->em()
-                        ->createQuery($dql . " GROUP BY e.servico")
+                        ->createQuery($dql . " GROUP BY s.id")
                         ->setParameter('unidade', $unidade)
                         ->setParameter('servicos', $ids)
                         ->getArrayResult();
@@ -71,7 +71,7 @@ class TriagemController extends ModuleController {
                 }
                 // total senhas esperando
                 $rs = $this->em()
-                        ->createQuery($dql . " AND e.status = :status GROUP BY e.servico")
+                        ->createQuery($dql . " AND e.status = :status GROUP BY s.id")
                         ->setParameter('unidade', $unidade)
                         ->setParameter('servicos', $ids)
                         ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)

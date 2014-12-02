@@ -1,6 +1,5 @@
 -- @adapter=MySQL / MariaDB
--- @author=rogeriolino
--- @date=2012-12-06
+-- @author=Rogério Lino
 
 --
 -- tables
