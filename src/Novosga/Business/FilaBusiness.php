@@ -33,6 +33,31 @@ class FilaBusiness extends ModelBusiness {
         ),
     );
     
+    /**
+     * Retorna a lista de atendimentos do usuario
+     * @param UsuarioSessao $usuario
+     * @param integer $maxResults
+     * @return array
+     */
+    public function atendimentosUsuario(UsuarioSessao $usuario, $maxResults = 0) {
+        $ids = array();
+        $servicos = $usuario->getServicos();
+        foreach ($servicos as $s) {
+            $ids[] = $s->getServico()->getId();
+        }
+        // se nao tiver servicos, coloca id invalido so para nao dar erro no sql
+        if (empty($ids)) {
+            $ids[] = 0;
+        }
+        $query = $this->atendimento($usuario->getUnidade(), $ids, $usuario->getTipoAtendimento())
+                    ->getQuery()
+        ;
+        if ($maxResults > 0) {
+            $query->setMaxResults($maxResults);
+        }
+        return $query->getResult();
+    }
+    
     
     /**
      * Retorna a fila de atendimento

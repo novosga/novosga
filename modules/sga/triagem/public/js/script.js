@@ -131,7 +131,7 @@ SGA.Triagem = {
                         width: 450, 
                         buttons: {},
                         open: function() {
-                            var a = response.data.atendimento;
+                            var a = response.data;
                             dialog.find('.numero').text(a.senha);
                             dialog.find('.servico').text(a.servico);
                             dialog.find('.nome-prioridade').text(a.nomePrioridade);

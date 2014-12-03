@@ -224,6 +224,63 @@ class AtendimentoBusiness extends ModelBusiness {
         return $query->getResult();
     }
     
+    
+    public function chamar(Atendimento $atendimento, Usuario $usuario, $local) {
+        $atendimento->setUsuario($usuario);
+        $atendimento->setLocal($local);
+        $atendimento->setStatus(AtendimentoBusiness::CHAMADO_PELA_MESA);
+        $atendimento->setDataChamada(new DateTime());
+        // atualiza o proximo da fila
+        $query = $this->em->createQuery("
+            UPDATE 
+                Novosga\Model\Atendimento e 
+            SET 
+                e.usuario = :usuario, e.local = :local, e.status = :novoStatus, e.dataChamada = :data
+            WHERE 
+                e.id = :id AND e.status = :statusAtual
+        ");
+        $query->setParameter('usuario', $atendimento->getUsuario()->getId());
+        $query->setParameter('local', $atendimento->getLocal());
+        $query->setParameter('novoStatus', $atendimento->getStatus());
+        $query->setParameter('data', $atendimento->getDataChamada());
+        $query->setParameter('id', $atendimento->getId());
+        $query->setParameter('statusAtual', AtendimentoBusiness::SENHA_EMITIDA);
+        /* 
+         * caso entre o intervalo do select e o update, o proximo ja tiver sido chamado
+         * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
+         */
+        return $query->execute() > 0;
+    }
+    
+    /**
+     * Retorna o atendimento em andamento do usuario informado
+     * @param integer|Usuario $usuario
+     * @return Atendimento
+     */
+    public function atendimentoAndamento($usuario) {
+        $status = array(
+            AtendimentoBusiness::CHAMADO_PELA_MESA,
+            AtendimentoBusiness::ATENDIMENTO_INICIADO,
+            AtendimentoBusiness::ATENDIMENTO_ENCERRADO
+        );
+        $query = $this->em->createQuery("SELECT e FROM Novosga\Model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)");
+        $query->setParameter('usuario', $usuario);
+        $query->setParameter('status', $status);
+        return $query->getOneOrNullResult();
+    }
+    
+    /**
+     * Gera um novo atendimento
+     * 
+     * @param integer|Unidade $unidade
+     * @param integer|Usuario $usuario
+     * @param integer|Servico $servico
+     * @param integer|Prioridade $prioridade
+     * @param string $nomeCliente
+     * @param string $documentoCliente
+     * @return Atendimento
+     * @throws Exception
+     */
     public function distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente) {
         // verificando a unidade
         if (!($unidade instanceof Unidade)) {
@@ -348,10 +405,7 @@ class AtendimentoBusiness extends ModelBusiness {
 
             AppConfig::getInstance()->hook("attending.create", $atendimento);
 
-            return array(
-                'id' => $atendimento->getId(),
-                'atendimento' => $atendimento->toArray()
-            );
+            return $atendimento;
         } catch (Exception $e) {
             try {
                 $this->em->rollback();
@@ -359,6 +413,41 @@ class AtendimentoBusiness extends ModelBusiness {
             }
             throw $e;
         }
+    }
+    
+    /**
+     * Redireciona um atendimento para outro servico
+     * @param Atendimento $atendimento
+     * @param Usuario $usuario
+     * @param integer|Unidade $unidade
+     * @param integer|Servico $servico
+     * @return Atendimento
+     */
+    public function redirecionar(Atendimento $atendimento, Usuario $usuario, $unidade, $servico) {
+        // copiando a senha do atendimento atual
+        $su = $this->em
+                ->createQuery('SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade')
+                ->setParameter('servico', $servico)
+                ->setParameter('unidade', $unidade)
+                ->getSingleResult();
+        ;
+        $novo = new Atendimento();
+        $novo->setLocal(0);
+        $novo->setServicoUnidade($su);
+        $novo->setPai($atendimento);
+        $novo->setDataChegada(new DateTime());
+        $novo->setStatus(AtendimentoBusiness::SENHA_EMITIDA);
+        $novo->setSiglaSenha($atendimento->getSenha()->getSigla());
+        $novo->setNumeroSenha($atendimento->getNumeroSenha());
+        $novo->setNumeroSenhaServico($atendimento->getNumeroSenhaServico());
+        $novo->setUsuario($usuario);
+        $novo->setUsuarioTriagem($usuario);
+        $novo->setPrioridadeSenha($atendimento->getSenha()->getPrioridade());
+        $novo->setNomeCliente($atendimento->getCliente()->getNome());
+        $novo->setDocumentoCliente($atendimento->getCliente()->getDocumento());
+        $this->em->persist($novo);
+        $this->em->flush();
+        return $novo;
     }
     
     /**

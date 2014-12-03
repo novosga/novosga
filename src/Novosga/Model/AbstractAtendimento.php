@@ -16,12 +16,14 @@ abstract class AbstractAtendimento extends SequencialModel
     /** 
      * @ManyToOne(targetEntity="Unidade") 
      * @JoinColumn(name="unidade_id", referencedColumnName="id")
+     * @var Unidade
      */
     protected $unidade;
     
     /** 
      * @ManyToOne(targetEntity="Servico") 
      * @JoinColumn(name="servico_id", referencedColumnName="id")
+     * @var Servico
      */
     protected $servico;
     
@@ -38,18 +40,21 @@ abstract class AbstractAtendimento extends SequencialModel
     /** 
      * @ManyToOne(targetEntity="Prioridade") 
      * @JoinColumn(name="prioridade_id", referencedColumnName="id")
+     * @var Prioridade
      */
     protected $prioridade;
     
     /** 
      * @ManyToOne(targetEntity="Usuario") 
      * @JoinColumn(name="usuario_id", referencedColumnName="id")
+     * @var Usuario
      */
     protected $usuario;
     
     /** 
      * @ManyToOne(targetEntity="Usuario") 
      * @JoinColumn(name="usuario_tri_id", referencedColumnName="id")
+     * @var Usuario
      */
     protected $usuarioTriagem;
     

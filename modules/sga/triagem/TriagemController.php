@@ -133,7 +133,7 @@ class TriagemController extends ModuleController {
         $documentoCliente = $context->request()->post('cli_doc', '');
         try {
             $ab = new AtendimentoBusiness($this->em());
-            $response->data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente);
+            $response->data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();
