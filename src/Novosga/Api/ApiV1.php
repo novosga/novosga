@@ -183,7 +183,7 @@ class ApiV1 extends Api {
      */
     public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente) {
         $ab = new AtendimentoBusiness($this->em());
-        return $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray(true);
+        return $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
     }
     
 }
