@@ -26,7 +26,6 @@ class UsuarioSessao {
     private $servicosIndisponiveis;
     private $permissoes;
     private $tipoAtendimento;
-    private $sequenciaNormal;
     private $sequenciaPrioridade;
     private $wrapped;
     
@@ -39,7 +38,6 @@ class UsuarioSessao {
         $this->id = $usuario->getId();
         $this->ativo = true;
         $this->tipoAtendimento = self::ATEND_TODOS;
-        $this->sequenciaNormal = 0;
         $this->sequenciaPrioridade = 0;
         $this->wrapped = $usuario;
     }
@@ -227,16 +225,8 @@ class UsuarioSessao {
         $this->tipoAtendimento = $tipoAtendimento;
     }
     
-    public function getSequenciaNormal() {
-        return $this->sequenciaNormal;
-    }
-
     public function getSequenciaPrioridade() {
         return $this->sequenciaPrioridade;
-    }
-
-    public function setSequenciaNormal($sequenciaNormal) {
-        $this->sequenciaNormal = $sequenciaNormal;
     }
 
     public function setSequenciaPrioridade($sequenciaPrioridade) {
@@ -279,7 +269,7 @@ class UsuarioSessao {
     }
     
     public function __sleep() {
-        return array('id', 'unidadeId', 'ativo', 'local', 'tipoAtendimento', 'permissoes', 'sequenciaNormal', 'sequenciaPrioridade');
+        return array('id', 'unidadeId', 'ativo', 'local', 'tipoAtendimento', 'permissoes', 'sequenciaPrioridade');
     }
     
     /**

@@ -73,7 +73,7 @@ class AtendimentoController extends ModuleController {
         if ($unidade) {
             // fila de atendimento do atendente atual
             $response->data = array();
-            $atendimentos = $this->filaBusiness->atendimentosUsuario($context->getUser());
+            $atendimentos = $this->filaBusiness->atendimentos($context->getUser());
             foreach ($atendimentos as $atendimento) {
                 // minimal data
                 $response->data[] = $atendimento->toArray();
@@ -109,7 +109,7 @@ class AtendimentoController extends ModuleController {
                 $proximo = $atual;
             } else {
                 do {
-                    $atendimentos = $this->filaBusiness->atendimentosUsuario($usuario, 1);
+                    $atendimentos = $this->filaBusiness->atendimentos($usuario, 1);
                     if (sizeof($atendimentos)) {
                         $proximo = $atendimentos[0];
                         $success = $this->atendimentoBusiness->chamar($proximo, $usuario->getWrapped(), $usuario->getLocal());
@@ -117,9 +117,7 @@ class AtendimentoController extends ModuleController {
                             // incrementando contadores
                             if ($proximo->getPrioridade()->getPeso() > 0) {
                                 $usuario->setSequenciaPrioridade($usuario->getSequenciaPrioridade() + 1);
-                                $usuario->setSequenciaNormal(0);
                             } else {
-                                $usuario->setSequenciaNormal($usuario->getSequenciaNormal() + 1);
                                 $usuario->setSequenciaPrioridade(0);
                             }
                             $context->setUser($usuario);

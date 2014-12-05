@@ -12,7 +12,7 @@ class ApiConfig extends ConfigFile {
     
     /**
      * @param array $prop
-     * @return AppConfig
+     * @return ApiConfig
      */
     public static function getInstance($prop = null) {
         if (!self::$instance) {

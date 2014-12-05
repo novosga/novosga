@@ -24,7 +24,7 @@ class DatabaseConfig extends ConfigFile {
     
     /**
      * @param array $prop
-     * @return AppConfig
+     * @return DatabaseConfig
      */
     public static function getInstance($prop = null) {
         if (!self::$instance) {

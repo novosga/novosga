@@ -34,60 +34,60 @@ class FilaBusiness extends ModelBusiness {
     );
     
     /**
-     * Retorna a lista de atendimentos do usuario
+     * Retorna a fila de atendimentos do usuario
      * @param UsuarioSessao $usuario
      * @param integer $maxResults
      * @return array
      */
-    public function atendimentosUsuario(UsuarioSessao $usuario, $maxResults = 0) {
-        $ids = array();
+    public function atendimentos(UsuarioSessao $usuario, $maxResults = 0) {
+        $ids = array(0);
         $servicos = $usuario->getServicos();
         foreach ($servicos as $s) {
             $ids[] = $s->getServico()->getId();
         }
-        // se nao tiver servicos, coloca id invalido so para nao dar erro no sql
-        if (empty($ids)) {
-            $ids[] = 0;
+        $cond = '';
+        // se nao atende todos, filtra pelo tipo de atendimento
+        if ($usuario->getTipoAtendimento() != UsuarioSessao::ATEND_TODOS) {
+            $s = ($usuario->getTipoAtendimento() == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
+            $cond = "p.peso $s 0";
+            $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults, $cond);
+        } else {
+            // se atende todos mas tem limite para sequencia de tipo de atendimento
+            $maxPrioridade = (int) AppConfig::getInstance()->get("queue.limits.priority");
+            if ($maxPrioridade > 0 && $usuario->getSequenciaPrioridade() > 0 && $usuario->getSequenciaPrioridade() % $maxPrioridade === 0) {
+                $cond = "p.peso = 0";
+            }
+            $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults, $cond);
+            // se a lista veio vazia, tenta pegar qualquer um
+            if (sizeof($rs) === 0) {
+                $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults);
+            }
         }
-        $query = $this->atendimento($usuario->getUnidade(), $ids, $usuario->getTipoAtendimento())
-                    ->getQuery()
+        return $rs;
+    }
+    
+    private function atendimentosUsuario(UsuarioSessao $usuario, $servicos, $maxResults = 0, $where = '') {
+        $builder = $this->builder()
+                ->join('su.servico', 's')
+                ->where("e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos)")
         ;
+        if (!empty($where)) {
+            $builder->andWhere($where);
+        }
+
+        $this->applyOrders($builder);
+
+        $query = $builder->getQuery()
+                ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
+                ->setParameter('unidade', $usuario->getUnidade()->getId())
+                ->setParameter('servicos', $servicos)
+        ;
+        
         if ($maxResults > 0) {
             $query->setMaxResults($maxResults);
         }
+        
         return $query->getResult();
-    }
-    
-    
-    /**
-     * Retorna a fila de atendimento
-     * @param mixed $unidade
-     * @param array $servicos (ids dos servicos)
-     * @param integer $tipo
-     * @return QueryBuilder
-     */
-    public function atendimento($unidade, array $servicos, $tipo = UsuarioSessao::ATEND_TODOS) {
-        if ($unidade instanceof Unidade) {
-            $unidade = $unidade->getId();
-        }
-        $cond = '';
-        if ($tipo != UsuarioSessao::ATEND_TODOS) {
-            $s = ($tipo == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
-            $cond = " AND p.peso $s 0";
-        }
-        
-        $builder = $this->builder()
-                ->join('su.servico', 's')
-                ->where("e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos) $cond")
-        ;
-        
-        $this->applyOrders($builder);
-        
-        $builder->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
-        $builder->setParameter('unidade', (int) $unidade);
-        $builder->setParameter('servicos', $servicos);
-        
-        return $builder;
     }
     
     /**
