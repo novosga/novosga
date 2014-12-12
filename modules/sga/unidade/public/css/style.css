@@ -11,16 +11,8 @@
 
 #servicos td.sigla input { text-align: center; }
 
-#servicos td.nome span.all {
-    position: relative;
-    display: block;
-}
-
-#servicos td.nome button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 2;
+#servicos td.nome .input-group {
+    width: 100%;
 }
 
 .paineis {

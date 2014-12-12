@@ -38,24 +38,8 @@ class TriagemController extends ModuleController {
     
     public function imprimir(Context $context) {
         $id = (int) $context->request()->get('id');
-        $atendimento = $this->em()->find("Novosga\Model\Atendimento", $id);
-        if (!$atendimento) {
-            $this->app()->redirect('index');
-        }
-        
-        // custom view parameters
-        $params = AppConfig::getInstance()->get("triagem.print.params");
-        if (is_array($params)) {
-            foreach ($params as $k => $v) {
-                $this->app()->view()->set($k, $v);
-            }
-        }
-        
-        $this->app()->view()->set('atendimento', $atendimento);
-        $this->app()->view()->set('data', new DateTime());
-        
-        // custom print template
-        return AppConfig::getInstance()->get("triagem.print.template");
+        $ctrl = new \Novosga\Controller\TicketController($this->app());
+        return $ctrl->printTicket($ctrl->getAtendimento($id));
     }
     
     public function ajax_update(Context $context) {
@@ -65,30 +49,34 @@ class TriagemController extends ModuleController {
             $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
             if (sizeof($ids)) {
-                $conn = $this->em()->getConnection();
-                $sql = "
+                $dql = "
                     SELECT 
-                        servico_id as id, COUNT(*) as total 
+                        s.id, COUNT(e) as total 
                     FROM 
-                        atendimentos
+                        Novosga\Model\Atendimento e
+                        JOIN e.servico s
                     WHERE 
-                        unidade_id = :unidade AND 
-                        servico_id IN (" . implode(',', $ids) . ")
+                        e.unidade = :unidade AND 
+                        e.servico IN (:servicos)
                 ";
                 // total senhas do servico (qualquer status)
-                $stmt = $conn->prepare($sql . " GROUP BY servico_id");
-                $stmt->bindValue('unidade', $unidade->getId(), PDO::PARAM_INT);
-                $stmt->execute();
-                $rs = $stmt->fetchAll();
+                $rs = $this->em()
+                        ->createQuery($dql . " GROUP BY s.id")
+                        ->setParameter('unidade', $unidade)
+                        ->setParameter('servicos', $ids)
+                        ->getArrayResult();
+                ;
                 foreach ($rs as $r) {
                     $response->data[$r['id']] = array('total' => $r['total'], 'fila' => 0);
                 }
                 // total senhas esperando
-                $stmt = $conn->prepare($sql . " AND status = :status GROUP BY servico_id");
-                $stmt->bindValue('unidade', $unidade->getId(), PDO::PARAM_INT);
-                $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA, PDO::PARAM_INT);
-                $stmt->execute();
-                $rs = $stmt->fetchAll();
+                $rs = $this->em()
+                        ->createQuery($dql . " AND e.status = :status GROUP BY s.id")
+                        ->setParameter('unidade', $unidade)
+                        ->setParameter('servicos', $ids)
+                        ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
+                        ->getArrayResult();
+                ;
                 foreach ($rs as $r) {
                     $response->data[$r['id']]['fila'] = $r['total'];
                 }
@@ -145,7 +133,7 @@ class TriagemController extends ModuleController {
         $documentoCliente = $context->request()->post('cli_doc', '');
         try {
             $ab = new AtendimentoBusiness($this->em());
-            $response->data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente);
+            $response->data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();

@@ -240,7 +240,7 @@ $app->get('/fila/servicos/:unidade', function($unidade) use ($app, $api) {
  *   string nome_cliente (nome do cliente a ser atendido)
  *   string doc_cliente (documento do cliente a ser atendido)
  */
-$app->post('/distribui', function() use ($app, $api, $server, $em) {
+$app->post('/distribui', function() use ($app, $api, $server) {
     $server->checkAccess();
     // authenticated user
     $usuario = $server->user();
@@ -251,9 +251,15 @@ $app->post('/distribui', function() use ($app, $api, $server, $em) {
     $nomeCliente = $app->request()->post('nome_cliente');
     $documentoCliente = $app->request()->post('doc_cliente');
     // distribuindo nova senha
-    $ab = new Novosga\Business\AtendimentoBusiness($em);
-    $data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente);
-    echo json_encode($data);
+    echo json_encode($api->distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente));
+});
+
+/**
+ * Visualiza um atendimento que ainda não foi arquivado
+ */
+$app->get('/atendimento/:id', function($id) use ($app, $api, $server) {
+    $server->checkAccess();
+    echo json_encode($api->atendimento($id));
 });
 
 /*
@@ -262,7 +268,7 @@ $app->post('/distribui', function() use ($app, $api, $server, $em) {
 $config = new Novosga\Config\ApiConfig();
 foreach ($config->routes() as $pattern => $callable) {
     if (substr($pattern, 0, 1) !== '/') {
-        $pattern .= '/';
+        $pattern = "/$pattern";
     }
     $app->any("/extra{$pattern}", $callable);
 }

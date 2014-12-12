@@ -129,6 +129,7 @@ class MonitorController extends ModuleController {
             if (!$unidade) {
                 throw new Exception(_('Nenhuma unidade selecionada'));
             }
+<<<<<<< HEAD
             $id = (int) $context->request()->post('id');
             $atendimento = $this->em()->find('Novosga\Model\Atendimento', $id);
             if (!$atendimento || $atendimento->getServicoUnidade()->getUnidade()->getId() != $unidade->getId()) {
@@ -145,6 +146,29 @@ class MonitorController extends ModuleController {
             
             $ab = new AtendimentoBusiness($this->em());
             $response->success = $ab->transferir($atendimento, $servico, $prioridade);
+=======
+            
+            $id = (int) $context->request()->post('id');
+            $atendimento = $this->em()->find('Novosga\Model\Atendimento', $id);
+            if (!$atendimento) {
+                throw new Exception(_('Atendimento inválido'));
+            }
+            
+            $servicoId = (int) $context->request()->post('servico');
+            $servico = $this->em()->find('Novosga\Model\Servico', $servicoId);
+            if (!$servico) {
+                throw new Exception(_('Serviço inválido'));
+            }
+            
+            $prioridadeId = (int) $context->request()->post('prioridade');
+            $prioridade = $this->em()->find('Novosga\Model\Prioridade', $prioridadeId);
+            if (!$prioridade) {
+                throw new Exception(_('Prioridade inválida'));
+            }
+
+            $ab = new AtendimentoBusiness($this->em());
+            $response->success = $ab->transferir($atendimento, $unidade, $servico, $prioridade);
+>>>>>>> 4a2149a92fea790e08da7dd2b65b8cfd0af5b930
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
@@ -158,6 +182,7 @@ class MonitorController extends ModuleController {
      */
     public function reativar(Context $context) {
         $response = new JsonResponse();
+<<<<<<< HEAD
         try {
             $unidade = $context->getUser()->getUnidade();
             if (!$unidade) {
@@ -182,6 +207,22 @@ class MonitorController extends ModuleController {
             $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA);
             $stmt->bindValue('unidade', $unidade->getId());
             $response->success = $stmt->execute() > 0;
+=======
+        $unidade = $context->getUser()->getUnidade();
+        try {
+            if (!$unidade) {
+                $response->message = _('Nenhuma unidade selecionada');
+            }
+            
+            $id = (int) $context->request()->post('id');
+            $atendimento = $this->em()->find('Novosga\Model\Atendimento', $id);
+            if (!$atendimento) {
+                throw new Exception(_('Atendimento inválido'));
+            }
+            
+            $ab = new AtendimentoBusiness($this->em());
+            $response->success = $ab->reativar($atendimento, $unidade);
+>>>>>>> 4a2149a92fea790e08da7dd2b65b8cfd0af5b930
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
@@ -194,6 +235,7 @@ class MonitorController extends ModuleController {
      */
     public function cancelar(Context $context) {
         $response = new JsonResponse();
+<<<<<<< HEAD
         try {
             $unidade = $context->getUser()->getUnidade();
             if (!$unidade) {
@@ -203,6 +245,22 @@ class MonitorController extends ModuleController {
             
             $ab = new AtendimentoBusiness($this->em());
             $response->success = $ab->cancelar($atendimento, $servico, $prioridade);
+=======
+        $unidade = $context->getUser()->getUnidade();
+        try {
+            if (!$unidade) {
+                $response->message = _('Nenhuma unidade selecionada');
+            }
+            
+            $id = (int) $context->request()->post('id');
+            $atendimento = $this->em()->find('Novosga\Model\Atendimento', $id);
+            if (!$atendimento) {
+                throw new Exception(_('Atendimento inválido'));
+            }
+            
+            $ab = new AtendimentoBusiness($this->em());
+            $response->success = $ab->cancelar($atendimento, $unidade);
+>>>>>>> 4a2149a92fea790e08da7dd2b65b8cfd0af5b930
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }

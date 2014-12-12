@@ -39,15 +39,15 @@ class CargosController extends TreeModelController {
         $query->setParameter('cargo', $model->getId());
         $query->execute();
         $permissoes = $context->request()->post('permissoes');
-        $conn = $this->em()->getConnection();
-        $stmt = $conn->prepare("INSERT INTO cargos_mod_perm (modulo_id, cargo_id, permissao) VALUES (:modulo, :cargo, :permissao)");
         if (!empty($permissoes)) {
             foreach ($permissoes as $modulo) {
-                $stmt->bindValue('modulo', $modulo, \PDO::PARAM_INT);
-                $stmt->bindValue('cargo', $model->getId(), \PDO::PARAM_INT);
-                $stmt->bindValue('permissao', 3, \PDO::PARAM_INT);
-                $stmt->execute();
+                $permissao = new \Novosga\Model\Permissao();
+                $permissao->setModulo($this->em()->find('Novosga\Model\Modulo', $modulo));
+                $permissao->setCargo($model);
+                $permissao->setPermissao(3);
+                $this->em()->persist($permissao);
             }
+            $this->em()->flush();
         }
     }
 

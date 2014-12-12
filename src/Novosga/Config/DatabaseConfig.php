@@ -20,6 +20,18 @@ class DatabaseConfig extends ConfigFile {
     protected $cacheDriver;
     protected $isDev = false;
     
+    private static $instance;
+    
+    /**
+     * @param array $prop
+     * @return DatabaseConfig
+     */
+    public static function getInstance($prop = null) {
+        if (!self::$instance) {
+            self::$instance = new DatabaseConfig($prop);
+        }
+        return self::$instance;
+    }
 
     public function isIntalled() {
         return $this->get('driver') && $this->get('host');

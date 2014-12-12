@@ -2,6 +2,36 @@
  * Novo SGA - Main Style
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+
+@font-face {
+    font-family: "Ubuntu";
+    src: url('../fonts/Ubuntu-R.ttf');
+}
+
+@font-face {
+    font-family: "Ubuntu";
+    src: url('../fonts/Ubuntu-B.ttf');
+    font-weight : bold;
+}
+
+@font-face  {
+    font-family: "Ubuntu";
+    src: url('../fonts/Ubuntu-RI.ttf');
+    font-style : italic;
+}
+
+@font-face {
+    font-family: "Ubuntu";
+    src: url('../fonts/Ubuntu-BI.ttf');
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "UbuntuMono";
+    src: url('../fonts/UbuntuMono-R.ttf');
+}
+
 .chromeframe {
     margin: 0;
     background: #990000;
@@ -45,6 +75,13 @@
     background-position: 5px center;
     text-indent: -999px;
     overflow: hidden;
+}
+
+body {
+    color: #333;
+    font-size: 14px;
+    font-family: Ubuntu, Helvetica, Arial, sans-serif;
+    line-height: 20px;
 }
 
 /* home */

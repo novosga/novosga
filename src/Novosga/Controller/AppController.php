@@ -23,8 +23,15 @@ abstract class AppController {
     public final function app() {
         return $this->app;
     }
+    
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    protected function em() {
+        return $this->app()->getContext()->database()->createEntityManager();
+    }
 
 
     public function index(Context $context) {}
-    
+
 }

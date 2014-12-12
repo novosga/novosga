@@ -71,16 +71,16 @@ SGA.Admin = {
                     if (response && response.data) {
                         for (var i = 0; i < response.data.length; i++) {
                             var client = response.data[i];
-                            var secret = new Array(client.client_secret.length + 1).join('*');
+                            var secret = new Array(client.secret.length + 1).join('*');
                             table.append(
                                 $('<tr></tr>')
-                                    .append('<td>' + client.client_id + '</td>')
-                                    .append('<td><a href="#" data-secret="' + client.client_secret + '" data-default="' + secret + '">' + secret + '</a></td>')
-                                    .append('<td>' + client.redirect_uri + '</td>')
+                                    .append('<td>' + client.id + '</td>')
+                                    .append('<td><a href="#" data-secret="' + client.secret + '" data-default="' + secret + '">' + secret + '</a></td>')
+                                    .append('<td>' + client.redirectUri + '</td>')
                                     .append(
                                         $('<td class="buttons"></td>')
                                             .append(
-                                                $('<a href="#" data-id="' + client.client_id + '" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>')
+                                                $('<a href="#" data-id="' + client.id + '" class="btn btn-default"><span class="glyphicon glyphicon-edit"></span></a>')
                                                 .on('click', function() {
                                                     var elem = $(this);
                                                     $.ajax({
@@ -89,17 +89,17 @@ SGA.Admin = {
                                                             var dialog = $('#dialog-clientid');
                                                             if (response && response.data) {
                                                                 for (var i in response.data) {
-                                                                    dialog.find('#' + i).val(response.data[i]);
+                                                                    dialog.find('#client_' + i).val(response.data[i]);
                                                                 }
+                                                                dialog.modal('show');
                                                             }
-                                                            dialog.modal('show');
                                                         }
                                                     });
                                                     return false;
                                                 })
                                             )
                                             .append(
-                                                $('<a href="#" data-id="' + client.client_id + '" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>')
+                                                $('<a href="#" data-id="' + client.id + '" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span></a>')
                                                 .on('click', function() {
                                                     if (confirm('Deseja mesmo remover o cliente?')) {
                                                         var elem = $(this);
@@ -107,7 +107,7 @@ SGA.Admin = {
                                                             url: SGA.baseUrl + '/modules/sga.admin/delete_oauth_client',
                                                             type: 'post',
                                                             data: { client_id: elem.data('id') },
-                                                            success: function(response) {
+                                                            success: function() {
                                                                 SGA.Admin.WebApi.loadClients();
                                                             }
                                                         });
@@ -117,17 +117,17 @@ SGA.Admin = {
                                             )
                                     )
                             );
-                            table.find('[data-secret]').on('click', function() {
-                                var elem = $(this);
-                                var hide = elem.data('default');
-                                if (elem.text() === hide) {
-                                    elem.text(elem.data('secret'));
-                                } else {
-                                    elem.text(hide);
-                                }
-                                return false;
-                            });
                         }
+                        table.find('[data-secret]').on('click', function() {
+                            var elem = $(this);
+                            var hide = elem.data('default');
+                            if (elem.text() === hide) {
+                                elem.text(elem.data('secret'));
+                            } else {
+                                elem.text(hide);
+                            }
+                            return false;
+                        });
                     }
                 }
             });
@@ -140,7 +140,7 @@ SGA.Admin = {
             SGA.ajax({
                 url: SGA.url('acumular_atendimentos'),
                 type: 'post',
-                success: function(response) {
+                success: function() {
                     SGA.dialogs.modal("#dialog-reiniciar");
                 }
             });
@@ -155,7 +155,7 @@ SGA.Admin = {
             data: {
                 tipo: $('#numeracao').val()
             },
-            success: function(response) {
+            success: function() {
             }
         });
     },

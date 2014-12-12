@@ -8,6 +8,19 @@ namespace Novosga\Config;
  */
 class ApiConfig extends ConfigFile {
     
+    private static $instance;
+    
+    /**
+     * @param array $prop
+     * @return ApiConfig
+     */
+    public static function getInstance($prop = null) {
+        if (!self::$instance) {
+            self::$instance = new AppConfig($prop);
+        }
+        return self::$instance;
+    }
+    
     
     public function name() {
         return 'api.php';

@@ -21,11 +21,4 @@ abstract class ModuleController extends AppController {
         $this->subtitle = _($modulo->getDescricao());
     }
     
-    /**
-     * @return \Doctrine\ORM\EntityManager
-     */
-    protected function em() {
-        return $this->app()->getContext()->database()->createEntityManager();
-    }
-    
 }

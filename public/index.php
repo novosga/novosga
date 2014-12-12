@@ -3,21 +3,8 @@ require_once  '../bootstrap.php';
 
 use \Novosga\App;
 
-$app = new App(array(
-    'debug' => NOVOSGA_DEV,
-    'cache' => NOVOSGA_CACHE,
-    'templates.path' => NOVOSGA_TEMPLATES,
-    'db' => $db
-));
-
-$app->notFound(function() use ($app) {
-    $app->render('error/404.html.twig');
-});
-
-$app->error(function(\Exception $e) use ($app) {
-    $app->view()->set('exception', $e);
-    $app->render('error/500.html.twig');
-});
+$app = new App();
+$app->prepare($db);
 
 $app->get('/login', function() use ($app) {
     $ctrl = new \Novosga\Controller\LoginController($app);
@@ -71,13 +58,7 @@ $app->post('/home/set_unidade', function() use ($app) {
     echo $response->toJson();
 });
 
-$app->get('/profile', function() use ($app) {
-    $ctrl = new \Novosga\Controller\HomeController($app);
-    $ctrl->perfil($app->getContext());
-    echo $app->render('profile.html.twig');
-});
-
-$app->post('/profile', function() use ($app) {
+$app->any('/profile', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->perfil($app->getContext());
     echo $app->render('profile.html.twig');
@@ -87,6 +68,12 @@ $app->post('/profile/password', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
     $response = $ctrl->alterar_senha($app->getContext());
     echo $response->toJson();
+});
+
+$app->get('/print/:id/:hash', function($id, $hash) use ($app) {
+    $ctrl = new \Novosga\Controller\TicketController($app);
+    $template = $ctrl->printAction($app->getContext(), $id, $hash);
+    echo $app->render($template);
 });
 
 $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app, $loader) {
@@ -102,9 +89,13 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     // prefixo do nome do controlador do modulo
     $tokens = explode('.', $moduleKey);
     
-    // module resouce .htaccess fallback
-    if (in_array($action, array('js', 'css', 'images','sounds'))) {
-        showModuleResource($moduleKey, $action, $args[1]);
+    // module resource .htaccess fallback
+    if ($action === 'resources') {
+        try {
+            $app->moduleResource($moduleKey, join(DS, array_slice($args, 1)));
+        } catch (Exception $e) {
+            $app->notFound();
+        }
     }
     
     $namespace = MODULES_DIR . '\\' . $tokens[0] . '\\' . $tokens[1];
@@ -135,64 +126,12 @@ $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'inde
     } else {
         // render as template the returned template name or action name pattern
         if (is_string($response)) {
-            $dir = dirname($response);
-            if ($dir && $dir !== '.') {
-                // defined a template outside the default twigTemplateDirs
-                $app->view()->twigTemplateDirs[] = $dir;
-            }
-            $template = basename($response);
+            $template = $response;
         } else {
             $template = "$action.html.twig";
         }
         echo $app->render($template);
     }
 });
-
-/**
- * Return to response the module resource
- * @param type $moduleKey
- * @param type $dir
- * @param type $file
- */
-function showModuleResource($moduleKey, $dir, $file) {
-   $filename = join(DS, array(
-        MODULES_PATH, join(DS, explode(".", $moduleKey)), 'public', $dir, $file)
-    );
-   if (file_exists($filename)) {
-        switch ($dir) {
-            case 'images':
-                $imginfo = getimagesize($filename);
-                $mime = $imginfo['mime'];
-                break;
-            case 'js':
-                $mime = 'text/javascript';
-                break;
-            case 'css':
-                $mime = 'text/css';
-                break;
-            case 'sounds':
-        	$ext = pathinfo($filename, PATHINFO_EXTENSION);
-        	switch ($ext) {
-        	    case 'wav':
-        		$mime = 'audio/wav';
-        		break;
-        	    case 'mp3':
-        		$mime = 'audio/mpeg';
-        		break;
-        	    case 'ogg':
-        		$mime = 'audio/ogg';
-        		break;
-        	}
-    		break;
-            default:
-                $mime = 'text/plain';
-        }
-        header("Content-type: $mime");
-        echo file_get_contents($filename);
-    } else {
-        throw new Exception(sprintf("Resource not found: %s", $filename));
-    }
-    exit();
-}
 
 $app->run();

@@ -164,11 +164,26 @@ class ApiV1 extends Api {
     }
     
     /**
+     * Retorna o atendimento
+     * @param int $unidade
+     * @param int $usuario
+     * @return array
+     */
+    public function atendimento($id) {
+        // servicos que o usuario atende
+        $atendimento = $this->em->find('Novosga\Model\Atendimento', $id);
+        if (!$atendimento) {
+            throw new Exception(_('Atendimento inválido'));
+        }
+        return $atendimento->toArray(true);
+    }
+    
+    /**
      * Distribui uma nova senha
      */
     public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente) {
         $ab = new AtendimentoBusiness($this->em());
-        return $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente);
+        return $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
     }
     
 }

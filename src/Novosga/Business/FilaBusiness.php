@@ -2,6 +2,7 @@
 namespace Novosga\Business;
 
 use Doctrine\ORM\QueryBuilder;
+use Novosga\Config\AppConfig;
 use Novosga\Model\Servico;
 use Novosga\Model\Unidade;
 use Novosga\Model\Util\UsuarioSessao;
@@ -13,48 +14,80 @@ use Novosga\Model\Util\UsuarioSessao;
  */
 class FilaBusiness extends ModelBusiness {
     
-    public static $orders = array(
-        'time' => array(
-            "((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))", "DESC"
+    // default queue ordering
+    public static $ordering = array(
+        // wait time
+        array(
+            "exp" => "((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))", 
+            "order" => "DESC"
         ),
-        'priority' => array(
-            "p.peso", "DESC"
+        // priority
+        array(
+            "exp" => "p.peso", 
+            "order" => "DESC"
         ),
-        'number' => array(
-            "e.numeroSenha", "ASC"
-        )
+        // ticket number
+        array(
+            "exp" => "e.numeroSenha", 
+            "order" => "ASC"
+        ),
     );
     
-    
     /**
-     * Retorna a fila de atendimento
-     * @param mixed $unidade
-     * @param array $servicos (ids dos servicos)
-     * @param integer $tipo
-     * @return QueryBuilder
+     * Retorna a fila de atendimentos do usuario
+     * @param UsuarioSessao $usuario
+     * @param integer $maxResults
+     * @return array
      */
-    public function atendimento($unidade, array $servicos, $tipo = UsuarioSessao::ATEND_TODOS) {
-        if ($unidade instanceof Unidade) {
-            $unidade = $unidade->getId();
+    public function atendimentos(UsuarioSessao $usuario, $maxResults = 0) {
+        $ids = array(0);
+        $servicos = $usuario->getServicos();
+        foreach ($servicos as $s) {
+            $ids[] = $s->getServico()->getId();
         }
         $cond = '';
-        if ($tipo != UsuarioSessao::ATEND_TODOS) {
-            $s = ($tipo == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
-            $cond = " AND p.peso $s 0";
+        // se nao atende todos, filtra pelo tipo de atendimento
+        if ($usuario->getTipoAtendimento() != UsuarioSessao::ATEND_TODOS) {
+            $s = ($usuario->getTipoAtendimento() == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
+            $cond = "p.peso $s 0";
+            $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults, $cond);
+        } else {
+            // se atende todos mas tem limite para sequencia de tipo de atendimento
+            $maxPrioridade = (int) AppConfig::getInstance()->get("queue.limits.priority");
+            if ($maxPrioridade > 0 && $usuario->getSequenciaPrioridade() > 0 && $usuario->getSequenciaPrioridade() % $maxPrioridade === 0) {
+                $cond = "p.peso = 0";
+            }
+            $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults, $cond);
+            // se a lista veio vazia, tenta pegar qualquer um
+            if (sizeof($rs) === 0) {
+                $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults);
+            }
         }
-        
+        return $rs;
+    }
+    
+    private function atendimentosUsuario(UsuarioSessao $usuario, $servicos, $maxResults = 0, $where = '') {
         $builder = $this->builder()
                 ->join('su.servico', 's')
-                ->where("e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos) $cond")
+                ->where("e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos)")
+        ;
+        if (!empty($where)) {
+            $builder->andWhere($where);
+        }
+
+        $this->applyOrders($builder);
+
+        $query = $builder->getQuery()
+                ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
+                ->setParameter('unidade', $usuario->getUnidade()->getId())
+                ->setParameter('servicos', $servicos)
         ;
         
-        $this->applyOrders($builder);
+        if ($maxResults > 0) {
+            $query->setMaxResults($maxResults);
+        }
         
-        $builder->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
-        $builder->setParameter('unidade', (int) $unidade);
-        $builder->setParameter('servicos', $servicos);
-        
-        return $builder;
+        return $query->getResult();
     }
     
     /**
@@ -94,7 +127,7 @@ class FilaBusiness extends ModelBusiness {
             ->createQueryBuilder()
             ->select('e')
             ->from('Novosga\Model\Atendimento', 'e')
-            ->join('e.prioridadeSenha', 'p')
+            ->join('e.prioridade', 'p')
             ->join('e.servicoUnidade', 'su')
         ;
     }
@@ -104,13 +137,17 @@ class FilaBusiness extends ModelBusiness {
      * @param QueryBuilder $builder
      */
     public function applyOrders(QueryBuilder $builder) {
-        foreach (self::$orders as $order) {
-            if (is_array($order)) {
-                if (sizeof($order) === 1) {
-                    $order[1] = "ASC";
-                }
-                $builder->addOrderBy($order[0], $order[1]);
+        $ordering = AppConfig::getInstance()->get("queue.ordering");
+        if (!$ordering || empty($ordering)) {
+            $ordering = self::$ordering;
+        }
+        foreach ($ordering as $item) {
+            if (!isset($item['exp'])) {
+                break;
             }
+            $exp = $item['exp'];
+            $order = isset($item['order']) ? $item['order'] : 'ASC';
+            $builder->addOrderBy($exp, $order);
         }
     }
     

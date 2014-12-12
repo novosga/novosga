@@ -208,7 +208,7 @@
                             <td></td>
                             <td></td>
                             <td class="buttons">
-                                <a href="#dialog-clientid" data-toggle="modal" class="btn btn-default" >
+                                <a href="#dialog-clientid" data-toggle="modal" class="btn btn-default" onclick="$('#dialog-clientid :input').val('');">
                                     <span class="glyphicon glyphicon-plus"></span>
                                     {% trans %}Adicionar{% endtrans %}
                                 </a>
@@ -335,7 +335,7 @@
                     </div>
                     <div class="form-group">
                         <label for="redirect_uri">Redirect URL</label>
-                        <input type="text" id="redirect_uri" name="redirect_uri" class="form-control" placeholder="http://">
+                        <input type="text" id="client_redirect_uri" name="redirect_uri" class="form-control" placeholder="http://">
                     </div>
                 </form>
             </div>

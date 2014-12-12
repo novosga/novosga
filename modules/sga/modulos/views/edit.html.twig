@@ -3,17 +3,17 @@
 {% block head %}
     {{ parent() }}
     {% if modulo and modulo.id %}
-    <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/modules/{{ module.chave }}/css/bootstrap-switch.min.css?v={{ version }}">
-    <script type="text/javascript" src="{{ baseUrl() }}/modules/{{ module.chave }}/js/bootstrap-switch.min.js?v={{ version }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ resources('css/bootstrap-switch.min.css', module.chave) }}">
+    <script type="text/javascript" src="{{ resources('js/bootstrap-switch.min.js', module.chave) }}"></script>
     {% else %}
-    <script type="text/javascript" src="{{ baseUrl() }}/modules/{{ module.chave }}/js/SimpleAjaxUploader.min.js?v={{ version }}"></script>
+    <script type="text/javascript" src="{{ resources('js/SimpleAjaxUploader.min.js', module.chave) }}"></script>
     {% endif %}
 {% endblock %}
 
 {% block content %}
     <div class="module-content">
         <div class="header">
-            <img src="{{ baseUrl() }}/modules/{{ module.chave }}/images/icon.png" />
+            <img src="{{ resources('images/icon.png', module.chave) }}" />
             <h2>{{ module.nome }}</h2>
             <p>{{ module.descricao }}</p>
         </div>
@@ -28,7 +28,7 @@
                 <div id="tab-sobre" class="tab-pane active">
                     <div class="info">
                         <div class="icon">
-                            <img src="{{ baseUrl() }}/modules/{{ modulo.chave }}/images/icon.png" />
+                            <img src="{{ resources('images/icon.png', module.chave) }}" />
                         </div>
                         <div class="text nome">
                             <label>{% trans %}Nome{% endtrans %}</label>

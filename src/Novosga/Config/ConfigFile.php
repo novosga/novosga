@@ -42,6 +42,9 @@ abstract class ConfigFile {
             $tokens = explode(".", $name);
             $value = $this->data;
             foreach ($tokens as $token) {
+                if ($value === null) {
+                    break;
+                }
                 $value = Arrays::value($value, $token, null);
             }
             return $value;
