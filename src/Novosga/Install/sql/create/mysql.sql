@@ -393,21 +393,10 @@ CREATE UNIQUE INDEX codigo ON unidades (codigo);
 CREATE INDEX direita ON grupos (direita);
 CREATE INDEX esqdir ON grupos (esquerda, direita);
 CREATE INDEX esquerda ON grupos (esquerda);
-CREATE INDEX fki_atend_codif_ibfk_2 ON atend_codif (servico_id);
-CREATE INDEX fki_atendimentos_ibfk_1 ON atendimentos (prioridade_id);
-CREATE INDEX fki_atendimentos_ibfk_2 ON atendimentos (unidade_id, servico_id);
 CREATE INDEX fki_atendimentos_ibfk_3 ON atendimentos (status);
-CREATE INDEX fki_atendimentos_ibfk_4 ON atendimentos (usuario_id);
-CREATE INDEX fki_grupo_ibfk_1 ON unidades (grupo_id);
-CREATE INDEX fki_servicos_ibfk_1 ON servicos (macro_id);
-CREATE INDEX fki_uni_serv_ibfk_2 ON uni_serv (servico_id);
-CREATE INDEX fki_uni_serv_ibfk_3 ON uni_serv (local_id);
-CREATE INDEX fki_usu_serv_ibfk_1 ON usu_serv (servico_id, unidade_id);
-CREATE INDEX fki_usu_serv_ibfk_2 ON usu_serv (usuario_id);
 CREATE UNIQUE INDEX local_serv_nm ON locais (nome);
 CREATE UNIQUE INDEX login ON usuarios (login);
 CREATE UNIQUE INDEX modulos_chave ON modulos (chave);
-
 
 --
 -- views
