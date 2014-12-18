@@ -11,7 +11,7 @@ use Novosga\Business\AcessoBusiness;
  */
 class App extends \Slim\Slim {
     
-    const VERSION = "1.3.0";
+    const VERSION = "1.3.1";
     const CHARSET = "utf-8";
     
     // SESSION KEYS
@@ -19,6 +19,8 @@ class App extends \Slim\Slim {
     
     private $context;
     private $acessoBusiness;
+    
+    private static $instance;
     
     public function __construct(array $userSettings = array()) {
         $twig = new \Slim\Views\Twig();
@@ -59,6 +61,17 @@ class App extends \Slim\Slim {
         });
     }
     
+    /**
+     * 
+     * @return App
+     */
+    public static function create(array $settings = array()) {
+        if (!self::$instance) {
+            self::$instance = new App($settings);
+        }
+        return self::$instance;
+    }
+
     public function prepare(Config\DatabaseConfig $db) {
         $this->context = new Context($this, $db);
         $this->acessoBusiness = new AcessoBusiness();

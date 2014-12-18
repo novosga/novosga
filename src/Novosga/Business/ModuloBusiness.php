@@ -25,16 +25,20 @@ class ModuloBusiness extends ModelBusiness {
         $this->verifyKey($key);
         $this->verifyDir($moduleDir);
         $manifest = $this->parseManifest($moduleDir, $key);
-        $manifest->getModule()->setStatus($status);
+        $module = $manifest->getModule();
+        $module->setStatus($status);
         
         $this->invokeScripts($manifest, 'pre-install');
         
-        $this->em->persist($manifest->getModule());
+        $this->em->persist($module);
         $this->em->flush();
+        
+        $log = NOVOSGA_CACHE . '/install.txt';
+        file_put_contents($log, file_get_contents($log) . "\n#" . $module->getId() . " - " . $module->getChave());
         
         $this->invokeScripts($manifest, 'post-install');
         
-        return $manifest->getModule();
+        return $module;
     }
     
     /**

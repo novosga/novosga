@@ -1,9 +1,7 @@
 <?php
 require_once  '../bootstrap.php';
 
-use \Novosga\App;
-
-$app = new App();
+$app = Novosga\App::create();
 $app->prepare($db);
 
 $app->get('/login', function() use ($app) {

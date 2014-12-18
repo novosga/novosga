@@ -1,7 +1,7 @@
 <?php
 require_once  '../../bootstrap.php';
 
-$app = new Slim\Slim(array(
+$app = Novosga\App::create(array(
     'debug' => false
 ));
 

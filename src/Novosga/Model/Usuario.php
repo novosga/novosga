@@ -154,5 +154,14 @@ class Usuario extends SequencialModel {
     public function toString() {
         return $this->getLogin();
     }
+    
+    public function toArray() {
+        return array(
+            'login' => $this->getLogin(),
+            'nome' => $this->getNome(),
+            'sobrenome' => $this->getSobrenome(),
+            'senha' => $this->getSenha()
+        );
+    }
 
 }
