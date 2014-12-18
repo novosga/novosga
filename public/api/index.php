@@ -1,7 +1,10 @@
 <?php
+/*
+ * Novo SGA API
+ */
 require_once  '../../bootstrap.php';
 
-$app = Novosga\App::create(array(
+$app = new Slim\Slim(array(
     'debug' => false
 ));
 
@@ -9,10 +12,6 @@ $em = $db->createEntityManager();
 $server = new \Novosga\Api\OAuth2Server($em);
 
 $api = new \Novosga\Api\ApiV1($em);
-
-/*
- * API
- */
 
 $app->error(function(Exception $e) use ($app) {
     echo json_encode(array('error' => $e->getMessage(), 'code' => $e->getCode()));

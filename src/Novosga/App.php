@@ -49,7 +49,7 @@ class App extends \Slim\Slim {
         if ($userSettings['debug']) {
             $this->view()->parserExtensions[] = new \Twig_Extension_Debug();
         }
-        
+    
         $app = $this;
         $app->notFound(function() use ($app) {
             $app->render(NOVOSGA_TEMPLATES . '/error/404.html.twig');
