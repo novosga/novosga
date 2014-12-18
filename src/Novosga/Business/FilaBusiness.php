@@ -91,12 +91,12 @@ class FilaBusiness extends ModelBusiness {
     }
     
     /**
-     * 
+     * Retorna a fila de espera do serviço na unidade
      * @param mixed $unidade
      * @param mixed $servico
-     * @return QueryBuilder
+     * @return array
      */
-    public function servico($unidade, $servico) {
+    public function filaServico($unidade, $servico) {
         if ($unidade instanceof Unidade) {
             $unidade = $unidade->getId();
         }
@@ -115,7 +115,7 @@ class FilaBusiness extends ModelBusiness {
         $builder->setParameter('unidade', (int) $unidade);
         $builder->setParameter('servico', (int) $servico);
         
-        return $builder;
+        return $builder->getQuery()->getResult();
     }
     
     
