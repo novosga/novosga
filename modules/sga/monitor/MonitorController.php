@@ -55,11 +55,7 @@ class MonitorController extends ModuleController {
                 $em = $context->database()->createEntityManager();
                 if ($servicos) {
                     foreach ($servicos as $su) {
-                        $rs = $filaBusiness
-                                    ->servico($unidade, $su->getServico())
-                                    ->getQuery()
-                                    ->getResult()
-                        ;
+                        $rs = $filaBusiness->filaServico($unidade, $su->getServico());
                         $total = count($rs);
                         // prevent overhead
                         if ($total) {
