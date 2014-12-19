@@ -33,9 +33,6 @@ class ModuloBusiness extends ModelBusiness {
         $this->em->persist($module);
         $this->em->flush();
         
-        $log = NOVOSGA_CACHE . '/install.txt';
-        file_put_contents($log, file_get_contents($log) . "\n#" . $module->getId() . " - " . $module->getChave());
-        
         $this->invokeScripts($manifest, 'post-install');
         
         return $module;
