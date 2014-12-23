@@ -1,6 +1,8 @@
 <?php
 namespace Novosga\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Classe Atendimento
@@ -19,7 +21,7 @@ class Atendimento extends AbstractAtendimento
     protected $codificados;
     
     public function __construct() {
-        $this->codificados = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->codificados = new ArrayCollection();
     }
     
     public function getCodificados() {

@@ -1,6 +1,9 @@
 <?php
 namespace Novosga\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 /**
  * AtendimentoHistorico
  * historico de atendimento do banco de dados

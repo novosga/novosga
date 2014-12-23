@@ -11,7 +11,7 @@ use Novosga\Business\AcessoBusiness;
  */
 class App extends \Slim\Slim {
     
-    const VERSION = "1.3.1";
+    const VERSION = "1.3.3";
     const CHARSET = "utf-8";
     
     // SESSION KEYS

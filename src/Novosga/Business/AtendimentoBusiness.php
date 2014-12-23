@@ -442,7 +442,7 @@ class AtendimentoBusiness extends ModelBusiness {
         $novo->setNumeroSenhaServico($atendimento->getNumeroSenhaServico());
         $novo->setUsuario($usuario);
         $novo->setUsuarioTriagem($usuario);
-        $novo->setPrioridadeSenha($atendimento->getSenha()->getPrioridade());
+        $novo->setPrioridade($atendimento->getPrioridade());
         $novo->setNomeCliente($atendimento->getCliente()->getNome());
         $novo->setDocumentoCliente($atendimento->getCliente()->getDocumento());
         $this->em->persist($novo);
