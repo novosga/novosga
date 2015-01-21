@@ -34,7 +34,7 @@ class DatabaseConfig extends ConfigFile {
     }
 
     public function isIntalled() {
-        return $this->get('driver') && $this->get('host');
+        return ($this->get('driver') || $this->get('driverClass')) && $this->get('host');
     }
     
     public function name() {
