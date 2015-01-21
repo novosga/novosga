@@ -5,7 +5,6 @@ use Exception;
 use Novosga\Model\SequencialModel;
 use Novosga\Controller\ModuleController;
 use Novosga\Context;
-use Novosga\Util\Arrays;
 use Novosga\Util\Objects;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -57,10 +56,14 @@ abstract class CrudController extends ModuleController {
         $page = (int) $context->request()->get('p', 0);
         $search = trim($context->request()->get('s', ''));
         $query = $this->search("%". strtoupper($search) . "%");
-        $query->setMaxResults($maxResults);
-        $query->setFirstResult($page * $maxResults);
-        $items = new Paginator($query);
-        $total = count($items);
+        $paginator = new Paginator($query, false);
+        
+        $items = $query
+                    ->setMaxResults($maxResults)
+                    ->setFirstResult($page * $maxResults)
+                    ->getResult();
+        
+        $total = sizeof($paginator);
         $this->app()->view()->set('search', $search);
         $this->app()->view()->set('items', $items);
         $this->app()->view()->set('total', $total);
