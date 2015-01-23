@@ -1,7 +1,7 @@
 <?php
 namespace Novosga\Api;
 
-use Novosga\Business\AtendimentoBusiness;
+use Novosga\Service\AtendimentoService;
 
 /**
  * Api V1
@@ -127,8 +127,8 @@ class ApiV1 extends Api {
     public function filaServicos($unidade, $servicos) {
         if (!empty($servicos)) {
             // fila de atendimento
-            $filaBusiness = new \Novosga\Business\FilaBusiness($this->em);
-            return $filaBusiness
+            $filaService = new \Novosga\Service\FilaService($this->em);
+            return $filaService
                         ->atendimento($unidade, $servicos)
                         ->getQuery()
                         ->getResult()
@@ -182,8 +182,8 @@ class ApiV1 extends Api {
      * Distribui uma nova senha
      */
     public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente) {
-        $ab = new AtendimentoBusiness($this->em);
-        return $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
+        $service = new AtendimentoService($this->em);
+        return $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
     }
     
 }

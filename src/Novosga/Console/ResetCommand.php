@@ -3,7 +3,7 @@ namespace Novosga\Console;
 
 use Doctrine\ORM\EntityManager;
 use Exception;
-use Novosga\Business\AtendimentoBusiness;
+use Novosga\Service\AtendimentoService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -43,8 +43,8 @@ class ResetCommand extends Command {
                     throw new Exception("Unidade inválida: $id");
                 }
             }
-            $ab = new AtendimentoBusiness($this->em);
-            $ab->acumularAtendimentos($id);
+            $service = new AtendimentoService($this->em);
+            $service->acumularAtendimentos($id);
             $output->writeln("<info>Senhas reiniciadas com sucesso</info>");
         } catch (Exception $e) {
             $output->writeln("<error>{$e->getMessage()}</error>");

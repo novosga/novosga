@@ -9,7 +9,7 @@ use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Http\JsonResponse;
 use Novosga\Controller\ModuleController;
-use Novosga\Business\AtendimentoBusiness;
+use Novosga\Service\AtendimentoService;
 use Novosga\Model\Unidade;
 
 /**
@@ -74,7 +74,7 @@ class TriagemController extends ModuleController {
                         ->createQuery($dql . " AND e.status = :status GROUP BY s.id")
                         ->setParameter('unidade', $unidade)
                         ->setParameter('servicos', $ids)
-                        ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
+                        ->setParameter('status', AtendimentoService::SENHA_EMITIDA)
                         ->getArrayResult();
                 ;
                 foreach ($rs as $r) {
@@ -132,8 +132,8 @@ class TriagemController extends ModuleController {
         $nomeCliente = $context->request()->post('cli_nome', '');
         $documentoCliente = $context->request()->post('cli_doc', '');
         try {
-            $ab = new AtendimentoBusiness($this->em());
-            $response->data = $ab->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
+            $service = new AtendimentoService($this->em());
+            $response->data = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();
@@ -151,8 +151,8 @@ class TriagemController extends ModuleController {
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $numero = $context->request()->get('numero');
-            $ab = new AtendimentoBusiness($this->em());
-            $atendimentos = $ab->buscaAtendimentos($unidade, $numero);
+            $service = new AtendimentoService($this->em());
+            $atendimentos = $service->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->toArray();

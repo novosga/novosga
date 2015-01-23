@@ -3,7 +3,7 @@ namespace Novosga\Console;
 
 use Doctrine\ORM\EntityManager;
 use Exception;
-use Novosga\Business\ModuloBusiness;
+use Novosga\Service\ModuloService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,15 +42,15 @@ class ModuleInstallCommand extends Command {
     protected function execute(InputInterface $input, OutputInterface $output) {
         try {
             $filename = $input->getArgument('filename');
-            $business = new ModuloBusiness($this->em);
+            $service = new ModuloService($this->em);
             if (is_dir($filename)) {
                 $key = $input->getArgument('key');
                 if (empty($key)) {
                     throw new Exception('Ao instalar a partir de um diretório, deve especificar a chave do módulo');
                 }
-                $business->install($filename, $key);
+                $service->install($filename, $key);
             } else {
-                $business->extractAndInstall($filename);
+                $service->extractAndInstall($filename);
             }
             $output->writeln("<info>Módulo instalado com sucesso</info>");
         } catch (Exception $e) {

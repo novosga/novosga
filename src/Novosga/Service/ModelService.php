@@ -1,14 +1,14 @@
 <?php
-namespace Novosga\Business;
+namespace Novosga\Service;
 
 use Doctrine\ORM\EntityManager;
 
 /**
- * ModelBusiness
+ * ModelService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class ModelBusiness {
+abstract class ModelService {
     
     /**
      * @var EntityManager

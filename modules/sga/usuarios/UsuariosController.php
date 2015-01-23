@@ -79,7 +79,7 @@ class UsuariosController extends CrudController {
             $senha = $context->request()->post('senha');
             $confirmacao = $context->request()->post('senha2');
             // verifica e codifica a senha
-            $model->setSenha($this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao));
+            $model->setSenha($this->app()->getAcessoService()->verificaSenha($senha, $confirmacao));
             $model->setStatus(1);
             $model->setSessionId('');
         } else {
@@ -264,7 +264,7 @@ class UsuariosController extends CrudController {
         $usuario = $this->findById($id);
         if ($usuario) {
             try {
-                $hash = $this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao);
+                $hash = $this->app()->getAcessoService()->verificaSenha($senha, $confirmacao);
                 $query = $this->em()->createQuery("UPDATE Novosga\Model\Usuario u SET u.senha = :senha WHERE u.id = :id");
                 $query->setParameter('senha', $hash);
                 $query->setParameter('id', $usuario->getId());

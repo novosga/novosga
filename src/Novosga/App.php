@@ -2,7 +2,7 @@
 namespace Novosga;
 
 use Exception;
-use Novosga\Business\AcessoBusiness;
+use Novosga\Service\AcessoService;
 
 /**
  * Novo SGA App
@@ -11,14 +11,14 @@ use Novosga\Business\AcessoBusiness;
  */
 class App extends \Slim\Slim {
     
-    const VERSION = "1.3.3";
+    const VERSION = "1.4.0-dev";
     const CHARSET = "utf-8";
     
     // SESSION KEYS
     const K_CURRENT_USER    = "SGA_CURRENT_USER";
     
     private $context;
-    private $acessoBusiness;
+    private $acessoService;
     
     private static $instance;
     
@@ -74,7 +74,7 @@ class App extends \Slim\Slim {
 
     public function prepare(Config\DatabaseConfig $db) {
         $this->context = new Context($this, $db);
-        $this->acessoBusiness = new AcessoBusiness();
+        $this->acessoService = new AcessoService();
         $this->add(new \Novosga\Slim\InstallMiddleware($this->context));
         $this->add(new \Novosga\Slim\AuthMiddleware($this->context));
     }
@@ -87,10 +87,10 @@ class App extends \Slim\Slim {
     }
     
     /**
-     * @return AcessoBusiness
+     * @return AcessoService
      */
-    public function getAcessoBusiness() {
-        return $this->acessoBusiness;
+    public function getAcessoService() {
+        return $this->acessoService;
     }
         
     public function gotoLogin() {

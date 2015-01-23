@@ -467,10 +467,10 @@ class InstallController extends InternalController {
                     $conn->exec(file_get_contents($sqlInitFile));
                     
                     // instalando modulos
-                    $mb = new \Novosga\Business\ModuloBusiness($em);
+                    $service = new \Novosga\Service\ModuloService($em);
                     $modules = $this->modules();
                     foreach ($modules as $dir) {
-                        $mb->install($dir, "sga." . basename($dir), 1);
+                        $service->install($dir, "sga." . basename($dir), 1);
                     }
                     
                     // finalizando instalacao com SQL auxiliar

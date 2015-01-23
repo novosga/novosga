@@ -13,8 +13,8 @@ use Novosga\Controller\InternalController;
 class LoginController extends InternalController {
     
     public function index(Context $context) {
-        if ($this->app()->getAcessoBusiness()->isLogged($context)) {
-            if ($this->app()->getAcessoBusiness()->isValidSession($context)) {
+        if ($this->app()->getAcessoService()->isLogged($context)) {
+            if ($this->app()->getAcessoService()->isValidSession($context)) {
                 if ($context->getModulo()) {
                     $this->app()->gotoModule();
                 } else {
@@ -49,7 +49,7 @@ class LoginController extends InternalController {
                 $em->flush();
                 // caso o usuario so tenha acesso a uma unica unidade, ja define como atual
                 $us = new \Novosga\Model\Util\UsuarioSessao($user);
-                $unidades = $this->app()->getAcessoBusiness()->unidades($context, $us);
+                $unidades = $this->app()->getAcessoService()->unidades($context, $us);
                 if (sizeof($unidades) == 1) {
                     $us->setUnidade($unidades[0]);
                 }

@@ -1,5 +1,5 @@
 <?php
-namespace Novosga\Business;
+namespace Novosga\Service;
 
 use Exception;
 use Novosga\Model\Modulo;
@@ -8,11 +8,11 @@ use Novosga\Util\FileUtils;
 use ZipArchive;
 
 /**
- * ModuloBusiness
+ * ModuloService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ModuloBusiness extends ModelBusiness {
+class ModuloService extends ModelService {
     
     /**
      * 

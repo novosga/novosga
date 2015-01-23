@@ -1,5 +1,5 @@
 <?php
-namespace Novosga\Business;
+namespace Novosga\Service;
 
 use Exception;
 use Novosga\Context;
@@ -8,11 +8,11 @@ use Novosga\Model\Util\UsuarioSessao;
 use Novosga\Security;
 
 /**
- * AcessoBusiness
+ * AcessoService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AcessoBusiness {
+class AcessoService {
     
     private $modulos = array(
         Modulo::MODULO_GLOBAL => array(),

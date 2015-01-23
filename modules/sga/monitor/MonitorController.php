@@ -4,12 +4,11 @@ namespace modules\sga\monitor;
 use Exception;
 use Novosga\Context;
 use Novosga\Util\Arrays;
-use Novosga\Util\DateUtil;
 use Novosga\Model\Unidade;
 use Novosga\Http\JsonResponse;
 use Novosga\Controller\ModuleController;
-use Novosga\Business\AtendimentoBusiness;
-use Novosga\Business\FilaBusiness;
+use Novosga\Service\AtendimentoService;
+use Novosga\Service\FilaService;
 
 /**
  * MonitorController
@@ -45,7 +44,7 @@ class MonitorController extends ModuleController {
     public function ajax_update(Context $context) {
         $response = new JsonResponse();
         $unidade = $context->getUnidade();
-        $filaBusiness = new FilaBusiness($this->em());
+        $filaService = new FilaService($this->em());
         if ($unidade) {
             $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
@@ -55,7 +54,7 @@ class MonitorController extends ModuleController {
                 $em = $context->database()->createEntityManager();
                 if ($servicos) {
                     foreach ($servicos as $su) {
-                        $rs = $filaBusiness->filaServico($unidade, $su->getServico());
+                        $rs = $filaService->filaServico($unidade, $su->getServico());
                         $total = count($rs);
                         // prevent overhead
                         if ($total) {
@@ -80,8 +79,8 @@ class MonitorController extends ModuleController {
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $id = (int) $context->request()->get('id');
-            $ab = new AtendimentoBusiness($this->em());
-            $atendimento = $ab->buscaAtendimento($unidade, $id);
+            $service = new AtendimentoService($this->em());
+            $atendimento = $service->buscaAtendimento($unidade, $id);
             if ($atendimento) {
                 $response->data = $atendimento->toArray();
                 $response->success = true;
@@ -101,8 +100,8 @@ class MonitorController extends ModuleController {
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
             $numero = $context->request()->get('numero');
-            $ab = new AtendimentoBusiness($this->em());
-            $atendimentos = $ab->buscaAtendimentos($unidade, $numero);
+            $service = new AtendimentoService($this->em());
+            $atendimentos = $service->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->toArray();
@@ -133,8 +132,8 @@ class MonitorController extends ModuleController {
             $servico = (int) $context->request()->post('servico');
             $prioridade = (int) $context->request()->post('prioridade');
             
-            $ab = new AtendimentoBusiness($this->em());
-            $response->success = $ab->transferir($atendimento, $unidade, $servico, $prioridade);
+            $service = new AtendimentoService($this->em());
+            $response->success = $service->transferir($atendimento, $unidade, $servico, $prioridade);
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
@@ -155,7 +154,7 @@ class MonitorController extends ModuleController {
             }
             $id = (int) $context->request()->post('id');
             $conn = $this->em()->getConnection();
-            $status = join(',', array(AtendimentoBusiness::SENHA_CANCELADA, AtendimentoBusiness::NAO_COMPARECEU));
+            $status = join(',', array(AtendimentoService::SENHA_CANCELADA, AtendimentoService::NAO_COMPARECEU));
             // reativa apenas se estiver finalizada (data fim diferente de nulo)
             $stmt = $conn->prepare("
                 UPDATE 
@@ -169,7 +168,7 @@ class MonitorController extends ModuleController {
                     status IN ({$status})
             ");
             $stmt->bindValue('id', $id);
-            $stmt->bindValue('status', AtendimentoBusiness::SENHA_EMITIDA);
+            $stmt->bindValue('status', AtendimentoService::SENHA_EMITIDA);
             $stmt->bindValue('unidade', $unidade->getId());
             $response->success = $stmt->execute() > 0;
         } catch (Exception $e) {
@@ -191,8 +190,8 @@ class MonitorController extends ModuleController {
             }
             $id = (int) $context->request()->post('id');
             $atendimento = $this->getAtendimento($unidade, $id);
-            $ab = new AtendimentoBusiness($this->em());
-            $response->success = $ab->cancelar($atendimento, $unidade);
+            $service = new AtendimentoService($this->em());
+            $response->success = $service->cancelar($atendimento, $unidade);
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }

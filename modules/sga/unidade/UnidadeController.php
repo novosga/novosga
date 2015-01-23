@@ -2,7 +2,7 @@
 namespace modules\sga\unidade;
 
 use Exception;
-use Novosga\Business\AtendimentoBusiness;
+use Novosga\Service\AtendimentoService;
 use Novosga\Context;
 use Novosga\Controller\ModuleController;
 use Novosga\Http\JsonResponse;
@@ -167,8 +167,8 @@ class UnidadeController extends ModuleController {
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade definida'));
             }
-            $ab = new AtendimentoBusiness($this->em());
-            $ab->acumularAtendimentos($unidade);
+            $service = new AtendimentoService($this->em());
+            $service->acumularAtendimentos($unidade);
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();

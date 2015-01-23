@@ -2,7 +2,7 @@
 namespace Novosga\Model;
 
 use Novosga\Model\Util\Fila;
-use Novosga\Business\AtendimentoBusiness;
+use Novosga\Service\AtendimentoService;
 
 /**
  * Servico Unidade

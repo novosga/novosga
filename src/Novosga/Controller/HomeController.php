@@ -73,7 +73,7 @@ class HomeController extends AppController {
             $atual = $context->request()->post('atual');
             $senha = $context->request()->post('senha');
             $confirmacao = $context->request()->post('confirmacao');
-            $hash = $this->app()->getAcessoBusiness()->verificaSenha($senha, $confirmacao);
+            $hash = $this->app()->getAcessoService()->verificaSenha($senha, $confirmacao);
             $em = $context->database()->createEntityManager();
             // verificando senha atual
             $query = $em->createQuery("SELECT u.senha FROM Novosga\Model\Usuario u WHERE u.id = :id");

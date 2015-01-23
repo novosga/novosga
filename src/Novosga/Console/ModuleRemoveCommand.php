@@ -3,7 +3,7 @@ namespace Novosga\Console;
 
 use Doctrine\ORM\EntityManager;
 use Exception;
-use Novosga\Business\ModuloBusiness;
+use Novosga\Service\ModuloService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,8 +37,8 @@ class ModuleRemoveCommand extends Command {
     protected function execute(InputInterface $input, OutputInterface $output) {
         try {
             $key = $input->getArgument('key');
-            $business = new ModuloBusiness($this->em);
-            $business->uninstall($key);
+            $service = new ModuloService($this->em);
+            $service->uninstall($key);
             $output->writeln("<info>Módulo desinstalado com sucesso</info>");
         } catch (Exception $e) {
             $output->writeln("<error>{$e->getMessage()}</error>");

@@ -3,7 +3,7 @@ namespace Novosga\Model;
 
 use Novosga\Model\Util\Cliente;
 use Novosga\Model\Util\Senha;
-use Novosga\Business\AtendimentoBusiness;
+use Novosga\Service\AtendimentoService;
 
 /**
  * AbstractAtendimento
@@ -243,7 +243,7 @@ abstract class AbstractAtendimento extends SequencialModel
      * @return type
      */
     public function getNomeStatus() {
-        return AtendimentoBusiness::nomeSituacao($this->getStatus());
+        return AtendimentoService::nomeSituacao($this->getStatus());
     }
 
     public function setStatus($status) {
@@ -362,7 +362,7 @@ abstract class AbstractAtendimento extends SequencialModel
         if (!$this->senha) {
             $this->senha = new Senha();
             $this->senha->setSigla($this->siglaSenha);
-            $numero = (AtendimentoBusiness::isNumeracaoServico()) ? $this->numeroSenhaServico : $this->numeroSenha;
+            $numero = (AtendimentoService::isNumeracaoServico()) ? $this->numeroSenhaServico : $this->numeroSenha;
             $this->senha->setNumero((int) $numero);
             $this->senha->setPrioridade($this->prioridade);
         }

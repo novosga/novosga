@@ -8,7 +8,7 @@ use Novosga\Model\Configuracao;
 use Novosga\Model\Util\Senha;
 use Novosga\Auth\Authentication;
 use Novosga\Controller\ModuleController;
-use Novosga\Business\AtendimentoBusiness;
+use Novosga\Service\AtendimentoService;
 use Novosga\Model\Modulo;
 
 /**
@@ -97,8 +97,8 @@ class AdminController extends ModuleController {
             if (!$context->request()->isPost()) {
                 throw new Exception(_('Somente via POST'));
             }
-            $ab = new AtendimentoBusiness($this->em());
-            $ab->acumularAtendimentos();
+            $service = new AtendimentoService($this->em());
+            $service->acumularAtendimentos();
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();

@@ -76,7 +76,7 @@ $app->get('/print/:id/:hash', function($id, $hash) use ($app) {
 
 $app->any('/modules/:moduleKey(/:action+)', function($moduleKey, $action = 'index') use ($app, $loader) {
     define('MODULE', $moduleKey);
-    if (!$app->getAcessoBusiness()->checkAccess($app->getContext(), $moduleKey, $action)) {
+    if (!$app->getAcessoService()->checkAccess($app->getContext(), $moduleKey, $action)) {
         $app->gotoHome();
     }
     $args = array($app->getContext());

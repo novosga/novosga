@@ -4,7 +4,7 @@ namespace modules\sga\modulos;
 
 use Exception;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Novosga\Business\ModuloBusiness;
+use Novosga\Service\ModuloService;
 use Novosga\Context;
 use Novosga\Controller\ModuleController;
 use Novosga\Http\JsonResponse;
@@ -122,8 +122,8 @@ class ModulosController extends ModuleController {
                 throw new Exception($fu->getErrorMsg());
             }
             // install module
-            $business = new ModuloBusiness($this->em());
-            $business->extractAndInstall($fu->getSavedFile(), $fu->getExtension());
+            $service = new ModuloService($this->em());
+            $service->extractAndInstall($fu->getSavedFile(), $fu->getExtension());
             FileUtils::rm($fu->getSavedFile());
             // response
             $response->success = true;
@@ -136,8 +136,8 @@ class ModulosController extends ModuleController {
     
     public function delete(Context $context, $id) {
         $modulo = $this->find($id);
-        $business = new ModuloBusiness($this->em());
-        $business->uninstall($modulo->getChave());
+        $service = new ModuloService($this->em());
+        $service->uninstall($modulo->getChave());
         $this->app()->redirect("{$context->request()->getRootUri()}/modules/sga.modulos");
     }
     

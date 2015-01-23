@@ -1,5 +1,5 @@
 <?php
-namespace Novosga\Business;
+namespace Novosga\Service;
 
 use Doctrine\ORM\QueryBuilder;
 use Novosga\Config\AppConfig;
@@ -8,11 +8,11 @@ use Novosga\Model\Unidade;
 use Novosga\Model\Util\UsuarioSessao;
 
 /**
- * FilaBusiness
+ * FilaService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class FilaBusiness extends ModelBusiness {
+class FilaService extends ModelService {
     
     // default queue ordering
     public static $ordering = array(
@@ -78,7 +78,7 @@ class FilaBusiness extends ModelBusiness {
         $this->applyOrders($builder);
 
         $query = $builder->getQuery()
-                ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
+                ->setParameter('status', AtendimentoService::SENHA_EMITIDA)
                 ->setParameter('unidade', $usuario->getUnidade()->getId())
                 ->setParameter('servicos', $servicos)
         ;
@@ -111,7 +111,7 @@ class FilaBusiness extends ModelBusiness {
         
         $this->applyOrders($builder);
         
-        $builder->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA);
+        $builder->setParameter('status', AtendimentoService::SENHA_EMITIDA);
         $builder->setParameter('unidade', (int) $unidade);
         $builder->setParameter('servico', (int) $servico);
         

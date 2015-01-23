@@ -1,5 +1,5 @@
 <?php
-namespace Novosga\Business;
+namespace Novosga\Service;
 
 use DateTime;
 use Doctrine\DBAL\LockMode;
@@ -19,11 +19,11 @@ use Novosga\Util\DateUtil;
 use PDO;
 
 /**
- * AtendimentoBusiness
+ * AtendimentoService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AtendimentoBusiness extends ModelBusiness {
+class AtendimentoService extends ModelService {
     
     // estados do atendimento
     const SENHA_EMITIDA = 1;
@@ -228,7 +228,7 @@ class AtendimentoBusiness extends ModelBusiness {
     public function chamar(Atendimento $atendimento, Usuario $usuario, $local) {
         $atendimento->setUsuario($usuario);
         $atendimento->setLocal($local);
-        $atendimento->setStatus(AtendimentoBusiness::CHAMADO_PELA_MESA);
+        $atendimento->setStatus(AtendimentoService::CHAMADO_PELA_MESA);
         $atendimento->setDataChamada(new DateTime());
         // atualiza o proximo da fila
         $query = $this->em->createQuery("
@@ -244,7 +244,7 @@ class AtendimentoBusiness extends ModelBusiness {
         $query->setParameter('novoStatus', $atendimento->getStatus());
         $query->setParameter('data', $atendimento->getDataChamada());
         $query->setParameter('id', $atendimento->getId());
-        $query->setParameter('statusAtual', AtendimentoBusiness::SENHA_EMITIDA);
+        $query->setParameter('statusAtual', AtendimentoService::SENHA_EMITIDA);
         /* 
          * caso entre o intervalo do select e o update, o proximo ja tiver sido chamado
          * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
@@ -259,9 +259,9 @@ class AtendimentoBusiness extends ModelBusiness {
      */
     public function atendimentoAndamento($usuario) {
         $status = array(
-            AtendimentoBusiness::CHAMADO_PELA_MESA,
-            AtendimentoBusiness::ATENDIMENTO_INICIADO,
-            AtendimentoBusiness::ATENDIMENTO_ENCERRADO
+            AtendimentoService::CHAMADO_PELA_MESA,
+            AtendimentoService::ATENDIMENTO_INICIADO,
+            AtendimentoService::ATENDIMENTO_ENCERRADO
         );
         $query = $this->em->createQuery("SELECT e FROM Novosga\Model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)");
         $query->setParameter('usuario', $usuario);
@@ -340,7 +340,7 @@ class AtendimentoBusiness extends ModelBusiness {
         $atendimento->setServicoUnidade($su);
         $atendimento->setPrioridade($prioridade);
         $atendimento->setUsuarioTriagem($usuario);
-        $atendimento->setStatus(AtendimentoBusiness::SENHA_EMITIDA);
+        $atendimento->setStatus(AtendimentoService::SENHA_EMITIDA);
         $atendimento->setLocal(0);
         $atendimento->setNomeCliente($nomeCliente);
         $atendimento->setDocumentoCliente($documentoCliente);
@@ -436,7 +436,7 @@ class AtendimentoBusiness extends ModelBusiness {
         $novo->setServicoUnidade($su);
         $novo->setPai($atendimento);
         $novo->setDataChegada(new DateTime());
-        $novo->setStatus(AtendimentoBusiness::SENHA_EMITIDA);
+        $novo->setStatus(AtendimentoService::SENHA_EMITIDA);
         $novo->setSiglaSenha($atendimento->getSenha()->getSigla());
         $novo->setNumeroSenha($atendimento->getNumeroSenha());
         $novo->setNumeroSenhaServico($atendimento->getNumeroSenhaServico());
@@ -500,7 +500,7 @@ class AtendimentoBusiness extends ModelBusiness {
                     e.unidade = :unidade AND
                     e.dataFim IS NULL
                 ')
-                ->setParameter('status', AtendimentoBusiness::SENHA_CANCELADA)
+                ->setParameter('status', AtendimentoService::SENHA_CANCELADA)
                 ->setParameter('data', new DateTime())
                 ->setParameter('id', $atendimento)
                 ->setParameter('unidade', $unidade)
@@ -529,8 +529,8 @@ class AtendimentoBusiness extends ModelBusiness {
                     e.unidade = :unidade AND
                     e.status IN (:statuses)
                 ')
-                ->setParameter('status', AtendimentoBusiness::SENHA_EMITIDA)
-                ->setParameter('statuses', array(AtendimentoBusiness::SENHA_CANCELADA, AtendimentoBusiness::NAO_COMPARECEU))
+                ->setParameter('status', AtendimentoService::SENHA_EMITIDA)
+                ->setParameter('statuses', array(AtendimentoService::SENHA_CANCELADA, AtendimentoService::NAO_COMPARECEU))
                 ->setParameter('id', $atendimento)
                 ->setParameter('unidade', $unidade)
                 ->execute() > 0
