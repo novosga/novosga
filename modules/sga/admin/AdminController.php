@@ -6,7 +6,7 @@ use Novosga\Context;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Configuracao;
 use Novosga\Model\Util\Senha;
-use Novosga\Auth\Authentication;
+use Novosga\Auth\AuthenticationProvider;
 use Novosga\Controller\ModuleController;
 use Novosga\Service\AtendimentoService;
 use Novosga\Model\Modulo;
@@ -28,7 +28,7 @@ class AdminController extends ModuleController {
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e ORDER BY e.nome");
         $unidades = $query->getResult();
         // método de autenticação
-        $auth = Configuracao::get($this->em(), Authentication::KEY);
+        $auth = Configuracao::get($this->em(), AuthenticationProvider::KEY);
         if ($auth) {
             $auth = $auth->getValor();
         } else {
@@ -45,7 +45,7 @@ class AdminController extends ModuleController {
                     'filter' => '',
                 )
             );
-            Configuracao::set($this->em(), Authentication::KEY, $auth);
+            Configuracao::set($this->em(), AuthenticationProvider::KEY, $auth);
         }
         // tipo de numeração de senha
         $numeracao = Configuracao::get($this->em(), Senha::TIPO_NUMERACAO);
@@ -70,7 +70,7 @@ class AdminController extends ModuleController {
     public function auth_save(Context $context) {
         $response = new JsonResponse();
         try {
-            $auth = Configuracao::get($this->em(), Authentication::KEY);
+            $auth = Configuracao::get($this->em(), AuthenticationProvider::KEY);
             $value = $auth->getValor();
             $type = $context->request()->post('type');
             $value['type'] = $type;
@@ -80,12 +80,12 @@ class AdminController extends ModuleController {
             foreach ($_POST as $k => $v) {
                 $value[$type][$k] = $v;
             }
-            $auth = \Novosga\Auth\AuthFactory::create($context, $type, $value);
+            $auth = \Novosga\Auth\AuthProviderFactory::create($context, $type, $value);
             if (!$auth) {
                 throw new \Exception(_('Opção inválida'));
             }
             $auth->test();
-            Configuracao::set($this->em(), Authentication::KEY, $value);
+            Configuracao::set($this->em(), AuthenticationProvider::KEY, $value);
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();

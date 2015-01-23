@@ -4,11 +4,11 @@ namespace Novosga\Auth;
 use Novosga\Util\Arrays;
 
 /**
- * LDAP Authentication
+ * LDAP authentication provider
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class LdapAuthentication extends Authentication {
+class LdapProvider extends AuthenticationProvider {
     
     const DEFAULT_PORT = 389;
     

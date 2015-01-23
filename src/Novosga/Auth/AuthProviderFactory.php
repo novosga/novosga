@@ -5,11 +5,11 @@ use Novosga\Util\Arrays;
 use Novosga\Context;
 
 /**
- * Authentication
+ * Authentication provider factory
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AuthFactory {
+class AuthProviderFactory {
     
     public static function createList(Context $context, array $config = array()) {
         $methods = array();
@@ -20,7 +20,7 @@ class AuthFactory {
         }
         // sempre tenta via banco no ultimo caso
         if ($type !== 'db') {
-            $methods[] = new DatabaseAuthentication($context->database()->createEntityManager(), $config);
+            $methods[] = new DatabaseProvider($context->database()->createEntityManager(), $config);
         }
         return $methods;
     }
@@ -30,10 +30,10 @@ class AuthFactory {
         $em = $context->database()->createEntityManager();
         switch ($type) {
         case 'ldap':
-            return new LdapAuthentication($em, $config);
+            return new LdapProvider($em, $config);
             break;
         case 'db':
-            return new DatabaseAuthentication($em, $config);
+            return new DatabaseProvider($em, $config);
         default:
             null;
         }

@@ -4,13 +4,17 @@ namespace Novosga\Auth;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Authentication
+ * AuthenticationProvider
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class Authentication {
+abstract class AuthenticationProvider {
     
     const KEY = 'auth';
+    
+    /**
+     * @var EntityManager
+     */
     protected $em;
     
     public function __construct(EntityManager $em, array $config) {

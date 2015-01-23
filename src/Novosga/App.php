@@ -139,18 +139,18 @@ class App extends \Slim\Slim {
     
     /**
      * Autentica o usuario do sistema
-     * @param type $user
-     * @param type $pass
+     * @param string $user
+     * @param string $pass
      * @return Usuario|null
      */
     public function auth($login, $pass) {
         $em = $this->getContext()->database()->createEntityManager();
-        $config = \Novosga\Model\Configuracao::get($em, \Novosga\Auth\Authentication::KEY);
+        $config = \Novosga\Model\Configuracao::get($em, \Novosga\Auth\AuthenticationProvider::KEY);
         $auth = ($config) ? $config->getValor() : array();
-        $authMethods = \Novosga\Auth\AuthFactory::createList($this->getContext(), $auth);
-        foreach ($authMethods as $auth) {
+        $providers = \Novosga\Auth\AuthProviderFactory::createList($this->getContext(), $auth);
+        foreach ($providers as $provider) {
             try {
-                $user = $auth->auth($login, $pass);
+                $user = $provider->auth($login, $pass);
                 if ($user) {
                     return $user;
                 }
