@@ -27,4 +27,15 @@ class Strings {
         return str_replace('"', '\"', $str);
     }
     
+    public static function sqlLikeParam($str, $leftWildcard = true, $rightWildcard = true) {
+        $str = join("%", explode(" ", trim($str)));
+        if ($leftWildcard) {
+            $str = "%{$str}";
+        }
+        if ($rightWildcard) {
+            $str = "{$str}%";
+        }
+        return $str;
+    }
+    
 }

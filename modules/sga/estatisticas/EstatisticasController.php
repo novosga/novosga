@@ -6,10 +6,13 @@ use Novosga\App;
 use Novosga\Context;
 use Novosga\Service\AtendimentoService;
 use Novosga\Model\Modulo;
+use Novosga\Service\UnidadeService;
+use Novosga\Service\UsuarioService;
 use Novosga\Util\DateUtil;
 use Novosga\Http\JsonResponse;
 use modules\sga\estatisticas\Relatorio;
 use Novosga\Controller\ModuleController;
+use Novosga\Util\Strings;
 
 /**
  * EstatisticasController
@@ -56,7 +59,7 @@ class EstatisticasController extends ModuleController {
             $arr[$u->getId()] = $u->getNome();
         }
         $this->app()->view()->set('unidadesJson', json_encode($arr));
-        $this->app()->view()->set('now', \Novosga\Util\DateUtil::now(_('d/m/Y')));
+        $this->app()->view()->set('now', DateUtil::now(_('d/m/Y')));
     }
     
     /**
@@ -143,7 +146,8 @@ class EstatisticasController extends ModuleController {
                 $relatorio->setDados($this->tempo_medio_atendentes($dataInicial, $dataFinal));
                 break;
             case 7:
-                $relatorio->setDados($this->lotacoes($unidade));
+                $servico = $context->request()->get('servico');
+                $relatorio->setDados($this->lotacoes($unidade, $servico));
                 break;
             case 8:
                 $relatorio->setDados($this->cargos());
@@ -444,7 +448,6 @@ class EstatisticasController extends ModuleController {
         $query->setParameter('dataInicial', $dataInicial);
         $query->setParameter('dataFinal', $dataFinal);
         $query->setMaxResults(self::MAX_RESULTS);
-        $dados = array();
         $rs = $query->getResult();
         foreach ($rs as $r) {
             $d = array(
@@ -473,32 +476,28 @@ class EstatisticasController extends ModuleController {
      * Retorna todos os usuarios e cargos (lotação) por unidade
      * @return array
      */
-    private function lotacoes($unidadeId = 0) {
+    private function lotacoes($unidadeId = 0, $nomeServico = '') {
+        $nomeServico = trim($nomeServico);
+        if (!empty($nomeServico)) {
+            $nomeServico = Strings::sqlLikeParam($nomeServico);
+        }
+        
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
-        $query = $this->em()->createQuery("
-            SELECT
-                l
-            FROM
-                Novosga\Model\Lotacao l
-                LEFT JOIN l.usuario u
-                LEFT JOIN l.grupo g
-                LEFT JOIN l.cargo c
-            WHERE
-                g.left <= (
-                    SELECT g2.left FROM Novosga\Model\Grupo g2 WHERE g2.id = (SELECT u2g.id FROM Novosga\Model\Unidade u2 INNER JOIN u2.grupo u2g WHERE u2.id = :unidade)
-                ) AND
-                g.right >= (
-                    SELECT g3.right FROM Novosga\Model\Grupo g3 WHERE g3.id = (SELECT u3g.id FROM Novosga\Model\Unidade u3 INNER JOIN u3.grupo u3g WHERE u3.id = :unidade)
-                )
-            ORDER BY
-                u.login
-        ");
+        
+        $usuarioService = new UsuarioService($this->em());
+        $unidadeService = new UnidadeService($this->em());
+        
         foreach ($unidades as $unidade) {
-            $query->setParameter('unidade', $unidade);
+            $lotacoes = $unidadeService->lotacoesComServico($unidade->getId(), $nomeServico);
+            $servicos = array();
+            foreach ($lotacoes as $lotacao) {
+                $servicos[$lotacao->getUsuario()->getId()] = $usuarioService->servicos($lotacao->getUsuario(), $unidade);
+            }
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
-                'lotacoes' => $query->getResult()
+                'lotacoes' => $lotacoes,
+                'servicos' => $servicos
             );
         }
         return $dados;
