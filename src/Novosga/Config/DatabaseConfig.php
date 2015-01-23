@@ -65,6 +65,13 @@ class DatabaseConfig extends ConfigFile {
             $config->setMetadataCacheImpl($this->cacheDriver);
             $config->setQueryCacheImpl($this->cacheDriver);
             $config->setResultCacheImpl($this->cacheDriver);
+            
+            // custom config
+            $customSetup = $this->get('setup');
+            if ($customSetup && is_callable($customSetup)) {
+                $customSetup($config);
+            }
+            
             $this->em = EntityManager::create($this->values(), $config);
         }
         return $this->em;

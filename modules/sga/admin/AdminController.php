@@ -58,7 +58,9 @@ class AdminController extends ModuleController {
         // view values
         $this->app()->view()->set('unidades', $unidades);
         // database config
-        $this->app()->view()->set('dbValues', $context->database()->values());
+        $this->app()->view()->set('dbValues', array_filter($context->database()->values(), function($item) {
+            return is_string($item);
+        }));
         // authentication config
         $this->app()->view()->set('auth', $auth);
         $this->app()->view()->set('numeracao', $numeracao);
