@@ -373,7 +373,7 @@ abstract class AbstractAtendimento extends SequencialModel
         $arr = array(
             'id' => $this->getId(),
             'senha' => $this->getSenha()->toString(),
-            'servico' => $this->getServicoUnidade()->getNome(),
+            'servico' => $this->getServicoUnidade()->getServico()->getNome(),
             'prioridade' => $this->getSenha()->isPrioridade(),
             'nomePrioridade' => $this->getSenha()->getPrioridade()->getNome(),
             'chegada' => $this->getDataChegada()->format('Y-m-d H:i:s'),

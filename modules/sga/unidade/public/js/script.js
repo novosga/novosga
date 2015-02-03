@@ -37,12 +37,6 @@ SGA.Unidade = {
     },
         
     Servicos: {
-        init: function() {
-            $('#servicos td.nome input').each(function(i,v) {
-                var input = $(v);
-                input.width(input.parent().width() - 60);
-            });
-        },
         toggle: function(btn) {
             btn = $(btn);
             SGA.ajax({
@@ -70,27 +64,12 @@ SGA.Unidade = {
                 data: {
                     id: id, 
                     sigla: $('#sigla-' + id).val(),
-                    nome: $('#nome-' + id).val(),
                     local: $('#local-' + id).val()
                 }
             });
-        },
-        
-        reverteNome: function(id) {
-            if (id > 0) {
-                SGA.ajax({
-                    url: SGA.url('reverte_nome'),
-                    type: 'post',
-                    data: {
-                        id: id
-                    },
-                    success: function(response) {
-                        $('#nome-' + id).val(response.data.nome);
-                    }
-                });
-            }
         }
-    },
+        
+    }
     
 };
 

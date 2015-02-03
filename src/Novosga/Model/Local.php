@@ -6,9 +6,12 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="locais")
  */
-class Local extends SequencialModel {
+class Local extends SequencialModel
+{
 
-    /** @Column(type="string", name="nome", length=20, nullable=false, unique=true) */
+    /** 
+     * @Column(type="string", name="nome", length=20, nullable=false, unique=true) 
+     */
     protected $nome;
 
     public function __construct() {
@@ -20,6 +23,13 @@ class Local extends SequencialModel {
 
     public function getNome() {
         return $this->nome;
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'id' => $this->getId(),
+            'nome' => $this->getNome()
+        );
     }
 
 }

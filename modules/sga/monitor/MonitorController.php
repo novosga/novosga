@@ -9,6 +9,7 @@ use Novosga\Http\JsonResponse;
 use Novosga\Controller\ModuleController;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\FilaService;
+use Novosga\Service\ServicoService;
 
 /**
  * MonitorController
@@ -31,14 +32,8 @@ class MonitorController extends ModuleController {
     }
     
     private function servicos(Unidade $unidade, $where = "") {
-        $dql = "SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1";
-        if (!empty($where)) {
-            $dql .= " AND $where";
-        }
-        $dql .= " ORDER BY e.nome";
-        $query = $this->em()->createQuery($dql);
-        $query->setParameter('unidade', $unidade->getId());
-        return $query->getResult();
+        $service = new ServicoService($this->em());
+        return $service->servicosUnidade($unidade, $where);
     }
     
     public function ajax_update(Context $context) {

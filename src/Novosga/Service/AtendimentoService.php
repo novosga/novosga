@@ -316,10 +316,8 @@ class AtendimentoService extends ModelService {
         }
         
         // verificando se o servico esta disponivel na unidade
-        $query = $this->em->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.servico = :servico");
-        $query->setParameter('unidade', $unidade);
-        $query->setParameter('servico', $servico);
-        $su = $query->getOneOrNullResult();
+        $service = new ServicoService($this->em);
+        $su = $service->servicoUnidade($prioridade, $servico);
         if (!$su) {
             throw new Exception(_('Serviço não disponível para a unidade atual'));
         }
@@ -425,12 +423,9 @@ class AtendimentoService extends ModelService {
      */
     public function redirecionar(Atendimento $atendimento, Usuario $usuario, $unidade, $servico) {
         // copiando a senha do atendimento atual
-        $su = $this->em
-                ->createQuery('SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade')
-                ->setParameter('servico', $servico)
-                ->setParameter('unidade', $unidade)
-                ->getSingleResult();
-        ;
+        $service = new ServicoService();
+        $su = $service->servicoUnidade($unidade, $servico);
+        
         $novo = new Atendimento();
         $novo->setLocal(0);
         $novo->setServicoUnidade($su);

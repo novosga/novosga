@@ -4,6 +4,7 @@ namespace Novosga\Model\Util;
 use Novosga\Model\Usuario;
 use Novosga\Model\Unidade;
 use Doctrine\ORM\EntityManager;
+use Novosga\Service\ServicoService;
 
 /**
  * Usuario utilizado para salvar na sessao. Assim evitar de salvar
@@ -156,21 +157,8 @@ class UsuarioSessao {
      */
     public function getServicos() {
         if (!$this->servicos && $this->getUnidade()) {
-            $query = $this->em->createQuery("
-                SELECT 
-                    e 
-                FROM 
-                    Novosga\Model\ServicoUsuario e 
-                    JOIN 
-                        e.servico s 
-                WHERE 
-                    e.usuario = :usuario AND 
-                    e.unidade = :unidade AND 
-                    s.status = 1
-            ");
-            $query->setParameter('usuario', $this->getId());
-            $query->setParameter('unidade', $this->getUnidade()->getId());
-            $this->servicos = $query->getResult();
+            $service = new ServicoService($this->em);
+            $this->servicos = $service->servicosUsuario($this->getUnidade(), $this->getId());
         }
         return $this->servicos;
     }
@@ -181,22 +169,8 @@ class UsuarioSessao {
      */
     public function getServicosIndisponiveis() {
         if (!$this->servicosIndisponiveis && $this->getUnidade()) {
-            $query = $this->em->createQuery("
-                SELECT 
-                    e 
-                FROM 
-                    Novosga\Model\ServicoUnidade e
-                    JOIN e.servico s
-                WHERE 
-                    e.status = 1 AND
-                    e.unidade = :unidade AND
-                    s.id NOT IN (
-                        SELECT s2.id FROM Novosga\Model\ServicoUsuario a JOIN a.servico s2 WHERE a.usuario = :usuario AND a.unidade = :unidade
-                    )
-            ");
-            $query->setParameter('usuario', $this->getId());
-            $query->setParameter('unidade', $this->getUnidade()->getId());
-            $this->servicosIndisponiveis = $query->getResult();
+            $service = new ServicoService($this->em);
+            $this->servicosIndisponiveis = $service->servicosIndisponiveis($this->getUnidade(), $this->getId());
         }
         return $this->servicosIndisponiveis;
     }

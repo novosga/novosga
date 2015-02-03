@@ -11,6 +11,7 @@ use Novosga\Http\JsonResponse;
 use Novosga\Controller\ModuleController;
 use Novosga\Service\AtendimentoService;
 use Novosga\Model\Unidade;
+use Novosga\Service\ServicoService;
 
 /**
  * TriagemController
@@ -31,9 +32,8 @@ class TriagemController extends ModuleController {
     } 
     
     private function servicos(Unidade $unidade) {
-        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.unidade = :unidade AND e.status = 1 ORDER BY e.nome");
-        $query->setParameter('unidade', $unidade->getId());
-        return $query->getResult();
+        $service = new ServicoService($this->em());
+        return $service->servicosUnidade($unidade);
     }
     
     public function imprimir(Context $context) {

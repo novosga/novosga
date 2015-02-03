@@ -12,7 +12,7 @@
     </form>
     {% for su in servicos %}
     <div id="servico-{{ su.servico.id }}" class="servico empty" data-id="{{ su.servico.id }}">
-        <span class="title">{{ su.sigla }} - {{ su.nome }}</span>
+        <span class="title">{{ su.sigla }} - {{ su.servico.nome }}</span>
         <ul class="fila">
         </ul>
     </div>
@@ -153,7 +153,7 @@
                     <label for="transfere_servico">{% trans %}Novo serviço{% endtrans %}</label>
                     <select id="transfere_servico" class="form-control">
                         {% for su in servicos %}
-                        <option value="{{ su.servico.id }}">{{ su.nome }}</option>
+                        <option value="{{ su.servico.id }}">{{ su.servico.nome }}</option>
                         {% endfor %}
                     </select>
                 </div>

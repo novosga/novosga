@@ -151,7 +151,8 @@ SGA.Usuarios = {
                 success: function(response) {
                     var servicos = $('<ul></ul>');
                     for (var i = 0; i < response.data.length; i++) {
-                        servicos.append('<li><label><input type="checkbox" value="' + response.data[i].id + '" />' + response.data[i].nome + '</label></li>');
+                        var su = response.data[i];
+                        servicos.append('<li><label><input type="checkbox" value="' + su.servico.id + '" />' + su.servico.nome + '</label></li>');
                     }
                     $("#add-servicos").html(servicos);
                 }

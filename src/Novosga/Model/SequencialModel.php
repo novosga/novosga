@@ -8,7 +8,8 @@ namespace Novosga\Model;
  * 
  * @MappedSuperClass
  */
-abstract class SequencialModel extends Model {
+abstract class SequencialModel extends Model  implements \JsonSerializable
+{
 
     /** 
      * @Id 
@@ -37,5 +38,12 @@ abstract class SequencialModel extends Model {
     public function toString() {
         return get_class($this) . '[id=' . $this->id . ']';
     }
+    
+    public function jsonSerialize() {
+        return array(
+            'id' => $this->getId()
+        );
+    }
+
     
 }

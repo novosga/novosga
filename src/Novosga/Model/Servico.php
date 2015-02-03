@@ -7,23 +7,37 @@ namespace Novosga\Model;
  */
 class Servico extends SequencialModel {
     
-    /** @Column(type="string", name="nome", length=50, nullable=false) */
+    /** 
+     * @Column(type="string", name="nome", length=50, nullable=false) 
+     */
     protected $nome;
-    /** @Column(type="string", name="descricao", length=100, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="descricao", length=100, nullable=false) 
+     */
     protected $descricao;
-    /** @Column(type="smallint", name="status", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="status", nullable=false) 
+     */
     protected $status;
-    /** @Column(type="smallint", name="peso", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="peso", nullable=false) 
+     */
     protected $peso;
+    
     /** 
      * @ManyToOne(targetEntity="Servico")
      * @JoinColumn(name="macro_id", referencedColumnName="id")
      */
     protected $mestre;
+    
     /** 
      * @OneToMany(targetEntity="Servico", mappedBy="mestre")
      */
     protected $subServicos;
+    
     /** 
      * @OneToMany(targetEntity="ServicoUnidade", mappedBy="servico")
      */
@@ -94,6 +108,17 @@ class Servico extends SequencialModel {
 
     public function toString() {
         return $this->nome;
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'id' => $this->getId(),
+            'nome' => $this->getNome(),
+            'descricao' => $this->getDescricao(),
+            'peso' => $this->getPeso(),
+            'status' => $this->getStatus(),
+            'macro' => $this->getMestre()
+        );
     }
 	
 }

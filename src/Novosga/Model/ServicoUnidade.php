@@ -1,9 +1,6 @@
 <?php
 namespace Novosga\Model;
 
-use Novosga\Model\Util\Fila;
-use Novosga\Service\AtendimentoService;
-
 /**
  * Servico Unidade
  * 
@@ -12,7 +9,8 @@ use Novosga\Service\AtendimentoService;
  * @Entity
  * @Table(name="uni_serv")
  */
-class ServicoUnidade extends Model {
+class ServicoUnidade extends Model implements \JsonSerializable
+{
     
     /** 
      * @Id
@@ -20,29 +18,35 @@ class ServicoUnidade extends Model {
      * @JoinColumn(name="servico_id", referencedColumnName="id", nullable=false)
      */
     protected $servico;
+    
     /**
      * @Id 
      * @ManyToOne(targetEntity="Unidade")
      * @JoinColumn(name="unidade_id", referencedColumnName="id", nullable=false)
      */
     protected $unidade;
+    
     /**
      * @ManyToOne(targetEntity="Local")
      * @JoinColumn(name="local_id", referencedColumnName="id", nullable=false)
      */
     protected $local;
-    /** @Column(type="string", name="nome", length=50, nullable=false) */
-    protected $nome;
-    /** @Column(type="string", name="sigla", length=1, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="sigla", length=1, nullable=false) 
+     */
     protected $sigla;
-    /** @Column(type="smallint", name="status", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="status", nullable=false) 
+     */
     protected $status;
-    /** @Column(type="smallint", name="peso", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="peso", nullable=false) 
+     */
     protected $peso;
     
-    // transient 
-    
-    private $fila;
 	
     public function __construct() {
     }
@@ -96,14 +100,6 @@ class ServicoUnidade extends Model {
         $this->peso = $peso;
     }
         
-    public function getNome() {
-        return $this->nome;
-    }
-
-    public function setNome($nome) {
-        $this->nome = $nome;
-    }
-
     public function setSigla($sigla) {
         $this->sigla = $sigla;
     }
@@ -113,7 +109,17 @@ class ServicoUnidade extends Model {
     }
     
     public function toString() {
-        return $this->sigla . ' - ' . $this->getServico()->toString();
+        return $this->sigla . ' - ' . $this->getServico()->getNome();
     }
+    
+    public function jsonSerialize() {
+        return array(
+            'sigla' => $this->getSigla(),
+            'peso' => $this->getPeso(),
+            'local' => $this->getLocal(),
+            'servico' => $this->getServico()
+        );
+    }
+
 	
 }

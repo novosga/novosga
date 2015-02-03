@@ -230,25 +230,13 @@ class UsuariosController extends CrudController {
     public function servicos_unidade(Context $context) {
         $response = new JsonResponse(true);
         $id = (int) $context->request()->get('unidade');
+        
         $exceto = $context->request()->get('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
-        $query = $this->em()->createQuery("
-            SELECT 
-                s.id, e.nome 
-            FROM 
-                Novosga\Model\ServicoUnidade e 
-                JOIN e.unidade u 
-                JOIN e.servico s 
-            WHERE 
-                e.status = 1 AND 
-                u = :unidade AND
-                s.id NOT IN (:exceto)
-            ORDER BY 
-                e.nome
-        ");
-        $query->setParameter('unidade', $id);
-        $query->setParameter('exceto', $exceto);
-        $response->data = $query->getResult();
+        $exceto = join(',', $exceto);
+        
+        $service = new \Novosga\Service\ServicoService($this->em());
+        $response->data = $service->servicosUnidade($id, "s.id NOT IN ($exceto)");
         return $response;
     }
     

@@ -14,7 +14,7 @@
     </ul>
     <div class="tab-content">
         <div id="tab-servicos" class="tab-pane active">
-            <p>{% trans %}As modificações na sigla e nome do serviço são salvas automaticamente ao sair do campo.{% endtrans %}</p>
+            <p>{% trans %}As modificações na sigla do serviço são salvas automaticamente ao sair do campo.{% endtrans %}</p>
             <table class="table" id="servicos">
                 <thead>
                     <tr>
@@ -41,24 +41,7 @@
                                    {% if su.status != 1 %}disabled="disabled"{% endif %} />
                         </td>
                         <td class="nome">
-                            <div class="input-group">
-                                <input id="nome-{{ su.servico.id }}" 
-                                       type="text" 
-                                       class="servico-{{ su.servico.id }} center form-control" 
-                                       value="{{ su.nome }}" 
-                                       data-id="{{ su.servico.id }}" 
-                                       onchange="SGA.Unidade.Servicos.change({{ su.servico.id }})"
-                                       maxlength="50" 
-                                       {% if su.status != 1 %}disabled="disabled"{% endif %} />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default servico-{{ su.servico.id }}"
-                                            onclick="SGA.Unidade.Servicos.reverteNome({{ su.servico.id }})"
-                                            title="Reverter nome para nome original"
-                                            {% if su.status != 1 %}disabled="disabled"{% endif %}>
-                                        <span class="glyphicon glyphicon-refresh"></span>
-                                    </button>
-                                </span>
-                            </div>
+                            {{ su.servico.nome }}
                         </td>
                         <td class="local">
                             <select id="local-{{ su.servico.id }}" 

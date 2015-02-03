@@ -80,7 +80,7 @@ class ApiV1 extends Api {
             // servicos da unidade
             return $this->em->createQuery('
                 SELECT 
-                    s.id, e.sigla, e.nome, l.nome as local
+                    s.id, e.sigla, s.nome, l.nome as local
                 FROM
                     Novosga\Model\ServicoUnidade e
                     JOIN e.servico s
@@ -89,7 +89,7 @@ class ApiV1 extends Api {
                     e.status = 1 AND
                     e.unidade = :unidade
                 ORDER BY 
-                    e.nome ASC
+                    s.nome ASC
             ')->setParameter(':unidade', $unidade)
                 ->getResult();
         }
