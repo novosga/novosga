@@ -9,7 +9,7 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="contador")
  */
-class Contador extends Model 
+class Contador extends Model implements \JsonSerializable
 {
     
     /**
@@ -46,5 +46,11 @@ class Contador extends Model
         $this->total = $total;
         return $this;
     }
-	
+    
+    public function jsonSerialize() {
+        return array(
+            'total' => $this->getTotal()
+        );
+    }
+    
 }

@@ -7,7 +7,7 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="usu_meta")
  */
-abstract class UsuarioMeta extends Model 
+abstract class UsuarioMeta extends Model implements \JsonSerializable
 {
     
     /** 
@@ -54,6 +54,13 @@ abstract class UsuarioMeta extends Model
     public function setValue($value) {
         $this->value = $value;
         return $this;
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'name' => $this->getName(),
+            'value' => $this->getValue()
+        );
     }
 
 }

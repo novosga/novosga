@@ -5,7 +5,8 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="usu_grup_cargo")
  */
-class Lotacao extends Model {
+class Lotacao extends Model implements \JsonSerializable
+{
     
     /** 
      * @Id
@@ -13,12 +14,14 @@ class Lotacao extends Model {
      * @JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
      */
     protected $usuario;
+    
     /** 
      * @Id
      * @ManyToOne(targetEntity="Grupo")
      * @JoinColumn(name="grupo_id", referencedColumnName="id", nullable=false)
      */
     protected $grupo;
+    
     /** 
      * @ManyToOne(targetEntity="Cargo")
      * @JoinColumn(name="cargo_id", referencedColumnName="id", nullable=false)
@@ -77,6 +80,14 @@ class Lotacao extends Model {
      */
     public function getCargo() {
         return $this->cargo;
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'cargo' => $this->getCargo(),
+            'grupo' => $this->getGrupo(),
+            'usuario' => $this->getUsuario()
+        );
     }
     
 }

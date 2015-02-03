@@ -369,7 +369,7 @@ abstract class AbstractAtendimento extends SequencialModel
         return $this->senha;
     }
     
-    public function toArray($minimal = false) {
+    public function jsonSerialize($minimal = false) {
         $arr = array(
             'id' => $this->getId(),
             'senha' => $this->getSenha()->toString(),

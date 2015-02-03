@@ -7,23 +7,38 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="unidades")
  */
-class Unidade extends SequencialModel {
+class Unidade extends SequencialModel 
+{
 
-    /** @Column(type="string", name="codigo", length=10, nullable=false, unique=true) */
+    /** 
+     * @Column(type="string", name="codigo", length=10, nullable=false, unique=true) 
+     */
     protected $codigo;
-    /** @Column(type="string", name="nome", length=50, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="nome", length=50, nullable=false) 
+     */
     protected $nome;
-    /** @Column(type="smallint", name="status", nullable=false) */
+    
+    /** 
+     * @Column(type="smallint", name="status", nullable=false) 
+     */
     protected $status;
+    
     /**
      * @OneToOne(targetEntity="Grupo", fetch="EAGER")
      * @JoinColumn(name="grupo_id", referencedColumnName="id", nullable=false)
      */
     protected $grupo;
     
-    /** @Column(type="smallint", name="stat_imp", nullable=false) */
+    /** 
+     * @Column(type="smallint", name="stat_imp", nullable=false) 
+     */
     protected $statusImpressao;
-    /** @Column(type="string", name="msg_imp", length=100, nullable=false) */
+    
+    /** 
+     * @Column(type="string", name="msg_imp", length=100, nullable=false) 
+     */
     protected $mensagemImpressao;
 	
 
@@ -83,6 +98,18 @@ class Unidade extends SequencialModel {
     
     public function toString() {
         return $this->getNome();
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'id' => $this->getId(),
+            'codigo' => $this->getCodigo(),
+            'nome' => $this->getNome(),
+            'grupo' => $this->getGrupo(),
+            'status' => $this->getStatus(),
+            'mensagemImpressao' => $this->getMensagemImpressao(),
+            'statusImpressao' => $this->getStatusImpressao()
+        );
     }
 
 }

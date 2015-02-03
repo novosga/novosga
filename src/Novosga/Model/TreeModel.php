@@ -8,11 +8,19 @@ namespace Novosga\Model;
  */
 abstract class TreeModel extends SequencialModel {
 
-    /** @Column(type="integer", name="esquerda", nullable=false) */
+    /** 
+     * @Column(type="integer", name="esquerda", nullable=false) 
+     */
     protected $left = 1;
-    /** @Column(type="integer", name="direita", nullable=false) */
+    
+    /** 
+     * @Column(type="integer", name="direita", nullable=false) 
+     */
     protected $right = 2;
-    /** @Column(type="integer", name="nivel", nullable=false) */
+    
+    /** 
+     * @Column(type="integer", name="nivel", nullable=false) 
+     */
     protected $level;
     
     // transient

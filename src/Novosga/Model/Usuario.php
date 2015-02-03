@@ -6,7 +6,8 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="usuarios")
  */
-class Usuario extends SequencialModel {
+class Usuario extends SequencialModel 
+{
     
     /** 
      * @Column(type="string", name="login", length=20, nullable=false, unique=true) 
@@ -155,8 +156,9 @@ class Usuario extends SequencialModel {
         return $this->getLogin();
     }
     
-    public function toArray() {
+    public function jsonSerialize() {
         return array(
+            'id' => $this->getId(),
             'login' => $this->getLogin(),
             'nome' => $this->getNome(),
             'sobrenome' => $this->getSobrenome(),

@@ -127,5 +127,16 @@ namespace Novosga\Model;
     public function toString() {
         return "Modulo[". $this->getChave() ."]";
     }
+    
+    public function jsonSerialize() {
+        return array(
+            'id' => $this->getId(),
+            'nome' => $this->getNome(),
+            'chave' => $this->getChave(),
+            'descricao' => $this->getDescricao(),
+            'status' => $this->getStatus(),
+            'tipo' => $this->getTipo()
+        );
+    }
 
 }

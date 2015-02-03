@@ -155,8 +155,8 @@ namespace Novosga\Model;
     public function setDocumentoCliente($documentoCliente) {
         $this->documentoCliente = $documentoCliente;
     }
-        
-    public function toArray() {
+    
+    public function jsonSerialize() {
         return array(
             'id' => $this->getId(),
             'senha' => $this->getSiglaSenha() . str_pad($this->getNumeroSenha(), 3, '0', STR_PAD_LEFT),

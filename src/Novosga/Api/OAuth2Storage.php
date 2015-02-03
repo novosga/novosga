@@ -37,7 +37,7 @@ class OAuth2Storage extends Pdo {
         }
 
         // the default behavior is to use "username" as the user_id
-        return array_merge(array('user_id' => $username), $user->toArray());
+        return array_merge(array('user_id' => $username), $user->jsonSerialize());
     }
 
     public function setUser($username, $password, $firstName = null, $lastName = null)

@@ -22,7 +22,7 @@ class Grafico extends Relatorio {
         $this->legendas = $legendas;
     }
 
-    public function toArray() {
+    public function jsonSerialize() {
         return array(
             'tipo' => $this->arquivo,
             'titulo' => $this->titulo,

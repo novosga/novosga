@@ -8,7 +8,8 @@ namespace Novosga\Model;
  * 
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */ 
- class PainelServico extends Model {
+ class PainelServico extends Model implements \JsonSerializable
+{
  	
     /**
      * @Id  
@@ -16,12 +17,14 @@ namespace Novosga\Model;
      * @JoinColumn(name="host", referencedColumnName="host")
      */
     protected $painel;
+    
     /** 
      * @Id
      * @ManyToOne(targetEntity="Servico")
      * @JoinColumn(name="servico_id", referencedColumnName="id")
      */
     protected $servico;
+    
     /**
      * @ManyToOne(targetEntity="Unidade")
      * @JoinColumn(name="unidade_id", referencedColumnName="id")
@@ -50,6 +53,14 @@ namespace Novosga\Model;
 
     public function setUnidade($unidade) {
         $this->unidade = $unidade;
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'painel' => $this->getPainel(),
+            'servico' => $this->getServico(),
+            'unidade' => $this->getUnidade()
+        );
     }
 
 }

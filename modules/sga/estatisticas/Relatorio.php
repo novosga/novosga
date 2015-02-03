@@ -6,7 +6,8 @@ namespace modules\sga\estatisticas;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class Relatorio {
+class Relatorio implements \JsonSerializable 
+{
     
     protected $titulo;
     protected $dados;
@@ -40,7 +41,7 @@ class Relatorio {
         $this->dados = $dados;
     }
     
-    public function toArray() {
+    public function jsonSerialize() {
         return array(
             'titulo' => $this->titulo,
             'dados' => $this->dados,

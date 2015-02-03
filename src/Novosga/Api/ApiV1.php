@@ -175,7 +175,7 @@ class ApiV1 extends Api {
         if (!$atendimento) {
             throw new Exception(_('Atendimento inválido'));
         }
-        return $atendimento->toArray(true);
+        return $atendimento->jsonSerialize(true);
     }
     
     /**
@@ -183,7 +183,7 @@ class ApiV1 extends Api {
      */
     public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente) {
         $service = new AtendimentoService($this->em);
-        return $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
+        return $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->jsonSerialize();
     }
     
 }

@@ -57,4 +57,15 @@ class Grupo extends TreeModel {
         return $this->nome;
     }
     
+    public function jsonSerialize() {
+        return array(
+            'id' => $this->getId(),
+            'nome' => $this->getNome(),
+            'descricao' => $this->getDescricao(),
+            'left' => $this->getLeft(),
+            'right' => $this->getRight(),
+            'level' => $this->getLevel()
+        );
+    }
+    
 }

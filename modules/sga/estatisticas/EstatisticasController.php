@@ -107,7 +107,7 @@ class EstatisticasController extends ModuleController {
                 $grafico->setDados($this->tempo_medio_atendimentos($dataInicial, $dataFinal, $unidade));
                 break;
             }
-            $response->data = $grafico->toArray();
+            $response->data = $grafico->jsonSerialize();
             $response->success = true;
         } catch (\Exception $e) {
             $response->message = $e->getMessage();

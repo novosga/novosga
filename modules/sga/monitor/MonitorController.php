@@ -55,7 +55,7 @@ class MonitorController extends ModuleController {
                         if ($total) {
                             $fila = array();
                             foreach ($rs as $atendimento) {
-                                $arr = $atendimento->toArray(true);
+                                $arr = $atendimento->jsonSerialize(true);
                                 $fila[] = $arr;
                             }
                             $response->data['servicos'][$su->getServico()->getId()] = $fila;
@@ -77,7 +77,7 @@ class MonitorController extends ModuleController {
             $service = new AtendimentoService($this->em());
             $atendimento = $service->buscaAtendimento($unidade, $id);
             if ($atendimento) {
-                $response->data = $atendimento->toArray();
+                $response->data = $atendimento->jsonSerialize();
                 $response->success = true;
             } else {
                 $response->message = _('Atendimento inválido');
@@ -99,7 +99,7 @@ class MonitorController extends ModuleController {
             $atendimentos = $service->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
-                $response->data['atendimentos'][] = $atendimento->toArray();
+                $response->data['atendimentos'][] = $atendimento->jsonSerialize();
             }
             $response->success = true;
         } else{

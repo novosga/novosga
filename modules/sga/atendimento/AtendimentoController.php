@@ -1,7 +1,6 @@
 <?php
 namespace modules\sga\atendimento;
 
-use DateTime;
 use Exception;
 use Novosga\App;
 use Novosga\Context;
@@ -76,7 +75,7 @@ class AtendimentoController extends ModuleController {
             $atendimentos = $this->filaService->atendimentos($context->getUser());
             foreach ($atendimentos as $atendimento) {
                 // minimal data
-                $response->data[] = $atendimento->toArray();
+                $response->data[] = $atendimento->jsonSerialize();
             }
             $response->success = true;
         }
@@ -141,7 +140,7 @@ class AtendimentoController extends ModuleController {
             // response
             $response->success = $success;
             $this->atendimentoService->chamarSenha($unidade, $proximo);
-            $response->data = $proximo->toArray();
+            $response->data = $proximo->jsonSerialize();
         } catch (Exception $e) {
             $response->success = false;
             $response->message = $e->getMessage();
@@ -168,7 +167,7 @@ class AtendimentoController extends ModuleController {
             $response->success = $this->mudaStatusAtendimento($atual, $statusAtual, $novoStatus, $campoData);
         }
         if ($response->success) {
-            $response->data = $atual->toArray();
+            $response->data = $atual->jsonSerialize();
         } else {
             $response->message = _('Nenhum atendimento disponível');
         }
@@ -335,7 +334,7 @@ class AtendimentoController extends ModuleController {
             $id = (int) $context->request()->get('id');
             $atendimento = $this->atendimentoService->buscaAtendimento($unidade, $id);
             if ($atendimento) {
-                $response->data = $atendimento->toArray();
+                $response->data = $atendimento->jsonSerialize();
                 $response->success = true;
             } else {
                 $response->message = _('Atendimento inválido');
@@ -356,7 +355,7 @@ class AtendimentoController extends ModuleController {
             $atendimentos = $this->atendimentoService->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
-                $response->data['atendimentos'][] = $atendimento->toArray();
+                $response->data['atendimentos'][] = $atendimento->jsonSerialize();
             }
             $response->success = true;
         } else{

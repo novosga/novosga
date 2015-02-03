@@ -133,7 +133,7 @@ class TriagemController extends ModuleController {
         $documentoCliente = $context->request()->post('cli_doc', '');
         try {
             $service = new AtendimentoService($this->em());
-            $response->data = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->toArray();
+            $response->data = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->jsonSerialize();
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();
@@ -155,7 +155,7 @@ class TriagemController extends ModuleController {
             $atendimentos = $service->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = sizeof($atendimentos);
             foreach ($atendimentos as $atendimento) {
-                $response->data['atendimentos'][] = $atendimento->toArray();
+                $response->data['atendimentos'][] = $atendimento->jsonSerialize();
             }
             $response->success = true;
         } else{

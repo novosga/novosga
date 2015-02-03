@@ -8,18 +8,21 @@ namespace Novosga\Model;
  * 
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */ 
- class Painel extends Model {
+ class Painel extends Model implements \JsonSerializable
+{
  	
     /**
      * @Id  
      * @Column(type="integer", name="host", nullable=false) 
      */
     protected $host;
+    
     /**
      * @ManyToOne(targetEntity="Unidade")
      * @JoinColumn(name="unidade_id", referencedColumnName="id", nullable=false)
      */
     protected $unidade;
+    
     /** 
      * @OneToMany(targetEntity="PainelServico", mappedBy="painel")
      */
@@ -56,6 +59,14 @@ namespace Novosga\Model;
     
     public function toString() {
         return $this->getIp();
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'host' => $this->getHost(),
+            'ip' => $this->getIp(),
+            'servicos' => $this->getServicos()
+        );
     }
 
 }

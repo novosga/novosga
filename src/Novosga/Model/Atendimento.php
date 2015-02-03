@@ -41,8 +41,8 @@ class Atendimento extends AbstractAtendimento
         return sha1("{$this->getId()}:{$this->getDataChegada()->getTimestamp()}");
     }
     
-    public function toArray($minimal = false) {
-        $arr = parent::toArray($minimal);
+    public function jsonSerialize($minimal = false) {
+        $arr = parent::jsonSerialize($minimal);
         $arr['hash'] = $this->hash();
         return $arr;
     }

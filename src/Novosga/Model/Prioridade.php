@@ -70,5 +70,14 @@ class Prioridade extends SequencialModel {
     public function toString() {
         return $this->getNome();
     }
+    
+    public function jsonSerialize() {
+        return array(
+            'id' => $this->getId(),
+            'nome' => $this->getNome(),
+            'descricao' => $this->getDescricao(),
+            'peso' => $this->getPeso()
+        );
+    }
 
 }

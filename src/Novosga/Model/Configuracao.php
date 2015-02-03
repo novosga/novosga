@@ -8,17 +8,26 @@ use Doctrine\ORM\EntityManager;
  * @Entity
  * @Table(name="config")
  */
-class Configuracao extends Model {
+class Configuracao extends Model implements \JsonSerializable
+{
     
     const STRING  = 1;
     const NUMERIC = 2;
     const COMPLEX = 3;
     
-    /** @Id @Column(type="string", name="chave", length=150, nullable=false) */
+    /** 
+     * @Id @Column(type="string", name="chave", length=150, nullable=false) 
+     */
     protected $chave;
-    /** @Column(type="text", name="valor", nullable=false) */
+    
+    /** 
+     * @Column(type="text", name="valor", nullable=false) 
+     */
     protected $valor;
-    /** @Column(type="integer", name="tipo", nullable=false) */
+    
+    /** 
+     * @Column(type="integer", name="tipo", nullable=false) 
+     */
     protected $tipo;
     
     // transient
@@ -109,6 +118,13 @@ class Configuracao extends Model {
         $query = $em->createQuery("DELETE FROM Novosga\Model\Configuracao e WHERE e.chave = :key");
         $query->setParameter('key', $key);
         return $query->execute();
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'chave' => $this->getChave(),
+            'valor' => $this->getValor()
+        );
     }
 
 }

@@ -5,7 +5,8 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="cargos_mod_perm")
  */
-class Permissao extends Model {
+class Permissao extends Model implements \JsonSerializable
+{
     
     /** 
      * @Id
@@ -13,13 +14,17 @@ class Permissao extends Model {
      * @JoinColumn(name="modulo_id", referencedColumnName="id")
      */
     protected $modulo;
+    
     /** 
      * @Id
      * @ManyToOne(targetEntity="Cargo")
      * @JoinColumn(name="cargo_id", referencedColumnName="id")
      */
     protected $cargo;
-    /** @Column(type="integer", name="permissao", nullable=false) */
+    
+    /** 
+     * @Column(type="integer", name="permissao", nullable=false) 
+     */
     protected $permissao;
 	
     public function __construct() {
@@ -54,6 +59,14 @@ class Permissao extends Model {
 
     public function setPermissao($permissao) {
         $this->permissao = $permissao;
+    }
+    
+    public function jsonSerialize() {
+        return array(
+            'cargo' => $this->getCargo(),
+            'modulo' => $this->getModulo(),
+            'permissao' => $this->getPermissao()
+        );
     }
 
 }

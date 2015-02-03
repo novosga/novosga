@@ -180,7 +180,7 @@ $app->get('/fila/usuario/:unidade/:usuario', function($unidade, $usuario) use ($
     $arr = array();
     $fila = $api->filaUsuario($unidade, $usuario);
     foreach ($fila as $a) {
-        $arr[] = $a->toArray();
+        $arr[] = $a->jsonSerialize();
     }
     echo json_encode($arr);
 });
@@ -223,7 +223,7 @@ $app->get('/fila/servicos/:unidade', function($unidade) use ($app, $api) {
     $arr = array();
     $fila = $api->filaServicos($unidade, $servicos);
     foreach ($fila as $a) {
-        $arr[] = $a->toArray();
+        $arr[] = $a->jsonSerialize();
     }
     echo json_encode($arr);
 });
