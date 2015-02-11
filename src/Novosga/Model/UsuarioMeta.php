@@ -7,7 +7,7 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="usu_meta")
  */
-abstract class UsuarioMeta extends Model implements \JsonSerializable
+class UsuarioMeta extends Model implements \JsonSerializable
 {
     
     /** 

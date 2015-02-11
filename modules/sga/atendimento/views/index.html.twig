@@ -13,7 +13,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">{% trans %}Número{% endtrans %}</label>
-                                    <input type="text" id="numero_local" name="local" maxlength="3" class="form-control" value="{{ localCookie }}" />
+                                    <input type="text" id="numero_local" name="local" maxlength="3" class="form-control" value="{{ localConfig }}" />
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -21,7 +21,7 @@
                                     <label class="control-label" title="{% trans %}Tipo de Atendimento{% endtrans %}">{% trans %}Atendimento{% endtrans %}</label>
                                     <select id="tipo_atendimento" name="tipo" class="form-control">
                                         {% for v,l in tiposAtendimento %}
-                                        <option value="{{ v }}" {% if tipoAtendimentoCookie == v %}selected="selected"{% endif %}>{{ l }}</option>
+                                        <option value="{{ v }}" {% if tipoAtendimentoConfig == v %}selected="selected"{% endif %}>{{ l }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>

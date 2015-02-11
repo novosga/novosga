@@ -14,6 +14,34 @@ use Doctrine\Common\Collections\ArrayCollection;
 class UsuarioService extends ModelService {
     
     /**
+     * Cria ou retorna um metadado do usuário caso o $value seja null (ou ocultado).
+     * @param Usuario $usuario
+     * @param string $name
+     * @param string $value
+     * @return \Novosga\Model\UsuarioMeta
+     */
+    public function meta(Usuario $usuario, $name, $value = null) {
+        if ($value === null) {
+            return $this->em
+                    ->createQuery('SELECT e FROM Novosga\Model\UsuarioMeta e WHERE e.usuario = :usuario AND e.name = :name')
+                    ->setParameter('usuario', $usuario)
+                    ->setParameter('name', $name)
+                    ->getOneOrNullResult();
+        } else {
+            $meta = $this->meta($usuario, $name);
+            if (!$meta) {
+                $meta = new \Novosga\Model\UsuarioMeta();
+            }
+            $meta->setName($name);
+            $meta->setValue($value);
+            $meta->setUsuario($usuario);
+            $this->em->persist($meta);
+            $this->em->flush();
+            return $meta;
+        }
+    }
+    
+    /**
      * 
      * @param Usuario|integer $usuario
      * @param Unidade|integer $unidade

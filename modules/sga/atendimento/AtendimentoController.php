@@ -6,6 +6,7 @@ use Novosga\App;
 use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Util\DateUtil;
+use Novosga\Service\UsuarioService;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\FilaService;
 use Novosga\Controller\ModuleController;
@@ -22,11 +23,13 @@ use Novosga\Http\JsonResponse;
 class AtendimentoController extends ModuleController {
     
     private $filaService;
+    private $usuarioService;
     private $atendimentoService;
     
     public function __construct(App $app, Modulo $modulo) {
         parent::__construct($app, $modulo);
         $this->filaService = new FilaService($this->em());
+        $this->usuarioService = new UsuarioService($this->em());
         $this->atendimentoService = new AtendimentoService($this->em());
     }
     
@@ -49,16 +52,24 @@ class AtendimentoController extends ModuleController {
         $this->app()->view()->set('tiposAtendimento', $tiposAtendimento);
         $this->app()->view()->set('labelTipoAtendimento', $tiposAtendimento[$usuario->getTipoAtendimento()]);
         $this->app()->view()->set('local', $usuario->getLocal());
-        $this->app()->view()->set('localCookie', $context->cookie()->get('local'));
-        $this->app()->view()->set('tipoAtendimentoCookie', $context->cookie()->get('tipo'));
+        
+        $localMeta = $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.local');
+        if ($localMeta) {
+            $this->app()->view()->set('localConfig', $localMeta->getValue());
+        }
+        $tipoMeta = $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.tipo');
+        if ($tipoMeta) {
+            $this->app()->view()->set('tipoAtendimentoConfig', $tipoMeta->getValue());
+        }
     }
     
     public function set_local(Context $context) {
+        $usuario = $context->getUser();
         $numero = (int) $context->request()->post('local');
         $tipo = (int) $context->request()->post('tipo');
-        if ($numero) {
-            $context->cookie()->set('local', $numero);
-            $context->cookie()->set('tipo', $tipo);
+        if ($usuario && $numero) {
+            $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.local', $numero);
+            $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.tipo', $tipo);
             $context->getUser()->setLocal($numero);
             $context->getUser()->setTipoAtendimento($tipo);
             $context->setUser($context->getUser());
