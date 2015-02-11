@@ -380,7 +380,7 @@ abstract class AbstractAtendimento extends SequencialModel
             'espera' => $this->getTempoEspera()->format('%H:%I:%S')
         );
         if (!$minimal) {
-            $arr['numero'] = $this->getSenha()->toString();
+            $arr['numero'] = $this->getSenha()->getNumero();
             if ($this->getUsuario()) {
                 $arr['usuario'] = $this->getUsuario()->getLogin();
             }

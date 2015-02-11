@@ -255,10 +255,19 @@ $app->post('/distribui', function() use ($app, $api, $server) {
 
 /**
  * Visualiza um atendimento que ainda não foi arquivado
+ * GET /atendimento/1
  */
 $app->get('/atendimento/:id', function($id) use ($app, $api, $server) {
     $server->checkAccess();
     echo json_encode($api->atendimento($id));
+});
+
+/**
+ * Visualiza um atendimento que ainda não foi arquivado
+ */
+$app->get('/atendimento/:id/info', function($id) use ($app, $api, $server) {
+    $server->checkAccess();
+    echo json_encode($api->atendimentoInfo($id));
 });
 
 /*

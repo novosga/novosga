@@ -1,6 +1,7 @@
 <?php
 namespace Novosga\Api;
 
+use Exception;
 use Novosga\Service\AtendimentoService;
 
 /**
@@ -165,8 +166,7 @@ class ApiV1 extends Api {
     
     /**
      * Retorna o atendimento
-     * @param int $unidade
-     * @param int $usuario
+     * @param int $id Id do atendimento
      * @return array
      */
     public function atendimento($id) {
@@ -176,6 +176,37 @@ class ApiV1 extends Api {
             throw new Exception(_('Atendimento inválido'));
         }
         return $atendimento->jsonSerialize(true);
+    }
+    
+    /**
+     * Retorna informações sobre o atendimento ainda não atendido
+     * @param int $id Id do atendimento
+     * @return array
+     */
+    public function atendimentoInfo($id) {
+        // servicos que o usuario atende
+        $atendimento = $this->em->find('Novosga\Model\Atendimento', $id);
+        if (!$atendimento) {
+            throw new Exception(_('Atendimento inválido'));
+        }
+        if ($atendimento->getStatus() !== \Novosga\Service\AtendimentoService::SENHA_EMITIDA) {
+            throw new Exception(_('Senha já atendida'));
+        }
+        $filaService = new \Novosga\Service\FilaService($this->em);
+        $atendimentos = $filaService->filaServico($atendimento->getUnidade(), $atendimento->getServico());
+
+        $pos = 1;
+        foreach ($atendimentos as $a) {
+            if ($atendimento->getId() === $a->getId()) {
+                break;
+            }
+            $pos++;
+        }
+        return array(
+            'pos' => $pos,
+            'total' => sizeof($atendimentos),
+            'atendimento' => $atendimento->jsonSerialize(true)
+        );
     }
     
     /**
