@@ -12,16 +12,6 @@
     position: relative;
 }
 
-#atendimento .left {
-    padding-left: 20px;
-    float: left;
-}
-
-#atendimento .right {
-    padding: 10px 0 0 20px;
-    float: left;
-}
-
 /* local */
 
 #atendimento #local {
@@ -68,11 +58,9 @@
 }
 
 #atendimento #controls .btn-control {
-    margin: 10px;
 }
 
 #atendimento #controls .btn-control span {
-    min-width: 80px;
     padding-top: 60px;
     background-position: center 5px;
     background-repeat: no-repeat;
@@ -88,14 +76,8 @@
 #atendimento #controls .btn-control.nao_compareceu span { background-image: url(../images/icon-naocompareceu.png); }
 #atendimento #controls .btn-control.erro_triagem span { background-image: url(../images/icon-errotriagem.png); }
 
-#atendimento #controls #codificar {
-    width: 785px;
-}
-
-#atendimento #controls #codificar .left {
-    width: 380px;
-    margin: 0 5px;
-    float: left;
+#atendimento #chamar .row {
+    padding-top: 20px;
 }
 
 #atendimento #controls #codificar h3 {
@@ -124,7 +106,7 @@
 }
 
 #atendimento #controls #codificar div.redirecionar {
-    padding: 20px 0 5px 10px;
+    padding: 10px 0 5px 10px;
 }
 
 #atendimento #controls #codificar div.redirecionar input {
@@ -233,4 +215,8 @@ p.links a {
 
 #dialog-busca .modal-dialog {
     width: 90%;
+}
+
+#dialog-busca .result {
+    overflow: auto;
 }
