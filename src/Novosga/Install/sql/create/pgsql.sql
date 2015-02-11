@@ -168,7 +168,6 @@ CREATE TABLE uni_serv (
     unidade_id integer NOT NULL,
     servico_id integer NOT NULL,
     local_id integer NOT NULL,
-    nome varchar(50) NOT NULL,
     sigla varchar(1) NOT NULL,
     status smallint NOT NULL,
     peso smallint NOT NULL
