@@ -260,8 +260,8 @@
                             <label for="redirecionar_servico">{% trans %}Novo Serviço{% endtrans %}</label>
                             <select id="redirecionar_servico" class="form-control">
                                 <option value="">{% trans %}Selecione{% endtrans %}</option>
-                                {% for servico in servicosIndisponiveis %}
-                                <option value="{{ servico.servico.id }}">{{ servico.nome }}</option>
+                                {% for su in servicosIndisponiveis %}
+                                <option value="{{ su.servico.id }}">{{ su.servico.nome }}</option>
                                 {% endfor %}
                             </select>
                         </div>
