@@ -317,7 +317,7 @@ class AtendimentoService extends ModelService {
         
         // verificando se o servico esta disponivel na unidade
         $service = new ServicoService($this->em);
-        $su = $service->servicoUnidade($prioridade, $servico);
+        $su = $service->servicoUnidade($unidade, $servico);
         if (!$su) {
             throw new Exception(_('Serviço não disponível para a unidade atual'));
         }
