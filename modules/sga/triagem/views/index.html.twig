@@ -5,22 +5,32 @@
     
 </div>
 
-<div id="client-info">
-    <h4>{% trans %}Cliente{% endtrans %}</h4>
-    <form role="form" class="form-inline" onsubmit="return false">
-        <div class="form-group">
-            <label for="cli_nome" class="sr-only">{% trans %}Nome{% endtrans %}</label>
-            <input type="text" id="cli_nome" class="nome form-control" maxlength="100" placeholder="{% trans %}Nome{% endtrans %}" />
+<div id="client-info" class="row">
+    <form role="form" onsubmit="return false">
+        <div class="col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">
+                    <span class="glyphicon glyphicon-user"></span>
+                </span>
+                <label for="cli_nome" class="sr-only">{% trans %}Nome{% endtrans %}</label>
+                <input type="text" id="cli_nome" class="form-control" maxlength="100" placeholder="{% trans %}Nome{% endtrans %}" />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="cli_doc" class="sr-only">{% trans %}Documento{% endtrans %}</label>
-            <input type="text" id="cli_doc" class="doc form-control" maxlength="11" placeholder="{% trans %}Documento{% endtrans %}" />
+        <div class="col-xs-6">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">
+                    <span class="glyphicon glyphicon-user"></span>
+                </span>
+                <label for="cli_doc" class="sr-only">{% trans %}Documento{% endtrans %}</label>
+                <input type="text" id="cli_doc" class="form-control" maxlength="11" placeholder="{% trans %}Documento{% endtrans %}" />
+            </div>
         </div>
     </form>
 </div>
-<div id="triagem-servicos">
+            
+<div id="triagem-servicos" class="row">
     {% for servicoUnidade in servicos %}
-    <div id="triagem-servico-{{ servicoUnidade.servico.id }}" data-id="{{ servicoUnidade.servico.id }}" class="triagem-servico col-lg-6">
+    <div id="triagem-servico-{{ servicoUnidade.servico.id }}" data-id="{{ servicoUnidade.servico.id }}" class="triagem-servico col-md-6">
         <div>
             <span class="text">
                 <a href="javascript:void(0)" 

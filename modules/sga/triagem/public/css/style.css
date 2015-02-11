@@ -5,9 +5,9 @@
  */
  
 #client-info {
-    height: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     margin-bottom: 5px;
-    padding: 0 !important;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
@@ -18,36 +18,12 @@
     border: 1px solid #e1e1e8;
 }
 
-#client-info h4 {
-    padding: 13px 20px 0 50px;
-    margin: 0;
-    float: left;
-}
-
-#client-info div {
-    padding: 7px 10px;
-    float: left;
-}
-
-#client-info div label {
-    padding-right: 10px;
-}
-
-#client-info div input.nome {
-    width: 250px;
-}
-
-#client-info div input.doc {
-    width: 150px;
-}
-
 #triagem-servicos .triagem-servico {
     padding: 5px;
 }
 
 #triagem-servicos .triagem-servico div {
     padding: 8px 10px;
-    position: relative;
     overflow: hidden;
     
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
@@ -130,3 +106,9 @@ p.links a {
 #dialog-busca .modal-dialog {
     width: 90%;
 }
+
+
+#dialog-busca .result {
+    overflow: auto;
+}
+
