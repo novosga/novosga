@@ -33,7 +33,7 @@ class TriagemController extends ModuleController {
     
     private function servicos(Unidade $unidade) {
         $service = new ServicoService($this->em());
-        return $service->servicosUnidade($unidade);
+        return $service->servicosUnidade($unidade, "e.status = 1");
     }
     
     public function imprimir(Context $context) {

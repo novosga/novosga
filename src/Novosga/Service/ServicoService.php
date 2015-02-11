@@ -3,6 +3,7 @@ namespace Novosga\Service;
 
 use Novosga\Model\Unidade;
 use Novosga\Model\Usuario;
+use Novosga\Model\Local;
 use Novosga\Model\Util\UsuarioSessao;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -37,7 +38,7 @@ class ServicoService extends ModelService {
      * @return ArrayCollection
      */
     public function servicosUnidade($unidade, $where = '') {
-        $dql = "SELECT e FROM Novosga\Model\ServicoUnidade e JOIN e.servico s WHERE e.unidade = :unidade AND e.status = 1";
+        $dql = "SELECT e FROM Novosga\Model\ServicoUnidade e JOIN e.servico s WHERE e.unidade = :unidade ";
         if (!empty($where)) {
             $dql .= " AND $where";
         }
@@ -69,6 +70,12 @@ class ServicoService extends ModelService {
      * @param string $sigla
      */
     public function updateUnidade($unidade, $local, $sigla) {
+        if ($unidade instanceof Unidade) {
+            $unidade = $unidade->getId();
+        }
+        if ($local instanceof Local) {
+            $local = $local->getId();
+        }
         $uniServTableName = $this->em->getClassMetadata('Novosga\Model\ServicoUnidade')->getTableName();
         $servTableName = $this->em->getClassMetadata('Novosga\Model\Servico')->getTableName();
 

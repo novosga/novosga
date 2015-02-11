@@ -236,7 +236,7 @@ class UsuariosController extends CrudController {
         $exceto = join(',', $exceto);
         
         $service = new \Novosga\Service\ServicoService($this->em());
-        $response->data = $service->servicosUnidade($id, "s.id NOT IN ($exceto)");
+        $response->data = $service->servicosUnidade($id, "e.status = 1 AND s.id NOT IN ($exceto)");
         return $response;
     }
     
