@@ -164,6 +164,12 @@ CREATE TABLE servicos (
     peso smallint NOT NULL
 );
 
+CREATE TABLE serv_meta (
+    servico_id integer NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT 
+);
+
 CREATE TABLE uni_serv (
     unidade_id integer NOT NULL,
     servico_id integer NOT NULL,
@@ -274,6 +280,7 @@ ALTER TABLE ONLY painel_senha ADD CONSTRAINT painel_senha_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY prioridades ADD CONSTRAINT prioridades_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY locais ADD CONSTRAINT locais_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY servicos ADD CONSTRAINT servicos_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY serv_meta ADD CONSTRAINT serv_meta_pkey PRIMARY KEY (servico_id, name);
 ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_pkey PRIMARY KEY (unidade_id, servico_id);
 ALTER TABLE ONLY unidades ADD CONSTRAINT unidades_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY uni_meta ADD CONSTRAINT uni_meta_pkey PRIMARY KEY (unidade_id, name);
@@ -306,6 +313,7 @@ ALTER TABLE ONLY paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_2 FOREIGN
 ALTER TABLE ONLY painel_senha ADD CONSTRAINT painel_senha_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY painel_senha ADD CONSTRAINT painel_senha_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY servicos ADD CONSTRAINT servicos_ibfk_1 FOREIGN KEY (macro_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY serv_meta ADD FOREIGN KEY (servico_id) REFERENCES servicos (id);
 ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_3 FOREIGN KEY (local_id) REFERENCES locais(id) ON UPDATE RESTRICT ON DELETE RESTRICT;

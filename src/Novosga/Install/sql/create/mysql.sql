@@ -235,6 +235,16 @@ DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
+CREATE TABLE serv_meta (
+    servico_id integer NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT ,
+    PRIMARY KEY (servico_id, name) 
+)
+DEFAULT CHARACTER SET utf8   
+COLLATE utf8_general_ci
+ENGINE = MyISAM;
+
 CREATE TABLE uni_serv (
     unidade_id integer NOT NULL,
     servico_id integer NOT NULL,
@@ -382,6 +392,7 @@ ALTER TABLE paineis_servicos ADD CONSTRAINT paineis_servicos_ibfk_2 FOREIGN KEY 
 ALTER TABLE painel_senha ADD CONSTRAINT painel_senha_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE painel_senha ADD CONSTRAINT painel_senha_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE servicos ADD CONSTRAINT servicos_ibfk_1 FOREIGN KEY (macro_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE serv_meta ADD FOREIGN KEY (servico_id) REFERENCES servicos (id);
 ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_1 FOREIGN KEY (unidade_id) REFERENCES unidades(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE uni_serv ADD CONSTRAINT uni_serv_ibfk_3 FOREIGN KEY (local_id) REFERENCES locais(id) ON UPDATE RESTRICT ON DELETE RESTRICT;

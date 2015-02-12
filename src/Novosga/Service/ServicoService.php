@@ -1,6 +1,7 @@
 <?php
 namespace Novosga\Service;
 
+use Novosga\Model\Servico;
 use Novosga\Model\Unidade;
 use Novosga\Model\Usuario;
 use Novosga\Model\Local;
@@ -12,7 +13,28 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class ServicoService extends ModelService {
+class ServicoService extends MetaModelService 
+{
+    
+    protected function getMetaClass() {
+        return 'Novosga\Model\ServicoMeta';
+    }
+
+    protected function getMetaFieldname() {
+        return 'servico';
+    }
+    
+    /**
+     * Cria ou retorna um metadado do serviço caso o $value seja null (ou ocultado).
+     * @param Servico $servico
+     * @param string $name
+     * @param string $value
+     * @return \Novosga\Model\ServicoMeta
+     */
+    public function meta(Servico $servico, $name, $value = null) {
+        return $this->modelMetadata($servico, $name, $value);
+    }
+
     
     /**
      * Retorna todos os serviços disponíveis
