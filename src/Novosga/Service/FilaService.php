@@ -75,7 +75,7 @@ class FilaService extends ModelService {
             $builder->andWhere($where);
         }
 
-        $this->applyOrders($builder);
+        $this->applyOrders($builder, $usuario->getUnidade());
 
         $query = $builder->getQuery()
                 ->setParameter('status', AtendimentoService::SENHA_EMITIDA)
@@ -97,23 +97,23 @@ class FilaService extends ModelService {
      * @return array
      */
     public function filaServico($unidade, $servico) {
-        if ($unidade instanceof Unidade) {
-            $unidade = $unidade->getId();
+        if (!($unidade instanceof Unidade)) {
+            $unidade = $this->em->find('Novosga\Model\Unidade', $unidade);
         }
         
-        if ($servico instanceof Servico) {
-            $servico = $servico->getId();
+        if (!($servico instanceof Servico)) {
+            $servico = $this->em->find('Novosga\Model\Servico', $servico);
         }
         
         $builder = $this->builder()
                 ->where("e.status = :status AND su.unidade = :unidade AND su.servico = :servico")
         ;
         
-        $this->applyOrders($builder);
+        $this->applyOrders($builder, $unidade);
         
         $builder->setParameter('status', AtendimentoService::SENHA_EMITIDA);
-        $builder->setParameter('unidade', (int) $unidade);
-        $builder->setParameter('servico', (int) $servico);
+        $builder->setParameter('unidade', $unidade);
+        $builder->setParameter('servico', $servico);
         
         return $builder->getQuery()->getResult();
     }
@@ -136,8 +136,11 @@ class FilaService extends ModelService {
      * Aplica a ordenação na QueryBuilder
      * @param QueryBuilder $builder
      */
-    public function applyOrders(QueryBuilder $builder) {
+    public function applyOrders(QueryBuilder $builder, Unidade $unidade) {
         $ordering = AppConfig::getInstance()->get("queue.ordering");
+        if (is_callable($ordering)) {
+            $ordering = $ordering($unidade);
+        }
         if (!$ordering || empty($ordering)) {
             $ordering = self::$ordering;
         }

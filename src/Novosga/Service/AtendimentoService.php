@@ -98,7 +98,7 @@ class AtendimentoService extends MetaModelService
         $this->em->persist($senha);
         $this->em->flush();
         
-        AppConfig::getInstance()->hook("attending.call", $atendimento, $senha);
+        AppConfig::getInstance()->hook("panel.call", $atendimento, $senha);
     }
 
     /**
@@ -113,6 +113,9 @@ class AtendimentoService extends MetaModelService
         } else {
             $unidade = max($unidade, 0);
         }
+        
+        AppConfig::getInstance()->hook("attending.pre-reset", $unidade);
+        
         $data = DateUtil::nowSQL();
         $conn = $this->em->getConnection();
         
@@ -225,6 +228,8 @@ class AtendimentoService extends MetaModelService
                 ->setParameter('unidade', $unidade)
                 ->execute()
         ;
+        
+        AppConfig::getInstance()->hook("attending.reset", $unidade);
     }
     
     public static function isNumeracaoServico() {
@@ -279,6 +284,8 @@ class AtendimentoService extends MetaModelService
     
     
     public function chamar(Atendimento $atendimento, Usuario $usuario, $local) {
+        AppConfig::getInstance()->hook("attending.pre-call", $atendimento, $usuario);
+        
         $atendimento->setUsuario($usuario);
         $atendimento->setLocal($local);
         $atendimento->setStatus(AtendimentoService::CHAMADO_PELA_MESA);
@@ -302,9 +309,15 @@ class AtendimentoService extends MetaModelService
          * caso entre o intervalo do select e o update, o proximo ja tiver sido chamado
          * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
          */
-        return $query->execute() > 0;
+        $success = $query->execute() > 0;
+        
+        if ($success) {
+            AppConfig::getInstance()->hook("attending.call", $atendimento, $usuario);
         }
         
+        return $success;
+    }
+    
     /**
      * Retorna o atendimento em andamento do usuario informado
      * @param integer|Usuario $usuario
@@ -383,6 +396,8 @@ class AtendimentoService extends MetaModelService
             $this->em->persist($contador);
             $this->em->flush();
         }
+        
+        AppConfig::getInstance()->hook("attending.pre-create", $su, $prioridade, $usuario);
         
         $numeroSenha = $contador->getTotal() + 1;
         $contador->setTotal($numeroSenha);
@@ -479,6 +494,8 @@ class AtendimentoService extends MetaModelService
         $service = new ServicoService();
         $su = $service->servicoUnidade($unidade, $servico);
         
+        AppConfig::getInstance()->hook("attending.pre-redirect", $atendimento, $su, $usuario);
+        
         $novo = new Atendimento();
         $novo->setLocal(0);
         $novo->setServicoUnidade($su);
@@ -495,6 +512,9 @@ class AtendimentoService extends MetaModelService
         $novo->setDocumentoCliente($atendimento->getCliente()->getDocumento());
         $this->em->persist($novo);
         $this->em->flush();
+        
+        AppConfig::getInstance()->hook("attending.redirect", $atendimento);
+        
         return $novo;
     }
     
@@ -508,8 +528,10 @@ class AtendimentoService extends MetaModelService
      * @return boolean
      */
     public function transferir(Atendimento $atendimento, Unidade $unidade, $novoServico, $novaPrioridade) {
+        AppConfig::getInstance()->hook("attending.pre-transfer", $atendimento);
+        
         // transfere apenas se a data fim for nula (nao finalizados)
-        return $this->em->createQuery('
+        $success = $this->em->createQuery('
                 UPDATE 
                     Novosga\Model\Atendimento e
                 SET 
@@ -526,8 +548,14 @@ class AtendimentoService extends MetaModelService
                 ->setParameter('unidade', $unidade)
                 ->execute() > 0
         ;
+        
+        if ($success) {
+            AppConfig::getInstance()->hook("attending.transfer", $atendimento, $novoServico, $novaPrioridade);
         }
         
+        return $success;
+    }
+    
     /**
      * Atualiza o status da senha para cancelado
      * 
@@ -536,8 +564,10 @@ class AtendimentoService extends MetaModelService
      * @return boolean
      */
     public function cancelar(Atendimento $atendimento, Unidade $unidade) {
+        AppConfig::getInstance()->hook("attending.pre-cancel", $atendimento);
+        
         // cancela apenas se a data fim for nula
-        return $this->em->createQuery('
+        $success = $this->em->createQuery('
                 UPDATE 
                     Novosga\Model\Atendimento e
                 SET 
@@ -554,8 +584,14 @@ class AtendimentoService extends MetaModelService
                 ->setParameter('unidade', $unidade)
                 ->execute() > 0
         ;
+        
+        if ($success) {
+            AppConfig::getInstance()->hook("attending.cancel", $atendimento);
         }
         
+        return $success;
+    }
+    
     /**
      * Reativa o atendimento para o mesmo serviço e mesma prioridade.
      * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu
@@ -565,8 +601,10 @@ class AtendimentoService extends MetaModelService
      * @return boolean
      */
     public function reativar(Atendimento $atendimento, Unidade $unidade) {
+        AppConfig::getInstance()->hook("attending.pre-reactivate", $atendimento);
+        
         // reativa apenas se estiver finalizada (data fim diferente de nulo)
-        return $this->em->createQuery('
+        $success = $this->em->createQuery('
                 UPDATE 
                     Novosga\Model\Atendimento e
                 SET 
@@ -583,6 +621,12 @@ class AtendimentoService extends MetaModelService
                 ->setParameter('unidade', $unidade)
                 ->execute() > 0
         ;
+        
+        if ($success) {
+            AppConfig::getInstance()->hook("attending.reactivate", $atendimento);
         }
         
+        return $success;
     }
+    
+}
