@@ -1,10 +1,7 @@
 <?php
 namespace modules\sga\triagem;
 
-use PDO;
-use DateTime;
 use Exception;
-use Novosga\Config\AppConfig;
 use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Http\JsonResponse;
@@ -48,6 +45,7 @@ class TriagemController extends ModuleController {
         if ($unidade) {
             $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
+            $senhas = array();
             if (sizeof($ids)) {
                 $dql = "
                     SELECT 
@@ -67,7 +65,7 @@ class TriagemController extends ModuleController {
                         ->getArrayResult();
                 ;
                 foreach ($rs as $r) {
-                    $response->data[$r['id']] = array('total' => $r['total'], 'fila' => 0);
+                    $senhas[$r['id']] = array('total' => $r['total'], 'fila' => 0);
                 }
                 // total senhas esperando
                 $rs = $this->em()
@@ -78,9 +76,16 @@ class TriagemController extends ModuleController {
                         ->getArrayResult();
                 ;
                 foreach ($rs as $r) {
-                    $response->data[$r['id']]['fila'] = $r['total'];
+                    $senhas[$r['id']]['fila'] = $r['total'];
                 }
+                
+                $service = new AtendimentoService($this->em());
+                
                 $response->success = true;
+                $response->data = array(
+                    'ultima' => $service->ultimaSenhaUnidade($unidade),
+                    'servicos' => $senhas
+                );
             }
         }
         return $response;
@@ -96,14 +101,13 @@ class TriagemController extends ModuleController {
             }
             $response->data['nome'] = $servico->getNome();
             $response->data['descricao'] = $servico->getDescricao();
+            
             // ultima senha
-            $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC");
-            $query->setParameter('servico', $servico->getId());
-            $query->setParameter('unidade', $context->getUnidade()->getId());
-            $atendimentos = $query->getResult();
-            if (sizeof($atendimentos)) {
-                $response->data['senha'] = $atendimentos[0]->getSenha()->toString();
-                $response->data['senhaId'] = $atendimentos[0]->getId();
+            $service = new AtendimentoService($this->em());
+            $atendimento = $service->ultimaSenhaServico($context->getUnidade(), $servico);
+            if ($atendimento) {
+                $response->data['senha'] = $atendimento->getSenha()->toString();
+                $response->data['senhaId'] = $atendimento->getId();
             } else {
                 $response->data['senha'] = '-';
                 $response->data['senhaId'] = '';

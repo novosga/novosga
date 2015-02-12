@@ -68,10 +68,21 @@ SGA.Triagem = {
                 success: function(response) {
                     $('.fila .total').text('-');
                     if (response.success) {
-                        for (var i in response.data) {
-                            var qtd = response.data[i];
-                            $('#total-aguardando-' + i).text(qtd.fila);
-                            $('#total-senhas-' + i).text(qtd.total);
+                        if (response.data.servicos) {
+                            for (var i in response.data.servicos) {
+                                var qtd = response.data.servicos[i];
+                                $('#total-aguardando-' + i).text(qtd.fila);
+                                $('#total-senhas-' + i).text(qtd.total);
+                            }
+                        }
+                        if (response.data.ultima) {
+                            var elem = $('#infobar .ultima-senha .label');
+                            elem.html('<span class="glyphicon glyphicon-print"></span> ' + response.data.ultima.senha);
+                            if (response.data.ultima.prioridade) {
+                                elem.removeClass('label-default').addClass('label-danger');
+                            } else {
+                                elem.removeClass('label-danger').addClass('label-default');
+                            }
                         }
                     }
                 }
@@ -142,6 +153,8 @@ SGA.Triagem = {
                             }
                         }
                     });
+                },
+                complete: function() {
                     SGA.Triagem.pausado = false;
                 }
             });

@@ -629,4 +629,35 @@ class AtendimentoService extends MetaModelService
         return $success;
     }
     
+
+    /**
+     * Retorna a ultima senha da unidad
+     * @param Unidade|integer $unidade
+     * @return Atendimento
+     */
+    public function ultimaSenhaUnidade($unidade) {
+        return $this->em
+                ->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.unidade = :unidade ORDER BY e.numeroSenha DESC")
+                ->setParameter('unidade', $unidade)
+                ->setMaxResults(1)
+                ->getOneOrNullResult()
+        ;
+    }
+
+    /**
+     * Retorna a ultima senha do servico
+     * @param Unidade|integer $unidade
+     * @param Servico|integer $servico
+     * @return Atendimento
+     */
+    public function ultimaSenhaServico($unidade, $servico) {
+        return $this->em
+                ->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC")
+                ->setParameter('servico', $servico)
+                ->setParameter('unidade', $unidade)
+                ->setMaxResults(1)
+                ->getOneOrNullResult()
+        ;
+    }
+    
 }

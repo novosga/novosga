@@ -4,7 +4,7 @@
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
  
-#client-info {
+#infobar {
     padding-top: 10px;
     padding-bottom: 10px;
     margin-bottom: 5px;
@@ -12,10 +12,16 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
     background-color: #F7F9FE;
-    background-image: url(../images/client-16.png);
     background-position: 20px center;
     background-repeat: no-repeat;
     border: 1px solid #e1e1e8;
+}
+
+#infobar .ultima-senha {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 5px;
 }
 
 #triagem-servicos .triagem-servico {
@@ -46,7 +52,7 @@
 
 #triagem-servicos .buttons {
     position: absolute;
-    top: 10px;
+    top: 16px;
     right: 10px;
 }
 

@@ -1,31 +1,34 @@
 {% extends "module.html.twig" %}
 {% block moduleContent %}
 
-<div class="ultima-senha">
-    
-</div>
-
-<div id="client-info" class="row">
-    <form role="form" onsubmit="return false">
-        <div class="col-xs-6">
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">
-                    <span class="glyphicon glyphicon-user"></span>
-                </span>
-                <label for="cli_nome" class="sr-only">{% trans %}Nome{% endtrans %}</label>
-                <input type="text" id="cli_nome" class="form-control" maxlength="100" placeholder="{% trans %}Nome{% endtrans %}" />
+<div id="infobar" class="row">
+    <div class="col-md-10 col-xs-9">
+        <form role="form" onsubmit="return false">
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </span>
+                    <label for="cli_nome" class="sr-only">{% trans %}Nome{% endtrans %}</label>
+                    <input type="text" id="cli_nome" class="form-control" maxlength="100" placeholder="{% trans %}Nome{% endtrans %}" />
+                </div>
             </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">
-                    <span class="glyphicon glyphicon-user"></span>
-                </span>
-                <label for="cli_doc" class="sr-only">{% trans %}Documento{% endtrans %}</label>
-                <input type="text" id="cli_doc" class="form-control" maxlength="11" placeholder="{% trans %}Documento{% endtrans %}" />
+            <div class="col-xs-6">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">
+                        <span class="glyphicon glyphicon-user"></span>
+                    </span>
+                    <label for="cli_doc" class="sr-only">{% trans %}Documento{% endtrans %}</label>
+                    <input type="text" id="cli_doc" class="form-control" maxlength="11" placeholder="{% trans %}Documento{% endtrans %}" />
+                </div>
             </div>
+        </form>
+    </div>
+    <div class="col-md-2 col-xs-3">
+        <div class="ultima-senha" title="{% trans %}Última senha{% endtrans %}">
+            <span class="label label-default"></span>
         </div>
-    </form>
+    </div>
 </div>
             
 <div id="triagem-servicos" class="row">
