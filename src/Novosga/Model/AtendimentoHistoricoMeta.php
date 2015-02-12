@@ -7,7 +7,7 @@ namespace Novosga\Model;
  * @Entity
  * @Table(name="historico_atend_meta")
  */
-class AtendimentoMetaHistorico extends AbstractAtendimentoMeta
+class AtendimentoHistoricoMeta extends AbstractAtendimentoMeta
 {
     
     /** 

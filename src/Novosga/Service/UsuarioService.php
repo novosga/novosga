@@ -11,7 +11,16 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class UsuarioService extends ModelService {
+class UsuarioService extends MetaModelService 
+{
+    
+    protected function getMetaClass() {
+        return 'Novosga\Model\UsuarioMeta';
+    }
+
+    protected function getMetaFieldname() {
+        return 'usuario';
+    }
     
     /**
      * Cria ou retorna um metadado do usuário caso o $value seja null (ou ocultado).
@@ -21,24 +30,7 @@ class UsuarioService extends ModelService {
      * @return \Novosga\Model\UsuarioMeta
      */
     public function meta(Usuario $usuario, $name, $value = null) {
-        if ($value === null) {
-            return $this->em
-                    ->createQuery('SELECT e FROM Novosga\Model\UsuarioMeta e WHERE e.usuario = :usuario AND e.name = :name')
-                    ->setParameter('usuario', $usuario)
-                    ->setParameter('name', $name)
-                    ->getOneOrNullResult();
-        } else {
-            $meta = $this->meta($usuario, $name);
-            if (!$meta) {
-                $meta = new \Novosga\Model\UsuarioMeta();
-            }
-            $meta->setName($name);
-            $meta->setValue($value);
-            $meta->setUsuario($usuario);
-            $this->em->persist($meta);
-            $this->em->flush();
-            return $meta;
-        }
+        return $this->modelMetadata($usuario, $name, $value);
     }
     
     /**

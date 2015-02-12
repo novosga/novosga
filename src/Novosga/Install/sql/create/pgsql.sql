@@ -183,6 +183,12 @@ CREATE TABLE unidades (
     msg_imp varchar(100) NOT NULL
 );
 
+CREATE TABLE uni_meta (
+    unidade_id integer NOT NULL,
+    name varchar(50) NOT NULL,
+    value TEXT 
+);
+
 CREATE TABLE usu_grup_cargo (
     usuario_id integer NOT NULL,
     grupo_id integer NOT NULL,
@@ -270,6 +276,7 @@ ALTER TABLE ONLY locais ADD CONSTRAINT locais_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY servicos ADD CONSTRAINT servicos_pkey PRIMARY KEY (id);
 ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_pkey PRIMARY KEY (unidade_id, servico_id);
 ALTER TABLE ONLY unidades ADD CONSTRAINT unidades_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY uni_meta ADD CONSTRAINT uni_meta_pkey PRIMARY KEY (unidade_id, name);
 ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_pkey PRIMARY KEY (usuario_id, grupo_id);
 ALTER TABLE ONLY usu_serv ADD CONSTRAINT usu_serv_pkey PRIMARY KEY (unidade_id, servico_id, usuario_id);
 ALTER TABLE ONLY usuarios ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id);
@@ -303,6 +310,7 @@ ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_1 FOREIGN KEY (unidade_id
 ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_2 FOREIGN KEY (servico_id) REFERENCES servicos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY uni_serv ADD CONSTRAINT uni_serv_ibfk_3 FOREIGN KEY (local_id) REFERENCES locais(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY unidades ADD CONSTRAINT unidades_grupo_id_fkey FOREIGN KEY (grupo_id) REFERENCES grupos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY uni_meta ADD FOREIGN KEY (unidade_id) REFERENCES unidades (id);
 ALTER TABLE ONLY usu_meta ADD FOREIGN KEY (usuario_id) REFERENCES usuarios (id);
 ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_1 FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY usu_grup_cargo ADD CONSTRAINT usu_grup_cargo_ibfk_2 FOREIGN KEY (grupo_id) REFERENCES grupos(id) ON UPDATE RESTRICT ON DELETE RESTRICT;

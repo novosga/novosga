@@ -147,6 +147,8 @@ abstract class AbstractAtendimento extends SequencialModel
 
     public function setServicoUnidade(ServicoUnidade $servicoUnidade) {
         $this->servicoUnidade = $servicoUnidade;
+        $this->setServico($servicoUnidade->getServico());
+        $this->setUnidade($servicoUnidade->getUnidade());
         return $this;
     }
     

@@ -10,7 +10,27 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class UnidadeService extends ModelService {
+class UnidadeService extends MetaModelService 
+{
+    
+    protected function getMetaClass() {
+        return 'Novosga\Model\UnidadeMeta';
+    }
+
+    protected function getMetaFieldname() {
+        return 'unidade';
+    }
+    
+    /**
+     * Cria ou retorna um metadado da unidade caso o $value seja null (ou ocultado).
+     * @param Unidade $unidade
+     * @param string $name
+     * @param string $value
+     * @return \Novosga\Model\UnidadeMeta
+     */
+    public function meta(Unidade $unidade, $name, $value = null) {
+        return $this->modelMetadata($unidade, $name, $value);
+    }
 
     /**
      * 

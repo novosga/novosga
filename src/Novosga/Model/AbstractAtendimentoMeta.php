@@ -7,19 +7,8 @@ namespace Novosga\Model;
  * 
  * @MappedSuperClass
  */
-abstract class AbstractAtendimentoMeta extends Model 
+abstract class AbstractAtendimentoMeta extends Metadata 
 {
-    
-    /** 
-     * @Id 
-     * @Column(name="name", type="string", length=50, nullable=false)
-     */
-    protected $name;
-    
-    /** 
-     * @Column(name="value", type="string", columnDefinition="text") 
-     */
-    protected $value;
     
     public abstract function getAtendimento();
     public abstract function setAtendimento(AbstractAtendimento $atendimento);
@@ -41,5 +30,14 @@ abstract class AbstractAtendimentoMeta extends Model
         $this->value = $value;
         return $this;
     }
+    
+    public function getEntity() {
+        return $this->getAtendimento();
+    }
+
+    public function setEntity($entity) {
+        $this->setAtendimento($entity);
+    }
+
 
 }

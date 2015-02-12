@@ -23,7 +23,8 @@ use PDO;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AtendimentoService extends ModelService {
+class AtendimentoService extends MetaModelService
+{
     
     // estados do atendimento
     const SENHA_EMITIDA = 1;
@@ -51,6 +52,25 @@ class AtendimentoService extends ModelService {
     public static function nomeSituacao($status) {
         $arr = self::situacoes();
         return $arr[$status];
+    }
+    
+    protected function getMetaClass() {
+        return 'Novosga\Model\AtendimentoMeta';
+    }
+
+    protected function getMetaFieldname() {
+        return 'atendimento';
+    }
+    
+    /**
+     * Cria ou retorna um metadado do atendimento caso o $value seja null (ou ocultado).
+     * @param Atendimento $atendimento
+     * @param string $name
+     * @param string $value
+     * @return \Novosga\Model\AtendimentoMeta
+     */
+    public function meta(Atendimento $atendimento, $name, $value = null) {
+        return $this->modelMetadata($atendimento, $name, $value);
     }
     
     /**
@@ -84,12 +104,14 @@ class AtendimentoService extends ModelService {
     /**
      * Move os registros da tabela atendimento para a tabela de historico de atendimentos.
      * Se a unidade não for informada, será acumulado serviços de todas as unidades.
-     * @param type $unidade
+     * @param Unidade|integer $unidade
      * @throws Exception
      */
     public function acumularAtendimentos($unidade = 0) {
         if ($unidade instanceof Unidade) {
             $unidade = $unidade->getId();
+        } else {
+            $unidade = max($unidade, 0);
         }
         $data = DateUtil::nowSQL();
         $conn = $this->em->getConnection();
@@ -99,6 +121,8 @@ class AtendimentoService extends ModelService {
         $historicoCodifTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoCodificadoHistorico')->getTableName();
         $atendimentoTable = $this->em->getClassMetadata('Novosga\Model\Atendimento')->getTableName();
         $atendimentoCodifTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoCodificado')->getTableName();
+        $atendimentoMetaTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoMeta')->getTableName();
+        $historicoMetaTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoHistoricoMeta')->getTableName();
 
         // copia os atendimentos para o historico
         $sql = "
@@ -114,6 +138,24 @@ class AtendimentoService extends ModelService {
                 $atendimentoTable a
             WHERE 
                 a.dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
+        ";
+        $query = $conn->prepare($sql);
+        $query->bindValue('data', $data, PDO::PARAM_STR);
+        $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
+        $query->execute();
+
+        // copia os metadados
+        $sql = "
+            INSERT INTO $historicoMetaTable
+            (
+                atendimento_id, name, value
+            )
+            SELECT 
+                a.atendimento_id, a.name, a.value
+            FROM 
+                $atendimentoMetaTable  a
+            WHERE 
+                a.atendimento_id IN (SELECT b.id FROM $atendimentoTable b WHERE b.dt_cheg <= :data AND (b.unidade_id = :unidade OR :unidade = 0))
         ";
         $query = $conn->prepare($sql);
         $query->bindValue('data', $data, PDO::PARAM_STR);
@@ -139,6 +181,17 @@ class AtendimentoService extends ModelService {
         // limpa atendimentos codificados
         $this->em->createQuery('
                     DELETE Novosga\Model\AtendimentoCodificado e WHERE e.atendimento IN (
+                        SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
+                    )
+                ')
+                ->setParameter('data', $data)
+                ->setParameter('unidade', $unidade)
+                ->execute()
+        ;
+
+        // limpa metadata
+        $this->em->createQuery('
+                    DELETE Novosga\Model\AtendimentoMeta e WHERE e.atendimento IN (
                         SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
                     )
                 ')
@@ -250,8 +303,8 @@ class AtendimentoService extends ModelService {
          * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
          */
         return $query->execute() > 0;
-    }
-    
+        }
+        
     /**
      * Retorna o atendimento em andamento do usuario informado
      * @param integer|Usuario $usuario
@@ -473,8 +526,8 @@ class AtendimentoService extends ModelService {
                 ->setParameter('unidade', $unidade)
                 ->execute() > 0
         ;
-    }
-    
+        }
+        
     /**
      * Atualiza o status da senha para cancelado
      * 
@@ -501,8 +554,8 @@ class AtendimentoService extends ModelService {
                 ->setParameter('unidade', $unidade)
                 ->execute() > 0
         ;
-    }
-    
+        }
+        
     /**
      * Reativa o atendimento para o mesmo serviço e mesma prioridade.
      * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu
@@ -530,6 +583,6 @@ class AtendimentoService extends ModelService {
                 ->setParameter('unidade', $unidade)
                 ->execute() > 0
         ;
+        }
+        
     }
-    
-}
