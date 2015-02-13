@@ -210,6 +210,11 @@ class InstallController extends InternalController {
             if (is_writable($req['file'])) {
                 $req['result'] = _('Escrita');
                 $req['class'] = ''; //'success'
+            } 
+            else if (!is_dir($req['file'])) {
+                $fatal = true;
+                $req['result'] = _('Não existe');
+                $req['class'] = 'danger';
             } else {
                 $fatal = true;
                 $req['result'] = _('Somente leitura');
