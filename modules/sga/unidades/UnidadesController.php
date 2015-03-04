@@ -4,6 +4,7 @@ namespace modules\sga\unidades;
 use Novosga\Context;
 use Novosga\Model\SequencialModel;
 use Novosga\Model\Unidade;
+use Novosga\Model\Contador;
 use Novosga\Controller\CrudController;
 
 /**
@@ -12,6 +13,8 @@ use Novosga\Controller\CrudController;
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class UnidadesController extends CrudController {
+    
+    private $isNew = false;
 
     protected function createModel() {
         return new Unidade();
@@ -34,11 +37,25 @@ class UnidadesController extends CrudController {
         if (!$grupo || !$grupo->isLeaf()) {
             throw new \Exception(_('Grupo inválido'));
         }
-        if (!$model->getId()) {
+        
+        $this->isNew = !$model->getId();
+        
+        if ($this->isNew) {
             $model->setStatusImpressao(1);
             $model->setMensagemImpressao('Novo SGA');
         }
         $model->setGrupo($grupo);
+    }
+    
+    protected function postSave(Context $context, SequencialModel $model) {
+        if ($this->isNew) {
+            $contador = new Contador();
+            $contador->setUnidade($model);
+            $contador->setTotal(0);
+            $this->em()->persist($contador);
+            $this->em()->flush();
+        }
+        $this->isNew = false;
     }
 
     protected function search($arg) {

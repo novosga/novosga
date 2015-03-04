@@ -40,6 +40,12 @@ class Unidade extends SequencialModel
      * @Column(type="string", name="msg_imp", length=100, nullable=false) 
      */
     protected $mensagemImpressao;
+    
+    /** 
+     * @OneToOne(targetEntity="Contador", mappedBy="unidade", cascade={"persist"}) 
+     * @var Contador
+     */
+    protected $contador;
 	
 
     public function __construct() {
@@ -94,6 +100,15 @@ class Unidade extends SequencialModel
 
     public function setMensagemImpressao($mensagemImpressao) {
         $this->mensagemImpressao = $mensagemImpressao;
+    }
+    
+    public function getContador() {
+        return $this->contador;
+    }
+
+    public function setContador(Contador $contador) {
+        $this->contador = $contador;
+        return $this;
     }
     
     public function toString() {

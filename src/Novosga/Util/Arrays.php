@@ -118,12 +118,29 @@ class Arrays {
             $entry = "\"$k\" => ";
             if (is_array($v)) {
                 $entry .= self::toString($v, $tabs + 1);
-            } else {
+            }
+            else if (is_callable($v)) {
+                throw new \Exception('Não é possível serializar closure');
+            }
+            else if (is_object($v)) {
+                $entry .= "new " . get_class($v);
+            }
+            else if (is_double($v) || is_float($v)) {
+                $entry .= str_replace(',', '.', "$v");
+            }
+            else if (is_int($v)) {
+                $entry .= $v;
+            }
+            else {
                 $entry .= "\"$v\"";
             }
             $s .= "{$espacer}{$entry},\n";
         }
-        return "$s)";
+        $espacer = "";
+        for ($i = 0; $i < $tabs - 1; $i++) {
+            $espacer .= "    ";
+        }
+        return "{$s}{$espacer})";
     }
     
     public static function contains($arr, $value) {
