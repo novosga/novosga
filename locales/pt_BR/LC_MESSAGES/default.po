@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Novo SGA\n"
-"POT-Creation-Date: 2014-07-31 09:13-0300\n"
-"PO-Revision-Date: 2014-09-09 15:18-0300\n"
+"POT-Creation-Date: 2015-03-04 08:03-0300\n"
+"PO-Revision-Date: 2015-03-04 08:05-0300\n"
 "Last-Translator: Rogério Lino <rogeriolino@gmail.com>\n"
 "Language-Team: Português (idioma padrão)\n"
 "Language: pt_BR\n"
@@ -20,54 +20,137 @@ msgstr ""
 "X-Poedit-SearchPath-1: src\n"
 "X-Poedit-SearchPath-2: modules/sga\n"
 
+#: cache/13/49/51ddd24459ddc3c736c4dc9e4c48359ccb8dcad184bb4d1d21704c9b40d2.php:34
+#: cache/13/49/51ddd24459ddc3c736c4dc9e4c48359ccb8dcad184bb4d1d21704c9b40d2.php:60
 msgid "Instalar"
 msgstr ""
 
+#: cache/13/49/51ddd24459ddc3c736c4dc9e4c48359ccb8dcad184bb4d1d21704c9b40d2.php:42
 msgid "Clique em Instalar para iniciar o processo de instalação do sistema."
 msgstr ""
 
+#: cache/13/49/51ddd24459ddc3c736c4dc9e4c48359ccb8dcad184bb4d1d21704c9b40d2.php:47
 msgid "Atenção"
 msgstr ""
 
-msgid "Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão 1.0.0 ou inferior) no banco especificado, a mesma será sobrescrita (atualizada)."
+#: cache/13/49/51ddd24459ddc3c736c4dc9e4c48359ccb8dcad184bb4d1d21704c9b40d2.php:51
+msgid ""
+"Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão "
+"1.0.0 ou superior) no banco especificado, a mesma será atualizada."
 msgstr ""
 
+#: cache/13/49/51ddd24459ddc3c736c4dc9e4c48359ccb8dcad184bb4d1d21704c9b40d2.php:58
 msgid "Clique para iniciar o processo final de instalação."
 msgstr ""
 
+#: cache/13/49/51ddd24459ddc3c736c4dc9e4c48359ccb8dcad184bb4d1d21704c9b40d2.php:69
 msgid "Clique para iniciar a utilização do SGA."
 msgstr ""
 
+#: cache/13/49/51ddd24459ddc3c736c4dc9e4c48359ccb8dcad184bb4d1d21704c9b40d2.php:71
 msgid "Ir para tela de login"
 msgstr ""
 
+#: cache/14/c5/1481ca91aabdcbfe5d3e08791aa485c1d9a03e1af8ac5fe1579d0cbeb2da.php:33
+#: cache/1e/a3/23115ed7306aeabe4507052a51d4c1ca806d4b5b7a26ddc88ec33351e00d.php:33
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:57
+#: cache/32/81/7eaf95d4bf7892af7ddb6f7850e8f3bc7be3184fa5a44085187606e28d61.php:33
+#: cache/3d/5b/c127d79653dbfd45f312f0d4a3649d3032d666fd1e721a6e0c1d13b558eb.php:33
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:73
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:34
+#: cache/54/14/3ce7befbf8901e87e365256c0a38c2c2a59951400fb49fa40720b0d7df47.php:33
+#: cache/61/15/b32a369e1c0fc3f5ef81ab8397244648a58cb079edb38818406014b22039.php:44
+#: cache/6d/ce/759641e072eccf864dafea84a6ccc55d0c4f134457534e2231634d37cd78.php:38
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:42
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:46
+#: cache/7b/8d/5acd2d66b2e70f43702456699683e583f0ed1aa106a34d479796c4e6ddee.php:46
+#: cache/8a/0e/fffed36d3b987b3e4221c40299a7de0e52e23a067484ce75204b7168a3af.php:37
+#: cache/97/e5/69caa94e2a4afac0df356060d55b1b5e8ed702ab3a96edaab0c1c2ae0a34.php:37
+#: cache/c0/03/c0b9fe98d34a54b4d7c17862765ed4a8dbdc9e66ab80eda56cd2cee026d7.php:33
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:213
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:321
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:102
+#: cache/c7/e6/2e45ec7f9d1d49b6d2296e1cc7db9e370a2b2c10d5dd044f598516efe078.php:37
+#: cache/d8/e8/10b170d3acbf35918ad0630d65676e58cc3b093831641c7ccfb3b24b9731.php:34
+#: cache/db/a5/81c67d17e572031eacf5f8063414410a08f4f595dafb0256a18fd797bc2c.php:37
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:231
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:61
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:69
 msgid "Nome"
 msgstr ""
 
+#: cache/14/c5/1481ca91aabdcbfe5d3e08791aa485c1d9a03e1af8ac5fe1579d0cbeb2da.php:37
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:112
 msgid "Macro"
 msgstr ""
 
+#: cache/14/c5/1481ca91aabdcbfe5d3e08791aa485c1d9a03e1af8ac5fe1579d0cbeb2da.php:41
+#: cache/1e/a3/23115ed7306aeabe4507052a51d4c1ca806d4b5b7a26ddc88ec33351e00d.php:41
+#: cache/3d/5b/c127d79653dbfd45f312f0d4a3649d3032d666fd1e721a6e0c1d13b558eb.php:41
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:54
+#: cache/6d/ce/759641e072eccf864dafea84a6ccc55d0c4f134457534e2231634d37cd78.php:54
+#: cache/8a/0e/fffed36d3b987b3e4221c40299a7de0e52e23a067484ce75204b7168a3af.php:99
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:84
+#: cache/97/e5/69caa94e2a4afac0df356060d55b1b5e8ed702ab3a96edaab0c1c2ae0a34.php:45
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:74
+#: cache/db/a5/81c67d17e572031eacf5f8063414410a08f4f595dafb0256a18fd797bc2c.php:41
 msgid "Status"
 msgstr ""
 
+#: cache/14/c5/1481ca91aabdcbfe5d3e08791aa485c1d9a03e1af8ac5fe1579d0cbeb2da.php:78
+#: cache/1e/a3/23115ed7306aeabe4507052a51d4c1ca806d4b5b7a26ddc88ec33351e00d.php:63
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:92
+#: cache/3d/5b/c127d79653dbfd45f312f0d4a3649d3032d666fd1e721a6e0c1d13b558eb.php:63
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:67
+#: cache/61/15/b32a369e1c0fc3f5ef81ab8397244648a58cb079edb38818406014b22039.php:97
+#: cache/6d/ce/759641e072eccf864dafea84a6ccc55d0c4f134457534e2231634d37cd78.php:107
+#: cache/7f/46/084203cb0c9472b477f1905cb305ebeddb0bdcfb189c43f2c5dbe5c6485f.php:50
+#: cache/7f/46/084203cb0c9472b477f1905cb305ebeddb0bdcfb189c43f2c5dbe5c6485f.php:88
+#: cache/97/e5/69caa94e2a4afac0df356060d55b1b5e8ed702ab3a96edaab0c1c2ae0a34.php:71
+#: cache/db/a5/81c67d17e572031eacf5f8063414410a08f4f595dafb0256a18fd797bc2c.php:63
+#: modules/sga/prioridades/PrioridadesController.php:41
 msgid "Ativo"
 msgstr ""
 
+#: cache/14/c5/1481ca91aabdcbfe5d3e08791aa485c1d9a03e1af8ac5fe1579d0cbeb2da.php:84
+#: cache/1e/a3/23115ed7306aeabe4507052a51d4c1ca806d4b5b7a26ddc88ec33351e00d.php:69
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:100
+#: cache/3d/5b/c127d79653dbfd45f312f0d4a3649d3032d666fd1e721a6e0c1d13b558eb.php:69
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:75
+#: cache/61/15/b32a369e1c0fc3f5ef81ab8397244648a58cb079edb38818406014b22039.php:105
+#: cache/6d/ce/759641e072eccf864dafea84a6ccc55d0c4f134457534e2231634d37cd78.php:113
+#: cache/7f/46/084203cb0c9472b477f1905cb305ebeddb0bdcfb189c43f2c5dbe5c6485f.php:56
+#: cache/7f/46/084203cb0c9472b477f1905cb305ebeddb0bdcfb189c43f2c5dbe5c6485f.php:94
+#: cache/97/e5/69caa94e2a4afac0df356060d55b1b5e8ed702ab3a96edaab0c1c2ae0a34.php:77
+#: cache/db/a5/81c67d17e572031eacf5f8063414410a08f4f595dafb0256a18fd797bc2c.php:69
+#: modules/sga/prioridades/PrioridadesController.php:42
 msgid "Inativo"
 msgstr ""
 
+#: cache/1e/a3/23115ed7306aeabe4507052a51d4c1ca806d4b5b7a26ddc88ec33351e00d.php:37
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:59
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:112
 msgid "Chave"
 msgstr ""
 
+#: cache/25/52/17ad774ff4b91a929e3dbd4724df3a3f5f8a17a94922ebd527b035a5441a.php:26
+#: cache/25/52/17ad774ff4b91a929e3dbd4724df3a3f5f8a17a94922ebd527b035a5441a.php:102
+#: cache/ac/b2/24eb07493417d818f5b5e251c0c114414483e4c56f46ef876b6ec5531e9e.php:26
+#: cache/ac/b2/24eb07493417d818f5b5e251c0c114414483e4c56f46ef876b6ec5531e9e.php:102
 msgid "Instalação"
 msgstr ""
 
+#: cache/25/52/17ad774ff4b91a929e3dbd4724df3a3f5f8a17a94922ebd527b035a5441a.php:121
+#: cache/ac/b2/24eb07493417d818f5b5e251c0c114414483e4c56f46ef876b6ec5531e9e.php:121
 msgid "Anterior"
 msgstr ""
 
+#: cache/25/52/17ad774ff4b91a929e3dbd4724df3a3f5f8a17a94922ebd527b035a5441a.php:144
+#: cache/ac/b2/24eb07493417d818f5b5e251c0c114414483e4c56f46ef876b6ec5531e9e.php:144
 msgid "Próximo"
 msgstr ""
 
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:35
 msgid ""
 "<strong>Atenção:</strong> O banco de dados especificado precisa existir. A "
 "aplicação procurará por versões anteriores para atualizar o banco. Caso não "
@@ -75,1217 +158,1831 @@ msgid ""
 "vazio."
 msgstr ""
 
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:42
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:52
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:130
 msgid "Banco de Dados"
 msgstr ""
 
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:52
 msgid "Escolhido no passo 1"
 msgstr ""
 
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:64
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:161
+msgid "Porta"
+msgstr ""
+
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:71
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:30
+#: cache/6d/ce/759641e072eccf864dafea84a6ccc55d0c4f134457534e2231634d37cd78.php:34
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:194
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:75
+#, fuzzy
+msgid "Usuário"
+msgstr "Login"
+
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:78
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:137
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:505
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:204
+#: cache/e3/cb/4108da279c3dc8ddc574ccd899397efd2f2dfcc69ef6c01cc19bd8d5450b.php:78
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:82
+msgid "Senha"
+msgstr ""
+
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:89
+msgid "É necessário testar o banco antes de prosseguir."
+msgstr ""
+
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:94
 msgid "Clique para testar a conexão com o Banco de Dados."
 msgstr ""
 
+#: cache/27/89/ad36651d57b352c072b28b2eec08ed6f305dedbb30371b84509b9d0b3096.php:96
 msgid "Testar"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:35
+#: cache/7b/8d/5acd2d66b2e70f43702456699683e583f0ed1aa106a34d479796c4e6ddee.php:34
 msgid "Geral"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:39
 msgid "Acesso"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:47
+#: cache/db/a5/81c67d17e572031eacf5f8063414410a08f4f595dafb0256a18fd797bc2c.php:33
 #, fuzzy
 msgid "Nome de usuário"
 msgstr "Login"
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:67
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:83
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:68
 msgid "Sobrenome"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:84
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:353
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:365
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:418
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:59
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:117
+#: cache/61/15/b32a369e1c0fc3f5ef81ab8397244648a58cb079edb38818406014b22039.php:59
+#: cache/61/15/b32a369e1c0fc3f5ef81ab8397244648a58cb079edb38818406014b22039.php:89
+#: cache/7b/8d/5acd2d66b2e70f43702456699683e583f0ed1aa106a34d479796c4e6ddee.php:75
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:275
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:550
+#: cache/d8/e8/10b170d3acbf35918ad0630d65676e58cc3b093831641c7ccfb3b24b9731.php:63
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:131
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:231
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:275
+#: modules/sga/prioridades/PrioridadesController.php:40
 msgid "Selecione"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:114
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:520
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:162
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:144
 msgid "Alterar"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:119
 msgid "Alterar senha do usuário"
 msgstr ""
 
-msgid "Senha"
-msgstr ""
-
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:144
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:512
 msgid "Confirmar senha"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:156
+#: modules/sga/estatisticas/EstatisticasController.php:43
 msgid "Lotações"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:160
 msgid ""
 "Lotação é o par de grupo e cargo, utilizado para definir o papel e acesso do "
 "usuário às unidades."
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:168
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:348
+#: cache/61/15/b32a369e1c0fc3f5ef81ab8397244648a58cb079edb38818406014b22039.php:54
+#: cache/6d/ce/759641e072eccf864dafea84a6ccc55d0c4f134457534e2231634d37cd78.php:46
+#: cache/97/e5/69caa94e2a4afac0df356060d55b1b5e8ed702ab3a96edaab0c1c2ae0a34.php:41
 msgid "Grupo"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:172
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:360
+#: cache/6d/ce/759641e072eccf864dafea84a6ccc55d0c4f134457534e2231634d37cd78.php:42
 msgid "Cargo"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:202
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:540
 msgid "Visualizar permissões"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:223
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:307
 msgid "Remover selecionados"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:234
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:317
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:390
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:452
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:389
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:554
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:408
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:437
 msgid "Adicionar"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:245
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:67
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:172
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:280
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:156
+msgid "Atendimento"
+msgstr ""
+
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:249
 msgid "Serviços que o usuário (atendente) atende em cada lotação."
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:257
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:404
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:225
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:250
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:387
+#: cache/7f/46/084203cb0c9472b477f1905cb305ebeddb0bdcfb189c43f2c5dbe5c6485f.php:24
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:76
+#: cache/9e/77/5ba8b1bf0709a93e5e15bbe405a0994dbf1e98f0b3c2a71729ba8146afab.php:38
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:193
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:301
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:627
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:687
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:110
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:183
+#: cache/f4/db/8be2e16c2bcd8fa1e6b84bf423af0c07c1332410720a4c34273c4cd4665f.php:38
 msgid "Serviço"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:261
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:411
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:263
+#: cache/b7/82/9331d43287576505a38bccc8d1227f9b75a5a88153b8968130cb62494288.php:57
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:157
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:257
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:263
+#: modules/sga/cargos/CargosController.php:93
 msgid "Unidade"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:341
 msgid "Lotação"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:442
+#: cache/6d/ce/759641e072eccf864dafea84a6ccc55d0c4f134457534e2231634d37cd78.php:50
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:54
+msgid "Serviços"
+msgstr ""
+
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:468
+#: cache/7b/8d/5acd2d66b2e70f43702456699683e583f0ed1aa106a34d479796c4e6ddee.php:38
 msgid "Permissões"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:474
+#: cache/29/ae/3843027eb8a890f1ad173077ea1446e84aa6bda10733be6aed44e8d5978d.php:34
+#: cache/7b/8d/5acd2d66b2e70f43702456699683e583f0ed1aa106a34d479796c4e6ddee.php:107
+msgid "Módulos"
+msgstr ""
+
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:494
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:101
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:127
 msgid "Alterar senha"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:536
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:172
 msgid "Senha alterada com sucesso"
 msgstr ""
 
+#: cache/29/a9/bad9438e9f960fd11dc7653825a79448bd23eec8a8b50b47529d497c7faa.php:544
+#: cache/32/41/133576f23b6a0588024016de97818f4157c8091c09fe608ad9abd9e02279.php:160
+#: cache/63/63/151f72f06388bb69f4ef25d2ecf7405469ff2ddc21538429c620ff79afc2.php:107
+#: cache/b7/94/5419214c77ee9109e109d9803b1660679d36431acc486ebacf6f8051af23.php:160
+#: cache/f8/a1/59459f1049b09b5883ea745c34a1f9d3e5736e6cd378725f8b9906927cc8.php:107
 msgid "Realmente deseja excluir?"
 msgstr ""
 
+#: cache/30/e0/0092d5d323786d07ed3bb792b7a4fffa299c282e3fe9d02a00adf9d7c715.php:43
 msgid "Página não encontrada"
 msgstr ""
 
+#: cache/30/e0/0092d5d323786d07ed3bb792b7a4fffa299c282e3fe9d02a00adf9d7c715.php:50
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:58
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:54
+#: src/Novosga/Install/InstallController.php:36
 msgid "Início"
 msgstr ""
 
+#: cache/32/41/133576f23b6a0588024016de97818f4157c8091c09fe608ad9abd9e02279.php:51
+#: cache/b7/82/9331d43287576505a38bccc8d1227f9b75a5a88153b8968130cb62494288.php:46
+#: cache/b7/94/5419214c77ee9109e109d9803b1660679d36431acc486ebacf6f8051af23.php:51
 msgid "buscar"
 msgstr ""
 
+#: cache/32/41/133576f23b6a0588024016de97818f4157c8091c09fe608ad9abd9e02279.php:59
+#: cache/b7/94/5419214c77ee9109e109d9803b1660679d36431acc486ebacf6f8051af23.php:59
 msgid "Buscar"
 msgstr ""
 
+#: cache/32/41/133576f23b6a0588024016de97818f4157c8091c09fe608ad9abd9e02279.php:71
+#: cache/b7/94/5419214c77ee9109e109d9803b1660679d36431acc486ebacf6f8051af23.php:71
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:225
 msgid "Novo"
 msgstr ""
 
+#: cache/32/41/133576f23b6a0588024016de97818f4157c8091c09fe608ad9abd9e02279.php:150
+#: cache/b7/94/5419214c77ee9109e109d9803b1660679d36431acc486ebacf6f8051af23.php:150
 msgid "Editar"
 msgstr ""
 
+#: cache/32/41/133576f23b6a0588024016de97818f4157c8091c09fe608ad9abd9e02279.php:156
+#: cache/63/63/151f72f06388bb69f4ef25d2ecf7405469ff2ddc21538429c620ff79afc2.php:112
+#: cache/b7/94/5419214c77ee9109e109d9803b1660679d36431acc486ebacf6f8051af23.php:156
+#: cache/f8/a1/59459f1049b09b5883ea745c34a1f9d3e5736e6cd378725f8b9906927cc8.php:112
 msgid "Excluir"
 msgstr ""
 
+#: cache/3d/5b/c127d79653dbfd45f312f0d4a3649d3032d666fd1e721a6e0c1d13b558eb.php:37
+#: cache/8a/0e/fffed36d3b987b3e4221c40299a7de0e52e23a067484ce75204b7168a3af.php:61
 msgid "Peso"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:36
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:230
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:230
 msgid "Perfil"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:40
 msgid "Visualize e atualize o seu perfil"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:54
 msgid "Perfil atualizado com sucesso"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:63
 msgid "Login"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:112
+#: cache/63/63/151f72f06388bb69f4ef25d2ecf7405469ff2ddc21538429c620ff79afc2.php:78
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:227
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:110
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:160
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:185
+#: cache/f8/a1/59459f1049b09b5883ea745c34a1f9d3e5736e6cd378725f8b9906927cc8.php:78
 msgid "Salvar"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:136
 msgid "Senha atual"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:143
 msgid "Nova senha"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:150
 msgid "Confirmar nova senha"
 msgstr ""
 
+#: cache/47/18/94a92f65702bb44d7939f0e4c3439868d35d38252766158eeadfd8435b76.php:158
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:516
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:284
 msgid "Fechar"
 msgstr ""
 
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:44
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:277
+#: cache/7b/8d/5acd2d66b2e70f43702456699683e583f0ed1aa106a34d479796c4e6ddee.php:56
+#: cache/8a/0e/fffed36d3b987b3e4221c40299a7de0e52e23a067484ce75204b7168a3af.php:47
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:129
+#: cache/d8/e8/10b170d3acbf35918ad0630d65676e58cc3b093831641c7ccfb3b24b9731.php:44
 msgid "Descrição"
 msgstr ""
 
+#: cache/4d/21/9a0e43bd6ebe09e5b29432ba01dd0bbcbce424efecc1cd40f832bdc15c8e.php:86
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:284
 msgid "Subserviços"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:22
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:30
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:30
+#: cache/f4/db/8be2e16c2bcd8fa1e6b84bf423af0c07c1332410720a4c34273c4cd4665f.php:30
 msgid "Período de %dataInicial% a %dataFinal%"
 msgstr ""
 
-#, fuzzy
-msgid "Usuário"
-msgstr "Login"
-
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:34
 msgid "Atendimentos"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:38
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:111
 msgid "Tempo médio de espera"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:40
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:109
 msgid "TME"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:44
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:117
 msgid "Tempo médio de deslocamento"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:46
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:115
 msgid "TMD"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:50
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:123
 msgid "Tempo médio de atendimento"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:52
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:121
 msgid "TMA"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:56
 msgid "Tempo total"
 msgstr ""
 
+#: cache/51/71/981f4c88779ab884e1c8c3b0d259d1ba18d894aa01268970f5dcb340fee3.php:104
 msgid "Legenda"
 msgstr ""
 
+#: cache/61/15/b32a369e1c0fc3f5ef81ab8397244648a58cb079edb38818406014b22039.php:34
+#: cache/97/e5/69caa94e2a4afac0df356060d55b1b5e8ed702ab3a96edaab0c1c2ae0a34.php:33
 msgid "Código"
 msgstr ""
 
+#: cache/63/63/151f72f06388bb69f4ef25d2ecf7405469ff2ddc21538429c620ff79afc2.php:91
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:213
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:287
+#: cache/f8/a1/59459f1049b09b5883ea745c34a1f9d3e5736e6cd378725f8b9906927cc8.php:91
 msgid "Voltar"
 msgstr ""
 
+#: cache/63/63/151f72f06388bb69f4ef25d2ecf7405469ff2ddc21538429c620ff79afc2.php:97
+#: cache/f8/a1/59459f1049b09b5883ea745c34a1f9d3e5736e6cd378725f8b9906927cc8.php:97
 msgid "Campos obrigatórios"
 msgstr ""
 
+#: cache/63/63/151f72f06388bb69f4ef25d2ecf7405469ff2ddc21538429c620ff79afc2.php:141
+#: cache/f8/a1/59459f1049b09b5883ea745c34a1f9d3e5736e6cd378725f8b9906927cc8.php:141
 msgid "Campo obrigatório"
 msgstr ""
 
+#: cache/66/cd/2b1dba7592e31d9fb31d42179fae65918594b76790b525bdba96bb5543e5.php:43
+#: cache/75/9e/89d8d35534d6e81bf2995ef1cc6f66461ecdb635c72870e789855fb9501c.php:43
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:234
 msgid "Mensagem"
 msgstr ""
 
-msgid "Cliente"
-msgstr ""
-
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:57
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:61
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:238
 msgid "Documento"
 msgstr ""
 
-msgid "Aguardando atendimento"
-msgstr ""
-
-msgid "Total de senhas do serviço"
-msgstr ""
-
-msgid "Distribuir senha normal"
-msgstr ""
-
-msgid "Normal"
-msgstr ""
-
-msgid "Distribuir senha com prioridade"
-msgstr ""
-
-msgid "Prioridade"
-msgstr ""
-
-msgid "Nenhum serviço habilitado para a unidade atual"
-msgstr ""
-
-msgid "Consultar senha"
-msgstr ""
-
-msgid "Senha|Bilhete"
-msgstr "Senha"
-
-msgid "Número"
-msgstr ""
-
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:70
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:257
 msgid "Última senha"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:119
+msgid "Aguardando atendimento"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:126
+msgid "Total de senhas do serviço"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:140
+msgid "Distribuir senha normal"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:145
+#: modules/sga/prioridades/PrioridadesController.php:32
+msgid "Normal"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:159
+msgid "Distribuir senha com prioridade"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:164
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:232
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:306
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:203
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:311
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:694
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:176
+#: src/Novosga/Model/Util/Senha.php:98
+#: modules/sga/atendimento/AtendimentoController.php:50
+msgid "Prioridade"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:179
+msgid "Nenhum serviço habilitado para a unidade atual"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:193
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:517
+msgid "Consultar senha"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:211
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:38
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:38
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:183
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:291
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:673
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:164
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:291
+msgid "Senha|Bilhete"
+msgstr "Senha"
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:218
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:369
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:383
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:53
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:607
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:623
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:680
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:92
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:106
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:169
+msgid "Número"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:263
 msgid "Reimprimir"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:270
 msgid "Nome original do serviço"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:289
 msgid "Não há subserviços"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:344
 msgid "Gerar prioridade"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:361
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:599
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:84
 msgid "Busca"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:374
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:613
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:43
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:97
 msgid "Consultar"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:391
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:631
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:114
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:190
 msgid "Data chegada"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:395
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:635
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:118
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:204
 msgid "Data início"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:399
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:639
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:122
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:211
 msgid "Data fim"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:403
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:39
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:58
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:643
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:126
+msgid "Triagem"
+msgstr ""
+
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:407
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:78
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:82
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:647
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:130
 msgid "Atendente"
 msgstr ""
 
+#: cache/70/2a/f6ca7244b2fda83a4d7b7f65b5b749bbccfe9063f2c07350c56d210f22ac.php:411
+#: cache/7f/46/084203cb0c9472b477f1905cb305ebeddb0bdcfb189c43f2c5dbe5c6485f.php:28
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:651
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:134
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:218
 msgid "Situação"
 msgstr ""
 
+#: cache/7b/8d/5acd2d66b2e70f43702456699683e583f0ed1aa106a34d479796c4e6ddee.php:70
+#: cache/d8/e8/10b170d3acbf35918ad0630d65676e58cc3b093831641c7ccfb3b24b9731.php:58
 msgid "Pai"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:35
 msgid "Sistema"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:44
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:85
 msgid "Sobre"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:63
 msgid "Valor"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:108
 msgid "Autenticação"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:114
 msgid "Configuração salva com sucesso"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:121
 msgid "Tipo"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:138
 msgid "LDAP e Banco de Dados"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:151
 msgid "Servidor"
 msgstr ""
 
-msgid "Porta"
-msgstr ""
-
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:172
 msgid "Base DN"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:183
 msgid "Login Attribute"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:214
 msgid "Filtro"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:237
 msgid "Tipo de numeração"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:266
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:245
 msgid "Reiniciar senhas"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:271
 msgid "Deseja realmente reiniciar as senhas de todas unidades?"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:275
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:253
 msgid "Reiniciar"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:365
 msgid "Clientes"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:410
 msgid "Verificar nova versão"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:421
 msgid "Parabéns, você possui a versão mais recente"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:441
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:460
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:479
 msgid "Acessar"
 msgstr ""
 
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:504
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:272
+msgid "Configuração"
+msgstr ""
+
+#: cache/83/3c/f22c3b6b943503600c27e60545a89897faf19409449eabbd75e848a0efb0.php:510
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:278
 msgid "Senhas reiniciadas com sucesso"
 msgstr ""
 
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:65
 msgid ""
-"As modificações na sigla e nome do serviço são salvas automaticamente ao "
-"sair do campo."
+"As modificações na sigla do serviço são salvas automaticamente ao sair do "
+"campo."
 msgstr ""
 
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:72
+#: cache/9e/77/5ba8b1bf0709a93e5e15bbe405a0994dbf1e98f0b3c2a71729ba8146afab.php:34
 msgid "Sigla"
 msgstr ""
 
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:80
 msgid "Local"
 msgstr ""
 
-msgid "Habilitar"
-msgstr ""
-
-msgid "Desabilitar"
-msgstr ""
-
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:214
 msgid "Impressão"
 msgstr ""
 
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:227
 msgid "Ativar impressão de senha"
 msgstr ""
 
+#: cache/91/b8/f37a5a14f83be9e8d017152e2b3ab4980e00f0b2f87dac42e5abe4ba1893.php:249
 msgid "Deseja realmente reiniciar as senhas?"
 msgstr ""
 
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:42
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:226
+msgid "Cliente"
+msgstr ""
+
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:46
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:42
 msgid "Data"
 msgstr ""
 
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:50
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:46
 msgid "Hora de Chamada"
 msgstr ""
 
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:52
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:48
 msgid "Chamada"
 msgstr ""
 
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:56
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:52
 msgid "Hora do Início do atendimento"
 msgstr ""
 
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:62
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:58
 msgid "Hora do Fim do atendimento"
 msgstr ""
 
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:64
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:60
 msgid "Fim"
 msgstr ""
 
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:68
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:76
 msgid "Serviço escolhido na triagem"
 msgstr ""
 
+#: cache/98/d0/eab4dd2e2ec814beb7a07df84ab0df4990eaf023671c50b10a1b3477609a.php:70
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:78
 msgid "Serviço Triado"
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:98
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:98
 msgid "Erro"
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:102
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:102
+#: modules/sga/estatisticas/EstatisticasController.php:62
+#: modules/sga/estatisticas/EstatisticasController.php:126
+#: modules/sga/estatisticas/EstatisticasController.php:127
 msgid "d/m/Y"
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:106
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:106
+#: src/Novosga/Controller/LoginController.php:29
 msgid ""
 "Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra "
 "máquina."
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:110
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:110
+#: src/Novosga/Controller/LoginController.php:27
 msgid "Sessão expirada. Favor efetuar o login novamente."
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:168
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:168
 msgid "Trocar unidade"
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:183
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:183
 msgid "Escolher unidade"
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:194
+#: cache/b7/82/9331d43287576505a38bccc8d1227f9b75a5a88153b8968130cb62494288.php:104
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:194
+#: modules/sga/cargos/CargosController.php:93
 msgid "Global"
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:236
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:236
 msgid "Sair"
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:270
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:270
 msgid "Favor escolher a unidade"
 msgstr ""
 
+#: cache/9a/f8/065ac039b379ddddb83dbbb184f49259fc84eb108a66a46138937420bbc7.php:304
+#: cache/e2/bd/5f152b9898f88dc891dcd0c84af50ba23b81ceefdc2929ac0314be317f1a.php:304
 msgid "Enviar"
 msgstr ""
 
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:64
 msgid "Tempo de duração do atendimento (Fim - Início)"
 msgstr ""
 
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:66
 msgid "Duração"
 msgstr ""
 
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:70
 msgid "Tempo de permanência no local (Fim - Chegada)"
 msgstr ""
 
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:72
 msgid "Permanência"
 msgstr ""
 
+#: cache/a0/aa/85ad712889376b842d2edfdac7cc89e5bf07fd5d64a69f0cad7d733fe5e3.php:143
 msgid "Serviços Codificados"
 msgstr ""
 
+#: cache/a7/72/15e014df31a499cb7a6b982c01b12e6a0b67d523140a0953d6c9a7464895.php:42
+msgid "Li e concordo com os termos da licença"
+msgstr ""
+
+#: cache/b7/82/9331d43287576505a38bccc8d1227f9b75a5a88153b8968130cb62494288.php:35
 msgid "Bem-vindo, %usuario%"
 msgstr ""
 
+#: cache/b7/82/9331d43287576505a38bccc8d1227f9b75a5a88153b8968130cb62494288.php:39
 msgid ""
 "Novo SGA, Sistema de Gerenciamento de Atendimento baseado em web, de código "
 "aberto e gratuito."
 msgstr ""
 
+#: cache/b7/82/9331d43287576505a38bccc8d1227f9b75a5a88153b8968130cb62494288.php:61
 msgid "Visualize abaixo os módulos disponíveis para a sua unidade"
 msgstr ""
 
+#: cache/b7/82/9331d43287576505a38bccc8d1227f9b75a5a88153b8968130cb62494288.php:108
 msgid "Visualize abaixo os módulos globais disponíveis que você possui acesso"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:38
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:136
+#: modules/sga/locais/DataFixture.php:23
 msgid "Guichê"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:65
 msgid "Tipo de Atendimento"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:157
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:162
 msgid "Chamar próximo"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:240
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:244
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:348
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:352
 msgid "Chamar novamente"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:253
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:257
 msgid "Iniciar atendimento"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:266
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:270
+#: src/Novosga/Service/AtendimentoService.php:45
 msgid "Não compareceu"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:361
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:365
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:488
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:492
 msgid "Encerrar atendimento"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:374
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:378
 msgid "Erro de triagem"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:388
 msgid "Serviços disponíveis"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:467
 msgid "Serviços realizados"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:476
 msgid "Marque para codificar e redirecionar o atendimento atual"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:480
 msgid "Redirecionar atendimento ao encerrar"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:503
 msgid "Minha fila"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:524
 msgid "Habilitar notificação"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:538
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:576
 msgid "Redirecionar"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:545
 msgid "Novo Serviço"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:582
 msgid "Codificar e redirecionar"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:701
 msgid "Data de chegada"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:708
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:197
 msgid "Tempo de espera"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:719
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:363
 msgid "Data e hora no servidor"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:735
+#: modules/sga/atendimento/AtendimentoController.php:146
 msgid "Fila vazia"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:739
 msgid "Remover"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:743
 msgid "Realmente deseja marcar como erro de triagem?"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:747
 msgid "Realmente deseja marcar como não compareceu?"
 msgstr ""
 
+#: cache/c0/3c/59f1d75542115188d9bedd320867fac4f0c7b1f5eac5594d1db35629a1ec.php:751
+#: modules/sga/atendimento/AtendimentoController.php:269
 msgid "Nenhum serviço selecionado"
 msgstr ""
 
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:168
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:193
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:51
 msgid "Recarregar"
 msgstr ""
 
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:236
 msgid "Deseja realmente desinstalar esse módulo?"
 msgstr ""
 
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:242
 msgid "Desinstalar"
 msgstr ""
 
+#: cache/c6/74/1fd7de6bf0f6f244c0edef0052ce7e753932feb1b975796ccfae0a0e0963.php:274
 msgid "Escolha o arquivo"
 msgstr ""
 
+#: cache/cf/31/f6f5f0448e3b3da86b9bc537e1beb2c3eb045bb512bb12d0f4092228dac6.php:51
 msgid "Imprimir"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:50
 msgid "Hoje"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:54
 msgid "Gráficos"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:58
 msgid "Relatórios"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:65
 msgid "Atendimentos realizados em %now%"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:85
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:104
 msgid "Atendimentos por situação"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:94
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:108
+#: modules/sga/estatisticas/EstatisticasController.php:33
 msgid "Atendimentos por serviço"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:126
 msgid "Gráfico"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:162
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:262
 msgid "Todas"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:186
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:286
 msgid "Data inicial"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:196
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:296
 msgid "Data final"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:207
 msgid "Gerar gráfico"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:226
 msgid "Relatório"
 msgstr ""
 
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:306
 msgid "Gerar relatório"
 msgstr ""
 
-msgid "dd/mm/yy"
+#: cache/e0/b0/3e5a0035ce2293cb6f96d8049f63bc669494f39b0c88a87446192a4ac535.php:346
+msgid "dd/mm/yyyy"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:36
 msgid "buscar senha"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:250
 msgid "Reativar senha"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:258
 msgid "Transferir / Alterar senha"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:266
 msgid "Cancelar senha"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:283
 msgid "Tranferir Senha"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:298
 msgid "Novo serviço"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:323
 msgid "Nova prioridade"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:352
 msgid "Transferir"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:376
 msgid "Deseja realmente cancelar essa senha?"
 msgstr ""
 
+#: cache/e1/91/77e0e634b81689f5a337b4e818e940e2fef5e7ac387a0bdb6f984b1d9803.php:380
 msgid "Deseja realmente reativar essa senha?"
 msgstr ""
 
+#: cache/e3/cb/4108da279c3dc8ddc574ccd899397efd2f2dfcc69ef6c01cc19bd8d5450b.php:74
 #, fuzzy
 msgid "Nome Usuário"
 msgstr "Login"
 
+#: cache/e3/cb/4108da279c3dc8ddc574ccd899397efd2f2dfcc69ef6c01cc19bd8d5450b.php:82
 msgid "Entrar"
 msgstr ""
 
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:37
+msgid "Uma versão já instalada do Novo SGA foi identificada."
+msgstr ""
+
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:41
+#, php-format
+msgid ""
+"Foi identificado que o banco de dados atual possui a versão %currVersion% do "
+"Novo SGA."
+msgstr ""
+
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:45
+msgid ""
+"O instalador irá executar os scripts de migração para atualizar o banco. "
+"Caso você não queira atualizar, certifique-se que o banco esteja vazio e "
+"recarregue essa página."
+msgstr ""
+
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:55
+#: modules/sga/cargos/DataFixture.php:23
+msgid "Administrador"
+msgstr ""
+
+#: cache/ef/d8/7cede25680e251f1514ea486c3c5bf3eae1bdf41a0be87164fc31fede95a.php:89
+msgid "Confirmar Senha"
+msgstr ""
+
+#: cache/f4/db/8be2e16c2bcd8fa1e6b84bf423af0c07c1332410720a4c34273c4cd4665f.php:42
 msgid "Total"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:41
 msgid ""
 "A instalação não pode continuar enquanto os requisitos abaixos não forem "
 "satisfeitos. Favor verificar os itens em destaque."
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:62
 msgid "Requerimentos Mínimos"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:73
 msgid "Versão requerida"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:77
 msgid "Versão instalada"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:116
 msgid "Permissões Requeridas"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:123
 msgid "Arquivo"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:125
 msgid "Diretório"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:130
 msgid "Permissão requerida"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:134
 msgid "Permissão atual"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:177
 msgid "Informações do Ambiente"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:184
 msgid "Info"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:193
 msgid "Sistema Operacional"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:203
 msgid "Banco de dados escolhido"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:213
 msgid "Server API"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:223
 msgid "Timezone"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:233
 msgid "PHP Info"
 msgstr ""
 
+#: cache/f7/61/bcd12f4da6a1d0fa6536ada87579c541965fe34b60171ce4befee7ecefa4.php:239
 msgid "Visualizar"
 msgstr ""
 
+#: cache/fe/bf/eddffcef114c65d80c15dee7f44e0b5ade5aebeccc28640d52ab30c52275.php:34
 msgid "Bem-vindo a instalação da versão web do Novo SGA."
 msgstr ""
 
+#: cache/fe/bf/eddffcef114c65d80c15dee7f44e0b5ade5aebeccc28640d52ab30c52275.php:38
 msgid "Versão"
 msgstr ""
 
+#: cache/fe/bf/eddffcef114c65d80c15dee7f44e0b5ade5aebeccc28640d52ab30c52275.php:44
 msgid ""
 "Favor escolher o seu sistema de banco de dados preferido a partir dos "
 "listados abaixo:"
 msgstr ""
 
+#: cache/fe/bf/eddffcef114c65d80c15dee7f44e0b5ade5aebeccc28640d52ab30c52275.php:84
 msgid "Autor"
 msgstr ""
 
-msgid "Data de criação"
-msgstr ""
-
+#: cache/fe/bf/eddffcef114c65d80c15dee7f44e0b5ade5aebeccc28640d52ab30c52275.php:99
 msgid "Os requisitos para instalação do sistema irão depender da opção acima."
 msgstr ""
 
+#: src/Novosga/Context.php:127
 #, php-format
 msgid "Módulo \"%s\" não econtrado."
 msgstr ""
 
+#: src/Novosga/Api/ApiV1.php:176 src/Novosga/Api/ApiV1.php:190
+#: src/Novosga/Controller/TicketController.php:47
+#: modules/sga/atendimento/AtendimentoController.php:351
+#: modules/sga/monitor/MonitorController.php:83
+#: modules/sga/monitor/MonitorController.php:199
+#: modules/sga/monitor/MonitorController.php:202
+msgid "Atendimento inválido"
+msgstr ""
+
+#: src/Novosga/Api/ApiV1.php:193
+msgid "Senha já atendida"
+msgstr ""
+
+#: src/Novosga/Auth/LdapProvider.php:44
 msgid ""
 "Não foi possível conectar ao servidor LDAP. Favor verificar se as "
 "configurações estão corretas."
 msgstr ""
 
+#: src/Novosga/Auth/LdapProvider.php:79
 msgid "Extensão LDAP não disponível no servidor."
 msgstr ""
 
-msgid "A senha deve possuir no mínimo 6 caracteres."
+#: src/Novosga/Config/ConfigFile.php:63
+#, php-format
+msgid "Arquivo de configuação (%s) somente leitura"
 msgstr ""
 
-msgid "A confirmação de senha não confere com a senha."
+#: src/Novosga/Controller/CrudController.php:102
+msgid "Preencha os campos obrigatórios"
 msgstr ""
 
-msgid "Para acessar esse módulo primeiro é necessário escolher uma unidade."
+#: src/Novosga/Controller/CrudController.php:110
+msgid "Registro alterado com sucesso"
 msgstr ""
 
-msgid "Senha emitida"
+#: src/Novosga/Controller/CrudController.php:116
+msgid "Novo registro adicionado com sucesso"
 msgstr ""
 
-msgid "Chamado pela mesa"
+#: src/Novosga/Controller/CrudController.php:118
+msgid "Erro ao salvar o novo registro. Favor tentar novamente"
 msgstr ""
 
-msgid "Atendimento iniciado"
+#: src/Novosga/Controller/CrudController.php:158
+msgid "Registro excluído com sucesso"
 msgstr ""
 
-msgid "Atendimento encerrado"
+#: src/Novosga/Controller/HomeController.php:25
+#: modules/sga/admin/AdminController.php:100
+#: modules/sga/admin/AdminController.php:115
+#: modules/sga/admin/AdminController.php:133
+#: modules/sga/atendimento/AtendimentoController.php:104
+#: modules/sga/atendimento/AtendimentoController.php:255
+#: modules/sga/atendimento/AtendimentoController.php:316
+#: modules/sga/unidade/UnidadeController.php:51
+#: modules/sga/unidade/UnidadeController.php:76
+#: modules/sga/unidade/UnidadeController.php:103
+#: modules/sga/unidade/UnidadeController.php:130
+msgid "Somente via POST"
 msgstr ""
 
-msgid "Senha cancelada"
-msgstr ""
-
-msgid "Erro triagem"
-msgstr ""
-
-msgid "Atendimento encerrado e codificado"
-msgstr ""
-
-msgid "Nenhum unidade escolhida"
-msgstr ""
-
+#: src/Novosga/Controller/HomeController.php:71
+#: src/Novosga/Service/AtendimentoService.php:367
+#: modules/sga/atendimento/AtendimentoController.php:112
 msgid "Nenhum usuário na sessão"
 msgstr ""
 
+#: src/Novosga/Controller/HomeController.php:83
+msgid "Senha atual não confere"
+msgstr ""
+
+#: src/Novosga/Controller/LoginController.php:58
+msgid "Usuário ou senha inválido"
+msgstr ""
+
+#: src/Novosga/Controller/TicketController.php:32
+msgid "Chave de segurança do atendimento inválida"
+msgstr ""
+
+#: src/Novosga/Controller/TreeModelController.php:32
+#, php-format
+msgid ""
+"Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s"
+msgstr ""
+
+#: src/Novosga/Controller/TreeModelController.php:68
+#, php-format
+msgid "Erro ao inserir o registro: %s"
+msgstr ""
+
+#: src/Novosga/Controller/TreeModelController.php:149
+#, php-format
+msgid "Erro ao atualizar o registro: %s"
+msgstr ""
+
+#: src/Novosga/Controller/TreeModelController.php:156
+msgid "Não pode remover a raiz"
+msgstr ""
+
+#: src/Novosga/Controller/TreeModelController.php:186
+#, php-format
+msgid "Erro ao apagar o registro: %s"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:37
+msgid "Verificação de Requisitos"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:38
+msgid "Licença"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:39
+msgid "Configurar Banco de Dados"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:40
+msgid "Configurar Administrador"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:41
+msgid "Aplicar"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:179
+#: src/Novosga/Install/InstallController.php:186
+msgid "Não instalado"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:183
+msgid "Instalado"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:205
+msgid "Configuração do SGA"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:205
+#: src/Novosga/Install/InstallController.php:206
+#: src/Novosga/Install/InstallController.php:207
+#: src/Novosga/Install/InstallController.php:211
+msgid "Escrita"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:206
+msgid "Diretório temporário"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:207
+msgid "Session Save Path"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:216
+msgid "Não existe"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:220
+msgid "Somente leitura"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:310
+#, php-format
+msgid "Opção inválida: %s"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:322
+msgid ""
+"Por questões de segurança as informações sobre o ambiente são desabilitadas "
+"após a instalação."
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:341
+msgid "Banco de Dados testado com sucesso!"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:357
+msgid "Não foi encontrado arquivo SQL para o tipo de banco escolhido"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:387
+msgid "Dados do usuário informados com sucesso"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:407
+#: modules/sga/usuarios/UsuariosController.php:68
+msgid "O login deve conter somente letras e números."
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:410
+#: modules/sga/usuarios/UsuariosController.php:71
+msgid "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:413
+msgid "A senha deve possuir 6 ou mais letras/números."
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:416
+msgid "A senha não confere com a confirmação de senha."
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:433
+msgid "Instalação concluída com sucesso"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:438
+msgid "O SGA já está instalado"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:442
+msgid "Os dados da instalação não foram encontrados. Favor iniciar novamente"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:456
+#: src/Novosga/Install/InstallController.php:468
+#: src/Novosga/Install/InstallController.php:485
+#, php-format
+msgid "Script SQL de instalação não encontrado (%s)"
+msgstr ""
+
+#: src/Novosga/Install/InstallController.php:519
+msgid "Requisição inválida"
+msgstr ""
+
+#: src/Novosga/Model/Prioridade.php:54
+msgid "O peso da prioridade deve ser um inteiro positivo"
+msgstr ""
+
+#: src/Novosga/Model/Usuario.php:123
+msgid "Erro ao definir status do Atendente, deve ser um inteiro."
+msgstr ""
+
+#: src/Novosga/Model/Util/Senha.php:34
+msgid "A sigla da senha deve ser um char"
+msgstr ""
+
+#: src/Novosga/Model/Util/Senha.php:54
+msgid "O numero da senha deve ser um inteiro maior que zero"
+msgstr ""
+
+#: src/Novosga/Model/Util/Senha.php:96
+#: modules/sga/atendimento/AtendimentoController.php:49
+msgid "Convencional"
+msgstr ""
+
+#: src/Novosga/Model/Util/UsuarioSessao.php:63
+msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
+msgstr ""
+
+#: src/Novosga/Service/AcessoService.php:33
+msgid "A senha deve possuir no mínimo 6 caracteres."
+msgstr ""
+
+#: src/Novosga/Service/AcessoService.php:36
+msgid "A confirmação de senha não confere com a senha."
+msgstr ""
+
+#: src/Novosga/Service/AcessoService.php:99
+msgid "Para acessar esse módulo primeiro é necessário escolher uma unidade."
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:41
+msgid "Senha emitida"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:42
+msgid "Chamado pela mesa"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:43
+msgid "Atendimento iniciado"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:44
+msgid "Atendimento encerrado"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:46
+msgid "Senha cancelada"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:47
+msgid "Erro triagem"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:48
+msgid "Atendimento encerrado e codificado"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:356
+#: modules/sga/atendimento/AtendimentoController.php:259
+#: modules/sga/atendimento/AtendimentoController.php:319
+msgid "Nenhum unidade escolhida"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:374
+#: modules/sga/triagem/TriagemController.php:100
+msgid "Serviço inválido"
+msgstr ""
+
+#: src/Novosga/Service/AtendimentoService.php:381
 msgid "Prioridade inválida"
 msgstr ""
 
+#: src/Novosga/Service/AtendimentoService.php:388
 msgid "Serviço não disponível para a unidade atual"
 msgstr ""
 
+#: src/Novosga/Service/AtendimentoService.php:465
 msgid "Erro ao tentar gerar nova senha"
 msgstr ""
 
-msgid ""
-"Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de "
-"desenvolvimento informando esse problema, e o banco de dados que está usando"
+#: src/Novosga/Service/AtendimentoService.php:469
+#, php-format
+msgid "O último ID retornado pelo banco não é de um atendimento válido: %s"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:61
 #, php-format
 msgid "Módulo %s não instalado"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:87
 #, php-format
 msgid "Arquivo não encontrado: %s"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:91
 msgid "Já possui um módulo com o mesmo nome"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:106
 msgid "Não foi possível criar o diretório do módulo"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:113
 msgid "Não foi possível mover os arquivos para o diretório dos módulos"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:137
 #, php-format
 msgid "Arquivo %s não encontrado"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:151
 #, php-format
 msgid ""
 "Formato inválido do nome do módulo: %s. Era esperado {vendorName}."
 "{moduleName}"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:167
 msgid "O Manifest não contém um JSON válido"
 msgstr ""
 
+#: src/Novosga/Service/ModuloService.php:178
 msgid ""
 "Formato do nome do script inválido. Era experado <ClassName>::<methodName>."
 msgstr ""
 
-#, php-format
-msgid "Arquivo de configuação (%s) somente leitura"
-msgstr ""
-
-msgid "Preencha os campos obrigatórios"
-msgstr ""
-
-msgid "Registro alterado com sucesso"
-msgstr ""
-
-msgid "Novo registro adicionado com sucesso"
-msgstr ""
-
-msgid "Erro ao salvar o novo registro. Favor tentar novamente"
-msgstr ""
-
-msgid "Registro excluído com sucesso"
-msgstr ""
-
-msgid "Somente via POST"
-msgstr ""
-
-msgid "Senha atual não confere"
-msgstr ""
-
-msgid "Usuário ou senha inválido"
-msgstr ""
-
-#, php-format
-msgid ""
-"Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s"
-msgstr ""
-
-#, php-format
-msgid "Erro ao inserir o registro: %s"
-msgstr ""
-
-#, php-format
-msgid "Erro ao atualizar o registro: %s"
-msgstr ""
-
-msgid "Não pode remover a raiz"
-msgstr ""
-
-#, php-format
-msgid "Erro ao apagar o registro: %s"
-msgstr ""
-
-msgid "Verificação de Requisitos"
-msgstr ""
-
-msgid "Licença"
-msgstr ""
-
-msgid "Configurar Banco de Dados"
-msgstr ""
-
-msgid "Configurar Administrador"
-msgstr ""
-
-msgid "Aplicar"
-msgstr ""
-
-msgid "Não instalado"
-msgstr ""
-
-msgid "Instalado"
-msgstr ""
-
-msgid "Configuração do SGA"
-msgstr ""
-
-msgid "Escrita"
-msgstr ""
-
-msgid "Diretório temporário"
-msgstr ""
-
-msgid "Session Save Path"
-msgstr ""
-
-msgid "Somente leitura"
-msgstr ""
-
-#, php-format
-msgid "Opção inválida: %s"
-msgstr ""
-
-msgid ""
-"Por questões de segurança as informações sobre o ambiente são desabilitadas "
-"após a instalação."
-msgstr ""
-
-msgid "Banco de Dados testado com sucesso!"
-msgstr ""
-
-msgid "Não foi encontrado arquivo SQL para o tipo de banco escolhido"
-msgstr ""
-
-msgid "Dados do usuário informados com sucesso"
-msgstr ""
-
-msgid "O login deve conter somente letras e números."
-msgstr ""
-
-msgid "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
-msgstr ""
-
-msgid "A senha deve possuir 6 ou mais letras/números."
-msgstr ""
-
-msgid "A senha não confere com a confirmação de senha."
-msgstr ""
-
-msgid "Instalação concluída com sucesso"
-msgstr ""
-
-msgid "O SGA já está instalado"
-msgstr ""
-
-msgid "Os dados da instalação não foram encontrados. Favor iniciar novamente"
-msgstr ""
-
-#, php-format
-msgid "Script SQL de instalação não encontrado (%s)"
-msgstr ""
-
-msgid "Requisição inválida"
-msgstr ""
-
-msgid "Erro ao definir status do atendimento. Deve ser maior que zero."
-msgstr ""
-
-msgid "O peso da prioridade deve ser um inteiro positivo"
-msgstr ""
-
-msgid "Erro ao definir status do Atendente, deve ser um inteiro."
-msgstr ""
-
-msgid "A sigla da senha deve ser um char"
-msgstr ""
-
-msgid "O numero da senha deve ser um inteiro maior que zero"
-msgstr ""
-
-msgid "Convencional"
-msgstr ""
-
-msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
-msgstr ""
-
+#: modules/sga/admin/AdminController.php:24
 msgid "Incremental única"
 msgstr ""
 
+#: modules/sga/admin/AdminController.php:24
 msgid "Incremental por serviço"
 msgstr ""
 
+#: modules/sga/admin/AdminController.php:85
 msgid "Opção inválida"
 msgstr ""
 
+#: modules/sga/admin/AdminController.php:119
 msgid "Valor inválido"
 msgstr ""
 
+#: modules/sga/atendimento/AtendimentoController.php:48
 msgid "Todos"
 msgstr ""
 
+#: modules/sga/atendimento/AtendimentoController.php:148
 msgid "Já existe um atendimento em andamento"
 msgstr ""
 
+#: modules/sga/atendimento/AtendimentoController.php:183
 msgid "Nenhum atendimento disponível"
 msgstr ""
 
+#: modules/sga/atendimento/AtendimentoController.php:264
+#: modules/sga/atendimento/AtendimentoController.php:325
 msgid "Nenhum atendimento em andamento"
 msgstr ""
 
+#: modules/sga/atendimento/AtendimentoController.php:286
+#: modules/sga/atendimento/AtendimentoController.php:329
 #, php-format
 msgid "Erro ao redirecionar atendimento %s para o serviço %s"
 msgstr ""
 
+#: modules/sga/atendimento/AtendimentoController.php:291
 #, php-format
 msgid "Erro ao codificar o atendimento %s"
 msgstr ""
 
+#: modules/sga/atendimento/AtendimentoController.php:333
 #, php-format
 msgid "Erro ao mudar status do atendimento %s para encerrado"
 msgstr ""
 
-msgid "Atendimento inválido"
-msgstr ""
-
+#: modules/sga/atendimento/AtendimentoController.php:373
+#: modules/sga/monitor/MonitorController.php:106
+#: modules/sga/monitor/MonitorController.php:120
+#: modules/sga/monitor/MonitorController.php:148
+#: modules/sga/monitor/MonitorController.php:184
+#: modules/sga/triagem/TriagemController.php:166
 msgid "Nenhuma unidade selecionada"
 msgstr ""
 
+#: modules/sga/cargos/CargosController.php:32
 msgid "Favor escolher o Cargo pai"
 msgstr ""
 
-msgid "Administrador"
-msgstr ""
-
+#: modules/sga/cargos/DataFixture.php:23
 msgid "Administrador geral do sistema"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:32
 msgid "Atendimentos por status"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:34
 msgid "Tempo médio do atendimento"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:37
 msgid "Serviços Disponíveis - Global"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:38
 msgid "Serviços Disponíveis - Unidade"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:39
 msgid "Serviços codificados"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:40
 msgid "Atendimentos concluídos"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:41
 msgid "Atendimentos em todos os status"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:42
 msgid "Tempos médios por Atendente"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:44
+msgid "Cargos"
+msgstr ""
+
+#: modules/sga/estatisticas/EstatisticasController.php:95
 msgid "Gráfico inválido"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:246
 msgid "Tempo de Espera"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:247
 msgid "Tempo de Deslocamento"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:248
 msgid "Tempo de Atendimento"
 msgstr ""
 
+#: modules/sga/estatisticas/EstatisticasController.php:249
 msgid "Tempo Total"
 msgstr ""
 
+#: modules/sga/grupos/DataFixture.php:23
 msgid "Raíz"
 msgstr ""
 
+#: modules/sga/grupos/DataFixture.php:23
 msgid "Grupo Raíz"
 msgstr ""
 
+#: modules/sga/grupos/GruposController.php:36
 msgid "Favor escolher o Grupo pai"
 msgstr ""
 
+#: modules/sga/grupos/GruposController.php:116
 msgid ""
 "Esse grupo não pode ser excluído porque possui relacionamento com uma ou "
 "mais unidades."
 msgstr ""
 
+#: modules/sga/locais/DataFixture.php:24
 msgid "Sala"
 msgstr ""
 
+#: modules/sga/locais/DataFixture.php:25
 msgid "Mesa"
 msgstr ""
 
+#: modules/sga/modulos/ModulosController.php:72
+#: modules/sga/modulos/ModulosController.php:94
 msgid "Tipo de recurso inválido"
 msgstr ""
 
+#: modules/sga/modulos/ModulosController.php:76
+#: modules/sga/modulos/ModulosController.php:98
 msgid "Módulo inválido"
 msgstr ""
 
+#: modules/sga/modulos/ModulosController.php:103
 msgid "Permissão negada"
 msgstr ""
 
+#: modules/sga/modulos/ModulosController.php:130
 msgid "Módulo instalado com sucesso"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:23
 msgid "Sem prioridade"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:23
 msgid "Atendimento normal"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:24
 msgid "Portador de Deficiência"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:24
 msgid "Atendimento prioritáro para portadores de deficiência"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:25
 msgid "Gestante"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:25
 msgid "Atendimento prioritáro para gestantes"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:26
 msgid "Idoso"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:26
 msgid "Atendimento prioritáro para idosos"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:27
 msgid "Outros"
 msgstr ""
 
+#: modules/sga/prioridades/DataFixture.php:27
 msgid "Qualquer outra prioridade"
 msgstr ""
 
+#: modules/sga/prioridades/PrioridadesController.php:56
 msgid "Não pode remover essa prioridade"
 msgstr ""
 
+#: modules/sga/servicos/ServicosController.php:65
 msgid "Já existem atendimentos para o serviço que está tentando remover"
 msgstr ""
 
-msgid "Serviço inválido"
-msgstr ""
-
+#: modules/sga/unidade/DataFixture.php:25
 msgid "Unidade Padrão"
 msgstr ""
 
+#: modules/sga/unidade/DataFixture.php:25
 msgid "Novo SGA"
 msgstr ""
 
+#: modules/sga/unidade/UnidadeController.php:134
 msgid "Nenhum unidade definida"
 msgstr ""
 
+#: modules/sga/unidades/UnidadesController.php:33
 msgid "Código de Unidade já existe"
 msgstr ""
 
+#: modules/sga/unidades/UnidadesController.php:38
 msgid "Grupo inválido"
 msgstr ""
 
+#: modules/sga/unidades/UnidadesController.php:109
 msgid "Não pode excluir essa unidade porque a mesma já possui atendimentos."
 msgstr ""
 
+#: modules/sga/usuarios/UsuariosController.php:75
 msgid "O usuário deve possuir pelo menos uma lotação."
 msgstr ""
 
+#: modules/sga/usuarios/UsuariosController.php:94
 msgid "O login informado já está cadastrado para outro usuário."
 msgstr ""
 
+#: modules/sga/usuarios/UsuariosController.php:139
 msgid "Não é possível excluir si próprio."
 msgstr ""
 
+#: modules/sga/usuarios/UsuariosController.php:151
 msgid ""
 "Não é possível excluir esse usuário pois o mesmo já realizou atendimentos."
 msgstr ""
 
+#: modules/sga/usuarios/UsuariosController.php:265
 msgid "Usuário inválido"
-msgstr ""
-
-# modulos
-
-msgid "Administração"
-msgstr ""
-
-msgid "Configurações gerais do sistema"
-msgstr ""
-
-msgid "Atendimento"
-msgstr ""
-
-msgid "Efetue o atendimento às senhas distribuídas dos serviços que você atende"
-msgstr ""
-
-msgid "Cargos"
-msgstr ""
-
-msgid "Gerencie os cargos do sistema"
-msgstr ""
-
-msgid "Estatísticas"
-msgstr ""
-
-msgid "Visualize e exporte estastísticas e relatórios sobre o sistema"
-msgstr ""
-
-msgid "Grupos"
-msgstr ""
-
-msgid "Gerencie os grupos do sistema"
-msgstr ""
-
-msgid "Locais"
-msgstr ""
-
-msgid "Gerencie os locais de atendimento"
-msgstr ""
-
-msgid "Módulos"
-msgstr ""
-
-msgid "Gerencie os módulos instalados"
-msgstr ""
-
-msgid "Monitor"
-msgstr ""
-
-msgid "Gerencie as senhas aguardando atendimento"
-msgstr ""
-
-msgid "Prioridades"
-msgstr ""
-
-msgid "Gerencie os prioridades do sistema"
-msgstr ""
-
-msgid "Serviços"
-msgstr ""
-
-msgid "Gerencie os serviços do sistema"
-msgstr ""
-
-msgid "Triagem"
-msgstr ""
-
-msgid "Gerencie a distribuíção das senhas da unidade atual"
-msgstr ""
-
-msgid "Configuração"
-msgstr ""
-
-msgid "Módulo para gerenciamento da unidade atual"
-msgstr ""
-
-msgid "Unidades"
-msgstr ""
-
-msgid "Gerencie as unidades do sistema"
-msgstr ""
-
-msgid "Usuários"
-msgstr ""
-
-msgid "Gerencie os usuários do sistema"
 msgstr ""
