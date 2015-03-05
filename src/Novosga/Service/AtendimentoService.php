@@ -491,7 +491,7 @@ class AtendimentoService extends MetaModelService
      */
     public function redirecionar(Atendimento $atendimento, Usuario $usuario, $unidade, $servico) {
         // copiando a senha do atendimento atual
-        $service = new ServicoService();
+        $service = new ServicoService($this->em);
         $su = $service->servicoUnidade($unidade, $servico);
         
         AppConfig::getInstance()->hook("attending.pre-redirect", $atendimento, $su, $usuario);
