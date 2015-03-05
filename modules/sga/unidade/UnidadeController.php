@@ -89,7 +89,7 @@ class UnidadeController extends ModuleController {
             $this->em()->merge($su);
             $this->em()->flush();
             
-            $response->success = $query->execute();
+            $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
