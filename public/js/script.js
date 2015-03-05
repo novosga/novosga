@@ -172,6 +172,7 @@ var SGA = {
             data: data,
             type: arg.type || 'get',
             dataType: arg.dataType || 'json',
+            cache: false,
             success: function(response) {
                 if (response && response.success) {
                     var fn = arg.success;
