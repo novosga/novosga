@@ -23,7 +23,7 @@ class MonitorController extends ModuleController {
         $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
             // servicos
-            $this->app()->view()->set('servicos', $this->servicos($unidade));
+            $this->app()->view()->set('servicos', $this->servicos($unidade, " e.status = 1 "));
         }
         // lista de prioridades para ser utilizada ao redirecionar senha
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Prioridade e WHERE e.status = 1 ORDER BY e.peso, e.nome");
