@@ -69,6 +69,7 @@ class GruposController extends TreeModelController {
                 e 
             FROM 
                 Novosga\Model\Grupo e 
+                JOIN e.unidade u
             WHERE 
                 UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg 
             ORDER BY 

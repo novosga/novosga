@@ -268,6 +268,9 @@ class AtendimentoService extends MetaModelService
             FROM 
                 Novosga\Model\Atendimento e 
                 JOIN e.servicoUnidade su 
+                JOIN su.servico s 
+                JOIN e.usuarioTriagem ut
+                LEFT JOIN e.usuario u
             WHERE 
                 e.$field = :numero AND $cond
                 su.unidade = :unidade 

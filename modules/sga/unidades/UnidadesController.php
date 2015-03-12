@@ -13,7 +13,7 @@ use Novosga\Controller\CrudController;
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class UnidadesController extends CrudController {
-    
+
     private $isNew = false;
 
     protected function createModel() {
@@ -46,7 +46,7 @@ class UnidadesController extends CrudController {
         }
         $model->setGrupo($grupo);
     }
-    
+
     protected function postSave(Context $context, SequencialModel $model) {
         if ($this->isNew) {
             $contador = new Contador();
@@ -59,7 +59,7 @@ class UnidadesController extends CrudController {
     }
 
     protected function search($arg) {
-        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.codigo) LIKE :arg");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e JOIN e.grupo g WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.codigo) LIKE :arg");
         $query->setParameter('arg', $arg);
         return $query;
     }

@@ -68,7 +68,6 @@ class FilaService extends ModelService {
     
     private function atendimentosUsuario(UsuarioSessao $usuario, $servicos, $maxResults = 0, $where = '') {
         $builder = $this->builder()
-                ->join('su.servico', 's')
                 ->where("e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos)")
         ;
         if (!empty($where)) {
@@ -129,6 +128,9 @@ class FilaService extends ModelService {
             ->from('Novosga\Model\Atendimento', 'e')
             ->join('e.prioridade', 'p')
             ->join('e.servicoUnidade', 'su')
+            ->join('su.servico', 's')
+            ->join('e.usuarioTriagem', 'ut')
+            ->leftJoin('e.usuario', 'u')
         ;
     }
     
