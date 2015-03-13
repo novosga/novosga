@@ -1,4 +1,3 @@
-#
 # Translators:
 # Rogério Lino <rogeriolino@gmail.com>, 2013-2014
 # Translators:
@@ -6,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: novosga\n"
-"POT-Creation-Date: 2014-07-31 09:13-0300\n"
-"PO-Revision-Date: 2014-09-29 09:07-0300\n"
+"POT-Creation-Date: 2015-03-04 08:03-0300\n"
+"PO-Revision-Date: 2015-03-13 15:07-0300\n"
 "Last-Translator: Rogério Lino <rogeriolino@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/"
 "novosga/language/pt_PT/)\n"
@@ -35,12 +34,8 @@ msgstr "Atenção"
 
 msgid ""
 "Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão "
-"1.0.0 ou inferior) no banco especificado, a mesma será sobrescrita "
-"(atualizada)."
+"1.0.0 ou superior) no banco especificado, a mesma será atualizada."
 msgstr ""
-"Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão "
-"1.0.0 ou inferior) na base de dados especificada, a mesma será re-escrita "
-"(atualizada)."
 
 msgid "Clique para iniciar o processo final de instalação."
 msgstr "Clique para iniciar o processo final de instalação."
@@ -95,6 +90,18 @@ msgstr "Base de Dados"
 msgid "Escolhido no passo 1"
 msgstr "Escolhido no passo 1"
 
+msgid "Porta"
+msgstr "Porta"
+
+msgid "Usuário"
+msgstr "Utilizador"
+
+msgid "Senha"
+msgstr "Senha"
+
+msgid "É necessário testar o banco antes de prosseguir."
+msgstr ""
+
 msgid "Clique para testar a conexão com o Banco de Dados."
 msgstr "Clique para verificar a ligação à base de dados."
 
@@ -121,9 +128,6 @@ msgstr "Alterar"
 
 msgid "Alterar senha do usuário"
 msgstr "Alterar senha do utilizador"
-
-msgid "Senha"
-msgstr "Senha"
 
 msgid "Confirmar senha"
 msgstr "Confirmar senha"
@@ -153,8 +157,11 @@ msgstr "Eliminar seleccionados"
 msgid "Adicionar"
 msgstr "Adicionar"
 
+msgid "Atendimento"
+msgstr "Atendimento"
+
 msgid "Serviços que o usuário (atendente) atende em cada lotação."
-msgstr ""
+msgstr "Serviços que o utilizador (atendente) atende em cada alocação."
 
 msgid "Serviço"
 msgstr "Serviço"
@@ -165,8 +172,14 @@ msgstr "Unidade"
 msgid "Lotação"
 msgstr "Alocação"
 
+msgid "Serviços"
+msgstr "Serviços"
+
 msgid "Permissões"
 msgstr "Permissões"
+
+msgid "Módulos"
+msgstr "Módulos"
 
 msgid "Alterar senha"
 msgstr "Alterar senha"
@@ -181,7 +194,7 @@ msgid "Página não encontrada"
 msgstr "Página não encontrada"
 
 msgid "Início"
-msgstr ""
+msgstr "Início"
 
 msgid "buscar"
 msgstr "pesquisar"
@@ -205,13 +218,13 @@ msgid "Perfil"
 msgstr "Perfil"
 
 msgid "Visualize e atualize o seu perfil"
-msgstr ""
+msgstr "Visualize e atualize o seu perfil"
 
 msgid "Perfil atualizado com sucesso"
 msgstr "Perfil atualizado com sucesso"
 
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 msgid "Salvar"
 msgstr "Guardar"
@@ -223,28 +236,25 @@ msgid "Nova senha"
 msgstr "Nova senha"
 
 msgid "Confirmar nova senha"
-msgstr ""
+msgstr "Confirmar nova senha"
 
 msgid "Fechar"
-msgstr ""
+msgstr "Fechar"
 
 msgid "Descrição"
 msgstr "Descrição"
 
 msgid "Subserviços"
-msgstr ""
+msgstr "Sub-serviços"
 
 msgid "Período de %dataInicial% a %dataFinal%"
-msgstr ""
-
-msgid "Usuário"
-msgstr ""
+msgstr "Período de %dataInicial% a %dataFinal%"
 
 msgid "Atendimentos"
 msgstr "Atendimentos"
 
 msgid "Tempo médio de espera"
-msgstr ""
+msgstr "Tempo médio de espera"
 
 msgid "TME"
 msgstr "TME"
@@ -268,10 +278,10 @@ msgid "Legenda"
 msgstr "Legenda"
 
 msgid "Código"
-msgstr ""
+msgstr "Código"
 
 msgid "Voltar"
-msgstr ""
+msgstr "Voltar"
 
 msgid "Campos obrigatórios"
 msgstr "Campos obrigatórios"
@@ -282,32 +292,32 @@ msgstr "Campo obrigatório"
 msgid "Mensagem"
 msgstr "Mensagem"
 
-msgid "Cliente"
-msgstr "Cliente"
-
 msgid "Documento"
 msgstr "Documento"
+
+msgid "Última senha"
+msgstr "Última senha"
 
 msgid "Aguardando atendimento"
 msgstr "A aguardar o atendimento"
 
 msgid "Total de senhas do serviço"
-msgstr ""
+msgstr "Total de senhas do serviço"
 
 msgid "Distribuir senha normal"
-msgstr ""
+msgstr "Distribuir senha normal"
 
 msgid "Normal"
-msgstr ""
+msgstr "Normal"
 
 msgid "Distribuir senha com prioridade"
-msgstr ""
+msgstr "Distribuir senha com prioridade"
 
 msgid "Prioridade"
 msgstr "Prioridade"
 
 msgid "Nenhum serviço habilitado para a unidade atual"
-msgstr ""
+msgstr "Nenhum serviço ativo para a unidade atual"
 
 msgid "Consultar senha"
 msgstr "Consultar senha"
@@ -318,9 +328,6 @@ msgstr "Senha"
 msgid "Número"
 msgstr "Número"
 
-msgid "Última senha"
-msgstr "Última senha"
-
 msgid "Reimprimir"
 msgstr "Voltar a imprimir"
 
@@ -328,37 +335,40 @@ msgid "Nome original do serviço"
 msgstr "Nome original do serviço"
 
 msgid "Não há subserviços"
-msgstr ""
+msgstr "Não há subserviços"
 
 msgid "Gerar prioridade"
-msgstr ""
+msgstr "Gerar prioridade"
 
 msgid "Busca"
 msgstr "Pesquisa"
 
 msgid "Consultar"
-msgstr ""
+msgstr "Consultar"
 
 msgid "Data chegada"
-msgstr ""
+msgstr "Data chegada"
 
 msgid "Data início"
-msgstr ""
+msgstr "Data início"
 
 msgid "Data fim"
-msgstr ""
+msgstr "Data fim"
+
+msgid "Triagem"
+msgstr "Triagem"
 
 msgid "Atendente"
 msgstr "Atendente"
 
 msgid "Situação"
-msgstr ""
+msgstr "Situação"
 
 msgid "Pai"
-msgstr ""
+msgstr "Pai"
 
 msgid "Sistema"
-msgstr ""
+msgstr "Sistema"
 
 msgid "Sobre"
 msgstr "Sobre"
@@ -376,28 +386,25 @@ msgid "Tipo"
 msgstr "Tipo"
 
 msgid "LDAP e Banco de Dados"
-msgstr ""
+msgstr "LDAP e Base de Dados"
 
 msgid "Servidor"
 msgstr "Servidor"
 
-msgid "Porta"
-msgstr "Porta"
-
 msgid "Base DN"
-msgstr ""
+msgstr "Base DN"
 
 msgid "Login Attribute"
-msgstr ""
+msgstr "Login Attribute"
 
 msgid "Filtro"
 msgstr "Filtro"
 
 msgid "Tipo de numeração"
-msgstr ""
+msgstr "Tipo de numeração"
 
 msgid "Reiniciar senhas"
-msgstr ""
+msgstr "Reiniciar senhas"
 
 msgid "Deseja realmente reiniciar as senhas de todas unidades?"
 msgstr "Deseja realmente reiniciar as senhas de todas unidades?"
@@ -417,12 +424,15 @@ msgstr "Parabéns, está a usar a versão mais recente"
 msgid "Acessar"
 msgstr "Aceder"
 
+msgid "Configuração"
+msgstr "Configuração"
+
 msgid "Senhas reiniciadas com sucesso"
 msgstr "Senhas reiniciadas com sucesso"
 
 msgid ""
-"As modificações na sigla e nome do serviço são salvas automaticamente ao "
-"sair do campo."
+"As modificações na sigla do serviço são salvas automaticamente ao sair do "
+"campo."
 msgstr ""
 
 msgid "Sigla"
@@ -431,20 +441,17 @@ msgstr "Sigla"
 msgid "Local"
 msgstr "Local"
 
-msgid "Habilitar"
-msgstr "Activar"
-
-msgid "Desabilitar"
-msgstr "Desactivar"
-
 msgid "Impressão"
 msgstr "Impressão"
 
 msgid "Ativar impressão de senha"
-msgstr ""
+msgstr "Ativar impressão de senha"
 
 msgid "Deseja realmente reiniciar as senhas?"
-msgstr ""
+msgstr "Deseja realmente reiniciar as senhas?"
+
+msgid "Cliente"
+msgstr "Cliente"
 
 msgid "Data"
 msgstr "Data"
@@ -468,7 +475,7 @@ msgid "Serviço escolhido na triagem"
 msgstr "Serviço escolhido na triagem"
 
 msgid "Serviço Triado"
-msgstr ""
+msgstr "Serviço Triado"
 
 msgid "Erro"
 msgstr "Erro"
@@ -502,10 +509,10 @@ msgid "Favor escolher a unidade"
 msgstr "Por favor escolher a unidade"
 
 msgid "Enviar"
-msgstr ""
+msgstr "Enviar"
 
 msgid "Tempo de duração do atendimento (Fim - Início)"
-msgstr ""
+msgstr "Tempo de duração do atendimento (Fim - Início)"
 
 msgid "Duração"
 msgstr "Duração"
@@ -514,9 +521,12 @@ msgid "Tempo de permanência no local (Fim - Chegada)"
 msgstr "Tempo de permanência no local (Fim - Chegada)"
 
 msgid "Permanência"
-msgstr ""
+msgstr "Permanência"
 
 msgid "Serviços Codificados"
+msgstr "Serviços Arquivados"
+
+msgid "Li e concordo com os termos da licença"
 msgstr ""
 
 msgid "Bem-vindo, %usuario%"
@@ -529,16 +539,16 @@ msgstr ""
 "Novo SGA, Sistema de Gestão de Atendimentos web, de código aberto e gratuito."
 
 msgid "Visualize abaixo os módulos disponíveis para a sua unidade"
-msgstr ""
+msgstr "Visualize abaixo os módulos disponíveis para a sua unidade"
 
 msgid "Visualize abaixo os módulos globais disponíveis que você possui acesso"
-msgstr ""
+msgstr "Visualize abaixo os módulos globais disponíveis que você possui acesso"
 
 msgid "Guichê"
 msgstr "Balcão"
 
 msgid "Tipo de Atendimento"
-msgstr ""
+msgstr "Tipo de Atendimento"
 
 msgid "Chamar próximo"
 msgstr "Chamar próximo"
@@ -553,7 +563,7 @@ msgid "Não compareceu"
 msgstr "Não compareceu"
 
 msgid "Encerrar atendimento"
-msgstr ""
+msgstr "Encerrar atendimento"
 
 msgid "Erro de triagem"
 msgstr "Erro de triagem"
@@ -565,25 +575,25 @@ msgid "Serviços realizados"
 msgstr "Serviços realizados"
 
 msgid "Marque para codificar e redirecionar o atendimento atual"
-msgstr ""
+msgstr "Marque para arquivar e redirecionar o atendimento atual"
 
 msgid "Redirecionar atendimento ao encerrar"
-msgstr ""
+msgstr "Redirecionar atendimento ao encerrar"
 
 msgid "Minha fila"
 msgstr "A minha fila"
 
 msgid "Habilitar notificação"
-msgstr ""
+msgstr "Ativar notificações"
 
 msgid "Redirecionar"
-msgstr ""
+msgstr "Redirecionar"
 
 msgid "Novo Serviço"
-msgstr ""
+msgstr "Novo Serviço"
 
 msgid "Codificar e redirecionar"
-msgstr ""
+msgstr "Arquivar e redirecionar"
 
 msgid "Data de chegada"
 msgstr "Data de chegada"
@@ -601,16 +611,16 @@ msgid "Remover"
 msgstr "Eliminar"
 
 msgid "Realmente deseja marcar como erro de triagem?"
-msgstr ""
+msgstr "Deseja realmente marcar como erro de triagem?"
 
 msgid "Realmente deseja marcar como não compareceu?"
-msgstr ""
+msgstr "Deseja realmente marcar como não compareceu?"
 
 msgid "Nenhum serviço selecionado"
 msgstr "Nenhum serviço seleccionado"
 
 msgid "Recarregar"
-msgstr ""
+msgstr "Recarregar"
 
 msgid "Deseja realmente desinstalar esse módulo?"
 msgstr "Deseja realmente desinstalar esse módulo?"
@@ -619,13 +629,13 @@ msgid "Desinstalar"
 msgstr "Desinstalar"
 
 msgid "Escolha o arquivo"
-msgstr ""
+msgstr "Escolha o ficheiro"
 
 msgid "Imprimir"
 msgstr "Imprimir"
 
 msgid "Hoje"
-msgstr ""
+msgstr "Hoje"
 
 msgid "Gráficos"
 msgstr "Gráficos"
@@ -634,10 +644,10 @@ msgid "Relatórios"
 msgstr "Relatórios"
 
 msgid "Atendimentos realizados em %now%"
-msgstr ""
+msgstr "Atendimentos realizados em %now%"
 
 msgid "Atendimentos por situação"
-msgstr ""
+msgstr "Atendimentos por situação"
 
 msgid "Atendimentos por serviço"
 msgstr "Atendimentos por serviço"
@@ -663,8 +673,8 @@ msgstr "Relatório"
 msgid "Gerar relatório"
 msgstr "Gerar relatório"
 
-msgid "dd/mm/yy"
-msgstr "dd/mm/aa"
+msgid "dd/mm/yyyy"
+msgstr ""
 
 msgid "buscar senha"
 msgstr "procurar senha"
@@ -702,6 +712,27 @@ msgstr "Nome do utilizador"
 msgid "Entrar"
 msgstr "Entrar"
 
+msgid "Uma versão já instalada do Novo SGA foi identificada."
+msgstr ""
+
+#, php-format
+msgid ""
+"Foi identificado que o banco de dados atual possui a versão %currVersion% do "
+"Novo SGA."
+msgstr ""
+
+msgid ""
+"O instalador irá executar os scripts de migração para atualizar o banco. "
+"Caso você não queira atualizar, certifique-se que o banco esteja vazio e "
+"recarregue essa página."
+msgstr ""
+
+msgid "Administrador"
+msgstr "Administrador"
+
+msgid "Confirmar Senha"
+msgstr ""
+
 msgid "Total"
 msgstr "Total"
 
@@ -709,6 +740,8 @@ msgid ""
 "A instalação não pode continuar enquanto os requisitos abaixos não forem "
 "satisfeitos. Favor verificar os itens em destaque."
 msgstr ""
+"A instalação não pode continuar enquanto os requisitos abaixos não forem "
+"satisfeitos. Por favor verifique os itens em destaque."
 
 msgid "Requerimentos Mínimos"
 msgstr "Requisitos Mínimos"
@@ -720,22 +753,22 @@ msgid "Versão instalada"
 msgstr "Versão instalada"
 
 msgid "Permissões Requeridas"
-msgstr ""
+msgstr "Necessárias Permissões"
 
 msgid "Arquivo"
-msgstr ""
+msgstr "Ficheiro"
 
 msgid "Diretório"
 msgstr "Directoria"
 
 msgid "Permissão requerida"
-msgstr ""
+msgstr "Necessária permissão"
 
 msgid "Permissão atual"
-msgstr ""
+msgstr "Permissão atual"
 
 msgid "Informações do Ambiente"
-msgstr ""
+msgstr "Informações do Ambiente"
 
 msgid "Info"
 msgstr "Informação"
@@ -756,10 +789,10 @@ msgid "PHP Info"
 msgstr "Informação do PHP"
 
 msgid "Visualizar"
-msgstr ""
+msgstr "Visualizar"
 
 msgid "Bem-vindo a instalação da versão web do Novo SGA."
-msgstr ""
+msgstr "Bem-vindo a instalação da versão web do Novo SGA."
 
 msgid "Versão"
 msgstr "Versão"
@@ -774,15 +807,18 @@ msgstr ""
 msgid "Autor"
 msgstr "Autor"
 
-msgid "Data de criação"
-msgstr "Data de criação"
-
 msgid "Os requisitos para instalação do sistema irão depender da opção acima."
 msgstr "Os requisitos para instalação do sistema irão depender da opção acima."
 
 #, php-format
 msgid "Módulo \"%s\" não econtrado."
 msgstr "Módulo \"%s\" não encontrado."
+
+msgid "Atendimento inválido"
+msgstr "Atendimento inválido"
+
+msgid "Senha já atendida"
+msgstr ""
 
 msgid ""
 "Não foi possível conectar ao servidor LDAP. Favor verificar se as "
@@ -793,6 +829,170 @@ msgstr ""
 
 msgid "Extensão LDAP não disponível no servidor."
 msgstr "Extensão LDAP não disponível no servidor."
+
+#, php-format
+msgid "Arquivo de configuação (%s) somente leitura"
+msgstr "Ficheiro de configuração (%s) é apenas de leitura"
+
+msgid "Preencha os campos obrigatórios"
+msgstr "Preencha os campos obrigatórios"
+
+msgid "Registro alterado com sucesso"
+msgstr "Registro alterado com sucesso"
+
+msgid "Novo registro adicionado com sucesso"
+msgstr "Novo registro adicionado com sucesso"
+
+msgid "Erro ao salvar o novo registro. Favor tentar novamente"
+msgstr "Erro ao guardar o novo registro. Por favor tente novamente"
+
+msgid "Registro excluído com sucesso"
+msgstr "Registo eliminado com sucesso"
+
+msgid "Somente via POST"
+msgstr "Somente via POST"
+
+msgid "Nenhum usuário na sessão"
+msgstr "Nenhum utilizador em sessão"
+
+msgid "Senha atual não confere"
+msgstr "Senha atual não confere"
+
+msgid "Usuário ou senha inválido"
+msgstr "Utilizador ou senha inválido(s)"
+
+msgid "Chave de segurança do atendimento inválida"
+msgstr ""
+
+#, php-format
+msgid ""
+"Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s"
+msgstr ""
+"Modelo passado como parâmetro é inválido. Era esperado TreeModel e foi "
+"passado %s"
+
+#, php-format
+msgid "Erro ao inserir o registro: %s"
+msgstr "Erro ao inserir o registro: %s"
+
+#, php-format
+msgid "Erro ao atualizar o registro: %s"
+msgstr "Erro ao atualizar o registro: %s"
+
+msgid "Não pode remover a raiz"
+msgstr "Não pode remover a raiz"
+
+#, php-format
+msgid "Erro ao apagar o registro: %s"
+msgstr "Erro ao apagar o registro: %s"
+
+msgid "Verificação de Requisitos"
+msgstr "Verificação dos Requisitos"
+
+msgid "Licença"
+msgstr "Licença"
+
+msgid "Configurar Banco de Dados"
+msgstr "Configurar Base de Dados"
+
+msgid "Configurar Administrador"
+msgstr "Configurar Administrador"
+
+msgid "Aplicar"
+msgstr "Aplicar"
+
+msgid "Não instalado"
+msgstr "Não instalado"
+
+msgid "Instalado"
+msgstr "Instalado"
+
+msgid "Configuração do SGA"
+msgstr "Configuração do SGA"
+
+msgid "Escrita"
+msgstr "Escrita"
+
+msgid "Diretório temporário"
+msgstr "Diretório temporário"
+
+msgid "Session Save Path"
+msgstr "Caminho para armazenar as sessões"
+
+msgid "Não existe"
+msgstr ""
+
+msgid "Somente leitura"
+msgstr "Somente leitura"
+
+#, php-format
+msgid "Opção inválida: %s"
+msgstr "Opção inválida: %s"
+
+msgid ""
+"Por questões de segurança as informações sobre o ambiente são desabilitadas "
+"após a instalação."
+msgstr ""
+"Por questões de segurança as informações sobre o ambiente são desabilitadas "
+"após a instalação."
+
+msgid "Banco de Dados testado com sucesso!"
+msgstr "Base de Dados testada com sucesso!"
+
+msgid "Não foi encontrado arquivo SQL para o tipo de banco escolhido"
+msgstr ""
+"Não foi encontrado um ficheiro SQL para o tipo de base de dados escolhido"
+
+msgid "Dados do usuário informados com sucesso"
+msgstr "Dados do utilizador enviados com sucesso"
+
+msgid "O login deve conter somente letras e números."
+msgstr "O login deve conter somente letras e números."
+
+msgid "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
+msgstr "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
+
+msgid "A senha deve possuir 6 ou mais letras/números."
+msgstr "A senha deve possuir pelo menos 6 letras/números."
+
+msgid "A senha não confere com a confirmação de senha."
+msgstr "A senha não confere com a confirmação de senha."
+
+msgid "Instalação concluída com sucesso"
+msgstr "Instalação concluída com sucesso"
+
+msgid "O SGA já está instalado"
+msgstr "O SGA já está instalado"
+
+msgid "Os dados da instalação não foram encontrados. Favor iniciar novamente"
+msgstr ""
+"Não foi possível encontrar os dados de instalação. Por favor inicie novamente"
+
+#, php-format
+msgid "Script SQL de instalação não encontrado (%s)"
+msgstr "Script SQL de instalação não encontrado (%s)"
+
+msgid "Requisição inválida"
+msgstr "Pedido inválido"
+
+msgid "O peso da prioridade deve ser um inteiro positivo"
+msgstr "O peso da prioridade deve ser um inteiro positivo"
+
+msgid "Erro ao definir status do Atendente, deve ser um inteiro."
+msgstr "Erro ao definir o estado do Atendente, deve ser um inteiro."
+
+msgid "A sigla da senha deve ser um char"
+msgstr "A sigla da senha deve ser uma letra"
+
+msgid "O numero da senha deve ser um inteiro maior que zero"
+msgstr "O numero da senha deve ser um inteiro maior que zero"
+
+msgid "Convencional"
+msgstr "Convencional"
+
+msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
+msgstr ""
+"Erro ao definir a mesa do Utilizador. Deve ser um número maior que zero."
 
 msgid "A senha deve possuir no mínimo 6 caracteres."
 msgstr "A senha deve possuir no mínimo 6 caracteres."
@@ -822,13 +1022,13 @@ msgid "Erro triagem"
 msgstr "Erro triagem"
 
 msgid "Atendimento encerrado e codificado"
-msgstr ""
+msgstr "Atendimento encerrado e codificado"
 
 msgid "Nenhum unidade escolhida"
 msgstr "Nenhum unidade escolhida"
 
-msgid "Nenhum usuário na sessão"
-msgstr "Nenhum utilizador em sessão"
+msgid "Serviço inválido"
+msgstr "Serviço inválido"
 
 msgid "Prioridade inválida"
 msgstr "Prioridade inválida"
@@ -839,13 +1039,9 @@ msgstr "Serviço não disponível para a unidade atual"
 msgid "Erro ao tentar gerar nova senha"
 msgstr "Erro ao tentar gerar uma nova senha"
 
-msgid ""
-"Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de "
-"desenvolvimento informando esse problema, e o banco de dados que está usando"
+#, php-format
+msgid "O último ID retornado pelo banco não é de um atendimento válido: %s"
 msgstr ""
-"Erro ao obter o ID gerado pela base de dados. Entre em contacto com a equipe "
-"de desenvolvimento identificando este problema, e o sistema de base de dados "
-"que está a ser usado"
 
 #, php-format
 msgid "Módulo %s não instalado"
@@ -862,7 +1058,7 @@ msgid "Não foi possível criar o diretório do módulo"
 msgstr "Não foi possível criar a directoria do módulo"
 
 msgid "Não foi possível mover os arquivos para o diretório dos módulos"
-msgstr ""
+msgstr "Não foi possível mover os ficheiros para a directoria dos módulos"
 
 #, php-format
 msgid "Arquivo %s não encontrado"
@@ -873,6 +1069,8 @@ msgid ""
 "Formato inválido do nome do módulo: %s. Era esperado {vendorName}."
 "{moduleName}"
 msgstr ""
+"Formato inválido do nome do módulo: %s. Era esperado {vendorName}."
+"{moduleName}"
 
 msgid "O Manifest não contém um JSON válido"
 msgstr "O Manifest não contém um JSON válido"
@@ -881,157 +1079,6 @@ msgid ""
 "Formato do nome do script inválido. Era experado <ClassName>::<methodName>."
 msgstr ""
 "Formato do nome do script inválido. Era experado <ClassName>::<methodName>."
-
-#, php-format
-msgid "Arquivo de configuação (%s) somente leitura"
-msgstr "Ficheiro de configuração (%s) é apenas de leitura"
-
-msgid "Preencha os campos obrigatórios"
-msgstr "Preencha os campos obrigatórios"
-
-msgid "Registro alterado com sucesso"
-msgstr "Registro alterado com sucesso"
-
-msgid "Novo registro adicionado com sucesso"
-msgstr "Novo registro adicionado com sucesso"
-
-msgid "Erro ao salvar o novo registro. Favor tentar novamente"
-msgstr "Erro ao guardar o novo registro. Por favor tente novamente"
-
-msgid "Registro excluído com sucesso"
-msgstr ""
-
-msgid "Somente via POST"
-msgstr ""
-
-msgid "Senha atual não confere"
-msgstr ""
-
-msgid "Usuário ou senha inválido"
-msgstr "Utilizador ou senha inválido(s)"
-
-#, php-format
-msgid ""
-"Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s"
-msgstr ""
-
-#, php-format
-msgid "Erro ao inserir o registro: %s"
-msgstr "Erro ao inserir o registro: %s"
-
-#, php-format
-msgid "Erro ao atualizar o registro: %s"
-msgstr "Erro ao atualizar o registro: %s"
-
-msgid "Não pode remover a raiz"
-msgstr ""
-
-#, php-format
-msgid "Erro ao apagar o registro: %s"
-msgstr "Erro ao apagar o registro: %s"
-
-msgid "Verificação de Requisitos"
-msgstr "Verificação dos Requisitos"
-
-msgid "Licença"
-msgstr "Licença"
-
-msgid "Configurar Banco de Dados"
-msgstr "Configurar Base de Dados"
-
-msgid "Configurar Administrador"
-msgstr ""
-
-msgid "Aplicar"
-msgstr "Aplicar"
-
-msgid "Não instalado"
-msgstr "Não instalado"
-
-msgid "Instalado"
-msgstr "Instalado"
-
-msgid "Configuração do SGA"
-msgstr "Configuração do SGA"
-
-msgid "Escrita"
-msgstr "Escrita"
-
-msgid "Diretório temporário"
-msgstr ""
-
-msgid "Session Save Path"
-msgstr ""
-
-msgid "Somente leitura"
-msgstr ""
-
-#, php-format
-msgid "Opção inválida: %s"
-msgstr "Opção inválida: %s"
-
-msgid ""
-"Por questões de segurança as informações sobre o ambiente são desabilitadas "
-"após a instalação."
-msgstr ""
-
-msgid "Banco de Dados testado com sucesso!"
-msgstr ""
-
-msgid "Não foi encontrado arquivo SQL para o tipo de banco escolhido"
-msgstr ""
-
-msgid "Dados do usuário informados com sucesso"
-msgstr ""
-
-msgid "O login deve conter somente letras e números."
-msgstr "O login deve conter somente letras e números."
-
-msgid "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
-msgstr "O login deve possuir entre 5 e 20 caracteres (letras ou números)."
-
-msgid "A senha deve possuir 6 ou mais letras/números."
-msgstr "A senha deve possuir pelo menos 6 letras/números."
-
-msgid "A senha não confere com a confirmação de senha."
-msgstr ""
-
-msgid "Instalação concluída com sucesso"
-msgstr "Instalação concluída com sucesso"
-
-msgid "O SGA já está instalado"
-msgstr "O SGA já está instalado"
-
-msgid "Os dados da instalação não foram encontrados. Favor iniciar novamente"
-msgstr ""
-
-#, php-format
-msgid "Script SQL de instalação não encontrado (%s)"
-msgstr "Script SQL de instalação não encontrado (%s)"
-
-msgid "Requisição inválida"
-msgstr ""
-
-msgid "Erro ao definir status do atendimento. Deve ser maior que zero."
-msgstr "Erro ao definir o estado do atendimento. Deve ser maior que zero."
-
-msgid "O peso da prioridade deve ser um inteiro positivo"
-msgstr "O peso da prioridade deve ser um inteiro positivo"
-
-msgid "Erro ao definir status do Atendente, deve ser um inteiro."
-msgstr "Erro ao definir o estado do Atendente, deve ser um inteiro."
-
-msgid "A sigla da senha deve ser um char"
-msgstr "A sigla da senha deve ser uma letra"
-
-msgid "O numero da senha deve ser um inteiro maior que zero"
-msgstr "O numero da senha deve ser um inteiro maior que zero"
-
-msgid "Convencional"
-msgstr "Convencional"
-
-msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
-msgstr ""
 
 msgid "Incremental única"
 msgstr "Incremental única"
@@ -1049,13 +1096,13 @@ msgid "Todos"
 msgstr "Todos"
 
 msgid "Já existe um atendimento em andamento"
-msgstr ""
+msgstr "Já existe um atendimento em andamento"
 
 msgid "Nenhum atendimento disponível"
 msgstr "Nenhum atendimento disponível"
 
 msgid "Nenhum atendimento em andamento"
-msgstr ""
+msgstr "Nenhum atendimento em andamento"
 
 #, php-format
 msgid "Erro ao redirecionar atendimento %s para o serviço %s"
@@ -1063,23 +1110,17 @@ msgstr "Erro ao redirecionar o atendimento %s para o serviço %s"
 
 #, php-format
 msgid "Erro ao codificar o atendimento %s"
-msgstr ""
+msgstr "Erro ao arquivar o atendimento %s"
 
 #, php-format
 msgid "Erro ao mudar status do atendimento %s para encerrado"
-msgstr ""
-
-msgid "Atendimento inválido"
-msgstr "Atendimento inválido"
+msgstr "Erro ao mudar o estado do atendimento %s para encerrado"
 
 msgid "Nenhuma unidade selecionada"
 msgstr "Nenhuma unidade seleccionada"
 
 msgid "Favor escolher o Cargo pai"
-msgstr ""
-
-msgid "Administrador"
-msgstr "Administrador"
+msgstr "Por favor escolher o Cargo pai"
 
 msgid "Administrador geral do sistema"
 msgstr "Administrador geral do sistema"
@@ -1088,7 +1129,7 @@ msgid "Atendimentos por status"
 msgstr "Atendimentos por estado"
 
 msgid "Tempo médio do atendimento"
-msgstr ""
+msgstr "Tempo médio do atendimento"
 
 msgid "Serviços Disponíveis - Global"
 msgstr "Serviços Disponíveis - Global"
@@ -1097,7 +1138,7 @@ msgid "Serviços Disponíveis - Unidade"
 msgstr "Serviços Disponíveis - Unidade"
 
 msgid "Serviços codificados"
-msgstr ""
+msgstr "Serviços arquivados"
 
 msgid "Atendimentos concluídos"
 msgstr "Atendimentos concluídos"
@@ -1108,14 +1149,17 @@ msgstr "Atendimentos em todos os estados"
 msgid "Tempos médios por Atendente"
 msgstr "Tempos médios por Atendente"
 
+msgid "Cargos"
+msgstr "Cargos"
+
 msgid "Gráfico inválido"
-msgstr ""
+msgstr "Gráfico inválido"
 
 msgid "Tempo de Espera"
 msgstr "Tempo de Espera"
 
 msgid "Tempo de Deslocamento"
-msgstr ""
+msgstr "Tempo de Deslocamento"
 
 msgid "Tempo de Atendimento"
 msgstr "Tempo de Atendimento"
@@ -1124,13 +1168,13 @@ msgid "Tempo Total"
 msgstr "Tempo Total"
 
 msgid "Raíz"
-msgstr ""
+msgstr "Raíz"
 
 msgid "Grupo Raíz"
-msgstr ""
+msgstr "Grupo Raíz"
 
 msgid "Favor escolher o Grupo pai"
-msgstr ""
+msgstr "Por favor escolher o Grupo pai"
 
 msgid ""
 "Esse grupo não pode ser excluído porque possui relacionamento com uma ou "
@@ -1146,13 +1190,13 @@ msgid "Mesa"
 msgstr "Balcão"
 
 msgid "Tipo de recurso inválido"
-msgstr ""
+msgstr "Tipo de recurso inválido"
 
 msgid "Módulo inválido"
-msgstr ""
+msgstr "Módulo inválido"
 
 msgid "Permissão negada"
-msgstr ""
+msgstr "Permissão negada"
 
 msgid "Módulo instalado com sucesso"
 msgstr "Módulo instalado com sucesso"
@@ -1161,7 +1205,7 @@ msgid "Sem prioridade"
 msgstr "Sem prioridade"
 
 msgid "Atendimento normal"
-msgstr ""
+msgstr "Atendimento normal"
 
 msgid "Portador de Deficiência"
 msgstr "Portador de Deficiência"
@@ -1185,7 +1229,7 @@ msgid "Outros"
 msgstr "Outros"
 
 msgid "Qualquer outra prioridade"
-msgstr ""
+msgstr "Qualquer outra prioridade"
 
 msgid "Não pode remover essa prioridade"
 msgstr "Não é possível eliminar essa prioridade"
@@ -1193,14 +1237,11 @@ msgstr "Não é possível eliminar essa prioridade"
 msgid "Já existem atendimentos para o serviço que está tentando remover"
 msgstr "Já existem atendimentos para o serviço que está a tentar eliminar"
 
-msgid "Serviço inválido"
-msgstr ""
-
 msgid "Unidade Padrão"
-msgstr ""
+msgstr "Unidade Padrão"
 
 msgid "Novo SGA"
-msgstr ""
+msgstr "Novo SGA"
 
 msgid "Nenhum unidade definida"
 msgstr "Nenhum unidade definida"
@@ -1231,89 +1272,3 @@ msgstr ""
 
 msgid "Usuário inválido"
 msgstr "Utilizador inválido"
-
-# modulos
-msgid "Administração"
-msgstr ""
-
-msgid "Configurações gerais do sistema"
-msgstr ""
-
-msgid "Atendimento"
-msgstr "Atendimento"
-
-msgid ""
-"Efetue o atendimento às senhas distribuídas dos serviços que você atende"
-msgstr ""
-
-msgid "Cargos"
-msgstr "Cargos"
-
-msgid "Gerencie os cargos do sistema"
-msgstr ""
-
-msgid "Estatísticas"
-msgstr ""
-
-msgid "Visualize e exporte estastísticas e relatórios sobre o sistema"
-msgstr ""
-
-msgid "Grupos"
-msgstr ""
-
-msgid "Gerencie os grupos do sistema"
-msgstr ""
-
-msgid "Locais"
-msgstr ""
-
-msgid "Gerencie os locais de atendimento"
-msgstr ""
-
-msgid "Módulos"
-msgstr "Módulos"
-
-msgid "Gerencie os módulos instalados"
-msgstr ""
-
-msgid "Monitor"
-msgstr ""
-
-msgid "Gerencie as senhas aguardando atendimento"
-msgstr ""
-
-msgid "Prioridades"
-msgstr ""
-
-msgid "Gerencie os prioridades do sistema"
-msgstr ""
-
-msgid "Serviços"
-msgstr "Serviços"
-
-msgid "Gerencie os serviços do sistema"
-msgstr ""
-
-msgid "Triagem"
-msgstr ""
-
-msgid "Gerencie a distribuíção das senhas da unidade atual"
-msgstr ""
-
-msgid "Configuração"
-msgstr "Configuração"
-
-msgid "Módulo para gerenciamento da unidade atual"
-msgstr ""
-
-msgid "Unidades"
-msgstr ""
-
-msgid "Gerencie as unidades do sistema"
-msgstr ""
-
-msgid "Usuários"
-msgstr ""
-
-msgid "Gerencie os usuários do sistema"
-msgstr ""

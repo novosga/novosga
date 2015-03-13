@@ -1,16 +1,16 @@
-#
 # Translators:
 # Afonso Salgado <beat_slayer@live.nl>, 2013
 # daniel.silvestre <daniel.silvestre@gmail.com>, 2014
-# Jan Cleber Paiva <jancleberpaiva@gmail.com>, 2013
+# Jan Cleber Paiva <jancleberpaiva@gmail.com>, 2013-2014
+# PAULO ROBERTO BORGES CUSTODIO <paulo.custodio@cuiaba.mt.gov.br>, 2014-2015
 # Rafael Tiussi Broseghini, 2014
-# Rogério Lino <rogeriolino@gmail.com>, 2013-2014
+# Rogério Lino <rogeriolino@gmail.com>, 2013-2015
 # Rafael Tiussi Broseghini, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: novosga\n"
 "POT-Creation-Date: 2014-07-31 09:13-0300\n"
-"PO-Revision-Date: 2014-09-26 13:52-0300\n"
+"PO-Revision-Date: 2015-03-13 15:11-0300\n"
 "Last-Translator: Rogério Lino <rogeriolino@gmail.com>\n"
 "Language-Team: English (http://www.transifex.com/projects/p/novosga/language/"
 "en/)\n"
@@ -38,8 +38,7 @@ msgstr "Alert"
 
 msgid ""
 "Ao clicar em instalar, caso já exista uma instalação do Novo SGA (versão "
-"1.0.0 ou inferior) no banco especificado, a mesma será sobrescrita "
-"(atualizada)."
+"1.0.0 ou superior) no banco especificado, a mesma será atualizada."
 msgstr ""
 
 msgid "Clique para iniciar o processo final de instalação."
@@ -95,6 +94,18 @@ msgstr "Database"
 msgid "Escolhido no passo 1"
 msgstr "Selected in the step 1"
 
+msgid "Porta"
+msgstr "Port"
+
+msgid "Usuário"
+msgstr "User"
+
+msgid "Senha"
+msgstr "Password"
+
+msgid "É necessário testar o banco antes de prosseguir."
+msgstr "Its necessary to test the database before proceeding."
+
 msgid "Clique para testar a conexão com o Banco de Dados."
 msgstr "Click to test database connection."
 
@@ -121,9 +132,6 @@ msgstr "Edit"
 
 msgid "Alterar senha do usuário"
 msgstr "Change user password"
-
-msgid "Senha"
-msgstr "Password"
 
 msgid "Confirmar senha"
 msgstr "Password confirm"
@@ -153,6 +161,9 @@ msgstr "Remove selected"
 msgid "Adicionar"
 msgstr "Add"
 
+msgid "Atendimento"
+msgstr "Attending"
+
 msgid "Serviços que o usuário (atendente) atende em cada lotação."
 msgstr "Services that the user (attendant) attend at each lotation."
 
@@ -165,8 +176,14 @@ msgstr "Unity"
 msgid "Lotação"
 msgstr "Lotation"
 
+msgid "Serviços"
+msgstr "Services"
+
 msgid "Permissões"
 msgstr "Permissions"
+
+msgid "Módulos"
+msgstr "Modules"
 
 msgid "Alterar senha"
 msgstr "Change password"
@@ -237,9 +254,6 @@ msgstr "Subservices "
 msgid "Período de %dataInicial% a %dataFinal%"
 msgstr "From %dataInicial% to %dataFinal%"
 
-msgid "Usuário"
-msgstr "User"
-
 msgid "Atendimentos"
 msgstr "Attending"
 
@@ -282,11 +296,11 @@ msgstr "Required field"
 msgid "Mensagem"
 msgstr "Message"
 
-msgid "Cliente"
-msgstr "Customer"
-
 msgid "Documento"
 msgstr "Document"
+
+msgid "Última senha"
+msgstr "Last ticket"
 
 msgid "Aguardando atendimento"
 msgstr "Waiting for support"
@@ -318,9 +332,6 @@ msgstr "Ticket"
 msgid "Número"
 msgstr "Number"
 
-msgid "Última senha"
-msgstr "Last ticket"
-
 msgid "Reimprimir"
 msgstr "Reprint"
 
@@ -347,6 +358,9 @@ msgstr "Start date"
 
 msgid "Data fim"
 msgstr "End date"
+
+msgid "Triagem"
+msgstr "Screening"
 
 msgid "Atendente"
 msgstr "Attendant"
@@ -381,9 +395,6 @@ msgstr "LDAP and Database"
 msgid "Servidor"
 msgstr "Server"
 
-msgid "Porta"
-msgstr "Port"
-
 msgid "Base DN"
 msgstr "Base DN"
 
@@ -417,27 +428,22 @@ msgstr "Congratulations, you have the latest version"
 msgid "Acessar"
 msgstr "Go"
 
+msgid "Configuração"
+msgstr "Configuration"
+
 msgid "Senhas reiniciadas com sucesso"
 msgstr "Ticket number queues successfully reset  "
 
 msgid ""
-"As modificações na sigla e nome do serviço são salvas automaticamente ao "
-"sair do campo."
+"As modificações na sigla do serviço são salvas automaticamente ao sair do "
+"campo."
 msgstr ""
-"Modifications on the acronym and name of the service are saved automatically "
-"when you switch the fields."
 
 msgid "Sigla"
 msgstr "Char"
 
 msgid "Local"
 msgstr "Location"
-
-msgid "Habilitar"
-msgstr "Enable"
-
-msgid "Desabilitar"
-msgstr "Disable"
 
 msgid "Impressão"
 msgstr "Print"
@@ -447,6 +453,9 @@ msgstr "Enable ticket print"
 
 msgid "Deseja realmente reiniciar as senhas?"
 msgstr "Do you really want to reset the tickets?"
+
+msgid "Cliente"
+msgstr "Customer"
 
 msgid "Data"
 msgstr "Date"
@@ -511,13 +520,16 @@ msgid "Duração"
 msgstr "Duration"
 
 msgid "Tempo de permanência no local (Fim - Chegada)"
-msgstr ""
+msgstr "Time staying at the site (End - Arrival)"
 
 msgid "Permanência"
-msgstr ""
+msgstr "Staying"
 
 msgid "Serviços Codificados"
-msgstr ""
+msgstr "Coded Services"
+
+msgid "Li e concordo com os termos da licença"
+msgstr "I have read and agree to the terms of use"
 
 msgid "Bem-vindo, %usuario%"
 msgstr "Welcome, %usuario%"
@@ -582,7 +594,7 @@ msgid "Novo Serviço"
 msgstr "New service"
 
 msgid "Codificar e redirecionar"
-msgstr ""
+msgstr "Encode and redirect"
 
 msgid "Data de chegada"
 msgstr "Date of arrival"
@@ -662,8 +674,8 @@ msgstr "Report"
 msgid "Gerar relatório"
 msgstr "Generate report"
 
-msgid "dd/mm/yy"
-msgstr "mm/dd/yy"
+msgid "dd/mm/yyyy"
+msgstr "mm/dd/yyyy"
 
 msgid "buscar senha"
 msgstr "search ticket"
@@ -700,6 +712,30 @@ msgstr "Username"
 
 msgid "Entrar"
 msgstr "Enter"
+
+msgid "Uma versão já instalada do Novo SGA foi identificada."
+msgstr "A version of Novo SGA already installed was identified. "
+
+#, php-format
+msgid ""
+"Foi identificado que o banco de dados atual possui a versão %currVersion% do "
+"Novo SGA."
+msgstr ""
+
+msgid ""
+"O instalador irá executar os scripts de migração para atualizar o banco. "
+"Caso você não queira atualizar, certifique-se que o banco esteja vazio e "
+"recarregue essa página."
+msgstr ""
+"The installer will execute the scripts for migration to update the database. "
+"In case you don't wish to update, check that the database is empty and "
+"reload this page."
+
+msgid "Administrador"
+msgstr "Administrator"
+
+msgid "Confirmar Senha"
+msgstr "Password Check"
 
 msgid "Total"
 msgstr "Total"
@@ -773,15 +809,20 @@ msgstr "Please choose your preferred database system from the list below:"
 msgid "Autor"
 msgstr "Author"
 
-msgid "Data de criação"
-msgstr "Creation date"
-
 msgid "Os requisitos para instalação do sistema irão depender da opção acima."
 msgstr ""
+"The requirement for the installation of the system depends on the selected "
+"options above."
 
 #, php-format
 msgid "Módulo \"%s\" não econtrado."
 msgstr "Module \"%s\" not found"
+
+msgid "Atendimento inválido"
+msgstr "Invalid attending"
+
+msgid "Senha já atendida"
+msgstr "Ticket already attended"
 
 msgid ""
 "Não foi possível conectar ao servidor LDAP. Favor verificar se as "
@@ -792,92 +833,6 @@ msgstr ""
 
 msgid "Extensão LDAP não disponível no servidor."
 msgstr "LDAP extension not found"
-
-msgid "A senha deve possuir no mínimo 6 caracteres."
-msgstr "Password must have 6 characters minimum."
-
-msgid "A confirmação de senha não confere com a senha."
-msgstr "Password confirmation doesn't match the password."
-
-msgid "Para acessar esse módulo primeiro é necessário escolher uma unidade."
-msgstr "To access that module you must first choose a unit."
-
-msgid "Senha emitida"
-msgstr "Ticket generated"
-
-msgid "Chamado pela mesa"
-msgstr "Called by table"
-
-msgid "Atendimento iniciado"
-msgstr "Attending started"
-
-msgid "Atendimento encerrado"
-msgstr "Attending finished"
-
-msgid "Senha cancelada"
-msgstr "Ticket cancelled"
-
-msgid "Erro triagem"
-msgstr "Screening error"
-
-msgid "Atendimento encerrado e codificado"
-msgstr "Attending finished and encoded"
-
-msgid "Nenhum unidade escolhida"
-msgstr "No unity selected"
-
-msgid "Nenhum usuário na sessão"
-msgstr "No user logged in"
-
-msgid "Prioridade inválida"
-msgstr "Invalid priority"
-
-msgid "Serviço não disponível para a unidade atual"
-msgstr "Service not avaliable in the actual unit"
-
-msgid "Erro ao tentar gerar nova senha"
-msgstr "Error generating a new ticket number"
-
-msgid ""
-"Erro ao pegar o ID gerado pelo banco. Entre em contato com a equipe de "
-"desenvolvimento informando esse problema, e o banco de dados que está usando"
-msgstr ""
-"Error retrieving the database generated ID. Please contact the development "
-"team and inform the this error along with the database type you are using."
-
-#, php-format
-msgid "Módulo %s não instalado"
-msgstr "Module %s not installed"
-
-#, php-format
-msgid "Arquivo não encontrado: %s"
-msgstr "File not found: %s"
-
-msgid "Já possui um módulo com o mesmo nome"
-msgstr "A module with the same name exists"
-
-msgid "Não foi possível criar o diretório do módulo"
-msgstr "Unable to create module directory"
-
-msgid "Não foi possível mover os arquivos para o diretório dos módulos"
-msgstr "Unable to move files to modules directory"
-
-#, php-format
-msgid "Arquivo %s não encontrado"
-msgstr "File %s not found"
-
-#, php-format
-msgid ""
-"Formato inválido do nome do módulo: %s. Era esperado {vendorName}."
-"{moduleName}"
-msgstr "Invalid module name format: %s. Expected {vendorName}.{moduleName}"
-
-msgid "O Manifest não contém um JSON válido"
-msgstr "The Manifest does not contain a valid JSON"
-
-msgid ""
-"Formato do nome do script inválido. Era experado <ClassName>::<methodName>."
-msgstr "Invalid script name format. Expected <ClassName>::<methodName>"
 
 #, php-format
 msgid "Arquivo de configuação (%s) somente leitura"
@@ -901,11 +856,17 @@ msgstr "Record successfully removed"
 msgid "Somente via POST"
 msgstr "POST only"
 
+msgid "Nenhum usuário na sessão"
+msgstr "No user logged in"
+
 msgid "Senha atual não confere"
 msgstr "Current password don't match"
 
 msgid "Usuário ou senha inválido"
 msgstr "Invalid user or password"
+
+msgid "Chave de segurança do atendimento inválida"
+msgstr "Invalid attending security key "
 
 #, php-format
 msgid ""
@@ -961,6 +922,9 @@ msgstr "Temp directory"
 msgid "Session Save Path"
 msgstr "Session Save Path"
 
+msgid "Não existe"
+msgstr "Doesn't exist"
+
 msgid "Somente leitura"
 msgstr "Read only"
 
@@ -1010,9 +974,6 @@ msgstr "SQL installation script not found (%s)"
 msgid "Requisição inválida"
 msgstr "Invalid request"
 
-msgid "Erro ao definir status do atendimento. Deve ser maior que zero."
-msgstr "Error defining attending status. Must be greater than zero."
-
 msgid "O peso da prioridade deve ser um inteiro positivo"
 msgstr "Priority weight must be a positive integer"
 
@@ -1030,6 +991,89 @@ msgstr "Normal"
 
 msgid "Erro ao definir guiche do Usuário. Deve ser um número maior que zero."
 msgstr "Error defining user box. Must be a number greater than zero."
+
+msgid "A senha deve possuir no mínimo 6 caracteres."
+msgstr "Password must have 6 characters minimum."
+
+msgid "A confirmação de senha não confere com a senha."
+msgstr "Password confirmation doesn't match the password."
+
+msgid "Para acessar esse módulo primeiro é necessário escolher uma unidade."
+msgstr "To access that module you must first choose a unit."
+
+msgid "Senha emitida"
+msgstr "Ticket generated"
+
+msgid "Chamado pela mesa"
+msgstr "Called by table"
+
+msgid "Atendimento iniciado"
+msgstr "Attending started"
+
+msgid "Atendimento encerrado"
+msgstr "Attending finished"
+
+msgid "Senha cancelada"
+msgstr "Ticket cancelled"
+
+msgid "Erro triagem"
+msgstr "Screening error"
+
+msgid "Atendimento encerrado e codificado"
+msgstr "Attending finished and encoded"
+
+msgid "Nenhum unidade escolhida"
+msgstr "No unity selected"
+
+msgid "Serviço inválido"
+msgstr "Invalid service"
+
+msgid "Prioridade inválida"
+msgstr "Invalid priority"
+
+msgid "Serviço não disponível para a unidade atual"
+msgstr "Service not avaliable in the actual unit"
+
+msgid "Erro ao tentar gerar nova senha"
+msgstr "Error generating a new ticket number"
+
+#, php-format
+msgid "O último ID retornado pelo banco não é de um atendimento válido: %s"
+msgstr "Last ID returned from database is not a valid:  %s"
+
+#, php-format
+msgid "Módulo %s não instalado"
+msgstr "Module %s not installed"
+
+#, php-format
+msgid "Arquivo não encontrado: %s"
+msgstr "File not found: %s"
+
+msgid "Já possui um módulo com o mesmo nome"
+msgstr "A module with the same name exists"
+
+msgid "Não foi possível criar o diretório do módulo"
+msgstr "Unable to create module directory"
+
+msgid "Não foi possível mover os arquivos para o diretório dos módulos"
+msgstr "Unable to move files to modules directory"
+
+#, php-format
+msgid "Arquivo %s não encontrado"
+msgstr "File %s not found"
+
+#, php-format
+msgid ""
+"Formato inválido do nome do módulo: %s. Era esperado {vendorName}."
+"{moduleName}"
+msgstr "Invalid module name format: %s. Expected {vendorName}.{moduleName}"
+
+msgid "O Manifest não contém um JSON válido"
+msgstr "The Manifest does not contain a valid JSON"
+
+msgid ""
+"Formato do nome do script inválido. Era experado <ClassName>::<methodName>."
+msgstr "Invalid script name format. Expected <ClassName>::<methodName>"
 
 msgid "Incremental única"
 msgstr "Unique number sequence"
@@ -1057,27 +1101,21 @@ msgstr "No Servicing on at this moment"
 
 #, php-format
 msgid "Erro ao redirecionar atendimento %s para o serviço %s"
-msgstr ""
+msgstr "Error when trying to redirect %s to the the %s service"
 
 #, php-format
 msgid "Erro ao codificar o atendimento %s"
-msgstr ""
+msgstr "Error when trying to get %s coded"
 
 #, php-format
 msgid "Erro ao mudar status do atendimento %s para encerrado"
-msgstr ""
-
-msgid "Atendimento inválido"
-msgstr "Invalid attending"
+msgstr "Error when trying to change %s status"
 
 msgid "Nenhuma unidade selecionada"
 msgstr "No unity selected"
 
 msgid "Favor escolher o Cargo pai"
 msgstr "Please choose parent Job"
-
-msgid "Administrador"
-msgstr "Administrator"
 
 msgid "Administrador geral do sistema"
 msgstr "Global system administrator"
@@ -1095,7 +1133,7 @@ msgid "Serviços Disponíveis - Unidade"
 msgstr "Services available - Unit"
 
 msgid "Serviços codificados"
-msgstr ""
+msgstr "Coded Services"
 
 msgid "Atendimentos concluídos"
 msgstr "Finished servicing"
@@ -1104,7 +1142,10 @@ msgid "Atendimentos em todos os status"
 msgstr "Servicing at all status"
 
 msgid "Tempos médios por Atendente"
-msgstr ""
+msgstr "Average time by servicing "
+
+msgid "Cargos"
+msgstr "Job"
 
 msgid "Gráfico inválido"
 msgstr "Invalid chart"
@@ -1161,22 +1202,22 @@ msgid "Atendimento normal"
 msgstr "Normal attending"
 
 msgid "Portador de Deficiência"
-msgstr ""
+msgstr "Special needs user"
 
 msgid "Atendimento prioritáro para portadores de deficiência"
-msgstr ""
+msgstr "Priority Service for Special needs user"
 
 msgid "Gestante"
 msgstr "Pregnant woman"
 
 msgid "Atendimento prioritáro para gestantes"
-msgstr ""
+msgstr "Priority servicing for Pregnants"
 
 msgid "Idoso"
 msgstr "Elderly"
 
 msgid "Atendimento prioritáro para idosos"
-msgstr ""
+msgstr "Priority servicing for elderly "
 
 msgid "Outros"
 msgstr "Others"
@@ -1188,10 +1229,7 @@ msgid "Não pode remover essa prioridade"
 msgstr "This priority can't be removed"
 
 msgid "Já existem atendimentos para o serviço que está tentando remover"
-msgstr ""
-
-msgid "Serviço inválido"
-msgstr "Invalid service"
+msgstr "The service you are trying to remove has already registered servicing "
 
 msgid "Unidade Padrão"
 msgstr "Default unity"
@@ -1213,7 +1251,7 @@ msgstr ""
 "This Unit can't be excluded since it already has registered Servicing in it."
 
 msgid "O usuário deve possuir pelo menos uma lotação."
-msgstr ""
+msgstr "The user need to have least one lotation."
 
 msgid "O login informado já está cadastrado para outro usuário."
 msgstr "The informed login is already in use by another user."
@@ -1223,93 +1261,7 @@ msgstr "It is not possible to delete yourself."
 
 msgid ""
 "Não é possível excluir esse usuário pois o mesmo já realizou atendimentos."
-msgstr ""
+msgstr "You can not delete a user that has already been serviced "
 
 msgid "Usuário inválido"
 msgstr "Invalid user"
-
-# modulos
-msgid "Administração"
-msgstr "Administration"
-
-msgid "Configurações gerais do sistema"
-msgstr "General settings"
-
-msgid "Atendimento"
-msgstr "Attending"
-
-msgid ""
-"Efetue o atendimento às senhas distribuídas dos serviços que você atende"
-msgstr ""
-
-msgid "Cargos"
-msgstr "Job"
-
-msgid "Gerencie os cargos do sistema"
-msgstr ""
-
-msgid "Estatísticas"
-msgstr "Statistics"
-
-msgid "Visualize e exporte estastísticas e relatórios sobre o sistema"
-msgstr ""
-
-msgid "Grupos"
-msgstr "Groups"
-
-msgid "Gerencie os grupos do sistema"
-msgstr "Manage system groups"
-
-msgid "Locais"
-msgstr "Places"
-
-msgid "Gerencie os locais de atendimento"
-msgstr ""
-
-msgid "Módulos"
-msgstr "Modules"
-
-msgid "Gerencie os módulos instalados"
-msgstr "Manage installed modules"
-
-msgid "Monitor"
-msgstr ""
-
-msgid "Gerencie as senhas aguardando atendimento"
-msgstr ""
-
-msgid "Prioridades"
-msgstr "Priorities"
-
-msgid "Gerencie os prioridades do sistema"
-msgstr "Manage system priorities"
-
-msgid "Serviços"
-msgstr "Services"
-
-msgid "Gerencie os serviços do sistema"
-msgstr "Manage system services"
-
-msgid "Triagem"
-msgstr "Screening"
-
-msgid "Gerencie a distribuíção das senhas da unidade atual"
-msgstr ""
-
-msgid "Configuração"
-msgstr "Configuration"
-
-msgid "Módulo para gerenciamento da unidade atual"
-msgstr ""
-
-msgid "Unidades"
-msgstr "Unities"
-
-msgid "Gerencie as unidades do sistema"
-msgstr "Manage system unities"
-
-msgid "Usuários"
-msgstr "Users"
-
-msgid "Gerencie os usuários do sistema"
-msgstr "Manage system users"
