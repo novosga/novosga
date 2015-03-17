@@ -98,7 +98,7 @@ class AtendimentoService extends MetaModelService
         $this->em->persist($senha);
         $this->em->flush();
         
-        AppConfig::getInstance()->hook("panel.call", $atendimento, $senha);
+        AppConfig::getInstance()->hook("panel.call", array($atendimento, $senha));
     }
 
     /**
@@ -287,7 +287,7 @@ class AtendimentoService extends MetaModelService
     
     
     public function chamar(Atendimento $atendimento, Usuario $usuario, $local) {
-        AppConfig::getInstance()->hook("attending.pre-call", $atendimento, $usuario);
+        AppConfig::getInstance()->hook("attending.pre-call", array($atendimento, $usuario));
         
         $atendimento->setUsuario($usuario);
         $atendimento->setLocal($local);
@@ -315,7 +315,7 @@ class AtendimentoService extends MetaModelService
         $success = $query->execute() > 0;
         
         if ($success) {
-            AppConfig::getInstance()->hook("attending.call", $atendimento, $usuario);
+            AppConfig::getInstance()->hook("attending.call", array($atendimento, $usuario));
         }
         
         return $success;
@@ -400,7 +400,7 @@ class AtendimentoService extends MetaModelService
             $this->em->flush();
         }
         
-        AppConfig::getInstance()->hook("attending.pre-create", $su, $prioridade, $usuario);
+        AppConfig::getInstance()->hook("attending.pre-create", array($su, $prioridade, $usuario));
         
         $numeroSenha = $contador->getTotal() + 1;
         $contador->setTotal($numeroSenha);
@@ -497,7 +497,7 @@ class AtendimentoService extends MetaModelService
         $service = new ServicoService($this->em);
         $su = $service->servicoUnidade($unidade, $servico);
         
-        AppConfig::getInstance()->hook("attending.pre-redirect", $atendimento, $su, $usuario);
+        AppConfig::getInstance()->hook("attending.pre-redirect", array($atendimento, $su, $usuario));
         
         $novo = new Atendimento();
         $novo->setLocal(0);
@@ -553,7 +553,7 @@ class AtendimentoService extends MetaModelService
         ;
         
         if ($success) {
-            AppConfig::getInstance()->hook("attending.transfer", $atendimento, $novoServico, $novaPrioridade);
+            AppConfig::getInstance()->hook("attending.transfer", array($atendimento, $novoServico, $novaPrioridade));
         }
         
         return $success;

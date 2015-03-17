@@ -131,13 +131,14 @@ class AtendimentoController extends ModuleController {
                                 $usuario->setSequenciaPrioridade(0);
                             }
                             $context->setUser($usuario);
+                        } else {
+                            usleep(50);
                         }
                         $attempts--;
                     } else {
                         // nao existe proximo
                         break;
                     }
-                    usleep(50);
                 } while (!$success && $attempts > 0);
             }
             // response
