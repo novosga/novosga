@@ -39,28 +39,31 @@ class AtendimentoController extends ModuleController {
         if (!$usuario || !$unidade) {
             $this->app()->gotoHome();
         }
+        
+        $localMeta = $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.local');
+        if ($localMeta) {
+            $usuario->setLocal((int) $localMeta->getValue());
+        }
+        $tipoMeta = $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.tipo');
+        if ($tipoMeta) {
+            $usuario->setTipoAtendimento((int) $tipoMeta->getValue());
+        }
+        
         $this->app()->view()->set('time', time() * 1000);
         $this->app()->view()->set('unidade', $unidade);
         $this->app()->view()->set('atendimento', $this->atendimentoService->atendimentoAndamento($usuario->getId()));
         $this->app()->view()->set('servicos', $usuario->getServicos());
         $this->app()->view()->set('servicosIndisponiveis', $usuario->getServicosIndisponiveis());
+        
         $tiposAtendimento = array(
             UsuarioSessao::ATEND_TODOS => _('Todos'), 
             UsuarioSessao::ATEND_CONVENCIONAL => _('Convencional'), 
             UsuarioSessao::ATEND_PRIORIDADE => _('Prioridade')
         );
-        $this->app()->view()->set('tiposAtendimento', $tiposAtendimento);
-        $this->app()->view()->set('labelTipoAtendimento', $tiposAtendimento[$usuario->getTipoAtendimento()]);
-        $this->app()->view()->set('local', $usuario->getLocal());
         
-        $localMeta = $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.local');
-        if ($localMeta) {
-            $this->app()->view()->set('localConfig', $localMeta->getValue());
-        }
-        $tipoMeta = $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.tipo');
-        if ($tipoMeta) {
-            $this->app()->view()->set('tipoAtendimentoConfig', $tipoMeta->getValue());
-        }
+        $this->app()->view()->set('tiposAtendimento', $tiposAtendimento);
+        $this->app()->view()->set('local', $usuario->getLocal());
+        $this->app()->view()->set('tipoAtendimento', $usuario->getTipoAtendimento());
     }
     
     public function set_local(Context $context) {
@@ -77,17 +80,22 @@ class AtendimentoController extends ModuleController {
         $this->app()->redirect('index');
     }
     
-    public function get_fila(Context $context) {
+    public function ajax_update(Context $context) {
         $response = new JsonResponse();
         $unidade = $context->getUnidade();
-        if ($unidade) {
+        $usuarioSessao = $context->getUser();
+        if ($unidade && $usuarioSessao) {
+            // retorna configuracao do usuario para conferir possiveis alteracoes
+            $this->checkUserConfig($context, $usuarioSessao);
+            
             // fila de atendimento do atendente atual
-            $response->data = array();
-            $atendimentos = $this->filaService->atendimentos($context->getUser());
-            foreach ($atendimentos as $atendimento) {
-                // minimal data
-                $response->data[] = $atendimento->jsonSerialize();
-            }
+            $response->data = array(
+                'atendimentos' => $this->filaService->atendimentos($usuarioSessao),
+                'usuario' => array(
+                    'numeroLocal' => $usuarioSessao->getLocal(),
+                    'tipoAtendimento' => $usuarioSessao->getTipoAtendimento(),
+                )
+            );
             $response->success = true;
         }
         return $response;
@@ -158,6 +166,24 @@ class AtendimentoController extends ModuleController {
             $response->message = $e->getMessage();
         }
         return $response;
+    }
+    
+    
+    private function checkUserConfig(Context $context, UsuarioSessao $usuario) {
+        $service = new UsuarioService($this->em());
+        $numeroLocalMeta = $service->meta($usuario->getWrapped(), 'atendimento.local');
+        $numero = $numeroLocalMeta ? (int) $numeroLocalMeta->getValue() : $usuario->getLocal();
+        $tipoAtendimentoMeta = $service->meta($usuario->getWrapped(), 'atendimento.tipo');
+        $tipoAtendimento = $tipoAtendimentoMeta ? (int) $tipoAtendimentoMeta->getValue() : $usuario->getTipoAtendimento();
+
+        if ($numero != $usuario->getLocal()) {
+            $usuario->setLocal($numero);
+        }
+        if ($tipoAtendimento != $usuario->getTipoAtendimento()) {
+            $usuario->setTipoAtendimento($tipoAtendimento);
+        }
+
+        $context->setUser($usuario);
     }
     
     /**

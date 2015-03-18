@@ -13,15 +13,15 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label">{% trans %}Número{% endtrans %}</label>
-                                    <input type="text" id="numero_local" name="local" maxlength="3" class="form-control" value="{{ localConfig }}" />
+                                    <input type="text" id="numero_local" name="local" maxlength="3" class="form-control config-numero-local" value="{{ local }}" />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="control-label" title="{% trans %}Tipo de Atendimento{% endtrans %}">{% trans %}Atendimento{% endtrans %}</label>
-                                    <select id="tipo_atendimento" name="tipo" class="form-control">
+                                    <select id="tipo_atendimento" name="tipo" class="form-control config-tipo-atendimento">
                                         {% for v,l in tiposAtendimento %}
-                                        <option value="{{ v }}" {% if tipoAtendimentoConfig == v %}selected="selected"{% endif %}>{{ l }}</option>
+                                        <option value="{{ v }}" {% if tipoAtendimento == v %}selected="selected"{% endif %}>{{ l }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -58,7 +58,7 @@
                 <div class="col-sm-3 col-md-2">
                     <div id="local">
                         <span class="label-local">{% trans %}Guichê{% endtrans %}</span>
-                        <span class="numero">{{ local }}</span>
+                        <span class="numero config-numero-local">{{ local }}</span>
                         <a href="#dialog-local" data-toggle="modal">{% trans %}Alterar{% endtrans %}</a>
                     </div>
                 </div>
@@ -232,7 +232,7 @@
                 </div>
             </div>
             <div id="fila">
-                <h4>{% trans %}Minha fila{% endtrans %} <span class="tipo-{{ usuario.tipoAtendimento }}">({{ labelTipoAtendimento }})</span>:</h4>
+                <h4>{% trans %}Minha fila{% endtrans %} (<span class="tipo-{{ usuario.tipoAtendimento }} config-tipo-atendimento">{{ tiposAtendimento[tipoAtendimento] }}</span>):</h4>
                 <ul></ul>
             </div>
         </div>
@@ -364,6 +364,7 @@
             SGA.Atendimento.marcarErroTriagem = '{% trans %}Realmente deseja marcar como erro de triagem?{% endtrans %}';
             SGA.Atendimento.marcarNaoCompareceu = '{% trans %}Realmente deseja marcar como não compareceu?{% endtrans %}';
             SGA.Atendimento.nenhumServicoSelecionado = '{% trans %}Nenhum serviço selecionado{% endtrans %}';
+            SGA.Atendimento.tiposAtendimento = {{ tiposAtendimento|json_encode()|raw }};
             SGA.Atendimento.init({% if atendimento %}{{ atendimento.status }}{% else %}1{% endif %});
         </script>
     {% endif %}
