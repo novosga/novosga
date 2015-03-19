@@ -7,17 +7,17 @@ var SGA = SGA || {};
 SGA.Monitor = {
 
     ids: [],
-    ajaxInterval: 3000,
     labelTransferir: '',
     alertCancelar: '',
     alertReativar: '',
+    timeoutId: 0,
     
     init: function() {
-        setInterval(SGA.Monitor.ajaxUpdate, SGA.updateInterval);
         SGA.Monitor.ajaxUpdate();
     },
     
     ajaxUpdate: function() {
+        clearTimeout(SGA.Monitor.timeoutId);
         if (!SGA.paused) {
             SGA.ajax({
                 url: SGA.url('ajax_update'),
@@ -48,8 +48,13 @@ SGA.Monitor = {
                             }
                         }
                     }
+                },
+                complete: function() {
+                    SGA.Monitor.timeoutId = setTimeout(SGA.Monitor.ajaxUpdate, SGA.updateInterval);
                 }
             });
+        } else {
+            SGA.Monitor.timeoutId = setTimeout(SGA.Monitor.ajaxUpdate, SGA.updateInterval);
         }
     },
     

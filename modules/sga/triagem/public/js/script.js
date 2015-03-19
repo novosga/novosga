@@ -10,9 +10,10 @@ SGA.Triagem = {
     imprimir: false,
     pausado: false,
     prioridades: 0,
+    timeoutId: 0,
     
     init: function() {
-        setInterval(SGA.Triagem.ajaxUpdate, SGA.updateInterval);
+        SGA.Triagem.ajaxUpdate();
         $('#dialog-busca').on('show.bs.modal', function () {
             $('#numero_busca').val('');
             $('#result_table tbody').html('');
@@ -59,6 +60,7 @@ SGA.Triagem = {
     },
     
     ajaxUpdate: function() {
+        clearTimeout(SGA.Triagem.timeoutId);
         if (!SGA.paused) {
             SGA.ajax({
                 url: SGA.url('ajax_update'),
@@ -85,8 +87,13 @@ SGA.Triagem = {
                             }
                         }
                     }
+                },
+                complete: function() {
+                    SGA.Triagem.timeoutId = setTimeout(SGA.Triagem.ajaxUpdate, SGA.updateInterval);
                 }
             });
+        } else {
+            SGA.Triagem.timeoutId = setTimeout(SGA.Triagem.ajaxUpdate, SGA.updateInterval);
         }
     },
     

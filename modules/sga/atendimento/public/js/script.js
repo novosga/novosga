@@ -12,10 +12,10 @@ SGA.Atendimento = {
     marcarErroTriagem: '',
     nenhumServicoSelecionado: '',
     defaultTitle: '',
+    timeoutId: 0,
     tiposAtendimento: {},
     
     init: function(status) {
-        setInterval(SGA.Atendimento.ajaxUpdate, SGA.updateInterval);
         SGA.Atendimento.ajaxUpdate();
         SGA.Atendimento.updateControls(status);
         $('#dialog-busca').on('show.bs.modal', function () {
@@ -29,6 +29,7 @@ SGA.Atendimento = {
     },
     
     ajaxUpdate: function() {
+        clearTimeout(SGA.Atendimento.timeoutId);
         if (!SGA.paused) {
             SGA.ajax({
                 url: SGA.url('ajax_update'),
@@ -78,8 +79,13 @@ SGA.Atendimento = {
                         $('.config-tipo-atendimento:input').val(usuario.tipoAtendimento);
                         ;
                     }
+                },
+                complete: function() {
+                    SGA.Atendimento.timeoutId = setTimeout(SGA.Atendimento.ajaxUpdate, SGA.updateInterval);
                 }
             });
+        } else {
+            SGA.Atendimento.timeoutId = setTimeout(SGA.Atendimento.ajaxUpdate, SGA.updateInterval);
         }
     },
     
