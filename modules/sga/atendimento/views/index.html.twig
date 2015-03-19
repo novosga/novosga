@@ -186,13 +186,15 @@
                                 <ul id="macro-servicos" class="items">
                                     {% for su in servicos %}
                                         <li id="servico-{{ su.servico.id }}">
-                                            <a href="javascript:void(0)" 
-                                               onclick="SGA.Atendimento.addServico(this)" 
-                                               data-id="{{ su.servico.id }}" 
-                                               title="{% trans %}Adicionar{% endtrans %}">
+                                            {% if su.servico.subServicos|length == 0 %}
+                                                <a href="javascript:void(0)" 
+                                                   onclick="SGA.Atendimento.addServico(this)" 
+                                                   data-id="{{ su.servico.id }}" 
+                                                   title="{% trans %}Adicionar{% endtrans %}">
+                                                    {{ su.servico.nome }}
+                                                </a>
+                                            {% else %}
                                                 {{ su.servico.nome }}
-                                            </a>
-                                            {% if su.servico.subServicos|length > 0 %}
                                                 <ul>
                                                 {% for sub in su.servico.subServicos %}
                                                     <li id="servico-{{ sub.id }}">
