@@ -109,9 +109,10 @@ class AtendimentoService extends MetaModelService
      */
     public function acumularAtendimentos($unidade = 0) {
         if ($unidade instanceof Unidade) {
-            $unidade = $unidade->getId();
+            $unidadeId = $unidade->getId();
         } else {
-            $unidade = max($unidade, 0);
+            $unidadeId = max($unidade, 0);
+            $unidade = ($unidadeId > 0) ? $this->em->find('Novosga\Model\Unidade', $unidadeId) : null;
         }
         
         AppConfig::getInstance()->hook("attending.pre-reset", $unidade);
@@ -127,107 +128,127 @@ class AtendimentoService extends MetaModelService
         $atendimentoMetaTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoMeta')->getTableName();
         $historicoMetaTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoHistoricoMeta')->getTableName();
 
-        // copia os atendimentos para o historico
-        $sql = "
-            INSERT INTO $historicoTable 
-            (
-                id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
-                nm_cli, num_local, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id, atendimento_id
-            )
-            SELECT 
-                a.id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
-                a.nm_cli, a.num_local, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id, a.atendimento_id
-            FROM 
-                $atendimentoTable a
-            WHERE 
-                a.dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
-        ";
-        $query = $conn->prepare($sql);
-        $query->bindValue('data', $data, PDO::PARAM_STR);
-        $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
-        $query->execute();
-
-        // copia os metadados
-        $sql = "
-            INSERT INTO $historicoMetaTable
-            (
-                atendimento_id, name, value
-            )
-            SELECT 
-                a.atendimento_id, a.name, a.value
-            FROM 
-                $atendimentoMetaTable  a
-            WHERE 
-                a.atendimento_id IN (SELECT b.id FROM $atendimentoTable b WHERE b.dt_cheg <= :data AND (b.unidade_id = :unidade OR :unidade = 0))
-        ";
-        $query = $conn->prepare($sql);
-        $query->bindValue('data', $data, PDO::PARAM_STR);
-        $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
-        $query->execute();
-
-        // copia os atendimentos codificados para o historico
-        $query = $conn->prepare("
-            INSERT INTO $historicoCodifTable
-            SELECT 
-                ac.atendimento_id, ac.servico_id, ac.valor_peso
-            FROM 
-                $atendimentoCodifTable ac
-            WHERE 
-                ac.atendimento_id IN (
-                    SELECT a.id FROM $atendimentoTable a WHERE dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
+        try {
+            $conn->beginTransaction();
+            
+            // copia os atendimentos para o historico
+            $sql = "
+                INSERT INTO $historicoTable 
+                (
+                    id, unidade_id, usuario_id, servico_id, prioridade_id, status, sigla_senha, num_senha, num_senha_serv, 
+                    nm_cli, num_local, dt_cheg, dt_cha, dt_ini, dt_fim, ident_cli, usuario_tri_id, atendimento_id
                 )
-        ");
-        $query->bindValue('data', $data, PDO::PARAM_STR);
-        $query->bindValue('unidade', $unidade, PDO::PARAM_INT);
-        $query->execute();
+                SELECT 
+                    a.id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status, a.sigla_senha, a.num_senha, a.num_senha_serv, 
+                    a.nm_cli, a.num_local, a.dt_cheg, a.dt_cha, a.dt_ini, a.dt_fim, a.ident_cli, a.usuario_tri_id, a.atendimento_id
+                FROM 
+                    $atendimentoTable a
+                WHERE 
+                    a.dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
+            ";
 
-        // limpa atendimentos codificados
-        $this->em->createQuery('
-                    DELETE Novosga\Model\AtendimentoCodificado e WHERE e.atendimento IN (
-                        SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
+            // atendimentos pais (nao oriundos de redirecionamento)
+            $query = $conn->prepare("$sql AND a.atendimento_id IS NULL");
+            $query->bindValue('data', $data, PDO::PARAM_STR);
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
+
+            // atendimentos filhos (oriundos de redirecionamento)
+            $query = $conn->prepare("$sql AND a.atendimento_id IS NOT NULL");
+            $query->bindValue('data', $data, PDO::PARAM_STR);
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
+
+            // copia os metadados
+            $sql = "
+                INSERT INTO $historicoMetaTable
+                (
+                    atendimento_id, name, value
+                )
+                SELECT 
+                    a.atendimento_id, a.name, a.value
+                FROM 
+                    $atendimentoMetaTable  a
+                WHERE 
+                    a.atendimento_id IN (SELECT b.id FROM $atendimentoTable b WHERE b.dt_cheg <= :data AND (b.unidade_id = :unidade OR :unidade = 0))
+            ";
+            $query = $conn->prepare($sql);
+            $query->bindValue('data', $data, PDO::PARAM_STR);
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
+
+            // copia os atendimentos codificados para o historico
+            $query = $conn->prepare("
+                INSERT INTO $historicoCodifTable
+                SELECT 
+                    ac.atendimento_id, ac.servico_id, ac.valor_peso
+                FROM 
+                    $atendimentoCodifTable ac
+                WHERE 
+                    ac.atendimento_id IN (
+                        SELECT a.id FROM $atendimentoTable a WHERE dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
                     )
-                ')
-                ->setParameter('data', $data)
-                ->setParameter('unidade', $unidade)
-                ->execute()
-        ;
+            ");
+            $query->bindValue('data', $data, PDO::PARAM_STR);
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
 
-        // limpa metadata
-        $this->em->createQuery('
-                    DELETE Novosga\Model\AtendimentoMeta e WHERE e.atendimento IN (
-                        SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
-                    )
-                ')
-                ->setParameter('data', $data)
-                ->setParameter('unidade', $unidade)
-                ->execute()
-        ;
+            // limpa atendimentos codificados
+            $this->em->createQuery('
+                        DELETE Novosga\Model\AtendimentoCodificado e WHERE e.atendimento IN (
+                            SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
+                        )
+                    ')
+                    ->setParameter('data', $data)
+                    ->setParameter('unidade', $unidadeId)
+                    ->execute()
+            ;
 
-        // limpa o auto-relacionamento para poder excluir os atendimento sem dar erro de constraint (#136)
-        $this->em->createQuery('UPDATE Novosga\Model\Atendimento e SET e.pai = NULL WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
-                ->setParameter('unidade', $unidade)
-                ->setParameter('data', $data)
-                ->execute()
-        ;
+            // limpa metadata
+            $this->em->createQuery('
+                        DELETE Novosga\Model\AtendimentoMeta e WHERE e.atendimento IN (
+                            SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
+                        )
+                    ')
+                    ->setParameter('data', $data)
+                    ->setParameter('unidade', $unidadeId)
+                    ->execute()
+            ;
 
-        // limpa atendimentos da unidade
-        $this->em->createQuery('DELETE Novosga\Model\Atendimento e WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
-                ->setParameter('data', $data)
-                ->setParameter('unidade', $unidade)
-                ->execute()
-        ;
+            // limpa o auto-relacionamento para poder excluir os atendimento sem dar erro de constraint (#136)
+            $this->em->createQuery('UPDATE Novosga\Model\Atendimento e SET e.pai = NULL WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
+                    ->setParameter('unidade', $unidadeId)
+                    ->setParameter('data', $data)
+                    ->execute()
+            ;
 
-        // limpa a tabela de senhas a serem exibidas no painel
-        $this->em->createQuery('DELETE Novosga\Model\PainelSenha e WHERE (e.unidade = :unidade OR :unidade = 0)')
-                ->setParameter('unidade', $unidade)
-                ->execute()
-        ;
+            // limpa atendimentos da unidade
+            $this->em->createQuery('DELETE Novosga\Model\Atendimento e WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
+                    ->setParameter('data', $data)
+                    ->setParameter('unidade', $unidadeId)
+                    ->execute()
+            ;
 
-        // zera o contador das senhas
-        $this->em->createQuery('UPDATE Novosga\Model\Contador e SET e.total = 0 WHERE (e.unidade = :unidade OR :unidade = 0)')
-                ->setParameter('unidade', $unidade)
-                ->execute()
-        ;
+            // limpa a tabela de senhas a serem exibidas no painel
+            $this->em->createQuery('DELETE Novosga\Model\PainelSenha e WHERE (e.unidade = :unidade OR :unidade = 0)')
+                    ->setParameter('unidade', $unidadeId)
+                    ->execute()
+            ;
+
+            // zera o contador das senhas
+            $this->em->createQuery('UPDATE Novosga\Model\Contador e SET e.total = 0 WHERE (e.unidade = :unidade OR :unidade = 0)')
+                    ->setParameter('unidade', $unidadeId)
+                    ->execute()
+            ;
+            
+            $conn->commit();
+        } catch (Exception $e) {
+            try {
+                $conn->rollBack();
+            } catch (Exception $e2) {
+            }
+            throw $e;
+        }
         
         AppConfig::getInstance()->hook("attending.reset", $unidade);
     }
