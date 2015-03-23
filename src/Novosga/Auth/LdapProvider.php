@@ -8,7 +8,8 @@ use Novosga\Util\Arrays;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class LdapProvider extends AuthenticationProvider {
+class LdapProvider extends DatabaseProvider 
+{
     
     const DEFAULT_PORT = 389;
     
@@ -22,6 +23,7 @@ class LdapProvider extends AuthenticationProvider {
     
     public function init(array $config) {
         if (!empty($config)) {
+            parent::init($config);
             $this->host = Arrays::value($config, 'host');
             $this->baseDn = Arrays::value($config, 'baseDn');
             $this->loginAttribute = Arrays::value($config, 'loginAttribute');
@@ -67,7 +69,7 @@ class LdapProvider extends AuthenticationProvider {
                 throw new \Exception($message);
             }
         }
-        return false;
+        return parent::auth($username, $password);
     }
     
     public function test() {

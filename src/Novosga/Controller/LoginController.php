@@ -1,6 +1,7 @@
 <?php
 namespace Novosga\Controller;
 
+use Novosga\App;
 use Novosga\Context;
 use Novosga\Util\Arrays;
 use Novosga\Controller\InternalController;
@@ -39,10 +40,13 @@ class LoginController extends InternalController {
         $password = $context->request()->post('password');
         $error = null;
         if (!empty($username) && !empty($password)) {
-            $user = $this->app()->auth($username, $password);
+            $em = $context->database()->createEntityManager();
+            $config = \Novosga\Model\Configuracao::get($em, \Novosga\Auth\AuthenticationProvider::KEY);
+            $auth = ($config) ? $config->getValor() : array();
+            $provider = App::authenticationFactory()->create($context, $auth);
+            $user = $provider->auth($username, $password);
             if ($user) {
                 // atualizando o session id
-                $em = $context->database()->createEntityManager();
                 $user->setSessionId(session_id());
                 $user->setUltimoAcesso(new \DateTime());
                 $em->merge($user);

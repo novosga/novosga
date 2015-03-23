@@ -6,7 +6,8 @@ namespace Novosga\Auth;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class DatabaseProvider extends AuthenticationProvider {
+class DatabaseProvider extends AuthenticationProvider 
+{
     
     public function init(array $config) {
     }

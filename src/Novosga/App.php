@@ -9,13 +9,11 @@ use Novosga\Service\AcessoService;
  * 
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class App extends \Slim\Slim {
+class App extends \Slim\Slim 
+{
     
-    const VERSION = "1.4.0-dev";
+    const VERSION = "1.4.0";
     const CHARSET = "utf-8";
-    
-    // SESSION KEYS
-    const K_CURRENT_USER    = "SGA_CURRENT_USER";
     
     private $context;
     private $acessoService;
@@ -138,26 +136,18 @@ class App extends \Slim\Slim {
     }
     
     /**
-     * Autentica o usuario do sistema
-     * @param string $user
-     * @param string $pass
-     * @return Usuario|null
+     * @return \Novosga\Auth\AuthProviderFactory
      */
-    public function auth($login, $pass) {
-        $em = $this->getContext()->database()->createEntityManager();
-        $config = \Novosga\Model\Configuracao::get($em, \Novosga\Auth\AuthenticationProvider::KEY);
-        $auth = ($config) ? $config->getValor() : array();
-        $providers = \Novosga\Auth\AuthProviderFactory::createList($this->getContext(), $auth);
-        foreach ($providers as $provider) {
-            try {
-                $user = $provider->auth($login, $pass);
-                if ($user) {
-                    return $user;
-                }
-            } catch (\Exception $e) {
-            }
+    public static function authenticationFactory() {
+        $factory = null;
+        $factoryClass = \Novosga\Config\AppConfig::getInstance()->get('auth.factory');
+        if (!empty($factoryClass) && class_exists($factoryClass)) {
+            $factory = new $factoryClass;
         }
-        return false;
+        if (!$factory || !($factory instanceof \Novosga\Auth\AuthProviderFactory)) {
+            $factory = new \Novosga\Auth\DefaultAuthProviderFactory();
+        }
+        return $factory;
     }
     
     public static function defaultClientLanguage() {

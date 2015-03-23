@@ -17,7 +17,10 @@ use Novosga\Config\DatabaseConfig;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class Context {
+class Context 
+{
+    
+    const SESSION_CURRENT_USER = "SGA_CURRENT_USER";
     
     private $app;
     private $session;
@@ -84,7 +87,7 @@ class Context {
      */
     public function getUser() {
         if ($this->user == null) {
-            $this->user = $this->session()->getGlobal(App::K_CURRENT_USER);
+            $this->user = $this->session()->getGlobal(self::SESSION_CURRENT_USER);
             if ($this->user) {
                 $this->user->setEm($this->database()->createEntityManager());
             }
@@ -94,7 +97,7 @@ class Context {
 
     public function setUser(UsuarioSessao $user = null) {
         $this->user = $user;
-        $this->session()->setGlobal(App::K_CURRENT_USER, $user);
+        $this->session()->setGlobal(self::SESSION_CURRENT_USER, $user);
     }
 
     /**
