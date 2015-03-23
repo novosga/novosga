@@ -320,7 +320,7 @@ class EstatisticasController extends ModuleController {
                 e.status = 1 AND
                 e.unidade = :unidade 
             ORDER BY
-                e.nome
+                s.nome
         ");
         foreach ($unidades as $unidade) {
             $query->setParameter('unidade', $unidade);
