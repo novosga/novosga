@@ -153,7 +153,7 @@ class UsuarioSessao {
     
     /**
      * Retorna os servicos do usuario na unidade atual
-     * @return Locatacao
+     * @return \Novosga\Model\ServicoUsuario[]|\Doctrine\Common\Collections\ArrayCollection
      */
     public function getServicos() {
         if (!$this->servicos && $this->getUnidade()) {
@@ -163,6 +163,10 @@ class UsuarioSessao {
         return $this->servicos;
     }
     
+    public function setServicos($servicos) {
+        $this->servicos = $servicos;
+    }
+        
     /**
      * Retorna os servicos que o usuario nao atende na unidade atual
      * @return Locatacao
