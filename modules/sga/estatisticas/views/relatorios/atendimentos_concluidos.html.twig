@@ -32,10 +32,10 @@
         </tr>
         <tr>
             <td colspan="10" class="sub-table">
-                <table class="table">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>{% trans %}Serviços Codificados{% endtrans %}</th>
+                            <th>{% trans %}Serviços realizados{% endtrans %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,5 +50,12 @@
         </tr>
         {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="9">
+                <strong>Total: {{ dado.atendimentos|length }}</strong>
+            </td>
+        </tr>
+    </tfoot>
 </table>
 {% endfor %}

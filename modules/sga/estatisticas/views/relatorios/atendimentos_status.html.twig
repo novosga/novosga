@@ -32,5 +32,12 @@
         </tr>
         {% endfor %}
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="9">
+                <strong>Total: {{ dado.atendimentos|length }}</strong>
+            </td>
+        </tr>
+    </tfoot>
 </table>
 {% endfor %}
