@@ -78,6 +78,10 @@
         <span class="glyphicon glyphicon-search"></span>&nbsp;
         {% trans %}Consultar senha{% endtrans %}
     </a>
+    <a href="#dialog-triagem-config" class="btn btn-default" data-toggle="modal">
+        <span class="glyphicon glyphicon-cog"></span>&nbsp;
+        {% trans %}Configuração{% endtrans %}
+    </a>
 </p>
 
 {# iframe para impressao, evitando popup #}
@@ -103,6 +107,32 @@
                 <div class="field">
                     <h4>{% trans %}Prioridade{% endtrans %}</h4>
                     <p class="nome-prioridade"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# dialog de configuracao #}
+<div id="dialog-triagem-config" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{% trans %}Configuração{% endtrans %}</h4>
+            </div>
+            <div class="modal-body">
+                <h4>{% trans %}Exibir serviços{% endtrans %}</h4>
+                <div class="row exibir-servicos">
+                    {% for servicoUnidade in servicos %}
+                        <div class="col-sm-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" class="servico-{{ servicoUnidade.servico.id }}" value="{{ servicoUnidade.servico.id }}" checked> {{ servicoUnidade.sigla }} - {{ servicoUnidade.servico.nome }}
+                                </label>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
