@@ -108,9 +108,12 @@ class UnidadeController extends ModuleController {
             $su = $service->servicoUnidade($context->getUser()->getUnidade(), $id);
 
             $sigla = $context->request()->post('sigla');
+            $peso = (int) $context->request()->post('peso');
+            $peso = max(1, $peso);
             $local = $this->em()->find("Novosga\Model\Local", (int) $context->request()->post('local'));
             
             $su->setSigla($sigla);
+            $su->setPeso($peso);
             if ($local) {
                 $su->setLocal($local);
             }

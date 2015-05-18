@@ -58,13 +58,20 @@ SGA.Unidade = {
         },
         
         change: function(id) {
+            var peso = Math.max(1, $('#peso-' + id).val());
+            if (isNaN(peso)) {
+                peso = 1;
+            }
+            $('#peso-' + id).val(peso);
+            
             SGA.ajax({
                 url: SGA.url('update_servico'),
                 type: 'post',
                 data: {
                     id: id, 
                     sigla: $('#sigla-' + id).val(),
-                    local: $('#local-' + id).val()
+                    local: $('#local-' + id).val(),
+                    peso: peso
                 }
             });
         }

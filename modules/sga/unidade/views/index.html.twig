@@ -14,14 +14,17 @@
     </ul>
     <div class="tab-content">
         <div id="tab-servicos" class="tab-pane active">
-            <p>{% trans %}As modificações na sigla do serviço são salvas automaticamente ao sair do campo.{% endtrans %}</p>
+            <div class="well well-sm">
+                {% trans %}As modificações na sigla do serviço são salvas automaticamente ao sair do campo.{% endtrans %}
+            </div>
             <table class="table" id="servicos">
                 <thead>
                     <tr>
                         <th>{% trans %}Sigla{% endtrans %}</th>
                         <th>{% trans %}Serviço{% endtrans %}</th>
                         <th class="col-md-2">{% trans %}Local{% endtrans %}</th>
-                        <th>{% trans %}Status{% endtrans %}</th>
+                        <th class="col-md-1">{% trans %}Peso{% endtrans %}</th>
+                        <th class="col-md-1">{% trans %}Status{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +56,17 @@
                                 {% endfor %}
                             </select>
                         </td>
-                        <td style="width: 1%; white-space: nowrap">
+                        <td>
+                            <input 
+                                type="number" 
+                                id="peso-{{ su.servico.id }}"
+                                class="servico-{{ su.servico.id }} form-control"
+                                value="{{ su.peso }}" 
+                                onblur="SGA.Unidade.Servicos.change({{ su.servico.id }})"
+                                {% if su.status != 1 %}disabled="disabled"{% endif %}
+                                >
+                        </td>
+                        <td>
                             <input 
                                 id="btn-enable-{{ su.servico.id }}"
                                 type="checkbox" 
