@@ -2,13 +2,13 @@
 require_once  '../bootstrap.php';
 
 $app = Novosga\App::create();
-$app->prepare($db);
+$app->prepare();
 
 $app->get('/login', function() use ($app) {
     $ctrl = new \Novosga\Controller\LoginController($app);
     $ctrl->index($app->getContext());
     echo $app->render('login.html.twig');
-});
+})->name('login');
 
 $app->post('/login', function() use ($app) {
     $ctrl = new \Novosga\Controller\LoginController($app);
@@ -18,7 +18,7 @@ $app->post('/login', function() use ($app) {
 $app->get('/logout', function() use ($app) {
     $app->getContext()->session()->destroy();
     $app->gotoLogin();
-});
+})->name('logout');
 
 $app->get('/install(/:page)', function($page = '') use ($app) {
     $controller = new \Novosga\Install\InstallController();
@@ -31,7 +31,7 @@ $app->get('/install(/:page)', function($page = '') use ($app) {
     $app->view()->appendData($data);
     $app->view()->set('context', $app->getContext());
     echo $app->render("install/step{$step}.html.twig");
-});
+})->name('install');
 
 $app->post('/install/:action', function($action) use ($app) {
     $controller = new \Novosga\Install\InstallController();
@@ -48,7 +48,7 @@ $app->get('/(home)', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
     $ctrl->index($app->getContext());
     echo $app->render('home.html.twig');
-});
+})->name('home');
 
 $app->post('/home/set_unidade', function() use ($app) {
     $ctrl = new \Novosga\Controller\HomeController($app);
