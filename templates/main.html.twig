@@ -1,3 +1,5 @@
+{% use 'blocks.html.twig' %}
+
 <!DOCTYPE html>
 <html lang="{{ lang }}">
     <head>
@@ -24,8 +26,7 @@
             SGA.invalidSession = '{% trans %}Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.{% endtrans %}';
             SGA.inactiveSession = '{% trans %}Sessão expirada. Favor efetuar o login novamente.{% endtrans %}';
         </script>
-        {% block head %}
-        {% endblock %}
+        {{ block('head') }}
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">

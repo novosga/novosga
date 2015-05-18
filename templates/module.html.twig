@@ -1,19 +1,21 @@
 {% extends "main.html.twig" %}
+
 {% block head %}
-        {# module resource #}
-        <link rel="stylesheet" type="text/css" href="{{ resources('css/style.css', module.chave) }}" />
-        <script type="text/javascript" src="{{ resources('js/script.js', module.chave) }}"></script>
-        <script type="text/javascript"> SGA.module = "{{ module.chave}}";</script>
+    {{ parent() }}
+    
+    {# module resource #}
+    <link rel="stylesheet" type="text/css" href="{{ resources('css/style.css', module.chave) }}" />
+    <script type="text/javascript" src="{{ resources('js/script.js', module.chave) }}"></script>
+    <script type="text/javascript"> SGA.module = "{{ module.chave}}";</script>
 {% endblock %}
 
 {% block content %}
-<div class="module-content">
-    <div class="header">
-        <img src="{{ resources('images/icon.png', module.chave) }}" />
-        <h2>{{ module.nome }}</h2>
-        <p>{{ module.descricao }}</p>
+    {{ parent() }}
+    
+    <div class="module-content">
+        {{ block('module_page_header') }}
+        
+        {% block moduleContent %}
+        {% endblock %}
     </div>
-    {% block moduleContent %}
-    {% endblock %}
-</div>
 {% endblock %}

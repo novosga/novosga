@@ -2,6 +2,9 @@
 namespace Novosga;
 
 use Exception;
+use Novosga\Util\I18n;
+use Novosga\Config\AppConfig;
+use Novosga\Config\DatabaseConfig;
 use Novosga\Service\AcessoService;
 
 /**
@@ -36,7 +39,6 @@ class App extends \Slim\Slim
         parent::__construct($userSettings);
         
         $this->view()->set('version', App::VERSION);
-        $this->view()->set('lang', \Novosga\Util\I18n::lang());
         
         $this->view()->parserExtensions = array(
             new \Slim\Views\TwigExtension(),
@@ -70,9 +72,19 @@ class App extends \Slim\Slim
         return self::$instance;
     }
 
-    public function prepare(Config\DatabaseConfig $db) {
+    public function prepare() {
+        // i18n
+        I18n::bind();
+        $this->view()->set('lang', I18n::lang());
+        
+        $db = DatabaseConfig::getInstance();
+        $db->setDev(NOVOSGA_DEV);
+
+        define("NOVOSGA_INSTALLED", $db->isIntalled());
+        
         $this->context = new Context($this, $db);
         $this->acessoService = new AcessoService();
+        
         $this->add(new \Novosga\Slim\InstallMiddleware($this->context));
         $this->add(new \Novosga\Slim\AuthMiddleware($this->context));
     }
@@ -121,6 +133,11 @@ class App extends \Slim\Slim
      * {@inheritdoc}
      */
     public function render($template, $data = array(), $status = null) {
+        $customTemplateDir = AppConfig::getInstance()->get('template.dir');
+        if (!empty($customTemplateDir)) {
+            array_unshift($this->view()->twigTemplateDirs, $customTemplateDir);
+        }
+        
         if (substr($template, 0, 1) === '/' || substr($template, 0, 2) === '..') {
             // defined a template outside the default twigTemplateDirs
             $dir = dirname($template);
@@ -140,7 +157,7 @@ class App extends \Slim\Slim
      */
     public static function authenticationFactory() {
         $factory = null;
-        $factoryClass = \Novosga\Config\AppConfig::getInstance()->get('auth.factory');
+        $factoryClass = AppConfig::getInstance()->get('auth.factory');
         if (!empty($factoryClass) && class_exists($factoryClass)) {
             $factory = new $factoryClass;
         }
