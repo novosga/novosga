@@ -308,7 +308,7 @@ class AtendimentoService extends MetaModelService
     
     
     public function chamar(Atendimento $atendimento, Usuario $usuario, $local) {
-        AppConfig::getInstance()->hook("attending.pre-call", array($atendimento, $usuario));
+        AppConfig::getInstance()->hook("attending.pre-call", array($atendimento, $usuario, $local));
         
         $atendimento->setUsuario($usuario);
         $atendimento->setLocal($local);
@@ -436,8 +436,6 @@ class AtendimentoService extends MetaModelService
             $this->em->flush();
         }
         
-        AppConfig::getInstance()->hook("attending.pre-create", array($su, $prioridade, $usuario));
-        
         $numeroSenha = $contador->getTotal() + 1;
         $contador->setTotal($numeroSenha);
         
@@ -450,6 +448,8 @@ class AtendimentoService extends MetaModelService
         $atendimento->setNomeCliente($nomeCliente);
         $atendimento->setDocumentoCliente($documentoCliente);
         $atendimento->setSiglaSenha($su->getSigla());
+        
+        AppConfig::getInstance()->hook("attending.pre-create", array($atendimento));
 
         try {
             $attempts = 5;
@@ -567,7 +567,7 @@ class AtendimentoService extends MetaModelService
      * @return boolean
      */
     public function transferir(Atendimento $atendimento, Unidade $unidade, $novoServico, $novaPrioridade) {
-        AppConfig::getInstance()->hook("attending.pre-transfer", $atendimento);
+        AppConfig::getInstance()->hook("attending.pre-transfer", $atendimento, $unidade, $novoServico, $novaPrioridade);
         
         // transfere apenas se a data fim for nula (nao finalizados)
         $success = $this->em->createQuery('
@@ -589,7 +589,8 @@ class AtendimentoService extends MetaModelService
         ;
         
         if ($success) {
-            AppConfig::getInstance()->hook("attending.transfer", array($atendimento, $novoServico, $novaPrioridade));
+            $this->em->refresh($atendimento);
+            AppConfig::getInstance()->hook("attending.transfer", array($atendimento));
         }
         
         return $success;
@@ -625,6 +626,7 @@ class AtendimentoService extends MetaModelService
         ;
         
         if ($success) {
+            $this->em->refresh($atendimento);
             AppConfig::getInstance()->hook("attending.cancel", $atendimento);
         }
         
@@ -662,6 +664,7 @@ class AtendimentoService extends MetaModelService
         ;
         
         if ($success) {
+            $this->em->refresh($atendimento);
             AppConfig::getInstance()->hook("attending.reactivate", $atendimento);
         }
         
