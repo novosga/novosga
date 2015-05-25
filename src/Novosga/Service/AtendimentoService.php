@@ -353,10 +353,25 @@ class AtendimentoService extends MetaModelService
             AtendimentoService::ATENDIMENTO_INICIADO,
             AtendimentoService::ATENDIMENTO_ENCERRADO
         );
-        $query = $this->em->createQuery("SELECT e FROM Novosga\Model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)");
-        $query->setParameter('usuario', $usuario);
-        $query->setParameter('status', $status);
-        return $query->getOneOrNullResult();
+        try {
+            return $this->em
+                ->createQuery("SELECT e FROM Novosga\Model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)")
+                ->setParameter('usuario', $usuario)
+                ->setParameter('status', $status)
+                ->getOneOrNullResult();
+        } catch (\Doctrine\ORM\NonUniqueResultException $e) {
+            /* 
+             * caso tenha mais de um atendimento preso ao usuario,
+             * libera os atendimentos e retorna null para o atendente chamar de novo. 
+             * BUG #213
+             */
+            $this->em
+                ->createQuery('UPDATE Novosga\Model\Atendimento e SET e.status = 1, e.usuario = NULL WHERE e.usuario = :usuario AND e.status IN (:status)')
+                ->setParameter('usuario', $usuario)
+                ->setParameter('status', $status)
+                ->execute();
+            return null;
+        }
     }
     
     /**
