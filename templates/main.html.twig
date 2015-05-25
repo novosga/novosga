@@ -65,6 +65,7 @@
                         </li>
                     </ul>
                     {% endif %}
+                    {% if modulosGlobal|length %}
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans %}Global{% endtrans %} <b class="caret"></b></a>
@@ -75,6 +76,7 @@
                             </ul>
                         </li>
                     </ul>
+                    {% endif %}
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ usuario.nome }} <b class="caret"></b></a>
