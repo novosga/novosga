@@ -8,6 +8,7 @@ $app = new Slim\Slim(array(
     'debug' => false
 ));
 
+$db = \Novosga\Config\DatabaseConfig::getInstance();
 $em = $db->createEntityManager();
 $server = new \Novosga\Api\OAuth2Server($em);
 
