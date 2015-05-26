@@ -20,11 +20,3 @@ define("MODULES_DIR", "modules");
 define("MODULES_PATH", NOVOSGA_ROOT . DS . MODULES_DIR);
 
 $loader = require $autoload;
-
-// i18n
-\Novosga\Util\I18n::bind();
-
-$db = Novosga\Config\DatabaseConfig::getInstance();
-$db->setDev(NOVOSGA_DEV);
-
-define("NOVOSGA_INSTALLED", $db->isIntalled());
