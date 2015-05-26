@@ -20,7 +20,8 @@
         "twig/twig": "1.18.1",
         "twig/extensions": "1.2.0",
         "doctrine/orm": "2.5.0",
-        "bshaffer/oauth2-server-php": "1.7.0"
+        "bshaffer/oauth2-server-php": "1.7.0",
+        "cboden/ratchet": "^0.3.2"
     },
     "autoload": {
         "psr-0": {

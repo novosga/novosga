@@ -12,4 +12,5 @@ $application->add(new Cmd\ResetCommand($db->createEntityManager()));
 $application->add(new Cmd\UnidadesCommand($db->createEntityManager()));
 $application->add(new Cmd\ModuleInstallCommand($db->createEntityManager()));
 $application->add(new Cmd\ModuleRemoveCommand($db->createEntityManager()));
+$application->add(new Cmd\ServerCommand($db->createEntityManager()));
 $application->run();

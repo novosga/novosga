@@ -1,18 +1,20 @@
 <?php
 namespace Novosga\Console;
 
-use Doctrine\ORM\EntityManager;
 use Exception;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Ratchet\Server\IoServer;
 
 /**
- * UnidadesCommand
+ * ServerCommand
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class UnidadesCommand extends Command {
+class ServerCommand extends Command {
     
     private $em;
     
@@ -22,20 +24,22 @@ class UnidadesCommand extends Command {
     }
     
     protected function configure() {
-        $this->setName('unidades')
-            ->setDescription('Lista as unidades do sistema e seus respectivos ids.');
+        $this->setName('server:painel')
+            ->setDescription('Start painel server')
+            ->addArgument('port', InputArgument::OPTIONAL, 'Server port', 8080);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) {
-        try {
-            $unidades = $this->em->getRepository('Novosga\Model\Unidade')->findBy(array('status' => 1), array('id' => 'ASC'));
-            $output->writeln("<info>Unidades</info>");
-            foreach ($unidades as $unidade) {
-                $output->writeln("Id: {$unidade->getId()}, Unidade: {$unidade->getCodigo()} - {$unidade->getNome()}");
-            }
-        } catch (Exception $e) {
-            $output->writeln("<error>{$e->getMessage()}</error>");
-        }
+        $server = IoServer::factory(
+            new \Ratchet\Http\HttpServer(
+                new \Ratchet\WebSocket\WsServer(
+                    new \Novosga\Server\PainelServer($output)
+                )
+            ),
+            (int) $input->getArgument('port')
+        );
+
+        $server->run();
     }
     
 }
