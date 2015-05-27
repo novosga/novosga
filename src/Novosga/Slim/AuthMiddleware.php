@@ -39,7 +39,7 @@ class AuthMiddleware extends Middleware {
                             echo $response->toJson();
                             exit();
                         }
-                        $this->app->redirectTo('logout');
+                        $this->app->response()->redirect($this->app->urlFor('logout'));
                     } else {
                         $unidade = $user->getUnidade();
                         $acessoService = $this->context->app()->getAcessoService();
@@ -61,7 +61,7 @@ class AuthMiddleware extends Middleware {
                         echo $response->toJson();
                         exit();
                     }
-                    $this->app->redirectTo('login');
+                    $this->app->response()->redirect($this->app->urlFor('login'));
                 }
             }
         }
