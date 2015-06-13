@@ -1,21 +1,19 @@
 <?php
-namespace Novosga\Service;
 
-use Doctrine\ORM\EntityManager;
+namespace Novosga\Service;
 
 /**
  * MetaModelService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class MetaModelService extends ModelService 
+abstract class MetaModelService extends ModelService
 {
-    
-    protected abstract function getMetaClass();
-    protected abstract function getMetaFieldname();
+    abstract protected function getMetaClass();
+    abstract protected function getMetaFieldname();
 
-    
-    protected function modelMetadata($entity, $name, $value = null) {
+    protected function modelMetadata($entity, $name, $value = null)
+    {
         $className = $this->getMetaClass();
         $field = $this->getMetaFieldname();
         if ($value === null) {
@@ -27,15 +25,15 @@ abstract class MetaModelService extends ModelService
         } else {
             $meta = $this->meta($entity, $name);
             if (!$meta) {
-                $meta = new $className;
+                $meta = new $className();
             }
             $meta->setName($name);
             $meta->setValue($value);
             $meta->setEntity($entity);
             $this->em->persist($meta);
             $this->em->flush();
+
             return $meta;
         }
     }
-    
 }

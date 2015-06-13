@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Api;
 
 use Exception;
@@ -9,78 +10,87 @@ use Novosga\Service\AtendimentoService;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ApiV1 extends Api {
-    
+class ApiV1 extends Api
+{
     /**
      * Retorna todas as prioridades disponíveis
+     *
      * @return array
      */
-    public function prioridades() {
+    public function prioridades()
+    {
         return $this->em->createQuery('
-            SELECT 
+            SELECT
                 e.id, e.nome
             FROM
                 Novosga\Model\Prioridade e
-            WHERE 
+            WHERE
                 e.status = 1 AND
                 e.peso > 0
-            ORDER BY 
+            ORDER BY
                 e.nome ASC
         ')->getResult();
     }
-    
+
     /**
      * Retorna todos os locais de atendimento
+     *
      * @return array
      */
-    public function locais() {
+    public function locais()
+    {
         return $this->em->createQuery('
-            SELECT 
+            SELECT
                 e.id, e.nome
             FROM
                 Novosga\Model\Local e
-            ORDER BY 
+            ORDER BY
                 e.nome ASC
         ')->getResult();
     }
-    
+
     /**
      * Retorna todas as unidades ativas
+     *
      * @return array
      */
-    public function unidades() {
+    public function unidades()
+    {
         return $this->em->createQuery('
-            SELECT 
+            SELECT
                 e.id, e.codigo, e.nome, e.mensagemImpressao
             FROM
                 Novosga\Model\Unidade e
             WHERE
                 e.status = 1
-            ORDER BY 
+            ORDER BY
                 e.nome ASC
         ')->getResult();
     }
-    
+
     /**
      * Retorna os serviços globais ou os serviços disponíveis na unidade informada
+     *
      * @param int $unidade
+     *
      * @return array
      */
-    public function servicos($unidade = 0) {
+    public function servicos($unidade = 0)
+    {
         if ($unidade <= 0) {
             // servicos globais
             return $this->em->createQuery('
-                SELECT 
+                SELECT
                     e.id, e.nome
                 FROM
                     Novosga\Model\Servico e
-                ORDER BY 
+                ORDER BY
                     e.nome ASC
             ')->getResult();
         } else {
             // servicos da unidade
             return $this->em->createQuery('
-                SELECT 
+                SELECT
                     s.id, e.sigla, s.nome, l.nome as local
                 FROM
                     Novosga\Model\ServicoUnidade e
@@ -89,25 +99,28 @@ class ApiV1 extends Api {
                 WHERE
                     e.status = 1 AND
                     e.unidade = :unidade
-                ORDER BY 
+                ORDER BY
                     s.nome ASC
             ')->setParameter(':unidade', $unidade)
                 ->getResult();
         }
     }
-    
+
     /**
      * Retorna as senhas para serem exibidas no painel (max result 10)
-     * @param int $unidade
+     *
+     * @param int    $unidade
      * @param string $servicos (1,2,3,4...)
+     *
      * @return array
      */
-    public function painel($unidade, array $servicos) {
+    public function painel($unidade, array $servicos)
+    {
         $length = \Novosga\Model\Util\Senha::LENGTH;
         // servicos da unidade
         return $this->em->createQuery("
-            SELECT 
-                e.id, e.siglaSenha as sigla, e.mensagem, e.numeroSenha as numero, 
+            SELECT
+                e.id, e.siglaSenha as sigla, e.mensagem, e.numeroSenha as numero,
                 e.local, e.numeroLocal as numeroLocal, e.peso, s.nome as servico,
                 e.prioridade, e.nomeCliente, e.documentoCliente,
                 $length as length
@@ -117,73 +130,87 @@ class ApiV1 extends Api {
             WHERE
                 e.unidade = :unidade AND
                 s.id IN (:servicos)
-            ORDER BY 
+            ORDER BY
                 e.id DESC
         ")->setParameter(':unidade', (int) $unidade)
             ->setParameter(':servicos', $servicos)
             ->setMaxResults(10)
             ->getResult();
     }
-    
-    public function filaServicos($unidade, $servicos) {
+
+    public function filaServicos($unidade, $servicos)
+    {
         if (!empty($servicos)) {
             // fila de atendimento
             $filaService = new \Novosga\Service\FilaService($this->em);
+
             return $filaService
                         ->atendimento($unidade, $servicos)
                         ->getQuery()
                         ->getResult()
             ;
         }
+
         return array();
     }
-    
+
     /**
      * Retorna a fila de atendimento do usuário
+     *
      * @param int $unidade
      * @param int $usuario
+     *
      * @return array
      */
-    public function filaUsuario($unidade, $usuario) {
+    public function filaUsuario($unidade, $usuario)
+    {
         // servicos que o usuario atende
         $servicos = $this->em->createQuery('
-            SELECT 
+            SELECT
                 s.id
-            FROM 
-                Novosga\Model\ServicoUsuario e 
-                JOIN e.servico s 
-            WHERE 
-                e.usuario = :usuario AND 
-                e.unidade = :unidade AND 
+            FROM
+                Novosga\Model\ServicoUsuario e
+                JOIN e.servico s
+            WHERE
+                e.usuario = :usuario AND
+                e.unidade = :unidade AND
                 s.status = 1
         ')
             ->setParameter('unidade', $unidade)
             ->setParameter('usuario', $usuario)
             ->getResult()
         ;
+
         return $this->filaServicos($unidade, $servicos);
     }
-    
+
     /**
      * Retorna o atendimento
+     *
      * @param int $id Id do atendimento
+     *
      * @return array
      */
-    public function atendimento($id) {
+    public function atendimento($id)
+    {
         // servicos que o usuario atende
         $atendimento = $this->em->find('Novosga\Model\Atendimento', $id);
         if (!$atendimento) {
             throw new Exception(_('Atendimento inválido'));
         }
+
         return $atendimento->jsonSerialize(true);
     }
-    
+
     /**
      * Retorna informações sobre o atendimento ainda não atendido
+     *
      * @param int $id Id do atendimento
+     *
      * @return array
      */
-    public function atendimentoInfo($id) {
+    public function atendimentoInfo($id)
+    {
         // servicos que o usuario atende
         $atendimento = $this->em->find('Novosga\Model\Atendimento', $id);
         if (!$atendimento) {
@@ -200,21 +227,23 @@ class ApiV1 extends Api {
             if ($atendimento->getId() === $a->getId()) {
                 break;
             }
-            $pos++;
+            ++$pos;
         }
+
         return array(
             'pos' => $pos,
             'total' => sizeof($atendimentos),
-            'atendimento' => $atendimento->jsonSerialize(true)
+            'atendimento' => $atendimento->jsonSerialize(true),
         );
     }
-    
+
     /**
      * Distribui uma nova senha
      */
-    public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente) {
+    public function distribui($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)
+    {
         $service = new AtendimentoService($this->em);
+
         return $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->jsonSerialize();
     }
-    
 }

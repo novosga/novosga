@@ -1,8 +1,8 @@
 <?php
+
 namespace modules\sga\cargos;
 
 use Novosga\Context;
-use Novosga\Util\Arrays;
 use Novosga\Model\SequencialModel;
 use Novosga\Model\Cargo;
 use Novosga\Controller\TreeModelController;
@@ -12,17 +12,20 @@ use Novosga\Controller\TreeModelController;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class CargosController extends TreeModelController {
-
-    protected function createModel() {
+class CargosController extends TreeModelController
+{
+    protected function createModel()
+    {
         return new Cargo();
     }
-    
-    protected function requiredFields() {
+
+    protected function requiredFields()
+    {
         return array('nome', 'descricao');
     }
 
-    protected function preSave(Context $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model)
+    {
         $id_pai = (int) $context->request()->post('id_pai', 0);
         $pai = $this->em()->find(get_class($model), $id_pai);
         if ($pai) {
@@ -33,7 +36,8 @@ class CargosController extends TreeModelController {
         }
     }
 
-    protected function postSave(Context $context, SequencialModel $model) {
+    protected function postSave(Context $context, SequencialModel $model)
+    {
         // atualizando permissoes do cargo
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
@@ -53,10 +57,12 @@ class CargosController extends TreeModelController {
 
     /**
      * Deletando vinculos (permissoes e lotacoes)
-     * @param Novosga\Context $context
+     *
+     * @param Novosga\Context               $context
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function preDelete(Context $context, SequencialModel $model) {
+    protected function preDelete(Context $context, SequencialModel $model)
+    {
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\Permissao p WHERE p.cargo = :cargo");
         $query->setParameter('cargo', $model->getId());
         $query->execute();
@@ -65,22 +71,25 @@ class CargosController extends TreeModelController {
         $query->execute();
     }
 
-    protected function search($arg) {
+    protected function search($arg)
+    {
         $query = $this->em()->createQuery("
-            SELECT 
-                e 
-            FROM 
-                Novosga\Model\Cargo e 
-            WHERE 
-                UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg  
-            ORDER BY 
+            SELECT
+                e
+            FROM
+                Novosga\Model\Cargo e
+            WHERE
+                UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg
+            ORDER BY
                 e.left, e.nome
         ");
         $query->setParameter('arg', $arg);
+
         return $query;
     }
-    
-    public function edit(Context $context, $id = 0) {
+
+    public function edit(Context $context, $id = 0)
+    {
         parent::edit($context, $id);
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Modulo e WHERE e.status = 1 AND e.tipo = :tipo ORDER BY e.nome");
         $query->setParameter('tipo', \Novosga\Model\Modulo::MODULO_UNIDADE);
@@ -94,5 +103,4 @@ class CargosController extends TreeModelController {
         $this->app()->view()->set('modulos', array($modulosUnidade, $modulosGlobal));
         $this->app()->view()->set('permissoes', $permissoes);
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\sga\locais;
 
 use Exception;
@@ -10,14 +11,15 @@ use Novosga\Model\Local;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class DataFixture {
-    
+class DataFixture
+{
     /**
-     * 
      * @param EntityManager $em
+     *
      * @throws Exception
      */
-    public function install(EntityManager $em) {
+    public function install(EntityManager $em)
+    {
         try {
             $em->beginTransaction();
             $em->persist($this->create(_('Guichê')));
@@ -33,15 +35,17 @@ class DataFixture {
             throw $e;
         }
     }
-    
+
     /**
      * @param string $name
+     *
      * @return \Novosga\Model\Local
      */
-    public function create($name) {
+    public function create($name)
+    {
         $local = new Local();
         $local->setNome($name);
+
         return $local;
     }
-    
 }

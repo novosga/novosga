@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\sga\unidade;
 
 use Exception;
@@ -10,32 +11,33 @@ use Novosga\Service\ServicoService;
 
 /**
  * UnidadeController
- * 
+ *
  * Controlador do módulo de configuração da unidade
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class UnidadeController extends ModuleController {
-    
+class UnidadeController extends ModuleController
+{
     const DEFAULT_SIGLA = 'A';
-    
-    public function index(Context $context) {
+
+    public function index(Context $context)
+    {
         $unidade = $context->getUnidade();
         $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
             $service = new ServicoService($this->em());
-            
+
             // locais disponiveis
             $locais = $this->em()
                     ->createQuery("SELECT e FROM Novosga\Model\Local e ORDER BY e.nome")
                     ->getResult()
             ;
-            
+
             if (sizeof($locais)) {
                 $local = $locais[0];
                 $service->updateUnidade($unidade, $local, self::DEFAULT_SIGLA);
             }
-            
+
             // todos servicos da unidade
             $servicos = $service->servicosUnidade($unidade);
 
@@ -43,8 +45,9 @@ class UnidadeController extends ModuleController {
             $this->app()->view()->set('locais', $locais);
         }
     }
-    
-    public function update_impressao(Context $context) {
+
+    public function update_impressao(Context $context)
+    {
         $response = new JsonResponse();
         try {
             if (!$context->request()->isPost()) {
@@ -66,10 +69,12 @@ class UnidadeController extends ModuleController {
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-    
-    public function toggle_servico(Context $context, $status) {
+
+    public function toggle_servico(Context $context, $status)
+    {
         $response = new JsonResponse();
         try {
             if (!$context->request()->isPost()) {
@@ -80,30 +85,32 @@ class UnidadeController extends ModuleController {
             if (!$id || !$unidade) {
                 return false;
             }
-            
+
             $service = new ServicoService($this->em());
             $su = $service->servicoUnidade($unidade, $id);
-            
+
             $su->setStatus($status);
-            
+
             $this->em()->merge($su);
             $this->em()->flush();
-            
+
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-    
-    public function update_servico(Context $context) {
+
+    public function update_servico(Context $context)
+    {
         $response = new JsonResponse();
         try {
             if (!$context->request()->isPost()) {
                 throw new \Exception(_('Somente via POST'));
             }
             $id = (int) $context->request()->post('id');
-            
+
             $service = new ServicoService($this->em());
             $su = $service->servicoUnidade($context->getUser()->getUnidade(), $id);
 
@@ -111,7 +118,7 @@ class UnidadeController extends ModuleController {
             $peso = (int) $context->request()->post('peso');
             $peso = max(1, $peso);
             $local = $this->em()->find("Novosga\Model\Local", (int) $context->request()->post('local'));
-            
+
             $su->setSigla($sigla);
             $su->setPeso($peso);
             if ($local) {
@@ -123,10 +130,12 @@ class UnidadeController extends ModuleController {
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-        
-    public function acumular_atendimentos(Context $context) {
+
+    public function acumular_atendimentos(Context $context)
+    {
         $response = new JsonResponse();
         try {
             if (!$context->request()->isPost()) {
@@ -142,7 +151,7 @@ class UnidadeController extends ModuleController {
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-    
 }

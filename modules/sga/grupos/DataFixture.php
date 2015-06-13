@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\sga\grupos;
 
 use Doctrine\ORM\EntityManager;
@@ -10,14 +11,15 @@ use Novosga\Model\Grupo;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class DataFixture {
-    
+class DataFixture
+{
     /**
-     * 
      * @param EntityManager $em
+     *
      * @throws Exception
      */
-    public function install(EntityManager $em) {
+    public function install(EntityManager $em)
+    {
         try {
             $em->beginTransaction();
             $em->persist($this->create(_('Raíz'), _('Grupo Raíz')));
@@ -31,22 +33,23 @@ class DataFixture {
             throw $e;
         }
     }
-    
+
     /**
-     * 
      * @param string $name
      * @param string $description
-     * @param integer $weight
+     * @param int    $weight
+     *
      * @return Grupo
      */
-    public function create($name, $description) {
+    public function create($name, $description)
+    {
         $grupo = new Grupo();
         $grupo->setNome($name);
         $grupo->setDescricao($description);
         $grupo->setLeft(1);
         $grupo->setRight(2);
         $grupo->setLevel(0);
+
         return $grupo;
     }
-    
 }

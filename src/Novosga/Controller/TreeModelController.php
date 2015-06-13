@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Controller;
 
 use Exception;
@@ -12,9 +13,10 @@ use Novosga\Model\SequencialModel;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class TreeModelController extends CrudController {
-    
-    public function edit(Context $context, $id = 0) {
+abstract class TreeModelController extends CrudController
+{
+    public function edit(Context $context, $id = 0)
+    {
         parent::edit($context, $id);
         $className = get_class($this->model);
         $query = $this->em()->createQuery("SELECT e FROM $className e WHERE e.id != :id ORDER BY e.left");
@@ -22,12 +24,14 @@ abstract class TreeModelController extends CrudController {
         $this->app()->view()->set('pais', $query->getResult());
         $this->app()->view()->set('modelParent', $this->model->getParent($this->em()));
     }
-    
+
     /**
      * Insere ou atualiza a entidade no banco
+     *
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function doSave(Context $context, SequencialModel $model) {
+    protected function doSave(Context $context, SequencialModel $model)
+    {
         if (!($model instanceof TreeModel)) {
             throw new Exception(sprintf(_('Modelo inválido passado como parâmetro. Era esperado TreeModel e passou %s'), get_class($model)));
         }
@@ -42,8 +46,9 @@ abstract class TreeModelController extends CrudController {
         $this->em()->flush();
         $this->postSave($context, $model);
     }
-    
-    private function persist(TreeModel $model) {
+
+    private function persist(TreeModel $model)
+    {
         $className = get_class($model);
         try {
             $this->em()->beginTransaction();
@@ -68,8 +73,9 @@ abstract class TreeModelController extends CrudController {
             throw new Exception(sprintf(_('Erro ao inserir o registro: %s'), $e->getMessage()));
         }
     }
-    
-    private function merge(TreeModel $model) {
+
+    private function merge(TreeModel $model)
+    {
         try {
             $className = get_class($model);
             $this->em()->beginTransaction();
@@ -79,18 +85,18 @@ abstract class TreeModelController extends CrudController {
                     SELECT pai
                     FROM $className no
                     JOIN $className pai
-                    WHERE 
-                        no.left > pai.left AND 
-                        no.right < pai.right AND 
+                    WHERE
+                        no.left > pai.left AND
+                        no.right < pai.right AND
                         no.id = :id
-                    ORDER BY 
+                    ORDER BY
                         pai.left DESC
                 ");
                 $query->setParameter('id', $model->getId());
                 $query->setMaxResults(1);
                 $paiAtual = $query->getSingleResult();
                 $novoPai = $model->getParent($this->em());
-            
+
                 // se mudou o pai
                 if ($paiAtual->getId() != $novoPai->getId()) {
                     $tamanho = $model->getRight() - $model->getLeft() + 1;
@@ -149,9 +155,9 @@ abstract class TreeModelController extends CrudController {
             throw new Exception(sprintf(_('Erro ao atualizar o registro: %s'), $e->getMessage()));
         }
     }
-    
-    
-    protected function doDelete(Context $context, SequencialModel $model) {
+
+    protected function doDelete(Context $context, SequencialModel $model)
+    {
         if ($model->getLeft() == 1) {
             throw new Exception(_('Não pode remover a raiz'));
         }
@@ -177,7 +183,7 @@ abstract class TreeModelController extends CrudController {
             $query->setParameter('direita', $model->getRight());
             $query->setParameter('tamanho', $tamanho);
             $query->execute();
-            
+
             $this->em()->remove($model);
             $this->em()->commit();
             $this->em()->flush();
@@ -187,16 +193,17 @@ abstract class TreeModelController extends CrudController {
         }
         $this->postDelete($context, $model);
     }
-    
+
     /**
      * Atualiza os niveis dos nós filhos da arvore
      */
-    private function updateLevels(TreeModel $model, $delta) {
+    private function updateLevels(TreeModel $model, $delta)
+    {
         $className = get_class($model);
         // atualizando
         $query = $this->em()->createQuery("
-            UPDATE $className e 
-            SET e.level = e.level + :delta 
+            UPDATE $className e
+            SET e.level = e.level + :delta
             WHERE e.left > :left AND e.right < :right
         ");
         $query->setParameter('left', $model->getLeft());
@@ -204,5 +211,4 @@ abstract class TreeModelController extends CrudController {
         $query->setParameter('delta', $delta);
         $query->execute();
     }
-
 }

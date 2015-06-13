@@ -1,44 +1,52 @@
 <?php
+
 namespace Novosga\Install;
 
-class InstallStep {
-    
+class InstallStep
+{
     private $id;
     private $title;
     private $description;
-    
-    public function __construct($id, $title, $description = '') {
+
+    public function __construct($id, $title, $description = '')
+    {
         $this->id = $id;
         $this->title = $title;
         $this->description = $description;
     }
-    
-    public function getId() {
+
+    public function getId()
+    {
         return $this->id;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = $id;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    public function setTitle($title) {
+    public function setTitle($title)
+    {
         $this->title = $title;
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    public function setDescription($description) {
+    public function setDescription($description)
+    {
         $this->description = $description;
     }
-    
-    public function __toString() {
-        return 'Step ' . $this->id;
-    }
 
+    public function __toString()
+    {
+        return 'Step '.$this->id;
+    }
 }

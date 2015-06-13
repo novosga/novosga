@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Service;
 
 use Doctrine\ORM\EntityManager;
@@ -8,15 +9,15 @@ use Doctrine\ORM\EntityManager;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class ModelService {
-    
+abstract class ModelService
+{
     /**
      * @var EntityManager
      */
     protected $em;
-    
-    public function __construct(EntityManager $em) {
+
+    public function __construct(EntityManager $em)
+    {
         $this->em = $em;
     }
-    
 }

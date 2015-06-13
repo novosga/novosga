@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Service;
 
 use Doctrine\ORM\Query;
@@ -10,58 +11,65 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class UnidadeService extends MetaModelService 
+class UnidadeService extends MetaModelService
 {
-    
-    protected function getMetaClass() {
+    protected function getMetaClass()
+    {
         return 'Novosga\Model\UnidadeMeta';
     }
 
-    protected function getMetaFieldname() {
+    protected function getMetaFieldname()
+    {
         return 'unidade';
     }
-    
+
     /**
      * Cria ou retorna um metadado da unidade caso o $value seja null (ou ocultado).
+     *
      * @param Unidade $unidade
-     * @param string $name
-     * @param string $value
+     * @param string  $name
+     * @param string  $value
+     *
      * @return \Novosga\Model\UnidadeMeta
      */
-    public function meta(Unidade $unidade, $name, $value = null) {
+    public function meta(Unidade $unidade, $name, $value = null)
+    {
         return $this->modelMetadata($unidade, $name, $value);
     }
 
     /**
-     * 
-     * @param Unidade|integer $unidade
+     * @param Unidade|int $unidade
+     *
      * @return ArrayCollection
      */
-    public function lotacoes($unidade) {
+    public function lotacoes($unidade)
+    {
         return $this
                 ->lotacoesQuery()
                 ->setParameter('unidade', $unidade)
                 ->getResult();
     }
-    
+
     /**
-     * 
-     * @param Unidade|integer $unidade
-     * @param string $nomeServico
+     * @param Unidade|int $unidade
+     * @param string      $nomeServico
+     *
      * @return ArrayCollection
      */
-    public function lotacoesComServico($unidade, $nomeServico) {
+    public function lotacoesComServico($unidade, $nomeServico)
+    {
         $where = "AND
             (
-                :servico = '' 
+                :servico = ''
                 OR
-                :servico = '%%' 
+                :servico = '%%'
                 OR
                 EXISTS (
                     SELECT 1 FROM Novosga\Model\ServicoUsuario su1 JOIN su1.servico s1
                     WHERE su1.usuario = u AND su1.unidade = :unidade AND s1.status = 1 AND s1.nome LIKE :servico
                 )
             )";
+
         return $this
                 ->lotacoesQuery($where)
                 ->setParameter('unidade', $unidade)
@@ -69,13 +77,14 @@ class UnidadeService extends MetaModelService
                 ->getResult()
         ;
     }
-    
+
     /**
-     * 
      * @param string $where
+     *
      * @return Query
      */
-    private function lotacoesQuery($where = '') {
+    private function lotacoesQuery($where = '')
+    {
         return $this->em
                 ->createQuery("
                     SELECT
@@ -98,5 +107,4 @@ class UnidadeService extends MetaModelService
                 ")
         ;
     }
-    
 }

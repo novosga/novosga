@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Auth;
 
 use Novosga\Util\Arrays;
@@ -8,11 +9,10 @@ use Novosga\Util\Arrays;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class LdapProvider extends DatabaseProvider 
+class LdapProvider extends DatabaseProvider
 {
-    
     const DEFAULT_PORT = 389;
-    
+
     private $host;
     private $port = self::DEFAULT_PORT;
     private $baseDn;
@@ -20,8 +20,9 @@ class LdapProvider extends DatabaseProvider
     private $username;
     private $password;
     private $filter;
-    
-    public function init(array $config) {
+
+    public function init(array $config)
+    {
         if (!empty($config)) {
             parent::init($config);
             $this->host = Arrays::value($config, 'host');
@@ -32,22 +33,26 @@ class LdapProvider extends DatabaseProvider
             $this->filter = Arrays::value($config, 'filter');
         }
     }
-    
+
     /**
      * Conecta ao servidor LDAP com o usuário e senha configurado e depois verifica
      * se existe o usuário e senha informados por parâmetro.
+     *
      * @param type $username
      * @param type $password
-     * @return boolean
+     *
+     * @return bool
+     *
      * @throws \Exception
      */
-    public function auth($username, $password) {
+    public function auth($username, $password)
+    {
         if ($this->host) {
             $message = _('Não foi possível conectar ao servidor LDAP. Favor verificar se as configurações estão corretas.');
             list($conn, $bind) = $this->connect($this->username, $this->password);
             if ($conn && $bind) {
                 if (!empty($this->filter)) {
-                    $filter = ($this->filter[0] != '(') ? '(' . $this->filter . ')' : $this->filter;
+                    $filter = ($this->filter[0] != '(') ? '('.$this->filter.')' : $this->filter;
                     $filter = sprintf('(&%s(%s=%s))', $filter, $this->loginAttribute, $username);
                 } else {
                     $filter = sprintf('(%s=%s)', $this->loginAttribute, $username);
@@ -69,14 +74,17 @@ class LdapProvider extends DatabaseProvider
                 throw new \Exception($message);
             }
         }
+
         return parent::auth($username, $password);
     }
-    
-    public function test() {
+
+    public function test()
+    {
         $this->connect($this->username, $this->password);
     }
-    
-    private function connect($user, $pwd) {
+
+    private function connect($user, $pwd)
+    {
         if (!function_exists('ldap_connect')) {
             throw new \Exception(_('Extensão LDAP não disponível no servidor.'));
         }
@@ -87,10 +95,12 @@ class LdapProvider extends DatabaseProvider
         if (!$bind) {
             throw new \Exception('Não foi possível conectar ao servidor LDAP. Verifique se os dados estão corretos.');
         }
+
         return array($conn, $bind);
     }
-    
-    private function createUser($username, $ldapUser) {
+
+    private function createUser($username, $ldapUser)
+    {
         $query = $this->em->createQuery("SELECT u FROM Novosga\Model\Usuario u WHERE u.login = :login");
         $query->setParameter('login', $username);
         $user = $query->getOneOrNullResult();
@@ -107,7 +117,7 @@ class LdapProvider extends DatabaseProvider
             $this->em->persist($user);
             $this->em->flush();
         }
+
         return $user;
     }
-    
 }

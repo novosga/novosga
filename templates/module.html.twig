@@ -2,7 +2,7 @@
 
 {% block head %}
     {{ parent() }}
-    
+
     {# module resource #}
     <link rel="stylesheet" type="text/css" href="{{ resources('css/style.css', module.chave) }}" />
     <script type="text/javascript" src="{{ resources('js/script.js', module.chave) }}"></script>
@@ -11,10 +11,10 @@
 
 {% block content %}
     {{ parent() }}
-    
+
     <div class="module-content">
         {{ block('module_page_header') }}
-        
+
         {% block moduleContent %}
         {% endblock %}
     </div>
