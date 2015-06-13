@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Api;
 
 use Doctrine\ORM\EntityManager;
@@ -8,15 +9,15 @@ use Doctrine\ORM\EntityManager;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class Api {
-    
+abstract class Api
+{
     /**
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
-    
-    public function __construct(EntityManager $em) {
+
+    public function __construct(EntityManager $em)
+    {
         $this->em = $em;
     }
-    
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Controller;
 
 use Novosga\App;
@@ -9,29 +10,32 @@ use Novosga\Context;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class AppController {
-    
+abstract class AppController
+{
     private $app;
-    
-    public function __construct(App $app) {
+
+    public function __construct(App $app)
+    {
         $this->app = $app;
     }
-    
+
     /**
      * @return App
      */
-    public final function app() {
+    final public function app()
+    {
         return $this->app;
     }
-    
+
     /**
      * @return \Doctrine\ORM\EntityManager
      */
-    protected function em() {
+    protected function em()
+    {
         return $this->app()->getContext()->database()->createEntityManager();
     }
 
-
-    public function index(Context $context) {}
-
+    public function index(Context $context)
+    {
+    }
 }

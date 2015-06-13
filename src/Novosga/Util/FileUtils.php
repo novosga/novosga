@@ -7,35 +7,40 @@ namespace Novosga\Util;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class FileUtils {
-    
-    public static function rm($dir) {
+class FileUtils
+{
+    public static function rm($dir)
+    {
         if (!file_exists($dir)) {
             return true;
         }
         if (!is_dir($dir)) {
             return unlink($dir);
         }
+
         return false;
     }
-    
-    public static function rmdir($dir) {
+
+    public static function rmdir($dir)
+    {
         $r = self::rm($dir);
         if (!$r) {
             foreach (scandir($dir) as $item) {
                 if ($item == '.' || $item == '..') {
                     continue;
                 }
-                if (!self::rmdir($dir . DIRECTORY_SEPARATOR . $item)) {
+                if (!self::rmdir($dir.DIRECTORY_SEPARATOR.$item)) {
                     return false;
                 }
             }
             $r = rmdir($dir);
         }
+
         return $r;
     }
-    
-    public static function mime($filename) {
+
+    public static function mime($filename)
+    {
         // http://php.net/manual/pt_BR/function.mime-content-type.php#87856
         $mime_types = array(
             'txt' => 'text/plain',
@@ -90,16 +95,14 @@ class FileUtils {
         $ext = strtolower(array_pop($tokens));
         if (array_key_exists($ext, $mime_types)) {
             return $mime_types[$ext];
-        }
-        elseif (function_exists('finfo_open')) {
+        } elseif (function_exists('finfo_open')) {
             $finfo = finfo_open(FILEINFO_MIME);
             $mimetype = finfo_file($finfo, $filename);
             finfo_close($finfo);
+
             return $mimetype;
-        }
-        else {
+        } else {
             return 'application/octet-stream';
         }
     }
-    
 }

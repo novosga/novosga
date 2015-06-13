@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Console;
 
 use Doctrine\ORM\EntityManager;
@@ -14,16 +15,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ModuleRemoveCommand extends Command {
-    
+class ModuleRemoveCommand extends Command
+{
     private $em;
-    
-    public function __construct(EntityManager $em, $name = null) {
+
+    public function __construct(EntityManager $em, $name = null)
+    {
         parent::__construct($name = null);
         $this->em = $em;
     }
-    
-    protected function configure() {
+
+    protected function configure()
+    {
         $this->setName('module:remove')
             ->setDescription('Remove um módulo já instalado.')
             ->addArgument(
@@ -34,15 +37,15 @@ class ModuleRemoveCommand extends Command {
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         try {
             $key = $input->getArgument('key');
             $service = new ModuloService($this->em);
             $service->uninstall($key);
-            $output->writeln("<info>Módulo desinstalado com sucesso</info>");
+            $output->writeln('<info>Módulo desinstalado com sucesso</info>');
         } catch (Exception $e) {
             $output->writeln("<error>{$e->getMessage()}</error>");
         }
     }
-    
 }

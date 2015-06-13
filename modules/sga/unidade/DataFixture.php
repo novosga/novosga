@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\sga\unidade;
 
 use Doctrine\ORM\EntityManager;
@@ -11,14 +12,15 @@ use Novosga\Model\Unidade;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class DataFixture {
-    
+class DataFixture
+{
     /**
-     * 
      * @param EntityManager $em
+     *
      * @throws Exception
      */
-    public function install(EntityManager $em) {
+    public function install(EntityManager $em)
+    {
         try {
             $grupo = $em->find('Novosga\Model\Grupo', 1);
             $em->beginTransaction();
@@ -33,15 +35,16 @@ class DataFixture {
             throw $e;
         }
     }
-    
+
     /**
-     * 
      * @param string $name
      * @param string $description
-     * @param integer $weight
+     * @param int    $weight
+     *
      * @return Grupo
      */
-    public function create($name, $message, Grupo $grupo) {
+    public function create($name, $message, Grupo $grupo)
+    {
         $unidade = new Unidade();
         $unidade->setCodigo('1');
         $unidade->setNome($name);
@@ -49,7 +52,7 @@ class DataFixture {
         $unidade->setMensagemImpressao($message);
         $unidade->setStatus(1);
         $unidade->setStatusImpressao(1);
+
         return $unidade;
     }
-    
 }

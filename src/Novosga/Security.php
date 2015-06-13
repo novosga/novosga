@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga;
 
 /**
@@ -6,10 +7,10 @@ namespace Novosga;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class Security {
-    
-    public static function passEncode($pass) {
+class Security
+{
+    public static function passEncode($pass)
+    {
         return md5($pass);
     }
-    
 }

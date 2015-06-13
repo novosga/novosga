@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Service;
 
 use Doctrine\ORM\QueryBuilder;
@@ -12,34 +13,37 @@ use Novosga\Model\Util\UsuarioSessao;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class FilaService extends ModelService {
-    
+class FilaService extends ModelService
+{
     // default queue ordering
     public static $ordering = array(
         // wait time
         array(
-            "exp" => "((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))", 
-            "order" => "DESC"
+            'exp' => '((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))',
+            'order' => 'DESC',
         ),
         // priority
         array(
-            "exp" => "p.peso", 
-            "order" => "DESC"
+            'exp' => 'p.peso',
+            'order' => 'DESC',
         ),
         // ticket number
         array(
-            "exp" => "e.numeroSenha", 
-            "order" => "ASC"
+            'exp' => 'e.numeroSenha',
+            'order' => 'ASC',
         ),
     );
-    
+
     /**
      * Retorna a fila de atendimentos do usuario
+     *
      * @param UsuarioSessao $usuario
-     * @param integer $maxResults
+     * @param int           $maxResults
+     *
      * @return array
      */
-    public function atendimentos(UsuarioSessao $usuario, $maxResults = 0) {
+    public function atendimentos(UsuarioSessao $usuario, $maxResults = 0)
+    {
         $ids = array(0);
         $servicos = $usuario->getServicos();
         foreach ($servicos as $s) {
@@ -53,9 +57,9 @@ class FilaService extends ModelService {
             $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults, $cond);
         } else {
             // se atende todos mas tem limite para sequencia de tipo de atendimento
-            $maxPrioridade = (int) AppConfig::getInstance()->get("queue.limits.priority");
+            $maxPrioridade = (int) AppConfig::getInstance()->get('queue.limits.priority');
             if ($maxPrioridade > 0 && $usuario->getSequenciaPrioridade() > 0 && $usuario->getSequenciaPrioridade() % $maxPrioridade === 0) {
-                $cond = "p.peso = 0";
+                $cond = 'p.peso = 0';
             }
             $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults, $cond);
             // se a lista veio vazia, tenta pegar qualquer um
@@ -63,12 +67,14 @@ class FilaService extends ModelService {
                 $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults);
             }
         }
+
         return $rs;
     }
-    
-    private function atendimentosUsuario(UsuarioSessao $usuario, $servicos, $maxResults = 0, $where = '') {
+
+    private function atendimentosUsuario(UsuarioSessao $usuario, $servicos, $maxResults = 0, $where = '')
+    {
         $builder = $this->builder()
-                ->where("e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos)")
+                ->where('e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos)')
         ;
         if (!empty($where)) {
             $builder->andWhere($where);
@@ -81,47 +87,50 @@ class FilaService extends ModelService {
                 ->setParameter('unidade', $usuario->getUnidade()->getId())
                 ->setParameter('servicos', $servicos)
         ;
-        
+
         if ($maxResults > 0) {
             $query->setMaxResults($maxResults);
         }
-        
+
         return $query->getResult();
     }
-    
+
     /**
      * Retorna a fila de espera do serviço na unidade
+     *
      * @param mixed $unidade
      * @param mixed $servico
+     *
      * @return array
      */
-    public function filaServico($unidade, $servico) {
+    public function filaServico($unidade, $servico)
+    {
         if (!($unidade instanceof Unidade)) {
             $unidade = $this->em->find('Novosga\Model\Unidade', $unidade);
         }
-        
+
         if (!($servico instanceof Servico)) {
             $servico = $this->em->find('Novosga\Model\Servico', $servico);
         }
-        
+
         $builder = $this->builder()
-                ->where("e.status = :status AND su.unidade = :unidade AND su.servico = :servico")
+                ->where('e.status = :status AND su.unidade = :unidade AND su.servico = :servico')
         ;
-        
+
         $this->applyOrders($builder, $unidade);
-        
+
         $builder->setParameter('status', AtendimentoService::SENHA_EMITIDA);
         $builder->setParameter('unidade', $unidade);
         $builder->setParameter('servico', $servico);
-        
+
         return $builder->getQuery()->getResult();
     }
-    
-    
+
     /**
      * @return QueryBuilder
      */
-    public function builder() {
+    public function builder()
+    {
         return $this->em
             ->createQueryBuilder()
             ->select('e')
@@ -133,13 +142,15 @@ class FilaService extends ModelService {
             ->leftJoin('e.usuario', 'u')
         ;
     }
-    
+
     /**
      * Aplica a ordenação na QueryBuilder
+     *
      * @param QueryBuilder $builder
      */
-    public function applyOrders(QueryBuilder $builder, Unidade $unidade) {
-        $ordering = AppConfig::getInstance()->get("queue.ordering");
+    public function applyOrders(QueryBuilder $builder, Unidade $unidade)
+    {
+        $ordering = AppConfig::getInstance()->get('queue.ordering');
         if (is_callable($ordering)) {
             $ordering = $ordering($unidade);
         }
@@ -155,5 +166,4 @@ class FilaService extends ModelService {
             $builder->addOrderBy($exp, $order);
         }
     }
-    
 }

@@ -1,13 +1,12 @@
 <?php
-namespace Novosga\Controller;
 
-use Novosga\Controller\AppController;
+namespace Novosga\Controller;
 
 /**
  * Class pai dos controladores internos do sistema
  *
  * @author eco
  */
-abstract class InternalController extends AppController {
-    
+abstract class InternalController extends AppController
+{
 }

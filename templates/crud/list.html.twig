@@ -3,10 +3,10 @@
 <div class="search">
     <form method="get" action="{{ baseUrl() }}/modules/{{ module.chave }}" class="form-inline" role="search">
         <div class="form-group">
-            <input id="search-box" 
-                   type="search" 
-                   name="s" 
-                   value="{{ search }}" 
+            <input id="search-box"
+                   type="search"
+                   name="s"
+                   value="{{ search }}"
                    class="form-search form-control"
                    placeholder="{% trans %}buscar{% endtrans %}" />
             <script type="text/javascript">SGA.Form.searchBox("search-box")</script>

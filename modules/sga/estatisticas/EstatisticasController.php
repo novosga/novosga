@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\sga\estatisticas;
 
 use Exception;
@@ -10,7 +11,6 @@ use Novosga\Service\UnidadeService;
 use Novosga\Service\UsuarioService;
 use Novosga\Util\DateUtil;
 use Novosga\Http\JsonResponse;
-use modules\sga\estatisticas\Relatorio;
 use Novosga\Controller\ModuleController;
 use Novosga\Util\Strings;
 
@@ -19,19 +19,20 @@ use Novosga\Util\Strings;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class EstatisticasController extends ModuleController {
-    
+class EstatisticasController extends ModuleController
+{
     const MAX_RESULTS = 1000;
-    
+
     private $graficos;
     private $relatorios;
-    
-    public function __construct(App $app, Modulo $modulo) {
+
+    public function __construct(App $app, Modulo $modulo)
+    {
         parent::__construct($app, $modulo);
         $this->graficos = array(
             1 => new Grafico(_('Atendimentos por status'), 'pie', 'unidade,date-range'),
             2 => new Grafico(_('Atendimentos por serviço'), 'pie', 'unidade,date-range'),
-            3 => new Grafico(_('Tempo médio do atendimento'), 'bar', 'unidade,date-range')
+            3 => new Grafico(_('Tempo médio do atendimento'), 'bar', 'unidade,date-range'),
         );
         $this->relatorios = array(
             1 => new Relatorio(_('Serviços Disponíveis - Global'), 'servicos_disponiveis_global'),
@@ -45,9 +46,10 @@ class EstatisticasController extends ModuleController {
         );
     }
 
-    public function index(Context $context) {
-        $dir = MODULES_DIR . '/' . $context->getModulo()->getChave();
-        $context->setParameter('js', array(__DIR__ . '/js/highcharts.js', __DIR__ . '/js/highcharts.exporting.js'));
+    public function index(Context $context)
+    {
+        $dir = MODULES_DIR.'/'.$context->getModulo()->getChave();
+        $context->setParameter('js', array(__DIR__.'/js/highcharts.js', __DIR__.'/js/highcharts.exporting.js'));
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
         $unidades = $query->getResult();
         $this->app()->view()->set('unidades', $unidades);
@@ -61,11 +63,12 @@ class EstatisticasController extends ModuleController {
         $this->app()->view()->set('unidadesJson', json_encode($arr));
         $this->app()->view()->set('now', DateUtil::now(_('d/m/Y')));
     }
-    
+
     /**
      * Retorna os gráficos do dia a partir da unidade informada
      */
-    public function today(Context $context) {
+    public function today(Context $context)
+    {
         $response = new JsonResponse();
         try {
             $ini = DateUtil::now('Y-m-d');
@@ -80,15 +83,17 @@ class EstatisticasController extends ModuleController {
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-    
-    public function grafico(Context $context) {
+
+    public function grafico(Context $context)
+    {
         $response = new JsonResponse();
         try {
             $id = (int) $context->request()->get('grafico');
             $dataInicial = $context->request()->get('inicial');
-            $dataFinal = $context->request()->get('final') . ' 23:59:59';
+            $dataFinal = $context->request()->get('final').' 23:59:59';
             $unidade = (int) $context->request()->get('unidade');
             $unidade = ($unidade > 0) ? $unidade : 0;
             if (!isset($this->graficos[$id])) {
@@ -112,10 +117,12 @@ class EstatisticasController extends ModuleController {
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-    
-    public function relatorio(Context $context) {
+
+    public function relatorio(Context $context)
+    {
         $id = (int) $context->request()->get('relatorio');
         $dataInicial = $context->request()->get('inicial');
         $dataFinal = $context->request()->get('final');
@@ -125,7 +132,7 @@ class EstatisticasController extends ModuleController {
             $relatorio = $this->relatorios[$id];
             $this->app()->view()->set('dataInicial', DateUtil::format($dataInicial, _('d/m/Y')));
             $this->app()->view()->set('dataFinal', DateUtil::format($dataFinal, _('d/m/Y')));
-            $dataFinal = $dataFinal . ' 23:59:59';
+            $dataFinal = $dataFinal.' 23:59:59';
             switch ($id) {
             case 1:
                 $relatorio->setDados($this->servicos_disponiveis_global());
@@ -158,13 +165,16 @@ class EstatisticasController extends ModuleController {
         $this->app()->view()->set('page', "relatorios/{$relatorio->getArquivo()}.html.twig");
         $this->app()->view()->set('isNumeracaoServico', AtendimentoService::isNumeracaoServico());
     }
-    
-    private function unidades() {
+
+    private function unidades()
+    {
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
+
         return $query->getResult();
     }
-    
-    private function unidadesArray($default = 0) {
+
+    private function unidadesArray($default = 0)
+    {
         if ($default == 0) {
             return $this->unidades();
         } else {
@@ -172,23 +182,25 @@ class EstatisticasController extends ModuleController {
             if (!$unidade) {
                 throw new \Exception('Invalid parameter');
             }
+
             return array($unidade);
         }
     }
-    
-    private function total_atendimentos_status($dataInicial, $dataFinal, $unidadeId = 0) {
+
+    private function total_atendimentos_status($dataInicial, $dataFinal, $unidadeId = 0)
+    {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
         $status = AtendimentoService::situacoes();
         $query = $this->em()->createQuery("
-            SELECT 
-                COUNT(e) as total 
-            FROM 
+            SELECT
+                COUNT(e) as total
+            FROM
                 Novosga\Model\ViewAtendimento e
-            WHERE 
-                e.dataChegada >= :inicio AND 
+            WHERE
+                e.dataChegada >= :inicio AND
                 e.dataChegada <= :fim AND
-                e.unidade = :unidade AND 
+                e.unidade = :unidade AND
                 e.status = :status
         ");
         $query->setParameter('inicio', $dataInicial);
@@ -203,26 +215,28 @@ class EstatisticasController extends ModuleController {
                 $dados[$unidade->getId()][$k] = (int) $rs['total'];
             }
         }
+
         return $dados;
     }
-    
-    private function total_atendimentos_servico($dataInicial, $dataFinal, $unidadeId = 0) {
+
+    private function total_atendimentos_servico($dataInicial, $dataFinal, $unidadeId = 0)
+    {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
         $query = $this->em()->createQuery("
-            SELECT 
+            SELECT
                 s.nome as servico,
-                COUNT(a) as total 
-            FROM 
+                COUNT(a) as total
+            FROM
                 Novosga\Model\ViewAtendimento a
                 JOIN a.unidade u
                 JOIN a.servico s
-            WHERE 
+            WHERE
                 a.status = :status AND
-                a.dataChegada >= :inicio AND 
+                a.dataChegada >= :inicio AND
                 a.dataChegada <= :fim AND
                 a.unidade = :unidade
-            GROUP BY 
+            GROUP BY
                 s
         ");
         $query->setParameter('status', AtendimentoService::ATENDIMENTO_ENCERRADO_CODIFICADO);
@@ -236,29 +250,31 @@ class EstatisticasController extends ModuleController {
                 $dados[$unidade->getId()][$r['servico']] = $r['total'];
             }
         }
+
         return $dados;
     }
-    
-    private function tempo_medio_atendimentos($dataInicial, $dataFinal, $unidadeId = 0) {
+
+    private function tempo_medio_atendimentos($dataInicial, $dataFinal, $unidadeId = 0)
+    {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
         $tempos = array(
             'espera' => _('Tempo de Espera'),
             'deslocamento' => _('Tempo de Deslocamento'),
             'atendimento' => _('Tempo de Atendimento'),
-            'total' => _('Tempo Total')
+            'total' => _('Tempo Total'),
         );
         $dql = "
-            SELECT 
+            SELECT
                 AVG(a.dataChamada - a.dataChegada) as espera,
                 AVG(a.dataInicio - a.dataChamada) as deslocamento,
                 AVG(a.dataFim - a.dataInicio) as atendimento,
                 AVG(a.dataFim - a.dataChegada) as total
-            FROM 
+            FROM
                 Novosga\Model\ViewAtendimento a
                 JOIN a.unidade u
-            WHERE 
-                a.dataChegada >= :inicio AND 
+            WHERE
+                a.dataChegada >= :inicio AND
                 a.dataChegada <= :fim AND
                 a.unidade = :unidade
         ";
@@ -283,10 +299,12 @@ class EstatisticasController extends ModuleController {
                 }
             }
         }
+
         return $dados;
     }
-    
-    private function servicos_disponiveis_global() {
+
+    private function servicos_disponiveis_global()
+    {
         $query = $this->em()->createQuery("
             SELECT
                 e
@@ -298,14 +316,17 @@ class EstatisticasController extends ModuleController {
             ORDER BY
                 e.nome
         ");
+
         return $query->getResult();
     }
-    
+
     /**
      * Retorna todos os servicos disponiveis para cada unidade
+     *
      * @return array
      */
-    private function servicos_disponiveis_unidade($unidadeId = 0) {
+    private function servicos_disponiveis_unidade($unidadeId = 0)
+    {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
         $query = $this->em()->createQuery("
@@ -318,7 +339,7 @@ class EstatisticasController extends ModuleController {
             WHERE
                 s.mestre IS NULL AND
                 e.status = 1 AND
-                e.unidade = :unidade 
+                e.unidade = :unidade
             ORDER BY
                 s.nome
         ");
@@ -326,13 +347,15 @@ class EstatisticasController extends ModuleController {
             $query->setParameter('unidade', $unidade);
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
-                'servicos' => $query->getResult()
+                'servicos' => $query->getResult(),
             );
         }
+
         return $dados;
     }
-    
-    private function servicos_codificados($dataInicial, $dataFinal, $unidadeId = 0) {
+
+    private function servicos_codificados($dataInicial, $dataFinal, $unidadeId = 0)
+    {
         $unidades = $this->unidadesArray($unidadeId);
         $query = $this->em()->createQuery("
             SELECT
@@ -359,13 +382,15 @@ class EstatisticasController extends ModuleController {
             $query->setParameter('unidade', $unidade);
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
-                'servicos' => $query->getResult()
+                'servicos' => $query->getResult(),
             );
         }
+
         return $dados;
     }
-    
-    private function atendimentos_concluidos($dataInicial, $dataFinal, $unidadeId = 0) {
+
+    private function atendimentos_concluidos($dataInicial, $dataFinal, $unidadeId = 0)
+    {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
         $query = $this->em()->createQuery("
@@ -389,13 +414,15 @@ class EstatisticasController extends ModuleController {
             $query->setParameter('unidade', $unidade);
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
-                'atendimentos' => $query->getResult()
+                'atendimentos' => $query->getResult(),
             );
         }
+
         return $dados;
     }
-    
-    private function atendimentos_status($dataInicial, $dataFinal, $unidadeId = 0) {
+
+    private function atendimentos_status($dataInicial, $dataFinal, $unidadeId = 0)
+    {
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
         $query = $this->em()->createQuery("
@@ -417,13 +444,15 @@ class EstatisticasController extends ModuleController {
             $query->setParameter('unidade', $unidade);
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
-                'atendimentos' => $query->getResult()
+                'atendimentos' => $query->getResult(),
             );
         }
+
         return $dados;
     }
-    
-    private function tempo_medio_atendentes($dataInicial, $dataFinal) {
+
+    private function tempo_medio_atendentes($dataInicial, $dataFinal)
+    {
         $dados = array();
         $query = $this->em()->createQuery("
             SELECT
@@ -452,7 +481,7 @@ class EstatisticasController extends ModuleController {
         foreach ($rs as $r) {
             $d = array(
                 'atendente' => $r['atendente'],
-                'total' => $r['total']
+                'total' => $r['total'],
             );
             try {
                 // se der erro tentando converter a data do banco para segundos, assume que ja esta em segundos
@@ -469,25 +498,28 @@ class EstatisticasController extends ModuleController {
             }
             $dados[] = $d;
         }
+
         return $dados;
     }
-    
+
     /**
      * Retorna todos os usuarios e cargos (lotação) por unidade
+     *
      * @return array
      */
-    private function lotacoes($unidadeId = 0, $nomeServico = '') {
+    private function lotacoes($unidadeId = 0, $nomeServico = '')
+    {
         $nomeServico = trim($nomeServico);
         if (!empty($nomeServico)) {
             $nomeServico = Strings::sqlLikeParam($nomeServico);
         }
-        
+
         $unidades = $this->unidadesArray($unidadeId);
         $dados = array();
-        
+
         $usuarioService = new UsuarioService($this->em());
         $unidadeService = new UnidadeService($this->em());
-        
+
         foreach ($unidades as $unidade) {
             $lotacoes = $unidadeService->lotacoesComServico($unidade->getId(), $nomeServico);
             $servicos = array();
@@ -497,27 +529,30 @@ class EstatisticasController extends ModuleController {
             $dados[$unidade->getId()] = array(
                 'unidade' => $unidade->getNome(),
                 'lotacoes' => $lotacoes,
-                'servicos' => $servicos
+                'servicos' => $servicos,
             );
         }
+
         return $dados;
     }
-    
+
     /**
      * Retorna todos os cargos e suas permissões
+     *
      * @return array
      */
-    private function cargos() {
+    private function cargos()
+    {
         $dados = array();
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Cargo e ORDER BY e.nome");
         $cargos = $query->getResult();
         foreach ($cargos as $cargo) {
             $dados[$cargo->getId()] = array(
                 'cargo' => $cargo->getNome(),
-                'permissoes' => $cargo->getPermissoes()
+                'permissoes' => $cargo->getPermissoes(),
             );
         }
+
         return $dados;
     }
-    
 }

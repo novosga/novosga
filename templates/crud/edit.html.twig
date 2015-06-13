@@ -2,19 +2,19 @@
 {% block moduleContent %}
     <form id="crud-form" method="post" action="#">
         <input type="hidden" name="id" value="{{ model.id }}" />
-        
+
         {% if flash['success'] %}
         <div class="alert alert-success">
             {{ flash['success'] }}
         </div>
         {% endif %}
-        
+
         {% if flash['error'] %}
         <div class="alert alert-danger">
             {{ flash['error'] }}
         </div>
         {% endif %}
-        
+
         {% block formContent %}
         {% endblock %}
         <div class="buttons">
@@ -51,5 +51,5 @@
         SGA.Form.labels.required = '{% trans %}Campo obrigatório{% endtrans %}';
         SGA.Form.validate('crud-form');
     </script>
-    
+
 {% endblock %}

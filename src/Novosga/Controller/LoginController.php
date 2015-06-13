@@ -1,19 +1,19 @@
 <?php
+
 namespace Novosga\Controller;
 
 use Novosga\App;
 use Novosga\Context;
-use Novosga\Util\Arrays;
-use Novosga\Controller\InternalController;
 
 /**
  * LoginController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class LoginController extends InternalController {
-    
-    public function index(Context $context) {
+class LoginController extends InternalController
+{
+    public function index(Context $context)
+    {
         if ($this->app()->getAcessoService()->isLogged($context)) {
             if ($this->app()->getAcessoService()->isValidSession($context)) {
                 if ($context->getModulo()) {
@@ -34,8 +34,9 @@ class LoginController extends InternalController {
             }
         }
     }
-    
-    public function validate(Context $context) {
+
+    public function validate(Context $context)
+    {
         $username = $context->request()->post('username');
         $password = $context->request()->post('password');
         $error = null;
@@ -69,5 +70,4 @@ class LoginController extends InternalController {
             $this->app()->gotoLogin();
         }
     }
-    
 }

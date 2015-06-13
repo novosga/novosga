@@ -1,7 +1,7 @@
 <?php
+
 namespace Novosga;
 
-use Novosga\App;
 use Novosga\Http\Session;
 use Novosga\Http\Cookie;
 use Novosga\Http\Request;
@@ -17,11 +17,10 @@ use Novosga\Config\DatabaseConfig;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class Context 
+class Context
 {
-    
-    const SESSION_CURRENT_USER = "SGA_CURRENT_USER";
-    
+    const SESSION_CURRENT_USER = 'SGA_CURRENT_USER';
+
     private $app;
     private $session;
     private $response;
@@ -30,72 +29,81 @@ class Context
     private $modulo;
     private $database;
     private $parameters = array();
-    
-    public function __construct(App $app, DatabaseConfig $database) {
+
+    public function __construct(App $app, DatabaseConfig $database)
+    {
         $this->app = $app;
         $this->session = new Session();
         $this->cookie = new Cookie();
         $this->response = new Response();
         $this->database = $database;
     }
-    
+
     /**
      * @return App
      */
-    public function app() {
+    public function app()
+    {
         return $this->app;
     }
-    
+
     /**
      * @return Session
      */
-    public function session() {
+    public function session()
+    {
         return $this->session;
     }
-    
+
     /**
      * @return Cookie
      */
-    public function cookie() {
+    public function cookie()
+    {
         return $this->cookie;
     }
 
     /**
      * @return Request
      */
-    public function request() {
+    public function request()
+    {
         return $this->app()->request();
     }
-    
+
     /**
      * @return Response
      */
-    public function response() {
+    public function response()
+    {
         return $this->response;
     }
-    
+
     /**
-     * 
      * @return \Novosga\Config\DatabaseConfig
      */
-    public function database() {
+    public function database()
+    {
         return $this->database;
     }
 
     /**
      * @return UsuarioSessao
      */
-    public function getUser() {
+    public function getUser()
+    {
         if ($this->user == null) {
             $this->user = $this->session()->getGlobal(self::SESSION_CURRENT_USER);
             if ($this->user) {
                 $this->user->setEm($this->database()->createEntityManager());
             }
         }
+
         return $this->user;
     }
 
-    public function setUser(UsuarioSessao $user = null) {
+    public function setUser(UsuarioSessao $user = null)
+    {
         $this->user = $user;
         $this->session()->setGlobal(self::SESSION_CURRENT_USER, $user);
     }
@@ -103,14 +111,17 @@ class Context
     /**
      * @return Unidade|null
      */
-    public function getUnidade() {
+    public function getUnidade()
+    {
         if ($this->getUser()) {
             return $this->getUser()->getUnidade();
         }
-        return null;
+
+        return;
     }
 
-    public function setUnidade(Unidade $unidade = null) {
+    public function setUnidade(Unidade $unidade = null)
+    {
         if ($this->getUser()) {
             $this->getUser()->setUnidade($unidade);
             $this->setUser($this->getUser());
@@ -120,7 +131,8 @@ class Context
     /**
      * @return Modulo
      */
-    public function getModulo() {
+    public function getModulo()
+    {
         if ($this->modulo == null && defined('MODULE')) {
             $query = $this->database->createEntityManager()
                     ->createQuery("SELECT m FROM Novosga\Model\Modulo m WHERE m.chave = :chave");
@@ -130,27 +142,32 @@ class Context
                 throw new \Exception(sprintf(_('Módulo "%s" não econtrado.'), MODULE));
             }
         }
+
         return $this->modulo;
     }
 
-    public function setModule(Modulo $modulo = null) {
+    public function setModule(Modulo $modulo = null)
+    {
         $this->modulo = $modulo;
     }
-    
-    public function getParameters() {
+
+    public function getParameters()
+    {
         return $this->parameters;
     }
-    
-    public function setParameters(array $params) {
+
+    public function setParameters(array $params)
+    {
         $this->parameters = $params;
     }
-    
-    public function getParameter($key) {
+
+    public function getParameter($key)
+    {
         return Arrays::value($this->parameters, $key);
     }
-    
-    public function setParameter($key, $value) {
+
+    public function setParameter($key, $value)
+    {
         $this->parameters[$key] = $value;
     }
-    
 }

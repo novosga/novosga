@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Auth;
 
 use Novosga\Util\Arrays;
@@ -9,10 +10,10 @@ use Novosga\Context;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class DefaultAuthProviderFactory implements AuthProviderFactory 
+class DefaultAuthProviderFactory implements AuthProviderFactory
 {
-    
-    public function create(Context $context, array $config = array()) {
+    public function create(Context $context, array $config = array())
+    {
         $type = Arrays::value($config, 'type');
         $providerConfig = Arrays::value($config, $type, array());
         $em = $context->database()->createEntityManager();
@@ -23,5 +24,4 @@ class DefaultAuthProviderFactory implements AuthProviderFactory
                 return new DatabaseProvider($em, $providerConfig);
         }
     }
-    
 }
