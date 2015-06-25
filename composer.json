@@ -15,12 +15,19 @@
     ],
     "require": {
         "php": ">=5.4",
+        "ext-pdo": "~1.0",
+        "ext-json": "*",
+        "ext-gettext": "*",
         "slim/slim": "~2.6",
         "slim/views": "~0.1",
         "twig/twig": "~1.18",
         "twig/extensions": "~1.2",
         "doctrine/orm": "~2.5",
         "bshaffer/oauth2-server-php": "~1.7"
+    },
+    "suggest": {
+        "ext-mysql": "For MySQL or MariaDB databases",
+        "ext-pgsql": "For PostgreSQL databases"
     },
     "autoload": {
         "psr-0": {
