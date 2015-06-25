@@ -27,5 +27,8 @@
             "Novosga\\": "src/",
             "modules\\": "./"
         }
+    },
+    "config": {
+        "bin-dir": "bin"
     }
 }
