@@ -3,6 +3,7 @@ namespace Novosga\Model\Util;
 
 use Novosga\Model\Usuario;
 use Novosga\Model\Unidade;
+use Novosga\Service\UsuarioService;
 use Doctrine\ORM\EntityManager;
 use Novosga\Service\ServicoService;
 
@@ -184,8 +185,14 @@ class UsuarioSessao {
      * @return Novosga\Model\Unidade
      */
     public function getUnidade() {
-        if (!$this->unidade && $this->unidadeId > 0) {
-            $this->unidade = $this->em->find("Novosga\Model\Unidade", $this->unidadeId);
+        if (!$this->unidade) {
+            if (!$this->unidadeId && $this->em) {
+                $meta = (new UsuarioService($this->em))->meta($this->wrapped, UsuarioService::ATTR_UNIDADE);
+                $this->unidadeId = $meta ? (int) $meta->getValue() : null;
+            }
+            if ($this->unidadeId > 0) {
+                $this->unidade = $this->em->find("Novosga\Model\Unidade", $this->unidadeId);
+            }
         }
         return $this->unidade;
     }
@@ -193,6 +200,9 @@ class UsuarioSessao {
     public function setUnidade(Unidade $unidade) {
         $this->unidade = $unidade;
         $this->unidadeId = $unidade->getId();
+        if ($this->em) {
+            (new UsuarioService($this->em))->meta($this->wrapped, UsuarioService::ATTR_UNIDADE, $unidade->getId());
+        }
     }
     
     public function getTipoAtendimento() {

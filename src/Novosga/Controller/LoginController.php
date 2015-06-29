@@ -51,11 +51,14 @@ class LoginController extends InternalController {
                 $user->setUltimoAcesso(new \DateTime());
                 $em->merge($user);
                 $em->flush();
-                // caso o usuario so tenha acesso a uma unica unidade, ja define como atual
+                // caso o usuario so tenha acesso a uma unica unidade e nao tem uma guardada pelo ultimo acesso, ja define a primeira como atual
                 $us = new \Novosga\Model\Util\UsuarioSessao($user);
-                $unidades = $this->app()->getAcessoService()->unidades($context, $us);
-                if (sizeof($unidades) == 1) {
-                    $us->setUnidade($unidades[0]);
+                $us->setEm($em);
+                if (!$us->getUnidade()) {
+                    $unidades = $this->app()->getAcessoService()->unidades($context, $us);
+                    if (sizeof($unidades) == 1) {
+                        $us->setUnidade($unidades[0]);
+                    }
                 }
                 $context->setUser($us);
             } else {
