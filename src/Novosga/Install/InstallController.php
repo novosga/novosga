@@ -44,7 +44,7 @@ class InstallController extends InternalController {
     }
 
     public function index(Context $context) {
-        if (NOVOSGA_INSTALLED) {
+        if (App::isInstalled()) {
             $context->app()->gotoHome();
         }
         $steps = $this->getSteps();
@@ -316,7 +316,7 @@ class InstallController extends InternalController {
     }
     
     public function info(Context $context) {
-        if (!NOVOSGA_INSTALLED) {
+        if (!App::isInstalled()) {
             echo App::info();
         } else {
             echo _('Por questões de segurança as informações sobre o ambiente são desabilitadas após a instalação.');
@@ -434,7 +434,7 @@ class InstallController extends InternalController {
             $conn = null;
             $session = $context->session();
             try {
-                if (NOVOSGA_INSTALLED) {
+                if (App::isInstalled()) {
                     throw new Exception(_('O SGA já está instalado'));
                 }
                 $data = $session->get(InstallData::SESSION_KEY);

@@ -1,6 +1,7 @@
 <?php
 namespace Novosga\Slim;
 
+use Novosga\App;
 use Novosga\Model\Modulo;
 use Novosga\Context;
 use Slim\Middleware;
@@ -21,7 +22,7 @@ class AuthMiddleware extends Middleware {
     }
     
     public function call() {
-        if (NOVOSGA_INSTALLED) {
+        if (App::isInstalled()) {
             $req = $this->app->request();
             $uri = substr($req->getResourceUri(), 1);
             if (strpos($uri, '/')) {

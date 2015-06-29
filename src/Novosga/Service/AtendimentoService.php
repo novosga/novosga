@@ -5,6 +5,7 @@ use DateTime;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
+use Novosga\App;
 use Novosga\Config\AppConfig;
 use Novosga\Model\Atendimento;
 use Novosga\Model\Contador;
@@ -254,7 +255,7 @@ class AtendimentoService extends MetaModelService
     }
     
     public static function isNumeracaoServico() {
-        if (NOVOSGA_INSTALLED) {
+        if (App::isInstalled()) {
             $db = \Novosga\Config\DatabaseConfig::getInstance();
             $tipoNumeracao = \Novosga\Model\Configuracao::get($db->createEntityManager(), Senha::TIPO_NUMERACAO);
             if ($tipoNumeracao) {

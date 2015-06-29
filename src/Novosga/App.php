@@ -71,6 +71,10 @@ class App extends \Slim\Slim
         }
         return self::$instance;
     }
+    
+    public static function isInstalled() {
+        return DatabaseConfig::getInstance()->isIntalled();
+    }
 
     public function prepare() {
         // i18n
@@ -80,8 +84,6 @@ class App extends \Slim\Slim
         $db = DatabaseConfig::getInstance();
         $db->setDev(NOVOSGA_DEV);
 
-        define("NOVOSGA_INSTALLED", $db->isIntalled());
-        
         $this->context = new Context($this, $db);
         $this->acessoService = new AcessoService();
         
