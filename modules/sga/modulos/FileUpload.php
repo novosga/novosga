@@ -20,7 +20,7 @@ class FileUpload {
 
     public $uploadDir;                    // File upload directory (include trailing slash)
     public $allowedExtensions;            // Array of permitted file extensions
-    public $sizeLimit = 10485760;         // Max file upload size in bytes (default 10MB)
+    public $sizeLimit = 52428800;         // Max file upload size in bytes (default 50MB)
     public $newFileName;                  // Optionally save uploaded files with a new name by setting this
     public $corsInputName = 'XHR_CORS_TARGETORIGIN';
     private $fileName;                    // Filename of the uploaded file
@@ -92,7 +92,7 @@ class FileUpload {
         return $dir . DIRECTORY_SEPARATOR;
     }
 
-    // escapeJS and jsMatcher are adapted from the Escaper component of 
+    // escapeJS and jsMatcher are adapted from the Escaper component of
     // Zend Framework, Copyright (c) 2005-2013, Zend Technologies USA, Inc.
     // https://github.com/zendframework/zf2/tree/master/library/Zend/Escaper
     private function escapeJS($string) {
