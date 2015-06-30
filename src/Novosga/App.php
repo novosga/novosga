@@ -15,7 +15,7 @@ use Novosga\Service\AcessoService;
 class App extends \Slim\Slim 
 {
     
-    const VERSION = "1.4.0";
+    const VERSION = "1.5.0";
     const CHARSET = "utf-8";
     
     private $context;
@@ -71,6 +71,10 @@ class App extends \Slim\Slim
         }
         return self::$instance;
     }
+    
+    public static function isInstalled() {
+        return DatabaseConfig::getInstance()->isIntalled();
+    }
 
     public function prepare() {
         // i18n
@@ -80,8 +84,6 @@ class App extends \Slim\Slim
         $db = DatabaseConfig::getInstance();
         $db->setDev(NOVOSGA_DEV);
 
-        define("NOVOSGA_INSTALLED", $db->isIntalled());
-        
         $this->context = new Context($this, $db);
         $this->acessoService = new AcessoService();
         

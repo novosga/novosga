@@ -1,6 +1,7 @@
 <?php
 namespace Novosga\Slim;
 
+use Novosga\App;
 use Novosga\Context;
 
 /**
@@ -20,11 +21,11 @@ class InstallMiddleware extends \Slim\Middleware {
     public function call() {
         $req = $this->app->request();
         $uri = $req->getResourceUri();
-        $installed = NOVOSGA_INSTALLED;
+        $installed = App::isInstalled();
         if (!$installed && !self::isInstallPage($uri)) {
-            $this->app->redirectTo('install');
+            $this->app->response()->redirect($this->app->urlFor('install'));
         } else if ($installed && self::isInstallPage($uri)) {
-            $this->app->redirectTo('login');
+            $this->app->response()->redirect($this->app->urlFor('login'));
         } else {
             $this->next->call();
         }

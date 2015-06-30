@@ -40,11 +40,11 @@ class AtendimentoController extends ModuleController {
             $this->app()->gotoHome();
         }
         
-        $localMeta = $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.local');
+        $localMeta = $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_LOCAL);
         if ($localMeta) {
             $usuario->setLocal((int) $localMeta->getValue());
         }
-        $tipoMeta = $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.tipo');
+        $tipoMeta = $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_TIPO);
         if ($tipoMeta) {
             $usuario->setTipoAtendimento((int) $tipoMeta->getValue());
         }
@@ -67,17 +67,29 @@ class AtendimentoController extends ModuleController {
     }
     
     public function set_local(Context $context) {
-        $usuario = $context->getUser();
-        $numero = (int) $context->request()->post('local');
-        $tipo = (int) $context->request()->post('tipo');
-        if ($usuario && $numero) {
-            $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.local', $numero);
-            $this->usuarioService->meta($usuario->getWrapped(), 'atendimento.tipo', $tipo);
-            $context->getUser()->setLocal($numero);
-            $context->getUser()->setTipoAtendimento($tipo);
+        $response = new JsonResponse();
+        try {
+            $unidade = $context->getUnidade();
+            $usuario = $context->getUser();
+            $numero = (int) $context->request()->post('local');
+            $tipo = (int) $context->request()->post('tipo');
+            
+            if (!$this->usuarioService->isLocalLivre($unidade, $usuario, $numero)) {
+                throw new Exception(_('Já existe um usuário com esse número de local registrado.'));
+            }
+            
+            $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_LOCAL, $numero);
+            $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipo);
+            $usuario->setLocal($numero);
+            $usuario->setTipoAtendimento($tipo);
             $context->setUser($context->getUser());
+            
+            $response->success = true;
+        } catch (\Exception $e) {
+            $response->message = $e->getMessage();
+            $response->success = false;
         }
-        $this->app()->redirect('index');
+        return $response;
     }
     
     public function ajax_update(Context $context) {

@@ -1,6 +1,7 @@
 <?php
 namespace Novosga\Slim;
 
+use Novosga\App;
 use Novosga\Model\Modulo;
 use Novosga\Context;
 use Slim\Middleware;
@@ -21,7 +22,7 @@ class AuthMiddleware extends Middleware {
     }
     
     public function call() {
-        if (NOVOSGA_INSTALLED) {
+        if (App::isInstalled()) {
             $req = $this->app->request();
             $uri = substr($req->getResourceUri(), 1);
             if (strpos($uri, '/')) {
@@ -39,7 +40,7 @@ class AuthMiddleware extends Middleware {
                             echo $response->toJson();
                             exit();
                         }
-                        $this->app->redirectTo('logout');
+                        $this->app->response()->redirect($this->app->urlFor('logout'));
                     } else {
                         $unidade = $user->getUnidade();
                         $acessoService = $this->context->app()->getAcessoService();
@@ -61,7 +62,7 @@ class AuthMiddleware extends Middleware {
                         echo $response->toJson();
                         exit();
                     }
-                    $this->app->redirectTo('login');
+                    $this->app->response()->redirect($this->app->urlFor('login'));
                 }
             }
         }

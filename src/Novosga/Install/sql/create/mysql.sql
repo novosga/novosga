@@ -15,9 +15,9 @@ CREATE TABLE atend_codif (
     atendimento_id bigint NOT NULL AUTO_INCREMENT,
     servico_id integer NOT NULL,
     valor_peso smallint NOT NULL,
-    PRIMARY KEY (atendimento_id, servico_id) 
-) 
-DEFAULT CHARACTER SET utf8   
+    PRIMARY KEY (atendimento_id, servico_id)
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
@@ -25,9 +25,9 @@ CREATE TABLE atend_meta (
     atendimento_id bigint NOT NULL,
     name varchar(50) NOT NULL,
     value TEXT,
-    PRIMARY KEY (atendimento_id, name) 
+    PRIMARY KEY (atendimento_id, name)
 )
-DEFAULT CHARACTER SET utf8   
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
@@ -51,8 +51,8 @@ CREATE TABLE atendimentos (
     dt_fim datetime,
     ident_cli varchar(11) DEFAULT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
@@ -65,8 +65,8 @@ CREATE TABLE cargos (
     direita integer NOT NULL,
     nivel integer NOT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -75,8 +75,8 @@ CREATE TABLE cargos_mod_perm (
     modulo_id integer NOT NULL,
     permissao integer NOT NULL,
     PRIMARY KEY (cargo_id, modulo_id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -88,8 +88,8 @@ CREATE TABLE grupos (
     direita integer NOT NULL,
     nivel integer NOT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -98,8 +98,8 @@ CREATE TABLE config (
     valor TEXT NOT NULL,
     tipo integer NOT NULL,
     PRIMARY KEY (chave)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -109,8 +109,8 @@ CREATE TABLE historico_atend_codif (
     servico_id integer NOT NULL,
     valor_peso smallint NOT NULL,
     PRIMARY KEY (atendimento_id, servico_id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
@@ -118,9 +118,9 @@ CREATE TABLE historico_atend_meta (
     atendimento_id bigint NOT NULL,
     name varchar(50) NOT NULL,
     value TEXT,
-    PRIMARY KEY (atendimento_id, name) 
+    PRIMARY KEY (atendimento_id, name)
 )
-DEFAULT CHARACTER SET utf8   
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
@@ -145,8 +145,8 @@ CREATE TABLE historico_atendimentos (
     dt_fim datetime,
     ident_cli varchar(11) DEFAULT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
@@ -158,8 +158,8 @@ CREATE TABLE modulos (
     tipo smallint NOT NULL,
     status smallint NOT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -167,8 +167,8 @@ CREATE TABLE paineis (
     unidade_id integer NOT NULL,
     host integer NOT NULL,
     PRIMARY KEY (host)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -177,8 +177,8 @@ CREATE TABLE paineis_servicos (
     unidade_id integer NOT NULL,
     servico_id integer NOT NULL,
     PRIMARY KEY (host, servico_id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -196,20 +196,20 @@ CREATE TABLE painel_senha (
     nome_cliente VARCHAR(100),
     documento_cliente VARCHAR(30),
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
 CREATE TABLE prioridades (
     id integer NOT NULL AUTO_INCREMENT,
-    nome varchar(30) NOT NULL,
+    nome varchar(64) NOT NULL,
     descricao varchar(100) NOT NULL,
     peso smallint NOT NULL,
     status smallint NOT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -217,8 +217,8 @@ CREATE TABLE locais (
     id integer NOT NULL AUTO_INCREMENT,
     nome varchar(20) NOT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -230,8 +230,8 @@ CREATE TABLE servicos (
     status smallint NOT NULL,
     peso smallint NOT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -239,9 +239,9 @@ CREATE TABLE serv_meta (
     servico_id integer NOT NULL,
     name varchar(50) NOT NULL,
     value TEXT ,
-    PRIMARY KEY (servico_id, name) 
+    PRIMARY KEY (servico_id, name)
 )
-DEFAULT CHARACTER SET utf8   
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
@@ -253,8 +253,8 @@ CREATE TABLE uni_serv (
     status smallint NOT NULL,
     peso smallint NOT NULL,
     PRIMARY KEY (unidade_id, servico_id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -268,8 +268,8 @@ CREATE TABLE unidades (
     stat_imp smallint NOT NULL,
     msg_imp varchar(100) NOT NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -277,9 +277,9 @@ CREATE TABLE uni_meta (
     unidade_id integer NOT NULL,
     name varchar(50) NOT NULL,
     value TEXT ,
-    PRIMARY KEY (unidade_id, name) 
+    PRIMARY KEY (unidade_id, name)
 )
-DEFAULT CHARACTER SET utf8   
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
@@ -288,8 +288,8 @@ CREATE TABLE usu_grup_cargo (
     grupo_id integer NOT NULL,
     cargo_id integer NOT NULL,
     PRIMARY KEY (usuario_id, grupo_id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -298,8 +298,8 @@ CREATE TABLE usu_serv (
     servico_id integer NOT NULL,
     usuario_id integer NOT NULL,
     PRIMARY KEY (unidade_id, servico_id, usuario_id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -313,8 +313,8 @@ CREATE TABLE usuarios (
     status smallint NOT NULL,
     session_id varchar(50) NULL,
     PRIMARY KEY (id)
-) 
-DEFAULT CHARACTER SET utf8   
+)
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = INNODB;
 
@@ -322,44 +322,44 @@ CREATE TABLE usu_meta (
     usuario_id integer NOT NULL,
     name varchar(50) NOT NULL,
     value TEXT,
-    PRIMARY KEY (usuario_id, name) 
+    PRIMARY KEY (usuario_id, name)
 )
-DEFAULT CHARACTER SET utf8   
+DEFAULT CHARACTER SET utf8
 COLLATE utf8_general_ci
 ENGINE = MyISAM;
 
 -- oauth2
 
 CREATE TABLE oauth_clients (
-    client_id VARCHAR(80) NOT NULL, 
-    client_secret VARCHAR(80) NOT NULL, 
-    redirect_uri VARCHAR(2000) NOT NULL, 
-    grant_types VARCHAR(80), 
-    scope VARCHAR(100), 
-    user_id VARCHAR(80), 
+    client_id VARCHAR(80) NOT NULL,
+    client_secret VARCHAR(80) NOT NULL,
+    redirect_uri VARCHAR(2000) NOT NULL,
+    grant_types VARCHAR(80),
+    scope VARCHAR(100),
+    user_id VARCHAR(80),
     PRIMARY KEY (client_id)
 );
 
 CREATE TABLE oauth_scopes (
-    scope TEXT, 
+    scope TEXT,
     is_default BOOLEAN
 );
 
 CREATE TABLE oauth_access_tokens (
-    access_token VARCHAR(40) NOT NULL, 
-    client_id VARCHAR(80) NOT NULL, 
-    user_id VARCHAR(255), 
-    expires TIMESTAMP NOT NULL, 
-    scope VARCHAR(2000), 
+    access_token VARCHAR(40) NOT NULL,
+    client_id VARCHAR(80) NOT NULL,
+    user_id VARCHAR(255),
+    expires TIMESTAMP NOT NULL,
+    scope VARCHAR(2000),
     PRIMARY KEY (access_token)
 );
 
 CREATE TABLE oauth_refresh_tokens (
-    refresh_token VARCHAR(40) NOT NULL, 
-    client_id VARCHAR(80) NOT NULL, 
-    user_id VARCHAR(255), 
-    expires TIMESTAMP NOT NULL, 
-    scope VARCHAR(2000), 
+    refresh_token VARCHAR(40) NOT NULL,
+    client_id VARCHAR(80) NOT NULL,
+    user_id VARCHAR(255),
+    expires TIMESTAMP NOT NULL,
+    scope VARCHAR(2000),
     PRIMARY KEY (refresh_token)
 );
 
@@ -422,80 +422,80 @@ CREATE UNIQUE INDEX modulos_chave ON modulos (chave);
 -- views
 --
 
-CREATE VIEW view_historico_atend_codif 
+CREATE VIEW view_historico_atend_codif
 AS
-    SELECT 
-        atend_codif.atendimento_id, 
-        atend_codif.servico_id, 
-        atend_codif.valor_peso 
-    FROM 
-        atend_codif 
-    UNION ALL 
-    SELECT 
-        historico_atend_codif.atendimento_id, 
-        historico_atend_codif.servico_id, 
-        historico_atend_codif.valor_peso 
-    FROM 
+    SELECT
+        atend_codif.atendimento_id,
+        atend_codif.servico_id,
+        atend_codif.valor_peso
+    FROM
+        atend_codif
+    UNION ALL
+    SELECT
+        historico_atend_codif.atendimento_id,
+        historico_atend_codif.servico_id,
+        historico_atend_codif.valor_peso
+    FROM
         historico_atend_codif;
 
 CREATE VIEW view_historico_atend_meta
 AS
-    SELECT 
-        atend_meta.atendimento_id, 
-        atend_meta.name, 
+    SELECT
+        atend_meta.atendimento_id,
+        atend_meta.name,
         atend_meta.value
-    FROM 
+    FROM
         atend_meta
-    UNION ALL 
-    SELECT 
-        historico_atend_meta.atendimento_id, 
-        historico_atend_meta.name, 
+    UNION ALL
+    SELECT
+        historico_atend_meta.atendimento_id,
+        historico_atend_meta.name,
         historico_atend_meta.value
-    FROM 
+    FROM
         historico_atend_meta;
 
-CREATE VIEW view_historico_atendimentos 
+CREATE VIEW view_historico_atendimentos
 AS
-    SELECT 
-        atendimentos.id, 
-        atendimentos.unidade_id, 
-        atendimentos.usuario_id, 
-        atendimentos.usuario_tri_id, 
-        atendimentos.servico_id, 
-        atendimentos.prioridade_id, 
-        atendimentos.atendimento_id, 
-        atendimentos.status, 
-        atendimentos.sigla_senha, 
-        atendimentos.num_senha, 
-        atendimentos.num_senha_serv, 
-        atendimentos.nm_cli, 
-        atendimentos.num_local, 
-        atendimentos.dt_cheg, 
-        atendimentos.dt_cha, 
-        atendimentos.dt_ini, 
-        atendimentos.dt_fim, 
-        atendimentos.ident_cli 
-    FROM 
-        atendimentos 
-    UNION ALL 
-    SELECT 
-        historico_atendimentos.id, 
-        historico_atendimentos.unidade_id, 
-        historico_atendimentos.usuario_id, 
-        historico_atendimentos.usuario_tri_id, 
-        historico_atendimentos.servico_id, 
-        historico_atendimentos.prioridade_id, 
+    SELECT
+        atendimentos.id,
+        atendimentos.unidade_id,
+        atendimentos.usuario_id,
+        atendimentos.usuario_tri_id,
+        atendimentos.servico_id,
+        atendimentos.prioridade_id,
+        atendimentos.atendimento_id,
+        atendimentos.status,
+        atendimentos.sigla_senha,
+        atendimentos.num_senha,
+        atendimentos.num_senha_serv,
+        atendimentos.nm_cli,
+        atendimentos.num_local,
+        atendimentos.dt_cheg,
+        atendimentos.dt_cha,
+        atendimentos.dt_ini,
+        atendimentos.dt_fim,
+        atendimentos.ident_cli
+    FROM
+        atendimentos
+    UNION ALL
+    SELECT
+        historico_atendimentos.id,
+        historico_atendimentos.unidade_id,
+        historico_atendimentos.usuario_id,
+        historico_atendimentos.usuario_tri_id,
+        historico_atendimentos.servico_id,
+        historico_atendimentos.prioridade_id,
         historico_atendimentos.atendimento_id,
-        historico_atendimentos.status, 
-        historico_atendimentos.sigla_senha, 
-        historico_atendimentos.num_senha, 
-        historico_atendimentos.num_senha_serv, 
-        historico_atendimentos.nm_cli, 
-        historico_atendimentos.num_local, 
-        historico_atendimentos.dt_cheg, 
-        historico_atendimentos.dt_cha, 
-        historico_atendimentos.dt_ini, 
-        historico_atendimentos.dt_fim, 
-        historico_atendimentos.ident_cli 
-    FROM 
+        historico_atendimentos.status,
+        historico_atendimentos.sigla_senha,
+        historico_atendimentos.num_senha,
+        historico_atendimentos.num_senha_serv,
+        historico_atendimentos.nm_cli,
+        historico_atendimentos.num_local,
+        historico_atendimentos.dt_cheg,
+        historico_atendimentos.dt_cha,
+        historico_atendimentos.dt_ini,
+        historico_atendimentos.dt_fim,
+        historico_atendimentos.ident_cli
+    FROM
         historico_atendimentos;

@@ -14,6 +14,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 class UsuarioService extends MetaModelService 
 {
     
+    const ATTR_ATENDIMENTO_LOCAL = 'atendimento.local';
+    const ATTR_ATENDIMENTO_TIPO  = 'atendimento.tipo';
+    const ATTR_UNIDADE           = 'unidade';
+    
+    
     protected function getMetaClass() {
         return 'Novosga\Model\UsuarioMeta';
     }
@@ -87,6 +92,30 @@ class UsuarioService extends MetaModelService
                 ->setParameter('usuario', $usuario)
                 ->setParameter('unidade', $unidade)
                 ->getResult();
+    }
+    
+    
+    public function isLocalLivre($unidade, $usuario, $numero) {
+        $count = (int) $this->em
+                ->createQuery('
+                    SELECT
+                        COUNT(1)
+                    FROM
+                        Novosga\Model\UsuarioMeta e
+                    WHERE
+                        (e.name = :metaLocal AND e.value = :numero AND e.usuario != :usuario)
+                        AND EXISTS (SELECT e2 FROM Novosga\Model\UsuarioMeta e2 WHERE e2.name = :metaUnidade AND e2.value = :unidade AND e2.usuario = e.usuario)
+                ')
+                ->setParameters([
+                    'metaLocal' => UsuarioService::ATTR_ATENDIMENTO_LOCAL,
+                    'numero' => $numero,
+                    'usuario' => $usuario,
+                    'metaUnidade' => UsuarioService::ATTR_UNIDADE,
+                    'unidade' => $unidade
+                ])
+                ->getSingleScalarResult()
+        ;
+        return $count === 0;
     }
     
 }

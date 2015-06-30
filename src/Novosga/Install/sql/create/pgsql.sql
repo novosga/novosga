@@ -144,7 +144,7 @@ CREATE TABLE painel_senha (
 
 CREATE TABLE prioridades (
     id serial NOT NULL,
-    nome varchar(30) NOT NULL,
+    nome varchar(64) NOT NULL,
     descricao varchar(100) NOT NULL,
     peso smallint NOT NULL,
     status smallint NOT NULL
@@ -167,7 +167,7 @@ CREATE TABLE servicos (
 CREATE TABLE serv_meta (
     servico_id integer NOT NULL,
     name varchar(50) NOT NULL,
-    value TEXT 
+    value TEXT
 );
 
 CREATE TABLE uni_serv (
@@ -192,7 +192,7 @@ CREATE TABLE unidades (
 CREATE TABLE uni_meta (
     unidade_id integer NOT NULL,
     name varchar(50) NOT NULL,
-    value TEXT 
+    value TEXT
 );
 
 CREATE TABLE usu_grup_cargo (
@@ -221,41 +221,41 @@ CREATE TABLE usuarios (
 CREATE TABLE usu_meta (
     usuario_id integer NOT NULL,
     name varchar(50) NOT NULL,
-    value TEXT 
+    value TEXT
 );
 
 -- oauth2
 
 CREATE TABLE oauth_clients (
-    client_id VARCHAR(80) NOT NULL, 
-    client_secret VARCHAR(80) NOT NULL, 
-    redirect_uri VARCHAR(2000) NOT NULL, 
-    grant_types VARCHAR(80), 
-    scope VARCHAR(100), 
-    user_id VARCHAR(80), 
+    client_id VARCHAR(80) NOT NULL,
+    client_secret VARCHAR(80) NOT NULL,
+    redirect_uri VARCHAR(2000) NOT NULL,
+    grant_types VARCHAR(80),
+    scope VARCHAR(100),
+    user_id VARCHAR(80),
     PRIMARY KEY (client_id)
 );
 
 CREATE TABLE oauth_scopes (
-    scope TEXT, 
+    scope TEXT,
     is_default BOOLEAN
 );
 
 CREATE TABLE oauth_access_tokens (
-    access_token VARCHAR(40) NOT NULL, 
-    client_id VARCHAR(80) NOT NULL, 
-    user_id VARCHAR(255), 
-    expires TIMESTAMP NOT NULL, 
-    scope VARCHAR(2000), 
+    access_token VARCHAR(40) NOT NULL,
+    client_id VARCHAR(80) NOT NULL,
+    user_id VARCHAR(255),
+    expires TIMESTAMP NOT NULL,
+    scope VARCHAR(2000),
     PRIMARY KEY (access_token)
 );
 
 CREATE TABLE oauth_refresh_tokens (
-    refresh_token VARCHAR(40) NOT NULL, 
-    client_id VARCHAR(80) NOT NULL, 
-    user_id VARCHAR(255), 
-    expires TIMESTAMP NOT NULL, 
-    scope VARCHAR(2000), 
+    refresh_token VARCHAR(40) NOT NULL,
+    client_id VARCHAR(80) NOT NULL,
+    user_id VARCHAR(255),
+    expires TIMESTAMP NOT NULL,
+    scope VARCHAR(2000),
     PRIMARY KEY (refresh_token)
 );
 
@@ -343,82 +343,82 @@ CREATE UNIQUE INDEX modulos_chave ON modulos USING btree (chave);
 -- views
 --
 
-CREATE VIEW view_historico_atend_codif 
+CREATE VIEW view_historico_atend_codif
 AS
-    SELECT 
-        atend_codif.atendimento_id, 
-        atend_codif.servico_id, 
-        atend_codif.valor_peso 
-    FROM 
-        atend_codif 
-    UNION ALL 
-    SELECT 
-        historico_atend_codif.atendimento_id, 
-        historico_atend_codif.servico_id, 
-        historico_atend_codif.valor_peso 
-    FROM 
+    SELECT
+        atend_codif.atendimento_id,
+        atend_codif.servico_id,
+        atend_codif.valor_peso
+    FROM
+        atend_codif
+    UNION ALL
+    SELECT
+        historico_atend_codif.atendimento_id,
+        historico_atend_codif.servico_id,
+        historico_atend_codif.valor_peso
+    FROM
         historico_atend_codif;
 
-CREATE VIEW view_historico_atend_meta 
+CREATE VIEW view_historico_atend_meta
 AS
-    SELECT 
-        atend_meta.atendimento_id, 
-        atend_meta.name, 
-        atend_meta.value 
-    FROM 
-        atend_meta 
-    UNION ALL 
-    SELECT 
-        historico_atend_meta.atendimento_id, 
-        historico_atend_meta.name, 
-        historico_atend_meta.value 
-    FROM 
+    SELECT
+        atend_meta.atendimento_id,
+        atend_meta.name,
+        atend_meta.value
+    FROM
+        atend_meta
+    UNION ALL
+    SELECT
+        historico_atend_meta.atendimento_id,
+        historico_atend_meta.name,
+        historico_atend_meta.value
+    FROM
         historico_atend_meta;
 
 
-CREATE VIEW view_historico_atendimentos 
+CREATE VIEW view_historico_atendimentos
 AS
-    SELECT 
-        atendimentos.id, 
-        atendimentos.unidade_id, 
-        atendimentos.usuario_id, 
-        atendimentos.usuario_tri_id, 
-        atendimentos.servico_id, 
-        atendimentos.prioridade_id, 
-        atendimentos.atendimento_id, 
-        atendimentos.status, 
-        atendimentos.sigla_senha, 
-        atendimentos.num_senha, 
-        atendimentos.num_senha_serv, 
-        atendimentos.nm_cli, 
-        atendimentos.num_local, 
-        atendimentos.dt_cheg, 
-        atendimentos.dt_cha, 
-        atendimentos.dt_ini, 
-        atendimentos.dt_fim, 
-        atendimentos.ident_cli 
-    FROM 
-        atendimentos 
-    UNION ALL 
-    SELECT 
-        historico_atendimentos.id, 
-        historico_atendimentos.unidade_id, 
-        historico_atendimentos.usuario_id, 
-        historico_atendimentos.usuario_tri_id, 
-        historico_atendimentos.servico_id, 
-        historico_atendimentos.prioridade_id, 
-        historico_atendimentos.atendimento_id, 
-        historico_atendimentos.status, 
-        historico_atendimentos.sigla_senha, 
-        historico_atendimentos.num_senha, 
-        historico_atendimentos.num_senha_serv, 
-        historico_atendimentos.nm_cli, 
-        historico_atendimentos.num_local, 
-        historico_atendimentos.dt_cheg, 
-        historico_atendimentos.dt_cha, 
-        historico_atendimentos.dt_ini, 
-        historico_atendimentos.dt_fim, 
-        historico_atendimentos.ident_cli 
-    FROM 
+    SELECT
+        atendimentos.id,
+        atendimentos.unidade_id,
+        atendimentos.usuario_id,
+        atendimentos.usuario_tri_id,
+        atendimentos.servico_id,
+        atendimentos.prioridade_id,
+        atendimentos.atendimento_id,
+        atendimentos.status,
+        atendimentos.sigla_senha,
+        atendimentos.num_senha,
+        atendimentos.num_senha_serv,
+        atendimentos.nm_cli,
+        atendimentos.num_local,
+        atendimentos.dt_cheg,
+        atendimentos.dt_cha,
+        atendimentos.dt_ini,
+        atendimentos.dt_fim,
+        atendimentos.ident_cli
+    FROM
+        atendimentos
+    UNION ALL
+    SELECT
+        historico_atendimentos.id,
+        historico_atendimentos.unidade_id,
+        historico_atendimentos.usuario_id,
+        historico_atendimentos.usuario_tri_id,
+        historico_atendimentos.servico_id,
+        historico_atendimentos.prioridade_id,
+        historico_atendimentos.atendimento_id,
+        historico_atendimentos.status,
+        historico_atendimentos.sigla_senha,
+        historico_atendimentos.num_senha,
+        historico_atendimentos.num_senha_serv,
+        historico_atendimentos.nm_cli,
+        historico_atendimentos.num_local,
+        historico_atendimentos.dt_cheg,
+        historico_atendimentos.dt_cha,
+        historico_atendimentos.dt_ini,
+        historico_atendimentos.dt_fim,
+        historico_atendimentos.ident_cli
+    FROM
         historico_atendimentos;
 

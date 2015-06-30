@@ -709,6 +709,30 @@ var SGA = {
             }
         }
 
+    },
+    
+    Websocket: {
+        
+        connect: function(props) {
+            props = props || {};
+            var conn,
+                host = props.host, 
+                port = props.port || 8080
+            ;
+            if (!host) {
+                var a = document.createElement('a');
+                a.href = SGA.baseUrl;
+                host = a.hostname;
+            }
+             
+            conn = new WebSocket('ws://' + host + ':' + port);
+            conn.onopen = props.open;
+            conn.onmessage = props.message;
+            conn.onerror = props.error;
+            
+            return conn;
+        }
+        
     }
     
 }

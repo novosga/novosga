@@ -1,7 +1,8 @@
-/vendor/
-/composer.lock
-/nbproject/
-/config/
-/cache/
-/modules/*
-!/modules/sga/
+vendor/
+composer.lock
+composer.phar
+nbproject/
+config/
+var/
+modules/*
+!modules/sga/
