@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\sga\triagem;
 
 use Exception;
@@ -11,14 +12,14 @@ use Novosga\Model\Unidade;
 use Novosga\Service\ServicoService;
 
 /**
- * TriagemController
+ * TriagemController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class TriagemController extends ModuleController {
-
-    
-    public function index(Context $context) {
+class TriagemController extends ModuleController
+{
+    public function index(Context $context)
+    {
         $unidade = $context->getUser()->getUnidade();
         $this->app()->view()->set('unidade', $unidade);
         if ($unidade) {
@@ -26,20 +27,25 @@ class TriagemController extends ModuleController {
         }
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Prioridade e WHERE e.status = 1 AND e.peso > 0 ORDER BY e.nome");
         $this->app()->view()->set('prioridades', $query->getResult());
-    } 
-    
-    private function servicos(Unidade $unidade) {
-        $service = new ServicoService($this->em());
-        return $service->servicosUnidade($unidade, "e.status = 1");
     }
-    
-    public function imprimir(Context $context) {
+
+    private function servicos(Unidade $unidade)
+    {
+        $service = new ServicoService($this->em());
+
+        return $service->servicosUnidade($unidade, 'e.status = 1');
+    }
+
+    public function imprimir(Context $context)
+    {
         $id = (int) $context->request()->get('id');
         $ctrl = new \Novosga\Controller\TicketController($this->app());
+
         return $ctrl->printTicket($ctrl->getAtendimento($id));
     }
-    
-    public function ajax_update(Context $context) {
+
+    public function ajax_update(Context $context)
+    {
         $response = new JsonResponse();
         $unidade = $context->getUnidade();
         if ($unidade) {
@@ -48,50 +54,50 @@ class TriagemController extends ModuleController {
             $senhas = array();
             if (sizeof($ids)) {
                 $dql = "
-                    SELECT 
-                        s.id, COUNT(e) as total 
-                    FROM 
+                    SELECT
+                        s.id, COUNT(e) as total
+                    FROM
                         Novosga\Model\Atendimento e
                         JOIN e.servico s
-                    WHERE 
-                        e.unidade = :unidade AND 
+                    WHERE
+                        e.unidade = :unidade AND
                         e.servico IN (:servicos)
                 ";
                 // total senhas do servico (qualquer status)
                 $rs = $this->em()
-                        ->createQuery($dql . " GROUP BY s.id")
+                        ->createQuery($dql.' GROUP BY s.id')
                         ->setParameter('unidade', $unidade)
                         ->setParameter('servicos', $ids)
                         ->getArrayResult();
-                ;
                 foreach ($rs as $r) {
                     $senhas[$r['id']] = array('total' => $r['total'], 'fila' => 0);
                 }
                 // total senhas esperando
                 $rs = $this->em()
-                        ->createQuery($dql . " AND e.status = :status GROUP BY s.id")
+                        ->createQuery($dql.' AND e.status = :status GROUP BY s.id')
                         ->setParameter('unidade', $unidade)
                         ->setParameter('servicos', $ids)
                         ->setParameter('status', AtendimentoService::SENHA_EMITIDA)
                         ->getArrayResult();
-                ;
                 foreach ($rs as $r) {
                     $senhas[$r['id']]['fila'] = $r['total'];
                 }
-                
+
                 $service = new AtendimentoService($this->em());
-                
+
                 $response->success = true;
                 $response->data = array(
                     'ultima' => $service->ultimaSenhaUnidade($unidade),
-                    'servicos' => $senhas
+                    'servicos' => $senhas,
                 );
             }
         }
+
         return $response;
     }
-    
-    public function servico_info(Context $context) {
+
+    public function servico_info(Context $context)
+    {
         $response = new JsonResponse();
         $id = (int) $context->request()->get('id');
         try {
@@ -101,7 +107,7 @@ class TriagemController extends ModuleController {
             }
             $response->data['nome'] = $servico->getNome();
             $response->data['descricao'] = $servico->getDescricao();
-            
+
             // ultima senha
             $service = new AtendimentoService($this->em());
             $atendimento = $service->ultimaSenhaServico($context->getUnidade(), $servico);
@@ -124,10 +130,12 @@ class TriagemController extends ModuleController {
         } catch (Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-    
-    public function distribui_senha(Context $context) {
+
+    public function distribui_senha(Context $context)
+    {
         $response = new JsonResponse();
         $unidade = $context->getUnidade();
         $usuario = $context->getUser();
@@ -143,14 +151,17 @@ class TriagemController extends ModuleController {
             $response->message = $e->getMessage();
             $response->success = false;
         }
+
         return $response;
     }
-    
+
     /**
-     * Busca os atendimentos a partir do número da senha
+     * Busca os atendimentos a partir do número da senha.
+     *
      * @param Context $context
      */
-    public function consulta_senha(Context $context) {
+    public function consulta_senha(Context $context)
+    {
         $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
@@ -162,10 +173,10 @@ class TriagemController extends ModuleController {
                 $response->data['atendimentos'][] = $atendimento->jsonSerialize();
             }
             $response->success = true;
-        } else{
+        } else {
             $response->message = _('Nenhuma unidade selecionada');
         }
+
         return $response;
     }
-    
 }

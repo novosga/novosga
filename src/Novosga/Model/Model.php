@@ -1,25 +1,27 @@
 <?php
+
 namespace Novosga\Model;
 
 /**
- * Modelo abstrato
- * 
+ * Modelo abstrato.
+ *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class Model {
-
+abstract class Model
+{
     /**
      * @return String
      */
-    public function toString() {
+    public function toString()
+    {
         return get_class($this);
     }
 
     /**
      * @return String
      */
-    public function __tostring() {
+    public function __tostring()
+    {
         return $this->toString();
     }
-    
 }

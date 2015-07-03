@@ -1,31 +1,33 @@
 <?php
+
 namespace Novosga\Api;
 
 use Novosga\Security;
 use OAuth2\Storage\Pdo;
 
 /**
- * OAuth2Storage
+ * OAuth2Storage.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class OAuth2Storage extends Pdo {
-    
+class OAuth2Storage extends Pdo
+{
     private $em;
-    
-    public function __construct(\Doctrine\ORM\EntityManager $em, $config = array()) {
+
+    public function __construct(\Doctrine\ORM\EntityManager $em, $config = array())
+    {
         $conn = $em->getConnection()->getWrappedConnection();
         parent::__construct($conn, $config);
         $tableName = $em->getClassMetadata('Novosga\Model\OAuthClient')->getTableName();
         $this->config['client_table'] = $tableName;
         $this->em = $em;
     }
-    
+
     protected function checkPassword($user, $password)
     {
         return $user['senha'] == Security::passEncode($password);
     }
-    
+
     public function getUser($username)
     {
         $query = $this->em->createQuery('SELECT e FROM Novosga\Model\Usuario e WHERE e.login = :username');
@@ -43,5 +45,4 @@ class OAuth2Storage extends Pdo {
     public function setUser($username, $password, $firstName = null, $lastName = null)
     {
     }
-    
 }

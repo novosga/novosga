@@ -30,13 +30,13 @@
         </div>
     </div>
 </div>
-            
+
 <div id="triagem-servicos" class="row">
     {% for servicoUnidade in servicos %}
     <div id="triagem-servico-{{ servicoUnidade.servico.id }}" data-id="{{ servicoUnidade.servico.id }}" class="triagem-servico col-md-6">
         <div>
             <span class="text">
-                <a href="javascript:void(0)" 
+                <a href="javascript:void(0)"
                    title="{{ servicoUnidade.sigla }} - {{ servicoUnidade.servico.nome }}"
                    onclick="SGA.Triagem.servicoInfo({{ servicoUnidade.servico.id }}, '{{ servicoUnidade.servico.nome }}')">
                     {{ servicoUnidade.sigla }} - {{ servicoUnidade.servico.nome }}
@@ -52,16 +52,16 @@
                 </span>
             </span>
             <span class="buttons">
-                <button class="btn btn-primary" 
-                        data-id="{{ servicoUnidade.servico.id }}" 
-                        title="{% trans %}Distribuir senha normal{% endtrans %}" 
+                <button class="btn btn-primary"
+                        data-id="{{ servicoUnidade.servico.id }}"
+                        title="{% trans %}Distribuir senha normal{% endtrans %}"
                         onclick="SGA.Triagem.senhaNormal(this)">
                     {% trans %}Normal{% endtrans %}
                 </button>
                 {% if prioridades|length %}
-                    <button class="btn btn-danger" 
-                            data-id="{{ servicoUnidade.servico.id }}" 
-                            title="{% trans %}Distribuir senha com prioridade{% endtrans %}" 
+                    <button class="btn btn-danger"
+                            data-id="{{ servicoUnidade.servico.id }}"
+                            title="{% trans %}Distribuir senha com prioridade{% endtrans %}"
                             onclick="SGA.Triagem.prioridade(this)">
                         {% trans %}Prioridade{% endtrans %}
                     </button>
@@ -192,7 +192,7 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" 
+                <button type="button" class="btn btn-primary"
                         onclick="SGA.Triagem.senhaPrioridade(this, function() { $('#dialog-prioridade').modal('hide'); });">
                     {% trans %}Gerar prioridade{% endtrans %}
                 </button>

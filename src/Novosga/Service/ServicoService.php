@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Service;
 
 use Novosga\Model\Servico;
@@ -9,89 +10,103 @@ use Novosga\Model\Util\UsuarioSessao;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * ServicoService
+ * ServicoService.
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class ServicoService extends MetaModelService 
+class ServicoService extends MetaModelService
 {
-    
-    protected function getMetaClass() {
+    protected function getMetaClass()
+    {
         return 'Novosga\Model\ServicoMeta';
     }
 
-    protected function getMetaFieldname() {
+    protected function getMetaFieldname()
+    {
         return 'servico';
     }
-    
+
     /**
      * Cria ou retorna um metadado do serviço caso o $value seja null (ou ocultado).
+     *
      * @param Servico $servico
-     * @param string $name
-     * @param string $value
+     * @param string  $name
+     * @param string  $value
+     *
      * @return \Novosga\Model\ServicoMeta
      */
-    public function meta(Servico $servico, $name, $value = null) {
+    public function meta(Servico $servico, $name, $value = null)
+    {
         return $this->modelMetadata($servico, $name, $value);
     }
 
-    
     /**
-     * Retorna todos os serviços disponíveis
+     * Retorna todos os serviços disponíveis.
+     *
      * @return ArrayCollection
      */
-    public function servicos() {
+    public function servicos()
+    {
         // servicos globais
         return $this->em->createQuery('
-                SELECT 
+                SELECT
                     e.id, e.nome
                 FROM
                     Novosga\Model\Servico e
-                ORDER BY 
+                ORDER BY
                     e.nome ASC
             ')->getResult();
     }
-    
+
     /**
-     * Retorna a lista de serviços ativos
-     * @param Usuario|UsuarioSessao|integer $usuario
-     * @param Unidade|integer $unidade
-     * @param string $where
+     * Retorna a lista de serviços ativos.
+     *
+     * @param Usuario|UsuarioSessao|int $usuario
+     * @param Unidade|int               $unidade
+     * @param string                    $where
+     *
      * @return ArrayCollection
      */
-    public function servicosUnidade($unidade, $where = '') {
+    public function servicosUnidade($unidade, $where = '')
+    {
         $dql = "SELECT e FROM Novosga\Model\ServicoUnidade e JOIN e.servico s WHERE e.unidade = :unidade ";
         if (!empty($where)) {
             $dql .= " AND $where";
         }
-        $dql .= " ORDER BY s.nome";
+        $dql .= ' ORDER BY s.nome';
+
         return $this->em
                 ->createQuery($dql)
                 ->setParameter('unidade', $unidade)
                 ->getResult();
     }
-    
+
     /**
-     * Retorna o relacionamento entre o serviço e a unidade
-     * @param Unidade|integer $unidade
-     * @param Servico|integer $servico
+     * Retorna o relacionamento entre o serviço e a unidade.
+     *
+     * @param Unidade|int $unidade
+     * @param Servico|int $servico
+     *
      * @return \Novosga\Model\ServicoUnidade
      */
-    public function servicoUnidade($unidade, $servico) {
+    public function servicoUnidade($unidade, $servico)
+    {
         return $this->em
                 ->createQuery('SELECT e FROM Novosga\Model\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade')
                 ->setParameter('servico', $servico)
                 ->setParameter('unidade', $unidade)
                 ->getOneOrNullResult();
     }
-    
+
     /**
-     * Atualiza a unidade com serviços ainda não liberados
+     * Atualiza a unidade com serviços ainda não liberados.
+     *
      * @param Unidade|interger $unidade
-     * @param Local|integer $local
-     * @param string $sigla
+     * @param Local|int        $local
+     * @param string           $sigla
      */
-    public function updateUnidade($unidade, $local, $sigla) {
+    public function updateUnidade($unidade, $local, $sigla)
+    {
         if ($unidade instanceof Unidade) {
             $unidade = $unidade->getId();
         }
@@ -106,58 +121,64 @@ class ServicoService extends MetaModelService
         $conn->executeUpdate("
             INSERT INTO $uniServTableName
                 (unidade_id, servico_id, local_id, sigla, status, peso)
-            SELECT 
-                :unidade, id, :local, :sigla, 0, peso 
-            FROM 
-                $servTableName 
-            WHERE 
+            SELECT
+                :unidade, id, :local, :sigla, 0, peso
+            FROM
+                $servTableName
+            WHERE
                 macro_id IS NULL AND
                 id NOT IN (SELECT servico_id FROM $uniServTableName WHERE unidade_id = :unidade)
         ", array(
-            'unidade' => $unidade, 
+            'unidade' => $unidade,
             'local' => $local,
-            'sigla' => $sigla
+            'sigla' => $sigla,
         ));
     }
-    
+
     /**
-     * Retorna os servicos do usuario na unidade
-     * @param Unidade|integer $unidade
-     * @param Usuario|integer $usuario
+     * Retorna os servicos do usuario na unidade.
+     *
+     * @param Unidade|int $unidade
+     * @param Usuario|int $usuario
+     *
      * @return ArrayCollection
      */
-    public function servicosUsuario($unidade, $usuario) {
+    public function servicosUsuario($unidade, $usuario)
+    {
         return $this->em->createQuery("
-                SELECT 
-                    e 
-                FROM 
-                    Novosga\Model\ServicoUsuario e 
-                    JOIN 
-                        e.servico s 
-                WHERE 
-                    e.usuario = :usuario AND 
-                    e.unidade = :unidade AND 
+                SELECT
+                    e
+                FROM
+                    Novosga\Model\ServicoUsuario e
+                    JOIN
+                        e.servico s
+                WHERE
+                    e.usuario = :usuario AND
+                    e.unidade = :unidade AND
                     s.status = 1
             ")
                 ->setParameter('usuario', $usuario)
                 ->setParameter('unidade', $unidade)
                 ->getResult();
     }
-    
+
     /**
-     * Retorna os servicos que o usuario nao atende na unidade atual
-     * @param Unidade|integer $unidade
-     * @param Usuario|integer $usuario
+     * Retorna os servicos que o usuario nao atende na unidade atual.
+     *
+     * @param Unidade|int $unidade
+     * @param Usuario|int $usuario
+     *
      * @return ArrayCollection
      */
-    public function servicosIndisponiveis($unidade, $usuario) {
+    public function servicosIndisponiveis($unidade, $usuario)
+    {
         return $this->em->createQuery("
-                SELECT 
-                    e 
-                FROM 
+                SELECT
+                    e
+                FROM
                     Novosga\Model\ServicoUnidade e
                     JOIN e.servico s
-                WHERE 
+                WHERE
                     e.status = 1 AND
                     e.unidade = :unidade AND
                     s.id NOT IN (
@@ -169,5 +190,4 @@ class ServicoService extends MetaModelService
                 ->getResult()
                 ;
     }
-    
 }

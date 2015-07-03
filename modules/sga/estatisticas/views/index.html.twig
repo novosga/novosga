@@ -4,7 +4,7 @@
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ resources('css/datepicker3.css', module.chave) }}" />
 {% endblock %}
-    
+
 {% block moduleContent %}
 <div>
     <ul class="nav nav-tabs">
@@ -25,7 +25,7 @@
                     <div id="atendimentos-servicos-{{ unidade.id }}" class="chart pie atendimentos status">
                         <span class="loading">{% trans %}Atendimentos por serviço{% endtrans %}</span>
                     </div>
-                    <script type="text/javascript"> 
+                    <script type="text/javascript">
                         SGA.Estatisticas.Grafico.today({{ unidade.id }}, {
                             status: "{% trans %}Atendimentos por situação{% endtrans %}",
                             servicos: "{% trans %}Atendimentos por serviço{% endtrans %}"
@@ -111,7 +111,7 @@
     <script type="text/javascript" src="{{ resources('js/highcharts.exporting.js', module.chave) }}"></script>
     <script type="text/javascript" src="{{ resources('js/bootstrap-datepicker.js', module.chave) }}"></script>
     <script type="text/javascript" src="{{ resources('js/bootstrap-datepicker.pt-BR.js', module.chave) }}"></script>
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         // unidades
         SGA.Estatisticas.unidades = {% autoescape false %}{{ unidadesJson }}{% endautoescape %};
         // tab graficos

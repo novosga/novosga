@@ -1,40 +1,46 @@
 <?php
+
 namespace Novosga\Util;
 
 /**
- * Internationalization
+ * Internationalization.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class I18n {
-    
+class I18n
+{
     const DEFAULT_LANG = 'pt';
     const DEFAULT_LOCALE = 'pt_BR';
     const DEFAULT_DOMAIN = 'default';
-    
+
     private static $lang;
     private static $locale;
     private static $availableLocales = array(
         'pt' => array('pt_BR', 'pt_PT'),
         'en' => array('en_US'),
-        'es' => array('es_ES')
+        'es' => array('es_ES'),
     );
-    
-    public static function lang() {
+
+    public static function lang()
+    {
         if (!self::$lang) {
             self::load();
         }
+
         return self::$lang;
     }
-    
-    public static function locale() {
+
+    public static function locale()
+    {
         if (!self::$locale) {
             self::load();
         }
+
         return self::$locale;
     }
-    
-    private static function load() {
+
+    private static function load()
+    {
         self::$lang = self::DEFAULT_LANG;
         self::$locale = self::DEFAULT_LOCALE;
         $langs = self::acceptLanguage();
@@ -43,7 +49,7 @@ class I18n {
             // se o locale esta disponivel
             if (isset(self::$availableLocales[$lang[0]])) {
                 $locales = self::$availableLocales[$lang[0]];
-                $l = $lang[0] . '_' . strtoupper(sizeof($lang) > 1 ? $lang[1] : $lang[0]);
+                $l = $lang[0].'_'.strtoupper(sizeof($lang) > 1 ? $lang[1] : $lang[0]);
                 // se nao existir o idioma da regiao, pega o primeiro
                 self::$locale = (in_array($l, $locales)) ? $l : $locales[0];
                 self::$lang = $lang[0];
@@ -51,8 +57,9 @@ class I18n {
             }
         }
     }
-    
-    private static function acceptLanguage() {
+
+    private static function acceptLanguage()
+    {
         $langs = array();
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);
@@ -66,11 +73,13 @@ class I18n {
                 arsort($langs, SORT_NUMERIC);
             }
         }
+
         return $langs;
     }
-    
-    public static function bind() {
-        $locale = self::locale() . ".utf8";
+
+    public static function bind()
+    {
+        $locale = self::locale().'.utf8';
         if (defined('LC_MESSAGES')) {
             setlocale(LC_MESSAGES, $locale);
         }
@@ -84,10 +93,10 @@ class I18n {
         textdomain(self::DEFAULT_DOMAIN);
         self::bindDomain(self::DEFAULT_DOMAIN, NOVOSGA_LOCALE_DIR);
     }
-    
-    public static function bindDomain($domain, $directory) {
+
+    public static function bindDomain($domain, $directory)
+    {
         bindtextdomain($domain, $directory);
-        bind_textdomain_codeset($domain, "UTF-8");
+        bind_textdomain_codeset($domain, 'UTF-8');
     }
-    
 }

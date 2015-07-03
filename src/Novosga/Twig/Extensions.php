@@ -1,14 +1,14 @@
 <?php
+
 namespace Novosga\Twig;
 
 /**
- * Resources Twig filter
+ * Resources Twig filter.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Extensions extends \Twig_Extension
 {
-    
     public function getName()
     {
         return 'novosga';
@@ -17,14 +17,14 @@ class Extensions extends \Twig_Extension
     public function getFunctions()
     {
         return array(
-            new ResourcesFunction()
+            new ResourcesFunction(),
         );
     }
 
-    public function getFilters() {
+    public function getFilters()
+    {
         return array(
-            new SecFormat()
+            new SecFormat(),
         );
     }
-
 }

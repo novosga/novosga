@@ -1,39 +1,45 @@
 <?php
+
 namespace Novosga\Model\Util;
 
 use Novosga\Model\Model;
 
 /**
- * Classe auxiliar
- * 
+ * Classe auxiliar.
+ *
  * @author rogerio
  */
-class Cliente extends Model {
-
+class Cliente extends Model
+{
     private $nome;
     private $documento;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
     }
 
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
 
-    public function getNome() {
+    public function getNome()
+    {
         return $this->nome;
     }
-	
-    public function setDocumento($documento) {
+
+    public function setDocumento($documento)
+    {
         $this->documento = $documento;
     }
 
-    public function getDocumento() {
+    public function getDocumento()
+    {
         return $this->documento;
     }
 
-    public function toString() {
+    public function toString()
+    {
         return $this->getNome();
     }
-
 }

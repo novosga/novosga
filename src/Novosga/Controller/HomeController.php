@@ -1,23 +1,24 @@
 <?php
+
 namespace Novosga\Controller;
 
 use Novosga\Context;
-use Novosga\Controller\AppController;
 use Novosga\Security;
 use Novosga\Http\JsonResponse;
 
 /**
- * HomeController
- * 
- * @author Rogerio Lino <rogeriolino@gmail.com>
+ * HomeController.
  *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class HomeController extends AppController {
-    
-    public function index(Context $context) {
+class HomeController extends AppController
+{
+    public function index(Context $context)
+    {
     }
-    
-    public function unidade(Context $context) {
+
+    public function unidade(Context $context)
+    {
         $response = new JsonResponse();
         $id = (int) $context->request()->post('unidade');
         try {
@@ -32,10 +33,12 @@ class HomeController extends AppController {
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-    
-    public function perfil(Context $context) {
+
+    public function perfil(Context $context)
+    {
         $usuario = $context->getUser();
         $salvo = false;
         // se editando
@@ -46,11 +49,11 @@ class HomeController extends AppController {
             $context->setUser($usuario);
             // atualizando banco
             $query = $context->database()->createEntityManager()->createQuery("
-                UPDATE 
-                    Novosga\Model\Usuario e 
-                SET 
-                    e.nome = :nome, e.sobrenome = :sobrenome 
-                WHERE 
+                UPDATE
+                    Novosga\Model\Usuario e
+                SET
+                    e.nome = :nome, e.sobrenome = :sobrenome
+                WHERE
                     e.id = :id
             ");
             $query->setParameter('id', $usuario->getId());
@@ -62,8 +65,9 @@ class HomeController extends AppController {
         $this->app()->view()->set('salvo', $salvo);
         $this->app()->view()->set('usuario', $usuario);
     }
-    
-    public function alterar_senha(Context $context) {
+
+    public function alterar_senha(Context $context)
+    {
         $response = new JsonResponse();
         $usuario = $context->getUser();
         try {
@@ -91,15 +95,17 @@ class HomeController extends AppController {
         } catch (\Exception $e) {
             $response->message = $e->getMessage();
         }
+
         return $response;
     }
-    
-    public function desativar_sessao(Context $context) {
+
+    public function desativar_sessao(Context $context)
+    {
         $response = new JsonResponse(true);
         $usuario = $context->getUser();
         $usuario->setAtivo(false);
         $context->setUser($usuario);
+
         return $response;
     }
-    
 }

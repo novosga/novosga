@@ -1,15 +1,15 @@
 <?php
+
 namespace Novosga\Model;
 
 /**
- * ViewAtendimentoMeta
+ * ViewAtendimentoMeta.
  *
  * @Entity
  * @Table(name="view_historico_atend_meta")
  */
 class ViewAtendimentoMeta extends AbstractAtendimentoMeta
 {
-
     /**
      * @Id
      * @ManyToOne(targetEntity="ViewAtendimento")
@@ -17,13 +17,15 @@ class ViewAtendimentoMeta extends AbstractAtendimentoMeta
      */
     protected $atendimento;
 
-    public function getAtendimento() {
+    public function getAtendimento()
+    {
         return $this->atendimento;
     }
 
-    public function setAtendimento(AbstractAtendimento $atendimento) {
+    public function setAtendimento(AbstractAtendimento $atendimento)
+    {
         $this->atendimento = $atendimento;
+
         return $this;
     }
-
 }

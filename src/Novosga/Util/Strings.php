@@ -1,41 +1,48 @@
 <?php
+
 namespace Novosga\Util;
 
 /**
- * Strings Utils
+ * Strings Utils.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class Strings {
-    
+class Strings
+{
     const REGEX_PARAMS = '/{([A-z0-9}]*)}/';
-    
-    public static function getParameters($str) {
+
+    public static function getParameters($str)
+    {
         $matchs = array();
         preg_match_all(self::REGEX_PARAMS, $str, $matchs);
+
         return $matchs;
     }
-    
-    public static function format($str, array $args = array()) {
+
+    public static function format($str, array $args = array())
+    {
         foreach ($args as $k => $v) {
-            $str = str_replace('{' . $k . '}', $v, $str);
+            $str = str_replace('{'.$k.'}', $v, $str);
         }
+
         return $str;
     }
-    
-    public static function doubleQuoteSlash($str) {
+
+    public static function doubleQuoteSlash($str)
+    {
         return str_replace('"', '\"', $str);
     }
-    
-    public static function sqlLikeParam($str, $leftWildcard = true, $rightWildcard = true) {
-        $str = join("%", explode(" ", trim($str)));
+
+    public static function sqlLikeParam($str, $leftWildcard = true, $rightWildcard = true)
+    {
+        $str = implode('%', explode(' ', trim($str)));
         if ($leftWildcard) {
             $str = "%{$str}";
         }
         if ($rightWildcard) {
             $str = "{$str}%";
         }
+
         return $str;
     }
-    
 }

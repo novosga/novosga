@@ -1,4 +1,5 @@
 <?php
+
 namespace modules\sga\unidades;
 
 use Novosga\Context;
@@ -8,23 +9,26 @@ use Novosga\Model\Contador;
 use Novosga\Controller\CrudController;
 
 /**
- * UnidadesController
+ * UnidadesController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class UnidadesController extends CrudController {
-
+class UnidadesController extends CrudController
+{
     private $isNew = false;
 
-    protected function createModel() {
+    protected function createModel()
+    {
         return new Unidade();
     }
 
-    protected function requiredFields() {
+    protected function requiredFields()
+    {
         return array('codigo', 'nome', 'status');
     }
 
-    protected function preSave(Context $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model)
+    {
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\Unidade e WHERE e.codigo = :codigo AND e.id != :id");
         $query->setParameter('codigo', $model->getCodigo());
         $query->setParameter('id', $model->getId());
@@ -37,9 +41,9 @@ class UnidadesController extends CrudController {
         if (!$grupo || !$grupo->isLeaf()) {
             throw new \Exception(_('Grupo inválido'));
         }
-        
+
         $this->isNew = !$model->getId();
-        
+
         if ($this->isNew) {
             $model->setStatusImpressao(1);
             $model->setMensagemImpressao('Novo SGA');
@@ -47,7 +51,8 @@ class UnidadesController extends CrudController {
         $model->setGrupo($grupo);
     }
 
-    protected function postSave(Context $context, SequencialModel $model) {
+    protected function postSave(Context $context, SequencialModel $model)
+    {
         if ($this->isNew) {
             $contador = new Contador();
             $contador->setUnidade($model);
@@ -58,29 +63,34 @@ class UnidadesController extends CrudController {
         $this->isNew = false;
     }
 
-    protected function search($arg) {
+    protected function search($arg)
+    {
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e JOIN e.grupo g WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.codigo) LIKE :arg");
         $query->setParameter('arg', $arg);
+
         return $query;
     }
-    
-    public function edit(Context $context, $id = 0) {
+
+    public function edit(Context $context, $id = 0)
+    {
         parent::edit($context, $id);
         $this->app()->view()->set('grupos', $this->getGruposFolhasDisponiveis($this->model));
     }
-    
+
     /**
-     * Retorna os grupos folhas que ainda não foram relacionados àlguma unidade
+     * Retorna os grupos folhas que ainda não foram relacionados àlguma unidade.
+     *
      * @param Novosga\Model\Unidade $atual
      */
-    private function getGruposFolhasDisponiveis(Unidade $atual = null) {
+    private function getGruposFolhasDisponiveis(Unidade $atual = null)
+    {
         // grupos disponíveis
         $query = $this->em()->createQuery("
-            SELECT 
-                e 
-            FROM 
-                Novosga\Model\Grupo e 
-            WHERE 
+            SELECT
+                e
+            FROM
+                Novosga\Model\Grupo e
+            WHERE
                 e.right = e.left + 1 AND
                 e NOT IN (
                     SELECT g FROM Novosga\Model\Unidade u JOIN u.grupo g WHERE u.id != :id
@@ -89,18 +99,22 @@ class UnidadesController extends CrudController {
         // se estiver editando, deve trazer o grupo da unidade atual tambem
         $id = ($atual ? $atual->getId() : 0);
         $query->setParameter('id', $id);
+
         return $query->getResult();
     }
-    
+
     /**
-     * Remove a unidade caso a mesma não possua atendimento. Se possuir uma 
+     * Remove a unidade caso a mesma não possua atendimento. Se possuir uma
      * exceção será lançada.
-     * @param Novosga\Context $context
+     *
+     * @param Novosga\Context               $context
      * @param Novosga\Model\SequencialModel $model
+     *
      * @throws \Exception
      * @throws \modules\sga\unidades\Exception
      */
-    protected function doDelete(Context $context, SequencialModel $model) {
+    protected function doDelete(Context $context, SequencialModel $model)
+    {
         // verificando se ja tem atendimentos
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\ViewAtendimento e WHERE e.unidade = :unidade");
         $query->setParameter('unidade', $model->getId());
@@ -123,5 +137,4 @@ class UnidadesController extends CrudController {
             throw $e;
         }
     }
-    
 }

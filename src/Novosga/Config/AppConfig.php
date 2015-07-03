@@ -1,42 +1,50 @@
 <?php
+
 namespace Novosga\Config;
 
 /**
- * App configuration file
- * 
+ * App configuration file.
+ *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AppConfig extends ConfigFile {
-    
+class AppConfig extends ConfigFile
+{
     private static $instance;
-    
+
     /**
      * @param array $prop
+     *
      * @return AppConfig
      */
-    public static function getInstance($prop = null) {
+    public static function getInstance($prop = null)
+    {
         if (!self::$instance) {
-            self::$instance = new AppConfig($prop);
+            self::$instance = new self($prop);
         }
+
         return self::$instance;
     }
 
-
-    public function name() {
+    public function name()
+    {
         return 'app.php';
     }
-    
-    public function hooks() {
+
+    public function hooks()
+    {
         return \Novosga\Util\Arrays::value($this->values(), 'hooks', array());
     }
-    
+
     /**
-     * Invoke a app hook
+     * Invoke a app hook.
+     *
      * @param string $name
-     * @param array $args
+     * @param array  $args
+     *
      * @return AppConfig
      */
-    public function hook($name, $args) {
+    public function hook($name, $args)
+    {
         $hook = \Novosga\Util\Arrays::value($this->hooks(), $name);
         if (is_callable($hook)) {
             if (!is_array($args)) {
@@ -44,7 +52,7 @@ class AppConfig extends ConfigFile {
             }
             call_user_func_array($hook, $args);
         }
+
         return $this;
     }
-
 }

@@ -1,71 +1,75 @@
 <?php
-namespace Novosga\Model;
 
-use Novosga\Model\TreeModel;
-use Novosga\Model\Unidade;
+namespace Novosga\Model;
 
 /**
  * Classe Grupo
- * Atraves do grupo e definido o acesso do Usuario
- * 
+ * Atraves do grupo e definido o acesso do Usuario.
+ *
  * @Entity
  * @Table(name="grupos")
  */
-class Grupo extends TreeModel {
-
-    /** 
-     * @Column(type="string", name="nome", length=50, nullable=false) 
+class Grupo extends TreeModel
+{
+    /**
+     * @Column(type="string", name="nome", length=50, nullable=false)
      */
     protected $nome;
-    
-    /** 
-     * @Column(type="string", name="descricao", length=150, nullable=false) 
+
+    /**
+     * @Column(type="string", name="descricao", length=150, nullable=false)
      */
     protected $descricao;
-    
-    /** 
-     * @OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY") 
+
+    /**
+     * @OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY")
      */
     protected $unidade;
 
-
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
 
-    public function getNome() {
+    public function getNome()
+    {
         return $this->nome;
     }
-    
-    public function getDescricao() {
+
+    public function getDescricao()
+    {
         return $this->descricao;
     }
 
-    public function setDescricao($descricao) {
+    public function setDescricao($descricao)
+    {
         $this->descricao = $descricao;
     }
-        
-    public function getUnidade() {
+
+    public function getUnidade()
+    {
         return $this->unidade;
     }
 
-    public function setUnidade($unidade) {
+    public function setUnidade($unidade)
+    {
         $this->unidade = $unidade;
     }
 
-    public function toString() {
+    public function toString()
+    {
         return $this->nome;
     }
-    
-    public function jsonSerialize() {
+
+    public function jsonSerialize()
+    {
         return array(
             'id' => $this->getId(),
             'nome' => $this->getNome(),
             'descricao' => $this->getDescricao(),
             'left' => $this->getLeft(),
             'right' => $this->getRight(),
-            'level' => $this->getLevel()
+            'level' => $this->getLevel(),
         );
     }
-    
 }

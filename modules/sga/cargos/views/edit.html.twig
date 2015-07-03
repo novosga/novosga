@@ -35,8 +35,8 @@
                     <ul>
                         {% for modulo in modulos[k] %}
                         <li>
-                            <input id="modulo-{{ modulo.id }}" type="checkbox" 
-                                   name="permissoes[]" value="{{ modulo.id }}" 
+                            <input id="modulo-{{ modulo.id }}" type="checkbox"
+                                   name="permissoes[]" value="{{ modulo.id }}"
                                    {% for permissao in permissoes %}
                                         {% if permissao.modulo.id == modulo.id %}
                                             checked="checked"

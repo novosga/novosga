@@ -45,9 +45,9 @@
                             <p>{{ modulo.descricao }}</p>
                         </div>
                         <div>
-                            <input 
-                                type="checkbox" 
-                                data-on-color="success" 
+                            <input
+                                type="checkbox"
+                                data-on-color="success"
                                 data-off-color="default"
                                 data-on-text="On"
                                 data-off-text="Off"
@@ -137,7 +137,7 @@
             <script>
                 ;(function() {
                     "use strict";
-                    
+
                     var btn = document.getElementById('btn-upload'),
                         wrap = document.getElementById('pic-progress-wrap');
 
@@ -166,7 +166,7 @@
 
                             this.setProgressBar(bar);
                             this.setProgressContainer(prog);
-                            this.setFileSizeBox(size);      
+                            this.setFileSizeBox(size);
                         },
                         startXHR: function() {
                             $('#picbox').text('').hide();

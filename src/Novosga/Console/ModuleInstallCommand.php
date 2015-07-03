@@ -1,4 +1,5 @@
 <?php
+
 namespace Novosga\Console;
 
 use Doctrine\ORM\EntityManager;
@@ -10,20 +11,22 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * ModuleInstallCommand
+ * ModuleInstallCommand.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ModuleInstallCommand extends Command {
-    
+class ModuleInstallCommand extends Command
+{
     private $em;
-    
-    public function __construct(EntityManager $em, $name = null) {
+
+    public function __construct(EntityManager $em, $name = null)
+    {
         parent::__construct($name = null);
         $this->em = $em;
     }
-    
-    protected function configure() {
+
+    protected function configure()
+    {
         $this->setName('module:install')
             ->setDescription('Instala um novo módulo.')
             ->addArgument(
@@ -39,7 +42,8 @@ class ModuleInstallCommand extends Command {
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         try {
             $filename = $input->getArgument('filename');
             $service = new ModuloService($this->em);
@@ -52,10 +56,9 @@ class ModuleInstallCommand extends Command {
             } else {
                 $service->extractAndInstall($filename);
             }
-            $output->writeln("<info>Módulo instalado com sucesso</info>");
+            $output->writeln('<info>Módulo instalado com sucesso</info>');
         } catch (Exception $e) {
             $output->writeln("<error>{$e->getMessage()}</error>");
         }
     }
-    
 }

@@ -1,68 +1,75 @@
 <?php
+
 namespace Novosga\Controller;
 
 use Exception;
 use Novosga\Model\SequencialModel;
-use Novosga\Controller\ModuleController;
 use Novosga\Context;
 use Novosga\Util\Objects;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * CrudController
- * Classe pai para cadastros simples
+ * Classe pai para cadastros simples.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-abstract class CrudController extends ModuleController {
-
+abstract class CrudController extends ModuleController
+{
     /**
      * @var SequencialModel
      */
     protected $model;
-    
+
     /**
-     * Retorna a entidade do controlador ou null caso nao encontre
+     * Retorna a entidade do controlador ou null caso nao encontre.
+     *
      * @return Model
      */
-    protected function findById($id) {
+    protected function findById($id)
+    {
         return $this->em()->find(get_class($this->createModel()), $id);
     }
- 
+
     /**
-     * Retorna uma lista das entidades buscadas pelo controlador
+     * Retorna uma lista das entidades buscadas pelo controlador.
+     *
      * @return \Doctrine\ORM\Query
      */
-    protected abstract function search($arg);
-    
+    abstract protected function search($arg);
+
     /**
-     * Retorna um array com a identificacao (name) dos campos obrigatorios
-     * @return array 
+     * Retorna um array com a identificacao (name) dos campos obrigatorios.
+     *
+     * @return array
      */
-    protected abstract function requiredFields();
-    
+    abstract protected function requiredFields();
+
     /**
-     * Retorna uma nova instancia da entidade
+     * Retorna uma nova instancia da entidade.
+     *
      * @return Model
      */
-    protected abstract function createModel();
-    
+    abstract protected function createModel();
+
     /**
      * Monta a lista das entidades, podendo filtra-las.
+     *
      * @param Novosga\Context $context
      */
-    public function index(Context $context) {
+    public function index(Context $context)
+    {
         $maxResults = 10;
         $page = (int) $context->request()->get('p', 0);
         $search = trim($context->request()->get('s', ''));
-        $query = $this->search("%". strtoupper($search) . "%");
+        $query = $this->search('%'.strtoupper($search).'%');
         $paginator = new Paginator($query, false);
-        
+
         $items = $query
                     ->setMaxResults($maxResults)
                     ->setFirstResult($page * $maxResults)
                     ->getResult();
-        
+
         $total = sizeof($paginator);
         $this->app()->view()->set('search', $search);
         $this->app()->view()->set('items', $items);
@@ -70,13 +77,16 @@ abstract class CrudController extends ModuleController {
         $this->app()->view()->set('page', $page);
         $this->app()->view()->set('pages', ceil($total / $maxResults));
     }
-    
+
     /**
-     * Exibe o formulário de cadastro, tanto novo quanto para alteração
+     * Exibe o formulário de cadastro, tanto novo quanto para alteração.
+     *
      * @param Novosga\Context $context
+     *
      * @throws \Exception
      */
-    public function edit(Context $context, $id = 0) {
+    public function edit(Context $context, $id = 0)
+    {
         $id = (int) $id;
         if ($id > 0) { // editando
             $this->model = $this->findById($id);
@@ -111,7 +121,7 @@ abstract class CrudController extends ModuleController {
                 } else { // criando
                     $this->doSave($context, $this->model);
                     $id = $this->model->getId();
-                    $redirUrl .= '/' . $id;
+                    $redirUrl .= '/'.$id;
                     if ($id > 0) {
                         $message['text'] = _('Novo registro adicionado com sucesso');
                     } else {
@@ -131,12 +141,14 @@ abstract class CrudController extends ModuleController {
         $this->app()->view()->set('id', $id);
         $this->app()->view()->set('model', $this->model);
     }
-    
+
     /**
-     * Insere ou atualiza a entidade no banco
+     * Insere ou atualiza a entidade no banco.
+     *
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function doSave(Context $context, SequencialModel $model) {
+    protected function doSave(Context $context, SequencialModel $model)
+    {
         $this->preSave($context, $model);
         if ($model->getId() > 0) {
             $this->em()->merge($model);
@@ -146,11 +158,16 @@ abstract class CrudController extends ModuleController {
         $this->em()->flush();
         $this->postSave($context, $model);
     }
-    
-    protected function preSave(Context $context, SequencialModel $model) {}
-    protected function postSave(Context $context, SequencialModel $model) {}
-    
-    public function delete(Context $context, $id) {
+
+    protected function preSave(Context $context, SequencialModel $model)
+    {
+    }
+    protected function postSave(Context $context, SequencialModel $model)
+    {
+    }
+
+    public function delete(Context $context, $id)
+    {
         $model = $this->findById($id);
         if ($model) {
             try {
@@ -160,25 +177,31 @@ abstract class CrudController extends ModuleController {
                 try {
                     // se tiver uma transação aberta, dá rollback
                     $this->em()->rollback();
-                } catch (\Exception $e2) {}
+                } catch (\Exception $e2) {
+                }
                 $this->app()->flash('error', $e->getMessage());
             }
         }
         $this->app()->redirect($_SERVER['HTTP_REFERER']);
     }
-    
+
     /**
-     * Remove a entidade do banco
+     * Remove a entidade do banco.
+     *
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function doDelete(Context $context, SequencialModel $model) {
+    protected function doDelete(Context $context, SequencialModel $model)
+    {
         $this->preDelete($context, $model);
         $this->em()->remove($model);
         $this->postDelete($context, $model);
         $this->em()->flush();
     }
-    
-    protected function preDelete(Context $context, SequencialModel $model) {}
-    protected function postDelete(Context $context, SequencialModel $model) {}
-    
+
+    protected function preDelete(Context $context, SequencialModel $model)
+    {
+    }
+    protected function postDelete(Context $context, SequencialModel $model)
+    {
+    }
 }
