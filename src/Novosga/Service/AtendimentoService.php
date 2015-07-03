@@ -330,10 +330,7 @@ class AtendimentoService extends MetaModelService
         $query->setParameter('data', $atendimento->getDataChamada());
         $query->setParameter('id', $atendimento->getId());
         $query->setParameter('statusAtual', AtendimentoService::SENHA_EMITIDA);
-        /* 
-         * caso entre o intervalo do select e o update, o proximo ja tiver sido chamado
-         * a consulta retornara 0, entao tenta pegar o proximo novamente (outro)
-         */
+        
         $success = $query->execute() > 0;
         
         if ($success) {
