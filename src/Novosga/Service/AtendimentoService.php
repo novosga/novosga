@@ -330,33 +330,25 @@ class AtendimentoService extends MetaModelService
     {
         AppConfig::getInstance()->hook('attending.pre-call', array($atendimento, $usuario, $local));
 
-        $atendimento->setUsuario($usuario);
-        $atendimento->setLocal($local);
-        $atendimento->setStatus(self::CHAMADO_PELA_MESA);
-        $atendimento->setDataChamada(new DateTime());
-        // atualiza o proximo da fila
-        $query = $this->em->createQuery("
-            UPDATE
-                Novosga\Model\Atendimento e
-            SET
-                e.usuario = :usuario, e.local = :local, e.status = :novoStatus, e.dataChamada = :data
-            WHERE
-                e.id = :id AND e.status = :statusAtual
-        ");
-        $query->setParameter('usuario', $atendimento->getUsuario()->getId());
-        $query->setParameter('local', $atendimento->getLocal());
-        $query->setParameter('novoStatus', $atendimento->getStatus());
-        $query->setParameter('data', $atendimento->getDataChamada());
-        $query->setParameter('id', $atendimento->getId());
-        $query->setParameter('statusAtual', self::SENHA_EMITIDA);
+        $this->em->getConnection()->beginTransaction();
+        
+        try {
+            $this->em->lock($atendimento, LockMode::PESSIMISTIC_WRITE);
+            
+            $atendimento->setUsuario($usuario);
+            $atendimento->setLocal($local);
+            $atendimento->setStatus(self::CHAMADO_PELA_MESA);
+            $atendimento->setDataChamada(new DateTime());
 
-        $success = $query->execute() > 0;
+            $this->em->merge($atendimento);
+            $this->em->getConnection()->commit();
 
-        if ($success) {
             AppConfig::getInstance()->hook('attending.call', array($atendimento, $usuario));
+        } catch (Exception $e) {
+            $this->em->getConnection()->rollback();
+            return false;
         }
-
-        return $success;
+        return true;
     }
 
     /**
@@ -391,7 +383,7 @@ class AtendimentoService extends MetaModelService
                 ->setParameter('status', $status)
                 ->execute();
 
-            return;
+            return null;
         }
     }
 
@@ -475,14 +467,13 @@ class AtendimentoService extends MetaModelService
 
         AppConfig::getInstance()->hook('attending.pre-create', array($atendimento));
 
+        $this->em->beginTransaction();
+        
         try {
             $attempts = 5;
-            $this->em->beginTransaction();
+            $this->em->lock($contador, LockMode::PESSIMISTIC_WRITE);
             do {
                 try {
-                    // assert version
-                    $this->em->lock($contador, LockMode::PESSIMISTIC_WRITE, $numeroSenha);
-
                     // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
                     try {
                         $numeroSenhaServico = (int) $this->em->createQuery('
@@ -536,10 +527,7 @@ class AtendimentoService extends MetaModelService
 
             return $atendimento;
         } catch (Exception $e) {
-            try {
-                $this->em->rollback();
-            } catch (Exception $ex) {
-            }
+            $this->em->rollback();
             throw $e;
         }
     }

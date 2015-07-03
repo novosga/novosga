@@ -161,7 +161,7 @@ class AtendimentoController extends ModuleController
                             }
                             $context->setUser($usuario);
                         } else {
-                            usleep(50);
+                            usleep(100);
                         }
                         --$attempts;
                     } else {
