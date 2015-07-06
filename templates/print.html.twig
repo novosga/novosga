@@ -8,10 +8,10 @@
     <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/css/print.css?v={{ version }}" />
     <link rel="shortcut icon" href="images/favicon.png" />
 </head>
-<body onload="window.print(); window.close();">
+<body >
     <div id="senha">
         <div id="senha-header">
-            {{ unidade.nome }}<br />
+            {{ atendimento.unidade.nome }}<br />
             <span class="data">{{ now|date('d/m/Y H:i') }}</span>
         </div>
         <div id="senha-body">
@@ -21,7 +21,7 @@
             </span>
         </div>
         <div id="senha-footer">
-            {{ unidade.mensagemImpressao }}
+            {{ atendimento.unidade.mensagemImpressao }}
         </div>
     </div>
 </body>
