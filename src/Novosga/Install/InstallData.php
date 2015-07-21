@@ -41,6 +41,7 @@ class InstallData
         'user' => 'O usuário do Banco de Dados deve ser informado.',
         'password' => 'A senha do Banco de Dados deve ser informado.',
         'dbname' => 'O nome do Banco de Dados deve ser informado.',
+        'charset' => 'A codificação (charset) do banco deve ser informada.',
     );
 
     public static $adminFields = array(

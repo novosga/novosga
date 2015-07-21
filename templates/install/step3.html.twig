@@ -36,6 +36,10 @@
                     <label for="dbname">Database:</label>
                     <input type="text" id="dbname" class="form-control" onchange="SGA.Install.onChangeData()" />
                 </div>
+                <div class="form-group">
+                    <label for="dbname">Charset:</label>
+                    <input type="text" id="charset" class="form-control" onchange="SGA.Install.onChangeData()" />
+                </div>
                 <div class="alert alert-block">
                     {% trans %}É necessário testar o banco antes de prosseguir.{% endtrans %}
                     <button id="btn_test_db" class="btn btn-default" onclick="SGA.Install.testDB()"

@@ -264,6 +264,7 @@ class InstallController extends InternalController
         $data['data'] = $context->session()->get(InstallData::SESSION_KEY);
         if (!$data['data']) {
             $data['data'] = new InstallData();
+            $data['data']->database['charset'] = 'utf8';
         }
         $adapter = $context->session()->get('adapter');
         $driver = $context->session()->get('adapter_driver');
