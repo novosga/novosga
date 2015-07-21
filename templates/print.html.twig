@@ -8,7 +8,7 @@
     <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/css/print.css?v={{ version }}" />
     <link rel="shortcut icon" href="images/favicon.png" />
 </head>
-<body >
+<body onload="window.print()">
     <div id="senha">
         <div id="senha-header">
             {{ atendimento.unidade.nome }}<br />
