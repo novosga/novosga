@@ -105,6 +105,8 @@ class AtendimentoService extends MetaModelService
         // cliente
         $senha->setNomeCliente($atendimento->getCliente()->getNome());
         $senha->setDocumentoCliente($atendimento->getCliente()->getDocumento());
+        
+        AppConfig::getInstance()->hook('panel.pre-call', array($atendimento, $senha));
 
         $this->em->persist($senha);
         $this->em->flush();
