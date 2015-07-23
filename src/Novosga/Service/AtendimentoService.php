@@ -529,7 +529,10 @@ class AtendimentoService extends MetaModelService
 
             return $atendimento;
         } catch (Exception $e) {
-            $this->em->rollback();
+            try {
+                $this->em->rollback();
+            } catch (Exception $ex) {
+            }
             throw $e;
         }
     }
