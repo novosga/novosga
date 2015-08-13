@@ -15,6 +15,7 @@ use Novosga\Model\Atendimento;
 use Novosga\Model\Modulo;
 use Novosga\Model\Util\UsuarioSessao;
 use Novosga\Http\JsonResponse;
+use Novosga\Config\AppConfig;
 
 /**
  * AtendimentoController.
@@ -78,15 +79,15 @@ class AtendimentoController extends ModuleController
             $numero = (int) $context->request()->post('local');
             $tipo = (int) $context->request()->post('tipo');
 
-            if (!$this->usuarioService->isLocalLivre($unidade, $usuario, $numero)) {
-                throw new Exception(_('Já existe um usuário com esse número de local registrado.'));
-            }
-
+            AppConfig::getInstance()->hook('sga.atendimento.pre-setlocal', array($unidade, $usuario, $numero, $tipo));
+            
             $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_LOCAL, $numero);
             $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipo);
             $usuario->setLocal($numero);
             $usuario->setTipoAtendimento($tipo);
             $context->setUser($context->getUser());
+            
+            AppConfig::getInstance()->hook('sga.atendimento.setlocal', array($unidade, $usuario, $numero, $tipo));
 
             $response->success = true;
         } catch (\Exception $e) {
