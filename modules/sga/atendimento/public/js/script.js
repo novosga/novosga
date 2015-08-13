@@ -92,33 +92,39 @@ SGA.Atendimento = {
     updateControls: function(status, atendimento) {
         $('#controls .control').hide();
         switch (status) {
-        case 1: // nenhum atendimento, chamar
-            $('#chamar').show();
-            $('#redirecionar_servico').val(0);
-            $('#encerrar-redirecionar').prop('checked', false);
-            break;
-        case 2: // senha chamada
-            if (atendimento) {
-                var info = $('.senha .info');
-                info.removeClass('prioridade');
-                if (atendimento.prioridade) {
-                    info.addClass('prioridade');
+            case 1: // nenhum atendimento, chamar
+                $('#chamar').show();
+                $('#redirecionar_servico').val(0);
+                $('#encerrar-redirecionar').prop('checked', false);
+                break;
+            case 2: // senha chamada
+                if (atendimento) {
+                    var info = $('.senha .info');
+                    info.removeClass('prioridade');
+                    if (atendimento.prioridade) {
+                        info.addClass('prioridade');
+                    }
+                    info.find('.numero .atend-value').text(atendimento.senha);
+                    info.find('.nome-prioridade .atend-value').text(atendimento.nomePrioridade);
+                    info.find('.servico .atend-value').text(atendimento.servico);
+                    info.find('.nome .atend-value').text(atendimento.cliente.nome || '-');
                 }
-                info.find('.numero .atend-value').text(atendimento.senha);
-                info.find('.nome-prioridade .atend-value').text(atendimento.nomePrioridade);
-                info.find('.servico .atend-value').text(atendimento.servico);
-                info.find('.nome .atend-value').text(atendimento.cliente.nome || '-');
-            }
-            $('#iniciar').show();
-            break;
-        case 3: // atendimento iniciado
-            $('#encerrar').show();
-            break;
-        case 4: // atendimento encerrado (faltando codificar)
-            $("#codificar").show();
-            $("#macro-servicos li").show();
-            $("#servicos-realizados").html('');
-            break;
+                $('#iniciar').show();
+                break;
+            case 3: // atendimento iniciado
+                $('#encerrar').show();
+                var btnEncerrar = $('#encerrar .encerrar');
+                btnEncerrar.prop('disabled', true);
+                // habilita o botao encerrar depois de X segundos (issue #249)
+                setTimeout(function() {
+                    btnEncerrar.prop('disabled', false);
+                }, 3000);
+                break;
+            case 4: // atendimento encerrado (faltando codificar)
+                $("#codificar").show();
+                $("#macro-servicos li").show();
+                $("#servicos-realizados").html('');
+                break;
         }
     },
     
