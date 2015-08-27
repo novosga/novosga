@@ -64,7 +64,7 @@ SGA.Atendimento = {
                         document.title = "(" + atendimentos.length + ") " + SGA.Atendimento.defaultTitle;
                     } else {
                         $('#chamar .chamar').prop('disabled', true);
-                        list.append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>')
+                        list.append('<li class="empty">' + SGA.Atendimento.filaVazia + '</li>');
                         document.title = SGA.Atendimento.defaultTitle;
                     }
                     if (usuario.numeroLocal) {
@@ -73,7 +73,7 @@ SGA.Atendimento = {
                     }
                     if (usuario.tipoAtendimento) {
                         $('span.config-tipo-atendimento')
-                                .removeClass('tipo-1 tipo-2')
+                                .removeClass('tipo-1 tipo-2 tipo-3')
                                 .addClass('tipo-' + usuario.tipoAtendimento)
                                 .text(SGA.Atendimento.tiposAtendimento[usuario.tipoAtendimento]);
                         $('.config-tipo-atendimento:input').val(usuario.tipoAtendimento);
