@@ -359,7 +359,7 @@ class EstatisticasController extends ModuleController
         $unidades = $this->unidadesArray($unidadeId);
         $query = $this->em()->createQuery("
             SELECT
-                COUNT(c) as total,
+                COUNT(s.id) as total,
                 s.nome
             FROM
                 Novosga\Model\ViewAtendimentoCodificado c
