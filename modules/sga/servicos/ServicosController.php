@@ -63,6 +63,19 @@ class ServicosController extends CrudController
         $query->setParameter('id', $this->model->getId());
         $this->app()->view()->set('macros', $query->getResult());
     }
+    
+    protected function postSave(Context $context, SequencialModel $model)
+    {
+        // um subserviço não pode aparecer na lista de serviços da unidade (triagem). issue #257
+        if ($model->getId() && $model->getMestre()) {
+            $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.servico = :servico");
+            $query->setParameter('servico', $model->getId());
+            $query->execute();
+            $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUnidade e WHERE e.servico = :servico");
+            $query->setParameter('servico', $model->getId());
+            $query->execute();
+        }
+    }
 
     /**
      * Verifica se já existe unidade usando o serviço.
@@ -88,6 +101,9 @@ class ServicosController extends CrudController
         }
         // apagando vinculo com as unidades
         $this->em()->beginTransaction();
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.servico = :servico");
+        $query->setParameter('servico', $model->getId());
+        $query->execute();
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUnidade e WHERE e.servico = :servico");
         $query->setParameter('servico', $model->getId());
         $query->execute();
