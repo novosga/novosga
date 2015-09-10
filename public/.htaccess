@@ -1,7 +1,3 @@
 RewriteEngine On
-# modules resources
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^modules/(\w+)\.(\w+)/resources/(.+)$ resources.php [QSA,L]
-# app rewrite
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
