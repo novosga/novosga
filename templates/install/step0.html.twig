@@ -6,12 +6,11 @@
         <h3>{% trans %}Versão{% endtrans %} {{ version }}</h3>
         <p>{% trans %}Favor escolher o seu sistema de banco de dados preferido a partir dos listados abaixo:{% endtrans %}</p>
         <ul class="adapters">
-            {% for script in scripts %}
-            <li id="adapter-{{ script.id }}" class="{% if currAdapter == script.id %}bg-primary{% else %}bg-default{% endif %}">
-                <input id="{{ script.id }}" type="radio" name="db" value="{{ script.id }}" onclick="setTimeout(function() { SGA.Install.chooseAdapter('{{ script.id }}')}, 100)" {% if currAdapter == script.id %}checked="checked"{% endif %} />
-                <label for="{{ script['id'] }}">
+            {% for id, script in scripts %}
+            <li id="adapter-{{ id }}" class="{% if currAdapter == id %}bg-primary{% else %}bg-default{% endif %}">
+                <input id="{{ id }}" type="radio" name="db" value="{{ id }}" onclick="setTimeout(function() { SGA.Install.chooseAdapter('{{ id }}')}, 100)"{% if currAdapter == id %} checked="checked"{% endif %} />
+                <label for="{{ id }}">
                     <span class="adapter">{{ script.adapter }}</span>
-                    <span class="info author">{% trans%}Autor{% endtrans %}: {{ script.author }}</span>
                 </label>
             </li>
             {% endfor %}

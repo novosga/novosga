@@ -2,6 +2,7 @@
 
 namespace Novosga\Install;
 
+use Doctrine\ORM\Tools\SchemaTool;
 use Exception;
 use Novosga\Controller\InternalController;
 use Novosga\Config\DatabaseConfig;
@@ -123,30 +124,16 @@ class InstallController extends InternalController
         // desabilita o proximo, para liberar so quando marcar uma opção
         $context->session()->set('error', $currAdapter == null);
         $data['version'] = App::VERSION;
-        $scriptHeader = function ($file) {
-            $header = array();
-            $lines = file($file);
-            $prefix = '-- @';
-            foreach ($lines as $line) {
-                if (strcmp(substr($line, 0, strlen($prefix)), $prefix) !== 0) {
-                    break;
-                }
-                preg_match_all('/@(.*)=(.*)\n/', $line, $matches);
-                if (sizeof($matches) >= 3) {
-                    $header[$matches[1][0]] = $matches[2][0];
-                }
-            }
-
-            return $header;
-        };
-
-        $scripts = array();
-        $files = glob(__DIR__.DS.'sql'.DS.'create'.DS.'*.sql');
-        foreach ($files as $file) {
-            $header = $scriptHeader($file);
-            $header['id'] = current(explode('.', basename($file)));
-            $scripts[] = $header;
-        }
+        // @todo: generate the list of supported DB engines based on host
+        // capabilities, installed extensions or something similar
+        $scripts = array(
+            'mysql' => array(
+                'adapter' => 'MySQL / MariaDB',
+            ),
+            'pgsql' => array(
+                'adapter' => 'PostgreSQL',
+            ),
+        );
         $data['scripts'] = $scripts;
     }
 
@@ -341,11 +328,6 @@ class InstallController extends InternalController
         exit();
     }
 
-    private function script_create($type)
-    {
-        return dirname(__FILE__).DS.'sql'.DS.'create'.DS.$type.'.sql';
-    }
-
     private function script_data()
     {
         return dirname(__FILE__).DS.'sql'.DS.'data'.DS.'default.sql';
@@ -372,11 +354,7 @@ class InstallController extends InternalController
                 foreach (InstallData::$dbFields as $field => $message) {
                     $config[$field] = $_POST[$field];
                 }
-                $adapter = $context->session()->get('adapter');
-                $sqlFile = $this->script_create($adapter);
-                if (!file_exists($sqlFile)) {
-                    throw new Exception(_('Não foi encontrado arquivo SQL para o tipo de banco escolhido'));
-                }
+
                 $data->database = $config;
                 // testing connection
 
@@ -487,14 +465,46 @@ class InstallController extends InternalController
                 }
                 // nova instalacao
                 else {
-                    $sqlInitFile = $this->script_create($session->get('adapter'));
-                    // verifica se consegue ler o arquivo de criacao do banco
-                    if (!is_readable($sqlInitFile)) {
-                        $msg = _('Script SQL de instalação não encontrado (%s)');
-                        throw new Exception(sprintf($msg, $sqlInitFile));
-                    }
-                    // executando arquivo sql de criacao
-                    $conn->exec(file_get_contents($sqlInitFile));
+                    $tool = new SchemaTool($em);
+                    $classes = [
+                        $em->getClassMetadata('Novosga\Model\AbstractAtendimentoCodificado'),
+                        $em->getClassMetadata('Novosga\Model\AbstractAtendimentoMeta'),
+                        $em->getClassMetadata('Novosga\Model\AbstractAtendimento'),
+                        $em->getClassMetadata('Novosga\Model\AtendimentoCodificadoHistorico'),
+                        $em->getClassMetadata('Novosga\Model\AtendimentoCodificado'),
+                        $em->getClassMetadata('Novosga\Model\AtendimentoHistoricoMeta'),
+                        $em->getClassMetadata('Novosga\Model\AtendimentoHistorico'),
+                        $em->getClassMetadata('Novosga\Model\AtendimentoMeta'),
+                        $em->getClassMetadata('Novosga\Model\Atendimento'),
+                        $em->getClassMetadata('Novosga\Model\Cargo'),
+                        $em->getClassMetadata('Novosga\Model\Configuracao'),
+                        $em->getClassMetadata('Novosga\Model\Contador'),
+                        $em->getClassMetadata('Novosga\Model\Grupo'),
+                        $em->getClassMetadata('Novosga\Model\Local'),
+                        $em->getClassMetadata('Novosga\Model\Lotacao'),
+                        $em->getClassMetadata('Novosga\Model\Metadata'),
+                        $em->getClassMetadata('Novosga\Model\Modulo'),
+                        $em->getClassMetadata('Novosga\Model\OAuthClient'),
+                        $em->getClassMetadata('Novosga\Model\Painel'),
+                        $em->getClassMetadata('Novosga\Model\PainelSenha'),
+                        $em->getClassMetadata('Novosga\Model\PainelServico'),
+                        $em->getClassMetadata('Novosga\Model\Permissao'),
+                        $em->getClassMetadata('Novosga\Model\Prioridade'),
+                        $em->getClassMetadata('Novosga\Model\SequencialModel'),
+                        $em->getClassMetadata('Novosga\Model\ServicoMeta'),
+                        $em->getClassMetadata('Novosga\Model\Servico'),
+                        $em->getClassMetadata('Novosga\Model\ServicoUnidade'),
+                        $em->getClassMetadata('Novosga\Model\ServicoUsuario'),
+                        $em->getClassMetadata('Novosga\Model\TreeModel'),
+                        $em->getClassMetadata('Novosga\Model\UnidadeMeta'),
+                        $em->getClassMetadata('Novosga\Model\Unidade'),
+                        $em->getClassMetadata('Novosga\Model\UsuarioMeta'),
+                        $em->getClassMetadata('Novosga\Model\Usuario'),
+                        $em->getClassMetadata('Novosga\Model\ViewAtendimentoCodificado'),
+                        $em->getClassMetadata('Novosga\Model\ViewAtendimentoMeta'),
+                        $em->getClassMetadata('Novosga\Model\ViewAtendimento'),
+                    ];
+                    $tool->createSchema($classes);
 
                     // instalando modulos
                     $service = new \Novosga\Service\ModuloService($em);
