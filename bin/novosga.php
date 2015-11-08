@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-require __DIR__ . '/../bootstrap.php';
+require __DIR__.'/../bootstrap.php';
 
 use Novosga\Console as Cmd;
 use Symfony\Component\Console\Application;

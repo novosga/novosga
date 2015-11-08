@@ -116,7 +116,7 @@ class Session
      */
     public function destroy()
     {
-        $_SESSION = array();
+        $_SESSION = [];
         session_destroy();
     }
 }
@@ -128,7 +128,7 @@ class Session
  */
 class SessionCache
 {
-    private static $cache = array();
+    private static $cache = [];
 
     public static function set($key, $value)
     {
@@ -161,7 +161,7 @@ class SessionCache
 
     public static function clear()
     {
-        $_SESSION = array();
-        self::$cache = array();
+        $_SESSION = [];
+        self::$cache = [];
     }
 }

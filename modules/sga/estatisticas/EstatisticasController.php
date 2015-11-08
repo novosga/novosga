@@ -5,13 +5,13 @@ namespace modules\sga\estatisticas;
 use Exception;
 use Novosga\App;
 use Novosga\Context;
-use Novosga\Service\AtendimentoService;
+use Novosga\Controller\ModuleController;
+use Novosga\Http\JsonResponse;
 use Novosga\Model\Modulo;
+use Novosga\Service\AtendimentoService;
 use Novosga\Service\UnidadeService;
 use Novosga\Service\UsuarioService;
 use Novosga\Util\DateUtil;
-use Novosga\Http\JsonResponse;
-use Novosga\Controller\ModuleController;
 use Novosga\Util\Strings;
 
 /**
@@ -29,12 +29,12 @@ class EstatisticasController extends ModuleController
     public function __construct(App $app, Modulo $modulo)
     {
         parent::__construct($app, $modulo);
-        $this->graficos = array(
+        $this->graficos = [
             1 => new Grafico(_('Atendimentos por status'), 'pie', 'unidade,date-range'),
             2 => new Grafico(_('Atendimentos por serviço'), 'pie', 'unidade,date-range'),
             3 => new Grafico(_('Tempo médio do atendimento'), 'bar', 'unidade,date-range'),
-        );
-        $this->relatorios = array(
+        ];
+        $this->relatorios = [
             1 => new Relatorio(_('Serviços Disponíveis - Global'), 'servicos_disponiveis_global'),
             2 => new Relatorio(_('Serviços Disponíveis - Unidade'), 'servicos_disponiveis_unidades', 'unidade'),
             3 => new Relatorio(_('Serviços codificados'), 'servicos_codificados', 'unidade,date-range'),
@@ -43,20 +43,20 @@ class EstatisticasController extends ModuleController
             6 => new Relatorio(_('Tempos médios por Atendente'), 'tempo_medio_atendentes', 'date-range'),
             7 => new Relatorio(_('Lotações'), 'lotacoes', 'unidade'),
             8 => new Relatorio(_('Cargos'), 'cargos'),
-        );
+        ];
     }
 
     public function index(Context $context)
     {
         $dir = MODULES_DIR.'/'.$context->getModulo()->getChave();
-        $context->setParameter('js', array(__DIR__.'/js/highcharts.js', __DIR__.'/js/highcharts.exporting.js'));
+        $context->setParameter('js', [__DIR__.'/js/highcharts.js', __DIR__.'/js/highcharts.exporting.js']);
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Unidade e WHERE e.status = 1 ORDER BY e.nome");
         $unidades = $query->getResult();
         $this->app()->view()->set('unidades', $unidades);
         $this->app()->view()->set('relatorios', $this->relatorios);
         $this->app()->view()->set('graficos', $this->graficos);
         $this->app()->view()->set('statusAtendimento', AtendimentoService::situacoes());
-        $arr = array();
+        $arr = [];
         foreach ($unidades as $u) {
             $arr[$u->getId()] = $u->getNome();
         }
@@ -183,14 +183,14 @@ class EstatisticasController extends ModuleController
                 throw new \Exception('Invalid parameter');
             }
 
-            return array($unidade);
+            return [$unidade];
         }
     }
 
     private function total_atendimentos_status($dataInicial, $dataFinal, $unidadeId = 0)
     {
         $unidades = $this->unidadesArray($unidadeId);
-        $dados = array();
+        $dados = [];
         $status = AtendimentoService::situacoes();
         $query = $this->em()->createQuery("
             SELECT
@@ -206,7 +206,7 @@ class EstatisticasController extends ModuleController
         $query->setParameter('inicio', $dataInicial);
         $query->setParameter('fim', $dataFinal);
         foreach ($unidades as $unidade) {
-            $dados[$unidade->getId()] = array();
+            $dados[$unidade->getId()] = [];
             // pegando todos os status
             foreach ($status as $k => $v) {
                 $query->setParameter('unidade', $unidade->getId());
@@ -222,7 +222,7 @@ class EstatisticasController extends ModuleController
     private function total_atendimentos_servico($dataInicial, $dataFinal, $unidadeId = 0)
     {
         $unidades = $this->unidadesArray($unidadeId);
-        $dados = array();
+        $dados = [];
         $query = $this->em()->createQuery("
             SELECT
                 s.nome as servico,
@@ -245,7 +245,7 @@ class EstatisticasController extends ModuleController
         foreach ($unidades as $unidade) {
             $query->setParameter('unidade', $unidade->getId());
             $rs = $query->getResult();
-            $dados[$unidade->getId()] = array();
+            $dados[$unidade->getId()] = [];
             foreach ($rs as $r) {
                 $dados[$unidade->getId()][$r['servico']] = $r['total'];
             }
@@ -257,13 +257,13 @@ class EstatisticasController extends ModuleController
     private function tempo_medio_atendimentos($dataInicial, $dataFinal, $unidadeId = 0)
     {
         $unidades = $this->unidadesArray($unidadeId);
-        $dados = array();
-        $tempos = array(
-            'espera' => _('Tempo de Espera'),
+        $dados = [];
+        $tempos = [
+            'espera'       => _('Tempo de Espera'),
             'deslocamento' => _('Tempo de Deslocamento'),
-            'atendimento' => _('Tempo de Atendimento'),
-            'total' => _('Tempo Total'),
-        );
+            'atendimento'  => _('Tempo de Atendimento'),
+            'total'        => _('Tempo Total'),
+        ];
         $dql = "
             SELECT
                 AVG(a.dataChamada - a.dataChegada) as espera,
@@ -284,7 +284,7 @@ class EstatisticasController extends ModuleController
         foreach ($unidades as $unidade) {
             $query->setParameter('unidade', $unidade->getId());
             $rs = $query->getResult();
-            $dados[$unidade->getId()] = array();
+            $dados[$unidade->getId()] = [];
             foreach ($rs as $r) {
                 try {
                     // se der erro tentando converter a data do banco para segundos, assume que ja esta em segundos
@@ -328,7 +328,7 @@ class EstatisticasController extends ModuleController
     private function servicos_disponiveis_unidade($unidadeId = 0)
     {
         $unidades = $this->unidadesArray($unidadeId);
-        $dados = array();
+        $dados = [];
         $query = $this->em()->createQuery("
             SELECT
                 e
@@ -345,10 +345,10 @@ class EstatisticasController extends ModuleController
         ");
         foreach ($unidades as $unidade) {
             $query->setParameter('unidade', $unidade);
-            $dados[$unidade->getId()] = array(
-                'unidade' => $unidade->getNome(),
+            $dados[$unidade->getId()] = [
+                'unidade'  => $unidade->getNome(),
                 'servicos' => $query->getResult(),
-            );
+            ];
         }
 
         return $dados;
@@ -377,13 +377,13 @@ class EstatisticasController extends ModuleController
         $query->setParameter('dataInicial', $dataInicial);
         $query->setParameter('dataFinal', $dataFinal);
         $query->setMaxResults(self::MAX_RESULTS);
-        $dados = array();
+        $dados = [];
         foreach ($unidades as $unidade) {
             $query->setParameter('unidade', $unidade);
-            $dados[$unidade->getId()] = array(
-                'unidade' => $unidade->getNome(),
+            $dados[$unidade->getId()] = [
+                'unidade'  => $unidade->getNome(),
                 'servicos' => $query->getResult(),
-            );
+            ];
         }
 
         return $dados;
@@ -392,7 +392,7 @@ class EstatisticasController extends ModuleController
     private function atendimentos_concluidos($dataInicial, $dataFinal, $unidadeId = 0)
     {
         $unidades = $this->unidadesArray($unidadeId);
-        $dados = array();
+        $dados = [];
         $query = $this->em()->createQuery("
             SELECT
                 e
@@ -412,10 +412,10 @@ class EstatisticasController extends ModuleController
         $query->setMaxResults(self::MAX_RESULTS);
         foreach ($unidades as $unidade) {
             $query->setParameter('unidade', $unidade);
-            $dados[$unidade->getId()] = array(
-                'unidade' => $unidade->getNome(),
+            $dados[$unidade->getId()] = [
+                'unidade'      => $unidade->getNome(),
                 'atendimentos' => $query->getResult(),
-            );
+            ];
         }
 
         return $dados;
@@ -424,7 +424,7 @@ class EstatisticasController extends ModuleController
     private function atendimentos_status($dataInicial, $dataFinal, $unidadeId = 0)
     {
         $unidades = $this->unidadesArray($unidadeId);
-        $dados = array();
+        $dados = [];
         $query = $this->em()->createQuery("
             SELECT
                 e
@@ -442,10 +442,10 @@ class EstatisticasController extends ModuleController
         $query->setMaxResults(self::MAX_RESULTS);
         foreach ($unidades as $unidade) {
             $query->setParameter('unidade', $unidade);
-            $dados[$unidade->getId()] = array(
-                'unidade' => $unidade->getNome(),
+            $dados[$unidade->getId()] = [
+                'unidade'      => $unidade->getNome(),
                 'atendimentos' => $query->getResult(),
-            );
+            ];
         }
 
         return $dados;
@@ -453,7 +453,7 @@ class EstatisticasController extends ModuleController
 
     private function tempo_medio_atendentes($dataInicial, $dataFinal)
     {
-        $dados = array();
+        $dados = [];
         $query = $this->em()->createQuery("
             SELECT
                 CONCAT(u.nome, CONCAT(' ', u.sobrenome)) as atendente,
@@ -479,10 +479,10 @@ class EstatisticasController extends ModuleController
         $query->setMaxResults(self::MAX_RESULTS);
         $rs = $query->getResult();
         foreach ($rs as $r) {
-            $d = array(
+            $d = [
                 'atendente' => $r['atendente'],
-                'total' => $r['total'],
-            );
+                'total'     => $r['total'],
+            ];
             try {
                 // se der erro tentando converter a data do banco para segundos, assume que ja esta em segundos
                 // Isso é necessário para manter a compatibilidade entre os bancos
@@ -515,22 +515,22 @@ class EstatisticasController extends ModuleController
         }
 
         $unidades = $this->unidadesArray($unidadeId);
-        $dados = array();
+        $dados = [];
 
         $usuarioService = new UsuarioService($this->em());
         $unidadeService = new UnidadeService($this->em());
 
         foreach ($unidades as $unidade) {
             $lotacoes = $unidadeService->lotacoesComServico($unidade->getId(), $nomeServico);
-            $servicos = array();
+            $servicos = [];
             foreach ($lotacoes as $lotacao) {
                 $servicos[$lotacao->getUsuario()->getId()] = $usuarioService->servicos($lotacao->getUsuario(), $unidade);
             }
-            $dados[$unidade->getId()] = array(
-                'unidade' => $unidade->getNome(),
+            $dados[$unidade->getId()] = [
+                'unidade'  => $unidade->getNome(),
                 'lotacoes' => $lotacoes,
                 'servicos' => $servicos,
-            );
+            ];
         }
 
         return $dados;
@@ -543,14 +543,14 @@ class EstatisticasController extends ModuleController
      */
     private function cargos()
     {
-        $dados = array();
+        $dados = [];
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Cargo e ORDER BY e.nome");
         $cargos = $query->getResult();
         foreach ($cargos as $cargo) {
-            $dados[$cargo->getId()] = array(
-                'cargo' => $cargo->getNome(),
+            $dados[$cargo->getId()] = [
+                'cargo'      => $cargo->getNome(),
                 'permissoes' => $cargo->getPermissoes(),
-            );
+            ];
         }
 
         return $dados;

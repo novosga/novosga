@@ -4,13 +4,13 @@ namespace modules\sga\monitor;
 
 use Exception;
 use Novosga\Context;
-use Novosga\Util\Arrays;
-use Novosga\Model\Unidade;
-use Novosga\Http\JsonResponse;
 use Novosga\Controller\ModuleController;
+use Novosga\Http\JsonResponse;
+use Novosga\Model\Unidade;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\FilaService;
 use Novosga\Service\ServicoService;
+use Novosga\Util\Arrays;
 
 /**
  * MonitorController.
@@ -48,7 +48,7 @@ class MonitorController extends ModuleController
         if ($unidade) {
             $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
-            if (sizeof($ids)) {
+            if (count($ids)) {
                 $response->data['total'] = 0;
                 $servicos = $this->servicos($unidade, ' e.servico IN ('.implode(',', $ids).') ');
                 $em = $context->database()->createEntityManager();
@@ -58,7 +58,7 @@ class MonitorController extends ModuleController
                         $total = count($rs);
                         // prevent overhead
                         if ($total) {
-                            $fila = array();
+                            $fila = [];
                             foreach ($rs as $atendimento) {
                                 $arr = $atendimento->jsonSerialize(true);
                                 $fila[] = $arr;
@@ -107,7 +107,7 @@ class MonitorController extends ModuleController
             $numero = $context->request()->get('numero');
             $service = new AtendimentoService($this->em());
             $atendimentos = $service->buscaAtendimentos($unidade, $numero);
-            $response->data['total'] = sizeof($atendimentos);
+            $response->data['total'] = count($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->jsonSerialize();
             }
@@ -165,7 +165,7 @@ class MonitorController extends ModuleController
             }
             $id = (int) $context->request()->post('id');
             $conn = $this->em()->getConnection();
-            $status = implode(',', array(AtendimentoService::SENHA_CANCELADA, AtendimentoService::NAO_COMPARECEU));
+            $status = implode(',', [AtendimentoService::SENHA_CANCELADA, AtendimentoService::NAO_COMPARECEU]);
             // reativa apenas se estiver finalizada (data fim diferente de nulo)
             $stmt = $conn->prepare("
                 UPDATE

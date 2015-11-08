@@ -13,13 +13,13 @@ class Strings
 
     public static function getParameters($str)
     {
-        $matchs = array();
+        $matchs = [];
         preg_match_all(self::REGEX_PARAMS, $str, $matchs);
 
         return $matchs;
     }
 
-    public static function format($str, array $args = array())
+    public static function format($str, array $args = [])
     {
         foreach ($args as $k => $v) {
             $str = str_replace('{'.$k.'}', $v, $str);

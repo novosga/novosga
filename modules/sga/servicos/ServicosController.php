@@ -3,9 +3,9 @@
 namespace modules\sga\servicos;
 
 use Novosga\Context;
+use Novosga\Controller\CrudController;
 use Novosga\Model\SequencialModel;
 use Novosga\Model\Servico;
-use Novosga\Controller\CrudController;
 
 /**
  * ServicosController.
@@ -24,7 +24,7 @@ class ServicosController extends CrudController
 
     protected function requiredFields()
     {
-        return array('nome', 'descricao', 'status');
+        return ['nome', 'descricao', 'status'];
     }
 
     protected function preSave(Context $context, SequencialModel $model)
@@ -63,7 +63,7 @@ class ServicosController extends CrudController
         $query->setParameter('id', $this->model->getId());
         $this->app()->view()->set('macros', $query->getResult());
     }
-    
+
     protected function postSave(Context $context, SequencialModel $model)
     {
         // um subserviço não pode aparecer na lista de serviços da unidade (triagem). issue #257
@@ -121,10 +121,10 @@ class ServicosController extends CrudController
         $servico = $this->findById($id);
         if ($servico) {
             foreach ($servico->getSubServicos() as $sub) {
-                $response->data[] = array(
-                    'id' => $sub->getId(),
+                $response->data[] = [
+                    'id'   => $sub->getId(),
                     'nome' => $sub->getNome(),
-                );
+                ];
             }
             $response->success = true;
         }

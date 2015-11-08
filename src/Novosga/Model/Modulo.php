@@ -150,13 +150,13 @@ namespace Novosga\Model;
 
      public function jsonSerialize()
      {
-         return array(
-            'id' => $this->getId(),
-            'nome' => $this->getNome(),
-            'chave' => $this->getChave(),
+         return [
+            'id'        => $this->getId(),
+            'nome'      => $this->getNome(),
+            'chave'     => $this->getChave(),
             'descricao' => $this->getDescricao(),
-            'status' => $this->getStatus(),
-            'tipo' => $this->getTipo(),
-        );
+            'status'    => $this->getStatus(),
+            'tipo'      => $this->getTipo(),
+        ];
      }
  }

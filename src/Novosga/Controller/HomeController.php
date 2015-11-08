@@ -3,8 +3,8 @@
 namespace Novosga\Controller;
 
 use Novosga\Context;
-use Novosga\Security;
 use Novosga\Http\JsonResponse;
+use Novosga\Security;
 
 /**
  * HomeController.

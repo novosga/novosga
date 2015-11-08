@@ -11,6 +11,7 @@ namespace Novosga\Model;
 abstract class AbstractAtendimentoMeta extends Metadata
 {
     abstract public function getAtendimento();
+
     abstract public function setAtendimento(AbstractAtendimento $atendimento);
 
     public function getName()

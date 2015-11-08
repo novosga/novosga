@@ -29,6 +29,6 @@ class ResourcesFunction extends \Twig_SimpleFunction
 
             return "$url?v=$version";
 
-        }, array('needs_environment' => true));
+        }, ['needs_environment' => true]);
     }
 }

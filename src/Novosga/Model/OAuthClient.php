@@ -66,10 +66,10 @@ class OAuthClient implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array(
-            'id' => $this->id,
-            'secret' => $this->secret,
+        return [
+            'id'          => $this->id,
+            'secret'      => $this->secret,
             'redirectUri' => $this->redirectUri,
-        );
+        ];
     }
 }

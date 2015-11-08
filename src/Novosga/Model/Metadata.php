@@ -25,6 +25,7 @@ abstract class Metadata extends Model implements \JsonSerializable
     }
 
     abstract public function setEntity($entity);
+
     abstract public function getEntity();
 
     public function getName()
@@ -53,9 +54,9 @@ abstract class Metadata extends Model implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array(
-            'name' => $this->getName(),
+        return [
+            'name'  => $this->getName(),
             'value' => $this->getValue(),
-        );
+        ];
     }
 }

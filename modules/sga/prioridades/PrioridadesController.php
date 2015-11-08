@@ -3,9 +3,9 @@
 namespace modules\sga\prioridades;
 
 use Novosga\Context;
+use Novosga\Controller\CrudController;
 use Novosga\Model\Prioridade;
 use Novosga\Model\SequencialModel;
-use Novosga\Controller\CrudController;
 
 /**
  * PrioridadesController.
@@ -21,7 +21,7 @@ class PrioridadesController extends CrudController
 
     protected function requiredFields()
     {
-        return array('nome', 'descricao', 'peso', 'status');
+        return ['nome', 'descricao', 'peso', 'status'];
     }
 
     protected function search($arg)
@@ -34,19 +34,19 @@ class PrioridadesController extends CrudController
 
     public function edit(Context $context, $id = 0)
     {
-        $this->app()->view()->set('pesos', array(
+        $this->app()->view()->set('pesos', [
             0 => _('Normal'),
             1 => '1',
             2 => '2',
             3 => '3',
             4 => '4',
             5 => '5',
-        ));
-        $this->app()->view()->set('status', array(
+        ]);
+        $this->app()->view()->set('status', [
             '' => _('Selecione'),
-            1 => _('Ativo'),
-            0 => _('Inativo'),
-        ));
+            1  => _('Ativo'),
+            0  => _('Inativo'),
+        ]);
         parent::edit($context, $id);
     }
 

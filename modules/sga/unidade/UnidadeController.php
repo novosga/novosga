@@ -3,10 +3,10 @@
 namespace modules\sga\unidade;
 
 use Exception;
-use Novosga\Service\AtendimentoService;
 use Novosga\Context;
 use Novosga\Controller\ModuleController;
 use Novosga\Http\JsonResponse;
+use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
 
 /**
@@ -30,10 +30,9 @@ class UnidadeController extends ModuleController
             // locais disponiveis
             $locais = $this->em()
                     ->createQuery("SELECT e FROM Novosga\Model\Local e ORDER BY e.nome")
-                    ->getResult()
-            ;
+                    ->getResult();
 
-            if (sizeof($locais)) {
+            if (count($locais)) {
                 $local = $locais[0];
                 $service->updateUnidade($unidade, $local, self::DEFAULT_SIGLA);
             }

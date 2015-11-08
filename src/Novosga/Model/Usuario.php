@@ -182,12 +182,12 @@ class Usuario extends SequencialModel
 
     public function jsonSerialize()
     {
-        return array(
-            'id' => $this->getId(),
-            'login' => $this->getLogin(),
-            'nome' => $this->getNome(),
+        return [
+            'id'        => $this->getId(),
+            'login'     => $this->getLogin(),
+            'nome'      => $this->getNome(),
             'sobrenome' => $this->getSobrenome(),
-            'senha' => $this->getSenha(),
-        );
+            'senha'     => $this->getSenha(),
+        ];
     }
 }

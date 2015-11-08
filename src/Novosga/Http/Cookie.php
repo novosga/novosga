@@ -63,6 +63,6 @@ class Cookie
      */
     public function clear()
     {
-        $_COOKIE = array();
+        $_COOKIE = [];
     }
 }

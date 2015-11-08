@@ -32,7 +32,7 @@ class AppConfig extends ConfigFile
 
     public function hooks()
     {
-        return \Novosga\Util\Arrays::value($this->values(), 'hooks', array());
+        return \Novosga\Util\Arrays::value($this->values(), 'hooks', []);
     }
 
     /**
@@ -48,7 +48,7 @@ class AppConfig extends ConfigFile
         $hook = \Novosga\Util\Arrays::value($this->hooks(), $name);
         if (is_callable($hook)) {
             if (!is_array($args)) {
-                $args = array($args);
+                $args = [$args];
             }
             call_user_func_array($hook, $args);
         }

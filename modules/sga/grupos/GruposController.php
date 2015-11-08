@@ -3,9 +3,9 @@
 namespace modules\sga\grupos;
 
 use Novosga\Context;
-use Novosga\Model\SequencialModel;
-use Novosga\Model\Grupo;
 use Novosga\Controller\TreeModelController;
+use Novosga\Model\Grupo;
+use Novosga\Model\SequencialModel;
 
 /**
  * GruposController.
@@ -23,7 +23,7 @@ class GruposController extends TreeModelController
 
     protected function requiredFields()
     {
-        return array('nome', 'descricao');
+        return ['nome', 'descricao'];
     }
 
     protected function preSave(Context $context, SequencialModel $model)

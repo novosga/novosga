@@ -16,7 +16,7 @@ class Arrays
 
     public static function values($arr, array $keys)
     {
-        $v = array();
+        $v = [];
         foreach ($keys as $k) {
             $v[] = self::value($arr, $k);
         }
@@ -39,7 +39,7 @@ class Arrays
 
     public static function copy(array $arr)
     {
-        $new = array();
+        $new = [];
         foreach ($arr as $k => $v) {
             $new[$k] = $v;
         }
@@ -50,7 +50,7 @@ class Arrays
     public static function remove(array &$arr, $value)
     {
         $tmp = self::copy($arr);
-        $arr = array();
+        $arr = [];
         foreach ($tmp as $k => $v) {
             if ($v != $value) {
                 $arr[$k] = $v;
@@ -61,7 +61,7 @@ class Arrays
     public static function removeKey(array &$arr, $key)
     {
         $tmp = self::copy($arr);
-        $arr = array();
+        $arr = [];
         foreach ($tmp as $k => $v) {
             if ($k != $key) {
                 $arr[$k] = $v;
@@ -72,7 +72,7 @@ class Arrays
     public static function removeKeys(array &$arr, array $keys)
     {
         $tmp = self::copy($arr);
-        $arr = array();
+        $arr = [];
         foreach ($tmp as $k => $v) {
             $exists = false;
             foreach ($keys as $rk) {
@@ -87,10 +87,10 @@ class Arrays
         }
     }
 
-    public static function toArray($value, $items = array(), $key = null)
+    public static function toArray($value, $items = [], $key = null)
     {
         if (is_array($value)) {
-            $arr = array();
+            $arr = [];
             foreach ($value as $v) {
                 $a = self::toArray($v, $items, $key);
                 if ($key == null) {
@@ -103,9 +103,9 @@ class Arrays
             return $arr;
         }
         if (is_object($value)) {
-            if (sizeof($items)) {
-                if (sizeof($items) > 1) {
-                    $arr = array();
+            if (count($items)) {
+                if (count($items) > 1) {
+                    $arr = [];
                     foreach ($items as $item) {
                         $arr[$item] = Objects::get($value, $item);
                     }
@@ -137,7 +137,7 @@ class Arrays
                 throw new \Exception('Não é possível serializar closure');
             } elseif (is_object($v)) {
                 $entry .= 'new '.get_class($v);
-            } elseif (is_double($v) || is_float($v)) {
+            } elseif (is_float($v) || is_float($v)) {
                 $entry .= str_replace(',', '.', "$v");
             } elseif (is_int($v)) {
                 $entry .= $v;

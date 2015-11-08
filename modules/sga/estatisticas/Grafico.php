@@ -9,7 +9,7 @@ namespace modules\sga\estatisticas;
  */
 class Grafico extends Relatorio
 {
-    private $legendas = array();
+    private $legendas = [];
 
     public function __construct($titulo, $tipo, $opcoes = '')
     {
@@ -28,11 +28,11 @@ class Grafico extends Relatorio
 
     public function jsonSerialize()
     {
-        return array(
-            'tipo' => $this->arquivo,
-            'titulo' => $this->titulo,
-            'dados' => $this->dados,
+        return [
+            'tipo'     => $this->arquivo,
+            'titulo'   => $this->titulo,
+            'dados'    => $this->dados,
             'legendas' => $this->legendas,
-        );
+        ];
     }
 }

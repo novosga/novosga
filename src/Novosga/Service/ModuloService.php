@@ -78,9 +78,9 @@ class ModuloService extends ModelService
     /**
      * @param string $zipname
      *
-     * @return string The module dir
-     *
      * @throws Exception
+     *
+     * @return string The module dir
      */
     public function extract($zipname)
     {
@@ -135,14 +135,14 @@ class ModuloService extends ModelService
     {
         $moduleName = basename($moduleDir);
         // module structure
-        $files = array(
+        $files = [
             'manifest.json',
             ucfirst($moduleName).'Controller.php',
             'public'.DS.'images'.DS.'icon.png',
             'public'.DS.'css'.DS.'style.css',
             'public'.DS.'js'.DS.'script.js',
             'views'.DS.'index.html.twig',
-        );
+        ];
         foreach ($files as $file) {
             if (!file_exists($moduleDir.DS.$file)) {
                 throw new Exception(sprintf(_('Arquivo %s não encontrado'), $file));
@@ -153,14 +153,14 @@ class ModuloService extends ModelService
     /**
      * @param string $key {vendorName}.{moduleName}
      *
-     * @return array 0 => {vendorName}, 1 => {moduleName}
-     *
      * @throws Exception
+     *
+     * @return array 0 => {vendorName}, 1 => {moduleName}
      */
     public function verifyKey($key)
     {
         $path = explode('.', $key);
-        if (sizeof($path) !== 2) {
+        if (count($path) !== 2) {
             throw new Exception(sprintf(_('Formato inválido do nome do módulo: %s. Era esperado {vendorName}.{moduleName}'), $key));
         }
 
@@ -171,9 +171,9 @@ class ModuloService extends ModelService
      * @param type $moduleDir
      * @param type $key
      *
-     * @return ModuleManifest
-     *
      * @throws Exception
+     *
+     * @return ModuleManifest
      */
     public function parseManifest($moduleDir, $key)
     {
@@ -189,10 +189,10 @@ class ModuloService extends ModelService
     private function invokeScripts(ModuleManifest $manifest, $name)
     {
         $scripts = $manifest->getScript($name);
-        if (is_array($scripts) && sizeof($scripts)) {
+        if (is_array($scripts) && count($scripts)) {
             foreach ($scripts as $script) {
                 $tokens = explode('::', $script);
-                if (sizeof($tokens) !== 2) {
+                if (count($tokens) !== 2) {
                     throw new Exception(_('Formato do nome do script inválido. Era experado <ClassName>::<methodName>.'));
                 }
                 $namespace = 'modules\\'.implode('\\', explode('.', $manifest->getModule()->getChave()));
@@ -200,7 +200,7 @@ class ModuloService extends ModelService
 
                 $obj = new $className();
                 $method = new \ReflectionMethod($obj, $tokens[1]);
-                $method->invokeArgs($obj, array($this->em));
+                $method->invokeArgs($obj, [$this->em]);
             }
         }
     }

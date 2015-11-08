@@ -29,9 +29,9 @@ class Local extends SequencialModel
 
     public function jsonSerialize()
     {
-        return array(
-            'id' => $this->getId(),
+        return [
+            'id'   => $this->getId(),
             'nome' => $this->getNome(),
-        );
+        ];
     }
 }

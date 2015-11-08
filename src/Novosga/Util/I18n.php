@@ -15,11 +15,11 @@ class I18n
 
     private static $lang;
     private static $locale;
-    private static $availableLocales = array(
-        'pt' => array('pt_BR', 'pt_PT'),
-        'en' => array('en_US'),
-        'es' => array('es_ES'),
-    );
+    private static $availableLocales = [
+        'pt' => ['pt_BR', 'pt_PT'],
+        'en' => ['en_US'],
+        'es' => ['es_ES'],
+    ];
 
     public static function lang()
     {
@@ -49,7 +49,7 @@ class I18n
             // se o locale esta disponivel
             if (isset(self::$availableLocales[$lang[0]])) {
                 $locales = self::$availableLocales[$lang[0]];
-                $l = $lang[0].'_'.strtoupper(sizeof($lang) > 1 ? $lang[1] : $lang[0]);
+                $l = $lang[0].'_'.strtoupper(count($lang) > 1 ? $lang[1] : $lang[0]);
                 // se nao existir o idioma da regiao, pega o primeiro
                 self::$locale = (in_array($l, $locales)) ? $l : $locales[0];
                 self::$lang = $lang[0];
@@ -60,10 +60,10 @@ class I18n
 
     private static function acceptLanguage()
     {
-        $langs = array();
+        $langs = [];
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             preg_match_all('/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i', $_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang_parse);
-            if (sizeof($lang_parse[1])) {
+            if (count($lang_parse[1])) {
                 $langs = array_combine($lang_parse[1], $lang_parse[4]);
                 foreach ($langs as $lang => $val) {
                     if ($val === '') {

@@ -2,8 +2,8 @@
 
 namespace Novosga\Controller;
 
-use Exception;
 use DateTime;
+use Exception;
 use Novosga\Config\AppConfig;
 use Novosga\Context;
 
@@ -21,9 +21,9 @@ class TicketController extends AppController
      * @param int     $id
      * @param hash    $hash
      *
-     * @return string
-     *
      * @throws Exception
+     *
+     * @return string
      */
     public function printAction(Context $context, $id, $hash)
     {
@@ -38,9 +38,9 @@ class TicketController extends AppController
     /**
      * @param int $id
      *
-     * @return \Novosga\Model\Atendimento
-     *
      * @throws Exception
+     *
+     * @return \Novosga\Model\Atendimento
      */
     public function getAtendimento($id)
     {
@@ -57,9 +57,9 @@ class TicketController extends AppController
      *
      * @param \Novosga\Model\Atendimento $atendimento
      *
-     * @return string
-     *
      * @throws Exception
+     *
+     * @return string
      */
     public function printTicket(\Novosga\Model\Atendimento $atendimento)
     {

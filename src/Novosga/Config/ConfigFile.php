@@ -11,7 +11,7 @@ use Novosga\Util\Arrays;
  */
 abstract class ConfigFile
 {
-    private $data = array();
+    private $data = [];
 
     public function __construct($prop = null)
     {

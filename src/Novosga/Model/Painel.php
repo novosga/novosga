@@ -69,10 +69,10 @@ namespace Novosga\Model;
 
      public function jsonSerialize()
      {
-         return array(
-            'host' => $this->getHost(),
-            'ip' => $this->getIp(),
+         return [
+            'host'     => $this->getHost(),
+            'ip'       => $this->getIp(),
             'servicos' => $this->getServicos(),
-        );
+        ];
      }
  }

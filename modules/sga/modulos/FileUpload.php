@@ -106,6 +106,7 @@ class FileUpload
     // escapeJS and jsMatcher are adapted from the Escaper component of
     // Zend Framework, Copyright (c) 2005-2013, Zend Technologies USA, Inc.
     // https://github.com/zendframework/zf2/tree/master/library/Zend/Escaper
+
     private function escapeJS($string)
     {
         return preg_replace_callback('/[^a-z0-9,\._]/iSu', $this->jsMatcher, $string);

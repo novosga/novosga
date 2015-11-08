@@ -2,11 +2,11 @@
 
 namespace Novosga\Controller;
 
-use Exception;
-use Novosga\Model\SequencialModel;
-use Novosga\Context;
-use Novosga\Util\Objects;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Exception;
+use Novosga\Context;
+use Novosga\Model\SequencialModel;
+use Novosga\Util\Objects;
 
 /**
  * CrudController
@@ -70,7 +70,7 @@ abstract class CrudController extends ModuleController
                     ->setFirstResult($page * $maxResults)
                     ->getResult();
 
-        $total = sizeof($paginator);
+        $total = count($paginator);
         $this->app()->view()->set('search', $search);
         $this->app()->view()->set('items', $items);
         $this->app()->view()->set('total', $total);
@@ -103,7 +103,7 @@ abstract class CrudController extends ModuleController
         }
         if ($context->request()->isPost()) {
             $redirUrl = $_SERVER['HTTP_REFERER'];
-            $message = array('success' => true, 'text' => '');
+            $message = ['success' => true, 'text' => ''];
             $requiredFields = $this->requiredFields();
             try {
                 foreach ($requiredFields as $field) {
@@ -162,6 +162,7 @@ abstract class CrudController extends ModuleController
     protected function preSave(Context $context, SequencialModel $model)
     {
     }
+
     protected function postSave(Context $context, SequencialModel $model)
     {
     }
@@ -201,6 +202,7 @@ abstract class CrudController extends ModuleController
     protected function preDelete(Context $context, SequencialModel $model)
     {
     }
+
     protected function postDelete(Context $context, SequencialModel $model)
     {
     }

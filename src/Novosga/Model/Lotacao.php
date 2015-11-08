@@ -100,10 +100,10 @@ class Lotacao extends Model implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array(
-            'cargo' => $this->getCargo(),
-            'grupo' => $this->getGrupo(),
+        return [
+            'cargo'   => $this->getCargo(),
+            'grupo'   => $this->getGrupo(),
             'usuario' => $this->getUsuario(),
-        );
+        ];
     }
 }

@@ -15,12 +15,12 @@ use Novosga\Security;
  */
 class AcessoService
 {
-    private $modulos = array(
-        Modulo::MODULO_GLOBAL => array(),
-        Modulo::MODULO_UNIDADE => array(),
-    );
+    private $modulos = [
+        Modulo::MODULO_GLOBAL  => [],
+        Modulo::MODULO_UNIDADE => [],
+    ];
 
-    private $unidades = array();
+    private $unidades = [];
 
     /**
      * Verifica se a senha informada é válida e a retorna encriptada.
@@ -28,9 +28,9 @@ class AcessoService
      * @param type $senha
      * @param type $confirmacao
      *
-     * @return type
-     *
      * @throws Exception
+     *
+     * @return type
      */
     public function verificaSenha($senha, $confirmacao)
     {
@@ -136,7 +136,7 @@ class AcessoService
             ORDER BY
                 e.id
         ");
-        $ids = array(0);
+        $ids = [0];
         $permissoes = $usuario->getPermissoes();
         foreach ($permissoes as $permissao) {
             $ids[] = $permissao->getModuloId();

@@ -34,10 +34,10 @@ class Objects
                 return self::setPropertyValue($obj, $prop, $value);
             } catch (Exception $e) {
                 try {
-                    return self::invokeMethod($obj, 'set'.ucfirst($prop), array($value));
+                    return self::invokeMethod($obj, 'set'.ucfirst($prop), [$value]);
                 } catch (Exception $e) {
                     try {
-                        return self::invokeMethod($obj, "set_$prop", array($value));
+                        return self::invokeMethod($obj, "set_$prop", [$value]);
                     } catch (Exception $e) {
                     }
                 }
@@ -75,7 +75,7 @@ class Objects
 
     public static function getValues($obj, array $props)
     {
-        $values = array();
+        $values = [];
         exit();
         foreach ($props as $prop) {
             $values[$prop] = self::getValue($obj, $prop);
@@ -124,7 +124,7 @@ class Objects
 
     /* method */
 
-    public static function invokeMethod($obj, $method, array $params = array())
+    public static function invokeMethod($obj, $method, array $params = [])
     {
         $rc = new ReflectionClass($obj);
         while ($rc) {
