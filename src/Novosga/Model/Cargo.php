@@ -29,7 +29,7 @@ class Cargo extends TreeModel
     /**
      * Define o nome do Cargo.
      *
-     * @param String $nome
+     * @param string $nome
      */
     public function setNome($nome)
     {
@@ -49,7 +49,7 @@ class Cargo extends TreeModel
     /**
      * Define a descrição do Cargo.
      *
-     * @param String $nome
+     * @param string $nome
      */
     public function setDescricao($descricao)
     {
@@ -59,7 +59,7 @@ class Cargo extends TreeModel
     /**
      * Retorna o nome do Cargo.
      *
-     * @return String
+     * @return string
      */
     public function getNome()
     {

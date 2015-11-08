@@ -102,7 +102,7 @@ class Fila extends Model
     /**
      * Retorna quantidade total da fila.
      *
-     * @return String
+     * @return string
      */
     public function toString()
     {
@@ -112,7 +112,7 @@ class Fila extends Model
     /**
      * Retorna resultado do método toString.
      *
-     * @return String
+     * @return string
      */
     public function __tostring()
     {
