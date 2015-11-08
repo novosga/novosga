@@ -2,12 +2,12 @@
 
 namespace Novosga\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Novosga\Model\Local;
 use Novosga\Model\Servico;
 use Novosga\Model\Unidade;
 use Novosga\Model\Usuario;
-use Novosga\Model\Local;
 use Novosga\Model\Util\UsuarioSessao;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * ServicoService.
@@ -128,11 +128,11 @@ class ServicoService extends MetaModelService
             WHERE
                 macro_id IS NULL AND
                 id NOT IN (SELECT servico_id FROM $uniServTableName WHERE unidade_id = :unidade)
-        ", array(
+        ", [
             'unidade' => $unidade,
-            'local' => $local,
-            'sigla' => $sigla,
-        ));
+            'local'   => $local,
+            'sigla'   => $sigla,
+        ]);
     }
 
     /**
@@ -187,7 +187,6 @@ class ServicoService extends MetaModelService
             ")
                 ->setParameter('usuario', $usuario)
                 ->setParameter('unidade', $unidade)
-                ->getResult()
-                ;
+                ->getResult();
     }
 }

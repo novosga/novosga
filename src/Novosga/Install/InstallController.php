@@ -3,13 +3,13 @@
 namespace Novosga\Install;
 
 use Exception;
-use Novosga\Controller\InternalController;
+use Novosga\App;
 use Novosga\Config\DatabaseConfig;
+use Novosga\Context;
+use Novosga\Controller\InternalController;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Configuracao;
 use Novosga\Security;
-use Novosga\App;
-use Novosga\Context;
 use Novosga\Util\Strings;
 
 /**
@@ -19,7 +19,7 @@ use Novosga\Util\Strings;
  */
 class InstallController extends InternalController
 {
-    private static $steps = array();
+    private static $steps = [];
 
     const STEPS = 'steps';
     const TOTAL_STEPS = 'totalSteps';
@@ -59,7 +59,7 @@ class InstallController extends InternalController
             $this->checkMigration($context);
         }
         $context->setParameter(self::STEPS, $steps);
-        $context->setParameter(self::TOTAL_STEPS, sizeof($steps));
+        $context->setParameter(self::TOTAL_STEPS, count($steps));
         $context->setParameter(self::CURR_STEP_IDX, $index);
         $context->setParameter(self::CURR_STEP, $steps[$index]);
     }
@@ -68,16 +68,16 @@ class InstallController extends InternalController
     {
         $context->session()->del('error');
         $steps = $this->getSteps();
-        $data = array(
-            'steps' => $steps,
-            'totalSteps' => sizeof($steps),
-            'index' => $step,
-            'currStep' => $steps[$step],
-        );
+        $data = [
+            'steps'      => $steps,
+            'totalSteps' => count($steps),
+            'index'      => $step,
+            'currStep'   => $steps[$step],
+        ];
         if ($step > 0) {
             $data['prevStep'] = $steps[$step - 1];
         }
-        if ($step < sizeof($steps) - 1) {
+        if ($step < count($steps) - 1) {
             $data['nextStep'] = $steps[$step + 1];
         }
         switch ($step) {
@@ -124,7 +124,7 @@ class InstallController extends InternalController
         $context->session()->set('error', $currAdapter == null);
         $data['version'] = App::VERSION;
         $scriptHeader = function ($file) {
-            $header = array();
+            $header = [];
             $lines = file($file);
             $prefix = '-- @';
             foreach ($lines as $line) {
@@ -132,7 +132,7 @@ class InstallController extends InternalController
                     break;
                 }
                 preg_match_all('/@(.*)=(.*)\n/', $line, $matches);
-                if (sizeof($matches) >= 3) {
+                if (count($matches) >= 3) {
                     $header[$matches[1][0]] = $matches[2][0];
                 }
             }
@@ -140,7 +140,7 @@ class InstallController extends InternalController
             return $header;
         };
 
-        $scripts = array();
+        $scripts = [];
         $files = glob(__DIR__.DS.'sql'.DS.'create'.DS.'*.sql');
         foreach ($files as $file) {
             $header = $scriptHeader($file);
@@ -166,13 +166,13 @@ class InstallController extends InternalController
         /*
          * minimum requirements
          */
-        $requiredsSetup = array(
-            array('name' => 'PHP', 'key' => 'php', 'version_required' => '5.3.2', 'ext' => false),
-            array('name' => 'PDO', 'key' => 'pdo', 'version_required' => '1.0.0', 'ext' => true),
-            array('name' => $adapter['label'], 'key' => $driver, 'version_required' => $adapter['version'], 'ext' => true),
-            array('name' => 'json', 'key' => 'json', 'ext' => true),
-            array('name' => 'gettext', 'key' => 'gettext', 'ext' => true),
-        );
+        $requiredsSetup = [
+            ['name' => 'PHP', 'key' => 'php', 'version_required' => '5.3.2', 'ext' => false],
+            ['name' => 'PDO', 'key' => 'pdo', 'version_required' => '1.0.0', 'ext' => true],
+            ['name' => $adapter['label'], 'key' => $driver, 'version_required' => $adapter['version'], 'ext' => true],
+            ['name' => 'json', 'key' => 'json', 'ext' => true],
+            ['name' => 'gettext', 'key' => 'gettext', 'ext' => true],
+        ];
         foreach ($requiredsSetup as &$req) {
             $success = true;
             if ($req['ext']) {
@@ -211,11 +211,11 @@ class InstallController extends InternalController
         /*
          * file permissions
          */
-        $requiredsPermission = array(
-            array('label' => _('Configuração do SGA'), 'file' => NOVOSGA_CONFIG, 'required' => _('Escrita')),
-            array('label' => _('Diretório temporário'), 'file' => sys_get_temp_dir(), 'required' => _('Escrita')),
-            array('label' => _('Session Save Path'), 'file' => session_save_path(), 'required' => _('Escrita')),
-        );
+        $requiredsPermission = [
+            ['label' => _('Configuração do SGA'), 'file' => NOVOSGA_CONFIG, 'required' => _('Escrita')],
+            ['label' => _('Diretório temporário'), 'file' => sys_get_temp_dir(), 'required' => _('Escrita')],
+            ['label' => _('Session Save Path'), 'file' => session_save_path(), 'required' => _('Escrita')],
+        ];
         foreach ($requiredsPermission as &$req) {
             if (is_writable($req['file'])) {
                 $req['result'] = _('Escrita');
@@ -368,7 +368,7 @@ class InstallController extends InternalController
                         throw new Exception($message);
                     }
                 }
-                $config = array();
+                $config = [];
                 foreach (InstallData::$dbFields as $field => $message) {
                     $config[$field] = $_POST[$field];
                 }
@@ -421,7 +421,7 @@ class InstallController extends InternalController
                     }
                 }
 
-                $adm = array();
+                $adm = [];
                 $adm['login'] = $context->request()->post('login');
                 $adm['nome'] = $context->request()->post('nome');
                 $adm['sobrenome'] = $context->request()->post('sobrenome');
@@ -552,7 +552,7 @@ class InstallController extends InternalController
         if (!is_dir($path)) {
             throw new Exception(sprintf('Caminho para nova versão inválido: %s', $path));
         }
-        $scripts = array();
+        $scripts = [];
         $files = glob("$path/*.sql");
         foreach ($files as $file) {
             $version = str_replace('.sql', '', basename($file));

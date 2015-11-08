@@ -127,11 +127,11 @@ class ServicoUnidade extends Model implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array(
-            'sigla' => $this->getSigla(),
-            'peso' => $this->getPeso(),
-            'local' => $this->getLocal(),
+        return [
+            'sigla'   => $this->getSigla(),
+            'peso'    => $this->getPeso(),
+            'local'   => $this->getLocal(),
             'servico' => $this->getServico(),
-        );
+        ];
     }
 }

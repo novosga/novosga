@@ -87,7 +87,7 @@ class Configuracao extends Model implements \JsonSerializable
      *
      * @return Novosga\Model\Configuracao
      */
-    public static function get(EntityManager $em,  $key)
+    public static function get(EntityManager $em, $key)
     {
         try {
             $query = $em->createQuery("SELECT e FROM Novosga\Model\Configuracao e WHERE e.chave = :key");
@@ -139,9 +139,9 @@ class Configuracao extends Model implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array(
+        return [
             'chave' => $this->getChave(),
             'valor' => $this->getValor(),
-        );
+        ];
     }
 }

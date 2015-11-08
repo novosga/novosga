@@ -62,10 +62,10 @@ namespace Novosga\Model;
 
      public function jsonSerialize()
      {
-         return array(
-            'painel' => $this->getPainel(),
+         return [
+            'painel'  => $this->getPainel(),
             'servico' => $this->getServico(),
             'unidade' => $this->getUnidade(),
-        );
+        ];
      }
  }

@@ -3,14 +3,14 @@
 namespace modules\sga\admin;
 
 use Novosga\App;
+use Novosga\Auth\AuthenticationProvider;
 use Novosga\Context;
+use Novosga\Controller\ModuleController;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Configuracao;
-use Novosga\Model\Util\Senha;
-use Novosga\Auth\AuthenticationProvider;
-use Novosga\Controller\ModuleController;
-use Novosga\Service\AtendimentoService;
 use Novosga\Model\Modulo;
+use Novosga\Model\Util\Senha;
+use Novosga\Service\AtendimentoService;
 
 /**
  * AdminView.
@@ -24,7 +24,7 @@ class AdminController extends ModuleController
     public function __construct(App $app, Modulo $modulo)
     {
         parent::__construct($app, $modulo);
-        $this->numeracoes = array(Senha::NUMERACAO_UNICA => _('Incremental única'), Senha::NUMERACAO_SERVICO => _('Incremental por serviço'));
+        $this->numeracoes = [Senha::NUMERACAO_UNICA => _('Incremental única'), Senha::NUMERACAO_SERVICO => _('Incremental por serviço')];
     }
 
     public function index(Context $context)
@@ -36,19 +36,19 @@ class AdminController extends ModuleController
         if ($auth) {
             $auth = $auth->getValor();
         } else {
-            $auth = array(
+            $auth = [
                 'type' => 'db',
-                'db' => array(),
-                'ldap' => array(
-                    'host' => '',
-                    'port' => '',
-                    'baseDn' => '',
+                'db'   => [],
+                'ldap' => [
+                    'host'           => '',
+                    'port'           => '',
+                    'baseDn'         => '',
                     'loginAttribute' => '',
-                    'username' => '',
-                    'password' => '',
-                    'filter' => '',
-                ),
-            );
+                    'username'       => '',
+                    'password'       => '',
+                    'filter'         => '',
+                ],
+            ];
             Configuracao::set($this->em(), AuthenticationProvider::KEY, $auth);
         }
         // tipo de numeração de senha
@@ -80,7 +80,7 @@ class AdminController extends ModuleController
             $type = $context->request()->post('type');
             $value['type'] = $type;
             if (!isset($value[$type])) {
-                $value[$type] = array();
+                $value[$type] = [];
             }
             foreach ($_POST as $k => $v) {
                 $value[$type][$k] = $v;
@@ -182,8 +182,8 @@ class AdminController extends ModuleController
     public function get_all_oauth_client(Context $context)
     {
         $response = new JsonResponse(true);
-        $rs = $this->em()->getRepository('Novosga\Model\OAuthClient')->findBy(array(), array('id' => 'ASC'));
-        $response->data = array();
+        $rs = $this->em()->getRepository('Novosga\Model\OAuthClient')->findBy([], ['id' => 'ASC']);
+        $response->data = [];
         foreach ($rs as $client) {
             $response->data[] = $client->jsonSerialize();
         }

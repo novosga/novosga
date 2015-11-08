@@ -43,7 +43,7 @@ class LoginController extends InternalController
         if (!empty($username) && !empty($password)) {
             $em = $context->database()->createEntityManager();
             $config = \Novosga\Model\Configuracao::get($em, \Novosga\Auth\AuthenticationProvider::KEY);
-            $auth = ($config) ? $config->getValor() : array();
+            $auth = ($config) ? $config->getValor() : [];
             $provider = App::authenticationFactory()->create($context, $auth);
             $user = $provider->auth($username, $password);
             if ($user) {
@@ -57,7 +57,7 @@ class LoginController extends InternalController
                 $us->setEm($em);
                 if (!$us->getUnidade()) {
                     $unidades = $this->app()->getAcessoService()->unidades($context, $us);
-                    if (sizeof($unidades) == 1) {
+                    if (count($unidades) == 1) {
                         $us->setUnidade($unidades[0]);
                     }
                 }

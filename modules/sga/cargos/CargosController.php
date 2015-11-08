@@ -3,9 +3,9 @@
 namespace modules\sga\cargos;
 
 use Novosga\Context;
-use Novosga\Model\SequencialModel;
-use Novosga\Model\Cargo;
 use Novosga\Controller\TreeModelController;
+use Novosga\Model\Cargo;
+use Novosga\Model\SequencialModel;
 
 /**
  * CargosController.
@@ -21,7 +21,7 @@ class CargosController extends TreeModelController
 
     protected function requiredFields()
     {
-        return array('nome', 'descricao');
+        return ['nome', 'descricao'];
     }
 
     protected function preSave(Context $context, SequencialModel $model)
@@ -99,8 +99,8 @@ class CargosController extends TreeModelController
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Permissao e WHERE e.cargo = :cargo");
         $query->setParameter('cargo', $this->model->getId());
         $permissoes = $query->getResult();
-        $this->app()->view()->set('tipos', array(_('Unidade'), _('Global')));
-        $this->app()->view()->set('modulos', array($modulosUnidade, $modulosGlobal));
+        $this->app()->view()->set('tipos', [_('Unidade'), _('Global')]);
+        $this->app()->view()->set('modulos', [$modulosUnidade, $modulosGlobal]);
         $this->app()->view()->set('permissoes', $permissoes);
     }
 }

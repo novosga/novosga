@@ -33,8 +33,7 @@ class ModuleRemoveCommand extends Command
                 'key',
                 InputArgument::REQUIRED,
                 'Chave do módulo a ser removido'
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

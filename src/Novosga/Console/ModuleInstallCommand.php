@@ -38,8 +38,7 @@ class ModuleInstallCommand extends Command
                 'key',
                 InputArgument::OPTIONAL,
                 'Chave do módulo quando instalando via diretório'
-            )
-        ;
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

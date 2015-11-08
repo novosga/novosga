@@ -22,6 +22,6 @@ class SecFormat extends \Twig_SimpleFilter
             return str_pad($hours, 2, '0', STR_PAD_LEFT).':'.
                     str_pad($minutes, 2, '0', STR_PAD_LEFT).':'.
                     str_pad($seconds % 60, 2, '0', STR_PAD_LEFT);
-        }, array('needs_environment' => true));
+        }, ['needs_environment' => true]);
     }
 }

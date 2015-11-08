@@ -2,8 +2,8 @@
 
 namespace modules\sga\locais;
 
-use Exception;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Novosga\Model\Local;
 
 /**

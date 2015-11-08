@@ -179,15 +179,15 @@ namespace Novosga\Model;
 
      public function jsonSerialize()
      {
-         return array(
-            'id' => $this->getId(),
-            'senha' => $this->getSiglaSenha().str_pad($this->getNumeroSenha(), 3, '0', STR_PAD_LEFT),
-            'local' => $this->getLocal(),
-            'numeroLocal' => $this->getNumeroLocal(),
-            'peso' => $this->getPeso(),
-            'prioridade' => $this->getPrioridade(),
-            'nomeCliente' => $this->getNomeCliente(),
+         return [
+            'id'               => $this->getId(),
+            'senha'            => $this->getSiglaSenha().str_pad($this->getNumeroSenha(), 3, '0', STR_PAD_LEFT),
+            'local'            => $this->getLocal(),
+            'numeroLocal'      => $this->getNumeroLocal(),
+            'peso'             => $this->getPeso(),
+            'prioridade'       => $this->getPrioridade(),
+            'nomeCliente'      => $this->getNomeCliente(),
             'documentoCliente' => $this->getDocumentoCliente(),
-        );
+        ];
      }
  }

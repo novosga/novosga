@@ -130,13 +130,13 @@ class Servico extends SequencialModel
 
     public function jsonSerialize()
     {
-        return array(
-            'id' => $this->getId(),
-            'nome' => $this->getNome(),
+        return [
+            'id'        => $this->getId(),
+            'nome'      => $this->getNome(),
             'descricao' => $this->getDescricao(),
-            'peso' => $this->getPeso(),
-            'status' => $this->getStatus(),
-            'macro' => $this->getMestre(),
-        );
+            'peso'      => $this->getPeso(),
+            'status'    => $this->getStatus(),
+            'macro'     => $this->getMestre(),
+        ];
     }
 }

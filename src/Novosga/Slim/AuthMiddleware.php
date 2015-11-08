@@ -3,8 +3,8 @@
 namespace Novosga\Slim;
 
 use Novosga\App;
-use Novosga\Model\Modulo;
 use Novosga\Context;
+use Novosga\Model\Modulo;
 use Slim\Middleware;
 
 /**
@@ -16,7 +16,7 @@ use Slim\Middleware;
 class AuthMiddleware extends Middleware
 {
     private $context;
-    public static $freePages = array('login', 'logout', 'api', 'print');
+    public static $freePages = ['login', 'logout', 'api', 'print'];
 
     public function __construct(Context $context)
     {

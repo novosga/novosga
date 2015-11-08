@@ -37,6 +37,6 @@ class PermissaoSessao
 
     public function __sleep()
     {
-        return array('usuarioId', 'moduloId', 'cargoId');
+        return ['usuarioId', 'moduloId', 'cargoId'];
     }
 }

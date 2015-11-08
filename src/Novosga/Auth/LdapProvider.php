@@ -41,9 +41,9 @@ class LdapProvider extends DatabaseProvider
      * @param type $username
      * @param type $password
      *
-     * @return bool
-     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function auth($username, $password)
     {
@@ -96,7 +96,7 @@ class LdapProvider extends DatabaseProvider
             throw new \Exception('Não foi possível conectar ao servidor LDAP. Verifique se os dados estão corretos.');
         }
 
-        return array($conn, $bind);
+        return [$conn, $bind];
     }
 
     private function createUser($username, $ldapUser)

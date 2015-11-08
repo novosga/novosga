@@ -19,7 +19,7 @@ class Relatorio implements \JsonSerializable
         $this->titulo = $titulo;
         $this->arquivo = $arquivo;
         $this->opcoes = $opcoes;
-        $this->dados = array();
+        $this->dados = [];
     }
 
     public function getTitulo()
@@ -31,6 +31,7 @@ class Relatorio implements \JsonSerializable
     {
         return $this->arquivo;
     }
+
     public function getOpcoes()
     {
         return $this->opcoes;
@@ -48,9 +49,9 @@ class Relatorio implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array(
+        return [
             'titulo' => $this->titulo,
-            'dados' => $this->dados,
-        );
+            'dados'  => $this->dados,
+        ];
     }
 }

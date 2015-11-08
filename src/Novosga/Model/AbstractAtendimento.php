@@ -444,15 +444,15 @@ abstract class AbstractAtendimento extends SequencialModel
 
     public function jsonSerialize($minimal = false)
     {
-        $arr = array(
-            'id' => $this->getId(),
-            'senha' => $this->getSenha()->toString(),
-            'servico' => $this->getServicoUnidade()->getServico()->getNome(),
-            'prioridade' => $this->getSenha()->isPrioridade(),
+        $arr = [
+            'id'             => $this->getId(),
+            'senha'          => $this->getSenha()->toString(),
+            'servico'        => $this->getServicoUnidade()->getServico()->getNome(),
+            'prioridade'     => $this->getSenha()->isPrioridade(),
             'nomePrioridade' => $this->getSenha()->getPrioridade()->getNome(),
-            'chegada' => $this->getDataChegada()->format('Y-m-d H:i:s'),
-            'espera' => $this->getTempoEspera()->format('%H:%I:%S'),
-        );
+            'chegada'        => $this->getDataChegada()->format('Y-m-d H:i:s'),
+            'espera'         => $this->getTempoEspera()->format('%H:%I:%S'),
+        ];
         if (!$minimal) {
             $arr['numero'] = $this->getSenha()->getNumero();
             if ($this->getUsuario()) {
@@ -469,10 +469,10 @@ abstract class AbstractAtendimento extends SequencialModel
             }
             $arr['status'] = $this->getStatus();
             $arr['nomeStatus'] = $this->getNomeStatus();
-            $arr['cliente'] = array(
-                'nome' => $this->getCliente()->getNome(),
+            $arr['cliente'] = [
+                'nome'      => $this->getCliente()->getNome(),
                 'documento' => $this->getCliente()->getDocumento(),
-            );
+            ];
         }
 
         return $arr;

@@ -50,6 +50,7 @@ class Permissao extends Model implements \JsonSerializable
     {
         return $this->modulo;
     }
+
     public function getCargo()
     {
         return $this->cargo;
@@ -72,10 +73,10 @@ class Permissao extends Model implements \JsonSerializable
 
     public function jsonSerialize()
     {
-        return array(
-            'cargo' => $this->getCargo(),
-            'modulo' => $this->getModulo(),
+        return [
+            'cargo'     => $this->getCargo(),
+            'modulo'    => $this->getModulo(),
             'permissao' => $this->getPermissao(),
-        );
+        ];
     }
 }

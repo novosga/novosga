@@ -2,13 +2,13 @@
 
 namespace modules\sga\modulos;
 
-use Exception;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Novosga\Service\ModuloService;
+use Exception;
 use Novosga\Context;
 use Novosga\Controller\ModuleController;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\Modulo;
+use Novosga\Service\ModuloService;
 use Novosga\Util\Arrays;
 use Novosga\Util\FileUtils;
 
@@ -74,7 +74,7 @@ class ModulosController extends ModuleController
         try {
             $id = (int) $context->request()->get('id');
             $type = $context->request()->get('type');
-            if (!Arrays::contains(array('js', 'css'), $type)) {
+            if (!Arrays::contains(['js', 'css'], $type)) {
                 throw new Exception(_('Tipo de recurso inválido'));
             }
             $modulo = $this->find($id);
@@ -98,7 +98,7 @@ class ModulosController extends ModuleController
             $id = (int) $context->request()->post('id');
             $type = $context->request()->post('type');
             $data = $context->request()->post('data');
-            if (Arrays::contains(array('js', 'css'), $type)) {
+            if (Arrays::contains(['js', 'css'], $type)) {
                 throw new Exception(_('Tipo de recurso inválido'));
             }
             $modulo = $this->find($id);
@@ -127,7 +127,7 @@ class ModulosController extends ModuleController
             // file upload handling
             $ext = 'zip';
             $fu = new FileUpload('uploadfile');
-            $result = $fu->handleUpload(NOVOSGA_CACHE, array($ext));
+            $result = $fu->handleUpload(NOVOSGA_CACHE, [$ext]);
             if (!$result) {
                 throw new Exception($fu->getErrorMsg());
             }

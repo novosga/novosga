@@ -2,11 +2,11 @@
 
 namespace Novosga\Model\Util;
 
-use Novosga\Model\Usuario;
-use Novosga\Model\Unidade;
-use Novosga\Service\UsuarioService;
 use Doctrine\ORM\EntityManager;
+use Novosga\Model\Unidade;
+use Novosga\Model\Usuario;
 use Novosga\Service\ServicoService;
+use Novosga\Service\UsuarioService;
 
 /**
  * Usuario utilizado para salvar na sessao. Assim evitar de salvar
@@ -87,7 +87,7 @@ class UsuarioSessao
     public function getPermissoes()
     {
         if (!$this->permissoes) {
-            $this->permissoes = array();
+            $this->permissoes = [];
             $query = $this->em->createQuery("
                 SELECT
                    p
@@ -294,7 +294,7 @@ class UsuarioSessao
 
     public function __sleep()
     {
-        return array('id', 'unidadeId', 'ativo', 'local', 'tipoAtendimento', 'permissoes', 'sequenciaPrioridade');
+        return ['id', 'unidadeId', 'ativo', 'local', 'tipoAtendimento', 'permissoes', 'sequenciaPrioridade'];
     }
 
     /**

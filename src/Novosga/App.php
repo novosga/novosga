@@ -3,10 +3,10 @@
 namespace Novosga;
 
 use Exception;
-use Novosga\Util\I18n;
 use Novosga\Config\AppConfig;
 use Novosga\Config\DatabaseConfig;
 use Novosga\Service\AcessoService;
+use Novosga\Util\I18n;
 
 /**
  * Novo SGA App.
@@ -23,29 +23,29 @@ class App extends \Slim\Slim
 
     private static $instance;
 
-    public function __construct(array $userSettings = array())
+    public function __construct(array $userSettings = [])
     {
         $twig = new \Slim\Views\Twig();
-        $userSettings = array_merge($userSettings, array(
-            'debug' => NOVOSGA_DEV,
-            'cache' => NOVOSGA_CACHE,
+        $userSettings = array_merge($userSettings, [
+            'debug'          => NOVOSGA_DEV,
+            'cache'          => NOVOSGA_CACHE,
             'templates.path' => NOVOSGA_TEMPLATES,
-            'view' => $twig,
-        ));
+            'view'           => $twig,
+        ]);
         if (!$userSettings['debug']) {
-            $twig->parserOptions = array(
+            $twig->parserOptions = [
                 'cache' => $userSettings['cache'],
-            );
+            ];
         }
         parent::__construct($userSettings);
 
         $this->view()->set('version', self::VERSION);
 
-        $this->view()->parserExtensions = array(
+        $this->view()->parserExtensions = [
             new \Slim\Views\TwigExtension(),
             new \Twig_Extensions_Extension_I18n(),
             new Twig\Extensions(),
-        );
+        ];
 
         if ($userSettings['debug']) {
             $this->view()->parserExtensions[] = new \Twig_Extension_Debug();
@@ -65,7 +65,7 @@ class App extends \Slim\Slim
     /**
      * @return App
      */
-    public static function create(array $settings = array())
+    public static function create(array $settings = [])
     {
         if (!self::$instance) {
             self::$instance = new self($settings);
@@ -128,8 +128,8 @@ class App extends \Slim\Slim
 
     public function moduleResource($moduleKey, $resource)
     {
-        $filename = implode(DS, array(
-            MODULES_PATH, implode(DS, explode('.', $moduleKey)), 'public', $resource, )
+        $filename = implode(DS, [
+            MODULES_PATH, implode(DS, explode('.', $moduleKey)), 'public', $resource, ]
         );
         if (file_exists($filename)) {
             $mime = \Novosga\Util\FileUtils::mime($filename);
@@ -144,7 +144,7 @@ class App extends \Slim\Slim
     /**
      * {@inheritdoc}
      */
-    public function render($template, $data = array(), $status = null)
+    public function render($template, $data = [], $status = null)
     {
         $customTemplateDir = AppConfig::getInstance()->get('template.dir');
         if (!empty($customTemplateDir)) {

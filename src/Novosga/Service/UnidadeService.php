@@ -2,9 +2,9 @@
 
 namespace Novosga\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query;
 use Novosga\Model\Unidade;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * UnidadeService.
@@ -74,8 +74,7 @@ class UnidadeService extends MetaModelService
                 ->lotacoesQuery($where)
                 ->setParameter('unidade', $unidade)
                 ->setParameter('servico', $nomeServico)
-                ->getResult()
-        ;
+                ->getResult();
     }
 
     /**
@@ -104,7 +103,6 @@ class UnidadeService extends MetaModelService
                         {$where}
                     ORDER BY
                         u.login
-                ")
-        ;
+                ");
     }
 }

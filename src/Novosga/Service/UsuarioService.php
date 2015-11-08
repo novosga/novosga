@@ -2,10 +2,10 @@
 
 namespace Novosga\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Novosga\Model\Unidade;
 use Novosga\Model\Usuario;
 use Novosga\Model\Util\UsuarioSessao;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * UsuarioService.
@@ -68,8 +68,7 @@ class UsuarioService extends MetaModelService
                         )
                 ")
                 ->setParameter('usuario', $usuario)
-                ->setParameter('unidade', $unidade)
-        ;
+                ->setParameter('unidade', $unidade);
     }
 
     /**
@@ -115,14 +114,13 @@ class UsuarioService extends MetaModelService
                         AND EXISTS (SELECT e2 FROM Novosga\Model\UsuarioMeta e2 WHERE e2.name = :metaUnidade AND e2.value = :unidade AND e2.usuario = e.usuario)
                 ')
                 ->setParameters([
-                    'metaLocal' => self::ATTR_ATENDIMENTO_LOCAL,
-                    'numero' => $numero,
-                    'usuario' => $usuario,
+                    'metaLocal'   => self::ATTR_ATENDIMENTO_LOCAL,
+                    'numero'      => $numero,
+                    'usuario'     => $usuario,
                     'metaUnidade' => self::ATTR_UNIDADE,
-                    'unidade' => $unidade,
+                    'unidade'     => $unidade,
                 ])
-                ->getSingleScalarResult()
-        ;
+                ->getSingleScalarResult();
 
         return $count === 0;
     }

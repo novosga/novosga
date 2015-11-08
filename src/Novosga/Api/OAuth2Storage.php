@@ -14,7 +14,7 @@ class OAuth2Storage extends Pdo
 {
     private $em;
 
-    public function __construct(\Doctrine\ORM\EntityManager $em, $config = array())
+    public function __construct(\Doctrine\ORM\EntityManager $em, $config = [])
     {
         $conn = $em->getConnection()->getWrappedConnection();
         parent::__construct($conn, $config);
@@ -39,7 +39,7 @@ class OAuth2Storage extends Pdo
         }
 
         // the default behavior is to use "username" as the user_id
-        return array_merge(array('user_id' => $username), $user->jsonSerialize());
+        return array_merge(['user_id' => $username], $user->jsonSerialize());
     }
 
     public function setUser($username, $password, $firstName = null, $lastName = null)

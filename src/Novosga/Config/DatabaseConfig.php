@@ -2,7 +2,6 @@
 
 namespace Novosga\Config;
 
-use Novosga\Config\ConfigFile;
 use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\CacheProvider;
@@ -63,7 +62,7 @@ class DatabaseConfig extends ConfigFile
     public function createEntityManager()
     {
         if (!$this->em) {
-            $paths = array(NOVOSGA_ROOT.'/src/Novosga/Model');
+            $paths = [NOVOSGA_ROOT.'/src/Novosga/Model'];
             $config = Setup::createAnnotationMetadataConfiguration($paths, $this->isDev);
             $config->setAutoGenerateProxyClasses($this->isDev ? 1 : 2);
             $config->setProxyDir(NOVOSGA_CACHE);

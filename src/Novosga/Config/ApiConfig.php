@@ -37,7 +37,7 @@ class ApiConfig extends ConfigFile
      */
     public function extra()
     {
-        return \Novosga\Util\Arrays::value($this->values(), 'extra', array());
+        return \Novosga\Util\Arrays::value($this->values(), 'extra', []);
     }
 
     /**
@@ -47,6 +47,6 @@ class ApiConfig extends ConfigFile
      */
     public function routes()
     {
-        return \Novosga\Util\Arrays::value($this->extra(), 'routes', array());
+        return \Novosga\Util\Arrays::value($this->extra(), 'routes', []);
     }
 }

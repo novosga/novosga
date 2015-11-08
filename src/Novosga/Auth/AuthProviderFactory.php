@@ -19,5 +19,5 @@ interface AuthProviderFactory
      *
      * @return AuthenticationProvider
      */
-    public function create(Context $context, array $config = array());
+    public function create(Context $context, array $config = []);
 }

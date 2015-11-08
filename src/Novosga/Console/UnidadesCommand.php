@@ -32,7 +32,7 @@ class UnidadesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $unidades = $this->em->getRepository('Novosga\Model\Unidade')->findBy(array('status' => 1), array('id' => 'ASC'));
+            $unidades = $this->em->getRepository('Novosga\Model\Unidade')->findBy(['status' => 1], ['id' => 'ASC']);
             $output->writeln('<info>Unidades</info>');
             foreach ($unidades as $unidade) {
                 $output->writeln("Id: {$unidade->getId()}, Unidade: {$unidade->getCodigo()} - {$unidade->getNome()}");

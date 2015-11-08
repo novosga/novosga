@@ -11,49 +11,49 @@ class InstallData
 {
     const SESSION_KEY = 'SGA_INSTALL_DATA';
 
-    public static $dbTypes = array(
-        'pgsql' => array(
-            'label' => 'PDO PgSQL',
-            'rdms' => 'PostgreSQL',
+    public static $dbTypes = [
+        'pgsql' => [
+            'label'   => 'PDO PgSQL',
+            'rdms'    => 'PostgreSQL',
             'version' => '1.0.2',
-            'port' => '5432',
-            'driver' => array(
+            'port'    => '5432',
+            'driver'  => [
                 'linux' => 'pdo_pgsql',
-                'win' => 'pdo_pgsql',
-            ),
-        ),
-        'mysql' => array(
-            'label' => 'PDO MySQL',
-            'rdms' => 'MySQL',
+                'win'   => 'pdo_pgsql',
+            ],
+        ],
+        'mysql' => [
+            'label'   => 'PDO MySQL',
+            'rdms'    => 'MySQL',
             'version' => '1.0.0',
-            'port' => '3306',
-            'driver' => array(
+            'port'    => '3306',
+            'driver'  => [
                 'linux' => 'pdo_mysql',
-                'win' => 'pdo_mysql',
-            ),
-        ),
-    );
+                'win'   => 'pdo_mysql',
+            ],
+        ],
+    ];
 
-    public static $dbFields = array(
-        'driver' => 'O tipo do Banco de Dados deve ser informado.',
-        'host' => 'O endereço do Banco de Dados deve ser informado.',
-        'port' => 'A porta do Banco de Dados deve ser informado.',
-        'user' => 'O usuário do Banco de Dados deve ser informado.',
+    public static $dbFields = [
+        'driver'   => 'O tipo do Banco de Dados deve ser informado.',
+        'host'     => 'O endereço do Banco de Dados deve ser informado.',
+        'port'     => 'A porta do Banco de Dados deve ser informado.',
+        'user'     => 'O usuário do Banco de Dados deve ser informado.',
         'password' => 'A senha do Banco de Dados deve ser informado.',
-        'dbname' => 'O nome do Banco de Dados deve ser informado.',
-        'charset' => 'A codificação (charset) do banco deve ser informada.',
-    );
+        'dbname'   => 'O nome do Banco de Dados deve ser informado.',
+        'charset'  => 'A codificação (charset) do banco deve ser informada.',
+    ];
 
-    public static $adminFields = array(
-        'nome' => 'O nome do usuário deve ser informado.',
+    public static $adminFields = [
+        'nome'      => 'O nome do usuário deve ser informado.',
         'sobrenome' => 'O sobrenome do usuário deve ser informado.',
-        'login' => 'O login do usuário deve ser informado.',
-        'senha' => 'A senha do usuário deve ser informada.',
-        'senha_2' => 'A confirmação da senha deve ser informada.',
-    );
+        'login'     => 'O login do usuário deve ser informado.',
+        'senha'     => 'A senha do usuário deve ser informada.',
+        'senha_2'   => 'A confirmação da senha deve ser informada.',
+    ];
 
-    public $database = array();
-    public $admin = array();
+    public $database = [];
+    public $admin = [];
 
     public function __construct()
     {

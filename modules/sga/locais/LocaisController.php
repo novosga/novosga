@@ -19,7 +19,7 @@ class LocaisController extends CrudController
 
     protected function requiredFields()
     {
-        return array('nome');
+        return ['nome'];
     }
 
     protected function search($arg)

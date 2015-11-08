@@ -16,15 +16,15 @@ class Extensions extends \Twig_Extension
 
     public function getFunctions()
     {
-        return array(
+        return [
             new ResourcesFunction(),
-        );
+        ];
     }
 
     public function getFilters()
     {
-        return array(
+        return [
             new SecFormat(),
-        );
+        ];
     }
 }

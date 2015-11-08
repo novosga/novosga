@@ -3,10 +3,10 @@
 namespace modules\sga\unidades;
 
 use Novosga\Context;
+use Novosga\Controller\CrudController;
+use Novosga\Model\Contador;
 use Novosga\Model\SequencialModel;
 use Novosga\Model\Unidade;
-use Novosga\Model\Contador;
-use Novosga\Controller\CrudController;
 
 /**
  * UnidadesController.
@@ -24,7 +24,7 @@ class UnidadesController extends CrudController
 
     protected function requiredFields()
     {
-        return array('codigo', 'nome', 'status');
+        return ['codigo', 'nome', 'status'];
     }
 
     protected function preSave(Context $context, SequencialModel $model)

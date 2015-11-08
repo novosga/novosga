@@ -4,11 +4,11 @@ namespace modules\sga\usuarios;
 
 use Exception;
 use Novosga\Context;
-use Novosga\Util\Arrays;
+use Novosga\Controller\CrudController;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\SequencialModel;
 use Novosga\Model\Usuario;
-use Novosga\Controller\CrudController;
+use Novosga\Util\Arrays;
 
 /**
  * UsuariosController.
@@ -24,7 +24,7 @@ class UsuariosController extends CrudController
 
     protected function requiredFields()
     {
-        return array('login', 'nome', 'sobrenome');
+        return ['login', 'nome', 'sobrenome'];
     }
 
     public function edit(Context $context, $id = 0)
@@ -34,28 +34,28 @@ class UsuariosController extends CrudController
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Lotacao e JOIN e.cargo c JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
         $query->setParameter('usuario', $this->model->getId());
         $rs = $query->getResult();
-        $items = array();
+        $items = [];
         foreach ($rs as $lotacao) {
-            $items[] = array(
+            $items[] = [
                 'grupo_id' => $lotacao->getGrupo()->getId(),
-                'grupo' => $lotacao->getGrupo()->getNome(),
+                'grupo'    => $lotacao->getGrupo()->getNome(),
                 'cargo_id' => $lotacao->getCargo()->getId(),
-                'cargo' => $lotacao->getCargo()->getNome(),
-            );
+                'cargo'    => $lotacao->getCargo()->getNome(),
+            ];
         }
         $this->app()->view()->set('lotacoes', $items);
         // servicos do usuario
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $this->model->getId());
         $rs = $query->getResult();
-        $items = array();
+        $items = [];
         foreach ($rs as $servico) {
-            $items[] = array(
+            $items[] = [
                 'unidade_id' => $servico->getUnidade()->getId(),
-                'unidade' => $servico->getUnidade()->getNome(),
+                'unidade'    => $servico->getUnidade()->getNome(),
                 'servico_id' => $servico->getServico()->getId(),
-                'servico' => $servico->getServico()->getNome(),
-            );
+                'servico'    => $servico->getServico()->getNome(),
+            ];
         }
         $this->app()->view()->set('servicos', $items);
         // unidades
@@ -75,7 +75,7 @@ class UsuariosController extends CrudController
         if (strlen($login) < 5 || strlen($login) > 20) {
             throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
         }
-        $lotacoes = $context->request()->post('lotacoes', array());
+        $lotacoes = $context->request()->post('lotacoes', []);
         if (empty($lotacoes)) {
             throw new Exception(_('O usuário deve possuir pelo menos uma lotação.'));
         }
@@ -106,9 +106,8 @@ class UsuariosController extends CrudController
         $this->em()
                 ->createQuery("DELETE FROM Novosga\Model\Lotacao e WHERE e.usuario = :usuario")
                 ->setParameter('usuario', $model->getId())
-                ->execute()
-        ;
-        $lotacoes = $context->request()->post('lotacoes', array());
+                ->execute();
+        $lotacoes = $context->request()->post('lotacoes', []);
         if (!empty($lotacoes)) {
             foreach ($lotacoes as $item) {
                 $value = explode(',', $item);
@@ -124,9 +123,8 @@ class UsuariosController extends CrudController
         $this->em()
                 ->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario")
                 ->setParameter('usuario', $model->getId())
-                ->execute()
-        ;
-        $servicos = $context->request()->post('servicos', array());
+                ->execute();
+        $servicos = $context->request()->post('servicos', []);
         if (!empty($servicos)) {
             foreach ($servicos as $servico) {
                 $value = explode(',', $servico);
@@ -147,7 +145,7 @@ class UsuariosController extends CrudController
         }
         // verificando a quantidade de atendimentos do usuario
         $total = 0;
-        $models = array('Atendimento', 'ViewAtendimento');
+        $models = ['Atendimento', 'ViewAtendimento'];
         foreach ($models as $atendimentoModel) {
             $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\\$atendimentoModel e WHERE e.usuario = :usuario");
             $query->setParameter('usuario', $model->getId());
@@ -158,7 +156,7 @@ class UsuariosController extends CrudController
             throw new \Exception(_('Não é possível excluir esse usuário pois o mesmo já realizou atendimentos.'));
         }
         // excluindo vinculos do usuario (servicos e lotacoes)
-        $models = array('ServicoUsuario', 'Lotacao');
+        $models = ['ServicoUsuario', 'Lotacao'];
         foreach ($models as $vinculoModel) {
             $query = $this->em()->createQuery("DELETE FROM Novosga\Model\\$vinculoModel e WHERE e.usuario = :usuario");
             $query->setParameter('usuario', $model->getId());
@@ -219,7 +217,7 @@ class UsuariosController extends CrudController
         $response = new JsonResponse(true);
         $grupos = $this->grupos_disponiveis($exceto);
         foreach ($grupos as $g) {
-            $response->data[] = array('id' => $g->getId(), 'nome' => $g->getNome());
+            $response->data[] = ['id' => $g->getId(), 'nome' => $g->getNome()];
         }
 
         return $response;

@@ -134,14 +134,14 @@ class Unidade extends SequencialModel
 
     public function jsonSerialize()
     {
-        return array(
-            'id' => $this->getId(),
-            'codigo' => $this->getCodigo(),
-            'nome' => $this->getNome(),
-            'grupo' => $this->getGrupo(),
-            'status' => $this->getStatus(),
+        return [
+            'id'                => $this->getId(),
+            'codigo'            => $this->getCodigo(),
+            'nome'              => $this->getNome(),
+            'grupo'             => $this->getGrupo(),
+            'status'            => $this->getStatus(),
             'mensagemImpressao' => $this->getMensagemImpressao(),
-            'statusImpressao' => $this->getStatusImpressao(),
-        );
+            'statusImpressao'   => $this->getStatusImpressao(),
+        ];
     }
 }

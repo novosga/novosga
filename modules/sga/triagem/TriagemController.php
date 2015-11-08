@@ -4,12 +4,12 @@ namespace modules\sga\triagem;
 
 use Exception;
 use Novosga\Context;
-use Novosga\Util\Arrays;
-use Novosga\Http\JsonResponse;
 use Novosga\Controller\ModuleController;
-use Novosga\Service\AtendimentoService;
+use Novosga\Http\JsonResponse;
 use Novosga\Model\Unidade;
+use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
+use Novosga\Util\Arrays;
 
 /**
  * TriagemController.
@@ -51,8 +51,8 @@ class TriagemController extends ModuleController
         if ($unidade) {
             $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
-            $senhas = array();
-            if (sizeof($ids)) {
+            $senhas = [];
+            if (count($ids)) {
                 $dql = "
                     SELECT
                         s.id, COUNT(e) as total
@@ -70,7 +70,7 @@ class TriagemController extends ModuleController
                         ->setParameter('servicos', $ids)
                         ->getArrayResult();
                 foreach ($rs as $r) {
-                    $senhas[$r['id']] = array('total' => $r['total'], 'fila' => 0);
+                    $senhas[$r['id']] = ['total' => $r['total'], 'fila' => 0];
                 }
                 // total senhas esperando
                 $rs = $this->em()
@@ -86,10 +86,10 @@ class TriagemController extends ModuleController
                 $service = new AtendimentoService($this->em());
 
                 $response->success = true;
-                $response->data = array(
-                    'ultima' => $service->ultimaSenhaUnidade($unidade),
+                $response->data = [
+                    'ultima'   => $service->ultimaSenhaUnidade($unidade),
                     'servicos' => $senhas,
-                );
+                ];
             }
         }
 
@@ -119,7 +119,7 @@ class TriagemController extends ModuleController
                 $response->data['senhaId'] = '';
             }
             // subservicos
-            $response->data['subservicos'] = array();
+            $response->data['subservicos'] = [];
             $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
             $query->setParameter('mestre', $servico->getId());
             $subservicos = $query->getResult();
@@ -168,7 +168,7 @@ class TriagemController extends ModuleController
             $numero = $context->request()->get('numero');
             $service = new AtendimentoService($this->em());
             $atendimentos = $service->buscaAtendimentos($unidade, $numero);
-            $response->data['total'] = sizeof($atendimentos);
+            $response->data['total'] = count($atendimentos);
             foreach ($atendimentos as $atendimento) {
                 $response->data['atendimentos'][] = $atendimento->jsonSerialize();
             }

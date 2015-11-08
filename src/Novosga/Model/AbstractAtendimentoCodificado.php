@@ -23,6 +23,7 @@ abstract class AbstractAtendimentoCodificado extends Model
     protected $peso;
 
     abstract public function getAtendimento();
+
     abstract public function setAtendimento(AbstractAtendimento $atendimento);
 
     public function getServico()

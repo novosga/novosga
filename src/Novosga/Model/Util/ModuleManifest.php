@@ -55,7 +55,7 @@ class ModuleManifest
      */
     public function getScripts()
     {
-        return Arrays::value($this->data, 'scripts', array());
+        return Arrays::value($this->data, 'scripts', []);
     }
 
     /**

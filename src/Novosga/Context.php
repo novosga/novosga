@@ -2,15 +2,15 @@
 
 namespace Novosga;
 
-use Novosga\Http\Session;
+use Novosga\Config\DatabaseConfig;
 use Novosga\Http\Cookie;
 use Novosga\Http\Request;
 use Novosga\Http\Response;
-use Novosga\Model\Util\UsuarioSessao;
+use Novosga\Http\Session;
 use Novosga\Model\Modulo;
 use Novosga\Model\Unidade;
+use Novosga\Model\Util\UsuarioSessao;
 use Novosga\Util\Arrays;
-use Novosga\Config\DatabaseConfig;
 
 /**
  * Context.
@@ -28,7 +28,7 @@ class Context
     private $user;
     private $modulo;
     private $database;
-    private $parameters = array();
+    private $parameters = [];
 
     public function __construct(App $app, DatabaseConfig $database)
     {

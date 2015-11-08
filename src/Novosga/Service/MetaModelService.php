@@ -10,6 +10,7 @@ namespace Novosga\Service;
 abstract class MetaModelService extends ModelService
 {
     abstract protected function getMetaClass();
+
     abstract protected function getMetaFieldname();
 
     protected function modelMetadata($entity, $name, $value = null)

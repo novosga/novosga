@@ -147,11 +147,10 @@ class ApiV1 extends Api
             return $filaService
                         ->atendimento($unidade, $servicos)
                         ->getQuery()
-                        ->getResult()
-            ;
+                        ->getResult();
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -178,8 +177,7 @@ class ApiV1 extends Api
         ')
             ->setParameter('unidade', $unidade)
             ->setParameter('usuario', $usuario)
-            ->getResult()
-        ;
+            ->getResult();
 
         return $this->filaServicos($unidade, $servicos);
     }
@@ -230,11 +228,11 @@ class ApiV1 extends Api
             ++$pos;
         }
 
-        return array(
-            'pos' => $pos,
-            'total' => sizeof($atendimentos),
+        return [
+            'pos'         => $pos,
+            'total'       => count($atendimentos),
             'atendimento' => $atendimento->jsonSerialize(true),
-        );
+        ];
     }
 
     /**
