@@ -14,7 +14,7 @@ class Cookie
     /**
      * Define ou adicionar um valor no cookie.
      *
-     * @param String $key
+     * @param string $key
      * @param mixed  $valor
      */
     public function set($key, $value)
@@ -27,7 +27,7 @@ class Cookie
     /**
      * Retorna o valor da chave guardada no cookie.
      *
-     * @param String $key
+     * @param string $key
      *
      * @return mixed
      */
@@ -39,7 +39,7 @@ class Cookie
     /**
      * Retorna se a chave informada ja esta guardada no cookie.
      *
-     * @param String $key
+     * @param string $key
      *
      * @return bool
      */
@@ -51,7 +51,7 @@ class Cookie
     /**
      * Remove da sessao a chave informada.
      *
-     * @param String $key
+     * @param string $key
      */
     public function del($key)
     {

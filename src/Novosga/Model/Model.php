@@ -10,7 +10,7 @@ namespace Novosga\Model;
 abstract class Model
 {
     /**
-     * @return String
+     * @return string
      */
     public function toString()
     {
@@ -18,7 +18,7 @@ abstract class Model
     }
 
     /**
-     * @return String
+     * @return string
      */
     public function __tostring()
     {

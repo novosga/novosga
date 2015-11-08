@@ -75,7 +75,7 @@ use Novosga\Model\Prioridade;
     /**
      * Retorna o numero da senha preenchendo com zero (esquerda).
      *
-     * @return String
+     * @return string
      */
     public function getNumeroZeros()
     {
@@ -105,7 +105,7 @@ use Novosga\Model\Prioridade;
     /**
      * Retorna a legenda da senha.
      *
-     * @return String
+     * @return string
      */
     public function getLegenda()
     {
@@ -129,7 +129,7 @@ use Novosga\Model\Prioridade;
     /**
      * Retorna a senha formatada para exibicao.
      *
-     * @return String
+     * @return string
      */
     public function toString()
     {
@@ -139,7 +139,7 @@ use Novosga\Model\Prioridade;
     /**
      * Retorna resultado do método toString.
      *
-     * @return String
+     * @return string
      */
     public function __tostring()
     {
