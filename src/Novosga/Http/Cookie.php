@@ -1,57 +1,68 @@
 <?php
+
 namespace Novosga\Http;
 
 use Novosga\Util\Arrays;
 
 /**
- * Cookie Wrapper
- * 
+ * Cookie Wrapper.
+ *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class Cookie {
-    
+class Cookie
+{
     /**
-     * Define ou adicionar um valor no cookie
-     * @param String $key
-     * @param mixed $valor
+     * Define ou adicionar um valor no cookie.
+     *
+     * @param string $key
+     * @param mixed  $valor
      */
-    public function set($key, $value) {
+    public function set($key, $value)
+    {
         $_COOKIE[$key] = $value;
         $expire = time() + 60 * 60 * 24 * 30;
         setcookie($key, $value, $expire);
     }
-        
+
     /**
-     * Retorna o valor da chave guardada no cookie
-     * @param String $key
+     * Retorna o valor da chave guardada no cookie.
+     *
+     * @param string $key
+     *
      * @return mixed
      */
-    public function get($key) {
+    public function get($key)
+    {
         return Arrays::value($_COOKIE, $key);
     }
-        
+
     /**
-     * Retorna se a chave informada ja esta guardada no cookie
-     * @param String $key
+     * Retorna se a chave informada ja esta guardada no cookie.
+     *
+     * @param string $key
+     *
      * @return bool
      */
-    public function exists($key) {
+    public function exists($key)
+    {
         return isset($_COOKIE[$key]);
     }
-    
+
     /**
      * Remove da sessao a chave informada.
-     * @param String $key
+     *
+     * @param string $key
      */
-    public function del($key) {
+    public function del($key)
+    {
         unset($_COOKIE[$key]);
     }
 
     /**
-     * Remove todos valores armazenados
+     * Remove todos valores armazenados.
      */
-    public function clear() {
-        $_COOKIE = array();
+    public function clear()
+    {
+        $_COOKIE = [];
     }
-    
 }

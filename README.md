@@ -1,5 +1,12 @@
 # Novo SGA
 
+[![Packagist](http://img.shields.io/packagist/v/novosga/novosga.svg)](https://packagist.org/packages/novosga/novosga)
+[![Packagist](http://img.shields.io/packagist/dt/novosga/novosga.svg)](https://packagist.org/packages/novosga/novosga)
+[![Packagist](http://img.shields.io/packagist/dm/novosga/novosga.svg)](https://packagist.org/packages/novosga/novosga)
+[![Packagist](http://img.shields.io/packagist/dd/novosga/novosga.svg)](https://packagist.org/packages/novosga/novosga)
+[![StyleCI](https://styleci.io/repos/6982410/shield)](https://styleci.io/repos/6982410)
+
+
 Sistema de Gerenciamento de Atendimento adaptável para grandes e pequenas organizações.
 
 Visite o site para maiores informações: http://novosga.org

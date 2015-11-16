@@ -1,67 +1,89 @@
 <?php
+
 namespace modules\sga\servicos;
 
 use Novosga\Context;
-use Novosga\Util\Arrays;
+use Novosga\Controller\CrudController;
 use Novosga\Model\SequencialModel;
 use Novosga\Model\Servico;
-use Novosga\Controller\CrudController;
 
 /**
- * ServicosController
+ * ServicosController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ServicosController extends CrudController {
-    
-    protected function createModel() {
-         $servico = new Servico();
-         $servico->setPeso(1);
-         return $servico;
-    }
-    
-    protected function requiredFields() {
-        return array('nome', 'descricao', 'status');
+class ServicosController extends CrudController
+{
+    protected function createModel()
+    {
+        $servico = new Servico();
+        $servico->setPeso(1);
+
+        return $servico;
     }
 
-    protected function preSave(Context $context, SequencialModel $model) {
+    protected function requiredFields()
+    {
+        return ['nome', 'descricao', 'status'];
+    }
+
+    protected function preSave(Context $context, SequencialModel $model)
+    {
         $id_macro = (int) $context->request()->post('id_macro');
         $macro = $this->em()->find("Novosga\Model\Servico", $id_macro);
         $model->setMestre($macro);
     }
 
-    protected function search($arg) {
+    protected function search($arg)
+    {
         $query = $this->em()->createQuery("
-            SELECT 
-                e 
-            FROM 
-                Novosga\Model\Servico e 
+            SELECT
+                e
+            FROM
+                Novosga\Model\Servico e
                 LEFT JOIN
                     e.mestre m
-            WHERE 
+            WHERE
                 (
-                    UPPER(e.nome) LIKE :arg OR 
+                    UPPER(e.nome) LIKE :arg OR
                     UPPER(e.descricao) LIKE :arg
                 )
             ORDER BY
                 e.nome
         ");
         $query->setParameter('arg', $arg);
+
         return $query;
     }
 
-    public function edit(Context $context, $id = 0) {
+    public function edit(Context $context, $id = 0)
+    {
         parent::edit($context, $id);
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Servico e WHERE e.mestre IS NULL AND e.id != :id ORDER BY e.nome ASC");
         $query->setParameter('id', $this->model->getId());
         $this->app()->view()->set('macros', $query->getResult());
     }
-    
+
+    protected function postSave(Context $context, SequencialModel $model)
+    {
+        // um subserviço não pode aparecer na lista de serviços da unidade (triagem). issue #257
+        if ($model->getId() && $model->getMestre()) {
+            $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.servico = :servico");
+            $query->setParameter('servico', $model->getId());
+            $query->execute();
+            $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUnidade e WHERE e.servico = :servico");
+            $query->setParameter('servico', $model->getId());
+            $query->execute();
+        }
+    }
+
     /**
      * Verifica se já existe unidade usando o serviço.
+     *
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function preDelete(Context $context, SequencialModel $model) {
+    protected function preDelete(Context $context, SequencialModel $model)
+    {
         $error = _('Já existem atendimentos para o serviço que está tentando remover');
         // quantidade de atendimentos do servico
         $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico");
@@ -79,31 +101,34 @@ class ServicosController extends CrudController {
         }
         // apagando vinculo com as unidades
         $this->em()->beginTransaction();
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.servico = :servico");
+        $query->setParameter('servico', $model->getId());
+        $query->execute();
         $query = $this->em()->createQuery("DELETE FROM Novosga\Model\ServicoUnidade e WHERE e.servico = :servico");
         $query->setParameter('servico', $model->getId());
         $query->execute();
     }
-    
-    protected function postDelete(Context $context, SequencialModel $model) {
+
+    protected function postDelete(Context $context, SequencialModel $model)
+    {
         $this->em()->commit();
     }
-    
-    
-    public function subservicos(Context $context) {
+
+    public function subservicos(Context $context)
+    {
         $response = new \Novosga\Http\JsonResponse();
         $id = $context->request()->get('id');
         $servico = $this->findById($id);
         if ($servico) {
             foreach ($servico->getSubServicos() as $sub) {
-                $response->data[] = array(
-                    'id' => $sub->getId(),
-                    'nome' => $sub->getNome()
-                );
+                $response->data[] = [
+                    'id'   => $sub->getId(),
+                    'nome' => $sub->getNome(),
+                ];
             }
             $response->success = true;
         }
         echo $response->toJson();
         exit();
     }
-    
 }

@@ -1,23 +1,25 @@
 <?php
+
 namespace modules\sga\prioridades;
 
-use Exception;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use Novosga\Model\Prioridade;
 
 /**
- * Prioridades DataFixture
+ * Prioridades DataFixture.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class DataFixture {
-    
+class DataFixture
+{
     /**
-     * 
      * @param EntityManager $em
+     *
      * @throws Exception
      */
-    public function install(EntityManager $em) {
+    public function install(EntityManager $em)
+    {
         try {
             $em->beginTransaction();
             $em->persist($this->create(_('Sem prioridade'), _('Atendimento normal'), 0));
@@ -35,21 +37,22 @@ class DataFixture {
             throw $e;
         }
     }
-    
+
     /**
-     * 
      * @param string $name
      * @param string $description
-     * @param integer $weight
+     * @param int    $weight
+     *
      * @return Prioridade
      */
-    public function create($name, $description, $weight) {
+    public function create($name, $description, $weight)
+    {
         $prioridade = new Prioridade();
         $prioridade->setNome($name);
         $prioridade->setDescricao($description);
         $prioridade->setPeso($weight);
         $prioridade->setStatus(1);
+
         return $prioridade;
     }
-    
 }

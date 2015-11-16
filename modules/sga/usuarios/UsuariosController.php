@@ -1,57 +1,61 @@
 <?php
+
 namespace modules\sga\usuarios;
 
 use Exception;
 use Novosga\Context;
-use Novosga\Util\Arrays;
+use Novosga\Controller\CrudController;
 use Novosga\Http\JsonResponse;
 use Novosga\Model\SequencialModel;
 use Novosga\Model\Usuario;
-use Novosga\Controller\CrudController;
+use Novosga\Util\Arrays;
 
 /**
- * UsuariosController
+ * UsuariosController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class UsuariosController extends CrudController {
-
-    protected function createModel() {
+class UsuariosController extends CrudController
+{
+    protected function createModel()
+    {
         return new Usuario();
     }
-    
-    protected function requiredFields() {
-        return array('login', 'nome', 'sobrenome');
+
+    protected function requiredFields()
+    {
+        return ['login', 'nome', 'sobrenome'];
     }
-    
-    public function edit(Context $context, $id = 0) {
+
+    public function edit(Context $context, $id = 0)
+    {
         parent::edit($context, $id);
         // lotacoes do usuario
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Lotacao e JOIN e.cargo c JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
         $query->setParameter('usuario', $this->model->getId());
         $rs = $query->getResult();
-        $items = array();
+        $items = [];
         foreach ($rs as $lotacao) {
-            $items[] = array(
+            $items[] = [
                 'grupo_id' => $lotacao->getGrupo()->getId(),
-                'grupo' => $lotacao->getGrupo()->getNome(),
+                'grupo'    => $lotacao->getGrupo()->getNome(),
                 'cargo_id' => $lotacao->getCargo()->getId(),
-                'cargo' => $lotacao->getCargo()->getNome()
-            );
+                'cargo'    => $lotacao->getCargo()->getNome(),
+            ];
         }
         $this->app()->view()->set('lotacoes', $items);
         // servicos do usuario
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario");
         $query->setParameter('usuario', $this->model->getId());
         $rs = $query->getResult();
-        $items = array();
+        $items = [];
         foreach ($rs as $servico) {
-            $items[] = array(
+            $items[] = [
                 'unidade_id' => $servico->getUnidade()->getId(),
-                'unidade' => $servico->getUnidade()->getNome(),
+                'unidade'    => $servico->getUnidade()->getNome(),
                 'servico_id' => $servico->getServico()->getId(),
-                'servico' => $servico->getServico()->getNome()
-            );
+                'servico'    => $servico->getServico()->getNome(),
+            ];
         }
         $this->app()->view()->set('servicos', $items);
         // unidades
@@ -61,8 +65,9 @@ class UsuariosController extends CrudController {
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Cargo e ORDER BY e.nome");
         $this->app()->view()->set('cargos', $query->getResult());
     }
-    
-    protected function preSave(Context $context, SequencialModel $model) {
+
+    protected function preSave(Context $context, SequencialModel $model)
+    {
         $login = $context->request()->post('login');
         if (!preg_match('/^[a-zA-Z0-9\.]+$/', $login)) {
             throw new Exception(_('O login deve conter somente letras e números.'));
@@ -70,7 +75,7 @@ class UsuariosController extends CrudController {
         if (strlen($login) < 5 || strlen($login) > 20) {
             throw new Exception(_('O login deve possuir entre 5 e 20 caracteres (letras ou números).'));
         }
-        $lotacoes = $context->request()->post('lotacoes', array());
+        $lotacoes = $context->request()->post('lotacoes', []);
         if (empty($lotacoes)) {
             throw new Exception(_('O usuário deve possuir pelo menos uma lotação.'));
         }
@@ -94,15 +99,15 @@ class UsuariosController extends CrudController {
             throw new \Exception(_('O login informado já está cadastrado para outro usuário.'));
         }
     }
-    
-    protected function postSave(Context $context, SequencialModel $model) {
+
+    protected function postSave(Context $context, SequencialModel $model)
+    {
         // lotacoes - atualizando permissoes do cargo
         $this->em()
                 ->createQuery("DELETE FROM Novosga\Model\Lotacao e WHERE e.usuario = :usuario")
                 ->setParameter('usuario', $model->getId())
-                ->execute()
-        ;
-        $lotacoes = $context->request()->post('lotacoes', array());
+                ->execute();
+        $lotacoes = $context->request()->post('lotacoes', []);
         if (!empty($lotacoes)) {
             foreach ($lotacoes as $item) {
                 $value = explode(',', $item);
@@ -118,9 +123,8 @@ class UsuariosController extends CrudController {
         $this->em()
                 ->createQuery("DELETE FROM Novosga\Model\ServicoUsuario e WHERE e.usuario = :usuario")
                 ->setParameter('usuario', $model->getId())
-                ->execute()
-        ;
-        $servicos = $context->request()->post('servicos', array());
+                ->execute();
+        $servicos = $context->request()->post('servicos', []);
         if (!empty($servicos)) {
             foreach ($servicos as $servico) {
                 $value = explode(',', $servico);
@@ -133,14 +137,15 @@ class UsuariosController extends CrudController {
             $this->em()->flush();
         }
     }
-    
-    protected function preDelete(Context $context, SequencialModel $model) {
+
+    protected function preDelete(Context $context, SequencialModel $model)
+    {
         if ($context->getUser()->getId() === $model->getId()) {
             throw new \Exception(_('Não é possível excluir si próprio.'));
         }
         // verificando a quantidade de atendimentos do usuario
         $total = 0;
-        $models = array('Atendimento', 'ViewAtendimento');
+        $models = ['Atendimento', 'ViewAtendimento'];
         foreach ($models as $atendimentoModel) {
             $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Model\\$atendimentoModel e WHERE e.usuario = :usuario");
             $query->setParameter('usuario', $model->getId());
@@ -151,7 +156,7 @@ class UsuariosController extends CrudController {
             throw new \Exception(_('Não é possível excluir esse usuário pois o mesmo já realizou atendimentos.'));
         }
         // excluindo vinculos do usuario (servicos e lotacoes)
-        $models = array('ServicoUsuario', 'Lotacao');
+        $models = ['ServicoUsuario', 'Lotacao'];
         foreach ($models as $vinculoModel) {
             $query = $this->em()->createQuery("DELETE FROM Novosga\Model\\$vinculoModel e WHERE e.usuario = :usuario");
             $query->setParameter('usuario', $model->getId());
@@ -159,92 +164,108 @@ class UsuariosController extends CrudController {
         }
     }
 
-    protected function search($arg) {
+    protected function search($arg)
+    {
         $query = $this->em()->createQuery("SELECT e FROM Novosga\Model\Usuario e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.login) LIKE :arg");
         $query->setParameter('arg', $arg);
+
         return $query;
     }
-    
+
     /**
      * Retorna os grupos disponíveis para serem atribuidos ao usuário. Descartando os grupos com ids informados no parâmetro exceto.
+     *
      * @param array $exceto
      */
-    private function grupos_disponiveis(array $exceto) {
+    private function grupos_disponiveis(array $exceto)
+    {
         // grupos disponiveis (grupos que o usuario nao esta vinculados e que nao sao filhos e nem pai do que esta)
         $query = $this->em()->createQuery("
-            SELECT 
+            SELECT
                 e
-            FROM 
-                Novosga\Model\Grupo e 
-            WHERE 
+            FROM
+                Novosga\Model\Grupo e
+            WHERE
                 NOT EXISTS (
-                    SELECT 
-                        g2.id 
-                    FROM 
-                        Novosga\Model\Grupo g2 
-                    WHERE 
+                    SELECT
+                        g2.id
+                    FROM
+                        Novosga\Model\Grupo g2
+                    WHERE
                         (
                             g2.left <= e.left AND g2.right >= e.right OR
-                            g2.left >= e.left AND g2.right <= e.right 
+                            g2.left >= e.left AND g2.right <= e.right
                         )
                         AND g2.id IN (:exceto))
-            ORDER BY 
+            ORDER BY
                 e.left, e.nome
         ");
         $query->setParameter('exceto', $exceto);
+
         return $query->getResult();
     }
-    
+
     /**
      * Retorna os grupos disponíveis para serem atribuidos ao usuário. Descartando os grupos com ids informados no parâmetro exceto.
+     *
      * @param Novosga\Context $context
      */
-    public function grupos(Context $context) {
+    public function grupos(Context $context)
+    {
         $exceto = $context->request()->get('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
         $response = new JsonResponse(true);
         $grupos = $this->grupos_disponiveis($exceto);
         foreach ($grupos as $g) {
-            $response->data[] = array('id' => $g->getId(), 'nome' => $g->getNome());
+            $response->data[] = ['id' => $g->getId(), 'nome' => $g->getNome()];
         }
+
         return $response;
     }
 
     /**
-     * Retorna as permissões do cargo informado
+     * Retorna as permissões do cargo informado.
+     *
      * @param Novosga\Context $context
      */
-    public function permissoes_cargo(Context $context) {
+    public function permissoes_cargo(Context $context)
+    {
         $response = new JsonResponse(true);
         $id = (int) $context->request()->get('cargo');
         $query = $this->em()->createQuery("SELECT m.nome FROM Novosga\Model\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
         $query->setParameter('cargo', $id);
         $response->data = $query->getResult();
+
         return $response;
     }
 
     /**
-     * Retorna os serviços habilitados na unidade informada. Descartando os serviços com ids informados no parâmetro exceto
+     * Retorna os serviços habilitados na unidade informada. Descartando os serviços com ids informados no parâmetro exceto.
+     *
      * @param Novosga\Context $context
      */
-    public function servicos_unidade(Context $context) {
+    public function servicos_unidade(Context $context)
+    {
         $response = new JsonResponse(true);
         $id = (int) $context->request()->get('unidade');
-        
+
         $exceto = $context->request()->get('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
-        $exceto = join(',', $exceto);
-        
+        $exceto = implode(',', $exceto);
+
         $service = new \Novosga\Service\ServicoService($this->em());
         $response->data = $service->servicosUnidade($id, "e.status = 1 AND s.id NOT IN ($exceto)");
+
         return $response;
     }
-    
+
     /**
-     * Altera a senha do usuario que está sendo editado
+     * Altera a senha do usuario que está sendo editado.
+     *
      * @param Novosga\Context $context
      */
-    public function alterar_senha(Context $context) {
+    public function alterar_senha(Context $context)
+    {
         $response = new JsonResponse();
         $id = (int) $context->request()->post('id');
         $senha = $context->request()->post('senha');
@@ -264,7 +285,7 @@ class UsuariosController extends CrudController {
         } else {
             $response->message = _('Usuário inválido');
         }
+
         return $response;
     }
-    
 }

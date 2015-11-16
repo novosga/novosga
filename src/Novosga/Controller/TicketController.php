@@ -1,29 +1,29 @@
 <?php
+
 namespace Novosga\Controller;
 
-use Exception;
 use DateTime;
+use Exception;
 use Novosga\Config\AppConfig;
 use Novosga\Context;
-use Novosga\Controller\AppController;
 
 /**
- * TicketController
- * 
- * @author Rogerio Lino <rogeriolino@gmail.com>
+ * TicketController.
  *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class TicketController extends AppController 
+class TicketController extends AppController
 {
-    
     /**
-     * Imprime a senha informado pelo ID do atendimento e o seu hash
-     * 
+     * Imprime a senha informado pelo ID do atendimento e o seu hash.
+     *
      * @param Context $context
-     * @param integer $id
-     * @param hash $hash
-     * @return string
+     * @param int     $id
+     * @param hash    $hash
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public function printAction(Context $context, $id, $hash)
     {
@@ -31,14 +31,16 @@ class TicketController extends AppController
         if ($hash !== $atendimento->hash()) {
             throw new Exception(_('Chave de segurança do atendimento inválida'));
         }
+
         return $this->printTicket($atendimento);
     }
-    
+
     /**
-     * 
-     * @param integer $id
-     * @return \Novosga\Model\Atendimento
+     * @param int $id
+     *
      * @throws Exception
+     *
+     * @return \Novosga\Model\Atendimento
      */
     public function getAtendimento($id)
     {
@@ -46,20 +48,23 @@ class TicketController extends AppController
         if (!$atendimento) {
             throw new Exception(_('Atendimento inválido'));
         }
+
         return $atendimento;
     }
-    
+
     /**
-     * Imprime a senha informada pelo atendimento
-     * 
+     * Imprime a senha informada pelo atendimento.
+     *
      * @param \Novosga\Model\Atendimento $atendimento
-     * @return string
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public function printTicket(\Novosga\Model\Atendimento $atendimento)
     {
         // custom view parameters
-        $params = AppConfig::getInstance()->get("ticket.print.params");
+        $params = AppConfig::getInstance()->get('ticket.print.params');
         if (is_callable($params)) {
             $params = $params($atendimento);
         }
@@ -68,16 +73,16 @@ class TicketController extends AppController
                 $this->app()->view()->set($k, $v);
             }
         }
-        
+
         $this->app()->view()->set('atendimento', $atendimento);
         $this->app()->view()->set('now', new DateTime());
-        
+
         // custom print template
-        $template = AppConfig::getInstance()->get("ticket.print.template");
+        $template = AppConfig::getInstance()->get('ticket.print.template');
         if (empty($template)) {
             $template = 'print.html.twig';
         }
+
         return $template;
     }
-    
 }

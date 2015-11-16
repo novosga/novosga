@@ -1,27 +1,30 @@
 <?php
+
 namespace Novosga\Slim;
 
 use Novosga\App;
-use Novosga\Model\Modulo;
 use Novosga\Context;
+use Novosga\Model\Modulo;
 use Slim\Middleware;
 
 /**
  * SlimFramework middleware para verificar
- * se o usuario esta logado
- * 
+ * se o usuario esta logado.
+ *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AuthMiddleware extends Middleware {
-    
+class AuthMiddleware extends Middleware
+{
     private $context;
-    public static $freePages = array('login', 'logout', 'api', 'print');
-    
-    public function __construct(Context $context) {
+    public static $freePages = ['login', 'logout', 'api', 'print'];
+
+    public function __construct(Context $context)
+    {
         $this->context = $context;
     }
-    
-    public function call() {
+
+    public function call()
+    {
         if (App::isInstalled()) {
             $req = $this->app->request();
             $uri = substr($req->getResourceUri(), 1);
@@ -68,5 +71,4 @@ class AuthMiddleware extends Middleware {
         }
         $this->next->call();
     }
-    
 }

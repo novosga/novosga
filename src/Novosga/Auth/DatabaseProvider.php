@@ -1,24 +1,28 @@
 <?php
+
 namespace Novosga\Auth;
 
 /**
- * Database authentication provider
+ * Database authentication provider.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class DatabaseProvider extends AuthenticationProvider 
+class DatabaseProvider extends AuthenticationProvider
 {
-    
-    public function init(array $config) {
+    public function init(array $config)
+    {
     }
-    
+
     /**
-     * Verifica o usuário e senha na tabela de usuarios
+     * Verifica o usuário e senha na tabela de usuarios.
+     *
      * @param type $username
      * @param type $password
-     * @return boolean
+     *
+     * @return bool
      */
-    public function auth($username, $password) {
+    public function auth($username, $password)
+    {
         $query = $this->em->createQuery("SELECT u FROM Novosga\Model\Usuario u WHERE u.login = :login AND u.status = 1");
         $query->setParameter('login', $username);
         try {
@@ -30,11 +34,12 @@ class DatabaseProvider extends AuthenticationProvider
             }
         } catch (\Doctrine\ORM\NoResultException $e) {
         }
+
         return false;
     }
-    
-    public function test() {
+
+    public function test()
+    {
         return true;
     }
-    
 }

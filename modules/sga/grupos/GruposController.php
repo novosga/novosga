@@ -1,30 +1,33 @@
 <?php
+
 namespace modules\sga\grupos;
 
 use Novosga\Context;
-use Novosga\Util\Arrays;
-use Novosga\Model\SequencialModel;
-use Novosga\Model\Grupo;
 use Novosga\Controller\TreeModelController;
+use Novosga\Model\Grupo;
+use Novosga\Model\SequencialModel;
 
 /**
- * GruposController
+ * GruposController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class GruposController extends TreeModelController {
-    
+class GruposController extends TreeModelController
+{
     private $adicionando = false;
 
-    protected function createModel() {
+    protected function createModel()
+    {
         return new Grupo();
     }
-    
-    protected function requiredFields() {
-        return array('nome', 'descricao');
+
+    protected function requiredFields()
+    {
+        return ['nome', 'descricao'];
     }
 
-    protected function preSave(Context $context, SequencialModel $model) {
+    protected function preSave(Context $context, SequencialModel $model)
+    {
         $id_pai = (int) $context->request()->post('id_pai', 0);
         $pai = $this->em()->find(get_class($model), $id_pai);
         if ($pai) {
@@ -38,9 +41,10 @@ class GruposController extends TreeModelController {
             $this->adicionando = true;
         }
     }
-    
-    protected function postSave(Context $context, SequencialModel $model) {
-        /* 
+
+    protected function postSave(Context $context, SequencialModel $model)
+    {
+        /*
          * Se o pai tem unidades vinculadas a ele, é porque esse é o primeiro filho.
          * Então move todas as unidades para esse novo grupo
          */
@@ -49,11 +53,11 @@ class GruposController extends TreeModelController {
             $unidades = $this->countUnidades($model->getParent($em));
             if ($unidades > 0) {
                 $query = $this->em()->createQuery("
-                    UPDATE 
-                        Novosga\Model\Unidade e 
+                    UPDATE
+                        Novosga\Model\Unidade e
                     SET
                         e.grupo = :novo
-                    WHERE 
+                    WHERE
                         e.grupo = :grupo
                 ");
                 $query->setParameter('grupo', $model->getParent($em)->getId());
@@ -63,49 +67,54 @@ class GruposController extends TreeModelController {
         }
     }
 
-    protected function search($arg) {
+    protected function search($arg)
+    {
         $query = $this->em()->createQuery("
-            SELECT 
-                e 
-            FROM 
-                Novosga\Model\Grupo e 
-            WHERE 
-                UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg 
-            ORDER BY 
+            SELECT
+                e
+            FROM
+                Novosga\Model\Grupo e
+            WHERE
+                UPPER(e.nome) LIKE :arg OR UPPER(e.descricao) LIKE :arg
+            ORDER BY
                 e.left, e.nome
         ");
         $query->setParameter('arg', $arg);
+
         return $query;
     }
-    
-    
-    private function countUnidades(Grupo $grupo) {
+
+    private function countUnidades(Grupo $grupo)
+    {
         $query = $this->em()->createQuery("
-            SELECT 
+            SELECT
                 COUNT(e) as total
-            FROM 
-                Novosga\Model\Unidade e 
-            WHERE 
+            FROM
+                Novosga\Model\Unidade e
+            WHERE
                 e.grupo = :grupo
         ");
         $query->setParameter('grupo', $grupo->getId());
         $rs = $query->getSingleResult();
+
         return $rs['total'];
     }
-    
+
     /**
-     * Verifica se o grupo a ser excluído possui relacionamento com alguma unidade
-     * @param Novosga\Context $context
+     * Verifica se o grupo a ser excluído possui relacionamento com alguma unidade.
+     *
+     * @param Novosga\Context               $context
      * @param Novosga\Model\SequencialModel $model
      */
-    protected function preDelete(Context $context, SequencialModel $model) {
+    protected function preDelete(Context $context, SequencialModel $model)
+    {
         $query = $this->em()->createQuery("
-            SELECT 
+            SELECT
                 COUNT(e) as total
-            FROM 
+            FROM
                 Novosga\Model\Unidade e
                 INNER JOIN e.grupo g
-            WHERE 
+            WHERE
                 g.left >= :esquerda AND
                 g.right <= :direita
         ");
@@ -116,5 +125,4 @@ class GruposController extends TreeModelController {
             throw new \Exception(_('Esse grupo não pode ser excluído porque possui relacionamento com uma ou mais unidades.'));
         }
     }
-    
 }

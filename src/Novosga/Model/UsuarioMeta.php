@@ -1,40 +1,43 @@
 <?php
+
 namespace Novosga\Model;
 
 /**
- * Usuario metadata
- * 
+ * Usuario metadata.
+ *
  * @Entity
  * @Table(name="usu_meta")
  */
 class UsuarioMeta extends Metadata
 {
-    
-    /** 
-     * @Id 
+    /**
+     * @Id
      * @ManyToOne(targetEntity="Usuario")
      * @JoinColumn(name="usuario_id", referencedColumnName="id")
+     *
      * @var Usuario
      */
     protected $usuario;
-    
-    
-    public function getEntity() {
+
+    public function getEntity()
+    {
         return $this->getUsuario();
     }
 
-    public function setEntity($entity) {
+    public function setEntity($entity)
+    {
         $this->setUsuario($entity);
     }
 
-    
-    public function getUsuario() {
+    public function getUsuario()
+    {
         return $this->usuario;
     }
 
-    public function setUsuario(Usuario $usuario) {
+    public function setUsuario(Usuario $usuario)
+    {
         $this->usuario = $usuario;
+
         return $this;
     }
-
 }

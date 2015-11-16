@@ -31,25 +31,25 @@
                     {% for su in servicos %}
                     <tr>
                         <td class="sigla">
-                            <input id="sigla-{{ su.servico.id }}" 
-                                   type="text" 
-                                   class="servico-{{ su.servico.id }} center form-control" 
-                                   value="{{ su.sigla }}" 
-                                   data-id="{{ su.servico.id }}" 
-                                   onclick="this.select()" 
-                                   onkeyup="this.value = this.value.toUpperCase()" 
+                            <input id="sigla-{{ su.servico.id }}"
+                                   type="text"
+                                   class="servico-{{ su.servico.id }} center form-control"
+                                   value="{{ su.sigla }}"
+                                   data-id="{{ su.servico.id }}"
+                                   onclick="this.select()"
+                                   onkeyup="this.value = this.value.toUpperCase()"
                                    onblur="SGA.Unidade.Servicos.change({{ su.servico.id }})"
                                    size="1"
-                                   maxlength="1" 
+                                   maxlength="1"
                                    {% if su.status != 1 %}disabled="disabled"{% endif %} />
                         </td>
                         <td class="nome">
                             {{ su.servico.nome }}
                         </td>
                         <td class="local">
-                            <select id="local-{{ su.servico.id }}" 
-                                    class="servico-{{ su.servico.id }} form-control" 
-                                    onchange="SGA.Unidade.Servicos.change({{ su.servico.id }})" 
+                            <select id="local-{{ su.servico.id }}"
+                                    class="servico-{{ su.servico.id }} form-control"
+                                    onchange="SGA.Unidade.Servicos.change({{ su.servico.id }})"
                                     {% if su.status != 1 %}disabled="disabled"{% endif %}>
                                 {% for local in locais %}
                                 <option value="{{ local.id }}" {% if su.local.id == local.id %}selected="selected"{% endif %}>{{ local.nome }}</option>
@@ -57,20 +57,20 @@
                             </select>
                         </td>
                         <td>
-                            <input 
-                                type="number" 
+                            <input
+                                type="number"
                                 id="peso-{{ su.servico.id }}"
                                 class="servico-{{ su.servico.id }} form-control"
-                                value="{{ su.peso }}" 
+                                value="{{ su.peso }}"
                                 onblur="SGA.Unidade.Servicos.change({{ su.servico.id }})"
                                 {% if su.status != 1 %}disabled="disabled"{% endif %}
                                 >
                         </td>
                         <td>
-                            <input 
+                            <input
                                 id="btn-enable-{{ su.servico.id }}"
-                                type="checkbox" 
-                                data-on-color="success" 
+                                type="checkbox"
+                                data-on-color="success"
                                 data-off-color="default"
                                 data-on-text="On"
                                 data-off-text="Off"

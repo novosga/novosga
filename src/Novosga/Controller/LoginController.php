@@ -1,19 +1,19 @@
 <?php
+
 namespace Novosga\Controller;
 
 use Novosga\App;
 use Novosga\Context;
-use Novosga\Util\Arrays;
-use Novosga\Controller\InternalController;
 
 /**
- * LoginController
+ * LoginController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class LoginController extends InternalController {
-    
-    public function index(Context $context) {
+class LoginController extends InternalController
+{
+    public function index(Context $context)
+    {
         if ($this->app()->getAcessoService()->isLogged($context)) {
             if ($this->app()->getAcessoService()->isValidSession($context)) {
                 if ($context->getModulo()) {
@@ -34,15 +34,16 @@ class LoginController extends InternalController {
             }
         }
     }
-    
-    public function validate(Context $context) {
+
+    public function validate(Context $context)
+    {
         $username = $context->request()->post('username');
         $password = $context->request()->post('password');
         $error = null;
         if (!empty($username) && !empty($password)) {
             $em = $context->database()->createEntityManager();
             $config = \Novosga\Model\Configuracao::get($em, \Novosga\Auth\AuthenticationProvider::KEY);
-            $auth = ($config) ? $config->getValor() : array();
+            $auth = ($config) ? $config->getValor() : [];
             $provider = App::authenticationFactory()->create($context, $auth);
             $user = $provider->auth($username, $password);
             if ($user) {
@@ -56,7 +57,7 @@ class LoginController extends InternalController {
                 $us->setEm($em);
                 if (!$us->getUnidade()) {
                     $unidades = $this->app()->getAcessoService()->unidades($context, $us);
-                    if (sizeof($unidades) == 1) {
+                    if (count($unidades) == 1) {
                         $us->setUnidade($unidades[0]);
                     }
                 }
@@ -72,5 +73,4 @@ class LoginController extends InternalController {
             $this->app()->gotoLogin();
         }
     }
-    
 }

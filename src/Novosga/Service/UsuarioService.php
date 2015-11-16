@@ -1,50 +1,55 @@
 <?php
+
 namespace Novosga\Service;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Novosga\Model\Unidade;
 use Novosga\Model\Usuario;
 use Novosga\Model\Util\UsuarioSessao;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * UsuarioService
+ * UsuarioService.
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class UsuarioService extends MetaModelService 
+class UsuarioService extends MetaModelService
 {
-    
     const ATTR_ATENDIMENTO_LOCAL = 'atendimento.local';
-    const ATTR_ATENDIMENTO_TIPO  = 'atendimento.tipo';
-    const ATTR_UNIDADE           = 'unidade';
-    
-    
-    protected function getMetaClass() {
+    const ATTR_ATENDIMENTO_TIPO = 'atendimento.tipo';
+    const ATTR_UNIDADE = 'unidade';
+
+    protected function getMetaClass()
+    {
         return 'Novosga\Model\UsuarioMeta';
     }
 
-    protected function getMetaFieldname() {
+    protected function getMetaFieldname()
+    {
         return 'usuario';
     }
-    
+
     /**
      * Cria ou retorna um metadado do usuário caso o $value seja null (ou ocultado).
+     *
      * @param Usuario $usuario
-     * @param string $name
-     * @param string $value
+     * @param string  $name
+     * @param string  $value
+     *
      * @return \Novosga\Model\UsuarioMeta
      */
-    public function meta(Usuario $usuario, $name, $value = null) {
+    public function meta(Usuario $usuario, $name, $value = null)
+    {
         return $this->modelMetadata($usuario, $name, $value);
     }
-    
+
     /**
-     * 
-     * @param Usuario|integer $usuario
-     * @param Unidade|integer $unidade
+     * @param Usuario|int $usuario
+     * @param Unidade|int $unidade
+     *
      * @return ArrayCollection
      */
-    public function lotacoes($usuario, $unidade) {
+    public function lotacoes($usuario, $unidade)
+    {
         return $this->em
                 ->createQuery("
                     SELECT
@@ -63,28 +68,30 @@ class UsuarioService extends MetaModelService
                         )
                 ")
                 ->setParameter('usuario', $usuario)
-                ->setParameter('unidade', $unidade)
-        ;
+                ->setParameter('unidade', $unidade);
     }
-    
+
     /**
-     * Retorna a lista de serviços que o usuário atende na determinada unidade
-     * @param Usuario|UsuarioSessao|integer $usuario
-     * @param Unidade|integer $unidade
+     * Retorna a lista de serviços que o usuário atende na determinada unidade.
+     *
+     * @param Usuario|UsuarioSessao|int $usuario
+     * @param Unidade|int               $unidade
+     *
      * @return ArrayCollection
      */
-    public function servicos($usuario, $unidade) {
+    public function servicos($usuario, $unidade)
+    {
         return $this->em
                 ->createQuery("
-                    SELECT 
-                        e 
-                    FROM 
-                        Novosga\Model\ServicoUsuario e 
-                        JOIN 
+                    SELECT
+                        e
+                    FROM
+                        Novosga\Model\ServicoUsuario e
+                        JOIN
                             e.servico s
-                    WHERE 
-                        e.usuario = :usuario AND 
-                        e.unidade = :unidade AND 
+                    WHERE
+                        e.usuario = :usuario AND
+                        e.unidade = :unidade AND
                         s.status = 1
                     ORDER BY
                         s.nome
@@ -93,9 +100,9 @@ class UsuarioService extends MetaModelService
                 ->setParameter('unidade', $unidade)
                 ->getResult();
     }
-    
-    
-    public function isLocalLivre($unidade, $usuario, $numero) {
+
+    public function isLocalLivre($unidade, $usuario, $numero)
+    {
         $count = (int) $this->em
                 ->createQuery('
                     SELECT
@@ -107,15 +114,14 @@ class UsuarioService extends MetaModelService
                         AND EXISTS (SELECT e2 FROM Novosga\Model\UsuarioMeta e2 WHERE e2.name = :metaUnidade AND e2.value = :unidade AND e2.usuario = e.usuario)
                 ')
                 ->setParameters([
-                    'metaLocal' => UsuarioService::ATTR_ATENDIMENTO_LOCAL,
-                    'numero' => $numero,
-                    'usuario' => $usuario,
-                    'metaUnidade' => UsuarioService::ATTR_UNIDADE,
-                    'unidade' => $unidade
+                    'metaLocal'   => self::ATTR_ATENDIMENTO_LOCAL,
+                    'numero'      => $numero,
+                    'usuario'     => $usuario,
+                    'metaUnidade' => self::ATTR_UNIDADE,
+                    'unidade'     => $unidade,
                 ])
-                ->getSingleScalarResult()
-        ;
+                ->getSingleScalarResult();
+
         return $count === 0;
     }
-    
 }

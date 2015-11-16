@@ -1,55 +1,62 @@
 <?php
+
 namespace Novosga\Model;
 
 /**
- * Unidade metadata
- * 
+ * Unidade metadata.
+ *
  * @MappedSuperclass
  */
 abstract class Metadata extends Model implements \JsonSerializable
 {
-    
-    /** 
-     * @Id 
+    /**
+     * @Id
      * @Column(name="name", type="string", length=50, nullable=false)
      */
     protected $name;
-    
-    /** 
-     * @Column(name="value", type="string", columnDefinition="text") 
+
+    /**
+     * @Column(name="value", type="string", columnDefinition="text")
      */
     protected $value;
-    
-    
-    public function __construct() {
+
+    public function __construct()
+    {
     }
-    
-    public abstract function setEntity($entity);
-    public abstract function getEntity();
-    
-    public function getName() {
+
+    abstract public function setEntity($entity);
+
+    abstract public function getEntity();
+
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         return $this->value;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
+
         return $this;
     }
 
-    public function setValue($value) {
+    public function setValue($value)
+    {
         $this->value = $value;
+
         return $this;
     }
-    
-    public function jsonSerialize() {
-        return array(
-            'name' => $this->getName(),
-            'value' => $this->getValue()
-        );
-    }
 
+    public function jsonSerialize()
+    {
+        return [
+            'name'  => $this->getName(),
+            'value' => $this->getValue(),
+        ];
+    }
 }
