@@ -50,4 +50,9 @@ AppBundle\Entity\Cargo:
             inversedBy: null
             orphanRemoval: false
             orderBy: null
+    manyToOne:
+        parent:
+            targetEntity: AppBundle\Entity\Cargo
+            fetch: LAZY
+            joinColumns: {  }
     lifecycleCallbacks: {  }

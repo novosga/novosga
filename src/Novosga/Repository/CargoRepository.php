@@ -13,13 +13,13 @@ class CargoRepository extends EntityRepository
 {
     
     /**
-     * Retorna todos os cargos ordenados por nome
+     * Retorna todos os cargos ordenados pelo nível e pelo nome
      * 
      * @return \AppBundle\Entity\Cargo[]
      */
     public function findAll()
     {
-        return $this->findBy([], ['nome' => 'ASC']);
+        return $this->findBy([], ['level' => 'ASC', 'nome' => 'ASC']);
     }
     
 }

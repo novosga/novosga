@@ -50,4 +50,9 @@ AppBundle\Entity\Grupo:
             inversedBy: null
             joinColumns: {  }
             orphanRemoval: false
+    manyToOne:
+        parent:
+            targetEntity: AppBundle\Entity\Grupo
+            fetch: LAZY
+            joinColumns: {  }
     lifecycleCallbacks: {  }

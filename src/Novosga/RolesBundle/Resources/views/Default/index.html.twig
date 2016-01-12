@@ -1,0 +1,33 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    
+    <div class="row">
+        <div class="col-md-8">
+            <ul>
+                {% for item in tree %}
+                    <li>
+                        <span style="width: {{ item.level * 10 }}px; display: inline-block"></span>
+                        {{- item.nome -}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <div class="well">
+                {{ form_start(form) }}
+
+                    {{ form_row(form.parent) }}
+
+                    {{ form_row(form.nome) }}
+
+                    {{ form_row(form.descricao) }}
+
+                    <button type="submit" class="btn btn-primary">{% trans %}Salvar{% endtrans %}</button>
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

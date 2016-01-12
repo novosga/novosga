@@ -22,7 +22,7 @@ security:
         main:
             provider: novosga_provider
             security: true
-            anonymous: true
+            anonymous: false
             pattern: ^/
             form_login:
                 login_path: /login

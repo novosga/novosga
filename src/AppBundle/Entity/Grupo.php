@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ ORM\Entity(repositoryClass="Novosga\Repository\GrupoRepository")
  * @ ORM\Table(name="grupos")
- * @UniqueEntity("nome")
+ * @ UniqueEntity("nome")
  */
 class Grupo extends TreeModel
 {
@@ -69,16 +69,14 @@ class Grupo extends TreeModel
     {
         return $this->nome;
     }
-
+    
     public function jsonSerialize()
     {
-        return [
-            'id'        => $this->getId(),
+        $arr = parent::jsonSerialize();
+        
+        return array_merge($arr, [
             'nome'      => $this->getNome(),
             'descricao' => $this->getDescricao(),
-            'left'      => $this->getLeft(),
-            'right'     => $this->getRight(),
-            'level'     => $this->getLevel(),
-        ];
+        ]);
     }
 }

@@ -26,7 +26,9 @@ abstract class TreeModel extends SequencialModel
      */
     protected $level;
 
-    // transient
+    /**
+     * @var TreeModel
+     */
     protected $parent;
 
     public function getLeft()
@@ -58,34 +60,13 @@ abstract class TreeModel extends SequencialModel
     {
         $this->level = $level;
     }
-
-    /**
-     * @return TreeModel
-     */
-    public function getParent(\Doctrine\ORM\EntityManager $em)
+    
+    public function getParent()
     {
-        if (!$this->isRoot() && $this->parent == null) {
-            $query = $em->createQuery('
-                SELECT
-                    parent
-                FROM
-                    '.get_class($this).' parent
-                WHERE
-                    parent.left < :left AND
-                    parent.right > :right
-                ORDER BY
-                    parent.left DESC
-            ');
-            $query->setParameter('left', $this->getLeft());
-            $query->setParameter('right', $this->getRight());
-            $query->setMaxResults(1);
-            $this->parent = $query->getSingleResult();
-        }
-
         return $this->parent;
     }
-
-    public function setParent(TreeModel $parent)
+    
+    public function setParent(TreeModel $parent = null)
     {
         $this->parent = $parent;
     }
@@ -120,5 +101,17 @@ abstract class TreeModel extends SequencialModel
     public function isChild(TreeModel $parent)
     {
         return $this->left > $parent->getLeft() && $this->right < $parent->getRight();
+    }
+    
+    public function jsonSerialize()
+    {
+        $arr = parent::jsonSerialize();
+        
+        return array_merge($arr, [
+            'left' => $this->getLeft(),
+            'right' => $this->getRight(),
+            'level' => $this->getLevel(),
+            'parent' => $this->get(),
+        ]);
     }
 }

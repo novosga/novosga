@@ -13,13 +13,13 @@ class GrupoRepository extends EntityRepository
 {
     
     /**
-     * Retorna todos os grupos ordenados por nome
+     * Retorna todos os grupos ordenados pelo nível e pelo nome
      * 
      * @return \AppBundle\Entity\Grupo[]
      */
     public function findAll()
     {
-        return $this->findBy([], ['nome' => 'ASC']);
+        return $this->findBy([], ['level' => 'ASC', 'nome' => 'ASC']);
     }
     
 }

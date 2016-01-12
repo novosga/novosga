@@ -21,6 +21,8 @@ class AppKernel extends Kernel
             
 //            new Novosga\AdminBundle\NovosgaAdminBundle(),
 //            new Novosga\ReportsBundle\NovosgaReportsBundle(),
+            new Novosga\GroupsBundle\NovosgaGroupsBundle(),
+            new Novosga\RolesBundle\NovosgaRolesBundle(),
             new Novosga\UsersBundle\NovosgaUsersBundle(),
         ];
 

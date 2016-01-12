@@ -18,6 +18,16 @@ logout:
 #    type:     annotation
 #    prefix: /novosga.reports
 
+novosga_groups:
+    resource: "@NovosgaGroupsBundle/Controller/"
+    type:     annotation
+    prefix: /novosga.groups
+    
+novosga_roles:
+    resource: "@NovosgaRolesBundle/Controller/"
+    type:     annotation
+    prefix: /novosga.roles
+
 novosga_users:
     resource: "@NovosgaUsersBundle/Controller/"
     type:     annotation
