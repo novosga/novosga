@@ -8,15 +8,15 @@ use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use Novosga\App;
 use Novosga\Config\AppConfig;
-use Novosga\Model\Atendimento;
-use Novosga\Model\Contador;
-use Novosga\Model\PainelSenha;
-use Novosga\Model\Prioridade;
-use Novosga\Model\Servico;
-use Novosga\Model\Unidade;
-use Novosga\Model\Usuario;
-use Novosga\Model\Util\Senha;
-use Novosga\Model\Util\UsuarioSessao;
+use AppBundle\Entity\Atendimento;
+use AppBundle\Entity\Contador;
+use AppBundle\Entity\PainelSenha;
+use AppBundle\Entity\Prioridade;
+use AppBundle\Entity\Servico;
+use AppBundle\Entity\Unidade;
+use AppBundle\Entity\Usuario;
+use AppBundle\Entity\Util\Senha;
+use AppBundle\Entity\Util\UsuarioSessao;
 use Novosga\Util\DateUtil;
 use PDO;
 
@@ -60,7 +60,7 @@ class AtendimentoService extends MetaModelService
 
     protected function getMetaClass()
     {
-        return 'Novosga\Model\AtendimentoMeta';
+        return 'AppBundle\Entity\AtendimentoMeta';
     }
 
     protected function getMetaFieldname()
@@ -75,7 +75,7 @@ class AtendimentoService extends MetaModelService
      * @param string      $name
      * @param string      $value
      *
-     * @return \Novosga\Model\AtendimentoMeta
+     * @return \AppBundle\Entity\AtendimentoMeta
      */
     public function meta(Atendimento $atendimento, $name, $value = null)
     {
@@ -128,7 +128,7 @@ class AtendimentoService extends MetaModelService
             $unidadeId = $unidade->getId();
         } else {
             $unidadeId = max($unidade, 0);
-            $unidade = ($unidadeId > 0) ? $this->em->find('Novosga\Model\Unidade', $unidadeId) : null;
+            $unidade = ($unidadeId > 0) ? $this->em->find('AppBundle\Entity\Unidade', $unidadeId) : null;
         }
 
         AppConfig::getInstance()->hook('attending.pre-reset', $unidade);
@@ -137,12 +137,12 @@ class AtendimentoService extends MetaModelService
         $conn = $this->em->getConnection();
 
         // tables name
-        $historicoTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoHistorico')->getTableName();
-        $historicoCodifTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoCodificadoHistorico')->getTableName();
-        $atendimentoTable = $this->em->getClassMetadata('Novosga\Model\Atendimento')->getTableName();
-        $atendimentoCodifTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoCodificado')->getTableName();
-        $atendimentoMetaTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoMeta')->getTableName();
-        $historicoMetaTable = $this->em->getClassMetadata('Novosga\Model\AtendimentoHistoricoMeta')->getTableName();
+        $historicoTable = $this->em->getClassMetadata('AppBundle\Entity\AtendimentoHistorico')->getTableName();
+        $historicoCodifTable = $this->em->getClassMetadata('AppBundle\Entity\AtendimentoCodificadoHistorico')->getTableName();
+        $atendimentoTable = $this->em->getClassMetadata('AppBundle\Entity\Atendimento')->getTableName();
+        $atendimentoCodifTable = $this->em->getClassMetadata('AppBundle\Entity\AtendimentoCodificado')->getTableName();
+        $atendimentoMetaTable = $this->em->getClassMetadata('AppBundle\Entity\AtendimentoMeta')->getTableName();
+        $historicoMetaTable = $this->em->getClassMetadata('AppBundle\Entity\AtendimentoHistoricoMeta')->getTableName();
 
         try {
             $conn->beginTransaction();
@@ -211,8 +211,8 @@ class AtendimentoService extends MetaModelService
 
             // limpa atendimentos codificados
             $this->em->createQuery('
-                        DELETE Novosga\Model\AtendimentoCodificado e WHERE e.atendimento IN (
-                            SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
+                        DELETE AppBundle\Entity\AtendimentoCodificado e WHERE e.atendimento IN (
+                            SELECT a.id FROM AppBundle\Entity\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
                         )
                     ')
                     ->setParameter('data', $data)
@@ -221,8 +221,8 @@ class AtendimentoService extends MetaModelService
 
             // limpa metadata
             $this->em->createQuery('
-                        DELETE Novosga\Model\AtendimentoMeta e WHERE e.atendimento IN (
-                            SELECT a.id FROM Novosga\Model\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
+                        DELETE AppBundle\Entity\AtendimentoMeta e WHERE e.atendimento IN (
+                            SELECT a.id FROM AppBundle\Entity\Atendimento a WHERE a.dataChegada <= :data AND (a.unidade = :unidade OR :unidade = 0)
                         )
                     ')
                     ->setParameter('data', $data)
@@ -230,24 +230,24 @@ class AtendimentoService extends MetaModelService
                     ->execute();
 
             // limpa o auto-relacionamento para poder excluir os atendimento sem dar erro de constraint (#136)
-            $this->em->createQuery('UPDATE Novosga\Model\Atendimento e SET e.pai = NULL WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
+            $this->em->createQuery('UPDATE AppBundle\Entity\Atendimento e SET e.pai = NULL WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
                     ->setParameter('unidade', $unidadeId)
                     ->setParameter('data', $data)
                     ->execute();
 
             // limpa atendimentos da unidade
-            $this->em->createQuery('DELETE Novosga\Model\Atendimento e WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
+            $this->em->createQuery('DELETE AppBundle\Entity\Atendimento e WHERE e.dataChegada <= :data AND (e.unidade = :unidade OR :unidade = 0)')
                     ->setParameter('data', $data)
                     ->setParameter('unidade', $unidadeId)
                     ->execute();
 
             // limpa a tabela de senhas a serem exibidas no painel
-            $this->em->createQuery('DELETE Novosga\Model\PainelSenha e WHERE (e.unidade = :unidade OR :unidade = 0)')
+            $this->em->createQuery('DELETE AppBundle\Entity\PainelSenha e WHERE (e.unidade = :unidade OR :unidade = 0)')
                     ->setParameter('unidade', $unidadeId)
                     ->execute();
 
             // zera o contador das senhas
-            $this->em->createQuery('UPDATE Novosga\Model\Contador e SET e.total = 0 WHERE (e.unidade = :unidade OR :unidade = 0)')
+            $this->em->createQuery('UPDATE AppBundle\Entity\Contador e SET e.total = 0 WHERE (e.unidade = :unidade OR :unidade = 0)')
                     ->setParameter('unidade', $unidadeId)
                     ->execute();
 
@@ -267,7 +267,7 @@ class AtendimentoService extends MetaModelService
     {
         if (App::isInstalled()) {
             $db = \Novosga\Config\DatabaseConfig::getInstance();
-            $tipoNumeracao = \Novosga\Model\Configuracao::get($db->createEntityManager(), Senha::TIPO_NUMERACAO);
+            $tipoNumeracao = \AppBundle\Entity\Configuracao::get($db->createEntityManager(), Senha::TIPO_NUMERACAO);
             if ($tipoNumeracao) {
                 return $tipoNumeracao->getValor() == Senha::NUMERACAO_SERVICO;
             }
@@ -278,7 +278,7 @@ class AtendimentoService extends MetaModelService
 
     public function buscaAtendimento(Unidade $unidade, $id)
     {
-        $query = $this->em->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE e.id = :id AND su.unidade = :unidade");
+        $query = $this->em->createQuery("SELECT e FROM AppBundle\Entity\Atendimento e JOIN e.servicoUnidade su WHERE e.id = :id AND su.unidade = :unidade");
         $query->setParameter('id', (int) $id);
         $query->setParameter('unidade', $unidade->getId());
 
@@ -302,7 +302,7 @@ class AtendimentoService extends MetaModelService
             SELECT
                 e
             FROM
-                Novosga\Model\Atendimento e
+                AppBundle\Entity\Atendimento e
                 JOIN e.servicoUnidade su
                 JOIN su.servico s
                 JOIN e.usuarioTriagem ut
@@ -365,7 +365,7 @@ class AtendimentoService extends MetaModelService
         ];
         try {
             return $this->em
-                ->createQuery("SELECT e FROM Novosga\Model\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)")
+                ->createQuery("SELECT e FROM AppBundle\Entity\Atendimento e WHERE e.usuario = :usuario AND e.status IN (:status)")
                 ->setParameter('usuario', $usuario)
                 ->setParameter('status', $status)
                 ->getOneOrNullResult();
@@ -376,7 +376,7 @@ class AtendimentoService extends MetaModelService
              * BUG #213
              */
             $this->em
-                ->createQuery('UPDATE Novosga\Model\Atendimento e SET e.status = 1, e.usuario = NULL WHERE e.usuario = :usuario AND e.status IN (:status)')
+                ->createQuery('UPDATE AppBundle\Entity\Atendimento e SET e.status = 1, e.usuario = NULL WHERE e.usuario = :usuario AND e.status IN (:status)')
                 ->setParameter('usuario', $usuario)
                 ->setParameter('status', $status)
                 ->execute();
@@ -403,7 +403,7 @@ class AtendimentoService extends MetaModelService
     {
         // verificando a unidade
         if (!($unidade instanceof Unidade)) {
-            $unidade = $this->em->find("Novosga\Model\Unidade", (int) $unidade);
+            $unidade = $this->em->find("AppBundle\Entity\Unidade", (int) $unidade);
         }
         if (!$unidade) {
             throw new Exception(_('Nenhum unidade escolhida'));
@@ -413,7 +413,7 @@ class AtendimentoService extends MetaModelService
             if ($usuario instanceof UsuarioSessao) {
                 $usuario = $usuario->getWrapped();
             } else {
-                $usuario = $this->em->find("Novosga\Model\Usuario", (int) $usuario);
+                $usuario = $this->em->find("AppBundle\Entity\Usuario", (int) $usuario);
             }
         }
         if (!$usuario) {
@@ -421,14 +421,14 @@ class AtendimentoService extends MetaModelService
         }
         // verificando o servico
         if (!($servico instanceof Servico)) {
-            $servico = $this->em->find("Novosga\Model\Servico", (int) $servico);
+            $servico = $this->em->find("AppBundle\Entity\Servico", (int) $servico);
         }
         if (!$servico) {
             throw new Exception(_('Serviço inválido'));
         }
         // verificando a prioridade
         if (!($prioridade instanceof Prioridade)) {
-            $prioridade = $this->em->find("Novosga\Model\Prioridade", (int) $prioridade);
+            $prioridade = $this->em->find("AppBundle\Entity\Prioridade", (int) $prioridade);
         }
         if (!$prioridade || $prioridade->getStatus() == 0) {
             throw new Exception(_('Prioridade inválida'));
@@ -441,7 +441,7 @@ class AtendimentoService extends MetaModelService
             throw new Exception(_('Serviço não disponível para a unidade atual'));
         }
 
-        $contador = $this->em->find('Novosga\Model\Contador', $unidade);
+        $contador = $this->em->find('AppBundle\Entity\Contador', $unidade);
         if (!$contador) {
             $contador = new Contador();
             $contador->setUnidade($unidade);
@@ -478,7 +478,7 @@ class AtendimentoService extends MetaModelService
                                 SELECT
                                     e.numeroSenhaServico
                                 FROM
-                                    Novosga\Model\Atendimento e
+                                    AppBundle\Entity\Atendimento e
                                     JOIN e.servicoUnidade su
                                 WHERE
                                     su.unidade = :unidade AND
@@ -589,7 +589,7 @@ class AtendimentoService extends MetaModelService
         // transfere apenas se a data fim for nula (nao finalizados)
         $success = $this->em->createQuery('
                 UPDATE
-                    Novosga\Model\Atendimento e
+                    AppBundle\Entity\Atendimento e
                 SET
                     e.servico = :servico,
                     e.prioridade = :prioridade
@@ -627,7 +627,7 @@ class AtendimentoService extends MetaModelService
         // cancela apenas se a data fim for nula
         $success = $this->em->createQuery('
                 UPDATE
-                    Novosga\Model\Atendimento e
+                    AppBundle\Entity\Atendimento e
                 SET
                     e.status = :status,
                     e.dataFim = :data
@@ -666,7 +666,7 @@ class AtendimentoService extends MetaModelService
         // reativa apenas se estiver finalizada (data fim diferente de nulo)
         $success = $this->em->createQuery('
                 UPDATE
-                    Novosga\Model\Atendimento e
+                    AppBundle\Entity\Atendimento e
                 SET
                     e.status = :status,
                     e.dataFim = NULL
@@ -699,7 +699,7 @@ class AtendimentoService extends MetaModelService
     public function ultimaSenhaUnidade($unidade)
     {
         return $this->em
-                ->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.unidade = :unidade ORDER BY e.numeroSenha DESC")
+                ->createQuery("SELECT e FROM AppBundle\Entity\Atendimento e JOIN e.servicoUnidade su WHERE su.unidade = :unidade ORDER BY e.numeroSenha DESC")
                 ->setParameter('unidade', $unidade)
                 ->setMaxResults(1)
                 ->getOneOrNullResult();
@@ -716,7 +716,7 @@ class AtendimentoService extends MetaModelService
     public function ultimaSenhaServico($unidade, $servico)
     {
         return $this->em
-                ->createQuery("SELECT e FROM Novosga\Model\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC")
+                ->createQuery("SELECT e FROM AppBundle\Entity\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico AND su.unidade = :unidade ORDER BY e.numeroSenha DESC")
                 ->setParameter('servico', $servico)
                 ->setParameter('unidade', $unidade)
                 ->setMaxResults(1)

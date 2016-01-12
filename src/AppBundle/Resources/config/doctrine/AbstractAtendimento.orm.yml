@@ -1,0 +1,5 @@
+AppBundle\Entity\AbstractAtendimento:
+    type: mappedSuperclass
+    table: abstract_atendimento
+    id: {  }
+    lifecycleCallbacks: {  }

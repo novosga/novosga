@@ -1,0 +1,33 @@
+AppBundle\Entity\UnidadeMeta:
+    type: entity
+    table: uni_meta
+    id:
+        name:
+            type: string
+            scale: 0
+            length: 50
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+    fields:
+        value:
+            type: string
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            columnDefinition: text
+    manyToOne:
+        unidade:
+            targetEntity: AppBundle\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

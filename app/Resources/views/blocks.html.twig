@@ -1,0 +1,13 @@
+
+{% block head %}
+{% endblock %}
+
+{% block module_page_header %}
+    {% if module is defined %}
+        <div class="header">
+{#            <img src="{{ resources('images/icon.png', module.chave) }}" />#}
+            <h2>{{ module.nome }}</h2>
+            <p>{{ module.descricao }}</p>
+        </div>
+    {% endif %}
+{% endblock %}

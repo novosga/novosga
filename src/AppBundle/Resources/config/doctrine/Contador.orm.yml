@@ -1,0 +1,26 @@
+AppBundle\Entity\Contador:
+    type: entity
+    table: contador
+    id:
+        unidade:
+            associationKey: true
+    fields:
+        total:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+    oneToOne:
+        unidade:
+            targetEntity: AppBundle\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: contador
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

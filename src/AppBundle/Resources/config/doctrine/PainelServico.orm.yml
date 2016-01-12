@@ -1,0 +1,36 @@
+AppBundle\Entity\PainelServico:
+    type: entity
+    table: paineis_servicos
+    id: {  }
+    manyToOne:
+        painel:
+            targetEntity: AppBundle\Entity\Painel
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                host:
+                    referencedColumnName: host
+            orphanRemoval: false
+        servico:
+            targetEntity: AppBundle\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        unidade:
+            targetEntity: AppBundle\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

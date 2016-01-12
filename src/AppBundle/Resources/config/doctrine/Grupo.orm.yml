@@ -1,0 +1,53 @@
+AppBundle\Entity\Grupo:
+    type: entity
+    table: grupos
+    repositoryClass: Novosga\Repository\GrupoRepository
+    fields:
+        nome:
+            type: string
+            scale: 0
+            length: 50
+            unique: false
+            nullable: false
+            precision: 0
+        descricao:
+            type: string
+            scale: 0
+            length: 150
+            unique: false
+            nullable: false
+            precision: 0
+        left:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: esquerda
+        right:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: direita
+        level:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: nivel
+    oneToOne:
+        unidade:
+            targetEntity: AppBundle\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: grupo
+            inversedBy: null
+            joinColumns: {  }
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

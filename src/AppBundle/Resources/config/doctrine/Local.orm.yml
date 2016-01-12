@@ -1,0 +1,13 @@
+AppBundle\Entity\Local:
+    type: entity
+    table: locais
+    repositoryClass: Novosga\Repository\LocalRepository
+    fields:
+        nome:
+            type: string
+            scale: 0
+            length: 20
+            unique: true
+            nullable: false
+            precision: 0
+    lifecycleCallbacks: {  }

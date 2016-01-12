@@ -1,0 +1,53 @@
+AppBundle\Entity\Cargo:
+    type: entity
+    table: cargos
+    repositoryClass: Novosga\Repository\CargoRepository
+    fields:
+        nome:
+            type: string
+            scale: 0
+            length: 50
+            unique: false
+            nullable: false
+            precision: 0
+        descricao:
+            type: string
+            scale: 0
+            length: 150
+            unique: false
+            nullable: false
+            precision: 0
+        left:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: esquerda
+        right:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: direita
+        level:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: nivel
+    oneToMany:
+        permissoes:
+            targetEntity: AppBundle\Entity\Permissao
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: cargo
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

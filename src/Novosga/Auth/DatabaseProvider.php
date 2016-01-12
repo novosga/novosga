@@ -23,7 +23,7 @@ class DatabaseProvider extends AuthenticationProvider
      */
     public function auth($username, $password)
     {
-        $query = $this->em->createQuery("SELECT u FROM Novosga\Model\Usuario u WHERE u.login = :login AND u.status = 1");
+        $query = $this->em->createQuery("SELECT u FROM AppBundle\Entity\Usuario u WHERE u.login = :login AND u.status = 1");
         $query->setParameter('login', $username);
         try {
             $user = $query->getSingleResult();

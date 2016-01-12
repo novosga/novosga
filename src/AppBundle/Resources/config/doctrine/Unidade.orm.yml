@@ -1,0 +1,63 @@
+AppBundle\Entity\Unidade:
+    type: entity
+    table: unidades
+    repositoryClass: Novosga\Repository\UnidadeRepository
+    fields:
+        codigo:
+            type: string
+            scale: 0
+            length: 10
+            unique: true
+            nullable: false
+            precision: 0
+        nome:
+            type: string
+            scale: 0
+            length: 50
+            unique: false
+            nullable: false
+            precision: 0
+        status:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        statusImpressao:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: stat_imp
+        mensagemImpressao:
+            type: string
+            scale: 0
+            length: 100
+            unique: false
+            nullable: false
+            precision: 0
+            column: msg_imp
+    oneToOne:
+        grupo:
+            targetEntity: AppBundle\Entity\Grupo
+            cascade: {  }
+            fetch: EAGER
+            mappedBy: null
+            inversedBy: unidade
+            joinColumns:
+                grupo_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        contador:
+            targetEntity: AppBundle\Entity\Contador
+            cascade:
+                - persist
+            fetch: LAZY
+            mappedBy: unidade
+            inversedBy: null
+            joinColumns: {  }
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

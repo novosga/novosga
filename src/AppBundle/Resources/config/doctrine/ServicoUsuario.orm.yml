@@ -1,0 +1,40 @@
+AppBundle\Entity\ServicoUsuario:
+    type: entity
+    table: usu_serv
+    id:
+        servico:
+            associationKey: true
+        usuario:
+            associationKey: true
+    manyToOne:
+        servico:
+            targetEntity: AppBundle\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        unidade:
+            targetEntity: AppBundle\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        usuario:
+            targetEntity: AppBundle\Entity\Usuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

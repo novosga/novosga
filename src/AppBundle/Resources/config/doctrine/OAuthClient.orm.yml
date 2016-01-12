@@ -1,0 +1,31 @@
+AppBundle\Entity\OAuthClient:
+    type: entity
+    table: oauth_clients
+    id:
+        id:
+            type: string
+            scale: 0
+            length: 80
+            unique: true
+            nullable: false
+            precision: 0
+            id: true
+            column: client_id
+    fields:
+        secret:
+            type: string
+            scale: 0
+            length: 80
+            unique: false
+            nullable: false
+            precision: 0
+            column: client_secret
+        redirectUri:
+            type: string
+            scale: 0
+            length: 2000
+            unique: false
+            nullable: false
+            precision: 0
+            column: redirect_uri
+    lifecycleCallbacks: {  }

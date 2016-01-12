@@ -1,8 +1,0 @@
-{% extends "crud/edit.html.twig" %}
-{% block formContent %}
-    <input type="hidden" name="id" value="{{ model.id }}" />
-    <div class="form-group required">
-        <label for="nome" class="control-label">{% trans %}Nome{% endtrans %}</label>
-        <input id="nome" type="text" name="nome" class="form-control" value="{{ model.nome }}" maxlength="20" />
-    </div>
-{% endblock %}

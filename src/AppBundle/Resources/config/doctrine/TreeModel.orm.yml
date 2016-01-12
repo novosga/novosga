@@ -1,0 +1,5 @@
+AppBundle\Entity\TreeModel:
+    type: mappedSuperclass
+    table: tree_model
+    id: {  }
+    lifecycleCallbacks: {  }

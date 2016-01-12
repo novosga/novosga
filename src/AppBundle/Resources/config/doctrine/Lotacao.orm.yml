@@ -1,0 +1,41 @@
+AppBundle\Entity\Lotacao:
+    type: entity
+    table: usu_grup_cargo
+    repositoryClass: Novosga\Repository\LotacaoRepository
+    id:
+        usuario:
+            associationKey: true
+        grupo:
+            associationKey: true
+    manyToOne:
+        usuario:
+            targetEntity: AppBundle\Entity\Usuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: lotacoes
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        grupo:
+            targetEntity: AppBundle\Entity\Grupo
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                grupo_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        cargo:
+            targetEntity: AppBundle\Entity\Cargo
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                cargo_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

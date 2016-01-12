@@ -23,7 +23,7 @@ class ApiV1 extends Api
             SELECT
                 e.id, e.nome
             FROM
-                Novosga\Model\Prioridade e
+                AppBundle\Entity\Prioridade e
             WHERE
                 e.status = 1 AND
                 e.peso > 0
@@ -43,7 +43,7 @@ class ApiV1 extends Api
             SELECT
                 e.id, e.nome
             FROM
-                Novosga\Model\Local e
+                AppBundle\Entity\Local e
             ORDER BY
                 e.nome ASC
         ')->getResult();
@@ -60,7 +60,7 @@ class ApiV1 extends Api
             SELECT
                 e.id, e.codigo, e.nome, e.mensagemImpressao
             FROM
-                Novosga\Model\Unidade e
+                AppBundle\Entity\Unidade e
             WHERE
                 e.status = 1
             ORDER BY
@@ -83,7 +83,7 @@ class ApiV1 extends Api
                 SELECT
                     e.id, e.nome
                 FROM
-                    Novosga\Model\Servico e
+                    AppBundle\Entity\Servico e
                 ORDER BY
                     e.nome ASC
             ')->getResult();
@@ -93,7 +93,7 @@ class ApiV1 extends Api
                 SELECT
                     s.id, e.sigla, s.nome, l.nome as local
                 FROM
-                    Novosga\Model\ServicoUnidade e
+                    AppBundle\Entity\ServicoUnidade e
                     JOIN e.servico s
                     JOIN e.local l
                 WHERE
@@ -116,7 +116,7 @@ class ApiV1 extends Api
      */
     public function painel($unidade, array $servicos)
     {
-        $length = \Novosga\Model\Util\Senha::LENGTH;
+        $length = \AppBundle\Entity\Util\Senha::LENGTH;
         // servicos da unidade
         return $this->em->createQuery("
             SELECT
@@ -125,7 +125,7 @@ class ApiV1 extends Api
                 e.prioridade, e.nomeCliente, e.documentoCliente,
                 $length as length
             FROM
-                Novosga\Model\PainelSenha e
+                AppBundle\Entity\PainelSenha e
                 JOIN e.servico s
             WHERE
                 e.unidade = :unidade AND
@@ -168,7 +168,7 @@ class ApiV1 extends Api
             SELECT
                 s.id
             FROM
-                Novosga\Model\ServicoUsuario e
+                AppBundle\Entity\ServicoUsuario e
                 JOIN e.servico s
             WHERE
                 e.usuario = :usuario AND
@@ -192,7 +192,7 @@ class ApiV1 extends Api
     public function atendimento($id)
     {
         // servicos que o usuario atende
-        $atendimento = $this->em->find('Novosga\Model\Atendimento', $id);
+        $atendimento = $this->em->find('AppBundle\Entity\Atendimento', $id);
         if (!$atendimento) {
             throw new Exception(_('Atendimento inválido'));
         }
@@ -210,7 +210,7 @@ class ApiV1 extends Api
     public function atendimentoInfo($id)
     {
         // servicos que o usuario atende
-        $atendimento = $this->em->find('Novosga\Model\Atendimento', $id);
+        $atendimento = $this->em->find('AppBundle\Entity\Atendimento', $id);
         if (!$atendimento) {
             throw new Exception(_('Atendimento inválido'));
         }

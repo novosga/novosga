@@ -1,0 +1,5 @@
+AppBundle\Entity\Metadata:
+    type: mappedSuperclass
+    table: metadata
+    id: {  }
+    lifecycleCallbacks: {  }

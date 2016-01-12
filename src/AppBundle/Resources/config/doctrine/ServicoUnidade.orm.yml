@@ -1,0 +1,62 @@
+AppBundle\Entity\ServicoUnidade:
+    type: entity
+    table: uni_serv
+    id:
+        servico:
+            associationKey: true
+        unidade:
+            associationKey: true
+    fields:
+        sigla:
+            type: string
+            scale: 0
+            length: 1
+            unique: false
+            nullable: false
+            precision: 0
+        status:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        peso:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+    manyToOne:
+        servico:
+            targetEntity: AppBundle\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: servicosUnidade
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        unidade:
+            targetEntity: AppBundle\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        local:
+            targetEntity: AppBundle\Entity\Local
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                local_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

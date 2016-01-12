@@ -1,0 +1,10 @@
+parameters:
+#    parameter_name: value
+
+services:
+    novosga.security.encoder.md5:
+        class: Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder
+        arguments: 
+            algorithm: md5
+            encode_as_base64: false
+            iterations: 1

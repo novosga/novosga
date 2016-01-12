@@ -1,0 +1,24 @@
+{% if unidade is defined %}
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ unidade }} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                {% for modulo in modulos %}
+                <li><a href="{{ app.request.baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
+                {% endfor %}
+                <li>
+                    <a href="#dialog-unidade" data-toggle="modal">
+                        {% trans %}Trocar unidade{% endtrans %}
+                        &nbsp;<span class="glyphicon glyphicon-transfer"></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+    {% else %}
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#dialog-unidade" class="dropdown-toggle" data-toggle="modal">{% trans %}Escolher unidade{% endtrans %}</a>
+        </li>
+    </ul>
+{% endif %}

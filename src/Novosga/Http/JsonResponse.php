@@ -2,48 +2,39 @@
 
 namespace Novosga\Http;
 
+use Symfony\Component\HttpFoundation\JsonResponse as BaseResponse;
+
 /**
  * JsonResponse.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class JsonResponse
+class JsonResponse extends BaseResponse
 {
-    public $success;
-    public $message;
-    public $data = [];
-    public $invalid = false;
-    public $inactive = false;
+    
+    private $body;
 
     public function __construct($success = false, $message = '')
     {
-        $this->success = $success;
-        $this->message = $message;
-    }
-
-    /**
-     * Retorna o response no formato JSON evitando overhead de campos nulos
-     * ou vazios.
-     *
-     * @return string
-     */
-    public function toJson()
-    {
-        $arr = [
-            'success' => ($this->success == true),
-            'data'    => $this->data,
-            'time'    => time() * 1000,
+        $this->body = [
+            'success'  => $success,
+            'message'  => $message,
+            'data'     => [],
+            'invalid'  => false,
+            'inactive' => false,
+            'time'     => time() * 1000
         ];
-        if (!empty($this->message)) {
-            $arr['message'] = $this->message;
-        }
-        if ($this->inactive) {
-            $arr['inactive'] = true;
-        }
-        if ($this->invalid) {
-            $arr['invalid'] = true;
-        }
-
-        return json_encode($arr);
+        parent::__construct($this->body);
+    }
+    
+    public function __get($name)
+    {
+        return $this->body[$name];
+    }
+    
+    public function __set($name, $value)
+    {
+        $this->body[$name] = $value;
+        $this->setData($this->body);
     }
 }

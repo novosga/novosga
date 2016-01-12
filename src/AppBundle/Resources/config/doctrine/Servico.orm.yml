@@ -1,0 +1,62 @@
+AppBundle\Entity\Servico:
+    type: entity
+    table: servicos
+    repositoryClass: Novosga\Repository\ServicoRepository
+    fields:
+        nome:
+            type: string
+            scale: 0
+            length: 50
+            unique: false
+            nullable: false
+            precision: 0
+        descricao:
+            type: string
+            scale: 0
+            length: 100
+            unique: false
+            nullable: false
+            precision: 0
+        status:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+        peso:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+    manyToOne:
+        mestre:
+            targetEntity: AppBundle\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: subServicos
+            joinColumns:
+                macro_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        subServicos:
+            targetEntity: AppBundle\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: mestre
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+        servicosUnidade:
+            targetEntity: AppBundle\Entity\ServicoUnidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: servico
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

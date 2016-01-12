@@ -1,0 +1,4 @@
+
+novosga_usuarios:
+    resource: "@NovosgaUsersBundle/Controller/"
+    type:     annotation

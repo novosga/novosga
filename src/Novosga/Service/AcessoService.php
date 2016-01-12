@@ -4,8 +4,8 @@ namespace Novosga\Service;
 
 use Exception;
 use Novosga\Context;
-use Novosga\Model\Modulo;
-use Novosga\Model\Util\UsuarioSessao;
+use AppBundle\Entity\Modulo;
+use AppBundle\Entity\Util\UsuarioSessao;
 use Novosga\Security;
 
 /**
@@ -57,7 +57,7 @@ class AcessoService
         }
         // verificando session id
         $em = $context->database()->createEntityManager();
-        $query = $em->createQuery("SELECT u.sessionId FROM Novosga\Model\Usuario u WHERE u.id = :id");
+        $query = $em->createQuery("SELECT u.sessionId FROM AppBundle\Entity\Usuario u WHERE u.id = :id");
         $query->setParameter('id', $user->getId());
         $rs = $query->getSingleResult();
 
@@ -99,8 +99,8 @@ class AcessoService
      * Já quando o módulo for global, verifica se existe alguma lotação para o
      * módulo, independente do grupo (unidade).
      *
-     * @param Novosga\Model\Util\UsuarioSessao $usuario
-     * @param Novosga\Model\Modulo             $modulo
+     * @param AppBundle\Entity\Util\UsuarioSessao $usuario
+     * @param AppBundle\Entity\Modulo             $modulo
      */
     public function hasAccess(UsuarioSessao $usuario, Modulo $modulo)
     {
@@ -128,7 +128,7 @@ class AcessoService
             SELECT
                 e
             FROM
-                Novosga\Model\Modulo e
+                AppBundle\Entity\Modulo e
             WHERE
                 e.status = 1 AND
                 e.tipo = :tipo AND
@@ -159,7 +159,7 @@ class AcessoService
             SELECT
                 e
             FROM
-                Novosga\Model\Unidade e
+                AppBundle\Entity\Unidade e
                 INNER JOIN e.grupo g
             WHERE
                 e.status = 1 AND

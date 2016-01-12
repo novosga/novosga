@@ -1,0 +1,33 @@
+security:
+    
+    encoders:
+        md5:
+            id: novosga.security.encoder.md5
+
+    providers:
+        novosga_provider: 
+            entity: 
+                class: AppBundle\Entity\Usuario
+                property: login
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/login$
+            security: false
+
+        main:
+            provider: novosga_provider
+            security: true
+            anonymous: true
+            pattern: ^/
+            form_login:
+                login_path: /login
+                check_path: /login_check
+            logout:
+                path:   /logout
+                target: /
+        

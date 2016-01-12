@@ -101,11 +101,11 @@ class LdapProvider extends DatabaseProvider
 
     private function createUser($username, $ldapUser)
     {
-        $query = $this->em->createQuery("SELECT u FROM Novosga\Model\Usuario u WHERE u.login = :login");
+        $query = $this->em->createQuery("SELECT u FROM AppBundle\Entity\Usuario u WHERE u.login = :login");
         $query->setParameter('login', $username);
         $user = $query->getOneOrNullResult();
         if (!$user) {
-            $user = new \Novosga\Model\Usuario();
+            $user = new \AppBundle\Entity\Usuario();
             $user->setLogin($username);
             $nome = (isset($ldapUser['givenname'])) ? $ldapUser['givenname'][0] : $username;
             $user->setNome($nome);

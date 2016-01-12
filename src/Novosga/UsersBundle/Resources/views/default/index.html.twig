@@ -1,0 +1,61 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <table id="datatable" class="table table-striped">
+        <thead>
+            <th>#</th>
+            <th>{% trans %}Nome de usuário{% endtrans %}</th>
+            <th>{% trans %}Nome{% endtrans %}</th>
+            <th>{% trans %}Status{% endtrans %}</th>
+            <th></th>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script>
+        (function() {
+            'use strict'
+            
+            $('#datatable').dataTable({
+                processing: true,
+                serverSide: true,
+                searching: false,
+                ajax: '{{ path('novosga_users_search') }}',
+                pageLength: 10,
+                columns: [
+                    {
+                        data: 'id'
+                    },
+                    {
+                        data: 'login',
+                    },
+                    {
+                        data: 'nome'
+                    },
+                    {
+                        data: 'status'
+                    },
+                    {
+                        data: 'id',
+                        render: function (id) {
+                            return '<a href="{{ path('novosga_users_index') }}edit/' + id + '">Edit</a>';
+                        }
+                    }
+                ]
+            }).on('preXhr.dt', function (e, settings, data) {
+                $('#search-form :input').each(function (i, e) {
+                    var input = $(e);
+                    data.search[input.prop('name')] = input.val();
+                });
+            }).on('draw.dt', function () {
+                
+            });
+        })();
+    </script>
+{% endblock %}

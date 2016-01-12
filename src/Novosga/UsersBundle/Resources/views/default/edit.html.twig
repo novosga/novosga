@@ -1,0 +1,258 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    {{ form_start(form) }}
+    
+        {% include 'MangatiBaseBundle:Crud:flashMessages.html.twig' %}
+    
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-geral" data-toggle="tab">{% trans %}Geral{% endtrans %}</a></li>
+            <li><a href="#tab-acesso" data-toggle="tab">{% trans %}Acesso{% endtrans %}</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-geral" class="tab-pane active">
+                {{ form_row(form.login) }}
+                
+                {{ form_row(form.nome) }}
+                
+                {{ form_row(form.sobrenome) }}
+                
+                {% if entity.id %}
+                    {{ form_row(form.status) }}
+                {% endif %}
+                
+                {% if not entity.id %}
+                    {{ form_row(form.senha) }}
+                    
+                    {{ form_row(form.confirmacaoSenha) }}
+                {% endif %}
+            </div>
+            <div id="tab-acesso" class="tab-pane">
+                <fieldset>
+                    <legend>{% trans %}Lotações{% endtrans %}</legend>
+                    <p class="info">{% trans %}Lotação é o par de grupo e cargo, utilizado para definir o papel e acesso do usuário às unidades.{% endtrans %}</p>
+                    <table id="lotacoes" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="check"><input type="checkbox" onchange="App.Usuarios.tableCheckAll(this);" /></th>
+                                <th>{% trans %}Grupo{% endtrans %}</th>
+                                <th>{% trans %}Cargo{% endtrans %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in lotacoes %}
+                            <tr>
+                                <td class="check">
+                                    <input type="checkbox" class="check-lotacao" onchange="App.Usuarios.multiCheck(this, 'btn-remove-lotacao')" />
+                                    <input type="hidden" class="value" name="lotacoes[]" value="{{ item.grupo_id }},{{ item.cargo_id }}" />
+                                </td>
+                                <td class="grupo">{{ item.grupo }}</td>
+                                <td class="cargo">
+                                    <a href="javascript:void(0)" onclick="App.Usuarios.permissoes('{{ item.cargo_id }}')" title="{% trans %}Visualizar permissões{% endtrans %}">{{ item.cargo }}</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    <button id="btn-remove-lotacao"
+                                            class="btn btn-danger"
+                                            onclick="return App.Usuarios.delLotacoes(this)"
+                                            title="{% trans %}Remover selecionados{% endtrans %}"
+                                            disabled="disabled">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                </td>
+                                <td colspan="2">
+                                    <a id="btn-add-lotacao" href="#dialog-add-lotacao" class="btn btn-default" data-toggle="modal">
+                                        <span class="glyphicon glyphicon-plus"></span>&nbsp;
+                                        {% trans %}Adicionar{% endtrans %}
+                                    </a>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </fieldset>
+                <fieldset>
+                    <legend>{% trans %}Atendimento{% endtrans %}</legend>
+                    <p class="info">{% trans %}Serviços que o usuário (atendente) atende em cada lotação.{% endtrans %}</p>
+                    <table id="servicos" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th class="check"><input type="checkbox" onchange="App.Usuarios.tableCheckAll(this);" /></th>
+                                <th>{% trans %}Serviço{% endtrans %}</th>
+                                <th>{% trans %}Unidade{% endtrans %}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in servicos %}
+                            <tr>
+                                <td class="check">
+                                    <input type="checkbox" class="check-servico" onchange="App.Usuarios.multiCheck(this, 'btn-remove-servico')" />
+                                    <input type="hidden" class="value" name="servicos[]" value="{{ item.unidade_id }},{{ item.servico_id }}" />
+                                </td>
+                                <td class="servico">{{ item.servico }}</td>
+                                <td class="unidade">{{ item.unidade }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>
+                                    <button id="btn-remove-servico"
+                                            class="btn btn-danger"
+                                            onclick="return App.Usuarios.delServicos(this)"
+                                            disabled="disabled"
+                                            title="{% trans %}Remover selecionados{% endtrans %}">
+                                        <span class="glyphicon glyphicon-minus"></span>
+                                    </button>
+                                </td>
+                                <td colspan="2">
+                                    <a id="btn-add-servico" href="#dialog-add-servico" class="btn btn-default" data-toggle="modal">
+                                        <span class="glyphicon glyphicon-plus"></span>&nbsp;
+                                        {% trans %}Adicionar{% endtrans %}
+                                    </a>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-save"></span> 
+                {% trans %}Salvar{% endtrans %}
+            </button>
+            <a href="{{ path('novosga_users_index') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-left"></span> 
+                {% trans %}Voltar{% endtrans %}
+            </a>
+        </div>
+
+    {{ form_end(form) }}
+    
+    
+    <div id="dialog-add-lotacao" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans %}Lotação{% endtrans %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="add-grupo">{% trans %}Grupo{% endtrans %}</label>
+                        <select id="add-grupo" class="form-control">
+                            <option value="">{% trans %}Selecione{% endtrans %}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="add-cargo">{% trans %}Cargo{% endtrans %}</label>
+                        <select id="add-cargo" class="form-control">
+                            <option value="">{% trans %}Selecione{% endtrans %}</option>
+                            {% for item in cargos %}
+                            <option value="{{ item.id }}">{{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="App.Usuarios.addLotacao()">{% trans %}Adicionar{% endtrans %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-add-servico" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans %}Serviço{% endtrans %}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="add-unidade">{% trans %}Unidade{% endtrans %}</label>
+                        <select id="add-unidade"
+                                class="form-control"
+                                onchange="App.Usuarios.servicos_unidade($(this).val())">
+                            <option value="">{% trans %}Selecione{% endtrans %}</option>
+                            {% for item in unidades %}
+                            <option value="{{ item.id }}">{{ item }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>{% trans %}Serviços{% endtrans %}</label>
+                        <div id="add-servicos">
+                            <ul></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="App.Usuarios.addServico()">{% trans %}Adicionar{% endtrans %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# permissoes #}
+    <div id="dialog-permissoes" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans %}Permissões{% endtrans %}</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>{% trans %}Módulos{% endtrans %}</h4>
+                    <ul></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# dialog mudar senha apenas para usuarios ja cadastrados #}
+    {% if entity.id > 0 %}
+    <div id="dialog-senha" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">{% trans %}Alterar senha{% endtrans %}</h4>
+                </div>
+                <div class="modal-body">
+                    <input id="senha_id" type="hidden" value="{{ entity.id }}" />
+                    <div class="form-group required">
+                        <label for="senha_senha">{% trans %}Senha{% endtrans %}</label>
+                        <input id="senha_senha" type="password" class="form-control" />
+                    </div>
+                    <div class="form-group required">
+                        <label for="senha_confirmacao">{% trans %}Confirmar senha{% endtrans %}</label>
+                        <input id="senha_confirmacao" type="password" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="App.Usuarios.alterarSenha()">{% trans %}Alterar{% endtrans %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $('#dialog-add-lotacao').on('shown.bs.modal', function() {
+            App.Usuarios.grupos_disponiveis();
+        });
+        App.Usuarios.labelSenhaAlterada = "{% trans %}Senha alterada com sucesso{% endtrans %}";
+        App.Usuarios.labelVisualizarPermissoes = "{% trans %}Visualizar permissões{% endtrans %}";
+        App.Usuarios.multiDeleteLabel = "{% trans %}Realmente deseja excluir?{% endtrans %}";
+        App.Usuarios.grupos_disponiveis();
+    </script>
+{% endblock %}

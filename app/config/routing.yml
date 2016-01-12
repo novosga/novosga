@@ -1,0 +1,24 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+login_check:
+    path: /login_check
+ 
+logout:
+    path: /logout
+
+#novosga_admin:
+#    resource: "@NovosgaAdminBundle/Controller/"
+#    type:     annotation
+#    prefix: /novosga.admin
+
+#novosga_reports:
+#    resource: "@NovosgaReportsBundle/Controller/"
+#    type:     annotation
+#    prefix: /novosga.reports
+
+novosga_users:
+    resource: "@NovosgaUsersBundle/Controller/"
+    type:     annotation
+    prefix: /novosga.users

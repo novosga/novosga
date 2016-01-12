@@ -3,8 +3,8 @@
 namespace Novosga\Service;
 
 use Exception;
-use Novosga\Model\Modulo;
-use Novosga\Model\Util\ModuleManifest;
+use AppBundle\Entity\Modulo;
+use AppBundle\Entity\Util\ModuleManifest;
 use Novosga\Util\FileUtils;
 use ZipArchive;
 
@@ -60,7 +60,7 @@ class ModuloService extends ModelService
      */
     public function uninstall($key)
     {
-        $module = $this->em->createQuery('SELECT e FROM Novosga\Model\Modulo e WHERE e.chave = :key')
+        $module = $this->em->createQuery('SELECT e FROM AppBundle\Entity\Modulo e WHERE e.chave = :key')
                 ->setParameter('key', $key)
                 ->getOneOrNullResult();
         if (!$module) {

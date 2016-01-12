@@ -1,0 +1,185 @@
+AppBundle\Entity\Atendimento:
+    type: entity
+    table: atendimentos
+    id:
+        id:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        local:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: num_local
+        dataChegada:
+            type: datetime
+            scale: 0
+            length: 50
+            unique: false
+            nullable: false
+            precision: 0
+            column: dt_cheg
+        dataChamada:
+            type: datetime
+            scale: 0
+            length: 50
+            unique: false
+            nullable: true
+            precision: 0
+            column: dt_cha
+        dataInicio:
+            type: datetime
+            scale: 0
+            length: 50
+            unique: false
+            nullable: true
+            precision: 0
+            column: dt_ini
+        dataFim:
+            type: datetime
+            scale: 0
+            length: 50
+            unique: false
+            nullable: true
+            precision: 0
+            column: dt_fim
+        status:
+            type: smallint
+            scale: 0
+            length: 50
+            unique: false
+            nullable: false
+            precision: 0
+        nomeCliente:
+            type: string
+            scale: 0
+            length: 100
+            unique: false
+            nullable: true
+            precision: 0
+            column: nm_cli
+        documentoCliente:
+            type: string
+            scale: 0
+            length: 11
+            unique: false
+            nullable: true
+            precision: 0
+            column: ident_cli
+        siglaSenha:
+            type: string
+            scale: 0
+            length: 1
+            unique: false
+            nullable: false
+            precision: 0
+            column: sigla_senha
+        numeroSenha:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: num_senha
+        numeroSenhaServico:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            column: num_senha_serv
+    oneToMany:
+        codificados:
+            targetEntity: AppBundle\Entity\AtendimentoCodificado
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: atendimento
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    manyToOne:
+        unidade:
+            targetEntity: AppBundle\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        servico:
+            targetEntity: AppBundle\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        servicoUnidade:
+            targetEntity: AppBundle\Entity\ServicoUnidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                servico_id:
+                    referencedColumnName: servico_id
+                unidade_id:
+                    referencedColumnName: unidade_id
+            orphanRemoval: false
+        prioridade:
+            targetEntity: AppBundle\Entity\Prioridade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prioridade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        usuario:
+            targetEntity: AppBundle\Entity\Usuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        usuarioTriagem:
+            targetEntity: AppBundle\Entity\Usuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                usuario_tri_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        pai:
+            targetEntity: AppBundle\Entity\Atendimento
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                atendimento_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
