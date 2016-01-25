@@ -7,16 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AtendimentoMeta.
  *
- * @ ORM\Entity
- * @ ORM\Table(name="atend_meta")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class AtendimentoMeta extends AbstractAtendimentoMeta
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Atendimento")
-     * @ ORM\JoinColumn(name="atendimento_id", referencedColumnName="id")
-     *
      * @var Atendimento
      */
     protected $atendimento;

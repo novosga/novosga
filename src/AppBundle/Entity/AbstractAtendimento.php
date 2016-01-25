@@ -10,119 +10,97 @@ use Novosga\Service\AtendimentoService;
 /**
  * AbstractAtendimento.
  *
- * @ ORM\MappedSuperclass
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 abstract class AbstractAtendimento extends SequencialModel
 {
     /**
-     * @ ORM\ManyToOne(targetEntity="Unidade")
-     * @ ORM\JoinColumn(name="unidade_id", referencedColumnName="id")
-     *
      * @var Unidade
      */
     protected $unidade;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Servico")
-     * @ ORM\JoinColumn(name="servico_id", referencedColumnName="id")
-     *
      * @var Servico
      */
     protected $servico;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="ServicoUnidade")
-     * @ ORM\JoinColumns({
-     *   @ ORM\JoinColumn(name="servico_id", referencedColumnName="servico_id", nullable=false),
-     *   @ ORM\JoinColumn(name="unidade_id", referencedColumnName="unidade_id", nullable=false)
-     * })
-     *
      * @var ServicoUnidade
      */
     protected $servicoUnidade;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Prioridade")
-     * @ ORM\JoinColumn(name="prioridade_id", referencedColumnName="id")
-     *
      * @var Prioridade
      */
     protected $prioridade;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Usuario")
-     * @ ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     *
      * @var Usuario
      */
     protected $usuario;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Usuario")
-     * @ ORM\JoinColumn(name="usuario_tri_id", referencedColumnName="id")
-     *
      * @var Usuario
      */
     protected $usuarioTriagem;
 
     /**
-     * @ ORM\Column(type="smallint", name="num_local", nullable=false)
+     * @var int
      */
     protected $local;
 
     /**
-     * @ ORM\Column(type="datetime", name="dt_cheg", length=50, nullable=false)
+     * @var \DateTime
      */
     protected $dataChegada;
 
     /**
-     * @ ORM\Column(type="datetime", name="dt_cha", length=50, nullable=true)
+     * @var \DateTime
      */
     protected $dataChamada;
 
     /**
-     * @ ORM\Column(type="datetime", name="dt_ini", length=50, nullable=true)
+     * @var \DateTime
      */
     protected $dataInicio;
 
     /**
-     * @ ORM\Column(type="datetime", name="dt_fim", length=50, nullable=true)
+     * @var \DateTime
      */
     protected $dataFim;
 
     /**
-     * @ ORM\Column(type="smallint", name="status", length=50, nullable=false)
+     * @var int
      */
     protected $status;
 
     /**
-     * @ ORM\Column(type="string", name="nm_cli", length=100, nullable=true)
+     * @var string
      */
     protected $nomeCliente;
 
     /**
-     * @ ORM\Column(type="string", name="ident_cli", length=11, nullable=true)
+     * @var string
      */
     protected $documentoCliente;
 
     /**
-     * @ ORM\Column(type="string", name="sigla_senha", length=1, nullable=false)
+     * @var string
      */
     protected $siglaSenha;
 
     /**
-     * @ ORM\Column(type="integer", name="num_senha", nullable=false)
+     * @var int
      */
     protected $numeroSenha;
 
     /**
-     * @ ORM\Column(type="integer", name="num_senha_serv", nullable=false)
+     * @var int
      */
     protected $numeroSenhaServico;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Atendimento")
-     * @ ORM\JoinColumn(name="atendimento_id", referencedColumnName="id")
+     * @var Atendimento
      */
     protected $pai;
 

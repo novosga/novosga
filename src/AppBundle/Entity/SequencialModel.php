@@ -10,19 +10,20 @@ namespace AppBundle\Entity;
 abstract class SequencialModel extends Model  implements \JsonSerializable
 {
     /**
+     * @var mixed
      */
     protected $id = 0;
 
     /**
-     * @param int $id
+     * @param mixed $id
      */
     public function setId($id)
     {
-        $this->id = (int) $id;
+        $this->id = $id;
     }
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getId()
     {

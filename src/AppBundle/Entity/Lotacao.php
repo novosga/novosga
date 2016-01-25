@@ -5,28 +5,24 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ ORM\Entity(repositoryClass="Novosga\Repository\LotacaoRepository")
- * @ ORM\Table(name="usu_grup_cargo")
+ * Definição de onde o usuário está lotado
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Lotacao extends Model implements \JsonSerializable
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Usuario", inversedBy="lotacoes")
-     * @ ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
+     * @var Usuario
      */
     protected $usuario;
 
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Grupo")
-     * @ ORM\JoinColumn(name="grupo_id", referencedColumnName="id", nullable=false)
+     * @var Grupo
      */
     protected $grupo;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Cargo")
-     * @ ORM\JoinColumn(name="cargo_id", referencedColumnName="id", nullable=false)
+     * @var Cargo
      */
     protected $cargo;
 

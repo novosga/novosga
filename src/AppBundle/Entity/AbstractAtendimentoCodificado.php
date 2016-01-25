@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AbstractAtendimentoCodificado
  * atendimento codificado (servico realizado).
  *
- * @ ORM\MappedSuperclass
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 abstract class AbstractAtendimentoCodificado extends Model
 {

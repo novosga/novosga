@@ -10,14 +10,11 @@ use Doctrine\Common\Collections\Collection;
  * AtendimentoHistorico
  * historico de atendimento do banco de dados.
  *
- * @ ORM\Entity
- * @ ORM\Table(name="historico_atendimentos")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class AtendimentoHistorico extends AbstractAtendimento
 {
     /**
-     * @ ORM\OneToMany(targetEntity="AtendimentoCodificadoHistorico", mappedBy="atendimento")
-     *
      * @var AtendimentoCodificadoHistorico[]
      */
     protected $codificados;

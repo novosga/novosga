@@ -7,16 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Unidade metadata.
  *
- * @ ORM\Entity
- * @ ORM\Table(name="uni_meta")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class UnidadeMeta extends Metadata
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Unidade")
-     * @ ORM\JoinColumn(name="unidade_id", referencedColumnName="id")
-     *
      * @var Unidade
      */
     protected $unidade;

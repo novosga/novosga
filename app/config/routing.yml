@@ -32,3 +32,8 @@ novosga_users:
     resource: "@NovosgaUsersBundle/Controller/"
     type:     annotation
     prefix: /novosga.users
+
+novosga_triagem:
+    resource: "@NovosgaTriagemBundle/Controller/"
+    type:     annotation
+    prefix: /novosga.triagem

@@ -319,8 +319,7 @@ var App = {
         
         set: function() {
             App.ajax({
-                url: App.baseUrl + '/set_unidade',
-                data: { unidade: $('#unidade').val() },
+                url: App.baseUrl + '/set_unidade/' + $('#unidade').val(),
                 type: 'post',
                 success: function(response) {
                     App.reload();

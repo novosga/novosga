@@ -5,27 +5,24 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ ORM\Entity(repositoryClass="Novosga\Repository\PermissaoRepository")
- * @ ORM\Table(name="cargos_mod_perm")
+ * Permissao
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Permissao extends Model implements \JsonSerializable
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Modulo")
-     * @ ORM\JoinColumn(name="modulo_id", referencedColumnName="id")
+     * @var Modulo
      */
     protected $modulo;
 
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Cargo", inversedBy="permissoes")
-     * @ ORM\JoinColumn(name="cargo_id", referencedColumnName="id")
+     * @var Cargo
      */
     protected $cargo;
 
     /**
-     * @ ORM\Column(type="integer", name="permissao", nullable=false)
+     * @var int
      */
     protected $permissao;
 

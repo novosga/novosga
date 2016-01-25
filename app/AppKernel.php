@@ -21,9 +21,10 @@ class AppKernel extends Kernel
             
 //            new Novosga\AdminBundle\NovosgaAdminBundle(),
 //            new Novosga\ReportsBundle\NovosgaReportsBundle(),
-            new Novosga\GroupsBundle\NovosgaGroupsBundle(),
-            new Novosga\RolesBundle\NovosgaRolesBundle(),
             new Novosga\UsersBundle\NovosgaUsersBundle(),
+            new Novosga\RolesBundle\NovosgaRolesBundle(),
+            new Novosga\GroupsBundle\NovosgaGroupsBundle(),
+            new \Novosga\TriagemBundle\NovosgaTriagemBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

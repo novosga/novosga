@@ -10,28 +10,22 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Classe Grupo
  * Atraves do grupo e definido o acesso do Usuario.
  *
- * @ ORM\Entity(repositoryClass="Novosga\Repository\GrupoRepository")
- * @ ORM\Table(name="grupos")
- * @ UniqueEntity("nome")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Grupo extends TreeModel
 {
     /**
-     * @ ORM\Column(type="string", name="nome", length=50, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Length(max=50)
+     * @var string
      */
     protected $nome;
 
     /**
-     * @ ORM\Column(type="string", name="descricao", length=150, nullable=false)
-     * @Assert\NotNull()
-     * @Assert\Length(max=150)
+     * @var string
      */
     protected $descricao;
 
     /**
-     * @ ORM\OneToOne(targetEntity="Unidade", mappedBy="grupo", fetch="LAZY")
+     * @var Unidade
      */
     protected $unidade;
 
@@ -69,11 +63,11 @@ class Grupo extends TreeModel
     {
         return $this->nome;
     }
-    
+
     public function jsonSerialize()
     {
         $arr = parent::jsonSerialize();
-        
+
         return array_merge($arr, [
             'nome'      => $this->getNome(),
             'descricao' => $this->getDescricao(),

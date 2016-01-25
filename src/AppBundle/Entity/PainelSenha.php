@@ -5,67 +5,64 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  * @ ORM\Entity
-  * @ ORM\Table(name="painel_senha")
+  * Senha enviada ao painel
   *
   * @author Rogerio Lino <rogeriolino@gmail.com>
   */
  class PainelSenha extends SequencialModel
  {
      /**
-     * @ ORM\ManyToOne(targetEntity="Servico")
-     * @ ORM\JoinColumn(name="servico_id", referencedColumnName="id", nullable=false)
+     * @var Servico
      */
     protected $servico;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Unidade")
-     * @ ORM\JoinColumn(name="unidade_id", referencedColumnName="id", nullable=false)
+     * @var Unidade
      */
     protected $unidade;
 
     /**
-     * @ ORM\Column(type="integer", name="num_senha", nullable=false)
+     * @var int
      */
     protected $numeroSenha;
 
     /**
-     * @ ORM\Column(type="string", name="sig_senha", length=1, nullable=false)
+     * @var string
      */
     protected $siglaSenha;
 
     /**
-     * @ ORM\Column(type="string", name="msg_senha", length=20, nullable=false)
+     * @var string
      */
     protected $mensagem;
 
     /**
-     * @ ORM\Column(type="string", name="local", length=15, nullable=false)
+     * @var string
      */
     protected $local;
 
     /**
-     * @ ORM\Column(type="smallint", name="num_local", nullable=false)
+     * @var int
      */
     protected $numeroLocal;
 
     /**
-     * @ ORM\Column(type="smallint", name="peso", nullable=false)
+     * @var int
      */
     protected $peso;
 
     /**
-     * @ ORM\Column(type="string", name="prioridade", length=100, nullable=true)
+     * @var string
      */
     protected $prioridade;
 
     /**
-     * @ ORM\Column(type="string", name="nome_cliente", length=100, nullable=true)
+     * @var string
      */
     protected $nomeCliente;
 
     /**
-     * @ ORM\Column(type="string", name="documento_cliente", length=30, nullable=true)
+     * @var string
      */
     protected $documentoCliente;
 

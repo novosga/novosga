@@ -8,40 +8,63 @@ use Doctrine\ORM\Mapping as ORM;
  * Ticket counter.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- *
- * @ ORM\Entity
- * @ ORM\Table(name="contador")
  */
 class Contador extends Model implements \JsonSerializable
 {
     /**
-     * @ ORM\Id
-     * @ ORM\OneToOne(targetEntity="Unidade", inversedBy="contador")
-     * @ ORM\JoinColumn(name="unidade_id", referencedColumnName="id", nullable=false)
-     *
      * @var Unidade
      */
     protected $unidade;
 
     /**
-     * @ ORM\Column(type="integer", name="total", nullable=false)
+     * @var Servico
      */
-    private $total;
+    protected $servico;
+
+    /**
+     * @var int
+     */
+    private $incremento;
+
+    /**
+     * @var int
+     */
+    private $minimo;
+
+    /**
+     * @var int
+     */
+    private $maximo;
+
+    /**
+     * @var int
+     */
+    private $atual;
 
     public function __construct()
     {
+        $this->minimo = 1;
+        $this->incremento = 1;
+        $this->atual = $this->minimo;
     }
 
+    /**
+     * Get the value of Unidade
+     *
+     * @return Unidade
+     */
     public function getUnidade()
     {
         return $this->unidade;
     }
 
-    public function getTotal()
-    {
-        return $this->total;
-    }
-
+    /**
+     * Set the value of Unidade
+     *
+     * @param Unidade unidade
+     *
+     * @return self
+     */
     public function setUnidade(Unidade $unidade)
     {
         $this->unidade = $unidade;
@@ -49,9 +72,122 @@ class Contador extends Model implements \JsonSerializable
         return $this;
     }
 
-    public function setTotal($total)
+    /**
+     * Get the value of Servico
+     *
+     * @return Servico
+     */
+    public function getServico()
     {
-        $this->total = $total;
+        return $this->servico;
+    }
+
+    /**
+     * Set the value of Servico
+     *
+     * @param Servico servico
+     *
+     * @return self
+     */
+    public function setServico(Servico $servico)
+    {
+        $this->servico = $servico;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Incremento
+     *
+     * @return int
+     */
+    public function getIncremento()
+    {
+        return $this->incremento;
+    }
+
+    /**
+     * Set the value of Incremento
+     *
+     * @param int incremento
+     *
+     * @return self
+     */
+    public function setIncremento($incremento)
+    {
+        $this->incremento = $incremento;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Minimo
+     *
+     * @return int
+     */
+    public function getMinimo()
+    {
+        return $this->minimo;
+    }
+
+    /**
+     * Set the value of Minimo
+     *
+     * @param int minimo
+     *
+     * @return self
+     */
+    public function setMinimo($minimo)
+    {
+        $this->minimo = $minimo;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Maximo
+     *
+     * @return int
+     */
+    public function getMaximo()
+    {
+        return $this->maximo;
+    }
+
+    /**
+     * Set the value of Maximo
+     *
+     * @param int maximo
+     *
+     * @return self
+     */
+    public function setMaximo($maximo)
+    {
+        $this->maximo = $maximo;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Atual
+     *
+     * @return int
+     */
+    public function getAtual()
+    {
+        return $this->atual;
+    }
+
+    /**
+     * Set the value of Atual
+     *
+     * @param int atual
+     *
+     * @return self
+     */
+    public function setAtual($atual)
+    {
+        $this->atual = $atual;
 
         return $this;
     }
@@ -59,7 +195,11 @@ class Contador extends Model implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'total' => $this->getTotal(),
+            'minimo' => $this->getMinimo(),
+            'maximo' => $this->getMaximo(),
+            'incremento' => $this->getIncremento(),
+            'atual' => $this->getAtual(),
         ];
     }
+
 }

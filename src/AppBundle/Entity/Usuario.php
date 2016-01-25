@@ -7,10 +7,13 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
 
 /**
+ * Usuario
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderAwareInterface, \Serializable
 {
-    
+
     /**
      * @var string
      */
@@ -193,7 +196,7 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
     {
         return $this->getLogin();
     }
-    
+
     public function getAlgorithm()
     {
         return $this->algorithm;
@@ -204,7 +207,7 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
         $this->algorithm = $algorithm;
         return $this;
     }
-    
+
     public function isAccountNonExpired()
     {
         return true;
@@ -248,12 +251,12 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
     {
         return $this->getLogin();
     }
-    
+
     public function getEncoderName()
     {
         return $this->algorithm;
     }
-    
+
     public function serialize()
     {
         return serialize([
@@ -271,7 +274,7 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
             $this->nome
         ) = unserialize($serialized);
     }
-    
+
     public function jsonSerialize()
     {
         return [

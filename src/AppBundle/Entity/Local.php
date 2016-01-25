@@ -7,16 +7,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ ORM\Entity(repositoryClass="Novosga\Repository\LocalRepository")
- * @ ORM\Table(name="locais")
- * @UniqueEntity("nome")
+ * Local de atendimento
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Local extends SequencialModel
 {
     /**
-     * @ ORM\Column(type="string", name="nome", length=20, nullable=false, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Length(max=20)
+     * @var string
      */
     protected $nome;
 

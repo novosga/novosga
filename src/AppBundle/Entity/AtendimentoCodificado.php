@@ -8,8 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Classe Atendimento Codificado
  * representa o atendimento codificado (servico realizado).
  *
- * @ ORM\Entity
- * @ ORM\Table(name="atend_codif")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class AtendimentoCodificado extends AbstractAtendimentoCodificado
 {
