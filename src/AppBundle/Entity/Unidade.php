@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 /**
  * Unidade de atendimento.
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Unidade extends SequencialModel
 {

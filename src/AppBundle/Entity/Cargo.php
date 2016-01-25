@@ -10,28 +10,22 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Classe Cargo
  * Um cargo define permissões de acesso a módulos do sistema.
  *
- * @ ORM\Entity(repositoryClass="Novosga\Repository\CargoRepository")
- * @ ORM\Table(name="cargos")
- * @UniqueEntity("nome")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Cargo extends TreeModel
 {
     /**
-     * @ ORM\Column(type="string", name="nome", length=50, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Length(max=50)
+     * @var string
      */
     protected $nome;
 
     /**
-     * @ ORM\Column(type="string", name="descricao", length=150, nullable=false)
-     * @Assert\NotNull()
-     * @Assert\Length(max=150)
+     * @var string
      */
     protected $descricao;
 
     /**
-     * @ ORM\OneToMany(targetEntity="Permissao", mappedBy="cargo")
+     * @var Permissao[]
      */
     protected $permissoes;
 
@@ -119,11 +113,11 @@ class Cargo extends TreeModel
     {
         return $this->nome;
     }
-    
+
     public function jsonSerialize()
     {
         $arr = parent::jsonSerialize();
-        
+
         return array_merge($arr, [
             'nome'      => $this->getNome(),
             'descricao' => $this->getDescricao(),

@@ -5,47 +5,40 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Servico Unidade.
+ * Servico Unidade
+ * Configuração do serviço na unidade
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- *
- * @ ORM\Entity
- * @ ORM\Table(name="uni_serv")
  */
 class ServicoUnidade extends Model implements \JsonSerializable
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Servico", inversedBy="servicosUnidade")
-     * @ ORM\JoinColumn(name="servico_id", referencedColumnName="id", nullable=false)
+     * @var Servico
      */
     protected $servico;
 
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Unidade")
-     * @ ORM\JoinColumn(name="unidade_id", referencedColumnName="id", nullable=false)
+     * @var Unidade
      */
     protected $unidade;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Local")
-     * @ ORM\JoinColumn(name="local_id", referencedColumnName="id", nullable=false)
+     * @var Local
      */
     protected $local;
 
     /**
-     * @ ORM\Column(type="string", name="sigla", length=1, nullable=false)
+     * @var string
      */
     protected $sigla;
 
     /**
-     * @ ORM\Column(type="smallint", name="status", nullable=false)
+     * @var int
      */
     protected $status;
 
     /**
-     * @ ORM\Column(type="smallint", name="peso", nullable=false)
+     * @var int
      */
     protected $peso;
 

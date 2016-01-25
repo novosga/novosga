@@ -5,31 +5,27 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ ORM\Entity
- * @ ORM\Table(name="usu_serv")
+ * Servico Usuario
+ * Configuração do serviço que o usuário atende
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class ServicoUsuario extends Model
 {
     // (bug ao tentar mapear ServicoUnidade: composite primary key as part of the primary key of another entity)
 
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Servico")
-     * @ ORM\JoinColumn(name="servico_id", referencedColumnName="id", nullable=false)
+     * @var Servico
      */
     protected $servico;
 
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Unidade")
-     * @ ORM\JoinColumn(name="unidade_id", referencedColumnName="id", nullable=false)
+     * @var Unidade
      */
     protected $unidade;
 
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Usuario")
-     * @ ORM\JoinColumn(name="usuario_id", referencedColumnName="id", nullable=false)
+     * @var Usuario
      */
     protected $usuario;
 

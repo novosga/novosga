@@ -8,16 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
  * Classe Atendimento Codificado (Historico)
  * representa o atendimento codificado (servico realizado).
  *
- * @ ORM\Entity
- * @ ORM\Table(name="historico_atend_codif")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class AtendimentoCodificadoHistorico extends AbstractAtendimentoCodificado
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="AtendimentoHistorico")
-     * @ ORM\JoinColumn(name="atendimento_id", referencedColumnName="id")
-     *
      * @var AtendimentoHistorico
      */
     protected $atendimento;

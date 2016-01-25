@@ -5,28 +5,29 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ ORM\Entity(repositoryClass="Novosga\Repository\PrioridadeRepository")
- * @ ORM\Table(name="prioridades")
+ * Prioridade
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Prioridade extends SequencialModel
 {
     /**
-     * @ ORM\Column(type="string", name="nome", length=64, nullable=false)
+     * @var string
      */
     protected $nome;
 
     /**
-     * @ ORM\Column(type="string", name="descricao", length=100, nullable=false)
+     * @var string
      */
     protected $descricao;
 
     /**
-     * @ ORM\Column(type="smallint", name="peso", nullable=false)
+     * @var int
      */
     protected $peso;
 
     /**
-     * @ ORM\Column(type="smallint", name="status", nullable=false)
+     * @var int
      */
     protected $status;
 

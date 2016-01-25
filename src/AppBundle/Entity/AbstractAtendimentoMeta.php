@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * AbstractAtendimentoMeta
  * Atendimento metadata.
  *
- * @ ORM\MappedSuperclass
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 abstract class AbstractAtendimentoMeta extends Metadata
 {

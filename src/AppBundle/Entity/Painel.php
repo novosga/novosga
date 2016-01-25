@@ -5,32 +5,29 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  * @ ORM\Entity
-  * @ ORM\Table(name="paineis")
+  * Painel
   *
   * @author Rogerio Lino <rogeriolino@gmail.com>
   */
  class Painel extends Model implements \JsonSerializable
  {
      /**
-     * @ ORM\Id
-     * @ ORM\Column(type="integer", name="host", nullable=false)
+     * @var int
      */
     protected $host;
-    
+
      /**
-     * @ ORM\Column(type="string", name="senha", length=128, nullable=true)
+     * @var string
      */
     protected $senha;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Unidade")
-     * @ ORM\JoinColumn(name="unidade_id", referencedColumnName="id", nullable=false)
+     * @var Unidade
      */
     protected $unidade;
 
     /**
-     * @ ORM\OneToMany(targetEntity="PainelServico", mappedBy="painel")
+     * @var PainelServico[]
      */
     protected $servicos;
 

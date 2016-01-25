@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 /**
  * Usuario metadata.
  *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class UsuarioMeta extends Metadata
 {

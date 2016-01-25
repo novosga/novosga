@@ -7,16 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Servico metadata.
  *
- * @ ORM\Entity
- * @ ORM\Table(name="serv_meta")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class ServicoMeta extends Metadata
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Servico")
-     * @ ORM\JoinColumn(name="servico_id", referencedColumnName="id")
-     *
      * @var Servico
      */
     protected $servico;

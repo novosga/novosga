@@ -5,44 +5,44 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ ORM\Entity(repositoryClass="Novosga\Repository\ServicoRepository")
- * @ ORM\Table(name="servicos")
+ * Servico
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Servico extends SequencialModel
 {
     /**
-     * @ ORM\Column(type="string", name="nome", length=50, nullable=false)
+     * @var string
      */
     protected $nome;
 
     /**
-     * @ ORM\Column(type="string", name="descricao", length=100, nullable=false)
+     * @var string
      */
     protected $descricao;
 
     /**
-     * @ ORM\Column(type="smallint", name="status", nullable=false)
+     * @var int
      */
     protected $status;
 
     /**
-     * @ ORM\Column(type="smallint", name="peso", nullable=false)
+     * @var int
      */
     protected $peso;
 
     /**
-     * @ ORM\ManyToOne(targetEntity="Servico", inversedBy="subServicos")
-     * @ ORM\JoinColumn(name="macro_id", referencedColumnName="id")
+     * @var Servico
      */
     protected $mestre;
 
     /**
-     * @ ORM\OneToMany(targetEntity="Servico", mappedBy="mestre")
+     * @var Servico
      */
     protected $subServicos;
 
     /**
-     * @ ORM\OneToMany(targetEntity="ServicoUnidade", mappedBy="servico")
+     * @var ServicoUnidade
      */
     protected $servicosUnidade;
 

@@ -10,14 +10,11 @@ use Doctrine\Common\Collections\Collection;
  * Classe Atendimento
  * contem o Cliente, o Servico e o Status do atendimento.
  *
- * @ ORM\Entity
- * @ ORM\Table(name="atendimentos")
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class Atendimento extends AbstractAtendimento
 {
     /**
-     * @ ORM\OneToMany(targetEntity="AtendimentoCodificado", mappedBy="atendimento")
-     *
      * @var AtendimentoCodificado[]
      */
     protected $codificados;

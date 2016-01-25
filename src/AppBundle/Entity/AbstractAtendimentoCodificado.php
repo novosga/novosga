@@ -8,19 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
  * AbstractAtendimentoCodificado
  * atendimento codificado (servico realizado).
  *
- * @ ORM\MappedSuperclass
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 abstract class AbstractAtendimentoCodificado extends Model
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Servico")
-     * @ ORM\JoinColumn(name="servico_id", referencedColumnName="id")
+     * @var Servico
      */
     protected $servico;
 
     /**
-     * @ ORM\Column(type="smallint", name="valor_peso", nullable=false)
+     * @var int
      */
     protected $peso;
 

@@ -7,22 +7,22 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Tree Model.
  *
- * @ ORM\MappedSuperclass
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 abstract class TreeModel extends SequencialModel
 {
     /**
-     * @ ORM\Column(type="integer", name="esquerda", nullable=false)
+     * @var int
      */
     protected $left = 1;
 
     /**
-     * @ ORM\Column(type="integer", name="direita", nullable=false)
+     * @var int
      */
     protected $right = 2;
 
     /**
-     * @ ORM\Column(type="integer", name="nivel", nullable=false)
+     * @var int
      */
     protected $level;
 
@@ -60,12 +60,12 @@ abstract class TreeModel extends SequencialModel
     {
         $this->level = $level;
     }
-    
+
     public function getParent()
     {
         return $this->parent;
     }
-    
+
     public function setParent(TreeModel $parent = null)
     {
         $this->parent = $parent;
@@ -102,11 +102,11 @@ abstract class TreeModel extends SequencialModel
     {
         return $this->left > $parent->getLeft() && $this->right < $parent->getRight();
     }
-    
+
     public function jsonSerialize()
     {
         $arr = parent::jsonSerialize();
-        
+
         return array_merge($arr, [
             'left' => $this->getLeft(),
             'right' => $this->getRight(),

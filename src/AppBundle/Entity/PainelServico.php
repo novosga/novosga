@@ -5,8 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
-  * @ ORM\Entity
-  * @ ORM\Table(name="paineis_servicos")
+  * PainelServico
   *
   * @author Rogerio Lino <rogeriolino@gmail.com>
   */

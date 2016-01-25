@@ -5,20 +5,19 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Unidade metadata.
+ * Abstract metadata.
  *
- * @ ORM\MappedSuperclass
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 abstract class Metadata extends Model implements \JsonSerializable
 {
     /**
-     * @ ORM\Id
-     * @ ORM\Column(name="name", type="string", length=50, nullable=false)
+     * @var string
      */
     protected $name;
 
     /**
-     * @ ORM\Column(name="value", type="string", columnDefinition="text")
+     * @var string
      */
     protected $value;
 
