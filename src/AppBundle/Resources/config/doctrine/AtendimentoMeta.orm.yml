@@ -4,12 +4,11 @@ AppBundle\Entity\AtendimentoMeta:
     id:
         name:
             type: string
-            scale: 0
             length: 50
-            unique: false
             nullable: false
-            precision: 0
             id: true
+        atendimento:
+            associationKey: true
     fields:
         value:
             type: string

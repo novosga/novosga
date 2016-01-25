@@ -2,8 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Classe Atendimento Codificado
  * representa o atendimento codificado (servico realizado).

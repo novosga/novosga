@@ -5,13 +5,18 @@ AppBundle\Entity\Contador:
         unidade:
             associationKey: true
     fields:
-        total:
+        minimo:
             type: integer
-            scale: 0
-            length: null
-            unique: false
             nullable: false
-            precision: 0
+        maximo:
+            type: integer
+            nullable: true
+        incremento:
+            type: integer
+            nullable: false
+        atual:
+            type: integer
+            nullable: false
     oneToOne:
         unidade:
             targetEntity: AppBundle\Entity\Unidade
@@ -23,4 +28,10 @@ AppBundle\Entity\Contador:
                 unidade_id:
                     referencedColumnName: id
             orphanRemoval: false
+        servico:
+            targetEntity: AppBundle\Entity\Servico
+            fetch: LAZY
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
     lifecycleCallbacks: {  }

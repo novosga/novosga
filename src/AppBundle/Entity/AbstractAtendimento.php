@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\Util\Cliente;
 use AppBundle\Entity\Util\Senha;
 use Novosga\Service\AtendimentoService;

@@ -2,27 +2,23 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * @ ORM\Entity
- * @ ORM\Table(name="oauth_clients")
+ * OAuthClient
  */
 class OAuthClient implements \JsonSerializable
 {
     /**
-     * @ ORM\Id
-     * @ ORM\Column(type="string", name="client_id", length=80, nullable=false, unique=true)
+     * @var string
      */
     protected $id;
 
     /**
-     * @ ORM\Column(type="string", name="client_secret", length=80, nullable=false)
+     * @var string
      */
     protected $secret;
 
     /**
-     * @ ORM\Column(type="string", name="redirect_uri", length=2000, nullable=false)
+     * @var string
      */
     protected $redirectUri;
 

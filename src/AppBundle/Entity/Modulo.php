@@ -2,14 +2,10 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
   * Classe Modulo
   * Para controle dos modulos do sistema.
   *
-  * @ ORM\Entity
-  * @ ORM\Table(name="modulos")
   */
  class Modulo extends SequencialModel
  {
@@ -18,27 +14,27 @@ use Doctrine\ORM\Mapping as ORM;
     const MODULO_GLOBAL = 1;
 
     /**
-     * @ ORM\Column(type="string", name="chave", length=50, nullable=false, unique=true)
+     * @var string
      */
     protected $chave;
 
     /**
-     * @ ORM\Column(type="string", name="nome", length=25, nullable=false)
+     * @var string
      */
     protected $nome;
 
     /**
-     * @ ORM\Column(type="string", name="descricao", length=100, nullable=false)
+     * @var string
      */
     protected $descricao;
 
     /**
-     * @ ORM\Column(type="smallint", name="tipo", nullable=false)
+     * @var int
      */
     protected $tipo;
 
     /**
-     * @ ORM\Column(type="smallint", name="status", nullable=false)
+     * @var int
      */
     protected $status;
 
