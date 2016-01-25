@@ -2,8 +2,15 @@
 
 namespace Novosga\RolesBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class NovosgaRolesBundle extends Bundle
+class NovosgaRolesBundle extends \Novosga\ModuleBundle
 {
+    public function getDisplayName() 
+    {
+        return 'Cargos';
+    }
+    
+    public function getHomeRoute() 
+    {
+        return 'novosga_roles_index';
+    }
 }

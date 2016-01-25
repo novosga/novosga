@@ -1,5 +1,18 @@
 AppBundle\Entity\AbstractAtendimentoCodificado:
     type: mappedSuperclass
     table: abstract_atendimento_codificado
-    id: {  }
+    id:
+        servico:
+            associationKey: true
+    manyToOne:
+        servico:
+            targetEntity: AppBundle\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

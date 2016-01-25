@@ -11,4 +11,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class PrioridadeRepository extends EntityRepository
 {
+    
+    public function findAtivas()
+    {
+        return $this
+                ->createQueryBuilder('e')
+                ->where('e.status = 1 AND e.peso > 0')
+                ->orderBy('e.nome', 'ASC')
+                ->getQuery()
+                ->getResult();
+    }
+    
 }

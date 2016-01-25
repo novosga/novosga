@@ -56,6 +56,11 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
      */
     protected $algorithm;
 
+    /**
+     * @var string
+     */
+    protected $salt;
+
     // transient - os campos abaixo dependem da unidade atual
     protected $grupos;
     protected $servicos;
@@ -148,6 +153,11 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
     {
         return $this->lotacoes;
     }
+    
+    public function setSalt($salt) 
+    {
+        $this->salt = $salt;
+    }
 
     public function setLotacoes($lotacoes)
     {
@@ -217,7 +227,6 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
 
     public function eraseCredentials()
     {
-        
     }
 
     public function getPassword()
@@ -232,7 +241,7 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
 
     public function getSalt()
     {
-        return '';
+        return $this->salt;
     }
 
     public function getUsername()

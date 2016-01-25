@@ -1,10 +1,12 @@
-{% if unidade is defined %}
+{% set unidade = app.request.session.get('unidade') %}
+
+{% if unidade != null %}
     <ul class="nav navbar-nav">
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ unidade }} <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ unidade.nome }} <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                {% for modulo in modulos %}
-                <li><a href="{{ app.request.baseUrl() }}/modules/{{ modulo.chave }}">{{ modulo.nome }}</a></li>
+                {% for module in modules %}
+                <li><a href="{{ path(module.homeRoute) }}">{{ module.displayName }}</a></li>
                 {% endfor %}
                 <li>
                     <a href="#dialog-unidade" data-toggle="modal">
@@ -15,7 +17,7 @@
             </ul>
         </li>
     </ul>
-    {% else %}
+{% else %}
     <ul class="nav navbar-nav">
         <li class="dropdown">
             <a href="#dialog-unidade" class="dropdown-toggle" data-toggle="modal">{% trans %}Escolher unidade{% endtrans %}</a>

@@ -6,12 +6,13 @@
                 <h4 class="modal-title">{% trans %}Unidade{% endtrans %}</h4>
             </div>
             <div class="modal-body">
+                {% set unidade = app.request.session.get('unidade') %}
                 <div>
                     <label>{% trans %}Favor escolher a unidade{% endtrans %}</label>
                     <select id="unidade" class="form-control">
                         <option value="">{% trans %}Selecione{% endtrans %}</option>
                         {% for item in unidades %}
-                        <option value="{{ item.id }}" {% if unidade is defined and item.id == unidade.id %}selected="selected"{% endif %}>{{ item.nome }}</option>
+                        <option value="{{ item.id }}" {% if unidade != null and item.id == unidade.id %}selected="selected"{% endif %}>{{ item.nome }}</option>
                         {% endfor %}
                     </select>
                 </div>

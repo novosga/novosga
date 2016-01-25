@@ -13,14 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 abstract class AbstractAtendimentoCodificado extends Model
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Servico")
-     * @ ORM\JoinColumn(name="servico_id", referencedColumnName="id")
+     * @var Servico
      */
     protected $servico;
 
     /**
-     * @ ORM\Column(type="smallint", name="valor_peso", nullable=false)
+     * @var int
      */
     protected $peso;
 

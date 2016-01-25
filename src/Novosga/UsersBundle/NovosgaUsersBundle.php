@@ -2,8 +2,15 @@
 
 namespace Novosga\UsersBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class NovosgaUsersBundle extends Bundle
+class NovosgaUsersBundle extends \Novosga\ModuleBundle
 {
+    public function getDisplayName() 
+    {
+        return 'Usuários';
+    }
+    
+    public function getHomeRoute() 
+    {
+        return 'novosga_users_index';
+    }
 }

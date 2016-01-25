@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Modulo;
 use AppBundle\Entity\Unidade;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -34,13 +33,12 @@ class DefaultController extends Controller
     }
     
     /**
-     * @Route("/set_unidade", name="app_default_setunidade")
+     * @Route("/set_unidade/{id}", name="app_default_setunidade")
      * @Method({"POST"})
      */
-    public function setUnidadeAction(Request $request)
+    public function setUnidadeAction(Request $request, Unidade $unidade)
     {
-        $id = (int) $request->get('unidade');
-        $request->getSession()->set('unidade', $id);
+        $request->getSession()->set('unidade', $unidade);
         
         return new JsonResponse(true);
     }
@@ -51,10 +49,17 @@ class DefaultController extends Controller
      */
     public function menuAction(Request $request)
     {
-        $modulos = $this->getDoctrine()->getManager()->getRepository(Modulo::class)->findAll();
+        $kernel = $this->container->get('kernel');
+        $bundles = [];
+        
+        foreach ($kernel->getBundles() as $bundle) {
+            if ($bundle instanceof \Novosga\ModuleBundle) {
+                $modules[] = $bundle;
+            }
+        }
         
         return $this->render('default/include/menu.html.twig', [
-            'modulos' => $modulos,
+            'modules' => $modules,
         ]);
     }
 }

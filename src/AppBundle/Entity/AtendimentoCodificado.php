@@ -14,10 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 class AtendimentoCodificado extends AbstractAtendimentoCodificado
 {
     /**
-     * @ ORM\Id
-     * @ ORM\ManyToOne(targetEntity="Atendimento")
-     * @ ORM\JoinColumn(name="atendimento_id", referencedColumnName="id")
-     *
      * @var Atendimento
      */
     protected $atendimento;

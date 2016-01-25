@@ -9,34 +9,47 @@ use AppBundle\Entity\Unidade;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
 use Novosga\Util\Arrays;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
- * TriagemController.
+ * DefaultController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class TriagemController extends Controller
+class DefaultController extends Controller
 {
-    public function index(Context $context)
+    
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/", name="novosga_triagem_index")
+     */
+    public function indexAction(Request $request)
     {
-        $unidade = $context->getUser()->getUnidade();
-        $this->app()->view()->set('unidade', $unidade);
-        if ($unidade) {
-            $this->app()->view()->set('servicos', $this->servicos($unidade));
-        }
-        $query = $this->em()->createQuery("SELECT e FROM AppBundle\Entity\Prioridade e WHERE e.status = 1 AND e.peso > 0 ORDER BY e.nome");
-        $this->app()->view()->set('prioridades', $query->getResult());
+        $em = $this->getDoctrine()->getManager();
+        $unidade = $request->getSession()->get('unidade');
+        
+        $prioridades = $em->getRepository(\AppBundle\Entity\Prioridade::class)->findAtivas();
+        $servicos = $this->getServicoService()->servicosUnidade($unidade, 'e.status = 1');
+        
+        return $this->render('NovosgaTriagemBundle:Default:index.html.twig', [
+            'unidade' => $unidade,
+            'servicos' => $servicos,
+            'prioridades' => $prioridades,
+        ]);
     }
 
-    private function servicos(Unidade $unidade)
-    {
-        $service = new ServicoService($this->em());
-
-        return $service->servicosUnidade($unidade, 'e.status = 1');
-    }
-
-    public function imprimir(Context $context)
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/imprimir", name="novosga_triagem_print")
+     */
+    public function imprimirAction(Request $request)
     {
         $id = (int) $context->request()->get('id');
         $ctrl = new \Novosga\Controller\TicketController($this->app());
@@ -44,10 +57,17 @@ class TriagemController extends Controller
         return $ctrl->printTicket($ctrl->getAtendimento($id));
     }
 
-    public function ajax_update(Context $context)
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/ajax_update", name="novosga_triagem_ajax_update")
+     */
+    public function ajaxUpdateAction(Request $request)
     {
         $response = new JsonResponse();
-        $unidade = $context->getUnidade();
+        $unidade = $request->getSession()->get('unidade');
+        
         if ($unidade) {
             $ids = $context->request()->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
@@ -137,8 +157,9 @@ class TriagemController extends Controller
     public function distribui_senha(Context $context)
     {
         $response = new JsonResponse();
-        $unidade = $context->getUnidade();
-        $usuario = $context->getUser();
+        $unidade = $request->getSession()->get('unidade');
+        $usuario = $this->getUser();
+        
         $servico = (int) $context->request()->post('servico');
         $prioridade = (int) $context->request()->post('prioridade');
         $nomeCliente = $context->request()->post('cli_nome', '');
@@ -178,5 +199,15 @@ class TriagemController extends Controller
         }
 
         return $response;
+    }
+
+    /**
+     * @return ServicoService
+     */
+    private function getServicoService()
+    {
+        $service = new ServicoService($this->getDoctrine()->getManager());
+
+        return $service;
     }
 }

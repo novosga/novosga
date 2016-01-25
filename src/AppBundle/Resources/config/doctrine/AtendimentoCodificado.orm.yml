@@ -1,7 +1,9 @@
 AppBundle\Entity\AtendimentoCodificado:
     type: entity
     table: atend_codif
-    id: {  }
+    id:
+        atendimento:
+            associationKey: true
     fields:
         peso:
             type: smallint
@@ -20,16 +22,6 @@ AppBundle\Entity\AtendimentoCodificado:
             inversedBy: null
             joinColumns:
                 atendimento_id:
-                    referencedColumnName: id
-            orphanRemoval: false
-        servico:
-            targetEntity: AppBundle\Entity\Servico
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                servico_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

@@ -5,46 +5,34 @@ AppBundle\Entity\Usuario:
     fields:
         login:
             type: string
-            scale: 0
             length: 20
             unique: true
             nullable: false
-            precision: 0
         nome:
             type: string
-            scale: 0
             length: 20
             unique: false
             nullable: false
-            precision: 0
         sobrenome:
             type: string
-            scale: 0
             length: 100
             unique: false
             nullable: false
-            precision: 0
         senha:
             type: string
-            scale: 0
             length: 128
             unique: false
             nullable: false
-            precision: 0
         status:
             type: boolean
-            scale: 0
             length: null
             unique: false
             nullable: false
-            precision: 0
         ultimoAcesso:
             type: datetime
-            scale: 0
             length: null
             unique: false
             nullable: true
-            precision: 0
             column: ult_acesso
         sessionId:
             type: string
@@ -56,11 +44,12 @@ AppBundle\Entity\Usuario:
             column: session_id
         algorithm:
             type: string
-            scale: 0
             length: 10
             unique: false
             nullable: false
-            precision: 0
+        salt:
+            type: string
+            length: 60
     oneToMany:
         lotacoes:
             targetEntity: AppBundle\Entity\Lotacao

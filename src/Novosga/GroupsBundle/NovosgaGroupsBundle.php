@@ -2,8 +2,15 @@
 
 namespace Novosga\GroupsBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class NovosgaGroupsBundle extends Bundle
+class NovosgaGroupsBundle extends \Novosga\ModuleBundle
 {
+    public function getDisplayName() 
+    {
+        return 'Grupos';
+    }
+    
+    public function getHomeRoute() 
+    {
+        return 'novosga_groups_index';
+    }
 }

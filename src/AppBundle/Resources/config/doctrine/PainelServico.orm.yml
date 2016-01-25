@@ -1,7 +1,11 @@
 AppBundle\Entity\PainelServico:
     type: entity
     table: paineis_servicos
-    id: {  }
+    id:
+        painel:
+            associationKey: true
+        servico:
+            associationKey: true
     manyToOne:
         painel:
             targetEntity: AppBundle\Entity\Painel
