@@ -4,11 +4,13 @@ namespace Novosga\SettingsBundle\Controller;
 
 use Exception;
 use Novosga\Context;
+use Novosga\Entity\Local;
 use Novosga\Http\JsonResponse;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -37,7 +39,7 @@ class DefaultController extends Controller
 
         // locais disponiveis
         $locais = $em
-                    ->getRepository(\Novosga\Entity\Local::class)
+                    ->getRepository(Local::class)
                     ->findBy([], ['nome' => 'ASC']);
 
         if (count($locais)) {
@@ -55,24 +57,32 @@ class DefaultController extends Controller
         ]);
     }
 
-    public function update_impressao(Context $context)
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/update_impressao", name="novosga_settings_update_impressao")
+     * @Method("POST")
+     */
+    public function updateImpressaoAction(Request $request)
     {
         $response = new JsonResponse();
         try {
-            if (!$context->request()->isPost()) {
-                throw new \Exception(_('Somente via POST'));
-            }
-            $impressao = (int) $context->request()->post('impressao');
-            $mensagem = $context->request()->post('mensagem', '');
-            $unidade = $context->getUser()->getUnidade();
-            $query = $this->em()->createQuery("UPDATE Novosga\Entity\Unidade e SET e.statusImpressao = :status, e.mensagemImpressao = :mensagem WHERE e.id = :unidade");
+            $em = $this->getDoctrine()->getManager();
+            
+            $impressao = (int) $request->get('impressao');
+            $mensagem = $request->get('mensagem', '');
+            $unidade = $request->getSession()->get('unidade');
+            
+            $query = $em->createQuery("UPDATE Novosga\Entity\Unidade e SET e.statusImpressao = :status, e.mensagemImpressao = :mensagem WHERE e.id = :unidade");
             $query->setParameter('status', $impressao);
             $query->setParameter('mensagem', $mensagem);
-            $query->setParameter('unidade', $unidade->getId());
+            $query->setParameter('unidade', $unidade);
+            
             if ($query->execute()) {
                 // atualizando sessao
-                $unidade = $this->em()->find('Novosga\Entity\Unidade', $unidade->getId());
-                $context->setUnidade($unidade);
+                $unidade = $em->find('Novosga\Entity\Unidade', $unidade->getId());
+                $request->getSession()->set('unidade', $unidade);
                 $response->success = true;
             }
         } catch (Exception $e) {
@@ -82,26 +92,33 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function toggle_servico(Context $context, $status)
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/toggle_servico/{status}", name="novosga_settings_toggle_servico")
+     * @Method("POST")
+     */
+    public function toggleServicoAction(Request $request, $status)
     {
         $response = new JsonResponse();
         try {
-            if (!$context->request()->isPost()) {
-                throw new \Exception(_('Somente via POST'));
-            }
-            $id = (int) $context->request()->post('id');
-            $unidade = $context->getUser()->getUnidade();
+            $em = $this->getDoctrine()->getManager();
+            
+            $id = (int) $request->get('id');
+            $unidade = $request->getSession()->get('unidade');
+            
             if (!$id || !$unidade) {
                 return false;
             }
 
-            $service = new ServicoService($this->em());
+            $service = new ServicoService($em);
             $su = $service->servicoUnidade($unidade, $id);
 
             $su->setStatus($status);
 
-            $this->em()->merge($su);
-            $this->em()->flush();
+            $em->merge($su);
+            $em->flush();
 
             $response->success = true;
         } catch (Exception $e) {
@@ -111,30 +128,37 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function update_servico(Context $context)
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/update_servico", name="novosga_settings_update_servico")
+     * @Method("POST")
+     */
+    public function updateServicoAction(Request $request)
     {
         $response = new JsonResponse();
         try {
-            if (!$context->request()->isPost()) {
-                throw new \Exception(_('Somente via POST'));
-            }
-            $id = (int) $context->request()->post('id');
+            $em = $this->getDoctrine()->getManager();
+            
+            $id = (int) $request->get('id');
+            $unidade = $request->getSession()->get('unidade');
 
-            $service = new ServicoService($this->em());
-            $su = $service->servicoUnidade($context->getUser()->getUnidade(), $id);
+            $service = new ServicoService($em);
+            $su = $service->servicoUnidade($unidade, $id);
 
-            $sigla = $context->request()->post('sigla');
-            $peso = (int) $context->request()->post('peso');
+            $sigla = $request->get('sigla');
+            $peso = (int) $request->get('peso');
             $peso = max(1, $peso);
-            $local = $this->em()->find("Novosga\Entity\Local", (int) $context->request()->post('local'));
+            $local = $em->find(Local::class, (int) $request->get('local'));
 
             $su->setSigla($sigla);
             $su->setPeso($peso);
             if ($local) {
                 $su->setLocal($local);
             }
-            $this->em()->merge($su);
-            $this->em()->flush();
+            $em->merge($su);
+            $em->flush();
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();
@@ -143,18 +167,20 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function acumular_atendimentos(Context $context)
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/acumular_atendimentos", name="novosga_settings_acumular_atendimentos")
+     * @Method("POST")
+     */
+    public function reiniciarAction(Request $request, $status)
     {
         $response = new JsonResponse();
         try {
-            if (!$context->request()->isPost()) {
-                throw new \Exception(_('Somente via POST'));
-            }
-            $unidade = $context->getUnidade();
-            if (!$unidade) {
-                throw new Exception(_('Nenhum unidade definida'));
-            }
-            $service = new AtendimentoService($this->em());
+            $em = $this->getDoctrine()->getManager();
+            $unidade = $request->getSession()->get('unidade');
+            $service = new AtendimentoService($em);
             $service->acumularAtendimentos($unidade);
             $response->success = true;
         } catch (Exception $e) {

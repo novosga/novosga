@@ -49,7 +49,7 @@ App.Triagem = {
     servicoInfo: function(servico) {
         App.ajax({
             type: 'get',
-            url: App.url('servico_info'),
+            url: App.url('/novosga.triagem/servico_info'),
             data: {
                 id: servico
             },
@@ -89,7 +89,7 @@ App.Triagem = {
         clearTimeout(App.Triagem.timeoutId);
         if (!App.paused) {
             App.ajax({
-                url: App.url('ajax_update'),
+                url: App.url('/novosga.triagem/ajax_update'),
                 data: {
                     ids: App.Triagem.ids.join(',')
                 },
@@ -134,7 +134,7 @@ App.Triagem = {
         },
         
         url: function(atendimento) {
-            return App.url('imprimir') + "?id=" + atendimento.id;
+            return App.url('/novosga.triagem/imprimir') + "?id=" + atendimento.id;
         },
         
         loadIframe: function(atendimento) {
@@ -156,7 +156,7 @@ App.Triagem = {
             // evitando de gerar várias senhas com múltiplos cliques
             App.Triagem.pausado = true;
             App.ajax({
-                url: App.url('distribui_senha'),
+                url: App.url('/novosga.triagem/distribui_senha'),
                 type: 'post',
                 data: {
                     servico: servico, 
@@ -227,7 +227,7 @@ App.Triagem = {
 
     consultar: function() {
         App.ajax({
-            url: App.url('consulta_senha'),
+            url: App.url('/novosga.triagem/consulta_senha'),
             data: {numero: $('#numero_busca').val()},
             success: function(response) {
                 var result = $('#result_table tbody');

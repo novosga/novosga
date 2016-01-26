@@ -8,6 +8,7 @@ use Novosga\Entity\Servico;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
 use Novosga\Entity\Util\UsuarioSessao;
+use Novosga\Entity\ServicoMeta;
 
 /**
  * ServicoService.
@@ -18,7 +19,7 @@ class ServicoService extends MetaModelService
 {
     protected function getMetaClass()
     {
-        return 'Novosga\Entity\ServicoMeta';
+        return ServicoMeta::class;
     }
 
     protected function getMetaFieldname()

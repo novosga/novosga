@@ -63,19 +63,7 @@ var App = {
         }
     },
     
-    url: function() {
-        var arg = arguments.length > 0 ? arguments[0] : {};
-        if (typeof(arg) === 'string') {
-            arg = {page: arg};
-        }
-        var url = '/';
-        if (App.module || arg.module) {
-            var module = App.module || arg.module;
-            url += 'modules/' + module;
-            if (arg.page) {
-                url += '/' + arg.page;
-            }
-        }
+    url: function(url) {    
         return App.baseUrl + url;
     },
         

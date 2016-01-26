@@ -10,6 +10,7 @@ use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
 use Novosga\Util\Arrays;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,7 +52,7 @@ class DefaultController extends Controller
      */
     public function imprimirAction(Request $request)
     {
-        $id = (int) $context->request()->get('id');
+        $id = (int) $request->get('id');
         $ctrl = new \Novosga\Controller\TicketController($this->app());
 
         return $ctrl->printTicket($ctrl->getAtendimento($id));
@@ -65,11 +66,13 @@ class DefaultController extends Controller
      */
     public function ajaxUpdateAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $response = new JsonResponse();
         $unidade = $request->getSession()->get('unidade');
         
         if ($unidade) {
-            $ids = $context->request()->get('ids');
+            $ids = $request->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
             $senhas = [];
             if (count($ids)) {
@@ -84,7 +87,7 @@ class DefaultController extends Controller
                         e.servico IN (:servicos)
                 ";
                 // total senhas do servico (qualquer status)
-                $rs = $this->em()
+                $rs = $em
                         ->createQuery($dql.' GROUP BY s.id')
                         ->setParameter('unidade', $unidade)
                         ->setParameter('servicos', $ids)
@@ -93,7 +96,7 @@ class DefaultController extends Controller
                     $senhas[$r['id']] = ['total' => $r['total'], 'fila' => 0];
                 }
                 // total senhas esperando
-                $rs = $this->em()
+                $rs = $em
                         ->createQuery($dql.' AND e.status = :status GROUP BY s.id')
                         ->setParameter('unidade', $unidade)
                         ->setParameter('servicos', $ids)
@@ -103,7 +106,7 @@ class DefaultController extends Controller
                     $senhas[$r['id']]['fila'] = $r['total'];
                 }
 
-                $service = new AtendimentoService($this->em());
+                $service = new AtendimentoService($em);
 
                 $response->success = true;
                 $response->data = [
@@ -116,12 +119,20 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function servico_info(Context $context)
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/servico_info", name="novosga_triagem_servico_info")
+     */
+    public function servicoInfoAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $response = new JsonResponse();
-        $id = (int) $context->request()->get('id');
+        $id = (int) $request->get('id');
         try {
-            $servico = $this->em()->find("Novosga\Entity\Servico", $id);
+            $servico = $em->find("Novosga\Entity\Servico", $id);
             if (!$servico) {
                 throw new Exception(_('Serviço inválido'));
             }
@@ -129,7 +140,7 @@ class DefaultController extends Controller
             $response->data['descricao'] = $servico->getDescricao();
 
             // ultima senha
-            $service = new AtendimentoService($this->em());
+            $service = new AtendimentoService($em);
             $atendimento = $service->ultimaSenhaServico($context->getUnidade(), $servico);
             if ($atendimento) {
                 $response->data['senha'] = $atendimento->getSenha()->toString();
@@ -140,7 +151,7 @@ class DefaultController extends Controller
             }
             // subservicos
             $response->data['subservicos'] = [];
-            $query = $this->em()->createQuery("SELECT e FROM Novosga\Entity\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
+            $query = $em->createQuery("SELECT e FROM Novosga\Entity\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
             $query->setParameter('mestre', $servico->getId());
             $subservicos = $query->getResult();
             foreach ($subservicos as $s) {
@@ -154,18 +165,27 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function distribui_senha(Context $context)
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/distribui_senha", name="novosga_triagem_distribui_senha")
+     * @Method("POST")
+     */
+    public function distribuiSenhaAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $response = new JsonResponse();
         $unidade = $request->getSession()->get('unidade');
         $usuario = $this->getUser();
         
-        $servico = (int) $context->request()->post('servico');
-        $prioridade = (int) $context->request()->post('prioridade');
-        $nomeCliente = $context->request()->post('cli_nome', '');
-        $documentoCliente = $context->request()->post('cli_doc', '');
+        $servico = (int) $request->get('servico');
+        $prioridade = (int) $request->get('prioridade');
+        $nomeCliente = $request->get('cli_nome', '');
+        $documentoCliente = $request->get('cli_doc', '');
         try {
-            $service = new AtendimentoService($this->em());
+            $service = new AtendimentoService($em);
             $response->data = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->jsonSerialize();
             $response->success = true;
         } catch (Exception $e) {
@@ -178,16 +198,22 @@ class DefaultController extends Controller
 
     /**
      * Busca os atendimentos a partir do número da senha.
-     *
-     * @param Context $context
+     * 
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/consulta_senha", name="novosga_triagem_consulta_senha")
      */
-    public function consulta_senha(Context $context)
+    public function consultaSenhaAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $response = new JsonResponse();
-        $unidade = $context->getUser()->getUnidade();
+        $unidade = $request->getSession()->get('unidade');
+        
         if ($unidade) {
-            $numero = $context->request()->get('numero');
-            $service = new AtendimentoService($this->em());
+            $numero = $request->get('numero');
+            $service = new AtendimentoService($em);
             $atendimentos = $service->buscaAtendimentos($unidade, $numero);
             $response->data['total'] = count($atendimentos);
             foreach ($atendimentos as $atendimento) {

@@ -20,14 +20,10 @@ Novosga\Entity\Contador:
     oneToOne:
         unidade:
             targetEntity: Novosga\Entity\Unidade
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: contador
             joinColumns:
                 unidade_id:
                     referencedColumnName: id
-            orphanRemoval: false
         servico:
             targetEntity: Novosga\Entity\Servico
             fetch: LAZY

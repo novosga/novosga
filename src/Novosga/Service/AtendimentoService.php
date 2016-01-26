@@ -265,13 +265,14 @@ class AtendimentoService extends MetaModelService
 
     public static function isNumeracaoServico()
     {
-        if (App::isInstalled()) {
-            $db = \Novosga\Config\DatabaseConfig::getInstance();
-            $tipoNumeracao = \Novosga\Entity\Configuracao::get($db->createEntityManager(), Senha::TIPO_NUMERACAO);
-            if ($tipoNumeracao) {
-                return $tipoNumeracao->getValor() == Senha::NUMERACAO_SERVICO;
-            }
-        }
+        // TODO: remover essa opcao
+//        if (App::isInstalled()) {
+//            $db = \Novosga\Config\DatabaseConfig::getInstance();
+//            $tipoNumeracao = \Novosga\Entity\Configuracao::get($db->createEntityManager(), Senha::TIPO_NUMERACAO);
+//            if ($tipoNumeracao) {
+//                return $tipoNumeracao->getValor() == Senha::NUMERACAO_SERVICO;
+//            }
+//        }
 
         return false;
     }
@@ -403,7 +404,7 @@ class AtendimentoService extends MetaModelService
     {
         // verificando a unidade
         if (!($unidade instanceof Unidade)) {
-            $unidade = $this->em->find("Novosga\Entity\Unidade", (int) $unidade);
+            $unidade = $this->em->find(Unidade::class, (int) $unidade);
         }
         if (!$unidade) {
             throw new Exception(_('Nenhum unidade escolhida'));
@@ -441,17 +442,22 @@ class AtendimentoService extends MetaModelService
             throw new Exception(_('Serviço não disponível para a unidade atual'));
         }
 
-        $contador = $this->em->find('Novosga\Entity\Contador', $unidade);
+        $contador = $this->em->find(Contador::class, $unidade);
         if (!$contador) {
             $contador = new Contador();
-            $contador->setUnidade($unidade);
-            $contador->setTotal(0);
+            $contador->setUnidade($this->em->getReference(Unidade::class, $unidade->getId()));
+            $contador->setServico($servico);
+            $contador->setMinimo(1);
+            $contador->setIncremento(1);
+            $contador->setAtual(1);
             $this->em->persist($contador);
             $this->em->flush();
+            
+            $numeroSenha = $contador->getAtual();
+        } else {
+            $numeroSenha = $contador->getAtual() + $contador->getIncremento();
+            $contador->setAtual($numeroSenha);
         }
-
-        $numeroSenha = $contador->getTotal() + 1;
-        $contador->setTotal($numeroSenha);
 
         $atendimento = new Atendimento();
         $atendimento->setServicoUnidade($su);
@@ -464,6 +470,9 @@ class AtendimentoService extends MetaModelService
         $atendimento->setSiglaSenha($su->getSigla());
 
         AppConfig::getInstance()->hook('attending.pre-create', [$atendimento]);
+        
+        // TODO: remover campo $numeroSenhaServico
+        $numeroSenhaServico = $numeroSenha;
 
         $this->em->beginTransaction();
 
@@ -472,31 +481,9 @@ class AtendimentoService extends MetaModelService
             $this->em->lock($contador, LockMode::PESSIMISTIC_WRITE);
             do {
                 try {
-                    // ultimo numero gerado (servico). busca pela sigla do servico para nao aparecer duplicada (em caso de mais de um servico com a mesma sigla)
-                    try {
-                        $numeroSenhaServico = (int) $this->em->createQuery('
-                                SELECT
-                                    e.numeroSenhaServico
-                                FROM
-                                    Novosga\Entity\Atendimento e
-                                    JOIN e.servicoUnidade su
-                                WHERE
-                                    su.unidade = :unidade AND
-                                    e.siglaSenha = :sigla
-                                ORDER BY
-                                    e.numeroSenhaServico DESC
-                            ')
-                                ->setParameter('unidade', $unidade)
-                                ->setParameter('sigla', $su->getSigla())
-                                ->setMaxResults(1)
-                                ->getSingleScalarResult();
-                    } catch (Exception $e) {
-                        $numeroSenhaServico = 0;
-                    }
-
                     $atendimento->setDataChegada(new DateTime());
                     $atendimento->setNumeroSenha($numeroSenha);
-                    $atendimento->setNumeroSenhaServico($numeroSenhaServico + 1);
+                    $atendimento->setNumeroSenhaServico($numeroSenhaServico);
 
                     $this->em->persist($atendimento);
                     $this->em->merge($contador);

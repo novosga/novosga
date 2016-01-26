@@ -10,7 +10,7 @@ App.Unidade = {
         
         salvar: function() {
             App.ajax({
-                url: App.url('update_impressao'),
+                url: App.url('/novosga.settings/update_impressao'),
                 type: 'post',
                 data: {
                     impressao: $('#impressao:checked').val(),
@@ -25,7 +25,7 @@ App.Unidade = {
         reiniciarSenhas: function(alert) {
             if (confirm(alert)) {
                 App.ajax({
-                    url: App.url('acumular_atendimentos'),
+                    url: App.url('/novosga.settings/acumular_atendimentos'),
                     type: 'post',
                     success: function(response) {
                         App.dialogs.modal("#dialog-reiniciar");
@@ -40,7 +40,7 @@ App.Unidade = {
         toggle: function(btn) {
             btn = $(btn);
             App.ajax({
-                url: App.url('toggle_servico') + '/' + (btn.prop('checked') ? 1 : 0),
+                url: App.url('/novosga.settings/toggle_servico') + '/' + (btn.prop('checked') ? 1 : 0),
                 data: {id: btn.data('id')},
                 type: 'post',
                 success: function(response) {
@@ -65,7 +65,7 @@ App.Unidade = {
             $('#peso-' + id).val(peso);
             
             App.ajax({
-                url: App.url('update_servico'),
+                url: App.url('/novosga.settings/update_servico'),
                 type: 'post',
                 data: {
                     id: id, 

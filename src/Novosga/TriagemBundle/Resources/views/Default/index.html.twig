@@ -1,6 +1,21 @@
 {% extends "module.html.twig" %}
-{% block moduleContent %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/novosgatriagem/js/script.js') }}"></script>
+    <script type="text/javascript">
+        $('.triagem-servico').each(function(i,v) {
+            var servico = $(v);
+            App.Triagem.ids.push(servico.data('id'));
+        });
+        App.Triagem.ajaxUpdate();
+        App.Triagem.prioridades = [{% for p in prioridades %}{{ p.id }},{% endfor %}];
+        App.Triagem.imprimir = {% if unidade.statusImpressao %}true{% else %}false{% endif %};
+        App.Triagem.init();
+    </script>
+{% endblock %}
+
+{% block moduleContent %}
 <div id="infobar" class="row">
     <div class="col-md-10 col-xs-9">
         <form role="form" onsubmit="return false">
@@ -238,15 +253,4 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript">
-    $('.triagem-servico').each(function(i,v) {
-        var servico = $(v);
-        App.Triagem.ids.push(servico.data('id'));
-    });
-    App.Triagem.ajaxUpdate();
-    App.Triagem.prioridades = [{% for p in prioridades %}{{ p.id }},{% endfor %}];
-    App.Triagem.imprimir = {% if unidade.statusImpressao %}true{% else %}false{% endif %};
-    App.Triagem.init();
-</script>
 {% endblock %}

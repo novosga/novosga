@@ -1,9 +1,10 @@
 {% extends "module.html.twig" %}
 
-{% block head %}
+{% block javascripts %}
     {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/novosgaunidade/css/bootstrap-switch.min.css') }}">
-    <script type="text/javascript" src="{{ asset('bundles/novosgaunidade/js/bootstrap-switch.min.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/novosgasettings/css/bootstrap-switch.min.css') }}">
+    <script type="text/javascript" src="{{ asset('bundles/novosgasettings/js/bootstrap-switch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/novosgasettings/js/script.js') }}"></script>
 {% endblock %}
 
 {% block moduleContent %}
@@ -20,7 +21,7 @@
             <table class="table" id="servicos">
                 <thead>
                     <tr>
-                        <th>{% trans %}Sigla{% endtrans %}</th>
+                        <th class="col-md-1">{% trans %}Sigla{% endtrans %}</th>
                         <th>{% trans %}Serviço{% endtrans %}</th>
                         <th class="col-md-2">{% trans %}Local{% endtrans %}</th>
                         <th class="col-md-1">{% trans %}Peso{% endtrans %}</th>

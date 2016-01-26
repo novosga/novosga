@@ -26,6 +26,10 @@ abstract class ConfigFile
 
     final public function filename()
     {
+        if (!defined('NOVOSGA_CONFIG')) {
+            define('NOVOSGA_CONFIG', __DIR__);
+            define('DS', DIRECTORY_SEPARATOR);
+        }
         return NOVOSGA_CONFIG.DS.$this->name();
     }
 
