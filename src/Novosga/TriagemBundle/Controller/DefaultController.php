@@ -5,7 +5,7 @@ namespace Novosga\TriagemBundle\Controller;
 use Exception;
 use Novosga\Context;
 use Novosga\Http\JsonResponse;
-use AppBundle\Entity\Unidade;
+use Novosga\Entity\Unidade;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
 use Novosga\Util\Arrays;
@@ -33,7 +33,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $unidade = $request->getSession()->get('unidade');
         
-        $prioridades = $em->getRepository(\AppBundle\Entity\Prioridade::class)->findAtivas();
+        $prioridades = $em->getRepository(\Novosga\Entity\Prioridade::class)->findAtivas();
         $servicos = $this->getServicoService()->servicosUnidade($unidade, 'e.status = 1');
         
         return $this->render('NovosgaTriagemBundle:Default:index.html.twig', [
@@ -77,7 +77,7 @@ class DefaultController extends Controller
                     SELECT
                         s.id, COUNT(e) as total
                     FROM
-                        AppBundle\Entity\Atendimento e
+                        Novosga\Entity\Atendimento e
                         JOIN e.servico s
                     WHERE
                         e.unidade = :unidade AND
@@ -121,7 +121,7 @@ class DefaultController extends Controller
         $response = new JsonResponse();
         $id = (int) $context->request()->get('id');
         try {
-            $servico = $this->em()->find("AppBundle\Entity\Servico", $id);
+            $servico = $this->em()->find("Novosga\Entity\Servico", $id);
             if (!$servico) {
                 throw new Exception(_('Serviço inválido'));
             }
@@ -140,7 +140,7 @@ class DefaultController extends Controller
             }
             // subservicos
             $response->data['subservicos'] = [];
-            $query = $this->em()->createQuery("SELECT e FROM AppBundle\Entity\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
+            $query = $this->em()->createQuery("SELECT e FROM Novosga\Entity\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
             $query->setParameter('mestre', $servico->getId());
             $subservicos = $query->getResult();
             foreach ($subservicos as $s) {

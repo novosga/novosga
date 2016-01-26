@@ -7,7 +7,7 @@ security:
     providers:
         novosga_provider: 
             entity: 
-                class: AppBundle\Entity\Usuario
+                class: Novosga\Entity\Usuario
                 property: login
 
     firewalls:

@@ -1,10 +1,10 @@
 <?php
 
-namespace AppBundle\Entity\Util;
+namespace Novosga\Entity\Util;
 
 use Doctrine\ORM\EntityManager;
-use AppBundle\Entity\Unidade;
-use AppBundle\Entity\Usuario;
+use Novosga\Entity\Unidade;
+use Novosga\Entity\Usuario;
 use Novosga\Service\ServicoService;
 use Novosga\Service\UsuarioService;
 
@@ -92,8 +92,8 @@ class UsuarioSessao
                 SELECT
                    p
                 FROM
-                    AppBundle\Entity\Lotacao l,
-                    AppBundle\Entity\Permissao p
+                    Novosga\Entity\Lotacao l,
+                    Novosga\Entity\Permissao p
                 WHERE
                     l.cargo = p.cargo AND
                     l.usuario = :usuario
@@ -112,8 +112,8 @@ class UsuarioSessao
      * Verifica se o usuaro tem permissao no modulo informado. Filtrando tambem
      * por cargo, caso seja informado.
      *
-     * @param AppBundle\Entity\Modulo     $modulo
-     * @param AppBundle\Entity\Util\Cargo $cargo
+     * @param Novosga\Entity\Modulo     $modulo
+     * @param Novosga\Entity\Util\Cargo $cargo
      *
      * @return bool
      */
@@ -141,13 +141,13 @@ class UsuarioSessao
     /**
      * Retorna a lotacao do usuario na unidade atual.
      *
-     * @return AppBundle\Entity\Lotacao
+     * @return Novosga\Entity\Lotacao
      */
     public function getLotacao()
     {
         if (!$this->lotacao) {
             // pegando a lotacao do usuario na unidade escolhida
-            $query = $this->em->createQuery("SELECT e FROM AppBundle\Entity\Lotacao e JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
+            $query = $this->em->createQuery("SELECT e FROM Novosga\Entity\Lotacao e JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
             $query->setParameter('usuario', $this->getId());
             $lotacoes = $query->getResult();
             foreach ($lotacoes as $lotacao) {
@@ -171,7 +171,7 @@ class UsuarioSessao
     /**
      * Retorna os servicos do usuario na unidade atual.
      *
-     * @return \AppBundle\Entity\ServicoUsuario[]|\Doctrine\Common\Collections\ArrayCollection
+     * @return \Novosga\Entity\ServicoUsuario[]|\Doctrine\Common\Collections\ArrayCollection
      */
     public function getServicos()
     {
@@ -204,7 +204,7 @@ class UsuarioSessao
     }
 
     /**
-     * @return AppBundle\Entity\Unidade
+     * @return Novosga\Entity\Unidade
      */
     public function getUnidade()
     {
@@ -214,7 +214,7 @@ class UsuarioSessao
                 $this->unidadeId = $meta ? (int) $meta->getValue() : null;
             }
             if ($this->unidadeId > 0) {
-                $this->unidade = $this->em->find("AppBundle\Entity\Unidade", $this->unidadeId);
+                $this->unidade = $this->em->find("Novosga\Entity\Unidade", $this->unidadeId);
             }
         }
 
@@ -271,12 +271,12 @@ class UsuarioSessao
     }
 
     /**
-     * @return AppBundle\Entity\Usuario
+     * @return Novosga\Entity\Usuario
      */
     public function getWrapped()
     {
         if (!$this->wrapped) {
-            $this->wrapped = $this->em->find("AppBundle\Entity\Usuario", $this->id);
+            $this->wrapped = $this->em->find("Novosga\Entity\Usuario", $this->id);
         }
 
         return $this->wrapped;

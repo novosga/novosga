@@ -42,7 +42,7 @@ class ResetCommand extends Command
             $id = (int) $input->getArgument('unidade');
             if ($id > 0) {
                 // verificando unidade
-                $unidade = $this->em->find('AppBundle\Entity\Unidade', $id);
+                $unidade = $this->em->find('Novosga\Entity\Unidade', $id);
                 if (!$unidade) {
                     throw new Exception("Unidade inválida: $id");
                 }

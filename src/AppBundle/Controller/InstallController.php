@@ -7,7 +7,7 @@ use Novosga\App;
 use Novosga\Config\DatabaseConfig;
 use Novosga\Context;
 use Novosga\Http\JsonResponse;
-use AppBundle\Entity\Configuracao;
+use Novosga\Entity\Configuracao;
 use Novosga\Security;
 use Novosga\Util\Strings;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

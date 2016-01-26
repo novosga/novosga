@@ -1,4 +1,4 @@
-AppBundle\Entity\Permissao:
+Novosga\Entity\Permissao:
     type: entity
     table: cargos_mod_perm
     repositoryClass: Novosga\Repository\PermissaoRepository
@@ -17,7 +17,7 @@ AppBundle\Entity\Permissao:
             precision: 0
     manyToOne:
         modulo:
-            targetEntity: AppBundle\Entity\Modulo
+            targetEntity: Novosga\Entity\Modulo
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -27,7 +27,7 @@ AppBundle\Entity\Permissao:
                     referencedColumnName: id
             orphanRemoval: false
         cargo:
-            targetEntity: AppBundle\Entity\Cargo
+            targetEntity: Novosga\Entity\Cargo
             cascade: {  }
             fetch: LAZY
             mappedBy: null

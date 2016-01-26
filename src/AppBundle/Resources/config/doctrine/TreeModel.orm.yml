@@ -1,4 +1,4 @@
-AppBundle\Entity\TreeModel:
+Novosga\Entity\TreeModel:
     type: mappedSuperclass
     table: tree_model
     id: {  }

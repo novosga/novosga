@@ -2,7 +2,10 @@
 
 namespace Novosga\GroupsBundle;
 
-class NovosgaGroupsBundle extends \Novosga\ModuleBundle
+use Novosga\ModuleInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class NovosgaGroupsBundle extends Bundle implements ModuleInterface
 {
     public function getDisplayName() 
     {

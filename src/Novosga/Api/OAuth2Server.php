@@ -44,13 +44,13 @@ class OAuth2Server extends Server
     }
 
     /**
-     * @return AppBundle\Entity\Usuario
+     * @return Novosga\Entity\Usuario
      */
     public function user()
     {
         $token = $this->getAccessTokenData(Request::createFromGlobals());
         if (isset($token['user_id'])) {
-            $rs = $this->em->getRepository('AppBundle\Entity\Usuario')->findBy(['login' => $token['user_id']]);
+            $rs = $this->em->getRepository('Novosga\Entity\Usuario')->findBy(['login' => $token['user_id']]);
             if (count($rs)) {
                 return $rs[0];
             }

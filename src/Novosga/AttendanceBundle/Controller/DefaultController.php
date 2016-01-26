@@ -6,8 +6,8 @@ use Exception;
 use Novosga\Config\AppConfig;
 use Novosga\Context;
 use Novosga\Http\JsonResponse;
-use AppBundle\Entity\Atendimento;
-use AppBundle\Entity\Util\UsuarioSessao;
+use Novosga\Entity\Atendimento;
+use Novosga\Entity\Util\UsuarioSessao;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\FilaService;
 use Novosga\Service\UsuarioService;
@@ -260,7 +260,7 @@ class DefaultController extends Controller
         // atualizando atendimento
         $query = $this->em()->createQuery("
             UPDATE
-                AppBundle\Entity\Atendimento e
+                Novosga\Entity\Atendimento e
             SET
                 e.status = :novoStatus $cond
             WHERE
@@ -336,9 +336,9 @@ class DefaultController extends Controller
 
             $this->em()->beginTransaction();
             foreach ($servicos as $s) {
-                $codificado = new \AppBundle\Entity\AtendimentoCodificado();
+                $codificado = new \Novosga\Entity\AtendimentoCodificado();
                 $codificado->setAtendimento($atual);
-                $codificado->setServico($this->em()->find('AppBundle\Entity\Servico', $s));
+                $codificado->setServico($this->em()->find('Novosga\Entity\Servico', $s));
                 $codificado->setPeso(1);
                 $this->em()->persist($codificado);
             }

@@ -1,4 +1,4 @@
-AppBundle\Entity\Grupo:
+Novosga\Entity\Grupo:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nome
     properties:

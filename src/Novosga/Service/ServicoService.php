@@ -3,11 +3,11 @@
 namespace Novosga\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Local;
-use AppBundle\Entity\Servico;
-use AppBundle\Entity\Unidade;
-use AppBundle\Entity\Usuario;
-use AppBundle\Entity\Util\UsuarioSessao;
+use Novosga\Entity\Local;
+use Novosga\Entity\Servico;
+use Novosga\Entity\Unidade;
+use Novosga\Entity\Usuario;
+use Novosga\Entity\Util\UsuarioSessao;
 
 /**
  * ServicoService.
@@ -18,7 +18,7 @@ class ServicoService extends MetaModelService
 {
     protected function getMetaClass()
     {
-        return 'AppBundle\Entity\ServicoMeta';
+        return 'Novosga\Entity\ServicoMeta';
     }
 
     protected function getMetaFieldname()
@@ -33,7 +33,7 @@ class ServicoService extends MetaModelService
      * @param string  $name
      * @param string  $value
      *
-     * @return \AppBundle\Entity\ServicoMeta
+     * @return \Novosga\Entity\ServicoMeta
      */
     public function meta(Servico $servico, $name, $value = null)
     {
@@ -52,7 +52,7 @@ class ServicoService extends MetaModelService
                 SELECT
                     e.id, e.nome
                 FROM
-                    AppBundle\Entity\Servico e
+                    Novosga\Entity\Servico e
                 ORDER BY
                     e.nome ASC
             ')->getResult();
@@ -69,7 +69,7 @@ class ServicoService extends MetaModelService
      */
     public function servicosUnidade($unidade, $where = '')
     {
-        $dql = "SELECT e FROM AppBundle\Entity\ServicoUnidade e JOIN e.servico s WHERE e.unidade = :unidade ";
+        $dql = "SELECT e FROM Novosga\Entity\ServicoUnidade e JOIN e.servico s WHERE e.unidade = :unidade ";
         if (!empty($where)) {
             $dql .= " AND $where";
         }
@@ -87,12 +87,12 @@ class ServicoService extends MetaModelService
      * @param Unidade|int $unidade
      * @param Servico|int $servico
      *
-     * @return \AppBundle\Entity\ServicoUnidade
+     * @return \Novosga\Entity\ServicoUnidade
      */
     public function servicoUnidade($unidade, $servico)
     {
         return $this->em
-                ->createQuery('SELECT e FROM AppBundle\Entity\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade')
+                ->createQuery('SELECT e FROM Novosga\Entity\ServicoUnidade e WHERE e.servico = :servico AND e.unidade = :unidade')
                 ->setParameter('servico', $servico)
                 ->setParameter('unidade', $unidade)
                 ->getOneOrNullResult();
@@ -113,8 +113,8 @@ class ServicoService extends MetaModelService
         if ($local instanceof Local) {
             $local = $local->getId();
         }
-        $uniServTableName = $this->em->getClassMetadata('AppBundle\Entity\ServicoUnidade')->getTableName();
-        $servTableName = $this->em->getClassMetadata('AppBundle\Entity\Servico')->getTableName();
+        $uniServTableName = $this->em->getClassMetadata('Novosga\Entity\ServicoUnidade')->getTableName();
+        $servTableName = $this->em->getClassMetadata('Novosga\Entity\Servico')->getTableName();
 
         // atualizando relacionamento entre unidade e servicos mestre
         $conn = $this->em->getConnection();
@@ -149,7 +149,7 @@ class ServicoService extends MetaModelService
                 SELECT
                     e
                 FROM
-                    AppBundle\Entity\ServicoUsuario e
+                    Novosga\Entity\ServicoUsuario e
                     JOIN
                         e.servico s
                 WHERE
@@ -176,13 +176,13 @@ class ServicoService extends MetaModelService
                 SELECT
                     e
                 FROM
-                    AppBundle\Entity\ServicoUnidade e
+                    Novosga\Entity\ServicoUnidade e
                     JOIN e.servico s
                 WHERE
                     e.status = 1 AND
                     e.unidade = :unidade AND
                     s.id NOT IN (
-                        SELECT s2.id FROM AppBundle\Entity\ServicoUsuario a JOIN a.servico s2 WHERE a.usuario = :usuario AND a.unidade = :unidade
+                        SELECT s2.id FROM Novosga\Entity\ServicoUsuario a JOIN a.servico s2 WHERE a.usuario = :usuario AND a.unidade = :unidade
                     )
             ")
                 ->setParameter('usuario', $usuario)

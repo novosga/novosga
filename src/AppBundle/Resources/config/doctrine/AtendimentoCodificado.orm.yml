@@ -1,4 +1,4 @@
-AppBundle\Entity\AtendimentoCodificado:
+Novosga\Entity\AtendimentoCodificado:
     type: entity
     table: atend_codif
     id:
@@ -15,7 +15,7 @@ AppBundle\Entity\AtendimentoCodificado:
             column: valor_peso
     manyToOne:
         atendimento:
-            targetEntity: AppBundle\Entity\Atendimento
+            targetEntity: Novosga\Entity\Atendimento
             cascade: {  }
             fetch: LAZY
             mappedBy: null

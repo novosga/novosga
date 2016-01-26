@@ -1,4 +1,4 @@
-AppBundle\Entity\Contador:
+Novosga\Entity\Contador:
     type: entity
     table: contador
     id:
@@ -19,7 +19,7 @@ AppBundle\Entity\Contador:
             nullable: false
     oneToOne:
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -29,7 +29,7 @@ AppBundle\Entity\Contador:
                     referencedColumnName: id
             orphanRemoval: false
         servico:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             fetch: LAZY
             joinColumns:
                 servico_id:

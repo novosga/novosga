@@ -1,4 +1,4 @@
-AppBundle\Entity\ServicoUnidade:
+Novosga\Entity\ServicoUnidade:
     type: entity
     table: uni_serv
     id:
@@ -30,7 +30,7 @@ AppBundle\Entity\ServicoUnidade:
             precision: 0
     manyToOne:
         servico:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -40,7 +40,7 @@ AppBundle\Entity\ServicoUnidade:
                     referencedColumnName: id
             orphanRemoval: false
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -50,7 +50,7 @@ AppBundle\Entity\ServicoUnidade:
                     referencedColumnName: id
             orphanRemoval: false
         local:
-            targetEntity: AppBundle\Entity\Local
+            targetEntity: Novosga\Entity\Local
             cascade: {  }
             fetch: LAZY
             mappedBy: null

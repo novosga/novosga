@@ -2,7 +2,10 @@
 
 namespace Novosga\RolesBundle;
 
-class NovosgaRolesBundle extends \Novosga\ModuleBundle
+use Novosga\ModuleInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class NovosgaRolesBundle extends Bundle implements ModuleInterface
 {
     public function getDisplayName() 
     {

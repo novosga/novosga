@@ -1,4 +1,4 @@
-AppBundle\Entity\Configuracao:
+Novosga\Entity\Configuracao:
     type: entity
     table: config
     id:

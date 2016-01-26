@@ -1,4 +1,4 @@
-AppBundle\Entity\Local:
+Novosga\Entity\Local:
     type: entity
     table: locais
     repositoryClass: Novosga\Repository\LocalRepository

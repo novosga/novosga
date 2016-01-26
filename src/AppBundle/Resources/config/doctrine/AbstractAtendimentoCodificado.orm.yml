@@ -1,4 +1,4 @@
-AppBundle\Entity\AbstractAtendimentoCodificado:
+Novosga\Entity\AbstractAtendimentoCodificado:
     type: mappedSuperclass
     table: abstract_atendimento_codificado
     id:
@@ -6,7 +6,7 @@ AppBundle\Entity\AbstractAtendimentoCodificado:
             associationKey: true
     manyToOne:
         servico:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
             mappedBy: null

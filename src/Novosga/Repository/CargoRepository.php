@@ -15,7 +15,7 @@ class CargoRepository extends EntityRepository
     /**
      * Retorna todos os cargos ordenados pelo nível e pelo nome
      * 
-     * @return \AppBundle\Entity\Cargo[]
+     * @return \Novosga\Entity\Cargo[]
      */
     public function findAll()
     {

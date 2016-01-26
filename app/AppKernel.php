@@ -19,12 +19,15 @@ class AppKernel extends Kernel
             
             new Mangati\BaseBundle\MangatiBaseBundle(),
             
-//            new Novosga\AdminBundle\NovosgaAdminBundle(),
-//            new Novosga\ReportsBundle\NovosgaReportsBundle(),
+            new Novosga\AdminBundle\NovosgaAdminBundle(),
+            new Novosga\ReportsBundle\NovosgaReportsBundle(),
             new Novosga\UsersBundle\NovosgaUsersBundle(),
             new Novosga\RolesBundle\NovosgaRolesBundle(),
             new Novosga\GroupsBundle\NovosgaGroupsBundle(),
-            new \Novosga\TriagemBundle\NovosgaTriagemBundle(),
+            new Novosga\TriagemBundle\NovosgaTriagemBundle(),
+            new Novosga\MonitorBundle\NovosgaMonitorBundle(),
+            new Novosga\ServicesBundle\NovosgaServicesBundle(),
+            new Novosga\SettingsBundle\NovosgaSettingsBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

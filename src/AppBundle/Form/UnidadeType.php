@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Unidade;
+use Novosga\Entity\Unidade;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
@@ -53,7 +53,7 @@ class UnidadeType extends AbstractType
                 ]
             ])
             ->add('grupo', EntityType::class, [
-                'class' => \AppBundle\Entity\Grupo::class,
+                'class' => \Novosga\Entity\Grupo::class,
                 'constraints' => [
                     new NotNull(),
                 ]

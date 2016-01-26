@@ -50,12 +50,12 @@ class DefaultController extends Controller
      * 
      * @param Request $request
      * 
-     * @Route("/")
+     * @Route("/", name="novosga_reports_index")
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery("SELECT e FROM AppBundle\Entity\Unidade e WHERE e.status = 1 ORDER BY e.nome");
+        $query = $em->createQuery("SELECT e FROM Novosga\Entity\Unidade e WHERE e.status = 1 ORDER BY e.nome");
         $unidades = $query->getResult();
         
         $arr = [];
@@ -177,7 +177,7 @@ class DefaultController extends Controller
 
     private function unidades()
     {
-        $query = $this->em()->createQuery("SELECT e FROM AppBundle\Entity\Unidade e WHERE e.status = 1 ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Entity\Unidade e WHERE e.status = 1 ORDER BY e.nome");
 
         return $query->getResult();
     }
@@ -187,7 +187,7 @@ class DefaultController extends Controller
         if ($default == 0) {
             return $this->unidades();
         } else {
-            $unidade = $this->em()->find('AppBundle\Entity\Unidade', $default);
+            $unidade = $this->em()->find('Novosga\Entity\Unidade', $default);
             if (!$unidade) {
                 throw new \Exception('Invalid parameter');
             }
@@ -205,7 +205,7 @@ class DefaultController extends Controller
             SELECT
                 COUNT(e) as total
             FROM
-                AppBundle\Entity\ViewAtendimento e
+                Novosga\Entity\ViewAtendimento e
             WHERE
                 e.dataChegada >= :inicio AND
                 e.dataChegada <= :fim AND
@@ -237,7 +237,7 @@ class DefaultController extends Controller
                 s.nome as servico,
                 COUNT(a) as total
             FROM
-                AppBundle\Entity\ViewAtendimento a
+                Novosga\Entity\ViewAtendimento a
                 JOIN a.unidade u
                 JOIN a.servico s
             WHERE
@@ -280,7 +280,7 @@ class DefaultController extends Controller
                 AVG(a.dataFim - a.dataInicio) as atendimento,
                 AVG(a.dataFim - a.dataChegada) as total
             FROM
-                AppBundle\Entity\ViewAtendimento a
+                Novosga\Entity\ViewAtendimento a
                 JOIN a.unidade u
             WHERE
                 a.dataChegada >= :inicio AND
@@ -318,7 +318,7 @@ class DefaultController extends Controller
             SELECT
                 e
             FROM
-                AppBundle\Entity\Servico e
+                Novosga\Entity\Servico e
                 LEFT JOIN e.subServicos sub
             WHERE
                 e.mestre IS NULL
@@ -342,7 +342,7 @@ class DefaultController extends Controller
             SELECT
                 e
             FROM
-                AppBundle\Entity\ServicoUnidade e
+                Novosga\Entity\ServicoUnidade e
                 JOIN e.servico s
                 LEFT JOIN s.subServicos sub
             WHERE
@@ -371,7 +371,7 @@ class DefaultController extends Controller
                 COUNT(s.id) as total,
                 s.nome
             FROM
-                AppBundle\Entity\ViewAtendimentoCodificado c
+                Novosga\Entity\ViewAtendimentoCodificado c
                 JOIN c.servico s
                 JOIN c.atendimento e
             WHERE
@@ -406,7 +406,7 @@ class DefaultController extends Controller
             SELECT
                 e
             FROM
-                AppBundle\Entity\ViewAtendimento e
+                Novosga\Entity\ViewAtendimento e
             WHERE
                 e.unidade = :unidade AND
                 e.status = :status AND
@@ -438,7 +438,7 @@ class DefaultController extends Controller
             SELECT
                 e
             FROM
-                AppBundle\Entity\ViewAtendimento e
+                Novosga\Entity\ViewAtendimento e
             WHERE
                 e.unidade = :unidade AND
                 e.dataChegada >= :dataInicial AND
@@ -472,7 +472,7 @@ class DefaultController extends Controller
                 AVG(a.dataFim - a.dataInicio) as atendimento,
                 AVG(a.dataFim - a.dataChegada) as tempoTotal
             FROM
-                AppBundle\Entity\ViewAtendimento a
+                Novosga\Entity\ViewAtendimento a
                 JOIN a.usuario u
             WHERE
                 a.dataChegada >= :dataInicial AND
@@ -553,7 +553,7 @@ class DefaultController extends Controller
     private function cargos()
     {
         $dados = [];
-        $query = $this->em()->createQuery("SELECT e FROM AppBundle\Entity\Cargo e ORDER BY e.nome");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Entity\Cargo e ORDER BY e.nome");
         $cargos = $query->getResult();
         foreach ($cargos as $cargo) {
             $dados[$cargo->getId()] = [

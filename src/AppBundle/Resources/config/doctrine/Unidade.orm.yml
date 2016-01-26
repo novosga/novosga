@@ -1,4 +1,4 @@
-AppBundle\Entity\Unidade:
+Novosga\Entity\Unidade:
     type: entity
     table: unidades
     repositoryClass: Novosga\Repository\UnidadeRepository
@@ -42,7 +42,7 @@ AppBundle\Entity\Unidade:
             column: msg_imp
     oneToOne:
         grupo:
-            targetEntity: AppBundle\Entity\Grupo
+            targetEntity: Novosga\Entity\Grupo
             cascade: {  }
             fetch: EAGER
             mappedBy: null
@@ -52,7 +52,7 @@ AppBundle\Entity\Unidade:
                     referencedColumnName: id
             orphanRemoval: false
         contador:
-            targetEntity: AppBundle\Entity\Contador
+            targetEntity: Novosga\Entity\Contador
             cascade:
                 - persist
             fetch: LAZY

@@ -1,4 +1,4 @@
-AppBundle\Entity\Modulo:
+Novosga\Entity\Modulo:
     type: entity
     table: modulos
     fields:

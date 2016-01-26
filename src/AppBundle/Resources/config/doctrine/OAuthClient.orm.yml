@@ -1,4 +1,4 @@
-AppBundle\Entity\OAuthClient:
+Novosga\Entity\OAuthClient:
     type: entity
     table: oauth_clients
     id:

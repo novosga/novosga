@@ -1,4 +1,4 @@
-AppBundle\Entity\AtendimentoHistoricoMeta:
+Novosga\Entity\AtendimentoHistoricoMeta:
     type: entity
     table: historico_atend_meta
     id:
@@ -20,7 +20,7 @@ AppBundle\Entity\AtendimentoHistoricoMeta:
             columnDefinition: text
     manyToOne:
         atendimento:
-            targetEntity: AppBundle\Entity\AtendimentoHistorico
+            targetEntity: Novosga\Entity\AtendimentoHistorico
             cascade: {  }
             fetch: LAZY
             mappedBy: null

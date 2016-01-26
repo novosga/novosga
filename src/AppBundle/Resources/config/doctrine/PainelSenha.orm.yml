@@ -1,4 +1,4 @@
-AppBundle\Entity\PainelSenha:
+Novosga\Entity\PainelSenha:
     type: entity
     table: painel_senha
     fields:
@@ -73,7 +73,7 @@ AppBundle\Entity\PainelSenha:
             column: documento_cliente
     manyToOne:
         servico:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -83,7 +83,7 @@ AppBundle\Entity\PainelSenha:
                     referencedColumnName: id
             orphanRemoval: false
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null

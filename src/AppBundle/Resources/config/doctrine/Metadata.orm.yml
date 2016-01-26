@@ -1,4 +1,4 @@
-AppBundle\Entity\Metadata:
+Novosga\Entity\Metadata:
     type: mappedSuperclass
     table: metadata
     id: {  }

@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use DateTime;
 use Exception;
 use Novosga\Config\AppConfig;
-use AppBundle\Entity\Atendimento;
+use Novosga\Entity\Atendimento;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 

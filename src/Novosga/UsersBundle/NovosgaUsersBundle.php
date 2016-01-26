@@ -2,7 +2,10 @@
 
 namespace Novosga\UsersBundle;
 
-class NovosgaUsersBundle extends \Novosga\ModuleBundle
+use Novosga\ModuleInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class NovosgaUsersBundle extends Bundle implements ModuleInterface
 {
     public function getDisplayName() 
     {

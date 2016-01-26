@@ -1,4 +1,4 @@
-AppBundle\Entity\PainelServico:
+Novosga\Entity\PainelServico:
     type: entity
     table: paineis_servicos
     id:
@@ -8,7 +8,7 @@ AppBundle\Entity\PainelServico:
             associationKey: true
     manyToOne:
         painel:
-            targetEntity: AppBundle\Entity\Painel
+            targetEntity: Novosga\Entity\Painel
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -18,7 +18,7 @@ AppBundle\Entity\PainelServico:
                     referencedColumnName: host
             orphanRemoval: false
         servico:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -28,7 +28,7 @@ AppBundle\Entity\PainelServico:
                     referencedColumnName: id
             orphanRemoval: false
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null

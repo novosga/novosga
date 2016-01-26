@@ -1,4 +1,4 @@
-AppBundle\Entity\AtendimentoMeta:
+Novosga\Entity\AtendimentoMeta:
     type: entity
     table: atend_meta
     id:
@@ -20,7 +20,7 @@ AppBundle\Entity\AtendimentoMeta:
             columnDefinition: text
     manyToOne:
         atendimento:
-            targetEntity: AppBundle\Entity\Atendimento
+            targetEntity: Novosga\Entity\Atendimento
             cascade: {  }
             fetch: LAZY
             mappedBy: null

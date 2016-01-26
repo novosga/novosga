@@ -4,7 +4,7 @@ namespace Novosga\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Query;
-use AppBundle\Entity\Unidade;
+use Novosga\Entity\Unidade;
 
 /**
  * UnidadeService.
@@ -15,7 +15,7 @@ class UnidadeService extends MetaModelService
 {
     protected function getMetaClass()
     {
-        return 'AppBundle\Entity\UnidadeMeta';
+        return 'Novosga\Entity\UnidadeMeta';
     }
 
     protected function getMetaFieldname()
@@ -30,7 +30,7 @@ class UnidadeService extends MetaModelService
      * @param string  $name
      * @param string  $value
      *
-     * @return \AppBundle\Entity\UnidadeMeta
+     * @return \Novosga\Entity\UnidadeMeta
      */
     public function meta(Unidade $unidade, $name, $value = null)
     {
@@ -65,7 +65,7 @@ class UnidadeService extends MetaModelService
                 :servico = '%%'
                 OR
                 EXISTS (
-                    SELECT 1 FROM AppBundle\Entity\ServicoUsuario su1 JOIN su1.servico s1
+                    SELECT 1 FROM Novosga\Entity\ServicoUsuario su1 JOIN su1.servico s1
                     WHERE su1.usuario = u AND su1.unidade = :unidade AND s1.status = 1 AND s1.nome LIKE :servico
                 )
             )";
@@ -89,16 +89,16 @@ class UnidadeService extends MetaModelService
                     SELECT
                         l
                     FROM
-                        AppBundle\Entity\Lotacao l
+                        Novosga\Entity\Lotacao l
                         LEFT JOIN l.usuario u
                         LEFT JOIN l.grupo g
                         LEFT JOIN l.cargo c
                     WHERE
                         g.left <= (
-                            SELECT g2.left FROM AppBundle\Entity\Grupo g2 WHERE g2.id = (SELECT u2g.id FROM AppBundle\Entity\Unidade u2 INNER JOIN u2.grupo u2g WHERE u2.id = :unidade)
+                            SELECT g2.left FROM Novosga\Entity\Grupo g2 WHERE g2.id = (SELECT u2g.id FROM Novosga\Entity\Unidade u2 INNER JOIN u2.grupo u2g WHERE u2.id = :unidade)
                         ) AND
                         g.right >= (
-                            SELECT g3.right FROM AppBundle\Entity\Grupo g3 WHERE g3.id = (SELECT u3g.id FROM AppBundle\Entity\Unidade u3 INNER JOIN u3.grupo u3g WHERE u3.id = :unidade)
+                            SELECT g3.right FROM Novosga\Entity\Grupo g3 WHERE g3.id = (SELECT u3g.id FROM Novosga\Entity\Unidade u3 INNER JOIN u3.grupo u3g WHERE u3.id = :unidade)
                         )
                         {$where}
                     ORDER BY

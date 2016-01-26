@@ -1,10 +1,13 @@
 <?php
 
-namespace Novosga\ServicosBundle\Controller;
+namespace Novosga\ServicesBundle\Controller;
 
 use Novosga\Context;
-use AppBundle\Entity\SequencialModel;
-use AppBundle\Entity\Servico;
+use Novosga\Entity\SequencialModel;
+use Novosga\Entity\Servico;
+use Mangati\BaseBundle\Controller\CrudController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * ServicosController.
@@ -13,64 +16,69 @@ use AppBundle\Entity\Servico;
  */
 class DefaultController extends CrudController
 {
-    protected function createModel()
-    {
-        $servico = new Servico();
-        $servico->setPeso(1);
-
-        return $servico;
+    
+    public function __construct() {
+        parent::__construct(Servico::class);
     }
-
-    protected function requiredFields()
+    
+    /**
+     * 
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
+     * @Route("/", name="novosga_services_index")
+     */
+    public function indexAction(Request $request)
     {
-        return ['nome', 'descricao', 'status'];
+        return $this->render('NovosgaServicesBundle:Default:index.html.twig');
+    }
+    
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
+     * @Route("/search.json", name="novosga_services_search")
+     */
+    public function searchAction(Request $request) 
+    {
+        $query = $this
+                ->getDoctrine()
+                ->getManager()
+                ->createQueryBuilder()
+                ->select('e')
+                ->from(Servico::class, 'e')
+                ->getQuery();
+        
+        return $this->dataTable($request, $query, false);
+    }
+    
+    /**
+     * 
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
+     * @Route("/edit/{id}", name="novosga_services_edit")
+     */
+    public function editAction(Request $request, $id = 0)
+    {
+        return $this->edit('NovosgaServicesBundle:Default:edit.html.twig', $request, $id);
     }
 
     protected function preSave(Context $context, SequencialModel $model)
     {
         $id_macro = (int) $context->request()->post('id_macro');
-        $macro = $this->em()->find("AppBundle\Entity\Servico", $id_macro);
+        $macro = $this->em()->find("Novosga\Entity\Servico", $id_macro);
         $model->setMestre($macro);
-    }
-
-    protected function search($arg)
-    {
-        $query = $this->em()->createQuery("
-            SELECT
-                e
-            FROM
-                AppBundle\Entity\Servico e
-                LEFT JOIN
-                    e.mestre m
-            WHERE
-                (
-                    UPPER(e.nome) LIKE :arg OR
-                    UPPER(e.descricao) LIKE :arg
-                )
-            ORDER BY
-                e.nome
-        ");
-        $query->setParameter('arg', $arg);
-
-        return $query;
-    }
-
-    public function edit(Context $context, $id = 0)
-    {
-        parent::edit($context, $id);
-        $query = $this->em()->createQuery("SELECT e FROM AppBundle\Entity\Servico e WHERE e.mestre IS NULL AND e.id != :id ORDER BY e.nome ASC");
-        $query->setParameter('id', $this->model->getId());
-        $this->app()->view()->set('macros', $query->getResult());
     }
 
     protected function postSave(Context $context, SequencialModel $model)
     {
         // um subserviço não pode aparecer na lista de serviços da unidade (triagem). issue #257
         if ($model->getId() && $model->getMestre()) {
-            $query = $this->em()->createQuery("DELETE FROM AppBundle\Entity\ServicoUsuario e WHERE e.servico = :servico");
+            $query = $this->em()->createQuery("DELETE FROM Novosga\Entity\ServicoUsuario e WHERE e.servico = :servico");
             $query->setParameter('servico', $model->getId());
             $query->execute();
-            $query = $this->em()->createQuery("DELETE FROM AppBundle\Entity\ServicoUnidade e WHERE e.servico = :servico");
+            $query = $this->em()->createQuery("DELETE FROM Novosga\Entity\ServicoUnidade e WHERE e.servico = :servico");
             $query->setParameter('servico', $model->getId());
             $query->execute();
         }
@@ -79,20 +87,20 @@ class DefaultController extends CrudController
     /**
      * Verifica se já existe unidade usando o serviço.
      *
-     * @param AppBundle\Entity\SequencialModel $model
+     * @param Novosga\Entity\SequencialModel $model
      */
     protected function preDelete(Context $context, SequencialModel $model)
     {
         $error = _('Já existem atendimentos para o serviço que está tentando remover');
         // quantidade de atendimentos do servico
-        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM AppBundle\Entity\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico");
+        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Entity\Atendimento e JOIN e.servicoUnidade su WHERE su.servico = :servico");
         $query->setParameter('servico', $model->getId());
         $rs = $query->getSingleResult();
         if ($rs['total'] > 0) {
             throw new \Exception($error);
         }
         // quantidade de atendimentos do servico, no historico
-        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM AppBundle\Entity\ViewAtendimento e WHERE e.servico = :servico");
+        $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Entity\ViewAtendimento e WHERE e.servico = :servico");
         $query->setParameter('servico', $model->getId());
         $rs = $query->getSingleResult();
         if ($rs['total'] > 0) {
@@ -100,10 +108,10 @@ class DefaultController extends CrudController
         }
         // apagando vinculo com as unidades
         $this->em()->beginTransaction();
-        $query = $this->em()->createQuery("DELETE FROM AppBundle\Entity\ServicoUsuario e WHERE e.servico = :servico");
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Entity\ServicoUsuario e WHERE e.servico = :servico");
         $query->setParameter('servico', $model->getId());
         $query->execute();
-        $query = $this->em()->createQuery("DELETE FROM AppBundle\Entity\ServicoUnidade e WHERE e.servico = :servico");
+        $query = $this->em()->createQuery("DELETE FROM Novosga\Entity\ServicoUnidade e WHERE e.servico = :servico");
         $query->setParameter('servico', $model->getId());
         $query->execute();
     }
@@ -129,5 +137,10 @@ class DefaultController extends CrudController
         }
         echo $response->toJson();
         exit();
+    }
+    
+    protected function createFormType() 
+    {
+        return \AppBundle\Form\ServicoType::class;
     }
 }

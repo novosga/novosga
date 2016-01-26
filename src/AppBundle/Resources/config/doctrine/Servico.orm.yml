@@ -1,4 +1,4 @@
-AppBundle\Entity\Servico:
+Novosga\Entity\Servico:
     type: entity
     table: servicos
     repositoryClass: Novosga\Repository\ServicoRepository
@@ -33,7 +33,7 @@ AppBundle\Entity\Servico:
             precision: 0
     manyToOne:
         mestre:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -44,7 +44,7 @@ AppBundle\Entity\Servico:
             orphanRemoval: false
     oneToMany:
         subServicos:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
             mappedBy: mestre
@@ -52,7 +52,7 @@ AppBundle\Entity\Servico:
             orphanRemoval: false
             orderBy: null
         servicosUnidade:
-            targetEntity: AppBundle\Entity\ServicoUnidade
+            targetEntity: Novosga\Entity\ServicoUnidade
             cascade: {  }
             fetch: LAZY
             mappedBy: servico

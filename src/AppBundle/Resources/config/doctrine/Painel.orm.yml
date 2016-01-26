@@ -1,4 +1,4 @@
-AppBundle\Entity\Painel:
+Novosga\Entity\Painel:
     type: entity
     table: paineis
     id:
@@ -20,7 +20,7 @@ AppBundle\Entity\Painel:
             precision: 0
     manyToOne:
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -31,7 +31,7 @@ AppBundle\Entity\Painel:
             orphanRemoval: false
     oneToMany:
         servicos:
-            targetEntity: AppBundle\Entity\PainelServico
+            targetEntity: Novosga\Entity\PainelServico
             cascade: {  }
             fetch: LAZY
             mappedBy: painel

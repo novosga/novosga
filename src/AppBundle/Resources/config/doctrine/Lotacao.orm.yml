@@ -1,4 +1,4 @@
-AppBundle\Entity\Lotacao:
+Novosga\Entity\Lotacao:
     type: entity
     table: usu_grup_cargo
     repositoryClass: Novosga\Repository\LotacaoRepository
@@ -9,7 +9,7 @@ AppBundle\Entity\Lotacao:
             associationKey: true
     manyToOne:
         usuario:
-            targetEntity: AppBundle\Entity\Usuario
+            targetEntity: Novosga\Entity\Usuario
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -19,7 +19,7 @@ AppBundle\Entity\Lotacao:
                     referencedColumnName: id
             orphanRemoval: false
         grupo:
-            targetEntity: AppBundle\Entity\Grupo
+            targetEntity: Novosga\Entity\Grupo
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -29,7 +29,7 @@ AppBundle\Entity\Lotacao:
                     referencedColumnName: id
             orphanRemoval: false
         cargo:
-            targetEntity: AppBundle\Entity\Cargo
+            targetEntity: Novosga\Entity\Cargo
             cascade: {  }
             fetch: LAZY
             mappedBy: null

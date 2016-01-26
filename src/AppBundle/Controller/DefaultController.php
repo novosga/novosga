@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Unidade;
+use Novosga\Entity\Unidade;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -53,7 +53,7 @@ class DefaultController extends Controller
         $bundles = [];
         
         foreach ($kernel->getBundles() as $bundle) {
-            if ($bundle instanceof \Novosga\ModuleBundle) {
+            if ($bundle instanceof \Novosga\ModuleInterface) {
                 $modules[] = $bundle;
             }
         }

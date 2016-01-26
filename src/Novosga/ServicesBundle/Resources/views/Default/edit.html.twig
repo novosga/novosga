@@ -1,0 +1,41 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    {{ form_start(form) }}
+    
+        {% include 'MangatiBaseBundle:Crud:flashMessages.html.twig' %}
+        
+        {{ form_row(form.nome) }}
+        
+        {{ form_row(form.descricao) }}
+        
+        {{ form_row(form.status) }}
+        
+        {{ form_row(form.peso) }}
+        
+        {% if entity.id and entity.subServicos|length %}
+            <fieldset>
+                <legend>{% trans %}Subserviços{% endtrans %}</legend>
+                <ul>
+                    {% for sub in model.subServicos %}
+                    <li>{{ sub.nome }}</li>
+                    {% endfor %}
+                </ul>
+            </fieldset>
+        {% else %}
+            {{ form_row(form.mestre) }}
+        {% endif %}
+        
+        <div class="buttons">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-save"></span> 
+                {% trans %}Salvar{% endtrans %}
+            </button>
+            <a href="{{ path('novosga_services_index') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-left"></span> 
+                {% trans %}Voltar{% endtrans %}
+            </a>
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

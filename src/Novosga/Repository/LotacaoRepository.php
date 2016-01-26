@@ -14,8 +14,8 @@ class LotacaoRepository extends EntityRepository
     
     /**
      * 
-     * @param \AppBundle\Entity\Usuario $usuario
-     * @return \AppBundle\Entity\Lotacao[]
+     * @param \Novosga\Entity\Usuario $usuario
+     * @return \Novosga\Entity\Lotacao[]
      */
     public function getLotacoes($usuario)
     {

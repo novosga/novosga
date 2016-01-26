@@ -7,7 +7,7 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: pt-BR
-    version: 2.0.0
+    version: 2.0.0-dev
 
 framework:
     #esi:             ~

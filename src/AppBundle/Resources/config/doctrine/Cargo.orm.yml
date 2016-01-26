@@ -1,4 +1,4 @@
-AppBundle\Entity\Cargo:
+Novosga\Entity\Cargo:
     type: entity
     table: cargos
     repositoryClass: Novosga\Repository\CargoRepository
@@ -43,7 +43,7 @@ AppBundle\Entity\Cargo:
             column: nivel
     oneToMany:
         permissoes:
-            targetEntity: AppBundle\Entity\Permissao
+            targetEntity: Novosga\Entity\Permissao
             cascade: {  }
             fetch: LAZY
             mappedBy: cargo
@@ -52,7 +52,7 @@ AppBundle\Entity\Cargo:
             orderBy: null
     manyToOne:
         parent:
-            targetEntity: AppBundle\Entity\Cargo
+            targetEntity: Novosga\Entity\Cargo
             fetch: LAZY
             joinColumns: {  }
     lifecycleCallbacks: {  }

@@ -1,4 +1,4 @@
-AppBundle\Entity\Grupo:
+Novosga\Entity\Grupo:
     type: entity
     table: grupos
     repositoryClass: Novosga\Repository\GrupoRepository
@@ -43,7 +43,7 @@ AppBundle\Entity\Grupo:
             column: nivel
     oneToOne:
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: grupo
@@ -52,7 +52,7 @@ AppBundle\Entity\Grupo:
             orphanRemoval: false
     manyToOne:
         parent:
-            targetEntity: AppBundle\Entity\Grupo
+            targetEntity: Novosga\Entity\Grupo
             fetch: LAZY
             joinColumns: {  }
     lifecycleCallbacks: {  }

@@ -1,4 +1,4 @@
-AppBundle\Entity\SequencialModel:
+Novosga\Entity\SequencialModel:
     type: mappedSuperclass
     id:
         id:

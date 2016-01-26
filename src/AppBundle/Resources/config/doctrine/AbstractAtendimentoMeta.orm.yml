@@ -1,2 +1,2 @@
-AppBundle\Entity\AbstractAtendimentoMeta:
+Novosga\Entity\AbstractAtendimentoMeta:
     type: mappedSuperclass

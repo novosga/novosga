@@ -29,7 +29,7 @@ class ServicoType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => \AppBundle\Entity\Servico::class
+            'data_class' => \Novosga\Entity\Servico::class
         ));
     }
 }

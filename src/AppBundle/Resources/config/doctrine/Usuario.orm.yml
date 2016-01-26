@@ -1,4 +1,4 @@
-AppBundle\Entity\Usuario:
+Novosga\Entity\Usuario:
     type: entity
     table: usuarios
     repositoryClass: Novosga\Repository\UsuarioRepository
@@ -52,7 +52,7 @@ AppBundle\Entity\Usuario:
             length: 60
     oneToMany:
         lotacoes:
-            targetEntity: AppBundle\Entity\Lotacao
+            targetEntity: Novosga\Entity\Lotacao
             cascade: {  }
             fetch: LAZY
             mappedBy: usuario

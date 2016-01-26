@@ -1,4 +1,4 @@
-AppBundle\Entity\Prioridade:
+Novosga\Entity\Prioridade:
     type: entity
     table: prioridades
     repositoryClass: Novosga\Repository\PrioridadeRepository

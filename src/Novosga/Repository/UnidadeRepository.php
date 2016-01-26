@@ -15,7 +15,7 @@ class UnidadeRepository extends EntityRepository
     /**
      * Retorna todas as unidades ordenadas por nome
      * 
-     * @return \AppBundle\Entity\Unidade[]
+     * @return \Novosga\Entity\Unidade[]
      */
     public function findAll()
     {

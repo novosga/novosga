@@ -1,4 +1,4 @@
-AppBundle\Entity\ServicoUsuario:
+Novosga\Entity\ServicoUsuario:
     type: entity
     table: usu_serv
     id:
@@ -8,7 +8,7 @@ AppBundle\Entity\ServicoUsuario:
             associationKey: true
     manyToOne:
         servico:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -18,7 +18,7 @@ AppBundle\Entity\ServicoUsuario:
                     referencedColumnName: id
             orphanRemoval: false
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -28,7 +28,7 @@ AppBundle\Entity\ServicoUsuario:
                     referencedColumnName: id
             orphanRemoval: false
         usuario:
-            targetEntity: AppBundle\Entity\Usuario
+            targetEntity: Novosga\Entity\Usuario
             cascade: {  }
             fetch: LAZY
             mappedBy: null

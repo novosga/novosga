@@ -1,4 +1,4 @@
-AppBundle\Entity\UnidadeMeta:
+Novosga\Entity\UnidadeMeta:
     type: entity
     table: uni_meta
     id:
@@ -20,7 +20,7 @@ AppBundle\Entity\UnidadeMeta:
             columnDefinition: text
     manyToOne:
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null

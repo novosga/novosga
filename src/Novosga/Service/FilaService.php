@@ -4,9 +4,9 @@ namespace Novosga\Service;
 
 use Doctrine\ORM\QueryBuilder;
 use Novosga\Config\AppConfig;
-use AppBundle\Entity\Servico;
-use AppBundle\Entity\Unidade;
-use AppBundle\Entity\Util\UsuarioSessao;
+use Novosga\Entity\Servico;
+use Novosga\Entity\Unidade;
+use Novosga\Entity\Util\UsuarioSessao;
 
 /**
  * FilaService.
@@ -104,11 +104,11 @@ class FilaService extends ModelService
     public function filaServico($unidade, $servico)
     {
         if (!($unidade instanceof Unidade)) {
-            $unidade = $this->em->find('AppBundle\Entity\Unidade', $unidade);
+            $unidade = $this->em->find('Novosga\Entity\Unidade', $unidade);
         }
 
         if (!($servico instanceof Servico)) {
-            $servico = $this->em->find('AppBundle\Entity\Servico', $servico);
+            $servico = $this->em->find('Novosga\Entity\Servico', $servico);
         }
 
         $builder = $this->builder()
@@ -131,7 +131,7 @@ class FilaService extends ModelService
         return $this->em
             ->createQueryBuilder()
             ->select('e')
-            ->from('AppBundle\Entity\Atendimento', 'e')
+            ->from('Novosga\Entity\Atendimento', 'e')
             ->join('e.prioridade', 'p')
             ->join('e.servicoUnidade', 'su')
             ->join('su.servico', 's')

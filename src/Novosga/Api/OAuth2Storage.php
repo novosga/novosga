@@ -18,7 +18,7 @@ class OAuth2Storage extends Pdo
     {
         $conn = $em->getConnection()->getWrappedConnection();
         parent::__construct($conn, $config);
-        $tableName = $em->getClassMetadata('AppBundle\Entity\OAuthClient')->getTableName();
+        $tableName = $em->getClassMetadata('Novosga\Entity\OAuthClient')->getTableName();
         $this->config['client_table'] = $tableName;
         $this->em = $em;
     }
@@ -30,7 +30,7 @@ class OAuth2Storage extends Pdo
 
     public function getUser($username)
     {
-        $query = $this->em->createQuery('SELECT e FROM AppBundle\Entity\Usuario e WHERE e.login = :username');
+        $query = $this->em->createQuery('SELECT e FROM Novosga\Entity\Usuario e WHERE e.login = :username');
         $query->setParameter('username', $username);
         $user = $query->getOneOrNullResult();
 

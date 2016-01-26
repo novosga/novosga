@@ -3,8 +3,8 @@
 namespace Novosga\UsersBundle\Controller;
 
 use Exception;
-use AppBundle\Entity\SequencialModel;
-use AppBundle\Entity\Usuario;
+use Novosga\Entity\SequencialModel;
+use Novosga\Entity\Usuario;
 use AppBundle\Form\UsuarioType;
 use Mangati\BaseBundle\Controller\CrudController;
 use Mangati\BaseBundle\Event\CrudEvent;
@@ -78,7 +78,7 @@ class DefaultController extends CrudController
                 $entity = $params['entity'];
 
                 // lotacoes do usuario
-                $rs = $em->getRepository(\AppBundle\Entity\Lotacao::class)
+                $rs = $em->getRepository(\Novosga\Entity\Lotacao::class)
                         ->getLotacoes($entity);
                 $lotacoes = [];
                 foreach ($rs as $lotacao) {
@@ -90,7 +90,7 @@ class DefaultController extends CrudController
                     ];
                 }
                 // servicos do usuario
-                $rs = $em->getRepository(\AppBundle\Entity\ServicoUsuario::class)
+                $rs = $em->getRepository(\Novosga\Entity\ServicoUsuario::class)
                         ->findByUsuario($entity);
                 $servicos = [];
                 foreach ($rs as $servico) {
@@ -103,10 +103,10 @@ class DefaultController extends CrudController
                 }
 
                 // unidades
-                $unidades = $em->getRepository(\AppBundle\Entity\Unidade::class)->findAll();
+                $unidades = $em->getRepository(\Novosga\Entity\Unidade::class)->findAll();
 
                 // cargos disponiveis
-                $cargos = $em->getRepository(\AppBundle\Entity\Cargo::class)->findAll();
+                $cargos = $em->getRepository(\Novosga\Entity\Cargo::class)->findAll();
 
                 $params['unidades'] = $unidades;
                 $params['cargos']   = $cargos;
@@ -126,7 +126,7 @@ class DefaultController extends CrudController
         $total = 0;
         $models = ['Atendimento', 'ViewAtendimento'];
         foreach ($models as $atendimentoModel) {
-            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM AppBundle\Entity\\$atendimentoModel e WHERE e.usuario = :usuario");
+            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Entity\\$atendimentoModel e WHERE e.usuario = :usuario");
             $query->setParameter('usuario', $model->getId());
             $rs = $query->getSingleResult();
             $total += $rs['total'];
@@ -137,7 +137,7 @@ class DefaultController extends CrudController
         // excluindo vinculos do usuario (servicos e lotacoes)
         $models = ['ServicoUsuario', 'Lotacao'];
         foreach ($models as $vinculoModel) {
-            $query = $this->em()->createQuery("DELETE FROM AppBundle\Entity\\$vinculoModel e WHERE e.usuario = :usuario");
+            $query = $this->em()->createQuery("DELETE FROM Novosga\Entity\\$vinculoModel e WHERE e.usuario = :usuario");
             $query->setParameter('usuario', $model->getId());
             $query->execute();
         }
@@ -145,7 +145,7 @@ class DefaultController extends CrudController
 
     protected function search($arg)
     {
-        $query = $this->em()->createQuery("SELECT e FROM AppBundle\Entity\Usuario e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.login) LIKE :arg");
+        $query = $this->em()->createQuery("SELECT e FROM Novosga\Entity\Usuario e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.login) LIKE :arg");
         $query->setParameter('arg', $arg);
 
         return $query;
@@ -163,13 +163,13 @@ class DefaultController extends CrudController
             SELECT
                 e
             FROM
-                AppBundle\Entity\Grupo e
+                Novosga\Entity\Grupo e
             WHERE
                 NOT EXISTS (
                     SELECT
                         g2.id
                     FROM
-                        AppBundle\Entity\Grupo g2
+                        Novosga\Entity\Grupo g2
                     WHERE
                         (
                             g2.left <= e.left AND g2.right >= e.right OR
@@ -211,7 +211,7 @@ class DefaultController extends CrudController
     {
         $response = new JsonResponse(true);
         $id = (int) $context->request()->get('cargo');
-        $query = $this->em()->createQuery("SELECT m.nome FROM AppBundle\Entity\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
+        $query = $this->em()->createQuery("SELECT m.nome FROM Novosga\Entity\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
         $query->setParameter('cargo', $id);
         $response->data = $query->getResult();
 
@@ -253,7 +253,7 @@ class DefaultController extends CrudController
         if ($usuario) {
             try {
                 $hash = $this->app()->getAcessoService()->verificaSenha($senha, $confirmacao);
-                $query = $this->em()->createQuery("UPDATE AppBundle\Entity\Usuario u SET u.senha = :senha WHERE u.id = :id");
+                $query = $this->em()->createQuery("UPDATE Novosga\Entity\Usuario u SET u.senha = :senha WHERE u.id = :id");
                 $query->setParameter('senha', $hash);
                 $query->setParameter('id', $usuario->getId());
                 $query->execute();

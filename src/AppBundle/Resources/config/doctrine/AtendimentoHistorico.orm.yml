@@ -1,4 +1,4 @@
-AppBundle\Entity\AtendimentoHistorico:
+Novosga\Entity\AtendimentoHistorico:
     type: entity
     table: historico_atendimentos
     fields:
@@ -91,7 +91,7 @@ AppBundle\Entity\AtendimentoHistorico:
             column: num_senha_serv
     oneToMany:
         codificados:
-            targetEntity: AppBundle\Entity\AtendimentoCodificadoHistorico
+            targetEntity: Novosga\Entity\AtendimentoCodificadoHistorico
             cascade: {  }
             fetch: LAZY
             mappedBy: atendimento
@@ -100,7 +100,7 @@ AppBundle\Entity\AtendimentoHistorico:
             orderBy: null
     manyToOne:
         unidade:
-            targetEntity: AppBundle\Entity\Unidade
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -110,7 +110,7 @@ AppBundle\Entity\AtendimentoHistorico:
                     referencedColumnName: id
             orphanRemoval: false
         servico:
-            targetEntity: AppBundle\Entity\Servico
+            targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -120,7 +120,7 @@ AppBundle\Entity\AtendimentoHistorico:
                     referencedColumnName: id
             orphanRemoval: false
         servicoUnidade:
-            targetEntity: AppBundle\Entity\ServicoUnidade
+            targetEntity: Novosga\Entity\ServicoUnidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -132,7 +132,7 @@ AppBundle\Entity\AtendimentoHistorico:
                     referencedColumnName: unidade_id
             orphanRemoval: false
         prioridade:
-            targetEntity: AppBundle\Entity\Prioridade
+            targetEntity: Novosga\Entity\Prioridade
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -142,7 +142,7 @@ AppBundle\Entity\AtendimentoHistorico:
                     referencedColumnName: id
             orphanRemoval: false
         usuario:
-            targetEntity: AppBundle\Entity\Usuario
+            targetEntity: Novosga\Entity\Usuario
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -152,7 +152,7 @@ AppBundle\Entity\AtendimentoHistorico:
                     referencedColumnName: id
             orphanRemoval: false
         usuarioTriagem:
-            targetEntity: AppBundle\Entity\Usuario
+            targetEntity: Novosga\Entity\Usuario
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -162,7 +162,7 @@ AppBundle\Entity\AtendimentoHistorico:
                     referencedColumnName: id
             orphanRemoval: false
         pai:
-            targetEntity: AppBundle\Entity\Atendimento
+            targetEntity: Novosga\Entity\Atendimento
             cascade: {  }
             fetch: LAZY
             mappedBy: null

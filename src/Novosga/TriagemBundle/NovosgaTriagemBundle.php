@@ -2,7 +2,10 @@
 
 namespace Novosga\TriagemBundle;
 
-class NovosgaTriagemBundle extends \Novosga\ModuleBundle
+use Novosga\ModuleInterface;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
+
+class NovosgaTriagemBundle extends Bundle implements ModuleInterface
 {
     public function getDisplayName() 
     {

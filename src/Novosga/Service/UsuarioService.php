@@ -3,9 +3,9 @@
 namespace Novosga\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entity\Unidade;
-use AppBundle\Entity\Usuario;
-use AppBundle\Entity\Util\UsuarioSessao;
+use Novosga\Entity\Unidade;
+use Novosga\Entity\Usuario;
+use Novosga\Entity\Util\UsuarioSessao;
 
 /**
  * UsuarioService.
@@ -20,7 +20,7 @@ class UsuarioService extends MetaModelService
 
     protected function getMetaClass()
     {
-        return 'AppBundle\Entity\UsuarioMeta';
+        return 'Novosga\Entity\UsuarioMeta';
     }
 
     protected function getMetaFieldname()
@@ -35,7 +35,7 @@ class UsuarioService extends MetaModelService
      * @param string  $name
      * @param string  $value
      *
-     * @return \AppBundle\Entity\UsuarioMeta
+     * @return \Novosga\Entity\UsuarioMeta
      */
     public function meta(Usuario $usuario, $name, $value = null)
     {
@@ -55,16 +55,16 @@ class UsuarioService extends MetaModelService
                     SELECT
                         l
                     FROM
-                        AppBundle\Entity\Lotacao l
+                        Novosga\Entity\Lotacao l
                         LEFT JOIN l.usuario u
                         LEFT JOIN l.grupo g
                         LEFT JOIN l.cargo c
                     WHERE
                         g.left <= (
-                            SELECT g2.left FROM AppBundle\Entity\Grupo g2 WHERE g2.id = (SELECT u2g.id FROM AppBundle\Entity\Unidade u2 INNER JOIN u2.grupo u2g WHERE u2.id = :unidade)
+                            SELECT g2.left FROM Novosga\Entity\Grupo g2 WHERE g2.id = (SELECT u2g.id FROM Novosga\Entity\Unidade u2 INNER JOIN u2.grupo u2g WHERE u2.id = :unidade)
                         ) AND
                         g.right >= (
-                            SELECT g3.right FROM AppBundle\Entity\Grupo g3 WHERE g3.id = (SELECT u3g.id FROM AppBundle\Entity\Unidade u3 INNER JOIN u3.grupo u3g WHERE u3.id = :unidade)
+                            SELECT g3.right FROM Novosga\Entity\Grupo g3 WHERE g3.id = (SELECT u3g.id FROM Novosga\Entity\Unidade u3 INNER JOIN u3.grupo u3g WHERE u3.id = :unidade)
                         )
                 ")
                 ->setParameter('usuario', $usuario)
@@ -86,7 +86,7 @@ class UsuarioService extends MetaModelService
                     SELECT
                         e
                     FROM
-                        AppBundle\Entity\ServicoUsuario e
+                        Novosga\Entity\ServicoUsuario e
                         JOIN
                             e.servico s
                     WHERE
@@ -108,10 +108,10 @@ class UsuarioService extends MetaModelService
                     SELECT
                         COUNT(1)
                     FROM
-                        AppBundle\Entity\UsuarioMeta e
+                        Novosga\Entity\UsuarioMeta e
                     WHERE
                         (e.name = :metaLocal AND e.value = :numero AND e.usuario != :usuario)
-                        AND EXISTS (SELECT e2 FROM AppBundle\Entity\UsuarioMeta e2 WHERE e2.name = :metaUnidade AND e2.value = :unidade AND e2.usuario = e.usuario)
+                        AND EXISTS (SELECT e2 FROM Novosga\Entity\UsuarioMeta e2 WHERE e2.name = :metaUnidade AND e2.value = :unidade AND e2.usuario = e.usuario)
                 ')
                 ->setParameters([
                     'metaLocal'   => self::ATTR_ATENDIMENTO_LOCAL,

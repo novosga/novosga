@@ -4,8 +4,8 @@ namespace AppBundle\Controller;
 
 use Exception;
 use Novosga\Context;
-use AppBundle\Entity\SequencialModel;
-use AppBundle\Entity\TreeModel;
+use Novosga\Entity\SequencialModel;
+use Novosga\Entity\TreeModel;
 use Mangati\BaseBundle\Controller\CrudController;
 
 /**
@@ -29,7 +29,7 @@ abstract class TreeModelController extends CrudController
     /**
      * Insere ou atualiza a entidade no banco.
      *
-     * @param AppBundle\Entity\SequencialModel $model
+     * @param Novosga\Entity\SequencialModel $model
      */
     protected function doSave(Context $context, SequencialModel $model)
     {

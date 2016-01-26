@@ -1,4 +1,4 @@
-AppBundle\Entity\UsuarioMeta:
+Novosga\Entity\UsuarioMeta:
     type: entity
     table: usu_meta
     id:
@@ -20,7 +20,7 @@ AppBundle\Entity\UsuarioMeta:
             columnDefinition: text
     manyToOne:
         usuario:
-            targetEntity: AppBundle\Entity\Usuario
+            targetEntity: Novosga\Entity\Usuario
             cascade: {  }
             fetch: LAZY
             mappedBy: null

@@ -26,7 +26,7 @@ class HomeController extends Controller
             if (!$context->request()->isPost()) {
                 throw new \Exception(_('Somente via POST'));
             }
-            $unidade = $context->database()->createEntityManager()->find("AppBundle\Entity\Unidade", $id);
+            $unidade = $context->database()->createEntityManager()->find("Novosga\Entity\Unidade", $id);
             $context->getUser()->setUnidade($unidade);
             // atualizando a sessao
             $context->setUser($context->getUser());
@@ -51,7 +51,7 @@ class HomeController extends Controller
             // atualizando banco
             $query = $context->database()->createEntityManager()->createQuery("
                 UPDATE
-                    AppBundle\Entity\Usuario e
+                    Novosga\Entity\Usuario e
                 SET
                     e.nome = :nome, e.sobrenome = :sobrenome
                 WHERE
@@ -81,14 +81,14 @@ class HomeController extends Controller
             $hash = $this->app()->getAcessoService()->verificaSenha($senha, $confirmacao);
             $em = $context->database()->createEntityManager();
             // verificando senha atual
-            $query = $em->createQuery("SELECT u.senha FROM AppBundle\Entity\Usuario u WHERE u.id = :id");
+            $query = $em->createQuery("SELECT u.senha FROM Novosga\Entity\Usuario u WHERE u.id = :id");
             $query->setParameter('id', $usuario->getId());
             $rs = $query->getSingleResult();
             if ($rs['senha'] != Security::passEncode($atual)) {
                 throw new \Exception(_('Senha atual não confere'));
             }
             // atualizando o banco
-            $query = $em->createQuery("UPDATE AppBundle\Entity\Usuario u SET u.senha = :senha WHERE u.id = :id");
+            $query = $em->createQuery("UPDATE Novosga\Entity\Usuario u SET u.senha = :senha WHERE u.id = :id");
             $query->setParameter('senha', $hash);
             $query->setParameter('id', $usuario->getId());
             $query->execute();

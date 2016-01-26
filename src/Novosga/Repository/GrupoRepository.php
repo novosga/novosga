@@ -15,7 +15,7 @@ class GrupoRepository extends EntityRepository
     /**
      * Retorna todos os grupos ordenados pelo nível e pelo nome
      * 
-     * @return \AppBundle\Entity\Grupo[]
+     * @return \Novosga\Entity\Grupo[]
      */
     public function findAll()
     {

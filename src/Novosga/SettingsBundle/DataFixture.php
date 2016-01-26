@@ -4,8 +4,8 @@ namespace modules\sga\unidade;
 
 use Doctrine\ORM\EntityManager;
 use Exception;
-use AppBundle\Entity\Grupo;
-use AppBundle\Entity\Unidade;
+use Novosga\Entity\Grupo;
+use Novosga\Entity\Unidade;
 
 /**
  * Prioridades DataFixture.
@@ -22,7 +22,7 @@ class DataFixture
     public function install(EntityManager $em)
     {
         try {
-            $grupo = $em->find('AppBundle\Entity\Grupo', 1);
+            $grupo = $em->find('Novosga\Entity\Grupo', 1);
             $em->beginTransaction();
             $em->persist($this->create(_('Unidade Padrão'), _('Novo SGA'), $grupo));
             $em->commit();
