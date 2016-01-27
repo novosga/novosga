@@ -3,7 +3,21 @@
     "license": "MIT",
     "type": "project",
     "autoload": {
-        "psr-4": {  "": "src/" },
+        "psr-4": {  
+            "": "src/"
+        },
+        "psr-0": {  
+            "Novosga\\AdminBundle\\": "modules/",
+            "Novosga\\ReportsBundle\\": "modules/",
+            "Novosga\\UsersBundle\\": "modules/",
+            "Novosga\\RolesBundle\\": "modules/",
+            "Novosga\\GroupsBundle\\": "modules/",
+            "Novosga\\TriagemBundle\\": "modules/",
+            "Novosga\\AttendanceBundle\\": "modules/",
+            "Novosga\\MonitorBundle\\": "modules/",
+            "Novosga\\ServicesBundle\\": "modules/",
+            "Novosga\\SettingsBundle\\": "modules/"
+        },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {

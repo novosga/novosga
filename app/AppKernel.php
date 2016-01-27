@@ -18,17 +18,26 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             
             new Mangati\BaseBundle\MangatiBaseBundle(),
-            
-            new Novosga\AdminBundle\NovosgaAdminBundle(),
-            new Novosga\ReportsBundle\NovosgaReportsBundle(),
-            new Novosga\UsersBundle\NovosgaUsersBundle(),
-            new Novosga\RolesBundle\NovosgaRolesBundle(),
-            new Novosga\GroupsBundle\NovosgaGroupsBundle(),
-            new Novosga\TriagemBundle\NovosgaTriagemBundle(),
-            new Novosga\MonitorBundle\NovosgaMonitorBundle(),
-            new Novosga\ServicesBundle\NovosgaServicesBundle(),
-            new Novosga\SettingsBundle\NovosgaSettingsBundle(),
         ];
+        
+        // TODO: improve modules load (performance and enable/disable module)
+        
+        $searchPath = realpath(__DIR__.'/../modules');
+        $finder     = new Symfony\Component\Finder\Finder();
+        $finder->files()
+               ->in($searchPath)
+               ->name('*Bundle.php');
+
+        foreach ($finder as $file) {
+            $path       = substr($file->getRealpath(), strlen($searchPath) + 1, -4);
+            $parts      = explode('/', $path);
+            $class      = array_pop($parts);
+            $namespace  = implode('\\', $parts);
+            $class      = '\\' . $namespace.'\\'.$class;
+            if (class_exists($class)) {
+                $bundles[]  = new $class();
+            }
+        }
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();

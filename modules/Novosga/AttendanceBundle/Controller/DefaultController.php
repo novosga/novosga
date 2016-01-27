@@ -15,6 +15,7 @@ use Novosga\Util\Arrays;
 use Novosga\Util\DateUtil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
  * DefaultController
@@ -30,14 +31,22 @@ class DefaultController extends Controller
 
     public function __construct()
     {
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * 
+     * @Route("/", name="novosga_attendance_index")
+     */
+    public function indexAction(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
         $this->filaService = new FilaService($em);
         $this->usuarioService = new UsuarioService($em);
         $this->atendimentoService = new AtendimentoService($em);
-    }
-
-    public function indexAction(Request $request)
-    {
+        
         $usuario = $this->getUser();
         $unidade = $request->getSession()->get('unidade');
         
@@ -45,11 +54,11 @@ class DefaultController extends Controller
             return $this->redirectToRoute('home');
         }
 
-        $localMeta = $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_LOCAL);
+        $localMeta = $this->usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_LOCAL);
         if ($localMeta) {
             $usuario->setLocal((int) $localMeta->getValue());
         }
-        $tipoMeta = $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_TIPO);
+        $tipoMeta = $this->usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_TIPO);
         if ($tipoMeta) {
             $usuario->setTipoAtendimento((int) $tipoMeta->getValue());
         }
@@ -82,8 +91,8 @@ class DefaultController extends Controller
 
             AppConfig::getInstance()->hook('sga.atendimento.pre-setlocal', [$unidade, $usuario, $numero, $tipo]);
 
-            $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_LOCAL, $numero);
-            $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipo);
+            $this->usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_LOCAL, $numero);
+            $this->usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipo);
             $usuario->setLocal($numero);
             $usuario->setTipoAtendimento($tipo);
             $context->setUser($context->getUser());
@@ -153,7 +162,7 @@ class DefaultController extends Controller
                     $atendimentos = $this->filaService->atendimentos($usuario, 1);
                     if (count($atendimentos)) {
                         $proximo = $atendimentos[0];
-                        $success = $this->atendimentoService->chamar($proximo, $usuario->getWrapped(), $usuario->getLocal());
+                        $success = $this->atendimentoService->chamar($proximo, $usuario, $usuario->getLocal());
                         if ($success) {
                             // incrementando contadores
                             if ($proximo->getPrioridade()->getPeso() > 0) {
@@ -195,9 +204,9 @@ class DefaultController extends Controller
     private function checkUserConfig(Context $context, UsuarioSessao $usuario)
     {
         $service = new UsuarioService($this->em());
-        $numeroLocalMeta = $service->meta($usuario->getWrapped(), 'atendimento.local');
+        $numeroLocalMeta = $service->meta($usuario, 'atendimento.local');
         $numero = $numeroLocalMeta ? (int) $numeroLocalMeta->getValue() : $usuario->getLocal();
-        $tipoAtendimentoMeta = $service->meta($usuario->getWrapped(), 'atendimento.tipo');
+        $tipoAtendimentoMeta = $service->meta($usuario, 'atendimento.tipo');
         $tipoAtendimento = $tipoAtendimentoMeta ? (int) $tipoAtendimentoMeta->getValue() : $usuario->getTipoAtendimento();
 
         if ($numero != $usuario->getLocal()) {
@@ -346,7 +355,7 @@ class DefaultController extends Controller
             $redirecionar = $context->request()->post('redirecionar');
             if ($redirecionar) {
                 $servico = $context->request()->post('novoServico');
-                $redirecionado = $this->atendimentoService->redirecionar($atual, $usuario->getWrapped(), $unidade, $servico);
+                $redirecionado = $this->atendimentoService->redirecionar($atual, $usuario, $unidade, $servico);
                 if (!$redirecionado->getId()) {
                     throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
                 }
@@ -392,7 +401,7 @@ class DefaultController extends Controller
             if (!$atual) {
                 throw new Exception(_('Nenhum atendimento em andamento'));
             }
-            $redirecionado = $this->atendimentoService->redirecionar($atual, $usuario->getWrapped(), $unidade, $servico);
+            $redirecionado = $this->atendimentoService->redirecionar($atual, $usuario, $unidade, $servico);
             if (!$redirecionado->getId()) {
                 throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
             }

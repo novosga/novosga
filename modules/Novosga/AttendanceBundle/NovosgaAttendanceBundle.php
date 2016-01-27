@@ -1,6 +1,6 @@
 <?php
 
-namespace Novosga\AdminBundle;
+namespace Novosga\AttendanceBundle;
 
 use Novosga\ModuleInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
