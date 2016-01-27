@@ -2,6 +2,12 @@ parameters:
 #    parameter_name: value
 
 services:
+    novosga.routing_loader:
+        class: AppBundle\Loader\RouterLoader
+        arguments: ["@kernel"]
+        tags:
+            - { name: routing.loader }
+            
     novosga.security.encoder.md5:
         class: Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder
         arguments: 

@@ -1,24 +1,11 @@
 <?php
 
-/*
- * This file is part of the Elcodi package.
- *
- * Copyright (c) 2014-2015 Elcodi Networks S.L.
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * Feel free to edit as you please, and have fun.
- *
- * @author Marc Morera <yuhu@mmoreram.com>
- * @author Aldo Chiecchia <zimage@tiscali.it>
- * @author Elcodi Team <tech@elcodi.com>
- */
-
 namespace AppBundle\Loader;
 
+use Novosga\ModuleInterface;
 use RuntimeException;
 use Symfony\Component\Config\Loader\Loader;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -29,37 +16,20 @@ class RouterLoader extends Loader
 {
     /**
      * @var boolean
-     *
-     * Route is loaded
      */
     private $loaded = false;
 
     /**
-     * @var Plugin[]
-     *
-     * Plugins
-     */
-    private $plugins;
-
-    /**
      * @var KernelInterface
-     *
-     * Kernel
      */
     private $kernel;
 
     /**
-     * Construct
-     *
-     * @param KernelInterface $kernel  Kernel
-     * @param Plugin[]        $plugins Plugins
+     * @param KernelInterface $kernel
      */
-    public function __construct(
-        KernelInterface $kernel,
-        array $plugins
-    ) {
+    public function __construct(KernelInterface $kernel) 
+    {
         $this->kernel = $kernel;
-        $this->plugins = $plugins;
     }
 
     /**
@@ -78,12 +48,8 @@ class RouterLoader extends Loader
             throw new \RuntimeException('Do not add this loader twice');
         }
 
-        $routes = new RouteCollection();
-
-        $routes->addCollection(
-            $this->addPluginsRoutesCollection()
-        );
-
+        $routes = $this->createRoutesCollection();
+        
         $this->loaded = true;
 
         return $routes;
@@ -94,59 +60,49 @@ class RouterLoader extends Loader
      *
      * @return RouteCollection Collection generated
      */
-    protected function addPluginsRoutesCollection()
+    protected function createRoutesCollection()
     {
         $routes = new RouteCollection();
-
-        foreach ($this->plugins as $plugin) {
-            $routes->addCollection(
-                $this->addPluginRoutesCollection($plugin)
-            );
+        
+        foreach ($this->kernel->getBundles() as $bundle) {
+            if ($bundle instanceof ModuleInterface) {
+                $routes->addCollection(
+                    $this->getModuleRouteCollection($bundle)
+                );
+            }
         }
 
         return $routes;
     }
 
     /**
-     * Return route collection for injected plugins
-     *
-     * @return RouteCollection Collection generated
+     * @return RouteCollection
      */
-    protected function addPluginRoutesCollection(Plugin $plugin)
+    protected function getModuleRouteCollection(Bundle $bundle)
     {
-        $routes = new RouteCollection();
-        $bundleName = $plugin->getBundleName();
-        $bundle = $this
-            ->kernel
-            ->getBundle($bundleName);
-
+        $namespace = $bundle->getNamespace();
+        $tokens = explode('\\', str_replace('Bundle', '', $namespace));
+        $prefix = strtolower(implode('.', $tokens));
+        
         $routingFilePath = '/Resources/config/routing.yml';
         $resourcePath = $bundle->getPath() . $routingFilePath;
-        $type = 'yaml';
 
+        // check yaml
         if (file_exists($resourcePath)) {
-            $routes->addCollection(
-                $this
-                ->import(
-                    '@' . $bundle->getName() . $routingFilePath,
-                    $type
-                )
-            );
+            $routes = $this->import('@' . $bundle->getName() . $routingFilePath, 'yaml');
+        } 
+        // annotation
+        else {
+            $routes = $this->import('@' . $bundle->getName() . '/Controller/', 'annotation');
         }
+        
+        $routes->addPrefix("/$prefix");
 
         return $routes;
     }
 
-    /**
-     * Returns whether this class supports the given resource.
-     *
-     * @param mixed       $resource A resource
-     * @param string|null $type     The resource type or null if unknown
-     *
-     * @return bool True if this class supports the given resource, false otherwise
-     */
     public function supports($resource, $type = null)
     {
-        return 'elcodi.routes.plugins' === $type;
+        return 'novosga.modules' === $type;
     }
 }

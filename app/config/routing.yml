@@ -7,48 +7,7 @@ login_check:
  
 logout:
     path: /logout
-
-novosga_admin:
-    resource: "@NovosgaAdminBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.admin
-
-novosga_reports:
-    resource: "@NovosgaReportsBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.reports
-
-novosga_groups:
-    resource: "@NovosgaGroupsBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.groups
     
-novosga_roles:
-    resource: "@NovosgaRolesBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.roles
-
-novosga_users:
-    resource: "@NovosgaUsersBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.users
-
-novosga_triagem:
-    resource: "@NovosgaTriagemBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.triagem
-
-novosga_monitor:
-    resource: "@NovosgaMonitorBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.monitor
-
-novosga_services:
-    resource: "@NovosgaServicesBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.services
-
-novosga_settings:
-    resource: "@NovosgaSettingsBundle/Controller/"
-    type:     annotation
-    prefix: /novosga.settings
+app_modules:
+    resource: .
+    type: novosga.modules

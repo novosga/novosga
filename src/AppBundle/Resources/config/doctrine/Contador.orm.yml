@@ -21,6 +21,7 @@ Novosga\Entity\Contador:
         unidade:
             targetEntity: Novosga\Entity\Unidade
             fetch: LAZY
+            inversedBy: contador
             joinColumns:
                 unidade_id:
                     referencedColumnName: id
