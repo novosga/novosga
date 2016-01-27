@@ -22,4 +22,15 @@ class UnidadeRepository extends EntityRepository
         return $this->findBy([], ['nome' => 'ASC']);
     }
     
+    /**
+     * 
+     * @param \Novosga\Entity\Usuario $usuario
+     * @return \Novosga\Entity\Unidade[]
+     */
+    public function findByUsuario(\Novosga\Entity\Usuario $usuario)
+    {
+        // TODO
+        return $this->findAll();
+    }
+    
 }
