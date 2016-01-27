@@ -7,12 +7,17 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class NovosgaMonitorBundle extends Bundle implements ModuleInterface
 {
-    public function getDisplayName() 
+    public function getIconName()
+    {
+        return 'desktop';
+    }
+
+    public function getDisplayName()
     {
         return 'Monitor';
     }
 
-    public function getHomeRoute() 
+    public function getHomeRoute()
     {
         return 'novosga_monitor_index';
     }

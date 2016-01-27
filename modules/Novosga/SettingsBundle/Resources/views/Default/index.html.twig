@@ -1,4 +1,4 @@
-{% extends "module.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -7,7 +7,7 @@
     <script type="text/javascript" src="{{ asset('bundles/novosgasettings/js/script.js') }}"></script>
 {% endblock %}
 
-{% block moduleContent %}
+{% block body %}
 <div>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab-servicos" data-toggle="tab">{% trans %}Serviços{% endtrans %}</a></li>

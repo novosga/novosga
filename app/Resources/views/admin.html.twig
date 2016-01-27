@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-3">
+            <aside>
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <a href="{{ path('admin_index') }}">
+                            {% trans %}Sistema{% endtrans %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_modulos_index') }}">
+                            {% trans %}Módulos{% endtrans %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_prioridades_index') }}">
+                            {% trans %}Prioridades{% endtrans %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_locais_index') }}">
+                            {% trans %}Locais{% endtrans %}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('admin_api_index') }}">
+                            API
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="col-md-9">
+            {% block adminContent %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <div class="jumbotron">
+        <h1>Novo SGA v{{ version }}</h1>
+        <p>Sistema de Gerenciamento de Atendimento</p>
+        <p>
+            <button id="btn-checkversion" class="btn btn-default btn-lg" role="button" onclick="return App.Admin.checkVersion();">
+                <span class="glyphicon glyphicon-refresh"></span>
+                {% trans %}Verificar nova versão{% endtrans %}
+            </button>
+            <a id="btn-downloader" href="#" class="btn btn-success btn-lg" role="button" style="display:none">
+                <span class="glyphicon glyphicon-download"></span>
+                Download <span class="version"></span>
+            </a>
+            <span id="update-alert" class="label label-success" style="display:none">
+                <span class="glyphicon glyphicon-ok"></span>
+                {% trans %}Parabéns, você possui a versão mais recente{% endtrans %}
+            </span>
+        </p>
+    </div>
+    <h2>Comunidade</h2>
+    <p>Procurando ajuda? Acesse um dos canais do projeto através dos links abaixo:</p>
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Blog
+                </div>
+                <div class="panel-body">
+                    <p>Notícias relacionadas aos projetos do Novo SGA e lançamento de novas versões</p>
+                    <p>
+                        <a href="http://novosga.org/blog" class="btn btn-primary" target="_blank">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
+                            {% trans %}Acessar{% endtrans %}
+                        </a>
+                    </p>
+                </div>
+           </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Fórum
+                </div>
+                <div class="panel-body">
+                    <p>Canal para tirar dúvidas sobre o uso ou instalação dos projetos.</p>
+                    <p>
+                        <a href="http://novosga.org/forum" class="btn btn-primary" target="_blank">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
+                            {% trans %}Acessar{% endtrans %}
+                        </a>
+                    </p>
+                </div>
+           </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Github
+                </div>
+                <div class="panel-body">
+                    <p>Participe diretamente do desenvolvimento relatando problemas (issues).</p>
+                    <p>
+                        <a href="https://github.com/novosga/novosga" class="btn btn-primary" target="_blank">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;
+                            {% trans %}Acessar{% endtrans %}
+                        </a>
+                    </p>
+                </div>
+           </div>
+        </div>
+    </div>
+{% endblock %}

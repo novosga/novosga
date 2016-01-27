@@ -7,12 +7,17 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class NovosgaRolesBundle extends Bundle implements ModuleInterface
 {
-    public function getDisplayName() 
+    public function getIconName()
+    {
+        return 'briefcase';
+    }
+
+    public function getDisplayName()
     {
         return 'Cargos';
     }
-    
-    public function getHomeRoute() 
+
+    public function getHomeRoute()
     {
         return 'novosga_roles_index';
     }

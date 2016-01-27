@@ -11,17 +11,19 @@ App.Monitor = {
     alertCancelar: '',
     alertReativar: '',
     timeoutId: 0,
-    
+
     init: function() {
         App.Monitor.ajaxUpdate();
     },
-    
+
     ajaxUpdate: function() {
         clearTimeout(App.Monitor.timeoutId);
         if (!App.paused) {
             App.ajax({
-                url: App.url('ajax_update'),
-                data: {ids: App.Monitor.ids.join(',')},
+                url: App.url('/novosga.monitor/ajax_update'),
+                data: {
+                    ids: App.Monitor.ids.join(',')
+                },
                 success: function(response) {
                     if (response.success) {
                         $('#monitor .servico').hide();
@@ -57,19 +59,19 @@ App.Monitor = {
             App.Monitor.timeoutId = setTimeout(App.Monitor.ajaxUpdate, App.updateInterval);
         }
     },
-    
+
     Senha: {
-        
+
         dialogView: '#dialog-view',
         dialogSearch: '#dialog-busca',
         dialogTransfere: '#dialog-transfere',
-    
+
         /**
          * Busca informacoes do atendimento pelo id.
          */
         view: function(id) {
             App.ajax({
-                url: App.url('info_senha'),
+                url: App.url('/novosga.monitor/info_senha'),
                 type: 'get',
                 data: {
                     id: id
@@ -106,9 +108,9 @@ App.Monitor = {
                 }
             });
         },
-        
+
         consulta: function() {
-            App.dialogs.modal(App.Monitor.Senha.dialogSearch, { 
+            App.dialogs.modal(App.Monitor.Senha.dialogSearch, {
                 width: 900,
                 open: function() {
                     $('#numero_busca').val($('#buscar-senha').val());
@@ -117,12 +119,12 @@ App.Monitor = {
                 }
             });
         },
-        
+
         consultar: function() {
             var result = $('#result_table tbody');
             result.html('');
             App.ajax({
-                url: App.url('buscar'),
+                url: App.url('/novosga.monitor/buscar'),
                 data: {numero: $('#numero_busca').val()},
                 success: function(response) {
                     if (response.data.total > 0) {
@@ -153,7 +155,7 @@ App.Monitor = {
 
         transferir: function() {
             App.ajax({
-                url: App.url('transferir'),
+                url: App.url('/novosga.monitor/transferir'),
                 type: 'post',
                 data: {
                     id: $('#transfere_id').val(),
@@ -170,10 +172,10 @@ App.Monitor = {
         reativar: function(id) {
             if (window.confirm(App.Monitor.alertReativar)) {
                 App.ajax({
-                    url: App.url('reativar'),
+                    url: App.url('/novosga.monitor/reativar'),
                     type: 'post',
-                    data: { 
-                        id: id 
+                    data: {
+                        id: id
                     },
                     complete: function() {
                         $(App.Monitor.Senha.dialogView).modal('hide');
@@ -186,10 +188,10 @@ App.Monitor = {
         cancelar: function(id) {
             if (window.confirm(App.Monitor.alertCancelar)) {
                 App.ajax({
-                    url: App.url('cancelar'),
+                    url: App.url('/novosga.monitor/cancelar'),
                     type: 'post',
-                    data: { 
-                        id: id 
+                    data: {
+                        id: id
                     },
                     complete: function() {
                         $(App.Monitor.Senha.dialogView).modal('hide');
@@ -198,5 +200,5 @@ App.Monitor = {
             }
         }
     }
-    
+
 };

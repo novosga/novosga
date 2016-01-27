@@ -1,6 +1,6 @@
 <?php
 
-namespace Novosga\AdminBundle\Controller;
+namespace AppBundle\Controller;
 
 use Novosga\App;
 use Novosga\Auth\AuthenticationProvider;
@@ -14,33 +14,35 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * DefaultController
+ * AdminController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
+ *
+ * @Route("/admin")
  */
-class DefaultController extends Controller
+class AdminController extends Controller
 {
     private $numeracoes;
 
     public function __construct()
     {
         $this->numeracoes = [
-            Senha::NUMERACAO_UNICA => _('Incremental única'), 
+            Senha::NUMERACAO_UNICA => _('Incremental única'),
             Senha::NUMERACAO_SERVICO => _('Incremental por serviço')
         ];
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
-     * @Route("/", name="novosga_admin_index")
+     *
+     * @Route("/", name="admin_index")
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        
+
         $query = $em->createQuery("SELECT e FROM Novosga\Entity\Unidade e ORDER BY e.nome");
         $unidades = $query->getResult();
         // método de autenticação
@@ -71,8 +73,8 @@ class DefaultController extends Controller
             $numeracao = Senha::NUMERACAO_UNICA;
             Configuracao::set($em, Senha::TIPO_NUMERACAO, $numeracao);
         }
-        
-        return $this->render('NovosgaAdminBundle:Admin:index.html.twig', [
+
+        return $this->render('admin/index.html.twig', [
             'unidade' => $em->find(\Novosga\Entity\Unidade::class, 1),
             'modulos' => [],
             'unidades' => $unidades,
@@ -155,74 +157,4 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function add_oauth_client(Context $context)
-    {
-        $response = new JsonResponse();
-        try {
-            if (!$context->request()->isPost()) {
-                throw new Exception(_('Somente via POST'));
-            }
-            $client_id = $context->request()->post('client_id');
-            $client_secret = $context->request()->post('client_secret');
-            $redirect_uri = $context->request()->post('redirect_uri');
-            // apaga se ja existir
-            $this->delete_auth_client_by_id($client_id);
-            // insere novo cliente
-            $client = new \Novosga\Entity\OAuthClient();
-            $client->setId($client_id);
-            $client->setSecret($client_secret);
-            $client->setRedirectUri($redirect_uri);
-
-            $em->persist($client);
-            $em->flush();
-
-            $response->success = true;
-        } catch (\Exception $e) {
-            $response->message = $e->getMessage();
-        }
-
-        return $response;
-    }
-
-    public function get_oauth_client(Context $context)
-    {
-        $response = new JsonResponse(true);
-        $client_id = $context->request()->get('client_id');
-        $query = $em->createQuery('SELECT e FROM Novosga\Entity\OAuthClient e WHERE e.id = :client_id');
-        $query->setParameter('client_id', $client_id);
-        $client = $query->getOneOrNullResult();
-        if ($client) {
-            $response->data = $client->jsonSerialize();
-        }
-
-        return $response;
-    }
-
-    public function get_all_oauth_client(Context $context)
-    {
-        $response = new JsonResponse(true);
-        $rs = $em->getRepository('Novosga\Entity\OAuthClient')->findBy([], ['id' => 'ASC']);
-        $response->data = [];
-        foreach ($rs as $client) {
-            $response->data[] = $client->jsonSerialize();
-        }
-
-        return $response;
-    }
-
-    public function delete_oauth_client(Context $context)
-    {
-        $response = new JsonResponse(true);
-        $client_id = $context->request()->post('client_id');
-        $this->delete_auth_client_by_id($client_id);
-
-        return $response;
-    }
-
-    private function delete_auth_client_by_id($client_id)
-    {
-        $query = $em->createQuery('DELETE Novosga\Entity\OAuthClient e WHERE e.id = :client_id');
-        $query->setParameter('client_id', $client_id);
-        $query->execute();
-    }
 }

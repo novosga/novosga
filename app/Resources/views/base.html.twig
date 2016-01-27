@@ -9,6 +9,7 @@
         <link rel="shortcut icon" href="{{ asset("images/favicon.png") }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset("css/bootstrap.min.css") }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset("css/bootstrap-theme.min.css") }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset("css/font-awesome.min.css") }}">
         <link rel="stylesheet" type="text/css" href="{{ asset("css/jquery.dataTables.min.css") }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset("css/style.css") }}" />
         <!--[if lt IE 9]>
@@ -31,14 +32,37 @@
                 </div>
                 <div class="collapse navbar-collapse novosga-navbar">
                     {{ render(controller('AppBundle:Default:menu')) }}
-                    
+
                     {% if app.user %}
                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="{{ path('about') }}" title="{% trans %}Sobre{% endtrans %}">
+                                <i class="fa fa-question-circle fa-fw"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_index') }}" title="{% trans %}Administração{% endtrans %}">
+                                <i class="fa fa-cog fa-fw"></i>
+                            </a>
+                        </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ app.user.nome }} <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user fa-fw"></i>
+                            </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{ app.request.baseUrl() }}/profile"><span class="glyphicon glyphicon-user"></span> {% trans %}Perfil{% endtrans %}</a></li>
-                                <li><a href="{{ app.request.baseUrl() }}/logout"><span class="glyphicon glyphicon-off"></span> {% trans %}Sair{% endtrans %}</a></li>
+                                <li>
+                                    <a href="{{ app.request.baseUrl() }}/profile" title="">
+                                        <i class="fa fa-user fa-fw"></i>
+                                        {% trans %}Perfil{% endtrans %}
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{ app.request.baseUrl() }}/logout">
+                                        <i class="fa fa-sign-out fa-fw"></i>
+                                        {% trans %}Sair{% endtrans %}
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -53,13 +77,13 @@
         <div id="footer">
             <p>Novo SGA v{{ version }}</p>
         </div>
-        
+
         <script type="text/javascript" src="{{ asset("js/jquery.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/bootstrap.min.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/jquery.dataTables.min.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/script.js") }}"></script>
-        <script type="text/javascript"> 
-            App.baseUrl = '{{ app.request.baseUrl() }}'; 
+        <script type="text/javascript">
+            App.baseUrl = '{{ app.request.baseUrl() }}';
             App.version = '{{ version }}';
             App.dialogs.error.title = '{% trans %}Erro{% endtrans %}';
             App.dateFormat = '{% trans %}d/m/Y{% endtrans %}';
@@ -68,9 +92,9 @@
         </script>
         {% block javascripts %}
         {% endblock %}
-        
+
         {{ render(controller('AppBundle:Default:unidades')) }}
-        
+
         <span id="ajax-loading" class="mini-loading" style="display:none"></span>
     </body>
 </html>

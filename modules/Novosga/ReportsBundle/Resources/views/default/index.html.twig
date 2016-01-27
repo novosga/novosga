@@ -1,11 +1,11 @@
-{% extends "module.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block head %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('bundles/novosgaestatisticas/css/datepicker3.css') }}" />
 {% endblock %}
 
-{% block moduleContent %}
+{% block body %}
 <div>
     <ul class="nav nav-tabs">
         <li class="active"><a href="#tab-hoje" data-toggle="tab">{% trans %}Hoje{% endtrans %}</a></li>

@@ -1,4 +1,4 @@
-{% extends "module.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block javascripts %}
     {{ parent() }}
@@ -15,7 +15,7 @@
     </script>
 {% endblock %}
 
-{% block moduleContent %}
+{% block body %}
 <div id="infobar" class="row">
     <div class="col-md-10 col-xs-9">
         <form role="form" onsubmit="return false">

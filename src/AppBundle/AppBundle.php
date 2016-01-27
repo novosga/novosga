@@ -10,19 +10,19 @@ class AppBundle extends Bundle
 {
     public function build(ContainerBuilder $container) {
         parent::build($container);
-        
+
         $modelDir = realpath(__DIR__.'/Resources/config/doctrine/');
         $mappings = [
             $modelDir => 'Novosga\Entity',
         ];
-        
+
         if ($this->isOrmEnabled()) {
             $container->addCompilerPass(
                 DoctrineOrmMappingsPass::createYamlMappingDriver($mappings)
             );
         }
     }
-    
+
     private function isOrmEnabled()
     {
         $ormCompilerClass = 'Doctrine\Bundle\DoctrineBundle\DependencyInjection\Compiler\DoctrineOrmMappingsPass';

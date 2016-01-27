@@ -58,10 +58,9 @@ class UnidadeType extends AbstractType
                     new NotNull(),
                 ]
             ])
-            ->add('contador')
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */

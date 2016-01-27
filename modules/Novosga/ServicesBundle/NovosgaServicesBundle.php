@@ -7,12 +7,17 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class NovosgaServicesBundle extends Bundle implements ModuleInterface
 {
-    public function getDisplayName() 
+    public function getIconName()
+    {
+        return 'paperclip';
+    }
+
+    public function getDisplayName()
     {
         return 'Serviços';
     }
 
-    public function getHomeRoute() 
+    public function getHomeRoute()
     {
         return 'novosga_services_index';
     }

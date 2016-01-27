@@ -18,7 +18,15 @@ class DefaultController extends Controller
     {
         return $this->render('default/index.html.twig');
     }
-    
+
+    /**
+     * @Route("/about", name="about")
+     */
+    public function aboutAction(Request $request)
+    {
+        return $this->render('default/about.html.twig');
+    }
+
     /**
      * @Route("/unidades", name="app_default_unidades")
      * @Method({"GET"})
@@ -27,12 +35,12 @@ class DefaultController extends Controller
     {
         $usuario = $this->getUser();
         $unidades = $this->getDoctrine()->getManager()->getRepository(Unidade::class)->findByUsuario($usuario);
-        
+
         return $this->render('default/include/unidadesModal.html.twig', [
             'unidades' => $unidades,
         ]);
     }
-    
+
     /**
      * @Route("/set_unidade/{id}", name="app_default_setunidade")
      * @Method({"POST"})
@@ -40,10 +48,10 @@ class DefaultController extends Controller
     public function setUnidadeAction(Request $request, Unidade $unidade)
     {
         $request->getSession()->set('unidade', $unidade);
-        
+
         return new JsonResponse(true);
     }
-    
+
     /**
      * @Route("/menu", name="app_default_menu")
      * @Method({"GET"})
@@ -52,13 +60,13 @@ class DefaultController extends Controller
     {
         $kernel = $this->container->get('kernel');
         $bundles = [];
-        
+
         foreach ($kernel->getBundles() as $bundle) {
             if ($bundle instanceof \Novosga\ModuleInterface) {
                 $modules[] = $bundle;
             }
         }
-        
+
         return $this->render('default/include/menu.html.twig', [
             'modules' => $modules,
         ]);
