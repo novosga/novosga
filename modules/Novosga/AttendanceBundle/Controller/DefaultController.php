@@ -162,7 +162,7 @@ class DefaultController extends Controller
             $proximo = null;
             $success = false;
             $usuario = $this->getUser();
-            $unidade = $em->getReference(Unidade::class, $request->getSession()->get('unidade'));
+            $unidade = $em->getReference(Unidade::class, $request->getSession()->get('unidade')->getId());
             
             $filaService = new FilaService($em);
             $atendimentoService = new AtendimentoService($em);
@@ -275,7 +275,7 @@ class DefaultController extends Controller
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade escolhida'));
             }
-            $unidade = $em->getReference(Unidade::class, $unidade);
+            $unidade = $em->getReference(Unidade::class, $unidade->getId());
             
             $usuario = $this->getUser();
             $atendimentoService = new AtendimentoService($em);
@@ -402,22 +402,25 @@ class DefaultController extends Controller
      */
     public function consultaSenhaAction(Request $request)
     {
-        $response = new JsonResponse();
+        $em = $this->getDoctrine()->getManager();
         $unidade = $request->getSession()->get('unidade');
+        
         if ($unidade) {
             $numero = $request->get('numero');
-            $atendimentoService = new AtendimentoService($this->getDoctrine()->getManager());
+            $atendimentoService = new AtendimentoService($em);
             $atendimentos = $atendimentoService->buscaAtendimentos($unidade, $numero);
-            $response->data['total'] = count($atendimentos);
+            $data = [
+                'total' => count($atendimentos)
+            ];
             foreach ($atendimentos as $atendimento) {
-                $response->data['atendimentos'][] = $atendimento->jsonSerialize();
+                $data['atendimentos'][] = $atendimento->jsonSerialize();
             }
-            $response->success = true;
+            
+            return new JsonResponse($data);
         } else {
-            $response->message = _('Nenhuma unidade selecionada');
+            $message = _('Nenhuma unidade selecionada');
+            return new JsonResponse($message, false);
         }
-
-        return $response;
     }
 
     /**

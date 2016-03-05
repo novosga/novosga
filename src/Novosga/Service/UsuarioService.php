@@ -74,24 +74,28 @@ class UsuarioService extends MetaModelService
     /**
      * Retorna a lista de serviços que o usuário atende na determinada unidade.
      *
-     * @param Usuario|int $usuario
-     * @param Unidade|int $unidade
+     * @param Usuario $usuario
+     * @param Unidade $unidade
      *
      * @return ArrayCollection
      */
-    public function servicos($usuario, $unidade)
+    public function servicos(Usuario $usuario, Unidade $unidade)
     {
-        return $this->em
+        $servicos = $this->em
                 ->createQueryBuilder()
                 ->select('e')
                 ->from(ServicoUsuario::class, 'e')
                 ->join('e.servico', 's')
                 ->where('e.usuario = :usuario AND e.unidade = :unidade AND s.status = 1')
                 ->orderBy('s.nome', 'ASC')
-                ->setParameter('usuario', $usuario)
-                ->setParameter('unidade', $unidade)
+                ->setParameters([
+                    'usuario' => $usuario,
+                    'unidade' => $unidade
+                ])
                 ->getQuery()
                 ->getResult();
+        
+        return $servicos;
     }
 
     public function isLocalLivre($unidade, $usuario, $numero)
