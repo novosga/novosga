@@ -31,7 +31,7 @@ use Novosga\Entity\Prioridade;
      */
     public function setSigla($sigla)
     {
-        if (is_string($sigla) && strlen($sigla) == 1) {
+        if (is_string($sigla) && strlen($sigla) <= 3) {
             $this->sigla = $sigla;
         } else {
             throw new \Exception(_('A sigla da senha deve ser um char'));

@@ -3,9 +3,8 @@
 namespace Novosga\TriagemBundle\Controller;
 
 use Exception;
-use Novosga\Context;
-use Novosga\Http\JsonResponse;
 use Novosga\Entity\Unidade;
+use Novosga\Http\JsonResponse;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
 use Novosga\Util\Arrays;
@@ -178,6 +177,7 @@ class DefaultController extends Controller
         
         $response = new JsonResponse();
         $unidade = $request->getSession()->get('unidade');
+        $unidade = $em->getReference(Unidade::class, $unidade->getId());
         $usuario = $this->getUser();
         
         $servico = (int) $request->get('servico');

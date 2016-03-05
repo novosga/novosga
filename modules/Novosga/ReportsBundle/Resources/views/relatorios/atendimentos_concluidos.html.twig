@@ -20,7 +20,7 @@
     <tbody>
         {% for a in dado.atendimentos %}
         <tr>
-            <td rowspan="2" class="vam tac">{{ a.siglaSenha }}{% if isNumeracaoServico %}{{ a.numeroSenhaServico }}{% else %}{{ a.numeroSenha }}{% endif %}</td>
+            <td rowspan="2" class="vam tac">{{ a.siglaSenha }}{{ a.numeroSenha }}</td>
             <td>{{ a.dataChegada|date('d/m/Y') }}</td>
             <td>{{ a.dataChamada|date('H:i:s') }}</td>
             <td>{{ a.dataInicio|date('H:i:s') }}</td>

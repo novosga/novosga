@@ -47,7 +47,8 @@ class DefaultController extends Controller
      */
     public function setUnidadeAction(Request $request, Unidade $unidade)
     {
-        $request->getSession()->set('unidade', $unidade);
+        $listener = $this->get('novosga.security.listener');
+        $listener->updateUnidade($request, $this->getUser(), $unidade);
 
         return new JsonResponse(true);
     }
@@ -59,10 +60,10 @@ class DefaultController extends Controller
     public function menuAction(Request $request)
     {
         $kernel = $this->container->get('kernel');
-        $bundles = [];
+        $modules = [];
 
         foreach ($kernel->getBundles() as $bundle) {
-            if ($bundle instanceof \Novosga\ModuleInterface) {
+            if ($bundle instanceof \Novosga\Module\ModuleInterface) {
                 $modules[] = $bundle;
             }
         }

@@ -2,14 +2,13 @@
 
 namespace Novosga\ServicesBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaServicesBundle extends Bundle implements ModuleInterface
+class NovosgaServicesBundle extends BaseModule
 {
     public function getIconName()
     {
-        return 'paperclip';
+        return 'file-text-o';
     }
 
     public function getDisplayName()

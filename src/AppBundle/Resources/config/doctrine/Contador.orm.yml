@@ -4,6 +4,8 @@ Novosga\Entity\Contador:
     id:
         unidade:
             associationKey: true
+        servico:
+            associationKey: true
     fields:
         minimo:
             type: integer

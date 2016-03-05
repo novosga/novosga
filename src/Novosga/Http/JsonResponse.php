@@ -14,16 +14,21 @@ class JsonResponse extends BaseResponse
     
     private $body;
 
-    public function __construct($success = false, $message = '')
+    public function __construct($data = '', $success = true)
     {
         $this->body = [
             'success'  => $success,
-            'message'  => $message,
-            'data'     => [],
             'invalid'  => false,
             'inactive' => false,
             'time'     => time() * 1000
         ];
+        
+        if ($success) {
+            $this->body['data'] = $data;
+        } else {
+            $this->body['message']  = $data;
+        }
+        
         parent::__construct($this->body);
     }
     

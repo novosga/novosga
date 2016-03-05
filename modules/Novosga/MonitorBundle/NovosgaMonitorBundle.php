@@ -2,10 +2,9 @@
 
 namespace Novosga\MonitorBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaMonitorBundle extends Bundle implements ModuleInterface
+class NovosgaMonitorBundle extends BaseModule
 {
     public function getIconName()
     {

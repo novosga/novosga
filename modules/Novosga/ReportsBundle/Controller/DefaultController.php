@@ -3,7 +3,6 @@
 namespace Novosga\ReportsBundle\Controller;
 
 use Exception;
-use Novosga\Context;
 use Novosga\Http\JsonResponse;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\UnidadeService;
@@ -82,7 +81,7 @@ class DefaultController extends Controller
         try {
             $ini = DateUtil::now('Y-m-d');
             $fim = DateUtil::nowSQL(); // full datetime
-            $unidade = (int) $context->request()->get('unidade');
+            $unidade = (int) $request->get('unidade');
             $status = $this->total_atendimentos_status($ini, $fim, $unidade);
             $response->data['legendas'] = AtendimentoService::situacoes();
             $response->data['status'] = $status[$unidade];
@@ -100,10 +99,10 @@ class DefaultController extends Controller
     {
         $response = new JsonResponse();
         try {
-            $id = (int) $context->request()->get('grafico');
-            $dataInicial = $context->request()->get('inicial');
-            $dataFinal = $context->request()->get('final').' 23:59:59';
-            $unidade = (int) $context->request()->get('unidade');
+            $id = (int) $request->get('grafico');
+            $dataInicial = $request->get('inicial');
+            $dataFinal = $request->get('final').' 23:59:59';
+            $unidade = (int) $request->get('unidade');
             $unidade = ($unidade > 0) ? $unidade : 0;
             if (!isset($this->graficos[$id])) {
                 throw new Exception(_('Gráfico inválido'));
@@ -132,10 +131,10 @@ class DefaultController extends Controller
 
     public function relatorio(Context $context)
     {
-        $id = (int) $context->request()->get('relatorio');
-        $dataInicial = $context->request()->get('inicial');
-        $dataFinal = $context->request()->get('final');
-        $unidade = (int) $context->request()->get('unidade');
+        $id = (int) $request->get('relatorio');
+        $dataInicial = $request->get('inicial');
+        $dataFinal = $request->get('final');
+        $unidade = (int) $request->get('unidade');
         $unidade = ($unidade > 0) ? $unidade : 0;
         if (isset($this->relatorios[$id])) {
             $relatorio = $this->relatorios[$id];
@@ -162,7 +161,7 @@ class DefaultController extends Controller
                 $relatorio->setDados($this->tempo_medio_atendentes($dataInicial, $dataFinal));
                 break;
             case 7:
-                $servico = $context->request()->get('servico');
+                $servico = $request->get('servico');
                 $relatorio->setDados($this->lotacoes($unidade, $servico));
                 break;
             case 8:
@@ -172,7 +171,6 @@ class DefaultController extends Controller
             $this->app()->view()->set('relatorio', $relatorio);
         }
         $this->app()->view()->set('page', "relatorios/{$relatorio->getArquivo()}.html.twig");
-        $this->app()->view()->set('isNumeracaoServico', AtendimentoService::isNumeracaoServico());
     }
 
     private function unidades()

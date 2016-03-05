@@ -6,7 +6,8 @@ use Doctrine\ORM\QueryBuilder;
 use Novosga\Config\AppConfig;
 use Novosga\Entity\Servico;
 use Novosga\Entity\Unidade;
-use Novosga\Entity\Util\UsuarioSessao;
+use Novosga\Entity\Usuario;
+use Novosga\Entity\ServicoUsuario;
 
 /**
  * FilaService.
@@ -37,54 +38,45 @@ class FilaService extends ModelService
     /**
      * Retorna a fila de atendimentos do usuario.
      *
-     * @param UsuarioSessao $usuario
-     * @param int           $maxResults
+     * @param Unidade          $unidade
+     * @param ServicoUsuario[] $servicosUsuario
+     * @param int              $tipoAtendimento
+     * @param int              $maxResults
      *
      * @return array
      */
-    public function atendimentos(UsuarioSessao $usuario, $maxResults = 0)
+    public function atendimentos(Unidade $unidade, $servicosUsuario, $tipoAtendimento = 1, $maxResults = 0)
     {
         $ids = [0];
-        $servicos = $usuario->getServicos();
-        foreach ($servicos as $s) {
-            $ids[] = $s->getServico()->getId();
+        foreach ($servicosUsuario as $servico) {
+            $ids[] = $servico->getServico()->getId();
         }
-        $cond = '';
+        
+        $where = '';
         // se nao atende todos, filtra pelo tipo de atendimento
-        if ($usuario->getTipoAtendimento() != UsuarioSessao::ATEND_TODOS) {
-            $s = ($usuario->getTipoAtendimento() == UsuarioSessao::ATEND_CONVENCIONAL) ? '=' : '>';
-            $cond = "p.peso $s 0";
-            $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults, $cond);
-        } else {
-            // se atende todos mas tem limite para sequencia de tipo de atendimento
-            $maxPrioridade = (int) AppConfig::getInstance()->get('queue.limits.priority');
-            if ($maxPrioridade > 0 && $usuario->getSequenciaPrioridade() > 0 && $usuario->getSequenciaPrioridade() % $maxPrioridade === 0) {
-                $cond = 'p.peso = 0';
-            }
-            $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults, $cond);
-            // se a lista veio vazia, tenta pegar qualquer um
-            if (count($rs) === 0) {
-                $rs = $this->atendimentosUsuario($usuario, $ids, $maxResults);
-            }
+        if ($tipoAtendimento !== 1) {
+            $s = ($tipoAtendimento === 2) ? '=' : '>';
+            $where = "p.peso $s 0";
         }
-
-        return $rs;
-    }
-
-    private function atendimentosUsuario(UsuarioSessao $usuario, $servicos, $maxResults = 0, $where = '')
-    {
+        
         $builder = $this->builder()
-                ->where('e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos)');
+                        ->andWhere('e.status = :status')
+                        ->andWhere('su.unidade = :unidade')
+                        ->andWhere('s.id IN (:servicos)');
+        
         if (!empty($where)) {
             $builder->andWhere($where);
         }
 
-        $this->applyOrders($builder, $usuario->getUnidade());
+        $this->applyOrders($builder, $unidade);
 
-        $query = $builder->getQuery()
-                ->setParameter('status', AtendimentoService::SENHA_EMITIDA)
-                ->setParameter('unidade', $usuario->getUnidade()->getId())
-                ->setParameter('servicos', $servicos);
+        $query = $builder
+                    ->setParameters([
+                        'status' => AtendimentoService::SENHA_EMITIDA,
+                        'unidade' => $unidade,
+                        'servicos' => $ids
+                    ])
+                    ->getQuery();
 
         if ($maxResults > 0) {
             $query->setMaxResults($maxResults);

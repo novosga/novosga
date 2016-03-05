@@ -1,13 +1,12 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
-    
     <div class="row">
         <div class="col-md-8">
-            <ul>
+            <ul class="list-group">
                 {% for item in tree %}
-                    <li>
-                        <span style="width: {{ item.level * 10 }}px; display: inline-block"></span>
+                    <li class="list-group-item" style="padding-left: {{ (item.level + 1) * 20 }}px;">
+                        <span class="glyphicon glyphicon-folder-open"></span>
                         {{- item.nome -}}
                     </li>
                 {% endfor %}
@@ -17,11 +16,11 @@
             <div class="well">
                 {{ form_start(form) }}
 
-                    {{ form_row(form.parent) }}
+                    {{ form_row(form.parent, { label: 'Pai' }) }}
 
-                    {{ form_row(form.nome) }}
+                    {{ form_row(form.nome, { label: 'Nome' }) }}
 
-                    {{ form_row(form.descricao) }}
+                    {{ form_row(form.descricao, { label: 'Descrição' }) }}
 
                     <button type="submit" class="btn btn-primary">{% trans %}Salvar{% endtrans %}</button>
 
@@ -29,5 +28,4 @@
             </div>
         </div>
     </div>
-    
 {% endblock %}

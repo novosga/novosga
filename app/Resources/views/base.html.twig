@@ -16,7 +16,8 @@
         <script src="{{ asset("js/html5shiv.js") }}"></script>
         <script src="{{ asset("js/respond.min.js") }}"></script>
         <![endif]-->
-        {{ block('head') }}
+        {% block stylesheets %}
+        {% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-default" role="navigation">

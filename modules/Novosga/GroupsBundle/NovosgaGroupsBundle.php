@@ -2,10 +2,9 @@
 
 namespace Novosga\GroupsBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaGroupsBundle extends Bundle implements ModuleInterface
+class NovosgaGroupsBundle extends BaseModule
 {
     public function getIconName()
     {

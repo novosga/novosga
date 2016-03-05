@@ -17,30 +17,17 @@ Novosga\Entity\Cargo:
             unique: false
             nullable: false
             precision: 0
-        left:
-            type: integer
-            scale: 0
-            length: null
-            unique: false
-            nullable: false
-            precision: 0
-            column: esquerda
-        right:
-            type: integer
-            scale: 0
-            length: null
-            unique: false
-            nullable: false
-            precision: 0
-            column: direita
-        level:
-            type: integer
-            scale: 0
-            length: null
-            unique: false
-            nullable: false
-            precision: 0
-            column: nivel
+    manyToMany:
+        modulos:
+            targetEntity: Modulo
+            joinTable:
+              name: cargos_mod_perm
+              joinColumns:
+                cargo_id:
+                  referencedColumnName: id
+              inverseJoinColumns:
+                modulo_id:
+                  referencedColumnName: id
     oneToMany:
         permissoes:
             targetEntity: Novosga\Entity\Permissao
@@ -50,9 +37,4 @@ Novosga\Entity\Cargo:
             inversedBy: null
             orphanRemoval: false
             orderBy: null
-    manyToOne:
-        parent:
-            targetEntity: Novosga\Entity\Cargo
-            fetch: LAZY
-            joinColumns: {  }
     lifecycleCallbacks: {  }

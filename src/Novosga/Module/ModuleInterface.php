@@ -1,6 +1,6 @@
 <?php
 
-namespace Novosga;
+namespace Novosga\Module;
 
 /**
  * ModuleInterface
@@ -9,6 +9,10 @@ namespace Novosga;
  */
 interface ModuleInterface
 {
+    public function getKeyName();
+    
+    public function getRoleName();
+    
     public function getIconName();
 
     public function getDisplayName();

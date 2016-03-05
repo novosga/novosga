@@ -2,10 +2,9 @@
 
 namespace Novosga\ReportsBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaReportsBundle extends Bundle implements ModuleInterface
+class NovosgaReportsBundle extends BaseModule
 {
     public function getIconName()
     {

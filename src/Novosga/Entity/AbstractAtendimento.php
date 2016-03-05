@@ -94,11 +94,6 @@ abstract class AbstractAtendimento extends SequencialModel
     protected $numeroSenha;
 
     /**
-     * @var int
-     */
-    protected $numeroSenhaServico;
-
-    /**
      * @var Atendimento
      */
     protected $pai;
@@ -323,18 +318,6 @@ abstract class AbstractAtendimento extends SequencialModel
         return $this;
     }
 
-    public function getNumeroSenhaServico()
-    {
-        return $this->numeroSenhaServico;
-    }
-
-    public function setNumeroSenhaServico($numeroSenhaServico)
-    {
-        $this->numeroSenhaServico = $numeroSenhaServico;
-
-        return $this;
-    }
-
     public function getPai()
     {
         return $this->pai;
@@ -412,7 +395,7 @@ abstract class AbstractAtendimento extends SequencialModel
         if (!$this->senha) {
             $this->senha = new Senha();
             $this->senha->setSigla($this->siglaSenha);
-            $numero = (AtendimentoService::isNumeracaoServico()) ? $this->numeroSenhaServico : $this->numeroSenha;
+            $numero = $this->numeroSenha;
             $this->senha->setNumero((int) $numero);
             $this->senha->setPrioridade($this->prioridade);
         }

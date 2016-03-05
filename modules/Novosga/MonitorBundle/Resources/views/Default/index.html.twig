@@ -13,16 +13,20 @@
         </form>
         {% for su in servicos %}
         <div id="servico-{{ su.servico.id }}" class="servico empty" data-id="{{ su.servico.id }}">
-            <span class="title">{{ su.sigla }} - {{ su.servico.nome }}</span>
-            <ul class="fila">
-            </ul>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <span class="title">{{ su.sigla }} - {{ su.servico.nome }}</span>
+                    <ul class="fila list-inline">
+                    </ul>
+                </div>
+            </div>
         </div>
         {% endfor %}
     </div>
 
     {# busca #}
     <div id="dialog-busca" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

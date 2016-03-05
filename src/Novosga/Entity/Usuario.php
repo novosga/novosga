@@ -64,9 +64,7 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
      */
     protected $salt;
 
-    // transient - os campos abaixo dependem da unidade atual
-    protected $grupos;
-    protected $servicos;
+    protected $roles = [];
 
     public function __construct()
     {
@@ -120,31 +118,6 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
     public function setSenha($senha)
     {
         $this->senha = $senha;
-    }
-
-    public function getGrupos()
-    {
-        return $this->grupos;
-    }
-
-    public function setGrupos($grupos)
-    {
-        $this->grupos = $grupos;
-    }
-
-    public function setServicos(array $servicos)
-    {
-        $this->servicos = $servicos;
-    }
-
-    /**
-     * Retorna os servicos do usuario na unidade atual.
-     *
-     * @return type
-     */
-    public function getServicos()
-    {
-        return $this->servicos;
     }
 
     public function setStatus($status)
@@ -239,7 +212,13 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
 
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        return $this->roles;
+    }
+
+    public function addRole($role)
+    {
+        $this->roles[] = $role;
+        return $this;
     }
 
     public function getSalt()
@@ -285,4 +264,9 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
             'status'    => $this->getStatus()
         ];
     }
+    
+    public function __tostring() {
+        return $this->getLogin() . '';
+    }
+
 }

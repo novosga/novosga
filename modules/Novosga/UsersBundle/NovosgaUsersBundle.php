@@ -2,10 +2,9 @@
 
 namespace Novosga\UsersBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaUsersBundle extends Bundle implements ModuleInterface
+class NovosgaUsersBundle extends BaseModule
 {
     public function getIconName()
     {

@@ -3,7 +3,6 @@
 namespace Novosga\SettingsBundle\Controller;
 
 use Exception;
-use Novosga\Context;
 use Novosga\Entity\Local;
 use Novosga\Http\JsonResponse;
 use Novosga\Service\AtendimentoService;
@@ -50,7 +49,7 @@ class DefaultController extends Controller
         // todos servicos da unidade
         $servicos = $service->servicosUnidade($unidade);
         
-        return $this->render('NovosgaSettingsBundle:Default:index.html.twig', [
+        return $this->render('NovosgaSettingsBundle:default:index.html.twig', [
             'unidade' => $unidade,
             'servicos' => $servicos,
             'locais' => $locais
@@ -152,7 +151,7 @@ class DefaultController extends Controller
             $peso = max(1, $peso);
             $local = $em->find(Local::class, (int) $request->get('local'));
 
-            $su->setSigla($sigla);
+            $su->setSigla(strtoupper($sigla));
             $su->setPeso($peso);
             if ($local) {
                 $su->setLocal($local);

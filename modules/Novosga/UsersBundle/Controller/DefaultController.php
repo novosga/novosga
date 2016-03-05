@@ -9,7 +9,6 @@ use AppBundle\Form\UsuarioType;
 use Mangati\BaseBundle\Controller\CrudController;
 use Mangati\BaseBundle\Event\CrudEvent;
 use Mangati\BaseBundle\Event\CrudEvents;
-use Novosga\Context;
 use Novosga\Http\JsonResponse;
 use Novosga\Service\ServicoService;
 use Novosga\Util\Arrays;
@@ -117,40 +116,6 @@ class DefaultController extends CrudController
         return $this->edit('NovosgaUsersBundle:default:edit.html.twig', $request, $id);
     }
 
-    protected function preDelete(Context $context, SequencialModel $model)
-    {
-        if ($context->getUser()->getId() === $model->getId()) {
-            throw new \Exception(_('Não é possível excluir si próprio.'));
-        }
-        // verificando a quantidade de atendimentos do usuario
-        $total = 0;
-        $models = ['Atendimento', 'ViewAtendimento'];
-        foreach ($models as $atendimentoModel) {
-            $query = $this->em()->createQuery("SELECT COUNT(e) as total FROM Novosga\Entity\\$atendimentoModel e WHERE e.usuario = :usuario");
-            $query->setParameter('usuario', $model->getId());
-            $rs = $query->getSingleResult();
-            $total += $rs['total'];
-        }
-        if ($total > 0) {
-            throw new \Exception(_('Não é possível excluir esse usuário pois o mesmo já realizou atendimentos.'));
-        }
-        // excluindo vinculos do usuario (servicos e lotacoes)
-        $models = ['ServicoUsuario', 'Lotacao'];
-        foreach ($models as $vinculoModel) {
-            $query = $this->em()->createQuery("DELETE FROM Novosga\Entity\\$vinculoModel e WHERE e.usuario = :usuario");
-            $query->setParameter('usuario', $model->getId());
-            $query->execute();
-        }
-    }
-
-    protected function search($arg)
-    {
-        $query = $this->em()->createQuery("SELECT e FROM Novosga\Entity\Usuario e WHERE UPPER(e.nome) LIKE :arg OR UPPER(e.login) LIKE :arg");
-        $query->setParameter('arg', $arg);
-
-        return $query;
-    }
-
     /**
      * Retorna os grupos disponíveis para serem atribuidos ao usuário. Descartando os grupos com ids informados no parâmetro exceto.
      *
@@ -191,7 +156,7 @@ class DefaultController extends CrudController
      */
     public function grupos(Context $context)
     {
-        $exceto = $context->request()->get('exceto');
+        $exceto = $request->get('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
         $response = new JsonResponse(true);
         $grupos = $this->grupos_disponiveis($exceto);
@@ -210,7 +175,7 @@ class DefaultController extends CrudController
     public function permissoes_cargo(Context $context)
     {
         $response = new JsonResponse(true);
-        $id = (int) $context->request()->get('cargo');
+        $id = (int) $request->get('cargo');
         $query = $this->em()->createQuery("SELECT m.nome FROM Novosga\Entity\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
         $query->setParameter('cargo', $id);
         $response->data = $query->getResult();
@@ -226,9 +191,9 @@ class DefaultController extends CrudController
     public function servicos_unidade(Context $context)
     {
         $response = new JsonResponse(true);
-        $id = (int) $context->request()->get('unidade');
+        $id = (int) $request->get('unidade');
 
-        $exceto = $context->request()->get('exceto');
+        $exceto = $request->get('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
         $exceto = implode(',', $exceto);
 
@@ -246,9 +211,9 @@ class DefaultController extends CrudController
     public function alterar_senha(Context $context)
     {
         $response = new JsonResponse();
-        $id = (int) $context->request()->post('id');
-        $senha = $context->request()->post('senha');
-        $confirmacao = $context->request()->post('confirmacao');
+        $id = (int) $request->get('id');
+        $senha = $request->get('senha');
+        $confirmacao = $request->get('confirmacao');
         $usuario = $this->findById($id);
         if ($usuario) {
             try {

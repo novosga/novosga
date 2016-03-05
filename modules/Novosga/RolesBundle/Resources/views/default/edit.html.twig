@@ -1,0 +1,33 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    {{ form_start(form) }}
+    
+        {% include 'MangatiBaseBundle:Crud:flashMessages.html.twig' %}
+    
+        <div class="row">
+            <div class="col-md-8">
+                {{ form_row(form.nome, { label: 'Nome' }) }}
+
+                {{ form_row(form.descricao, { label: 'Descrição' }) }}
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    {{ form_row(form.modulos, { label: 'Permissões' }) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-save"></span> 
+                {% trans %}Salvar{% endtrans %}
+            </button>
+            <a href="{{ path('novosga_roles_index') }}" class="btn btn-default">
+                <span class="glyphicon glyphicon-chevron-left"></span> 
+                {% trans %}Voltar{% endtrans %}
+            </a>
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

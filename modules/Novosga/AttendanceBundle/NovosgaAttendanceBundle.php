@@ -2,10 +2,9 @@
 
 namespace Novosga\AttendanceBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaAttendanceBundle extends Bundle implements ModuleInterface
+class NovosgaAttendanceBundle extends BaseModule
 {
     public function getIconName()
     {

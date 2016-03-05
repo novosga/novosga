@@ -11,5 +11,11 @@ use Mangati\BaseBundle\Controller\LoginController as BaseLoginController;
  */
 class LoginController extends BaseLoginController
 {
+    
+    protected function getLoginTemplate()
+    {
+        return 'login.html.twig';
+    }
+
 
 }

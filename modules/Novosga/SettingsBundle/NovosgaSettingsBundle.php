@@ -2,10 +2,9 @@
 
 namespace Novosga\SettingsBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaSettingsBundle extends Bundle implements ModuleInterface
+class NovosgaSettingsBundle extends BaseModule
 {
     public function getIconName()
     {

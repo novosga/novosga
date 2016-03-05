@@ -17,7 +17,7 @@
             <fieldset>
                 <legend>{% trans %}Subserviços{% endtrans %}</legend>
                 <ul>
-                    {% for sub in model.subServicos %}
+                    {% for sub in entity.subServicos %}
                     <li>{{ sub.nome }}</li>
                     {% endfor %}
                 </ul>

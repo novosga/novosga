@@ -1,5 +1,96 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    locais index
+    <h1>
+        {% trans %}Locais{% endtrans %}
+        <small>
+            {% trans %}Cadastro de locais de atendimento{% endtrans %}
+        </small>
+    </h1>
+    
+    <div ng-app="admin">
+        <div ng-controller="LocaisController as ctrl">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Nome{% endtrans %}</th>
+                        <th class="col-md-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="local in ctrl.locais" ng-cloak ng-init="editing=false">
+                        <td>
+                            <span ng-hide="editing">[[local.nome]]</span>
+                            <input type="text" class="form-control" ng-model="local.nome" ng-show="editing">
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-primary" ng-click="ctrl.save(local);editing=false" ng-show="editing">
+                                <i class="fa fa-save"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="editing=true" ng-hide="editing">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="ctrl.delete(local)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-default" ng-click="ctrl.add()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/angular.min.js') }}"></script>
+    <script>
+        angular.module('admin', [])
+        .config(function($interpolateProvider){
+            $interpolateProvider.startSymbol('[[').endSymbol(']]');
+        })
+        .controller('LocaisController', function($http) {
+            var ctrl = this;
+    
+            ctrl.load = function() {
+                $http.get('{{ path('admin_locais_list') }}')
+                    .success(function(response) {
+                        ctrl.locais = response.data;
+                    });
+            };
+    
+            ctrl.add = function() {
+                var local = {
+                    nome: 'Novo local'
+                };
+                ctrl.save(local)
+                    .success(function(response) {
+                        ctrl.load();
+                    });
+            };
+    
+            ctrl.save = function(local) {
+                return $http.post('{{ path('admin_locais_save') }}', local);
+            };
+    
+            ctrl.delete = function(local) {
+                $http.post('{{ path('admin_locais_index') }}delete/' + local.id)
+                    .success(function(response) {
+                        ctrl.load();
+                    });
+            };
+            
+            ctrl.load();
+        })
+    </script>
 {% endblock %}

@@ -1,5 +1,103 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    prioridades index
+    <h1>
+        {% trans %}Prioridades{% endtrans %}
+        <small>
+            {% trans %}Cadastro de prioridades de atendimento{% endtrans %}
+        </small>
+    </h1>
+    
+    <div ng-app="admin">
+        <div ng-controller="LocaisController as ctrl">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Nome{% endtrans %}</th>
+                        <th>{% trans %}Peso{% endtrans %}</th>
+                        <th class="col-md-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="prioridade in ctrl.locais" ng-cloak ng-init="editing=false">
+                        <td>
+                            <span ng-hide="editing">[[prioridade.nome]]</span>
+                            <input type="text" class="form-control" ng-model="prioridade.nome" ng-show="editing">
+                        </td>
+                        <td>
+                            <span ng-hide="editing">[[prioridade.peso]]</span>
+                            <input type="text" class="form-control" ng-model="prioridade.peso" ng-show="editing">
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-primary" ng-click="ctrl.save(prioridade);editing=false" ng-show="editing">
+                                <i class="fa fa-save"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="editing=true" ng-hide="editing">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="ctrl.delete(prioridade)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-default" ng-click="ctrl.add()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/angular.min.js') }}"></script>
+    <script>
+        angular.module('admin', [])
+        .config(function($interpolateProvider){
+            $interpolateProvider.startSymbol('[[').endSymbol(']]');
+        })
+        .controller('LocaisController', function($http) {
+            var ctrl = this;
+    
+            ctrl.load = function() {
+                $http.get('{{ path('admin_prioridades_list') }}')
+                    .success(function(response) {
+                        ctrl.locais = response.data;
+                    });
+            };
+    
+            ctrl.add = function() {
+                var prioridade = {
+                    nome: 'Nova prioridae',
+                    peso: 1
+                };
+                ctrl.save(prioridade)
+                    .success(function(response) {
+                        ctrl.load();
+                    });
+            };
+    
+            ctrl.save = function(local) {
+                return $http.post('{{ path('admin_prioridades_save') }}', local);
+            };
+    
+            ctrl.delete = function(local) {
+                $http.post('{{ path('admin_prioridades_index') }}delete/' + local.id)
+                    .success(function(response) {
+                        ctrl.load();
+                    });
+            };
+            
+            ctrl.load();
+        })
+    </script>
 {% endblock %}

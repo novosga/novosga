@@ -2,10 +2,9 @@
 
 namespace AppBundle\Loader;
 
-use Novosga\ModuleInterface;
 use RuntimeException;
+use Novosga\Module\ModuleInterface;
 use Symfony\Component\Config\Loader\Loader;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 
@@ -67,7 +66,7 @@ class RouterLoader extends Loader
         foreach ($this->kernel->getBundles() as $bundle) {
             if ($bundle instanceof ModuleInterface) {
                 $routes->addCollection(
-                    $this->getModuleRouteCollection($bundle)
+                    $this->getModuleRouteCollection($bundle->getKeyName(), $bundle->getName(), $bundle->getPath())
                 );
             }
         }
@@ -78,25 +77,24 @@ class RouterLoader extends Loader
     /**
      * @return RouteCollection
      */
-    protected function getModuleRouteCollection(Bundle $bundle)
+    protected function getModuleRouteCollection($keyName, $name, $path)
     {
-        $namespace = $bundle->getNamespace();
-        $tokens = explode('\\', str_replace('Bundle', '', $namespace));
-        $prefix = strtolower(implode('.', $tokens));
-        
         $routingFilePath = '/Resources/config/routing.yml';
-        $resourcePath = $bundle->getPath() . $routingFilePath;
+        $resourcePath = $path . $routingFilePath;
 
         // check yaml
         if (file_exists($resourcePath)) {
-            $routes = $this->import('@' . $bundle->getName() . $routingFilePath, 'yaml');
+            $type = 'yaml';
+            $resource = "@{$name}{$routingFilePath}";
         } 
         // annotation
         else {
-            $routes = $this->import('@' . $bundle->getName() . '/Controller/', 'annotation');
+            $type = 'annotation';
+            $resource = "@{$name}/Controller/";
         }
         
-        $routes->addPrefix("/$prefix");
+        $routes = $this->import($resource, $type);
+        $routes->addPrefix("/{$keyName}");
 
         return $routes;
     }

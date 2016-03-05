@@ -2,10 +2,9 @@
 
 namespace Novosga\TriagemBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaTriagemBundle extends Bundle implements ModuleInterface
+class NovosgaTriagemBundle extends BaseModule
 {
     public function getIconName()
     {

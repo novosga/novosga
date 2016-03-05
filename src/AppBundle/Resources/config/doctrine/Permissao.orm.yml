@@ -19,7 +19,7 @@ Novosga\Entity\Permissao:
         modulo:
             targetEntity: Novosga\Entity\Modulo
             cascade: {  }
-            fetch: LAZY
+            fetch: EAGER
             mappedBy: null
             inversedBy: null
             joinColumns:
@@ -29,7 +29,7 @@ Novosga\Entity\Permissao:
         cargo:
             targetEntity: Novosga\Entity\Cargo
             cascade: {  }
-            fetch: LAZY
+            fetch: EAGER
             mappedBy: null
             inversedBy: permissoes
             joinColumns:

@@ -4,10 +4,10 @@ namespace Novosga\AttendanceBundle\Controller;
 
 use Exception;
 use Novosga\Config\AppConfig;
-use Novosga\Context;
 use Novosga\Http\JsonResponse;
 use Novosga\Entity\Atendimento;
-use Novosga\Entity\Util\UsuarioSessao;
+use Novosga\Entity\Usuario;
+use Novosga\Entity\Unidade;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\FilaService;
 use Novosga\Service\UsuarioService;
@@ -16,6 +16,7 @@ use Novosga\Util\DateUtil;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * DefaultController
@@ -25,10 +26,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends Controller
 {
     
-    private $filaService;
-    private $usuarioService;
-    private $atendimentoService;
-
     public function __construct()
     {
     }
@@ -43,9 +40,8 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $this->filaService = new FilaService($em);
-        $this->usuarioService = new UsuarioService($em);
-        $this->atendimentoService = new AtendimentoService($em);
+        $usuarioService = new UsuarioService($em);
+        $atendimentoService = new AtendimentoService($em);
         
         $usuario = $this->getUser();
         $unidade = $request->getSession()->get('unidade');
@@ -54,49 +50,53 @@ class DefaultController extends Controller
             return $this->redirectToRoute('home');
         }
 
-        $localMeta = $this->usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_LOCAL);
-        if ($localMeta) {
-            $usuario->setLocal((int) $localMeta->getValue());
-        }
-        $tipoMeta = $this->usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_TIPO);
-        if ($tipoMeta) {
-            $usuario->setTipoAtendimento((int) $tipoMeta->getValue());
-        }
-
-        $this->app()->view()->set('time', time() * 1000);
-        $this->app()->view()->set('unidade', $unidade);
-        $this->app()->view()->set('atendimento', $this->atendimentoService->atendimentoAndamento($usuario->getId()));
-        $this->app()->view()->set('servicos', $usuario->getServicos());
-        $this->app()->view()->set('servicosIndisponiveis', $usuario->getServicosIndisponiveis());
+        $local = $this->getNumeroLocalAtendimento($usuario);
+        $tipo = $this->getTipoAtendimento($usuario);
 
         $tiposAtendimento = [
-            UsuarioSessao::ATEND_TODOS        => _('Todos'),
-            UsuarioSessao::ATEND_CONVENCIONAL => _('Convencional'),
-            UsuarioSessao::ATEND_PRIORIDADE   => _('Prioridade'),
+            1 => _('Todos'),
+            2 => _('Convencional'),
+            3 => _('Prioridade'),
         ];
+        
+        $atendimentoAtual = $atendimentoService->atendimentoAndamento($usuario->getId());
+        
+        $servicos = $usuarioService->servicos($usuario, $unidade);
 
-        $this->app()->view()->set('tiposAtendimento', $tiposAtendimento);
-        $this->app()->view()->set('local', $usuario->getLocal());
-        $this->app()->view()->set('tipoAtendimento', $usuario->getTipoAtendimento());
+        return $this->render('NovosgaAttendanceBundle:default:index.html.twig', [
+            'time' => time() * 1000,
+            'unidade' => $unidade,
+            'atendimento' => $atendimentoAtual,
+            'servicos' => $servicos,
+            'servicosIndisponiveis' => [],
+            'tiposAtendimento' => $tiposAtendimento,
+            'local' => $local,
+            'tipoAtendimento' => $tipo
+        ]);
     }
 
-    public function set_local(Context $context)
+    /**
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     * 
+     * @Route("/set_local", name="novosga_attendance_setlocal")
+     */
+    public function setLocalAction(Request $request)
     {
         $response = new JsonResponse();
         try {
-            $unidade = $context->getUnidade();
-            $usuario = $context->getUser();
-            $numero = (int) $context->request()->post('local');
-            $tipo = (int) $context->request()->post('tipo');
+            $unidade = $request->getSession()->get('unidade');
+            $usuario = $this->getUser();
+            $numero = (int) $request->get('local');
+            $tipo = (int) $request->get('tipo');
 
             AppConfig::getInstance()->hook('sga.atendimento.pre-setlocal', [$unidade, $usuario, $numero, $tipo]);
 
-            $this->usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_LOCAL, $numero);
-            $this->usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipo);
-            $usuario->setLocal($numero);
-            $usuario->setTipoAtendimento($tipo);
-            $context->setUser($context->getUser());
-
+            $usuarioService = new UsuarioService($this->getDoctrine()->getManager());
+            $usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_LOCAL, $numero);
+            $usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipo);
+            
             AppConfig::getInstance()->hook('sga.atendimento.setlocal', [$unidade, $usuario, $numero, $tipo]);
 
             $response->success = true;
@@ -108,21 +108,34 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function ajax_update(Context $context)
+    /**
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     * 
+     * @Route("/ajax_update", name="novosga_attendance_ajaxupdate")
+     */
+    public function ajaxUpdateAction(Request $request)
     {
         $response = new JsonResponse();
-        $unidade = $context->getUnidade();
-        $usuarioSessao = $context->getUser();
-        if ($unidade && $usuarioSessao) {
-            // retorna configuracao do usuario para conferir possiveis alteracoes
-            $this->checkUserConfig($context, $usuarioSessao);
-
+        $unidade = $request->getSession()->get('unidade');
+        $usuario = $this->getUser();
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        
+        $filaService = new FilaService($em);
+        $usuarioService = new UsuarioService($em);
+        
+        $servicos = $usuarioService->servicos($usuario, $unidade);
+        
+        if ($unidade && $usuario) {
             // fila de atendimento do atendente atual
             $response->data = [
-                'atendimentos' => $this->filaService->atendimentos($usuarioSessao),
+                'atendimentos' => $filaService->atendimentos($unidade, $servicos),
                 'usuario'      => [
-                    'numeroLocal'     => $usuarioSessao->getLocal(),
-                    'tipoAtendimento' => $usuarioSessao->getTipoAtendimento(),
+                    'numeroLocal'     => $this->getNumeroLocalAtendimento($usuario),
+                    'tipoAtendimento' => $this->getTipoAtendimento($usuario),
                 ],
             ];
             $response->success = true;
@@ -134,44 +147,48 @@ class DefaultController extends Controller
     /**
      * Chama ou rechama o próximo da fila.
      *
-     * @param Novosga\Context $context
+     * @param Novosga\Request $request
+     * 
+     * @Route("/chamar", name="novosga_attendance_chamar")
+     * @Method("POST")
      */
-    public function chamar(Context $context)
+    public function chamarAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
         $response = new JsonResponse();
+        
         try {
-            if (!$context->request()->isPost()) {
-                throw new Exception(_('Somente via POST'));
-            }
             $attempts = 5;
             $proximo = null;
             $success = false;
-            $usuario = $context->getUser();
-            $unidade = $context->getUnidade();
+            $usuario = $this->getUser();
+            $unidade = $em->getReference(Unidade::class, $request->getSession()->get('unidade'));
+            
+            $filaService = new FilaService($em);
+            $atendimentoService = new AtendimentoService($em);
+            $usuarioService = new UsuarioService($em);
+            
             if (!$usuario) {
                 throw new Exception(_('Nenhum usuário na sessão'));
             }
+            
             // verifica se ja esta atendendo alguem
-            $atual = $this->atendimentoService->atendimentoAndamento($usuario->getId());
+            $atual = $atendimentoService->atendimentoAndamento($usuario->getId());
+            
             // se ja existe um atendimento em andamento (chamando senha novamente)
             if ($atual) {
                 $success = true;
                 $proximo = $atual;
             } else {
+                $local = $this->getNumeroLocalAtendimento($usuario);
+                $servicos = $usuarioService->servicos($usuario, $unidade);
+                
                 do {
-                    $atendimentos = $this->filaService->atendimentos($usuario, 1);
+                    $atendimentos = $filaService->atendimentos($unidade, $servicos, 1, 1);
                     if (count($atendimentos)) {
                         $proximo = $atendimentos[0];
-                        $success = $this->atendimentoService->chamar($proximo, $usuario, $usuario->getLocal());
-                        if ($success) {
-                            // incrementando contadores
-                            if ($proximo->getPrioridade()->getPeso() > 0) {
-                                $usuario->setSequenciaPrioridade($usuario->getSequenciaPrioridade() + 1);
-                            } else {
-                                $usuario->setSequenciaPrioridade(0);
-                            }
-                            $context->setUser($usuario);
-                        } else {
+                        $success = $atendimentoService->chamar($proximo, $usuario, $local);
+                        if (!$success) {
                             usleep(100);
                         }
                         --$attempts;
@@ -191,7 +208,7 @@ class DefaultController extends Controller
             }
             // response
             $response->success = $success;
-            $this->atendimentoService->chamarSenha($unidade, $proximo);
+            $atendimentoService->chamarSenha($unidade, $proximo);
             $response->data = $proximo->jsonSerialize();
         } catch (Exception $e) {
             $response->success = false;
@@ -201,22 +218,206 @@ class DefaultController extends Controller
         return $response;
     }
 
-    private function checkUserConfig(Context $context, UsuarioSessao $usuario)
+    /**
+     * Inicia o atendimento com o proximo da fila.
+     *
+     * @param Novosga\Request $request
+     * 
+     * @Route("/iniciar", name="novosga_attendance_iniciar")
+     * @Method("POST")
+     */
+    public function iniciarAction(Request $request)
     {
-        $service = new UsuarioService($this->em());
-        $numeroLocalMeta = $service->meta($usuario, 'atendimento.local');
-        $numero = $numeroLocalMeta ? (int) $numeroLocalMeta->getValue() : $usuario->getLocal();
-        $tipoAtendimentoMeta = $service->meta($usuario, 'atendimento.tipo');
-        $tipoAtendimento = $tipoAtendimentoMeta ? (int) $tipoAtendimentoMeta->getValue() : $usuario->getTipoAtendimento();
+        return $this->mudaStatusAtualResponse($request, AtendimentoService::CHAMADO_PELA_MESA, AtendimentoService::ATENDIMENTO_INICIADO, 'dataInicio');
+    }
 
-        if ($numero != $usuario->getLocal()) {
-            $usuario->setLocal($numero);
-        }
-        if ($tipoAtendimento != $usuario->getTipoAtendimento()) {
-            $usuario->setTipoAtendimento($tipoAtendimento);
+    /**
+     * Marca o atendimento como nao compareceu.
+     *
+     * @param Novosga\Request $request
+     * 
+     * @Route("/nao_compareceu", name="novosga_attendance_naocompareceu")
+     * @Method("POST")
+     */
+    public function naoCompareceuAction(Request $request)
+    {
+        return $this->mudaStatusAtualResponse($request, AtendimentoService::CHAMADO_PELA_MESA, AtendimentoService::NAO_COMPARECEU, 'dataFim');
+    }
+
+    /**
+     * Marca o atendimento como encerrado.
+     *
+     * @param Novosga\Request $request
+     * 
+     * @Route("/encerrar", name="novosga_attendance_encerrar")
+     * @Method("POST")
+     */
+    public function encerrarAction(Request $request)
+    {
+        return $this->mudaStatusAtualResponse($request, AtendimentoService::ATENDIMENTO_INICIADO, AtendimentoService::ATENDIMENTO_ENCERRADO, null);
+    }
+
+    /**
+     * Marca o atendimento como encerrado e codificado.
+     *
+     * @param Novosga\Request $request
+     * 
+     * @Route("/codificar", name="novosga_attendance_codificar")
+     * @Method("POST")
+     */
+    public function codificarAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $response = new JsonResponse(false);
+        
+        try {
+            $unidade = $request->getSession()->get('unidade');
+            if (!$unidade) {
+                throw new Exception(_('Nenhum unidade escolhida'));
+            }
+            $unidade = $em->getReference(Unidade::class, $unidade);
+            
+            $usuario = $this->getUser();
+            $atendimentoService = new AtendimentoService($em);
+            $atual = $atendimentoService->atendimentoAndamento($usuario->getId());
+            
+            if (!$atual) {
+                throw new Exception(_('Nenhum atendimento em andamento'));
+            }
+            $servicos = $request->get('servicos');
+            $servicos = Arrays::valuesToInt(explode(',', $servicos));
+            if (empty($servicos)) {
+                throw new Exception(_('Nenhum serviço selecionado'));
+            }
+
+            $em->beginTransaction();
+            foreach ($servicos as $s) {
+                $codificado = new \Novosga\Entity\AtendimentoCodificado();
+                $codificado->setAtendimento($atual);
+                $codificado->setServico($em->find('Novosga\Entity\Servico', $s));
+                $codificado->setPeso(1);
+                $em->persist($codificado);
+            }
+            // verifica se esta encerrando e redirecionando
+            $redirecionar = $request->get('redirecionar');
+            if ($redirecionar) {
+                $servico = $request->get('novoServico');
+                $redirecionado = $atendimentoService->redirecionar($atual, $usuario, $unidade, $servico);
+                if (!$redirecionado->getId()) {
+                    throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
+                }
+            }
+            $response->success = $this->mudaStatusAtendimento($atual, AtendimentoService::ATENDIMENTO_ENCERRADO, AtendimentoService::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
+            if (!$response->success) {
+                throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
+            }
+
+            $em->commit();
+            $em->flush();
+        } catch (Exception $e) {
+            try {
+                $em->rollback();
+            } catch (Exception $ex) {
+            }
+            $response->message = $e->getMessage();
         }
 
-        $context->setUser($usuario);
+        return $response;
+    }
+
+    /**
+     * Marca o atendimento como erro de triagem. E gera um novo atendimento para
+     * o servico informado.
+     *
+     * @param Novosga\Request $request
+     * 
+     * @Route("/redirecionar", name="novosga_attendance_redirecionar")
+     * @Method("POST")
+     */
+    public function redirecionarAction(Request $request)
+    {
+        $unidade = $request->getSession()->get('unidade');
+        $response = new JsonResponse(false);
+        try {
+            if (!$unidade) {
+                throw new Exception(_('Nenhum unidade escolhida'));
+            }
+            $usuario = $this->getUser();
+            $servico = (int) $request->get('servico');
+            $em = $this->getDoctrine()->getManager();
+            $atendimentoService = new AtendimentoService($em);
+            $atual = $atendimentoService->atendimentoAndamento($usuario->getId());
+            
+            if (!$atual) {
+                throw new Exception(_('Nenhum atendimento em andamento'));
+            }
+            $redirecionado = $atendimentoService->redirecionar($atual, $usuario, $unidade, $servico);
+            if (!$redirecionado->getId()) {
+                throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
+            }
+            $response->success = $this->mudaStatusAtendimento($atual, [AtendimentoService::ATENDIMENTO_INICIADO, AtendimentoService::ATENDIMENTO_ENCERRADO], AtendimentoService::ERRO_TRIAGEM, 'dataFim');
+            if (!$response->success) {
+                throw new Exception(sprintf(_('Erro ao mudar status do atendimento %s para encerrado'), $atual->getId()));
+            }
+        } catch (Exception $e) {
+            $response->message = $e->getMessage();
+        }
+
+        return $response;
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     * 
+     * @Route("/info_senha", name="novosga_attendance_infosenha")
+     */
+    public function infoSenhaAction(Request $request)
+    {
+        $response = new JsonResponse();
+        $unidade = $request->getSession()->get('unidade');
+        if ($unidade) {
+            $id = (int) $request->get('id');
+            $em = $this->getDoctrine()->getManager();
+            $atendimentoService = new AtendimentoService($em);
+            $atendimento = $atendimentoService->buscaAtendimento($unidade, $id);
+            if ($atendimento) {
+                $response->data = $atendimento->jsonSerialize();
+                $response->success = true;
+            } else {
+                $response->message = _('Atendimento inválido');
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Busca os atendimentos a partir do número da senha.
+     *
+     * @param Novosga\Request $request
+     * 
+     * @Route("/consulta_senha", name="novosga_attendance_consultasenha")
+     */
+    public function consultaSenhaAction(Request $request)
+    {
+        $response = new JsonResponse();
+        $unidade = $request->getSession()->get('unidade');
+        if ($unidade) {
+            $numero = $request->get('numero');
+            $atendimentoService = new AtendimentoService($this->getDoctrine()->getManager());
+            $atendimentos = $atendimentoService->buscaAtendimentos($unidade, $numero);
+            $response->data['total'] = count($atendimentos);
+            foreach ($atendimentos as $atendimento) {
+                $response->data['atendimentos'][] = $atendimento->jsonSerialize();
+            }
+            $response->success = true;
+        } else {
+            $response->message = _('Nenhuma unidade selecionada');
+        }
+
+        return $response;
     }
 
     /**
@@ -228,14 +429,18 @@ class DefaultController extends Controller
      *
      * @return JsonResponse
      */
-    private function mudaStatusAtualResponse(Context $context, $statusAtual, $novoStatus, $campoData)
+    private function mudaStatusAtualResponse(Request $request, $statusAtual, $novoStatus, $campoData)
     {
-        $usuario = $context->getUser();
+        $usuario = $this->getUser();
         if (!$usuario) {
-            $this->app()->gotoHome();
+            return $this->redirectToRoute('home');
         }
         $response = new JsonResponse();
-        $atual = $this->atendimentoService->atendimentoAndamento($usuario->getId());
+        
+        $em = $this->getDoctrine()->getManager();
+        $atendimentoService = new AtendimentoService($em);
+        $atual = $atendimentoService->atendimentoAndamento($usuario->getId());
+        
         if ($atual) {
             // atualizando atendimento
             $response->success = $this->mudaStatusAtendimento($atual, $statusAtual, $novoStatus, $campoData);
@@ -257,8 +462,10 @@ class DefaultController extends Controller
      *
      * @return bool
      */
-    private function mudaStatusAtendimento(Atendimento $atendimento, $statusAtual, $novoStatus, $campoData)
+    private function mudaStatusAtendimento(Atendimento $atendimento, $statusAtual, $novoStatus, $campoData = null)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $cond = '';
         if ($campoData !== null) {
             $cond = ", e.$campoData = :data";
@@ -267,7 +474,7 @@ class DefaultController extends Controller
             $statusAtual = [$statusAtual];
         }
         // atualizando atendimento
-        $query = $this->em()->createQuery("
+        $query = $em->createQuery("
             UPDATE
                 Novosga\Entity\Atendimento e
             SET
@@ -286,175 +493,25 @@ class DefaultController extends Controller
         return $query->execute() > 0;
     }
 
-    /**
-     * Inicia o atendimento com o proximo da fila.
-     *
-     * @param Novosga\Context $context
-     */
-    public function iniciar(Context $context)
+    private function getNumeroLocalAtendimento(Usuario $usuario)
     {
-        return $this->mudaStatusAtualResponse($context, AtendimentoService::CHAMADO_PELA_MESA, AtendimentoService::ATENDIMENTO_INICIADO, 'dataInicio');
+        $em = $this->getDoctrine()->getManager();
+        $service = new UsuarioService($em);
+        
+        $numeroLocalMeta = $service->meta($usuario, 'atendimento.local');
+        $numero = $numeroLocalMeta ? (int) $numeroLocalMeta->getValue() : '';
+        
+        return $numero;
     }
-
-    /**
-     * Marca o atendimento como nao compareceu.
-     *
-     * @param Novosga\Context $context
-     */
-    public function nao_compareceu(Context $context)
+     
+    private function getTipoAtendimento(Usuario $usuario)
     {
-        return $this->mudaStatusAtualResponse($context, AtendimentoService::CHAMADO_PELA_MESA, AtendimentoService::NAO_COMPARECEU, 'dataFim');
-    }
-
-    /**
-     * Marca o atendimento como encerrado.
-     *
-     * @param Novosga\Context $context
-     */
-    public function encerrar(Context $context)
-    {
-        return $this->mudaStatusAtualResponse($context, AtendimentoService::ATENDIMENTO_INICIADO, AtendimentoService::ATENDIMENTO_ENCERRADO, null);
-    }
-
-    /**
-     * Marca o atendimento como encerrado e codificado.
-     *
-     * @param Novosga\Context $context
-     */
-    public function codificar(Context $context)
-    {
-        $response = new JsonResponse(false);
-        try {
-            if (!$context->request()->isPost()) {
-                throw new Exception(_('Somente via POST'));
-            }
-            $unidade = $context->getUnidade();
-            if (!$unidade) {
-                throw new Exception(_('Nenhum unidade escolhida'));
-            }
-            $usuario = $context->getUser();
-            $atual = $this->atendimentoService->atendimentoAndamento($usuario->getId());
-            if (!$atual) {
-                throw new Exception(_('Nenhum atendimento em andamento'));
-            }
-            $servicos = $context->request()->post('servicos');
-            $servicos = Arrays::valuesToInt(explode(',', $servicos));
-            if (empty($servicos)) {
-                throw new Exception(_('Nenhum serviço selecionado'));
-            }
-
-            $this->em()->beginTransaction();
-            foreach ($servicos as $s) {
-                $codificado = new \Novosga\Entity\AtendimentoCodificado();
-                $codificado->setAtendimento($atual);
-                $codificado->setServico($this->em()->find('Novosga\Entity\Servico', $s));
-                $codificado->setPeso(1);
-                $this->em()->persist($codificado);
-            }
-            // verifica se esta encerrando e redirecionando
-            $redirecionar = $context->request()->post('redirecionar');
-            if ($redirecionar) {
-                $servico = $context->request()->post('novoServico');
-                $redirecionado = $this->atendimentoService->redirecionar($atual, $usuario, $unidade, $servico);
-                if (!$redirecionado->getId()) {
-                    throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
-                }
-            }
-            $response->success = $this->mudaStatusAtendimento($atual, AtendimentoService::ATENDIMENTO_ENCERRADO, AtendimentoService::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
-            if (!$response->success) {
-                throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
-            }
-
-            $this->em()->commit();
-            $this->em()->flush();
-        } catch (Exception $e) {
-            try {
-                $this->em()->rollback();
-            } catch (Exception $ex) {
-            }
-            $response->message = $e->getMessage();
-        }
-
-        return $response;
-    }
-
-    /**
-     * Marca o atendimento como erro de triagem. E gera um novo atendimento para
-     * o servico informado.
-     *
-     * @param Novosga\Context $context
-     */
-    public function redirecionar(Context $context)
-    {
-        $unidade = $context->getUnidade();
-        $response = new JsonResponse(false);
-        try {
-            if (!$context->request()->isPost()) {
-                throw new Exception(_('Somente via POST'));
-            }
-            if (!$unidade) {
-                throw new Exception(_('Nenhum unidade escolhida'));
-            }
-            $usuario = $context->getUser();
-            $servico = (int) $context->request()->post('servico');
-            $atual = $this->atendimentoService->atendimentoAndamento($usuario->getId());
-            if (!$atual) {
-                throw new Exception(_('Nenhum atendimento em andamento'));
-            }
-            $redirecionado = $this->atendimentoService->redirecionar($atual, $usuario, $unidade, $servico);
-            if (!$redirecionado->getId()) {
-                throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
-            }
-            $response->success = $this->mudaStatusAtendimento($atual, [AtendimentoService::ATENDIMENTO_INICIADO, AtendimentoService::ATENDIMENTO_ENCERRADO], AtendimentoService::ERRO_TRIAGEM, 'dataFim');
-            if (!$response->success) {
-                throw new Exception(sprintf(_('Erro ao mudar status do atendimento %s para encerrado'), $atual->getId()));
-            }
-        } catch (Exception $e) {
-            $response->message = $e->getMessage();
-        }
-
-        return $response;
-    }
-
-    public function info_senha(Context $context)
-    {
-        $response = new JsonResponse();
-        $unidade = $context->getUser()->getUnidade();
-        if ($unidade) {
-            $id = (int) $context->request()->get('id');
-            $atendimento = $this->atendimentoService->buscaAtendimento($unidade, $id);
-            if ($atendimento) {
-                $response->data = $atendimento->jsonSerialize();
-                $response->success = true;
-            } else {
-                $response->message = _('Atendimento inválido');
-            }
-        }
-
-        return $response;
-    }
-
-    /**
-     * Busca os atendimentos a partir do número da senha.
-     *
-     * @param Novosga\Context $context
-     */
-    public function consulta_senha(Context $context)
-    {
-        $response = new JsonResponse();
-        $unidade = $context->getUser()->getUnidade();
-        if ($unidade) {
-            $numero = $context->request()->get('numero');
-            $atendimentos = $this->atendimentoService->buscaAtendimentos($unidade, $numero);
-            $response->data['total'] = count($atendimentos);
-            foreach ($atendimentos as $atendimento) {
-                $response->data['atendimentos'][] = $atendimento->jsonSerialize();
-            }
-            $response->success = true;
-        } else {
-            $response->message = _('Nenhuma unidade selecionada');
-        }
-
-        return $response;
+        $em = $this->getDoctrine()->getManager();
+        $service = new UsuarioService($em);
+        
+        $tipoAtendimentoMeta = $service->meta($usuario, 'atendimento.tipo');
+        $tipoAtendimento = $tipoAtendimentoMeta ? (int) $tipoAtendimentoMeta->getValue() : 1;
+        
+        return $tipoAtendimento;
     }
 }

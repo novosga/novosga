@@ -2,10 +2,9 @@
 
 namespace Novosga\RolesBundle;
 
-use Novosga\ModuleInterface;
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Novosga\Module\BaseModule;
 
-class NovosgaRolesBundle extends Bundle implements ModuleInterface
+class NovosgaRolesBundle extends BaseModule
 {
     public function getIconName()
     {

@@ -2,13 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use Novosga\App;
-use Novosga\Auth\AuthenticationProvider;
-use Novosga\Context;
-use Novosga\Http\JsonResponse;
-use Novosga\Entity\Configuracao;
-use Novosga\Entity\Util\Senha;
-use Novosga\Service\AtendimentoService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,10 +16,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class AdminModulosController extends Controller
 {
 
-    public function __construct()
-    {
-    }
-
     /**
      *
      * @param Request $request
@@ -36,8 +25,8 @@ class AdminModulosController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
         return $this->render('admin/modulos.html.twig', [
+            'tab' => 'modulos',
         ]);
     }
 

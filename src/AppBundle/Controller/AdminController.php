@@ -43,52 +43,8 @@ class AdminController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->createQuery("SELECT e FROM Novosga\Entity\Unidade e ORDER BY e.nome");
-        $unidades = $query->getResult();
-        // método de autenticação
-        $auth = Configuracao::get($em, AuthenticationProvider::KEY);
-        if ($auth) {
-            $auth = $auth->getValor();
-        } else {
-            $auth = [
-                'type' => 'db',
-                'db'   => [],
-                'ldap' => [
-                    'host'           => '',
-                    'port'           => '',
-                    'baseDn'         => '',
-                    'loginAttribute' => '',
-                    'username'       => '',
-                    'password'       => '',
-                    'filter'         => '',
-                ],
-            ];
-            Configuracao::set($em, AuthenticationProvider::KEY, $auth);
-        }
-        // tipo de numeração de senha
-        $numeracao = Configuracao::get($em, Senha::TIPO_NUMERACAO);
-        if ($numeracao) {
-            $numeracao = $numeracao->getValor();
-        } else {
-            $numeracao = Senha::NUMERACAO_UNICA;
-            Configuracao::set($em, Senha::TIPO_NUMERACAO, $numeracao);
-        }
-
         return $this->render('admin/index.html.twig', [
-            'unidade' => $em->find(\Novosga\Entity\Unidade::class, 1),
-            'modulos' => [],
-            'unidades' => $unidades,
-            // authentication config
-            'auth' => $auth,
-            'numeracao' => $numeracao,
-            'numeracoes' => $this->numeracoes,
-            // database config
-//            'dbValues', array_filter($context->database()->values(), function ($item) {
-//                return is_string($item);
-//            })
-            'dbValues' => array_filter([], function ($item) {
-                return is_string($item);
-            })
+            'tab' => 'index',
         ]);
     }
 

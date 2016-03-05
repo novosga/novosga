@@ -1,4 +1,5 @@
-{% extends "base.html.twig" %}
+{% extends "::base.html.twig" %}
+
 {% block body %}
     <div id="dialog-local" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -28,24 +29,6 @@
                             </div>
                         </div>
                     </form>
-                    <script type="text/javascript">
-                        $('#local_form').on('submit', function() {
-                            var numero = parseInt($('#numero_local').val());
-                            if (isNaN(numero) || numero <= 0) {
-                                $('#numero_local').val('');
-                            } else {
-                                App.ajax({
-                                    url: '{{ app.request.baseUrl() }}/modules/{{ module.chave }}/set_local',
-                                    type: 'post',
-                                    data: $(this).serialize(),
-                                    success: function(response) {
-                                        window.location.reload();
-                                    }
-                                });
-                            }
-                            return false;
-                        });
-                    </script>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="$('#local_form').submit(); return false">{% trans %}Salvar{% endtrans %}</button>
@@ -53,13 +36,7 @@
             </div>
         </div>
     </div>
-    {# se ainda nao definiu o numero do local, exibe automaticamente a dialog #}
-    {% if local <= 0 %}
-        <script type="text/javascript">
-            App.dialogs.modal('#dialog-local');
-            $('#local').focus();
-        </script>
-    {% else %}
+    {% if local > 0 %}
         {# local definido, exibe tela de atendimento #}
         <div id="atendimento">
             <div class="row">
@@ -90,24 +67,38 @@
                                 <ul class="info {% if atendimento and atendimento.senha.isPrioridade %}prioridade{% endif %}">
                                     <li class="numero">
                                         <span class="atend-label">{% trans %}Senha|Bilhete{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.senha }}</span>
+                                        <span class="atend-value">
+                                            {%- if atendimento -%}
+                                                {{ atendimento.senha }}
+                                            {%- endif -%}
+                                        </span>
                                     </li>
                                     <li class="servico">
                                         <span class="atend-label">{% trans %}Serviço{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.servicoUnidade.nome }}</span>
+                                        <span class="atend-value">
+                                            {%- if atendimento -%}
+                                                {{ atendimento.servicoUnidade.nome }}
+                                            {%- endif -%}
+                                        </span>
                                     </li>
                                     <li class="nome-prioridade">
                                         <span class="atend-label">{% trans %}Prioridade{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.senha.prioridade.nome }}</span>
+                                        <span class="atend-value">
+                                            {%- if atendimento -%}
+                                                {{ atendimento.senha.prioridade.nome }}
+                                            {%- endif -%}
+                                        </span>
                                     </li>
                                     <li class="nome">
                                         <span class="atend-label">{% trans %}Nome{% endtrans %}</span>
                                         <span class="atend-value">
-                                            {% if atendimento.cliente.nome %}
-                                                {{ atendimento.cliente.nome }}
-                                            {% else %}
-                                                -
-                                            {% endif %}
+                                            {%- if atendimento -%}
+                                                {% if atendimento.cliente.nome %}
+                                                    {{ atendimento.cliente.nome }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            {%- endif -%}
                                         </span>
                                     </li>
                                 </ul>
@@ -142,24 +133,38 @@
                                 <ul class="info {% if atendimento and atendimento.senha.isPrioridade %}prioridade{% endif %}">
                                     <li class="numero">
                                         <span class="atend-label">{% trans %}Senha|Bilhete{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.senha }}</span>
+                                        <span class="atend-value">
+                                            {%- if atendimento -%}
+                                                {{ atendimento.senha }}
+                                            {%- endif -%}
+                                        </span>
                                     </li>
                                     <li class="servico">
                                         <span class="atend-label">{% trans %}Serviço{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.servicoUnidade.nome }}</span>
+                                        <span class="atend-value">
+                                            {%- if atendimento -%}
+                                                {{ atendimento.servicoUnidade.nome }}
+                                            {%- endif -%}
+                                        </span>
                                     </li>
                                     <li class="nome-prioridade">
                                         <span class="atend-label">{% trans %}Prioridade{% endtrans %}</span>
-                                        <span class="atend-value">{{ atendimento.senha.prioridade.nome }}</span>
+                                        <span class="atend-value">
+                                            {%- if atendimento -%}
+                                                {{ atendimento.senha.prioridade.nome }}
+                                            {%- endif -%}
+                                        </span>
                                     </li>
                                     <li class="nome">
                                         <span class="atend-label">{% trans %}Nome{% endtrans %}</span>
                                         <span class="atend-value">
-                                            {% if atendimento.cliente.nome %}
-                                                {{ atendimento.cliente.nome }}
-                                            {% else %}
-                                                -
-                                            {% endif %}
+                                            {%- if atendimento -%}
+                                                {% if atendimento.cliente.nome %}
+                                                    {{ atendimento.cliente.nome }}
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            {%- endif -%}
                                         </span>
                                     </li>
                                 </ul>
@@ -242,7 +247,7 @@
                 </div>
             </div>
             <div id="fila">
-                <h4>{% trans %}Minha fila{% endtrans %} (<span class="tipo-{{ usuario.tipoAtendimento }} config-tipo-atendimento">{{ tiposAtendimento[tipoAtendimento] }}</span>):</h4>
+                <h4>{% trans %}Minha fila{% endtrans %} (<span class="tipo-{{ tipoAtendimento }} config-tipo-atendimento">{{ tiposAtendimento[tipoAtendimento] }}</span>):</h4>
                 <ul></ul>
             </div>
         </div>
@@ -365,8 +370,44 @@
         <div id="sga-clock" title="{% trans %}Data e hora no servidor{% endtrans %}"></div>
 
         {# som executado quando a fila deixa de estar fazia #}
-        <audio id="alert" src="{{ asset('bundles/novosgaatendimento/sounds/alert.wav') }}" style="display:none"></audio>
+        <audio id="alert" src="{{ asset('bundles/novosgaattendance/sounds/alert.wav') }}" style="display:none"></audio>
 
+    {% endif %}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/novosgaattendance/css/style.css') }}">
+{% endblock %}    
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('bundles/novosgaattendance/js/script.js') }}"></script>
+    <script>
+        $('#local_form').on('submit', function() {
+            var numero = parseInt($('#numero_local').val());
+            if (isNaN(numero) || numero <= 0) {
+                $('#numero_local').val('');
+            } else {
+                App.ajax({
+                    url: '{{ path('novosga_attendance_setlocal') }}',
+                    type: 'post',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        window.location.reload();
+                    }
+                });
+            }
+            return false;
+        });
+    </script>
+    {% if local <= 0 %}
+        {# se ainda nao definiu o numero do local, exibe automaticamente a dialog #}
+        <script type="text/javascript">
+            App.dialogs.modal('#dialog-local');
+            $('#local').focus();
+        </script>
+    {% else %}
         <script type="text/javascript">
             App.Clock.init("sga-clock", {{ time }});
             App.Atendimento.filaVazia = '{% trans %}Fila vazia{% endtrans %}';

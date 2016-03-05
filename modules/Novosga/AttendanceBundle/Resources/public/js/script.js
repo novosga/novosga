@@ -32,7 +32,7 @@ App.Atendimento = {
         clearTimeout(App.Atendimento.timeoutId);
         if (!App.paused) {
             App.ajax({
-                url: App.url('ajax_update'),
+                url: App.url('/novosga.attendance/ajax_update'),
                 success: function(response) {
                     response.data = response.data || {};
                     var atendimentos = response.data.atendimentos || [],
@@ -132,7 +132,7 @@ App.Atendimento = {
         prop = prop || {};
         $(prop.button).prop('disabled', true);
         App.ajax({
-            url: App.url(prop.action),
+            url: App.url('/novosga.attendance/' + prop.action),
             type: 'post',
             data: prop.data || {},
             success: function(response) {
@@ -265,7 +265,7 @@ App.Atendimento = {
     
     infoSenha: function(id) {
         App.ajax({
-            url: App.url('info_senha'),
+            url: App.url('/novosga.attendance/info_senha'),
             data: {
                 id: id
             },
@@ -319,7 +319,7 @@ App.Atendimento = {
 
     consultar: function() {
         App.ajax({
-            url: App.url('consulta_senha'),
+            url: App.url('/novosga.attendance/consulta_senha'),
             data: {
                 numero: $('#numero_busca').val()
             },

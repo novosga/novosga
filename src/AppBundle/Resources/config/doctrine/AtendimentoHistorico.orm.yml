@@ -68,7 +68,7 @@ Novosga\Entity\AtendimentoHistorico:
         siglaSenha:
             type: string
             scale: 0
-            length: 1
+            length: 3
             unique: false
             nullable: false
             precision: 0
@@ -81,14 +81,6 @@ Novosga\Entity\AtendimentoHistorico:
             nullable: false
             precision: 0
             column: num_senha
-        numeroSenhaServico:
-            type: integer
-            scale: 0
-            length: null
-            unique: false
-            nullable: false
-            precision: 0
-            column: num_senha_serv
     oneToMany:
         codificados:
             targetEntity: Novosga\Entity\AtendimentoCodificadoHistorico

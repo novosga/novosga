@@ -9,9 +9,6 @@ namespace Novosga\Entity;
   */
  class Modulo extends SequencialModel
  {
-     // TIPO
-    const MODULO_UNIDADE = 0;
-    const MODULO_GLOBAL = 1;
 
     /**
      * @var string
@@ -27,11 +24,6 @@ namespace Novosga\Entity;
      * @var string
      */
     protected $descricao;
-
-    /**
-     * @var int
-     */
-    protected $tipo;
 
     /**
      * @var int
@@ -94,26 +86,6 @@ namespace Novosga\Entity;
          return $this->descricao;
      }
 
-    /**
-     * Retorna o tipo do modulo, se e global ou local (unidade).
-     *
-     * @return type
-     */
-    public function getTipo()
-    {
-        return $this->tipo;
-    }
-
-     public function setTipo($tipo)
-     {
-         $this->tipo = $tipo;
-     }
-
-     public function isGlobal()
-     {
-         return $this->tipo == self::MODULO_GLOBAL;
-     }
-
      public function getStatus()
      {
          return $this->status;
@@ -143,7 +115,7 @@ namespace Novosga\Entity;
      */
     public function toString()
     {
-        return 'Modulo['.$this->getChave().']';
+        return $this->getChave();
     }
 
      public function jsonSerialize()
@@ -154,7 +126,6 @@ namespace Novosga\Entity;
             'chave'     => $this->getChave(),
             'descricao' => $this->getDescricao(),
             'status'    => $this->getStatus(),
-            'tipo'      => $this->getTipo(),
         ];
      }
  }

@@ -108,8 +108,17 @@ class DefaultController extends Controller
         return $response;
     }
 
-    public function info_senha(Request $request)
+    /**
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     * 
+     * @Route("/info_senha", name="novosga_monitor_infosenha")
+     */
+    public function infoSenhaAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+        
         $response = new JsonResponse();
         $unidade = $request->getSession()->get('unidade');
         if ($unidade) {
@@ -131,35 +140,39 @@ class DefaultController extends Controller
      * Busca os atendimentos a partir do número da senha.
      *
      * @param Request $request
+     * 
+     * @Route("/buscar", name="novosga_monitor_buscar")
      */
-    public function buscar(Request $request)
+    public function buscarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $response = new JsonResponse();
+        $data = [];
         $unidade = $request->getSession()->get('unidade');
         if ($unidade) {
             $numero = $request->get('numero');
             $service = new AtendimentoService($em);
             $atendimentos = $service->buscaAtendimentos($unidade, $numero);
-            $response->data['total'] = count($atendimentos);
+            $data['total'] = count($atendimentos);
             foreach ($atendimentos as $atendimento) {
-                $response->data['atendimentos'][] = $atendimento->jsonSerialize();
+                $data['atendimentos'][] = $atendimento->jsonSerialize();
             }
-            $response->success = true;
+            
+            return new JsonResponse($data);
         } else {
-            $response->message = _('Nenhuma unidade selecionada');
+            $message = _('Nenhuma unidade selecionada');
+            return new JsonResponse(message, false);
         }
-
-        return $response;
     }
 
     /**
      * Transfere o atendimento para outro serviço e prioridade.
      *
      * @param Request $request
+     * 
+     * @Route("/transferir", name="novosga_monitor_transferir")
      */
-    public function transferir(Request $request)
+    public function transferirAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -191,8 +204,10 @@ class DefaultController extends Controller
      * Só pode reativar atendimentos que foram: Cancelados ou Não Compareceu.
      *
      * @param Request $request
+     * 
+     * @Route("/reativar", name="novosga_monitor_reativar")
      */
-    public function reativar(Request $request)
+    public function reativarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -232,8 +247,10 @@ class DefaultController extends Controller
      * Atualiza o status da senha para cancelado.
      *
      * @param Request $request
+     * 
+     * @Route("/cancelar", name="novosga_monitor_cancelar")
      */
-    public function cancelar(Request $request)
+    public function cancelarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 

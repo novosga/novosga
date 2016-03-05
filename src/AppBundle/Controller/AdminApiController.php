@@ -2,13 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use Novosga\App;
-use Novosga\Auth\AuthenticationProvider;
 use Novosga\Context;
 use Novosga\Http\JsonResponse;
-use Novosga\Entity\Configuracao;
-use Novosga\Entity\Util\Senha;
-use Novosga\Service\AtendimentoService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -31,7 +26,9 @@ class AdminApiController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/api.html.twig', []);
+        return $this->render('admin/api.html.twig', [
+            'tab' => 'api',
+        ]);
     }
 
     public function add_oauth_client(Context $context)

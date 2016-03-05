@@ -19,7 +19,7 @@ class CargoRepository extends EntityRepository
      */
     public function findAll()
     {
-        return $this->findBy([], ['level' => 'ASC', 'nome' => 'ASC']);
+        return $this->findBy([], ['nome' => 'ASC']);
     }
     
 }

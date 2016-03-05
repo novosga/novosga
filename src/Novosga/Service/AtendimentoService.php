@@ -6,7 +6,6 @@ use DateTime;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
-use Novosga\App;
 use Novosga\Config\AppConfig;
 use Novosga\Entity\Atendimento;
 use Novosga\Entity\Contador;
@@ -15,7 +14,6 @@ use Novosga\Entity\Prioridade;
 use Novosga\Entity\Servico;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
-use Novosga\Entity\Util\Senha;
 use Novosga\Entity\Util\UsuarioSessao;
 use Novosga\Util\DateUtil;
 use PDO;
@@ -263,20 +261,6 @@ class AtendimentoService extends MetaModelService
         AppConfig::getInstance()->hook('attending.reset', $unidade);
     }
 
-    public static function isNumeracaoServico()
-    {
-        // TODO: remover essa opcao
-//        if (App::isInstalled()) {
-//            $db = \Novosga\Config\DatabaseConfig::getInstance();
-//            $tipoNumeracao = \Novosga\Entity\Configuracao::get($db->createEntityManager(), Senha::TIPO_NUMERACAO);
-//            if ($tipoNumeracao) {
-//                return $tipoNumeracao->getValor() == Senha::NUMERACAO_SERVICO;
-//            }
-//        }
-
-        return false;
-    }
-
     public function buscaAtendimento(Unidade $unidade, $id)
     {
         $query = $this->em->createQuery("SELECT e FROM Novosga\Entity\Atendimento e JOIN e.servicoUnidade su WHERE e.id = :id AND su.unidade = :unidade");
@@ -288,7 +272,6 @@ class AtendimentoService extends MetaModelService
 
     public function buscaAtendimentos(Unidade $unidade, $senha)
     {
-        $field = self::isNumeracaoServico() ? 'numeroSenhaServico' : 'numeroSenha';
         $cond = '';
         $sigla = strtoupper(substr($senha, 0, 1));
         // verificando se a letra foi informada (o primeiro caracter diferente do valor convertido para int)
@@ -309,7 +292,7 @@ class AtendimentoService extends MetaModelService
                 JOIN e.usuarioTriagem ut
                 LEFT JOIN e.usuario u
             WHERE
-                e.$field = :numero AND $cond
+                e.numeroSenha = :numero AND $cond
                 su.unidade = :unidade
             ORDER BY
                 e.id
@@ -442,10 +425,21 @@ class AtendimentoService extends MetaModelService
             throw new Exception(_('Serviço não disponível para a unidade atual'));
         }
 
-        $contador = $this->em->find(Contador::class, $unidade);
+        $contador = $this->em
+                        ->createQueryBuilder()
+                        ->select('e')
+                        ->from(Contador::class, 'e')
+                        ->where('e.unidade = :unidade AND e.servico = :servico')
+                        ->setParameters([
+                            'unidade' => $unidade->getId(),
+                            'servico' => $servico->getId()
+                        ])
+                        ->getQuery()
+                        ->getOneOrNullResult();
+        
         if (!$contador) {
             $contador = new Contador();
-            $contador->setUnidade($this->em->getReference(Unidade::class, $unidade->getId()));
+            $contador->setUnidade($unidade);
             $contador->setServico($servico);
             $contador->setMinimo(1);
             $contador->setIncremento(1);
@@ -456,9 +450,12 @@ class AtendimentoService extends MetaModelService
             $numeroSenha = $contador->getAtual();
         } else {
             $numeroSenha = $contador->getAtual() + $contador->getIncremento();
+            if ($contador->getMaximo() > 0 && $numeroSenha > $contador->getMaximo()) {
+                $numeroSenha = $contador->getMinimo();
+            }
             $contador->setAtual($numeroSenha);
         }
-
+        
         $atendimento = new Atendimento();
         $atendimento->setServicoUnidade($su);
         $atendimento->setPrioridade($prioridade);
@@ -471,9 +468,6 @@ class AtendimentoService extends MetaModelService
 
         AppConfig::getInstance()->hook('attending.pre-create', [$atendimento]);
         
-        // TODO: remover campo $numeroSenhaServico
-        $numeroSenhaServico = $numeroSenha;
-
         $this->em->beginTransaction();
 
         try {
@@ -483,7 +477,6 @@ class AtendimentoService extends MetaModelService
                 try {
                     $atendimento->setDataChegada(new DateTime());
                     $atendimento->setNumeroSenha($numeroSenha);
-                    $atendimento->setNumeroSenhaServico($numeroSenhaServico);
 
                     $this->em->persist($atendimento);
                     $this->em->merge($contador);
@@ -545,7 +538,6 @@ class AtendimentoService extends MetaModelService
         $novo->setStatus(self::SENHA_EMITIDA);
         $novo->setSiglaSenha($atendimento->getSenha()->getSigla());
         $novo->setNumeroSenha($atendimento->getNumeroSenha());
-        $novo->setNumeroSenhaServico($atendimento->getNumeroSenhaServico());
         $novo->setUsuario($usuario);
         $novo->setUsuarioTriagem($usuario);
         $novo->setPrioridade($atendimento->getPrioridade());

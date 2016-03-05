@@ -5,29 +5,29 @@
         <div class="col-md-3">
             <aside>
                 <ul class="nav nav-pills nav-stacked">
-                    <li>
+                    <li {% if tab == 'index' %}class="active"{% endif %}>
                         <a href="{{ path('admin_index') }}">
                             {% trans %}Sistema{% endtrans %}
                         </a>
                     </li>
-                    <li>
+                    <li {% if tab == 'modulos' %}class="active"{% endif %}>
                         <a href="{{ path('admin_modulos_index') }}">
                             {% trans %}Módulos{% endtrans %}
                         </a>
                     </li>
-                    <li>
+                    <li {% if tab == 'prioridades' %}class="active"{% endif %}>
                         <a href="{{ path('admin_prioridades_index') }}">
                             {% trans %}Prioridades{% endtrans %}
                         </a>
                     </li>
-                    <li>
+                    <li {% if tab == 'locais' %}class="active"{% endif %}>
                         <a href="{{ path('admin_locais_index') }}">
                             {% trans %}Locais{% endtrans %}
                         </a>
                     </li>
-                    <li>
+                    <li {% if tab == 'api' %}class="active"{% endif %}>
                         <a href="{{ path('admin_api_index') }}">
-                            API
+                            Web API
                         </a>
                     </li>
                 </ul>

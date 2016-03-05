@@ -8,7 +8,7 @@ namespace Novosga\Entity;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class Cargo extends TreeModel
+class Cargo extends SequencialModel
 {
     /**
      * @var string
@@ -19,6 +19,11 @@ class Cargo extends TreeModel
      * @var string
      */
     protected $descricao;
+
+    /**
+     * @var Modulo[]
+     */
+    protected $modulos;
 
     /**
      * @var Permissao[]
@@ -86,7 +91,18 @@ class Cargo extends TreeModel
     {
         return $this->permissoes;
     }
+    
+    public function getModulos()
+    {
+        return $this->modulos;
+    }
 
+    public function setModulos($modulos)
+    {
+        $this->modulos = $modulos;
+        return $this;
+    }
+    
     /**
      * Verfica se tem permissão para acessar módulo.
      *

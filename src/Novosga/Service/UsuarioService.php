@@ -5,7 +5,7 @@ namespace Novosga\Service;
 use Doctrine\Common\Collections\ArrayCollection;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
-use Novosga\Entity\Util\UsuarioSessao;
+use Novosga\Entity\ServicoUsuario;
 
 /**
  * UsuarioService.
@@ -74,30 +74,23 @@ class UsuarioService extends MetaModelService
     /**
      * Retorna a lista de serviços que o usuário atende na determinada unidade.
      *
-     * @param Usuario|UsuarioSessao|int $usuario
-     * @param Unidade|int               $unidade
+     * @param Usuario|int $usuario
+     * @param Unidade|int $unidade
      *
      * @return ArrayCollection
      */
     public function servicos($usuario, $unidade)
     {
         return $this->em
-                ->createQuery("
-                    SELECT
-                        e
-                    FROM
-                        Novosga\Entity\ServicoUsuario e
-                        JOIN
-                            e.servico s
-                    WHERE
-                        e.usuario = :usuario AND
-                        e.unidade = :unidade AND
-                        s.status = 1
-                    ORDER BY
-                        s.nome
-                ")
+                ->createQueryBuilder()
+                ->select('e')
+                ->from(ServicoUsuario::class, 'e')
+                ->join('e.servico', 's')
+                ->where('e.usuario = :usuario AND e.unidade = :unidade AND s.status = 1')
+                ->orderBy('s.nome', 'ASC')
                 ->setParameter('usuario', $usuario)
                 ->setParameter('unidade', $unidade)
+                ->getQuery()
                 ->getResult();
     }
 
