@@ -1,8 +1,9 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
-use Novosga\Entity\Local;
+use Exception;
+use Novosga\Entity\Prioridade;
 use Novosga\Http\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,25 +11,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * AdminLocaisController
+ * AdminPrioridadesController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  *
- * @Route("/admin/locais")
+ * @Route("/admin/prioridades")
  */
-class AdminLocaisController extends Controller
+class PrioridadesController extends Controller
 {
     /**
      *
      * @param Request $request
      * @return Response
      *
-     * @Route("/", name="admin_locais_index")
+     * @Route("/", name="admin_prioridades_index")
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/locais.html.twig', [
-            'tab' => 'locais',
+        return $this->render('admin/prioridades.html.twig', [
+            'tab' => 'prioridades',
         ]);
     }
     
@@ -37,14 +38,14 @@ class AdminLocaisController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/list", name="admin_locais_list")
+     * @Route("/list", name="admin_prioridades_list")
      */
     public function listAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         
         $locais = $em
-                ->getRepository(Local::class)
+                ->getRepository(Prioridade::class)
                 ->findBy([], ['nome' => 'ASC']);
         
         return new JsonResponse($locais);
@@ -55,7 +56,7 @@ class AdminLocaisController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/save", name="admin_locais_save")
+     * @Route("/save", name="admin_prioridades_save")
      */
     public function saveAction(Request $request)
     {
@@ -63,26 +64,30 @@ class AdminLocaisController extends Controller
             $json = $request->getContent();
             $data = json_decode($json);
 
-            if (!isset($data->nome)) {
-                throw new \Exception('Json inválido');
+            if (!isset($data->nome) || !(isset($data->peso))) {
+                throw new Exception('Json inválido');
             }
             
             $em = $this->getDoctrine()->getManager();
 
             if (isset($data->id)) {
-                $local = $em->find(Local::class, $data->id);
-                $local->setNome($data->nome);
-                $em->merge($local);
+                $prioridade = $em->find(Prioridade::class, $data->id);
+                $prioridade->setNome($data->nome);
+                $prioridade->setPeso($data->peso);
+                $em->merge($prioridade);
             } else {
-                $local = new Local();
-                $local->setNome($data->nome);
-                $em->persist($local);
+                $prioridade = new Prioridade();
+                $prioridade->setNome($data->nome);
+                $prioridade->setPeso($data->peso);
+                $prioridade->setDescricao('');
+                $prioridade->setStatus(1);
+                $em->persist($prioridade);
             }
             
             $em->flush();
             
-            return new JsonResponse($local);
-        } catch (\Exception $e) {
+            return new JsonResponse($prioridade);
+        } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), false);
         }
     }
@@ -92,17 +97,17 @@ class AdminLocaisController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/delete/{id}", name="admin_locais_delete")
+     * @Route("/delete/{id}", name="admin_prioridades_delete")
      */
-    public function deleteAction(Request $request, Local $local)
+    public function deleteAction(Request $request, Prioridade $prioridade)
     {
         try {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($local);
+            $em->remove($prioridade);
             $em->flush();
             
             return new JsonResponse();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), false);
         }
     }

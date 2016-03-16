@@ -2,22 +2,8 @@ Novosga\Entity\AtendimentoHistoricoMeta:
     type: entity
     table: historico_atend_meta
     id:
-        name:
-            type: string
-            length: 50
-            nullable: false
-            id: true
         atendimento:
             associationKey: true
-    fields:
-        value:
-            type: string
-            scale: 0
-            length: null
-            unique: false
-            nullable: false
-            precision: 0
-            columnDefinition: text
     manyToOne:
         atendimento:
             targetEntity: Novosga\Entity\AtendimentoHistorico
@@ -29,4 +15,3 @@ Novosga\Entity\AtendimentoHistoricoMeta:
                 atendimento_id:
                     referencedColumnName: id
             orphanRemoval: false
-    lifecycleCallbacks: {  }

@@ -441,19 +441,8 @@ class AtendimentoService extends MetaModelService
             $contador = new Contador();
             $contador->setUnidade($unidade);
             $contador->setServico($servico);
-            $contador->setMinimo(1);
-            $contador->setIncremento(1);
-            $contador->setAtual(1);
             $this->em->persist($contador);
             $this->em->flush();
-            
-            $numeroSenha = $contador->getAtual();
-        } else {
-            $numeroSenha = $contador->getAtual() + $contador->getIncremento();
-            if ($contador->getMaximo() > 0 && $numeroSenha > $contador->getMaximo()) {
-                $numeroSenha = $contador->getMinimo();
-            }
-            $contador->setAtual($numeroSenha);
         }
         
         $atendimento = new Atendimento();
@@ -473,6 +462,18 @@ class AtendimentoService extends MetaModelService
         try {
             $attempts = 5;
             $this->em->lock($contador, LockMode::PESSIMISTIC_WRITE);
+            
+            if (!$contador->getNumero()) {
+                $numeroSenha = $su->getNumeroInicial();
+            } else {
+                $numeroSenha = $contador->getNumero() + $su->getIncremento();
+                if ($su->getNumeroFinal() > 0 && $numeroSenha > $su->getNumeroFinal()) {
+                    $numeroSenha = $su->getNumeroInicial();
+                }
+            }
+            
+            $contador->setNumero($numeroSenha);
+            
             do {
                 try {
                     $atendimento->setDataChegada(new DateTime());

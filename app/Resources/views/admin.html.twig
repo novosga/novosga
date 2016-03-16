@@ -2,7 +2,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-xs-3">
             <aside>
                 <ul class="nav nav-pills nav-stacked">
                     <li {% if tab == 'index' %}class="active"{% endif %}>
@@ -10,9 +10,9 @@
                             {% trans %}Sistema{% endtrans %}
                         </a>
                     </li>
-                    <li {% if tab == 'modulos' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_modulos_index') }}">
-                            {% trans %}Módulos{% endtrans %}
+                    <li {% if tab == 'grupos' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_grupos_index') }}">
+                            {% trans %}Grupos{% endtrans %}
                         </a>
                     </li>
                     <li {% if tab == 'prioridades' %}class="active"{% endif %}>
@@ -25,6 +25,11 @@
                             {% trans %}Locais{% endtrans %}
                         </a>
                     </li>
+                    <li {% if tab == 'modulos' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_modulos_index') }}">
+                            {% trans %}Módulos{% endtrans %}
+                        </a>
+                    </li>
                     <li {% if tab == 'api' %}class="active"{% endif %}>
                         <a href="{{ path('admin_api_index') }}">
                             Web API
@@ -33,7 +38,7 @@
                 </ul>
             </aside>
         </div>
-        <div class="col-md-9">
+        <div class="col-md-10 col-xs-9">
             {% block adminContent %}{% endblock %}
         </div>
     </div>

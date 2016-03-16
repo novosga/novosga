@@ -12,17 +12,17 @@ class PainelServico extends Model implements \JsonSerializable
     /**
      * @var Painel
      */
-    protected $painel;
+    private $painel;
 
     /**
      * @var Servico
      */
-    protected $servico;
+    private $servico;
 
     /**
      * @var Unidade
      */
-    protected $unidade;
+    private $unidade;
 
     public function getPainel()
     {

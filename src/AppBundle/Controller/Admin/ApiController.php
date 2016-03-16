@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use Novosga\Context;
 use Novosga\Http\JsonResponse;
@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @Route("/admin/api")
  */
-class AdminApiController extends Controller
+class ApiController extends Controller
 {
     /**
      *

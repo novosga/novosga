@@ -21,17 +21,17 @@ class Configuracao extends Model implements \JsonSerializable
     /**
      * @ ORM\Id @ ORM\Column(type="string", name="chave", length=150, nullable=false)
      */
-    protected $chave;
+    private $chave;
 
     /**
      * @ ORM\Column(type="text", name="valor", nullable=false)
      */
-    protected $valor;
+    private $valor;
 
     /**
      * @ ORM\Column(type="integer", name="tipo", nullable=false)
      */
-    protected $tipo;
+    private $tipo;
 
     // transient
     private $_valor;

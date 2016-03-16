@@ -12,22 +12,22 @@ namespace Novosga\Entity;
      /**
      * @var int
      */
-    protected $host;
+    private $host;
 
      /**
      * @var string
      */
-    protected $senha;
+    private $senha;
 
     /**
      * @var Unidade
      */
-    protected $unidade;
+    private $unidade;
 
     /**
      * @var PainelServico[]
      */
-    protected $servicos;
+    private $servicos;
 
      public function getHost()
      {

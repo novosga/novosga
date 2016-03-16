@@ -28,6 +28,36 @@ Novosga\Entity\ServicoUnidade:
             unique: false
             nullable: false
             precision: 0
+        prioridade:
+            type: boolean
+            nullable: false
+        numeroInicial:
+            name: numero_inicial
+            type: integer
+            nullable: false
+        numeroFinal:
+            name: numero_final
+            type: integer
+            nullable: true
+        incremento:
+            type: integer
+            nullable: false
+        horaInicio:
+            name: hora_inicio
+            type: time
+            nullable: true
+        horaFim:
+            name: hora_fim
+            type: time
+            nullable: true
+        tempoAtendimento:
+            name: tempo_atendimento
+            type: integer
+            nullable: true
+        maximoAtendimentos:
+            name: max_atendimentos
+            type: integer
+            nullable: true
     manyToOne:
         servico:
             targetEntity: Novosga\Entity\Servico

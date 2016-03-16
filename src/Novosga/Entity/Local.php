@@ -12,7 +12,7 @@ class Local extends SequencialModel
     /**
      * @var string
      */
-    protected $nome;
+    private $nome;
 
     public function __construct()
     {

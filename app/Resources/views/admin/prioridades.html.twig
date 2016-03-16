@@ -19,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="prioridade in ctrl.locais" ng-cloak ng-init="editing=false">
+                    <tr class="ng-cloak" ng-repeat="prioridade in ctrl.locais" ng-init="editing=false">
                         <td>
                             <span ng-hide="editing">[[prioridade.nome]]</span>
                             <input type="text" class="form-control" ng-model="prioridade.nome" ng-show="editing">

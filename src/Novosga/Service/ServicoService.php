@@ -121,9 +121,9 @@ class ServicoService extends MetaModelService
         $conn = $this->em->getConnection();
         $conn->executeUpdate("
             INSERT INTO $uniServTableName
-                (unidade_id, servico_id, local_id, sigla, status, peso)
+                (unidade_id, servico_id, local_id, sigla, status, peso, numero_inicial, incremento)
             SELECT
-                :unidade, id, :local, :sigla, 0, peso
+                :unidade, id, :local, :sigla, 0, peso, 1, 1
             FROM
                 $servTableName
             WHERE

@@ -13,35 +13,78 @@ class ServicoUnidade extends Model implements \JsonSerializable
     /**
      * @var Servico
      */
-    protected $servico;
+    private $servico;
 
     /**
      * @var Unidade
      */
-    protected $unidade;
+    private $unidade;
 
     /**
      * @var Local
      */
-    protected $local;
+    private $local;
 
     /**
      * @var string
      */
-    protected $sigla;
+    private $sigla;
 
     /**
      * @var int
      */
-    protected $status;
+    private $status;
 
     /**
      * @var int
      */
-    protected $peso;
+    private $peso;
 
+    /**
+     * @var int
+     */
+    private $tempoAtendimento;
+
+    /**
+     * @var int
+     */
+    private $horaInicio;
+
+    /**
+     * @var int
+     */
+    private $horaFim;
+
+    /**
+     * @var int
+     */
+    private $maximoAtendimentos;
+
+    /**
+     * @var bool
+     */
+    private $prioridade;
+    
+    /**
+     * @var int
+     */
+    private $incremento;
+
+    /**
+     * @var int
+     */
+    private $numeroInicial;
+
+    /**
+     * @var int
+     */
+    private $numeroFinal;
+    
     public function __construct()
     {
+        $this->prioridade = true;
+        $this->numeroInicial = 1;
+        $this->incremento = 1;
     }
 
     /**
@@ -112,6 +155,94 @@ class ServicoUnidade extends Model implements \JsonSerializable
     {
         return $this->sigla;
     }
+    
+    public function getTempoAtendimento()
+    {
+        return $this->tempoAtendimento;
+    }
+
+    public function getHoraInicio()
+    {
+        return $this->horaInicio;
+    }
+
+    public function getHoraFim()
+    {
+        return $this->horaFim;
+    }
+
+    public function getMaximoAtendimentos()
+    {
+        return $this->maximoAtendimentos;
+    }
+
+    public function getPrioridade()
+    {
+        return $this->prioridade;
+    }
+
+    public function getIncremento()
+    {
+        return $this->incremento;
+    }
+
+    public function getNumeroInicial()
+    {
+        return $this->numeroInicial;
+    }
+
+    public function getNumeroFinal()
+    {
+        return $this->numeroFinal;
+    }
+
+    public function setTempoAtendimento($tempoAtendimento)
+    {
+        $this->tempoAtendimento = $tempoAtendimento;
+        return $this;
+    }
+
+    public function setHoraInicio($horaInicio)
+    {
+        $this->horaInicio = $horaInicio;
+        return $this;
+    }
+
+    public function setHoraFim($horaFim)
+    {
+        $this->horaFim = $horaFim;
+        return $this;
+    }
+
+    public function setMaximoAtendimentos($maximoAtendimentos)
+    {
+        $this->maximoAtendimentos = $maximoAtendimentos;
+        return $this;
+    }
+
+    public function setPrioridade($prioridade)
+    {
+        $this->prioridade = $prioridade;
+        return $this;
+    }
+
+    public function setIncremento($incremento)
+    {
+        $this->incremento = $incremento;
+        return $this;
+    }
+
+    public function setNumeroInicial($numeroInicial)
+    {
+        $this->numeroInicial = $numeroInicial;
+        return $this;
+    }
+
+    public function setNumeroFinal($numeroFinal)
+    {
+        $this->numeroFinal = $numeroFinal;
+        return $this;
+    }
 
     public function toString()
     {
@@ -125,6 +256,7 @@ class ServicoUnidade extends Model implements \JsonSerializable
             'peso'    => $this->getPeso(),
             'local'   => $this->getLocal(),
             'servico' => $this->getServico(),
+            'status'  => !!$this->getStatus(),
         ];
     }
 }

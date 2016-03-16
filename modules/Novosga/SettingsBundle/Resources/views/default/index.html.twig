@@ -1,137 +1,264 @@
 {% extends "base.html.twig" %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/novosgasettings/css/bootstrap-switch.min.css') }}">
-    <script type="text/javascript" src="{{ asset('bundles/novosgasettings/js/bootstrap-switch.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/novosgasettings/js/script.js') }}"></script>
+{% block body %}
+    <div ng-app="settings">
+        <div ng-controller="SettingsController as ctrl">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab-servicos" data-toggle="tab">{% trans %}Serviços{% endtrans %}</a>
+                </li>
+                <li>
+                    <a href="#tab-triagem" data-toggle="tab">{% trans %}Triagem{% endtrans %}</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-servicos" class="tab-pane active">
+                    <table class="table" id="servicos">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1">{% trans %}Sigla{% endtrans %}</th>
+                                <th>{% trans %}Serviço{% endtrans %}</th>
+                                <th class="col-md-2">{% trans %}Local{% endtrans %}</th>
+                                <th class="col-md-1">{% trans %}Peso{% endtrans %}</th>
+                                <th class="col-md-1">{% trans %}Status{% endtrans %}</th>
+                                <th class="col-md-1"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="su in ctrl.servicos">
+                                <td class="sigla">
+                                    <input type="text"
+                                           class="center form-control"
+                                           onkeyup=""
+                                           size="3"
+                                           maxlength="3"
+                                           ng-model="su.sigla"
+                                           ng-change="su.sigla=su.sigla.toUpperCase()"
+                                           ng-disabled="su.status!=1"
+                                           ng-blur="ctrl.updateServico(su)">
+                                </td>
+                                <td class="nome">
+                                    [[su.servico.nome]]
+                                </td>
+                                <td class="local">
+                                    <select class="form-control" ng-model="su.local" ng-disabled="su.status!=1"
+                                            ng-options="local.nome for local in ctrl.locais track by local.id"
+                                            ng-change="ctrl.updateServico(su)">
+                                    </select>
+                                </td>
+                                <td>
+                                    <input
+                                        type="number"
+                                        class="form-control"
+                                        ng-model="su.peso"
+                                        ng-disabled="su.status!=1"
+                                        ng-blur="ctrl.updateServico(su)">
+                                </td>
+                                <td>
+                                    <input
+                                        type="checkbox"
+                                        bs-switch
+                                        switch-on-color="success"
+                                        switch-off-color="default"
+                                        switch-on-text="On"
+                                        switch-off-text="Off"
+                                        ng-model="su.status"
+                                        ng-change="ctrl.updateServico(su)">
+                                </td>
+                                <td>
+                                    <a href="#dialog-servico" data-toggle="modal" class="btn btn-default">
+                                        <i class="fa fa-cog"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="tab-triagem" class="tab-pane">
+                    <form id="form-triagem" role="form" onsubmit="return false">
+                        <fieldset>
+                            <legend>{% trans %}Impressão{% endtrans %}</legend>
+                            <div class="form-group">
+                                <label for="dateFormat" class="form-label">{% trans %}Formato da data e hora{% endtrans %}</label>
+                                <input type="text" id="dateFormat" name="dateFormat" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="mensagem" class="form-label">{% trans %}Mensagem{% endtrans %}</label>
+                                <textarea type="text" id="mensagem" name="mensagem" class="form-control" maxlength="100"
+                                          onchange="App.Unidade.Triagem.salvar()">{{ unidade.mensagemImpressao }}</textarea>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>{% trans %}Contador{% endtrans %}</legend>
+                            <table class="table" id="servicos">
+                                <thead>
+                                    <tr>
+                                        <th>{% trans %}Serviço{% endtrans %}</th>
+                                        <th class="col-md-2">{% trans %}Número atual{% endtrans %}</th>
+                                        <th class="col-md-1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="su in ctrl.servicos">
+                                        <td class="nome">
+                                            [[su.sigla]] - [[su.servico.nome]]
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" disabled
+                                                   value="[[ ctrl.contadores[su.servico.id] ]]">
+                                        </td>
+                                        <td>
+                                            <a href="#" data-toggle="modal" class="btn btn-default" title="{% trans %}Reiniciar contagem{% endtrans %}">
+                                                <i class="fa fa-refresh"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="form-group">
+                                <button class="btn btn-danger" onclick="return App.Unidade.Triagem.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas?{% endtrans %}')">
+                                    <i class="fa fa-warning"></i>
+                                    {% trans %}Reiniciar senhas{% endtrans %}
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+                                
+            <div id="dialog-servico" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        {{ form_start(form) }}
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">{% trans %}Serviço{% endtrans %}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <fieldset>
+                                    <legend>{% trans %}Triagem{% endtrans %}</legend>
+                                    
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {{ form_row(form.maximoAtendimentos) }}
+                                        </div>
+                                        <div class="col-xs-8">
+                                            {{ form_row(form.prioridade, { label: 'Permitir prioridade'|trans }) }}
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {{ form_row(form.numeroInicial) }}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_row(form.numeroFinal) }}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_row(form.incremento) }}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                                
+                                <fieldset>
+                                    <legend>{% trans %}Agendamento{% endtrans %}</legend>
+                                    
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            {{ form_row(form.horaInicio) }}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_row(form.horaFim) }}
+                                        </div>
+                                        <div class="col-xs-4">
+                                            {{ form_row(form.tempoAtendimento) }}
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i>
+                                    {% trans %}Salvar{% endtrans %}
+                                </button>
+                            </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+                                
+            {# reiniciar #}
+            <div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">{% trans %}Configuração{% endtrans %}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
-{% block body %}
-    <div>
-        <ul class="nav nav-tabs">
-            <li class="active">
-                <a href="#tab-servicos" data-toggle="tab">{% trans %}Serviços{% endtrans %}</a>
-            </li>
-            <li>
-                <a href="#tab-triagem" data-toggle="tab">{% trans %}Triagem{% endtrans %}</a>
-            </li>
-            <li>
-                <a href="#tab-triagem" data-toggle="tab">{% trans %}Contador{% endtrans %}</a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div id="tab-servicos" class="tab-pane active">
-                <div class="well well-sm">
-                    {% trans %}As modificações na sigla do serviço são salvas automaticamente ao sair do campo.{% endtrans %}
-                </div>
-                <table class="table" id="servicos">
-                    <thead>
-                        <tr>
-                            <th class="col-md-1">{% trans %}Sigla{% endtrans %}</th>
-                            <th>{% trans %}Serviço{% endtrans %}</th>
-                            <th class="col-md-2">{% trans %}Local{% endtrans %}</th>
-                            <th class="col-md-1">{% trans %}Peso{% endtrans %}</th>
-                            <th class="col-md-1">{% trans %}Status{% endtrans %}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for su in servicos %}
-                        <tr>
-                            <td class="sigla">
-                                <input id="sigla-{{ su.servico.id }}"
-                                       type="text"
-                                       class="servico-{{ su.servico.id }} center form-control"
-                                       value="{{ su.sigla }}"
-                                       data-id="{{ su.servico.id }}"
-                                       onclick="this.select()"
-                                       onkeyup="this.value = this.value.toUpperCase()"
-                                       onblur="App.Unidade.Servicos.change({{ su.servico.id }})"
-                                       size="3"
-                                       maxlength="3"
-                                       {% if su.status != 1 %}disabled="disabled"{% endif %} />
-                            </td>
-                            <td class="nome">
-                                {{ su.servico.nome }}
-                            </td>
-                            <td class="local">
-                                <select id="local-{{ su.servico.id }}"
-                                        class="servico-{{ su.servico.id }} form-control"
-                                        onchange="App.Unidade.Servicos.change({{ su.servico.id }})"
-                                        {% if su.status != 1 %}disabled="disabled"{% endif %}>
-                                    {% for local in locais %}
-                                    <option value="{{ local.id }}" {% if su.local.id == local.id %}selected="selected"{% endif %}>{{ local.nome }}</option>
-                                    {% endfor %}
-                                </select>
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    id="peso-{{ su.servico.id }}"
-                                    class="servico-{{ su.servico.id }} form-control"
-                                    value="{{ su.peso }}"
-                                    onblur="App.Unidade.Servicos.change({{ su.servico.id }})"
-                                    {% if su.status != 1 %}disabled="disabled"{% endif %}
-                                    >
-                            </td>
-                            <td>
-                                <input
-                                    id="btn-enable-{{ su.servico.id }}"
-                                    type="checkbox"
-                                    data-on-color="success"
-                                    data-off-color="default"
-                                    data-on-text="On"
-                                    data-off-text="Off"
-                                    data-id="{{ su.servico.id }}"
-                                    {% if su.status == 1 %}checked{% endif %}>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <div id="tab-triagem" class="tab-pane">
-                <form id="form-triagem" role="form" onsubmit="return false">
-                    <fieldset>
-                        <legend>{% trans %}Impressão{% endtrans %}</legend>
-                        <div class="form-group">
-                            <label for="dateFormat" class="form-label">{% trans %}Formato da data e hora{% endtrans %}</label>
-                            <select type="text" id="dateFormat" name="dateFormat" class="form-control">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="mensagem" class="form-label">{% trans %}Mensagem{% endtrans %}</label>
-                            <textarea type="text" id="mensagem" name="mensagem" class="form-control" maxlength="100"
-                                      onchange="App.Unidade.Triagem.salvar()">{{ unidade.mensagemImpressao }}</textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>{% trans %}Reiniciar senhas{% endtrans %}</label>
-                            <button class="btn btn-danger" onclick="return App.Unidade.Triagem.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas?{% endtrans %}')">
-                                {% trans %}Reiniciar{% endtrans %}
-                            </button>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/novosgasettings/css/bootstrap-switch.min.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/novosgasettings/css/style.css') }}">
+{% endblock %}    
 
-    {# reiniciar #}
-    <div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">{% trans %}Configuração{% endtrans %}</h4>
-                </div>
-                <div class="modal-body">
-                    <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
-                </div>
-            </div>
-        </div>
-    </div>
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/angular.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/angular-bootstrap-switch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/novosgasettings/js/bootstrap-switch.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/novosgasettings/js/script.js') }}"></script>
+    <script>
+        (function() {
+            'use strict'
+            
+            angular.module('settings', ['frapontillo.bootstrap-switch'])
+            .config(function($interpolateProvider){
+                $interpolateProvider.startSymbol('[[').endSymbol(']]');
+            })
+            .controller('SettingsController', function($http) {
+                var ctrl = this;
+        
+                ctrl.locais = {{ locais|json_encode()|raw }};
+        
+                ctrl.loadServicos = function() {
+                    $http.get('{{ path('novosga_settings_servicos') }}')
+                            .success(function (response) {
+                                ctrl.servicos = response.data;
+                            });
+                };
+        
+                ctrl.loadContadores = function() {
+                    $http.get('{{ path('novosga_settings_contadores') }}')
+                            .success(function (response) {
+                                ctrl.contadores = {};
+                                for (var i = 0; i < response.data.length; i++) {
+                                    var contador = response.data[i];
+                                    ctrl.contadores[contador.servico.id] = contador.numero;
+                                }
+                            });
+                };
+        
+                ctrl.updateServico = function(servicoUnidade) {
+                    $http.post('{{ path('novosga_settings_servicos') }}/' + servicoUnidade.servico.id, servicoUnidade);
+                };
+                
+                ctrl.loadServicos();
+                ctrl.loadContadores();
+            });
+            
+        })();
+        
+    </script>
 {% endblock %}

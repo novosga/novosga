@@ -236,6 +236,11 @@
     </div>
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/novosgatriagem/css/style.css') }}">
+{% endblock %}    
+
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/novosgatriagem/js/script.js') }}"></script>

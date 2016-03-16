@@ -12,7 +12,7 @@ class ServicoMeta extends Metadata
     /**
      * @var Servico
      */
-    protected $servico;
+    private $servico;
 
     public function getEntity()
     {

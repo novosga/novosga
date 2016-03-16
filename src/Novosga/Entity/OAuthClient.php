@@ -10,17 +10,17 @@ class OAuthClient implements \JsonSerializable
     /**
      * @var string
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
      */
-    protected $secret;
+    private $secret;
 
     /**
      * @var string
      */
-    protected $redirectUri;
+    private $redirectUri;
 
     public function __construct()
     {

@@ -15,17 +15,22 @@ class ServicoUsuario extends Model
     /**
      * @var Servico
      */
-    protected $servico;
+    private $servico;
 
     /**
      * @var Unidade
      */
-    protected $unidade;
+    private $unidade;
 
     /**
      * @var Usuario
      */
-    protected $usuario;
+    private $usuario;
+
+    /**
+     * @var peso
+     */
+    private $peso;
 
     public function __construct()
     {
@@ -62,5 +67,16 @@ class ServicoUsuario extends Model
     public function setUsuario($usuario)
     {
         $this->usuario = $usuario;
+    }
+    
+    public function getPeso()
+    {
+        return $this->peso;
+    }
+
+    public function setPeso(peso $peso)
+    {
+        $this->peso = $peso;
+        return $this;
     }
 }

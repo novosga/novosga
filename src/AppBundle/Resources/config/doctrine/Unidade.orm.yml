@@ -51,12 +51,4 @@ Novosga\Entity\Unidade:
                 grupo_id:
                     referencedColumnName: id
             orphanRemoval: false
-        contador:
-            targetEntity: Novosga\Entity\Contador
-            cascade:
-                - persist
-            fetch: LAZY
-            mappedBy: unidade
-            joinColumns: {  }
-            orphanRemoval: false
     lifecycleCallbacks: {  }

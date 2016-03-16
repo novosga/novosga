@@ -20,31 +20,15 @@ class AppKernel extends Kernel
             new Mangati\BaseBundle\MangatiBaseBundle(),
         ];
         
-        // TODO: improve modules load (performance and enable/disable module)
-        
-        $searchPath = realpath(__DIR__.'/../modules');
-        $finder     = new Symfony\Component\Finder\Finder();
-        $finder->files()
-               ->in($searchPath)
-               ->name('*Bundle.php');
-
-        foreach ($finder as $file) {
-            $path       = substr($file->getRealpath(), strlen($searchPath) + 1, -4);
-            $parts      = explode('/', $path);
-            $class      = array_pop($parts);
-            $namespace  = implode('\\', $parts);
-            $class      = '\\' . $namespace.'\\'.$class;
-            if (class_exists($class)) {
-                $bundles[]  = new $class();
-            }
-        }
-
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
+        
+        $service = new \AppBundle\Service\ModuleService();
+        $bundles = array_merge($bundles, $service->getModules());
 
         return $bundles;
     }

@@ -79,9 +79,3 @@ App.Unidade = {
     }
     
 };
-
-$(function() {
-   $('#servicos input:checkbox').bootstrapSwitch().on('switchChange.bootstrapSwitch', function(event, state) {
-       App.Unidade.Servicos.toggle(event.target);
-    }); 
-});

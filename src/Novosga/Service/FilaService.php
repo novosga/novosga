@@ -7,6 +7,7 @@ use Novosga\Config\AppConfig;
 use Novosga\Entity\Servico;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
+use Novosga\Entity\Atendimento;
 use Novosga\Entity\ServicoUsuario;
 
 /**
@@ -16,24 +17,6 @@ use Novosga\Entity\ServicoUsuario;
  */
 class FilaService extends ModelService
 {
-    // default queue ordering
-    public static $ordering = [
-        // wait time
-        [
-            'exp'   => '((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))',
-            'order' => 'DESC',
-        ],
-        // priority
-        [
-            'exp'   => 'p.peso',
-            'order' => 'DESC',
-        ],
-        // ticket number
-        [
-            'exp'   => 'e.numeroSenha',
-            'order' => 'ASC',
-        ],
-    ];
 
     /**
      * Retorna a fila de atendimentos do usuario.
@@ -45,10 +28,13 @@ class FilaService extends ModelService
      *
      * @return array
      */
-    public function atendimentos(Unidade $unidade, $servicosUsuario, $tipoAtendimento = 1, $maxResults = 0)
+    public function filaAtendimento(Unidade $unidade, $servicosUsuario, $tipoAtendimento = 1, $maxResults = 0)
     {
+        $usuario = null;
+        
         $ids = [0];
         foreach ($servicosUsuario as $servico) {
+            $usuario = $servico->getUsuario();
             $ids[] = $servico->getServico()->getId();
         }
         
@@ -59,23 +45,30 @@ class FilaService extends ModelService
             $where = "p.peso $s 0";
         }
         
-        $builder = $this->builder()
+        $builder = $this->builder($usuario)
                         ->andWhere('e.status = :status')
                         ->andWhere('su.unidade = :unidade')
                         ->andWhere('s.id IN (:servicos)');
+        
+        $params = [
+            'status' => AtendimentoService::SENHA_EMITIDA,
+            'unidade' => $unidade,
+            'servicos' => $ids
+        ];
+        
+        if ($usuario) {
+            $builder->join(ServicoUsuario::class, 'servicoUsuario', 'WITH', 'servicoUsuario.servico = s AND servicoUsuario.usuario = :usuario');
+            $params['usuario'] = $usuario;
+        }
         
         if (!empty($where)) {
             $builder->andWhere($where);
         }
 
-        $this->applyOrders($builder, $unidade);
+        $this->applyOrders($builder, $unidade, $usuario);
 
         $query = $builder
-                    ->setParameters([
-                        'status' => AtendimentoService::SENHA_EMITIDA,
-                        'unidade' => $unidade,
-                        'servicos' => $ids
-                    ])
+                    ->setParameters($params)
                     ->getQuery();
 
         if ($maxResults > 0) {
@@ -88,29 +81,30 @@ class FilaService extends ModelService
     /**
      * Retorna a fila de espera do serviço na unidade.
      *
-     * @param mixed $unidade
-     * @param mixed $servico
+     * @param Unidade $unidade
+     * @param Servico $servico
+     * @param Usuario $usuario
      *
      * @return array
      */
-    public function filaServico($unidade, $servico)
+    public function filaServico(Unidade $unidade, Servico $servico)
     {
-        if (!($unidade instanceof Unidade)) {
-            $unidade = $this->em->find('Novosga\Entity\Unidade', $unidade);
-        }
-
-        if (!($servico instanceof Servico)) {
-            $servico = $this->em->find('Novosga\Entity\Servico', $servico);
-        }
-
-        $builder = $this->builder()
-                ->where('e.status = :status AND su.unidade = :unidade AND su.servico = :servico');
-
+        $builder = $this->builder();
+        
+        $params = [
+            'status' => AtendimentoService::SENHA_EMITIDA,
+            'unidade' => $unidade,
+            'servico' => $servico
+        ];
+        
+        $builder
+                ->where('e.status = :status')
+                ->andWhere('su.unidade = :unidade')
+                ->andWhere('su.servico = :servico');
+        
         $this->applyOrders($builder, $unidade);
 
-        $builder->setParameter('status', AtendimentoService::SENHA_EMITIDA);
-        $builder->setParameter('unidade', $unidade);
-        $builder->setParameter('servico', $servico);
+        $builder->setParameters($params);
 
         return $builder->getQuery()->getResult();
     }
@@ -118,17 +112,17 @@ class FilaService extends ModelService
     /**
      * @return QueryBuilder
      */
-    public function builder()
+    public function builder(Usuario $usuario = null)
     {
-        return $this->em
+        $qb = $this->em
             ->createQueryBuilder()
             ->select('e')
-            ->from('Novosga\Entity\Atendimento', 'e')
+            ->from(Atendimento::class, 'e')
             ->join('e.prioridade', 'p')
             ->join('e.servicoUnidade', 'su')
-            ->join('su.servico', 's')
-            ->join('e.usuarioTriagem', 'ut')
-            ->leftJoin('e.usuario', 'u');
+            ->join('su.servico', 's');
+        
+        return $qb;
     }
 
     /**
@@ -136,14 +130,33 @@ class FilaService extends ModelService
      *
      * @param QueryBuilder $builder
      */
-    public function applyOrders(QueryBuilder $builder, Unidade $unidade)
+    public function applyOrders(QueryBuilder $builder, Unidade $unidade, Usuario $usuario = null)
     {
         $ordering = AppConfig::getInstance()->get('queue.ordering');
         if (is_callable($ordering)) {
-            $ordering = $ordering($unidade);
+            $ordering = $ordering($unidade, $usuario);
         }
         if (!$ordering || empty($ordering)) {
-            $ordering = self::$ordering;
+            $ordering = [
+                // priority
+                [
+                    'exp'   => 'p.peso',
+                    'order' => 'DESC',
+                ]
+            ];
+            if ($usuario) {
+                // peso servico x usuario
+                $ordering[] = [
+                    'exp'   => 'servicoUsuario.peso',
+                    'order' => 'ASC',
+                ];
+            }
+            
+            // ticket number
+            $ordering[] = [
+                'exp'   => 'e.numeroSenha',
+                'order' => 'ASC',
+            ];
         }
         foreach ($ordering as $item) {
             if (!isset($item['exp'])) {

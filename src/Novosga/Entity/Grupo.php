@@ -13,17 +13,17 @@ class Grupo extends TreeModel
     /**
      * @var string
      */
-    protected $nome;
+    private $nome;
 
     /**
      * @var string
      */
-    protected $descricao;
+    private $descricao;
 
     /**
      * @var Unidade
      */
-    protected $unidade;
+    private $unidade;
 
     public function setNome($nome)
     {

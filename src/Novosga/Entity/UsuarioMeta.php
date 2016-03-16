@@ -12,7 +12,7 @@ class UsuarioMeta extends Metadata
     /**
      * @var Usuario
      */
-    protected $usuario;
+    private $usuario;
 
     public function getEntity()
     {

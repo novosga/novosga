@@ -28,13 +28,3 @@ Novosga\Entity\Cargo:
               inverseJoinColumns:
                 modulo_id:
                   referencedColumnName: id
-    oneToMany:
-        permissoes:
-            targetEntity: Novosga\Entity\Permissao
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: cargo
-            inversedBy: null
-            orphanRemoval: false
-            orderBy: null
-    lifecycleCallbacks: {  }

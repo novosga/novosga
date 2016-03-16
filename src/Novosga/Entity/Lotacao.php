@@ -12,17 +12,17 @@ class Lotacao extends Model implements \JsonSerializable
     /**
      * @var Usuario
      */
-    protected $usuario;
+    private $usuario;
 
     /**
      * @var Grupo
      */
-    protected $grupo;
+    private $grupo;
 
     /**
      * @var Cargo
      */
-    protected $cargo;
+    private $cargo;
 
     public function __construct()
     {

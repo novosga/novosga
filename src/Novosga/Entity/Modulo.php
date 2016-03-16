@@ -13,28 +13,28 @@ namespace Novosga\Entity;
     /**
      * @var string
      */
-    protected $chave;
+    private $chave;
 
     /**
      * @var string
      */
-    protected $nome;
+    private $nome;
 
     /**
      * @var string
      */
-    protected $descricao;
+    private $descricao;
 
     /**
      * @var int
      */
-    protected $status;
+    private $status;
 
     // transient
 
-    protected $dir;
-     protected $path;
-     protected $realPath;
+    private $dir;
+     private $path;
+     private $realPath;
 
     /**
      * Define a chave do Modulo.

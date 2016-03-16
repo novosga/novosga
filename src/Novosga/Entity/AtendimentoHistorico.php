@@ -16,7 +16,7 @@ class AtendimentoHistorico extends AbstractAtendimento
     /**
      * @var AtendimentoCodificadoHistorico[]
      */
-    protected $codificados;
+    private $codificados;
 
     public function __construct()
     {

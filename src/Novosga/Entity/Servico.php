@@ -12,37 +12,37 @@ class Servico extends SequencialModel
     /**
      * @var string
      */
-    protected $nome;
+    private $nome;
 
     /**
      * @var string
      */
-    protected $descricao;
+    private $descricao;
 
     /**
      * @var int
      */
-    protected $status;
+    private $status;
 
     /**
      * @var int
      */
-    protected $peso;
+    private $peso;
 
     /**
      * @var Servico
      */
-    protected $mestre;
+    private $mestre;
 
     /**
      * @var Servico
      */
-    protected $subServicos;
+    private $subServicos;
 
     /**
      * @var ServicoUnidade
      */
-    protected $servicosUnidade;
+    private $servicosUnidade;
 
     public function __construct()
     {

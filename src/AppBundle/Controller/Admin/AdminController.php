@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use Novosga\App;
 use Novosga\Auth\AuthenticationProvider;
@@ -41,8 +41,6 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
         return $this->render('admin/index.html.twig', [
             'tab' => 'index',
         ]);

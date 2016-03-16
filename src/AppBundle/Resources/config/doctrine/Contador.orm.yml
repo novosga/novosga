@@ -7,23 +7,13 @@ Novosga\Entity\Contador:
         servico:
             associationKey: true
     fields:
-        minimo:
-            type: integer
-            nullable: false
-        maximo:
+        numero:
             type: integer
             nullable: true
-        incremento:
-            type: integer
-            nullable: false
-        atual:
-            type: integer
-            nullable: false
     oneToOne:
         unidade:
             targetEntity: Novosga\Entity\Unidade
             fetch: LAZY
-            inversedBy: contador
             joinColumns:
                 unidade_id:
                     referencedColumnName: id

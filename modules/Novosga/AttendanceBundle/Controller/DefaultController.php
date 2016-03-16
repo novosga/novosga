@@ -132,7 +132,7 @@ class DefaultController extends Controller
         if ($unidade && $usuario) {
             // fila de atendimento do atendente atual
             $response->data = [
-                'atendimentos' => $filaService->atendimentos($unidade, $servicos),
+                'atendimentos' => $filaService->filaAtendimento($unidade, $servicos),
                 'usuario'      => [
                     'numeroLocal'     => $this->getNumeroLocalAtendimento($usuario),
                     'tipoAtendimento' => $this->getTipoAtendimento($usuario),
@@ -184,7 +184,7 @@ class DefaultController extends Controller
                 $servicos = $usuarioService->servicos($usuario, $unidade);
                 
                 do {
-                    $atendimentos = $filaService->atendimentos($unidade, $servicos, 1, 1);
+                    $atendimentos = $filaService->filaAtendimento($unidade, $servicos, 1, 1);
                     if (count($atendimentos)) {
                         $proximo = $atendimentos[0];
                         $success = $atendimentoService->chamar($proximo, $usuario, $local);

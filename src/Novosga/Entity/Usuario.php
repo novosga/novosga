@@ -17,54 +17,54 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
     /**
      * @var string
      */
-    protected $login;
+    private $login;
 
     /**
      * @var string
      */
-    protected $nome;
+    private $nome;
 
     /**
      * @var string
      */
-    protected $sobrenome;
+    private $sobrenome;
 
     /**
      * @var string
      */
-    protected $senha;
+    private $senha;
 
     /**
      * @var bool
      */
-    protected $status;
+    private $status;
 
     /**
      * @var DateTime
      */
-    protected $ultimoAcesso;
+    private $ultimoAcesso;
 
     /**
      * @var string
      */
-    protected $sessionId;
+    private $sessionId;
 
     /**
      * @var Lotacao[]
      */
-    protected $lotacoes;
+    private $lotacoes;
 
     /**
      * @var string
      */
-    protected $algorithm;
+    private $algorithm;
 
     /**
      * @var string
      */
-    protected $salt;
+    private $salt;
 
-    protected $roles = [];
+    private $roles = [];
 
     public function __construct()
     {

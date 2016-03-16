@@ -12,37 +12,32 @@ class Unidade extends SequencialModel
     /**
      * @var string
      */
-    protected $codigo;
+    private $codigo;
 
     /**
      * @var string
      */
-    protected $nome;
+    private $nome;
 
     /**
      * @var bool
      */
-    protected $status;
+    private $status;
 
     /**
      * @var Grupo
      */
-    protected $grupo;
+    private $grupo;
 
     /**
      * @var bool
      */
-    protected $statusImpressao;
+    private $statusImpressao;
 
     /**
      * @var string
      */
-    protected $mensagemImpressao;
-
-    /**
-     * @var Contador
-     */
-    protected $contador;
+    private $mensagemImpressao;
 
     public function __construct()
     {
@@ -109,18 +104,6 @@ class Unidade extends SequencialModel
     public function setMensagemImpressao($mensagemImpressao)
     {
         $this->mensagemImpressao = $mensagemImpressao;
-    }
-
-    public function getContador()
-    {
-        return $this->contador;
-    }
-
-    public function setContador(Contador $contador)
-    {
-        $this->contador = $contador;
-
-        return $this;
     }
 
     public function toString()

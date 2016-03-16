@@ -12,7 +12,7 @@ class UnidadeMeta extends Metadata
     /**
      * @var Unidade
      */
-    protected $unidade;
+    private $unidade;
 
     public function getEntity()
     {

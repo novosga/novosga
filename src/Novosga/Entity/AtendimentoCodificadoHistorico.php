@@ -13,7 +13,7 @@ class AtendimentoCodificadoHistorico extends AbstractAtendimentoCodificado
     /**
      * @var AtendimentoHistorico
      */
-    protected $atendimento;
+    private $atendimento;
 
     public function getAtendimento()
     {

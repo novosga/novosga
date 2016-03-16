@@ -13,22 +13,17 @@ class Cargo extends SequencialModel
     /**
      * @var string
      */
-    protected $nome;
+    private $nome;
 
     /**
      * @var string
      */
-    protected $descricao;
+    private $descricao;
 
     /**
      * @var Modulo[]
      */
-    protected $modulos;
-
-    /**
-     * @var Permissao[]
-     */
-    protected $permissoes;
+    private $modulos;
 
     /**
      * Define o nome do Cargo.
@@ -70,28 +65,6 @@ class Cargo extends SequencialModel
         return $this->nome;
     }
 
-    /**
-     * Adicinoa permissão para acessar módulo.
-     *
-     * @param $pm
-     *
-     * @return none
-     */
-    public function addPermissao(Permissao $pm)
-    {
-        $this->permissoes[] = $pm;
-    }
-
-    /**
-     * Retorna as permissões do cargo.
-     *
-     * @return $permissoes array
-     */
-    public function getPermissoes()
-    {
-        return $this->permissoes;
-    }
-    
     public function getModulos()
     {
         return $this->modulos;
@@ -103,24 +76,6 @@ class Cargo extends SequencialModel
         return $this;
     }
     
-    /**
-     * Verfica se tem permissão para acessar módulo.
-     *
-     * @param $modulo
-     *
-     * @return bool
-     */
-    public function hasPermissao(Modulo $modulo)
-    {
-        foreach ($this->getPermissoes() as $permissao) {
-            if ($permissao->getModulo()->getId() == $modulo->getId()) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public function toString()
     {
         return $this->nome;

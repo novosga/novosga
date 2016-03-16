@@ -109,7 +109,7 @@ abstract class TreeModel extends SequencialModel
             'left' => $this->getLeft(),
             'right' => $this->getRight(),
             'level' => $this->getLevel(),
-            'parent' => $this->getParent(),
+            'parent' => $this->getParent() ? $this->getParent()->getId() : null,
         ]);
     }
 }

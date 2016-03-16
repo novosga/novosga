@@ -26,12 +26,12 @@ abstract class AbstractAtendimento extends SequencialModel
     /**
      * @var ServicoUnidade
      */
-    protected $servicoUnidade;
+    private $servicoUnidade;
 
     /**
      * @var Prioridade
      */
-    protected $prioridade;
+    private $prioridade;
 
     /**
      * @var Usuario
@@ -61,12 +61,12 @@ abstract class AbstractAtendimento extends SequencialModel
     /**
      * @var \DateTime
      */
-    protected $dataInicio;
+    private $dataInicio;
 
     /**
      * @var \DateTime
      */
-    protected $dataFim;
+    private $dataFim;
 
     /**
      * @var int
@@ -99,8 +99,8 @@ abstract class AbstractAtendimento extends SequencialModel
     protected $pai;
 
     // transient
-    protected $cliente;
-    protected $senha;
+    private $cliente;
+    private $senha;
 
     public function getUnidade()
     {

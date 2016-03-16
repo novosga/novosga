@@ -12,22 +12,22 @@ class Prioridade extends SequencialModel
     /**
      * @var string
      */
-    protected $nome;
+    private $nome;
 
     /**
      * @var string
      */
-    protected $descricao;
+    private $descricao;
 
     /**
      * @var int
      */
-    protected $peso;
+    private $peso;
 
     /**
      * @var int
      */
-    protected $status;
+    private $status;
 
     public function __construct()
     {

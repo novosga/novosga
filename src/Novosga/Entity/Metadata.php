@@ -12,12 +12,12 @@ abstract class Metadata extends Model implements \JsonSerializable
     /**
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @var string
      */
-    protected $value;
+    private $value;
 
     public function __construct()
     {

@@ -12,39 +12,18 @@ class Contador extends Model implements \JsonSerializable
     /**
      * @var Unidade
      */
-    protected $unidade;
+    private $unidade;
 
     /**
      * @var Servico
      */
-    protected $servico;
+    private $servico;
 
     /**
      * @var int
      */
-    private $incremento;
+    private $numero;
 
-    /**
-     * @var int
-     */
-    private $minimo;
-
-    /**
-     * @var int
-     */
-    private $maximo;
-
-    /**
-     * @var int
-     */
-    private $atual;
-
-    public function __construct()
-    {
-        $this->minimo = 1;
-        $this->incremento = 1;
-        $this->atual = $this->minimo;
-    }
 
     /**
      * Get the value of Unidade
@@ -95,85 +74,13 @@ class Contador extends Model implements \JsonSerializable
     }
 
     /**
-     * Get the value of Incremento
-     *
-     * @return int
-     */
-    public function getIncremento()
-    {
-        return $this->incremento;
-    }
-
-    /**
-     * Set the value of Incremento
-     *
-     * @param int incremento
-     *
-     * @return self
-     */
-    public function setIncremento($incremento)
-    {
-        $this->incremento = $incremento;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Minimo
-     *
-     * @return int
-     */
-    public function getMinimo()
-    {
-        return $this->minimo;
-    }
-
-    /**
-     * Set the value of Minimo
-     *
-     * @param int minimo
-     *
-     * @return self
-     */
-    public function setMinimo($minimo)
-    {
-        $this->minimo = $minimo;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Maximo
-     *
-     * @return int
-     */
-    public function getMaximo()
-    {
-        return $this->maximo;
-    }
-
-    /**
-     * Set the value of Maximo
-     *
-     * @param int maximo
-     *
-     * @return self
-     */
-    public function setMaximo($maximo)
-    {
-        $this->maximo = $maximo;
-
-        return $this;
-    }
-
-    /**
      * Get the value of Atual
      *
      * @return int
      */
-    public function getAtual()
+    public function getNumero()
     {
-        return $this->atual;
+        return $this->numero;
     }
 
     /**
@@ -183,9 +90,9 @@ class Contador extends Model implements \JsonSerializable
      *
      * @return self
      */
-    public function setAtual($atual)
+    public function setNumero($numero)
     {
-        $this->atual = $atual;
+        $this->numero = $numero;
 
         return $this;
     }
@@ -193,10 +100,8 @@ class Contador extends Model implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'minimo' => $this->getMinimo(),
-            'maximo' => $this->getMaximo(),
-            'incremento' => $this->getIncremento(),
-            'atual' => $this->getAtual(),
+            'numero' => $this->getNumero(),
+            'servico' => $this->getServico()
         ];
     }
 

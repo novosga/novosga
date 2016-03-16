@@ -59,14 +59,8 @@ class DefaultController extends Controller
      */
     public function menuAction(Request $request)
     {
-        $kernel = $this->container->get('kernel');
-        $modules = [];
-
-        foreach ($kernel->getBundles() as $bundle) {
-            if ($bundle instanceof \Novosga\Module\ModuleInterface) {
-                $modules[] = $bundle;
-            }
-        }
+        $service = new \AppBundle\Service\ModuleService();
+        $modules = $service->getModules();
 
         return $this->render('default/include/menu.html.twig', [
             'modules' => $modules,

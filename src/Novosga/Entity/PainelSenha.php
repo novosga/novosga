@@ -12,57 +12,57 @@ namespace Novosga\Entity;
      /**
      * @var Servico
      */
-    protected $servico;
+    private $servico;
 
     /**
      * @var Unidade
      */
-    protected $unidade;
+    private $unidade;
 
     /**
      * @var int
      */
-    protected $numeroSenha;
+    private $numeroSenha;
 
     /**
      * @var string
      */
-    protected $siglaSenha;
+    private $siglaSenha;
 
     /**
      * @var string
      */
-    protected $mensagem;
+    private $mensagem;
 
     /**
      * @var string
      */
-    protected $local;
+    private $local;
 
     /**
      * @var int
      */
-    protected $numeroLocal;
+    private $numeroLocal;
 
     /**
      * @var int
      */
-    protected $peso;
+    private $peso;
 
     /**
      * @var string
      */
-    protected $prioridade;
+    private $prioridade;
 
     /**
      * @var string
      */
-    protected $nomeCliente;
+    private $nomeCliente;
 
     /**
      * @var string
      */
-    protected $documentoCliente;
+    private $documentoCliente;
 
      public function getServico()
      {

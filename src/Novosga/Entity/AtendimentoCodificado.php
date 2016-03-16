@@ -13,7 +13,7 @@ class AtendimentoCodificado extends AbstractAtendimentoCodificado
     /**
      * @var Atendimento
      */
-    protected $atendimento;
+    private $atendimento;
 
     public function getAtendimento()
     {

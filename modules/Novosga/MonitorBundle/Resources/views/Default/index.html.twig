@@ -185,6 +185,11 @@
     <div id="sga-clock" title="{% trans %}Data e hora no servidor{% endtrans %}}"></div>
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/novosgamonitor/css/style.css') }}">
+{% endblock %}    
+
 {% block javascripts %}
     {{ parent() }}
     <script type="text/javascript" src="{{ asset('bundles/novosgamonitor/js/script.js') }}"></script>

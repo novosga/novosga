@@ -6,6 +6,10 @@ Novosga\Entity\ServicoUsuario:
             associationKey: true
         usuario:
             associationKey: true
+    fields:
+        peso:
+            type: smallint
+            nullable: false
     manyToOne:
         servico:
             targetEntity: Novosga\Entity\Servico

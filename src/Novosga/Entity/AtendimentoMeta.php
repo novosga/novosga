@@ -12,7 +12,7 @@ class AtendimentoMeta extends AbstractAtendimentoMeta
     /**
      * @var Atendimento
      */
-    protected $atendimento;
+    private $atendimento;
 
     public function getAtendimento()
     {

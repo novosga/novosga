@@ -45,15 +45,99 @@ class DefaultController extends Controller
             $local = $locais[0];
             $service->updateUnidade($unidade, $local, self::DEFAULT_SIGLA);
         }
-
-        // todos servicos da unidade
-        $servicos = $service->servicosUnidade($unidade);
         
+        $form = $this->createForm(\AppBundle\Form\ServicoUnidadeType::class, new \Novosga\Entity\ServicoUnidade());
+
         return $this->render('NovosgaSettingsBundle:default:index.html.twig', [
             'unidade' => $unidade,
-            'servicos' => $servicos,
-            'locais' => $locais
+            'locais' => $locais,
+            'form' => $form->createView()
         ]);
+    }
+    
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/servicos", name="novosga_settings_servicos")
+     * @Method("GET")
+     */
+    public function servicosAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $unidade = $request->getSession()->get('unidade');
+        
+        $service = new ServicoService($em);
+        $servicos = $service->servicosUnidade($unidade);
+        
+        return new JsonResponse($servicos);
+    }
+    
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/contadores", name="novosga_settings_contadores")
+     * @Method("GET")
+     */
+    public function contadoresAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $unidade = $request->getSession()->get('unidade');
+        
+        $contadores = $em
+            ->createQueryBuilder()
+            ->select('e')
+            ->from(\Novosga\Entity\Contador::class, 'e')
+            ->join('e.servico', 's')
+            ->join(\Novosga\Entity\ServicoUnidade::class, 'su', 'WITH', 'su.servico = s')
+            ->where('su.unidade = :unidade')
+            ->setParameter('unidade', $unidade)
+            ->getQuery()
+            ->getResult();
+        
+        return new JsonResponse($contadores);
+    }
+    
+    /**
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/servicos/{id}", name="novosga_settings_servicos_update")
+     * @Method("POST")
+     */
+    public function updateServicoAction(Request $request, $id)
+    {
+        $json = $request->getContent();
+        $data = json_decode($json);
+        
+        $em = $this->getDoctrine()->getManager();
+        $unidade = $request->getSession()->get('unidade');
+        
+        $service = new ServicoService($em);
+        $su = $service->servicoUnidade($unidade, $id);
+        
+        if ($data->sigla) {
+            $su->setSigla($data->sigla);
+        }
+        
+        if ($data->local) {
+            $local = $em->find(Local::class, (int) $data->local->id);
+            if ($local) {
+                $su->setLocal($local);
+            }
+        }
+        
+        if ($data->peso) {
+            $su->setPeso(max(1, $data->peso));
+        }
+        
+        $su->setStatus(!!$data->status);
+        
+        $em->merge($su);
+        $em->flush();
+        
+        return new JsonResponse($su);
     }
 
     /**
@@ -119,45 +203,6 @@ class DefaultController extends Controller
             $em->merge($su);
             $em->flush();
 
-            $response->success = true;
-        } catch (Exception $e) {
-            $response->message = $e->getMessage();
-        }
-
-        return $response;
-    }
-
-    /**
-     * @param Request $request
-     * @return Response
-     * 
-     * @Route("/update_servico", name="novosga_settings_update_servico")
-     * @Method("POST")
-     */
-    public function updateServicoAction(Request $request)
-    {
-        $response = new JsonResponse();
-        try {
-            $em = $this->getDoctrine()->getManager();
-            
-            $id = (int) $request->get('id');
-            $unidade = $request->getSession()->get('unidade');
-
-            $service = new ServicoService($em);
-            $su = $service->servicoUnidade($unidade, $id);
-
-            $sigla = $request->get('sigla');
-            $peso = (int) $request->get('peso');
-            $peso = max(1, $peso);
-            $local = $em->find(Local::class, (int) $request->get('local'));
-
-            $su->setSigla(strtoupper($sigla));
-            $su->setPeso($peso);
-            if ($local) {
-                $su->setLocal($local);
-            }
-            $em->merge($su);
-            $em->flush();
             $response->success = true;
         } catch (Exception $e) {
             $response->message = $e->getMessage();

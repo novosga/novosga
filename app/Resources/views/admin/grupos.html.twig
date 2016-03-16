@@ -1,0 +1,89 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <h1>
+        {% trans %}Grupos{% endtrans %}
+        <small>
+            {% trans %}Cadastro de grupos de acesso{% endtrans %}
+        </small>
+    </h1>
+        
+    <div ng-app="gropus">
+        <div class="row" ng-controller="GroupsController as ctrl">
+            <div class="col-md-8">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-repeat="group in ctrl.groups"
+                        style="padding-left: [[ (group.level + 1) * 20 ]]px;">
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                        <a href="javascript:void(0)" ng-click="ctrl.edit(group)">[[group.nome]]</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    {{ form_start(form) }}
+                        <input id="group-id" type="hidden" name="id" value="[[ctrl.group.id]]">
+
+                        {{ form_row(form.parent, { label: 'Pai', attr: { 'ng-model': 'ctrl.group.parent', 'ng-disabled': 'ctrl.group.id==1' } }) }}
+
+                        {{ form_row(form.nome, { label: 'Nome', attr: { 'ng-model': 'ctrl.group.nome' } }) }}
+
+                        {{ form_row(form.descricao, { label: 'Descrição', attr: { 'ng-model': 'ctrl.group.descricao' } }) }}
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save"></i>
+                            {% trans %}Salvar{% endtrans %}
+                        </button>
+
+                        <button type="button" class="btn btn-default pull-right" ng-click="ctrl.new()">
+                            <i class="fa fa-plus"></i>
+                            {% trans %}Novo{% endtrans %}
+                        </button>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link type="text/css" rel="stylesheet" href="{{ asset('bundles/novosgagroups/css/style.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/angular.min.js') }}"></script>
+{#    <script type="text/javascript" src="{{ asset('bundles/novosgagroups/js/script.js') }}"></script>#}
+    <script>
+        angular.module('gropus', [])
+        .config(function($interpolateProvider){
+            $interpolateProvider.startSymbol('[[').endSymbol(']]');
+        })
+        .controller('GroupsController', function($http) {
+            var ctrl = this;
+            ctrl.groups = [];
+    
+            ctrl.load = function() {
+                $http.get('{{ path('admin_grupos_list') }}')
+                    .success(function(response) {
+                        ctrl.groups = response.data;
+                    });
+            };
+    
+            ctrl.edit = function(group) {
+                ctrl.group = group;
+                if (ctrl.group.parent) {
+                    ctrl.group.parent += '';
+                }
+            };
+            
+            ctrl.new = function() {
+                ctrl.group = {};
+            }
+            
+            ctrl.load();
+        })
+    </script>
+{% endblock %}

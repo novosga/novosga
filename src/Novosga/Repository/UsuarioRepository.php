@@ -4,8 +4,8 @@ namespace Novosga\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Novosga\Entity\Lotacao;
-use Novosga\Entity\Permissao;
 use Novosga\Entity\Usuario;
+use Novosga\Entity\Cargo;
 use Novosga\Service\UsuarioService;
 use Novosga\Entity\Unidade;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -35,9 +35,9 @@ class UsuarioRepository extends EntityRepository implements UserLoaderInterface,
                 throw new Exception(_('Não existe lotação para o usuário atual na unidade informada.'));
             }
 
-            $permissoes = $em->getRepository(Permissao::class)->findByCargo($lotacao->getCargo());
-            foreach ($permissoes as $permissao) {
-                $chave = $permissao->getModulo()->getChave();
+            $permissoes = $lotacao->getCargo()->getModulos();
+            foreach ($permissoes as $modulo) {
+                $chave = $modulo->getChave();
                 $usuario->addRole('ROLE_' . strtoupper(str_replace('.', '_', $chave)));
             }
 

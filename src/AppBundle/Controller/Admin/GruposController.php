@@ -1,6 +1,6 @@
 <?php
 
-namespace Novosga\GroupsBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use Novosga\Entity\Grupo as Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -10,12 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Novosga\Entity\TreeModel;
 
 /**
- * DefaultController
+ * GruposController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  * 
+ * @Route("/admin/groups")
+ * 
  */
-class DefaultController extends Controller
+class GruposController extends Controller
 {
 
     /**
@@ -23,23 +25,33 @@ class DefaultController extends Controller
      * @param Request $request
      * @return Response
      * 
-     * @Route("/", name="novosga_groups_index")
+     * @Route("/", name="admin_grupos_index")
      */
     public function indexAction(Request $request)
     {
+        $form = $this->getForm(new Entity);
+        
+        return $this->render('admin/grupos.html.twig', [
+            'tab' => 'grupos',
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @return Response
+     * 
+     * @Route("/list", name="admin_grupos_list")
+     */
+    public function listAction(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
-        
-        $form = $this->getForm();
-        
-        $tree = $em
+        $groups = $em
             ->getRepository(Entity::class)
             ->findAll();
         
-        
-        return $this->render('NovosgaGroupsBundle:Default:index.html.twig', [
-            'tree' => $tree,
-            'form' => $form->createView()
-        ]);
+        return new \Novosga\Http\JsonResponse($groups);
     }
     
     /**
@@ -47,17 +59,29 @@ class DefaultController extends Controller
      * @param Request $request
      * @return Response
      * 
-     * @Route("/edit", name="novosga_groups_edit")
+     * @Route("/edit", name="admin_grupos_edit")
      */
     public function editAction(Request $request)
     {
-        $form = $this->getForm();
+        $em = $this->getDoctrine()->getManager();
+        
+        $id = (int) $request->get('id');
+        $entity = $em->find(Entity::class, $id);
+        if (!$entity) {
+            $entity = new Entity;
+        }
+        
+        $form = $this->getForm($entity);
         $form->handleRequest($request);
         
         if ($form->isValid()) {
-            $entity = $form->getData();
             $parent = $entity->getParent();
-            $entity->setLevel($parent->getLevel() + 1);
+            if ($parent) {
+                $level = $parent->getLevel() + 1;
+            } else {
+                $level = 0;
+            }
+            $entity->setLevel($level);
             
             if ($entity->getId()) {
                 $this->merge($entity);
@@ -66,13 +90,13 @@ class DefaultController extends Controller
             }
         }
         
-        return $this->redirectToRoute('novosga_groups_index');
+        return $this->redirectToRoute('admin_grupos_index');
     }
     
-    private function getForm()
+    private function getForm($entity)
     {
-        $form = $this->createForm(\AppBundle\Form\GrupoType::class, new Entity, [
-            'action' => $this->generateUrl('novosga_groups_edit')
+        $form = $this->createForm(\AppBundle\Form\GrupoType::class, $entity, [
+            'action' => $this->generateUrl('admin_grupos_edit')
         ]);
         
         return $form;
@@ -117,19 +141,14 @@ class DefaultController extends Controller
             if ($model->getLeft() > 1) {
                 $query = $em->createQuery("
                     SELECT pai
-                    FROM $className no
-                    JOIN $className pai
+                    FROM $className pai
                     WHERE
-                        no.left > pai.left AND
-                        no.right < pai.right AND
-                        no.id = :id
-                    ORDER BY
-                        pai.left DESC
+                        pai.id IN (SELECT p2.id FROM $className no JOIN no.parent p2 WHERE no.id = :id)
                 ");
                 $query->setParameter('id', $model->getId());
                 $query->setMaxResults(1);
                 $paiAtual = $query->getSingleResult();
-                $novoPai = $model->getParent($em);
+                $novoPai = $model->getParent();
 
                 // se mudou o pai
                 if ($paiAtual->getId() != $novoPai->getId()) {
@@ -189,5 +208,24 @@ class DefaultController extends Controller
             $em->rollback();
             throw new Exception(sprintf(_('Erro ao atualizar o registro: %s'), $e->getMessage()));
         }
+    }
+    
+    /**
+     * Atualiza os niveis dos nós filhos da arvore.
+     */
+    private function updateLevels(TreeModel $model, $delta)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $className = get_class($model);
+        // atualizando
+        $query = $em->createQuery("
+            UPDATE $className e
+            SET e.level = e.level + :delta
+            WHERE e.left > :left AND e.right < :right
+        ");
+        $query->setParameter('left', $model->getLeft());
+        $query->setParameter('right', $model->getRight());
+        $query->setParameter('delta', $delta);
+        $query->execute();
     }
 }
