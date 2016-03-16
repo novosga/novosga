@@ -31,11 +31,7 @@ use Novosga\Entity\Prioridade;
      */
     public function setSigla($sigla)
     {
-        if (is_string($sigla) && strlen($sigla) <= 3) {
-            $this->sigla = $sigla;
-        } else {
-            throw new \Exception(_('A sigla da senha deve ser um char'));
-        }
+        $this->sigla = $sigla;
     }
 
     /**
@@ -55,11 +51,7 @@ use Novosga\Entity\Prioridade;
      */
     public function setNumero($numero)
     {
-        if (is_int($numero) && $numero > 0) {
-            $this->numero = $numero;
-        } else {
-            throw new \Exception(_('O numero da senha deve ser um inteiro maior que zero'));
-        }
+        $this->numero = $numero;
     }
 
     /**
