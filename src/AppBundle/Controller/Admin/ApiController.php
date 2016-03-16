@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * AdminApiController
+ * ApiController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  *

@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * AdminModulosController
+ * ModulosController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  *

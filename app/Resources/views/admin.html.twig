@@ -15,6 +15,11 @@
                             {% trans %}Grupos{% endtrans %}
                         </a>
                     </li>
+                    <li {% if tab == 'unidades' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_unidades_index') }}">
+                            {% trans %}Unidades{% endtrans %}
+                        </a>
+                    </li>
                     <li {% if tab == 'prioridades' %}class="active"{% endif %}>
                         <a href="{{ path('admin_prioridades_index') }}">
                             {% trans %}Prioridades{% endtrans %}

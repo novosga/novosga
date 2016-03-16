@@ -1,0 +1,102 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <h1>
+        {% trans %}Unidades{% endtrans %}
+        <small>
+            {% trans %}Cadastro de unidades de atendimento{% endtrans %}
+        </small>
+    </h1>
+    
+    <div ng-app="admin">
+        <div ng-controller="UnidadesController as ctrl">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Nome{% endtrans %}</th>
+                        <th class="col-md-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="ng-cloak" ng-repeat="unidade in ctrl.locais" ng-init="editing=false">
+                        <td>
+                            <span ng-hide="editing">[[unidade.nome]]</span>
+                            <input type="text" class="form-control" ng-model="unidade.nome" ng-show="editing">
+                        </td>
+                        <td>
+                            <span ng-hide="editing">[[unidade.peso]]</span>
+                            <input type="text" class="form-control" ng-model="unidade.peso" ng-show="editing">
+                        </td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-primary" ng-click="ctrl.save(unidade);editing=false" ng-show="editing">
+                                <i class="fa fa-save"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="editing=true" ng-hide="editing">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-default" ng-click="ctrl.delete(unidade)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right">
+                            <button type="button" class="btn btn-default" ng-click="ctrl.add()">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/angular.min.js') }}"></script>
+    <script>
+        angular.module('admin', [])
+        .config(function($interpolateProvider){
+            $interpolateProvider.startSymbol('[[').endSymbol(']]');
+        })
+        .controller('UnidadesController', function($http) {
+            var ctrl = this;
+    
+            ctrl.load = function() {
+                $http.get('{{ path('admin_unidades_list') }}')
+                    .success(function(response) {
+                        ctrl.locais = response.data;
+                    });
+            };
+    
+            ctrl.add = function() {
+                var unidade = {
+                    nome: 'Nova unidade',
+                    peso: 1
+                };
+                ctrl.save(unidade)
+                    .success(function(response) {
+                        ctrl.load();
+                    });
+            };
+    
+            ctrl.save = function(local) {
+                return $http.post('{{ path('admin_unidades_save') }}', local);
+            };
+    
+            ctrl.delete = function(local) {
+                $http.post('{{ path('admin_unidades_index') }}delete/' + local.id)
+                    .success(function(response) {
+                        ctrl.load();
+                    });
+            };
+            
+            ctrl.load();
+        })
+    </script>
+{% endblock %}

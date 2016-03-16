@@ -3,7 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use Exception;
-use Novosga\Entity\Prioridade;
+use Novosga\Entity\Unidade;
 use Novosga\Http\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,25 +11,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * PrioridadesController
+ * UnidadesController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  *
- * @Route("/admin/prioridades")
+ * @Route("/admin/unidades")
  */
-class PrioridadesController extends Controller
+class UnidadesController extends Controller
 {
     /**
      *
      * @param Request $request
      * @return Response
      *
-     * @Route("/", name="admin_prioridades_index")
+     * @Route("/", name="admin_unidades_index")
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/prioridades.html.twig', [
-            'tab' => 'prioridades',
+        return $this->render('admin/unidades.html.twig', [
+            'tab' => 'unidades',
         ]);
     }
     
@@ -38,17 +38,17 @@ class PrioridadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/list", name="admin_prioridades_list")
+     * @Route("/list", name="admin_unidades_list")
      */
     public function listAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         
-        $prioridades = $em
-                ->getRepository(Prioridade::class)
+        $unidades = $em
+                ->getRepository(Unidade::class)
                 ->findBy([], ['nome' => 'ASC']);
         
-        return new JsonResponse($prioridades);
+        return new JsonResponse($unidades);
     }
     
     /**
@@ -56,7 +56,7 @@ class PrioridadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/save", name="admin_prioridades_save")
+     * @Route("/save", name="admin_unidades_save")
      */
     public function saveAction(Request $request)
     {
@@ -64,29 +64,26 @@ class PrioridadesController extends Controller
             $json = $request->getContent();
             $data = json_decode($json);
 
-            if (!isset($data->nome) || !(isset($data->peso))) {
+            if (!isset($data->nome)) {
                 throw new Exception('Json inválido');
             }
             
             $em = $this->getDoctrine()->getManager();
 
             if (isset($data->id)) {
-                $prioridade = $em->find(Prioridade::class, $data->id);
-                $prioridade->setNome($data->nome);
-                $prioridade->setPeso($data->peso);
-                $em->merge($prioridade);
+                $unidade = $em->find(Unidade::class, $data->id);
+                $unidade->setNome($data->nome);
+                $em->merge($unidade);
             } else {
-                $prioridade = new Prioridade();
-                $prioridade->setNome($data->nome);
-                $prioridade->setPeso($data->peso);
-                $prioridade->setDescricao('');
-                $prioridade->setStatus(1);
-                $em->persist($prioridade);
+                $unidade = new Unidade();
+                $unidade->setNome($data->nome);
+                $unidade->setStatus(1);
+                $em->persist($unidade);
             }
             
             $em->flush();
             
-            return new JsonResponse($prioridade);
+            return new JsonResponse($unidade);
         } catch (Exception $e) {
             return new JsonResponse($e->getMessage(), false);
         }
@@ -97,13 +94,13 @@ class PrioridadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/delete/{id}", name="admin_prioridades_delete")
+     * @Route("/delete/{id}", name="admin_unidades_delete")
      */
-    public function deleteAction(Request $request, Prioridade $prioridade)
+    public function deleteAction(Request $request, Unidade $unidade)
     {
         try {
             $em = $this->getDoctrine()->getManager();
-            $em->remove($prioridade);
+            $em->remove($unidade);
             $em->flush();
             
             return new JsonResponse();
