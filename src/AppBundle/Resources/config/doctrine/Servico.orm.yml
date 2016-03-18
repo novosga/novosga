@@ -5,32 +5,22 @@ Novosga\Entity\Servico:
     fields:
         nome:
             type: string
-            scale: 0
             length: 50
             unique: false
             nullable: false
-            precision: 0
         descricao:
             type: string
-            scale: 0
             length: 100
             unique: false
             nullable: false
-            precision: 0
         status:
-            type: smallint
-            scale: 0
-            length: null
+            type: boolean
             unique: false
             nullable: false
-            precision: 0
         peso:
             type: smallint
-            scale: 0
-            length: null
             unique: false
             nullable: false
-            precision: 0
     manyToOne:
         mestre:
             targetEntity: Novosga\Entity\Servico

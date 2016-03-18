@@ -8,10 +8,5 @@ Novosga\Entity\Metadata:
             id: true
     fields:
         value:
-            type: string
-            scale: 0
-            length: null
-            unique: false
+            type: text
             nullable: false
-            precision: 0
-            columnDefinition: text

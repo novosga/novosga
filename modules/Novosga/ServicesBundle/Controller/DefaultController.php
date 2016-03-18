@@ -45,6 +45,7 @@ class DefaultController extends CrudController
                 ->createQueryBuilder()
                 ->select('e')
                 ->from(Servico::class, 'e')
+                ->where('e.mestre IS NULL')
                 ->getQuery();
         
         return $this->dataTable($request, $query, false);

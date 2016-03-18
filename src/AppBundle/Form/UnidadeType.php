@@ -4,14 +4,11 @@ namespace AppBundle\Form;
 
 use Novosga\Entity\Unidade;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
 
 class UnidadeType extends AbstractType
 {
@@ -22,41 +19,13 @@ class UnidadeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('codigo', TextType::class, [
-                'constraints' => [
-                    new UniqueEntity("codigo"),
-                    new UniqueEntity("nome"),
-                    new NotBlank(),
-                    new Length([ 'max' => 10 ]),
-                ]
-            ])
-            ->add('nome', TextType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                    new Length([ 'max' => 50 ]),
-                ]
-            ])
-            ->add('status', TextType::class, [
-                'constraints' => [
-                    new NotNull(),
-                ]
-            ])
-            ->add('statusImpressao', TextType::class, [
-                'constraints' => [
-                    new NotNull(),
-                ]
-            ])
-            ->add('mensagemImpressao', TextType::class, [
-                'constraints' => [
-                    new NotNull(),
-                    new Length([ 'max' => 100 ]),
-                ]
-            ])
+            ->add('codigo', TextType::class)
+            ->add('nome', TextType::class)
             ->add('grupo', EntityType::class, [
-                'class' => \Novosga\Entity\Grupo::class,
-                'constraints' => [
-                    new NotNull(),
-                ]
+                'class' => \Novosga\Entity\Grupo::class
+            ])
+            ->add('status', CheckboxType::class, [
+                'required' => false
             ])
         ;
     }

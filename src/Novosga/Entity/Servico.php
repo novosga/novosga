@@ -80,7 +80,7 @@ class Servico extends SequencialModel
 
     public function isMestre()
     {
-        return ($this->mestre == 0) ? true : false;
+        return ($this->getId() && !$this->getMestre());
     }
 
     public function setStatus($status)

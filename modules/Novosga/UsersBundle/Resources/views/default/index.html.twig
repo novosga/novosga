@@ -7,7 +7,7 @@
             <th>{% trans %}Nome de usuário{% endtrans %}</th>
             <th>{% trans %}Nome{% endtrans %}</th>
             <th>{% trans %}Status{% endtrans %}</th>
-            <th></th>
+            <th class="col-md-1"></th>
         </thead>
         <tbody>
         </tbody>
@@ -43,7 +43,7 @@
                     {
                         data: 'id',
                         render: function (id) {
-                            return '<a href="{{ path('novosga_users_index') }}edit/' + id + '">Edit</a>';
+                            return '<a href="{{ path('novosga_users_index') }}edit/' + id + '" class="btn btn-default"><i class="fa fa-edit"></i></a>';
                         }
                     }
                 ]

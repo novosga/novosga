@@ -30,11 +30,6 @@ class Unidade extends SequencialModel
     private $grupo;
 
     /**
-     * @var bool
-     */
-    private $statusImpressao;
-
-    /**
      * @var string
      */
     private $mensagemImpressao;
@@ -86,16 +81,6 @@ class Unidade extends SequencialModel
         return $this->grupo;
     }
 
-    public function getStatusImpressao()
-    {
-        return $this->statusImpressao;
-    }
-
-    public function setStatusImpressao($statusImpressao)
-    {
-        $this->statusImpressao = $statusImpressao;
-    }
-
     public function getMensagemImpressao()
     {
         return $this->mensagemImpressao;
@@ -118,9 +103,8 @@ class Unidade extends SequencialModel
             'codigo'            => $this->getCodigo(),
             'nome'              => $this->getNome(),
             'grupo'             => $this->getGrupo(),
-            'status'            => $this->getStatus(),
+            'status'            => $this->getStatus() == true,
             'mensagemImpressao' => $this->getMensagemImpressao(),
-            'statusImpressao'   => $this->getStatusImpressao(),
         ];
     }
 }

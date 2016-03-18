@@ -3,7 +3,7 @@
 namespace Novosga\UsersBundle\Controller;
 
 use Exception;
-use Novosga\Entity\SequencialModel;
+use Novosga\Entity\Lotacao;
 use Novosga\Entity\Usuario;
 use AppBundle\Form\UsuarioType;
 use Mangati\BaseBundle\Controller\CrudController;
@@ -36,6 +36,12 @@ class DefaultController extends CrudController
      */
     public function indexAction(Request $request) 
     {
+        $unidade = $request->getSession()->get('unidade');
+        
+        if (!$unidade) {
+            return $this->redirectToRoute('home');
+        }
+        
         return $this->render('NovosgaUsersBundle:default:index.html.twig');
     }
    
@@ -47,12 +53,24 @@ class DefaultController extends CrudController
      */
     public function searchAction(Request $request) 
     {
-        $query = $this
-                ->getDoctrine()
-                ->getManager()
+        $usuario = $this->getUser();
+        $unidade = $request->getSession()->get('unidade');
+        
+        if (!$usuario || !$unidade) {
+            return $this->redirectToRoute('home');
+        }
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $query = $em
                 ->createQueryBuilder()
                 ->select('e')
                 ->from(Usuario::class, 'e')
+                ->join('e.lotacoes', 'l')
+                ->where('l.grupo = :grupo')
+                ->setParameters([
+                    'grupo' => $unidade->getGrupo()
+                ])
                 ->getQuery();
         
         return $this->dataTable($request, $query, false);

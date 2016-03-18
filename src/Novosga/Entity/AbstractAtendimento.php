@@ -51,6 +51,11 @@ abstract class AbstractAtendimento extends SequencialModel
     /**
      * @var \DateTime
      */
+    protected $dataAgendamento;
+
+    /**
+     * @var \DateTime
+     */
     protected $dataChegada;
 
     /**
@@ -187,6 +192,18 @@ abstract class AbstractAtendimento extends SequencialModel
 
         return $this;
     }
+    
+    public function getDataAgendamento() 
+    {
+        return $this->dataAgendamento;
+    }
+
+    public function setDataAgendamento(\DateTime $dataAgendamento = null) 
+    {
+        $this->dataAgendamento = $dataAgendamento;
+        
+        return $this;
+    }
 
     /**
      * @return \DateTime
@@ -196,7 +213,7 @@ abstract class AbstractAtendimento extends SequencialModel
         return $this->dataChegada;
     }
 
-    public function setDataChegada(\DateTime $dataChegada)
+    public function setDataChegada(\DateTime $dataChegada = null)
     {
         $this->dataChegada = $dataChegada;
 
@@ -211,7 +228,7 @@ abstract class AbstractAtendimento extends SequencialModel
         return $this->dataChamada;
     }
 
-    public function setDataChamada(\DateTime $dataChamada)
+    public function setDataChamada(\DateTime $dataChamada = null)
     {
         $this->dataChamada = $dataChamada;
 
@@ -226,7 +243,7 @@ abstract class AbstractAtendimento extends SequencialModel
         return $this->dataInicio;
     }
 
-    public function setDataInicio(\DateTime $dataInicio)
+    public function setDataInicio(\DateTime $dataInicio = null)
     {
         $this->dataInicio = $dataInicio;
 
@@ -241,7 +258,7 @@ abstract class AbstractAtendimento extends SequencialModel
         return $this->dataFim;
     }
 
-    public function setDataFim(\DateTime $dataFim)
+    public function setDataFim(\DateTime $dataFim = null)
     {
         $this->dataFim = $dataFim;
 

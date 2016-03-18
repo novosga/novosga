@@ -5,26 +5,55 @@
     
         {% include 'MangatiBaseBundle:Crud:flashMessages.html.twig' %}
         
-        {{ form_row(form.nome) }}
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.status) }}
+            </div>
+            <div class="col-md-6">
         
-        {{ form_row(form.descricao) }}
-        
-        {{ form_row(form.status) }}
-        
-        {{ form_row(form.peso) }}
-        
-        {% if entity.id and entity.subServicos|length %}
-            <fieldset>
-                <legend>{% trans %}Subserviços{% endtrans %}</legend>
-                <ul>
-                    {% for sub in entity.subServicos %}
-                    <li>{{ sub.nome }}</li>
-                    {% endfor %}
-                </ul>
-            </fieldset>
-        {% else %}
-            {{ form_row(form.mestre) }}
-        {% endif %}
+                {{ form_row(form.nome) }}
+
+                {{ form_row(form.descricao) }}
+
+                {{ form_row(form.peso) }}
+                
+                {% if not entity.isMestre() %}
+                    {{ form_row(form.mestre) }}
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {% if entity.isMestre() %}
+                    <fieldset>
+                        <legend>{% trans %}Subserviços{% endtrans %}</legend>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>{% trans %}Nome{% endtrans %}</th>
+                                    <th>{% trans %}Peso{% endtrans %}</th>
+                                    <th class="col-md-2"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sub in entity.subServicos %}
+                                <tr>
+                                    <td>{{ sub.nome }}</td>
+                                    <td>{{ sub.peso }}</td>
+                                    <td>
+                                        <a href="{{ path('novosga_services_edit', {id: sub.id }) }}" class="btn btn-default">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-default">
+                                            <i class="fa fa-level-up"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </fieldset>
+                {% endif %}
+            </div>
+        </div>
         
         <div class="buttons">
             <button type="submit" class="btn btn-primary">

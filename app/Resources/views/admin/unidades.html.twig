@@ -10,48 +10,67 @@
     
     <div ng-app="admin">
         <div ng-controller="UnidadesController as ctrl">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>{% trans %}Nome{% endtrans %}</th>
-                        <th class="col-md-2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="ng-cloak" ng-repeat="unidade in ctrl.locais" ng-init="editing=false">
-                        <td>
-                            <span ng-hide="editing">[[unidade.nome]]</span>
-                            <input type="text" class="form-control" ng-model="unidade.nome" ng-show="editing">
-                        </td>
-                        <td>
-                            <span ng-hide="editing">[[unidade.peso]]</span>
-                            <input type="text" class="form-control" ng-model="unidade.peso" ng-show="editing">
-                        </td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-primary" ng-click="ctrl.save(unidade);editing=false" ng-show="editing">
-                                <i class="fa fa-save"></i>
-                            </button>
-                            <button type="button" class="btn btn-default" ng-click="editing=true" ng-hide="editing">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button type="button" class="btn btn-default" ng-click="ctrl.delete(unidade)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-default" ng-click="ctrl.add()">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+            {% include "MangatiBaseBundle:Crud:flashMessages.html.twig" %}
+            
+            <div class="col-md-8">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{% trans %}Código{% endtrans %}</th>
+                            <th>{% trans %}Nome{% endtrans %}</th>
+                            <th>{% trans %}Grupo{% endtrans %}</th>
+                            <th class="col-md-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="ng-cloak" ng-repeat="unidade in ctrl.locais">
+                            <td>
+                                [[unidade.codigo]]
+                            </td>
+                            <td>
+                                [[unidade.nome]]
+                            </td>
+                            <td>
+                                [[unidade.grupo.nome]]
+                            </td>
+                            <td class="text-right">
+                                <button type="button" class="btn btn-default" ng-click="ctrl.edit(unidade)">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" class="btn btn-default" ng-click="ctrl.delete(unidade)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="well">
+                    {{ form_start(form) }}
+                        <input type="hidden" name="id" value="[[ctrl.unidade.id]]">
+
+                        {{ form_row(form.status, { label: 'Status', attr: { 'ng-model': 'ctrl.unidade.status' } }) }}
+                        
+                        {{ form_row(form.codigo, { label: 'Código', attr: { 'ng-model': 'ctrl.unidade.codigo' } }) }}
+
+                        {{ form_row(form.nome, { label: 'Nome', attr: { 'ng-model': 'ctrl.unidade.nome' } }) }}
+
+                        {{ form_row(form.grupo, { label: 'Grupo', attr: { 'ng-model': 'ctrl.unidade.grupo' } }) }}
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save"></i>
+                            {% trans %}Salvar{% endtrans %}
+                        </button>
+
+                        <button type="button" class="btn btn-default pull-right" ng-click="ctrl.new()">
+                            <i class="fa fa-plus"></i>
+                            {% trans %}Novo{% endtrans %}
+                        </button>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -74,29 +93,29 @@
                     });
             };
     
-            ctrl.add = function() {
-                var unidade = {
-                    nome: 'Nova unidade',
-                    peso: 1
+            ctrl.new = function() {
+                ctrl.unidade = {
+                    status: true
                 };
-                ctrl.save(unidade)
-                    .success(function(response) {
-                        ctrl.load();
-                    });
             };
     
-            ctrl.save = function(local) {
-                return $http.post('{{ path('admin_unidades_save') }}', local);
+            ctrl.edit = function(unidade) {
+                ctrl.unidade = $.extend({}, unidade);
+                ctrl.unidade.status = !!unidade.status;
+                if (unidade.grupo) {
+                    ctrl.unidade.grupo = unidade.grupo.id + '';
+                }
             };
     
-            ctrl.delete = function(local) {
-                $http.post('{{ path('admin_unidades_index') }}delete/' + local.id)
+            ctrl.delete = function(unidade) {
+                $http.post('{{ path('admin_unidades_index') }}/delete/' + unidade.id)
                     .success(function(response) {
                         ctrl.load();
                     });
             };
             
             ctrl.load();
-        })
+            ctrl.edit({{ entity|json_encode()|raw }});
+        });
     </script>
 {% endblock %}
