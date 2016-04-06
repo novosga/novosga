@@ -59,11 +59,17 @@ class DefaultController extends Controller
      */
     public function menuAction(Request $request)
     {
-        $service = new \AppBundle\Service\ModuleService();
-        $modules = $service->getModules();
-
+        $kernel = $this->get('kernel');
+        $bundles = [];
+        
+        if ($kernel instanceof \Symfony\Component\HttpKernel\Kernel) {
+            $bundles = array_filter($kernel->getBundles(), function ($bundle) {
+                return $bundle instanceof \Novosga\Module\ModuleInterface;
+            });
+        }
+        
         return $this->render('default/include/menu.html.twig', [
-            'modules' => $modules,
+            'modules' => $bundles,
         ]);
     }
 }

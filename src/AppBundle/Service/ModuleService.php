@@ -2,24 +2,38 @@
 
 namespace AppBundle\Service;
 
+use Symfony\Component\Finder\Finder;
+
+
 class ModuleService
 {
-    
+
+    /**
+     *
+     * @return array
+     */
     public function getModules()
     {
-        $filename = realpath(__DIR__ . '/../../../var/config/modules.php');
-        
-        return require $filename;
+        $configuration = ConfigurationService::get();
+
+        if (!isset($configuration['modules'])) {
+            $configuration['modules'] = $this->discover();
+            ConfigurationService::set($configuration);
+        }
+
+        $modules = $configuration['modules'];
+
+        return $modules;
     }
-    
+
     public function discover()
     {
         $searchPath = realpath(__DIR__ . '/../../../modules');
-        $finder     = new Symfony\Component\Finder\Finder();
+        $finder     = new Finder();
         $finder->files()
                ->in($searchPath)
                ->name('*Bundle.php');
-        
+
         $modules = [];
 
         foreach ($finder as $file) {
@@ -29,11 +43,14 @@ class ModuleService
             $namespace  = implode('\\', $parts);
             $class      = '\\' . $namespace.'\\'.$class;
             if (class_exists($class)) {
-                $modules[]  = new $class();
+                $modules[]  = [
+                    'active' => true,
+                    'class' => $class
+                ];
             }
         }
-        
+
         return $modules;
     }
-    
+
 }

@@ -1,0 +1,29 @@
+
+
+plugins: ~
+    
+modules:
+    novosga.settings:
+        class: \Novosga\SettingsBundle\NovosgaSettingsBundle
+        active: true
+    novosga.triagem:
+        class: \Novosga\TriagemBundle\NovosgaTriagemBundle
+        active: true
+    novosga.monitor:
+        class: \Novosga\MonitorBundle\NovosgaMonitorBundle
+        active: true
+    novosga.attendance:
+        class: \Novosga\AttendanceBundle\NovosgaAttendanceBundle
+        active: true
+    novosga.reports:
+        class: \Novosga\ReportsBundle\NovosgaReportsBundle
+        active: true
+    novosga.users:
+        class: \Novosga\UsersBundle\NovosgaUsersBundle
+        active: true
+    novosga.services:
+        class: \Novosga\ServicesBundle\NovosgaServicesBundle
+        active: true
+    novosga.roles:
+        class: \Novosga\RolesBundle\NovosgaRolesBundle
+        active: true

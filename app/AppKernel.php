@@ -28,7 +28,15 @@ class AppKernel extends Kernel
         }
         
         $service = new \AppBundle\Service\ModuleService();
-        $bundles = array_merge($bundles, $service->getModules());
+        
+        foreach ($service->getModules() as $key => $value) {
+            if ($value['active']) {
+                $module = new $value['class'];
+                if ($module instanceof \Novosga\Module\ModuleInterface) {
+                    $bundles[] = $module;
+                }
+            }
+        }
 
         return $bundles;
     }
