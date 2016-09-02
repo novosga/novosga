@@ -5,7 +5,6 @@ namespace Novosga\Repository;
 use Doctrine\ORM\EntityRepository;
 use Novosga\Entity\Lotacao;
 use Novosga\Entity\Usuario;
-use Novosga\Entity\Cargo;
 use Novosga\Service\UsuarioService;
 use Novosga\Entity\Unidade;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -27,6 +26,10 @@ class UsuarioRepository extends EntityRepository implements UserLoaderInterface,
     public function loadRoles(Usuario $usuario, Unidade $unidade = null)
     {
         $usuario->addRole('ROLE_USER');
+        
+        if ($usuario->isAdmin()) {
+            $usuario->addRole('ROLE_ADMIN');
+        }
         
         if ($unidade) {
             $em = $this->getEntityManager();

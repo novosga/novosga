@@ -55,6 +55,11 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
     private $lotacoes;
 
     /**
+     * @var bool
+     */
+    private $admin;
+
+    /**
      * @var string
      */
     private $algorithm;
@@ -180,7 +185,18 @@ class Usuario extends SequencialModel implements AdvancedUserInterface, EncoderA
         $this->algorithm = $algorithm;
         return $this;
     }
+    
+    public function isAdmin()
+    {
+        return $this->admin;
+    }
 
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
+        return $this;
+    }
+    
     public function isAccountNonExpired()
     {
         return true;

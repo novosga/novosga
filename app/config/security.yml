@@ -1,13 +1,14 @@
 security:
-    
+
     encoders:
         md5:
             id: novosga.security.encoder.md5
 
     providers:
-        novosga_provider: 
-            entity: 
+        novosga_provider:
+            entity:
                 class: Novosga\Entity\Usuario
+                property: login
 
     firewalls:
         dev:
@@ -16,7 +17,7 @@ security:
 
         login:
             pattern:  ^/login$
-            security: false
+            anonymous: ~
 
         main:
             provider: novosga_provider
@@ -29,7 +30,9 @@ security:
             logout:
                 path:   /logout
                 target: /
-        
+
 
     access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/, roles: ROLE_USER }

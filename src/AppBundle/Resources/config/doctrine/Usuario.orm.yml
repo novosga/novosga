@@ -47,6 +47,9 @@ Novosga\Entity\Usuario:
             length: 10
             unique: false
             nullable: false
+        admin:
+            type: boolean
+            nullable: false
         salt:
             type: string
             length: 60
