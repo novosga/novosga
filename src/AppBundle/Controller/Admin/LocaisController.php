@@ -3,7 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use Novosga\Entity\Local;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

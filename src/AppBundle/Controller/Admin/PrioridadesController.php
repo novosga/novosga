@@ -4,7 +4,7 @@ namespace AppBundle\Controller\Admin;
 
 use Exception;
 use Novosga\Entity\Prioridade;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;

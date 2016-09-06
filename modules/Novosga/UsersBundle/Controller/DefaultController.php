@@ -9,7 +9,7 @@ use AppBundle\Form\UsuarioType;
 use Mangati\BaseBundle\Controller\CrudController;
 use Mangati\BaseBundle\Event\CrudEvent;
 use Mangati\BaseBundle\Event\CrudEvents;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Novosga\Service\ServicoService;
 use Novosga\Util\Arrays;
 use Symfony\Component\HttpFoundation\Request;
@@ -176,13 +176,18 @@ class DefaultController extends CrudController
     {
         $exceto = $request->get('exceto');
         $exceto = Arrays::valuesToInt(explode(',', $exceto));
-        $response = new JsonResponse(true);
+        $envelope = new Envelope();
         $grupos = $this->grupos_disponiveis($exceto);
+        $data = [];
         foreach ($grupos as $g) {
-            $response->data[] = ['id' => $g->getId(), 'nome' => $g->getNome()];
+            $data[] = [
+                'id'   => $g->getId(), 
+                'nome' => $g->getNome()
+            ];
         }
+        $envelope->setData($data);
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -192,13 +197,14 @@ class DefaultController extends CrudController
      */
     public function permissoes_cargo(Context $context)
     {
-        $response = new JsonResponse(true);
+        $envelope = new Envelope();
         $id = (int) $request->get('cargo');
         $query = $this->em()->createQuery("SELECT m.nome FROM Novosga\Entity\Permissao e JOIN e.modulo m WHERE e.cargo = :cargo ORDER BY m.nome");
         $query->setParameter('cargo', $id);
-        $response->data = $query->getResult();
+        $data = $query->getResult();
+        $envelope->setData($data);
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -208,7 +214,7 @@ class DefaultController extends CrudController
      */
     public function servicos_unidade(Context $context)
     {
-        $response = new JsonResponse(true);
+        $envelope = new Envelope();
         $id = (int) $request->get('unidade');
 
         $exceto = $request->get('exceto');
@@ -216,9 +222,10 @@ class DefaultController extends CrudController
         $exceto = implode(',', $exceto);
 
         $service = new ServicoService($this->em());
-        $response->data = $service->servicosUnidade($id, "e.status = 1 AND s.id NOT IN ($exceto)");
+        $data = $service->servicosUnidade($id, "e.status = 1 AND s.id NOT IN ($exceto)");
+        $envelope->setData($data);
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -228,27 +235,30 @@ class DefaultController extends CrudController
      */
     public function alterar_senha(Context $context)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $id = (int) $request->get('id');
         $senha = $request->get('senha');
         $confirmacao = $request->get('confirmacao');
         $usuario = $this->findById($id);
-        if ($usuario) {
-            try {
-                $hash = $this->app()->getAcessoService()->verificaSenha($senha, $confirmacao);
-                $query = $this->em()->createQuery("UPDATE Novosga\Entity\Usuario u SET u.senha = :senha WHERE u.id = :id");
-                $query->setParameter('senha', $hash);
-                $query->setParameter('id', $usuario->getId());
-                $query->execute();
-                $response->success = true;
-            } catch (Exception $e) {
-                $response->message = $e->getMessage();
+        
+        try {
+            if (!$usuario) {
+                throw new Exception(_('Usuário inválido'));
             }
-        } else {
-            $response->message = _('Usuário inválido');
+            
+            $hash = $this->app()->getAcessoService()->verificaSenha($senha, $confirmacao);
+            $query = $this->em()->createQuery("UPDATE Novosga\Entity\Usuario u SET u.senha = :senha WHERE u.id = :id");
+            $query->setParameter('senha', $hash);
+            $query->setParameter('id', $usuario->getId());
+            $query->execute();
+        } catch (Exception $e) {
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
+            
         }
 
-        return $response;
+        return $this->json($envelope);
     }
     
     protected function editFormOptions(Request $request, $entity)

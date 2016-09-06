@@ -3,7 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use Novosga\Context;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -33,7 +33,7 @@ class ApiController extends Controller
 
     public function add_oauth_client(Context $context)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             if (!$context->request()->isPost()) {
                 throw new Exception(_('Somente via POST'));
@@ -52,47 +52,50 @@ class ApiController extends Controller
             $em->persist($client);
             $em->flush();
 
-            $response->success = true;
         } catch (\Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     public function get_oauth_client(Context $context)
     {
-        $response = new JsonResponse(true);
+        $envelope = new Envelope();
         $client_id = $context->request()->get('client_id');
         $query = $em->createQuery('SELECT e FROM Novosga\Entity\OAuthClient e WHERE e.id = :client_id');
         $query->setParameter('client_id', $client_id);
         $client = $query->getOneOrNullResult();
         if ($client) {
-            $response->data = $client->jsonSerialize();
+            $data = $client->jsonSerialize();
+            $envelope->setData($data);
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     public function get_all_oauth_client(Context $context)
     {
-        $response = new JsonResponse(true);
+        $envelope = new Envelope();
         $rs = $em->getRepository('Novosga\Entity\OAuthClient')->findBy([], ['id' => 'ASC']);
-        $response->data = [];
+        $data = [];
         foreach ($rs as $client) {
-            $response->data[] = $client->jsonSerialize();
+            $data[] = $client->jsonSerialize();
         }
+        $envelope->setData($data);
 
-        return $response;
+        return $this->json($envelope);
     }
 
     public function delete_oauth_client(Context $context)
     {
-        $response = new JsonResponse(true);
+        $envelope = new Envelope();
         $client_id = $context->request()->post('client_id');
         $this->delete_auth_client_by_id($client_id);
 
-        return $response;
+        return $this->json($envelope);
     }
 
     private function delete_auth_client_by_id($client_id)

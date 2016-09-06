@@ -3,7 +3,7 @@
 namespace Novosga\ReportsBundle\Controller;
 
 use Exception;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\UnidadeService;
 use Novosga\Service\UsuarioService;
@@ -77,27 +77,31 @@ class DefaultController extends Controller
      */
     public function today(Context $context)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             $ini = DateUtil::now('Y-m-d');
             $fim = DateUtil::nowSQL(); // full datetime
             $unidade = (int) $request->get('unidade');
             $status = $this->total_atendimentos_status($ini, $fim, $unidade);
-            $response->data['legendas'] = AtendimentoService::situacoes();
-            $response->data['status'] = $status[$unidade];
+            $data = [
+                'legendas' => AtendimentoService::situacoes(),
+                'status' => $status[$unidade]
+            ];
             $servicos = $this->total_atendimentos_servico($ini, $fim, $unidade);
-            $response->data['servicos'] = $servicos[$unidade];
-            $response->success = true;
+            $data['servicos'] = $servicos[$unidade];
+            $envelope->setData($data);
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     public function grafico(Context $context)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             $id = (int) $request->get('grafico');
             $dataInicial = $request->get('inicial');
@@ -120,13 +124,15 @@ class DefaultController extends Controller
                 $grafico->setDados($this->tempo_medio_atendimentos($dataInicial, $dataFinal, $unidade));
                 break;
             }
-            $response->data = $grafico->jsonSerialize();
-            $response->success = true;
+            $data = $grafico->jsonSerialize();
+            $envelope->setData($data);
         } catch (\Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     public function relatorio(Context $context)

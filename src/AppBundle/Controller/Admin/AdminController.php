@@ -5,7 +5,7 @@ namespace AppBundle\Controller\Admin;
 use Novosga\App;
 use Novosga\Auth\AuthenticationProvider;
 use Novosga\Context;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Novosga\Entity\Configuracao;
 use Novosga\Entity\Util\Senha;
 use Novosga\Service\AtendimentoService;
@@ -48,7 +48,7 @@ class AdminController extends Controller
 
     public function auth_save(Context $context)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             $auth = Configuracao::get($em, AuthenticationProvider::KEY);
             $value = $auth->getValor();
@@ -66,34 +66,36 @@ class AdminController extends Controller
             }
             $auth->test();
             Configuracao::set($em, AuthenticationProvider::KEY, $value);
-            $response->success = true;
         } catch (\Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     public function acumular_atendimentos(Context $context)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             if (!$context->request()->isPost()) {
                 throw new Exception(_('Somente via POST'));
             }
             $service = new AtendimentoService($em);
             $service->acumularAtendimentos();
-            $response->success = true;
         } catch (\Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     public function change_numeracao(Context $context)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             if (!$context->request()->isPost()) {
                 throw new Exception(_('Somente via POST'));
@@ -103,12 +105,13 @@ class AdminController extends Controller
                 throw new \Exception(_('Valor inválido'));
             }
             Configuracao::set($em, Senha::TIPO_NUMERACAO, $tipo);
-            $response->success = true;
         } catch (\Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
 }

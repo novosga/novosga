@@ -4,7 +4,7 @@ namespace Novosga\AttendanceBundle\Controller;
 
 use Exception;
 use Novosga\Config\AppConfig;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Novosga\Entity\Atendimento;
 use Novosga\Entity\Usuario;
 use Novosga\Entity\Unidade;
@@ -78,13 +78,13 @@ class DefaultController extends Controller
     /**
      * 
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      * 
      * @Route("/set_local", name="novosga_attendance_setlocal")
      */
     public function setLocalAction(Request $request)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             $unidade = $request->getSession()->get('unidade');
             $usuario = $this->getUser();
@@ -98,26 +98,25 @@ class DefaultController extends Controller
             $usuarioService->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipo);
             
             AppConfig::getInstance()->hook('sga.atendimento.setlocal', [$unidade, $usuario, $numero, $tipo]);
-
-            $response->success = true;
         } catch (\Exception $e) {
-            $response->message = $e->getMessage();
-            $response->success = false;
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
      * 
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      * 
      * @Route("/ajax_update", name="novosga_attendance_ajaxupdate")
      */
     public function ajaxUpdateAction(Request $request)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $unidade = $request->getSession()->get('unidade');
         $usuario = $this->getUser();
         
@@ -138,20 +137,21 @@ class DefaultController extends Controller
                 $atendimentos = $filaService->filaAtendimento($unidade, $servicos);
 
                 // fila de atendimento do atendente atual
-                $response->data = [
+                $data = [
                     'atendimentos' => $atendimentos,
                     'usuario'      => [
                         'numeroLocal'     => $this->getNumeroLocalAtendimento($usuario),
                         'tipoAtendimento' => $this->getTipoAtendimento($usuario),
                     ],
                 ];
-                $response->success = true;
+                
+                $envelope->setData($data);
                 
                 $elapsed = time() - $starttime;
             } while (empty($atendimentos) && $elapsed < $maxtime);
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -165,7 +165,7 @@ class DefaultController extends Controller
     public function chamarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         
         try {
             $attempts = 5;
@@ -216,16 +216,18 @@ class DefaultController extends Controller
                     throw new Exception(_('Já existe um atendimento em andamento'));
                 }
             }
-            // response
-            $response->success = $success;
+            
             $atendimentoService->chamarSenha($unidade, $proximo);
-            $response->data = $proximo->jsonSerialize();
+            
+            $data = $proximo->jsonSerialize();
+            $envelope->setData($data);
         } catch (Exception $e) {
-            $response->success = false;
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -278,7 +280,7 @@ class DefaultController extends Controller
     public function codificarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $response = new JsonResponse(false);
+        $envelope = new Envelope();
         
         try {
             $unidade = $request->getSession()->get('unidade');
@@ -317,8 +319,8 @@ class DefaultController extends Controller
                     throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
                 }
             }
-            $response->success = $this->mudaStatusAtendimento($atual, AtendimentoService::ATENDIMENTO_ENCERRADO, AtendimentoService::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
-            if (!$response->success) {
+            $success = $this->mudaStatusAtendimento($atual, AtendimentoService::ATENDIMENTO_ENCERRADO, AtendimentoService::ATENDIMENTO_ENCERRADO_CODIFICADO, 'dataFim');
+            if (!$success) {
                 throw new Exception(sprintf(_('Erro ao codificar o atendimento %s'), $atual->getId()));
             }
 
@@ -329,10 +331,12 @@ class DefaultController extends Controller
                 $em->rollback();
             } catch (Exception $ex) {
             }
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -347,7 +351,7 @@ class DefaultController extends Controller
     public function redirecionarAction(Request $request)
     {
         $unidade = $request->getSession()->get('unidade');
-        $response = new JsonResponse(false);
+        $envelope = new Envelope();
         try {
             if (!$unidade) {
                 throw new Exception(_('Nenhum unidade escolhida'));
@@ -365,42 +369,54 @@ class DefaultController extends Controller
             if (!$redirecionado->getId()) {
                 throw new Exception(sprintf(_('Erro ao redirecionar atendimento %s para o serviço %s'), $atual->getId(), $servico));
             }
-            $response->success = $this->mudaStatusAtendimento($atual, [AtendimentoService::ATENDIMENTO_INICIADO, AtendimentoService::ATENDIMENTO_ENCERRADO], AtendimentoService::ERRO_TRIAGEM, 'dataFim');
-            if (!$response->success) {
+            $success = $this->mudaStatusAtendimento($atual, [AtendimentoService::ATENDIMENTO_INICIADO, AtendimentoService::ATENDIMENTO_ENCERRADO], AtendimentoService::ERRO_TRIAGEM, 'dataFim');
+            if (!$success) {
                 throw new Exception(sprintf(_('Erro ao mudar status do atendimento %s para encerrado'), $atual->getId()));
             }
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
      * 
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      * 
      * @Route("/info_senha", name="novosga_attendance_infosenha")
      */
     public function infoSenhaAction(Request $request)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $unidade = $request->getSession()->get('unidade');
-        if ($unidade) {
+        
+        try {
+            if (!$unidade) {
+                throw new Exception(_('Nenhuma unidade escolhida'));
+            }
             $id = (int) $request->get('id');
             $em = $this->getDoctrine()->getManager();
             $atendimentoService = new AtendimentoService($em);
             $atendimento = $atendimentoService->buscaAtendimento($unidade, $id);
-            if ($atendimento) {
-                $response->data = $atendimento->jsonSerialize();
-                $response->success = true;
-            } else {
-                $response->message = _('Atendimento inválido');
+            
+            if (!$atendimento) {
+                throw new Exception(_('Atendimento inválido'));
             }
+            
+            $data = $atendimento->jsonSerialize();
+            $envelope->setData($data);
+            
+        } catch (Exception $e) {
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -414,8 +430,12 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $unidade = $request->getSession()->get('unidade');
+        $envelope = new Envelope();
         
-        if ($unidade) {
+        try {
+            if ($unidade) {
+                throw new Exception(_('Nenhuma unidade selecionada'));
+            }
             $numero = $request->get('numero');
             $atendimentoService = new AtendimentoService($em);
             $atendimentos = $atendimentoService->buscaAtendimentos($unidade, $numero);
@@ -425,12 +445,14 @@ class DefaultController extends Controller
             foreach ($atendimentos as $atendimento) {
                 $data['atendimentos'][] = $atendimento->jsonSerialize();
             }
-            
-            return new JsonResponse($data);
-        } else {
-            $message = _('Nenhuma unidade selecionada');
-            return new JsonResponse($message, false);
+            $envelope->setData($data);
+        } catch (Exception $e) {
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
+        
+        return $this->json($envelope);
     }
 
     /**
@@ -440,7 +462,7 @@ class DefaultController extends Controller
      * @param int    $novoStatus
      * @param string $campoData
      *
-     * @return JsonResponse
+     * @return Response
      */
     private function mudaStatusAtualResponse(Request $request, $statusAtual, $novoStatus, $campoData)
     {
@@ -448,23 +470,32 @@ class DefaultController extends Controller
         if (!$usuario) {
             return $this->redirectToRoute('home');
         }
-        $response = new JsonResponse();
         
+        $envelope = new Envelope();
         $em = $this->getDoctrine()->getManager();
         $atendimentoService = new AtendimentoService($em);
         $atual = $atendimentoService->atendimentoAndamento($usuario->getId());
         
-        if ($atual) {
+        try {
+            if ($atual) {
+                throw new Exception(_('Nenhum atendimento disponível'));
+            }
             // atualizando atendimento
-            $response->success = $this->mudaStatusAtendimento($atual, $statusAtual, $novoStatus, $campoData);
+            $success = $this->mudaStatusAtendimento($atual, $statusAtual, $novoStatus, $campoData);
+            if ($success) {
+                throw new Exception(_('Erro desconhecido'));
+            }
+            
+            $data = $atual->jsonSerialize();
+            $envelope->setData($data);
+        } catch (Exception $e) {
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
-        if ($response->success) {
-            $response->data = $atual->jsonSerialize();
-        } else {
-            $response->message = _('Nenhum atendimento disponível');
-        }
+        
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**

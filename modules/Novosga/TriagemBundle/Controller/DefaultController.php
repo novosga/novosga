@@ -4,7 +4,7 @@ namespace Novosga\TriagemBundle\Controller;
 
 use Exception;
 use Novosga\Entity\Unidade;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
 use Novosga\Util\Arrays;
@@ -67,7 +67,7 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $unidade = $request->getSession()->get('unidade');
         
         if ($unidade) {
@@ -107,15 +107,16 @@ class DefaultController extends Controller
 
                 $service = new AtendimentoService($em);
 
-                $response->success = true;
-                $response->data = [
+                $data = [
                     'ultima'   => $service->ultimaSenhaUnidade($unidade),
                     'servicos' => $senhas,
                 ];
+                
+                $envelope->setData($data);
             }
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -128,40 +129,45 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $id = (int) $request->get('id');
         try {
             $servico = $em->find("Novosga\Entity\Servico", $id);
             if (!$servico) {
                 throw new Exception(_('Serviço inválido'));
             }
-            $response->data['nome'] = $servico->getNome();
-            $response->data['descricao'] = $servico->getDescricao();
+            $data = [
+                'nome' => $servico->getNome(),
+                'descricao' => $servico->getDescricao()
+            ];
 
             // ultima senha
             $service = new AtendimentoService($em);
             $atendimento = $service->ultimaSenhaServico($context->getUnidade(), $servico);
             if ($atendimento) {
-                $response->data['senha'] = $atendimento->getSenha()->toString();
-                $response->data['senhaId'] = $atendimento->getId();
+                $data['senha'] = $atendimento->getSenha()->toString();
+                $data['senhaId'] = $atendimento->getId();
             } else {
-                $response->data['senha'] = '-';
-                $response->data['senhaId'] = '';
+                $data['senha'] = '-';
+                $data['senhaId'] = '';
             }
             // subservicos
-            $response->data['subservicos'] = [];
+            $data['subservicos'] = [];
             $query = $em->createQuery("SELECT e FROM Novosga\Entity\Servico e WHERE e.mestre = :mestre ORDER BY e.nome");
             $query->setParameter('mestre', $servico->getId());
             $subservicos = $query->getResult();
             foreach ($subservicos as $s) {
-                $response->data['subservicos'][] = $s->getNome();
+                $data['subservicos'][] = $s->getNome();
             }
-            $response->success = true;
+            
+            $envelope->setData($data);
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -175,7 +181,7 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $unidade = $request->getSession()->get('unidade');
         $unidade = $em->getReference(Unidade::class, $unidade->getId());
         $usuario = $this->getUser();
@@ -186,14 +192,15 @@ class DefaultController extends Controller
         $documentoCliente = $request->get('cli_doc', '');
         try {
             $service = new AtendimentoService($em);
-            $response->data = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->jsonSerialize();
-            $response->success = true;
+            $data = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $nomeCliente, $documentoCliente)->jsonSerialize();
+            $envelope->setData($data);
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
-            $response->success = false;
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -208,23 +215,31 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $unidade = $request->getSession()->get('unidade');
         
-        if ($unidade) {
+        try {
+            if (!$unidade) {
+                throw new Exception(_('Nenhuma unidade selecionada'));
+            }
+            
             $numero = $request->get('numero');
             $service = new AtendimentoService($em);
             $atendimentos = $service->buscaAtendimentos($unidade, $numero);
-            $response->data['total'] = count($atendimentos);
+            $data = [
+                'total' => count($atendimentos)
+            ];
             foreach ($atendimentos as $atendimento) {
-                $response->data['atendimentos'][] = $atendimento->jsonSerialize();
+                $data['atendimentos'][] = $atendimento->jsonSerialize();
             }
-            $response->success = true;
-        } else {
-            $response->message = _('Nenhuma unidade selecionada');
+            $envelope->setData($data);
+        } catch (Exception $e) {
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**

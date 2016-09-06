@@ -4,7 +4,7 @@ namespace Novosga\SettingsBundle\Controller;
 
 use Exception;
 use Novosga\Entity\Local;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\ServicoService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -149,7 +149,7 @@ class DefaultController extends Controller
      */
     public function updateImpressaoAction(Request $request)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             $em = $this->getDoctrine()->getManager();
             
@@ -166,13 +166,14 @@ class DefaultController extends Controller
                 // atualizando sessao
                 $unidade = $em->find('Novosga\Entity\Unidade', $unidade->getId());
                 $request->getSession()->set('unidade', $unidade);
-                $response->success = true;
             }
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -184,7 +185,7 @@ class DefaultController extends Controller
      */
     public function toggleServicoAction(Request $request, $status)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             $em = $this->getDoctrine()->getManager();
             
@@ -203,12 +204,13 @@ class DefaultController extends Controller
             $em->merge($su);
             $em->flush();
 
-            $response->success = true;
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -220,17 +222,18 @@ class DefaultController extends Controller
      */
     public function reiniciarAction(Request $request, $status)
     {
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         try {
             $em = $this->getDoctrine()->getManager();
             $unidade = $request->getSession()->get('unidade');
             $service = new AtendimentoService($em);
             $service->acumularAtendimentos($unidade);
-            $response->success = true;
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 }

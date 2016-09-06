@@ -3,7 +3,7 @@
 namespace Novosga\MonitorBundle\Controller;
 
 use Exception;
-use Novosga\Http\JsonResponse;
+use Novosga\Http\Envelope;
 use Novosga\Entity\Unidade;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\FilaService;
@@ -73,14 +73,20 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $unidade = $request->getSession()->get('unidade');
         $filaService = new FilaService($em);
-        if ($unidade) {
+        
+        try {
+            if (!$unidade) {
+                throw new Exception(_('Nenhuma unidade escolhida'));
+            }
+            
+            $data = [];
             $ids = $request->get('ids');
             $ids = Arrays::valuesToInt(explode(',', $ids));
+            
             if (count($ids)) {
-                $data = [];
                 $data['total'] = 0;
                 $servicos = $this->servicos($unidade, ' e.servico IN ('.implode(',', $ids).') ');
                 $em = $this->getDoctrine()->getManager();
@@ -100,18 +106,22 @@ class DefaultController extends Controller
                         }
                     }
                 }
-                $response->data = $data;
-                $response->success = true;
             }
+            $envelope->setData($data);
+        } catch (Exception $e) {
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
+        
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
      * 
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      * 
      * @Route("/info_senha", name="novosga_monitor_infosenha")
      */
@@ -119,21 +129,31 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         
-        $response = new JsonResponse();
+        $envelope = new Envelope();
         $unidade = $request->getSession()->get('unidade');
-        if ($unidade) {
+        
+        try {
+            if (!$unidade) {
+                throw new Exception(_('Nenhuma unidade escolhida'));
+            }
+            
             $id = (int) $request->get('id');
             $service = new AtendimentoService($em);
             $atendimento = $service->buscaAtendimento($unidade, $id);
-            if ($atendimento) {
-                $response->data = $atendimento->jsonSerialize();
-                $response->success = true;
-            } else {
-                $response->message = _('Atendimento inválido');
+            
+            if (!$atendimento) {
+                throw new Exceptio(_('Atendimento inválido'));
             }
+            
+            $data = $atendimento->jsonSerialize();
+            $envelope->setData($data);
+        } catch (Exception $e) {
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -146,10 +166,15 @@ class DefaultController extends Controller
     public function buscarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $data = [];
         $unidade = $request->getSession()->get('unidade');
-        if ($unidade) {
+        $envelope = new Envelope();
+        
+        try {
+            if (!$unidade) {
+                throw new Exception(_('Nenhuma unidade selecionada'));
+            }
+            
             $numero = $request->get('numero');
             $service = new AtendimentoService($em);
             $atendimentos = $service->buscaAtendimentos($unidade, $numero);
@@ -157,12 +182,15 @@ class DefaultController extends Controller
             foreach ($atendimentos as $atendimento) {
                 $data['atendimentos'][] = $atendimento->jsonSerialize();
             }
-            
-            return new JsonResponse($data);
-        } else {
-            $message = _('Nenhuma unidade selecionada');
-            return new JsonResponse(message, false);
+
+            $envelope->setData($data);
+        } catch (Exception $e) {
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
+        
+        
     }
 
     /**
@@ -175,8 +203,8 @@ class DefaultController extends Controller
     public function transferirAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $response = new JsonResponse();
+        $envelope = new Envelope();
+        
         try {
             $unidade = $request->getSession()->get('unidade');
             if (!$unidade) {
@@ -191,12 +219,14 @@ class DefaultController extends Controller
             $prioridade = (int) $request->get('prioridade');
 
             $service = new AtendimentoService($em);
-            $response->success = $service->transferir($atendimento, $unidade, $servico, $prioridade);
+            $service->transferir($atendimento, $unidade, $servico, $prioridade);
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -210,8 +240,8 @@ class DefaultController extends Controller
     public function reativarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $response = new JsonResponse();
+        $envelope = new Envelope();
+        
         try {
             $unidade = $request->getSession()->get('unidade');
             if (!$unidade) {
@@ -235,12 +265,14 @@ class DefaultController extends Controller
             $stmt->bindValue('id', $id);
             $stmt->bindValue('status', AtendimentoService::SENHA_EMITIDA);
             $stmt->bindValue('unidade', $unidade->getId());
-            $response->success = $stmt->execute() > 0;
+            $stmt->execute() > 0;
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     /**
@@ -253,8 +285,8 @@ class DefaultController extends Controller
     public function cancelarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
-        $response = new JsonResponse();
+        $envelope = new Envelope();
+        
         try {
             $unidade = $request->getSession()->get('unidade');
             if (!$unidade) {
@@ -263,12 +295,14 @@ class DefaultController extends Controller
             $id = (int) $request->get('id');
             $atendimento = $this->getAtendimento($unidade, $id);
             $service = new AtendimentoService($em);
-            $response->success = $service->cancelar($atendimento, $unidade);
+            $service->cancelar($atendimento, $unidade);
         } catch (Exception $e) {
-            $response->message = $e->getMessage();
+            $envelope
+                    ->setSuccess(false)
+                    ->setMessage($e->getMessage());
         }
 
-        return $response;
+        return $this->json($envelope);
     }
 
     private function getAtendimento(Unidade $unidade, $id)
