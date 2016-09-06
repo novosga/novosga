@@ -251,7 +251,6 @@
         });
         App.Triagem.ajaxUpdate();
         App.Triagem.prioridades = [{% for p in prioridades %}{{ p.id }},{% endfor %}];
-        App.Triagem.imprimir = {% if unidade.statusImpressao %}true{% else %}false{% endif %};
         App.Triagem.init();
     </script>
 {% endblock %}
