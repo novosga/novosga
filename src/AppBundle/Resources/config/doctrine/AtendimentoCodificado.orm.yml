@@ -18,8 +18,7 @@ Novosga\Entity\AtendimentoCodificado:
             targetEntity: Novosga\Entity\Atendimento
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
+            inversedBy: codificados
             joinColumns:
                 atendimento_id:
                     referencedColumnName: id

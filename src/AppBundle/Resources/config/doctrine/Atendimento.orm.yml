@@ -7,6 +7,5 @@ Novosga\Entity\Atendimento:
             cascade: {  }
             fetch: LAZY
             mappedBy: atendimento
-            inversedBy: null
             orphanRemoval: false
             orderBy: null

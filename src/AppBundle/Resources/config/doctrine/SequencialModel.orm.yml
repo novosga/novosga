@@ -4,7 +4,6 @@ Novosga\Entity\SequencialModel:
         id:
             type: integer
             scale: 0
-            length: null
             unique: false
             nullable: false
             precision: 0

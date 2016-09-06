@@ -7,10 +7,7 @@ Novosga\Entity\UsuarioMeta:
     manyToOne:
         usuario:
             targetEntity: Novosga\Entity\Usuario
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 usuario_id:
                     referencedColumnName: id

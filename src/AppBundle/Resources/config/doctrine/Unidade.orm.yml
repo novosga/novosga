@@ -5,39 +5,28 @@ Novosga\Entity\Unidade:
     fields:
         codigo:
             type: string
-            scale: 0
             length: 10
             unique: true
             nullable: false
-            precision: 0
         nome:
             type: string
-            scale: 0
             length: 50
             unique: false
             nullable: false
-            precision: 0
         status:
             type: boolean
-            scale: 0
-            length: null
             unique: false
             nullable: false
-            precision: 0
         mensagemImpressao:
             type: string
-            scale: 0
             length: 100
             unique: false
             nullable: false
-            precision: 0
             column: msg_imp
     oneToOne:
         grupo:
             targetEntity: Novosga\Entity\Grupo
-            cascade: {  }
             fetch: EAGER
-            mappedBy: null
             inversedBy: unidade
             joinColumns:
                 grupo_id:

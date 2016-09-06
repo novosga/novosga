@@ -9,7 +9,6 @@ Novosga\Entity\ServicoUnidade:
     fields:
         sigla:
             type: string
-            scale: 0
             length: 3
             unique: false
             nullable: false
@@ -61,9 +60,7 @@ Novosga\Entity\ServicoUnidade:
     manyToOne:
         servico:
             targetEntity: Novosga\Entity\Servico
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
             inversedBy: servicosUnidade
             joinColumns:
                 servico_id:
@@ -71,10 +68,7 @@ Novosga\Entity\ServicoUnidade:
             orphanRemoval: false
         unidade:
             targetEntity: Novosga\Entity\Unidade
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 unidade_id:
                     referencedColumnName: id
@@ -83,8 +77,6 @@ Novosga\Entity\ServicoUnidade:
             targetEntity: Novosga\Entity\Local
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 local_id:
                     referencedColumnName: id

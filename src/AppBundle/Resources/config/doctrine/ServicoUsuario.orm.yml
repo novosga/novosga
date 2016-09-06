@@ -15,8 +15,6 @@ Novosga\Entity\ServicoUsuario:
             targetEntity: Novosga\Entity\Servico
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 servico_id:
                     referencedColumnName: id
@@ -25,8 +23,6 @@ Novosga\Entity\ServicoUsuario:
             targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 unidade_id:
                     referencedColumnName: id
@@ -35,8 +31,6 @@ Novosga\Entity\ServicoUsuario:
             targetEntity: Novosga\Entity\Usuario
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 usuario_id:
                     referencedColumnName: id

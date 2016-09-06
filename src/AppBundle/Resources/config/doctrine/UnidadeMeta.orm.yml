@@ -7,10 +7,7 @@ Novosga\Entity\UnidadeMeta:
     manyToOne:
         unidade:
             targetEntity: Novosga\Entity\Unidade
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 unidade_id:
                     referencedColumnName: id
