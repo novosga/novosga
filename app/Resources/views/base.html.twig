@@ -35,7 +35,7 @@
                 <div class="collapse navbar-collapse novosga-navbar">
                     {{ render(controller('AppBundle:Default:menu')) }}
 
-                    {% if app.user %}
+                    {% if is_granted('ROLE_USER') %}
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="{{ path('about') }}" title="{% trans %}Sobre{% endtrans %}">
