@@ -130,15 +130,25 @@ class DefaultController extends Controller
         $servicos = $usuarioService->servicos($usuario, $unidade);
         
         if ($unidade && $usuario) {
-            // fila de atendimento do atendente atual
-            $response->data = [
-                'atendimentos' => $filaService->filaAtendimento($unidade, $servicos),
-                'usuario'      => [
-                    'numeroLocal'     => $this->getNumeroLocalAtendimento($usuario),
-                    'tipoAtendimento' => $this->getTipoAtendimento($usuario),
-                ],
-            ];
-            $response->success = true;
+            // long polling
+            $maxtime = 10;
+            $starttime = time();
+            
+            do {
+                $atendimentos = $filaService->filaAtendimento($unidade, $servicos);
+
+                // fila de atendimento do atendente atual
+                $response->data = [
+                    'atendimentos' => $atendimentos,
+                    'usuario'      => [
+                        'numeroLocal'     => $this->getNumeroLocalAtendimento($usuario),
+                        'tipoAtendimento' => $this->getTipoAtendimento($usuario),
+                    ],
+                ];
+                $response->success = true;
+                
+                $elapsed = time() - $starttime;
+            } while (empty($atendimentos) && $elapsed < $maxtime);
         }
 
         return $response;
