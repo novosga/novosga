@@ -23,6 +23,6 @@ services:
             
     novosga.doctrine.tableprefix:
         class: AppBundle\Extensions\Doctrine\TablePrefix
-        arguments: ['%database_tableprefix%']
+        arguments: ["%database_tableprefix%"]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }

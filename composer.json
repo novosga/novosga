@@ -3,9 +3,18 @@
     "license": "MIT",
     "type": "project",
     "autoload": {
-        "psr-4": { "": "src/" },
-        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ],
-        "psr-0": { "": "modules/" }
+        "psr-4": { 
+            "": "src/",
+            "Novosga\\AttendanceBundle\\": "modules/Novosga/AttendanceBundle/",
+            "Novosga\\MonitorBundle\\": "modules/Novosga/MonitorBundle/",
+            "Novosga\\ReportsBundle\\": "modules/Novosga/ReportsBundle/",
+            "Novosga\\RolesBundle\\": "modules/Novosga/RolesBundle/",
+            "Novosga\\ServicesBundle\\": "modules/Novosga/ServicesBundle/",
+            "Novosga\\SettingsBundle\\": "modules/Novosga/SettingsBundle/",
+            "Novosga\\TriagemBundle\\": "modules/Novosga/TriagemBundle/",
+            "Novosga\\UsersBundle\\": "modules/Novosga/UsersBundle/"
+        },
+        "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {
         "psr-4": { "Tests\\": "tests/" }
@@ -22,7 +31,8 @@
         "sensio/distribution-bundle": "^5.0",
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
-        "mangati/base-bundle": "dev-master"
+        "mangati/base-bundle": "dev-master",
+        "novosga/core": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
