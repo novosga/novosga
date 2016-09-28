@@ -1,6 +1,13 @@
-{% extends "::base.html.twig" %}
+{% extends "admin.html.twig" %}
 
-{% block body %}
+{% block adminContent %}
+    <h1>
+        {% trans %}Perfis{% endtrans %}
+        <small>
+            {% trans %}Cadastro de perfis de acesso{% endtrans %}
+        </small>
+    </h1>
+    
     {{ form_start(form) }}
     
         {% include 'MangatiBaseBundle:Crud:flashMessages.html.twig' %}
@@ -23,7 +30,7 @@
                 <span class="glyphicon glyphicon-save"></span> 
                 {% trans %}Salvar{% endtrans %}
             </button>
-            <a href="{{ path('novosga_roles_index') }}" class="btn btn-default">
+            <a href="{{ path('admin_perfis_index') }}" class="btn btn-default">
                 <span class="glyphicon glyphicon-chevron-left"></span> 
                 {% trans %}Voltar{% endtrans %}
             </a>

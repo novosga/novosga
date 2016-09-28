@@ -1,22 +1,24 @@
 <?php
 
-namespace Novosga\RolesBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
-use Novosga\Entity\Cargo as Entity;
 use AppBundle\Form\CargoType as EntityType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Mangati\BaseBundle\Controller\CrudController;
+use Mangati\BaseBundle\Event\CrudEvent;
+use Mangati\BaseBundle\Event\CrudEvents;
+use Novosga\Entity\Cargo as Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Novosga\Entity\TreeModel;
 
 /**
  * DefaultController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  * 
+ * @Route("/admin/perfis")
  */
-class DefaultController extends CrudController
+class PerfisController extends CrudController
 {
     
     public function __construct()
@@ -29,18 +31,20 @@ class DefaultController extends CrudController
      * @param Request $request
      * @return Response
      * 
-     * @Route("/", name="novosga_roles_index")
+     * @Route("/", name="admin_perfis_index")
      */
     public function indexAction(Request $request)
     {
-        return $this->render('NovosgaRolesBundle:default:index.html.twig');
+        return $this->render('admin/perfis/index.html.twig', [
+            'tab' => 'perfis',
+        ]);
     }
    
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      * 
-     * @Route("/search.json", name="novosga_roles_search")
+     * @Route("/search.json", name="admin_perfis_search")
      */
     public function searchAction(Request $request) 
     {
@@ -60,11 +64,16 @@ class DefaultController extends CrudController
      * @param Request $request
      * @return Response
      * 
-     * @Route("/edit/{id}", name="novosga_roles_edit")
+     * @Route("/edit/{id}", name="admin_perfis_edit")
      */
     public function editAction(Request $request, $id = 0)
     {
-        return $this->edit('NovosgaRolesBundle:default:edit.html.twig', $request, $id);
+        $this->addEventListener(CrudEvents::FORM_RENDER, function (CrudEvent $event) {
+            $params = $event->getData();
+            $params['tab'] = 'perfis';
+        });
+        
+        return $this->edit('admin/perfis/edit.html.twig', $request, $id);
     }
     
     protected function createFormType()

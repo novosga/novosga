@@ -20,6 +20,16 @@
                             {% trans %}Unidades{% endtrans %}
                         </a>
                     </li>
+                    <li {% if tab == 'servicos' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_servicos_index') }}">
+                            {% trans %}Serviços{% endtrans %}
+                        </a>
+                    </li>
+                    <li {% if tab == 'perfis' %}class="active"{% endif %}>
+                        <a href="{{ path('admin_perfis_index') }}">
+                            {% trans %}Perfis{% endtrans %}
+                        </a>
+                    </li>
                     <li {% if tab == 'prioridades' %}class="active"{% endif %}>
                         <a href="{{ path('admin_prioridades_index') }}">
                             {% trans %}Prioridades{% endtrans %}

@@ -1,6 +1,20 @@
-{% extends "::base.html.twig" %}
+{% extends "admin.html.twig" %}
 
-{% block body %}
+{% block adminContent %}
+    <h1>
+        {% trans %}Perfis{% endtrans %}
+        <small>
+            {% trans %}Cadastro de perfis de acesso{% endtrans %}
+        </small>
+    </h1>
+        
+    <div class="text-right">
+        <a href="{{ path('admin_perfis_edit') }}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            {% trans %}Novo perfil{% endtrans %}
+        </a>
+    </div>
+        
     <table id="datatable" class="table table-striped">
         <thead>
             <th>#</th>
@@ -23,7 +37,7 @@
                 processing: true,
                 serverSide: true,
                 searching: false,
-                ajax: '{{ path('novosga_roles_search') }}',
+                ajax: '{{ path('admin_perfis_search') }}',
                 pageLength: 10,
                 columns: [
                     {
@@ -35,7 +49,7 @@
                     {
                         data: 'id',
                         render: function (id) {
-                            return '<a href="{{ path('novosga_roles_index') }}edit/' + id + '" class="btn btn-default"><i class="fa fa-edit"></i></a>';
+                            return '<a href="{{ path('admin_perfis_index') }}edit/' + id + '" class="btn btn-default"><i class="fa fa-edit"></i></a>';
                         }
                     }
                 ]
