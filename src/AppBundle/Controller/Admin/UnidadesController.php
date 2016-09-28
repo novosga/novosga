@@ -91,7 +91,7 @@ class UnidadesController extends Controller
                 ->getRepository(Unidade::class)
                 ->findBy([], ['nome' => 'ASC']);
         
-        return new JsonResponse($unidades);
+        return $this->json($unidades);
     }
     
     /**
@@ -108,9 +108,9 @@ class UnidadesController extends Controller
             $em->remove($unidade);
             $em->flush();
             
-            return new JsonResponse();
+            return $this->json();
         } catch (Exception $e) {
-            return new JsonResponse($e->getMessage(), false);
+            return $this->json($e->getMessage(), false);
         }
     }
     

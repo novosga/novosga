@@ -1,12 +1,10 @@
-Novosga\Entity\SequencialModel:
+Novosga\Entity\UniqueId:
     type: mappedSuperclass
     id:
         id:
             type: integer
-            scale: 0
-            unique: false
+            primary: true
+            unique: true
             nullable: false
-            precision: 0
-            id: true
             generator:
                 strategy: IDENTITY

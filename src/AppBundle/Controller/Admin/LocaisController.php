@@ -47,7 +47,7 @@ class LocaisController extends Controller
                 ->getRepository(Local::class)
                 ->findBy([], ['nome' => 'ASC']);
         
-        return new JsonResponse($locais);
+        return $this->json($locais);
     }
     
     /**
@@ -81,9 +81,9 @@ class LocaisController extends Controller
             
             $em->flush();
             
-            return new JsonResponse($local);
+            return $this->json($local);
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), false);
+            return $this->json($e->getMessage(), false);
         }
     }
     
@@ -101,9 +101,9 @@ class LocaisController extends Controller
             $em->remove($local);
             $em->flush();
             
-            return new JsonResponse();
+            return $this->json();
         } catch (\Exception $e) {
-            return new JsonResponse($e->getMessage(), false);
+            return $this->json($e->getMessage(), false);
         }
     }
 

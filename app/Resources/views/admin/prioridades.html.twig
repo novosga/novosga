@@ -70,7 +70,7 @@
     
             ctrl.load = function() {
                 $http.get('{{ path('admin_prioridades_list') }}')
-                    .success(function(response) {
+                    .then(function(response) {
                         ctrl.locais = response.data;
                     });
             };
@@ -81,7 +81,7 @@
                     peso: 1
                 };
                 ctrl.save(prioridade)
-                    .success(function(response) {
+                    .then(function(response) {
                         ctrl.load();
                     });
             };

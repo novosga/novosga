@@ -48,7 +48,7 @@ class PrioridadesController extends Controller
                 ->getRepository(Prioridade::class)
                 ->findBy([], ['nome' => 'ASC']);
         
-        return new JsonResponse($prioridades);
+        return $this->json($prioridades);
     }
     
     /**
@@ -86,9 +86,9 @@ class PrioridadesController extends Controller
             
             $em->flush();
             
-            return new JsonResponse($prioridade);
+            return $this->json($prioridade);
         } catch (Exception $e) {
-            return new JsonResponse($e->getMessage(), false);
+            return $this->json($e->getMessage(), false);
         }
     }
     
@@ -106,9 +106,9 @@ class PrioridadesController extends Controller
             $em->remove($prioridade);
             $em->flush();
             
-            return new JsonResponse();
+            return $this->json();
         } catch (Exception $e) {
-            return new JsonResponse($e->getMessage(), false);
+            return $this->json($e->getMessage(), false);
         }
     }
 

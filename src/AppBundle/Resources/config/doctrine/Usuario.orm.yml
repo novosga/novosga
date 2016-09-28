@@ -2,6 +2,11 @@ Novosga\Entity\Usuario:
     type: entity
     table: usuarios
     repositoryClass: Novosga\Repository\UsuarioRepository
+    id:
+        id:
+          type: integer
+          generator:
+            strategy: IDENTITY
     fields:
         login:
             type: string

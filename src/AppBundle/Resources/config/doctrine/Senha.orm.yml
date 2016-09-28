@@ -1,0 +1,24 @@
+Novosga\Entity\Senha:
+    type: embeddable
+    fields:
+        sigla:
+            type: string
+            length: 3
+            nullable: false
+            column: sigla_senha
+        numero:
+            type: integer
+            length: null
+            nullable: false
+            column: num_senha
+    manyToOne:
+        prioridade:
+            targetEntity: Novosga\Entity\Prioridade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prioridade_id:
+                    referencedColumnName: id
+            orphanRemoval: false

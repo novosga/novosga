@@ -2,6 +2,11 @@ Novosga\Entity\Unidade:
     type: entity
     table: unidades
     repositoryClass: Novosga\Repository\UnidadeRepository
+    id:
+        id:
+          type: integer
+          generator:
+            strategy: IDENTITY
     fields:
         codigo:
             type: string

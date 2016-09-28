@@ -64,7 +64,7 @@
     
             ctrl.load = function() {
                 $http.get('{{ path('admin_locais_list') }}')
-                    .success(function(response) {
+                    .then(function(response) {
                         ctrl.locais = response.data;
                     });
             };
@@ -74,7 +74,7 @@
                     nome: 'Novo local'
                 };
                 ctrl.save(local)
-                    .success(function(response) {
+                    .then(function(response) {
                         ctrl.load();
                     });
             };
@@ -85,7 +85,7 @@
     
             ctrl.delete = function(local) {
                 $http.post('{{ path('admin_locais_index') }}delete/' + local.id)
-                    .success(function(response) {
+                    .then(function(response) {
                         ctrl.load();
                     });
             };

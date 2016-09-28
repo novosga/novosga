@@ -34,27 +34,11 @@ Novosga\Entity\AbstractAtendimento:
             type: smallint
             length: 50
             nullable: false
-        nomeCliente:
-            type: string
-            length: 100
-            nullable: true
-            column: nm_cli
-        documentoCliente:
-            type: string
-            length: 20
-            unique: false
-            nullable: true
-            column: ident_cli
-        siglaSenha:
-            type: string
-            length: 3
-            nullable: false
-            column: sigla_senha
-        numeroSenha:
-            type: integer
-            length: null
-            nullable: false
-            column: num_senha
+    embedded:
+        senha:
+            class: Novosga\Entity\Senha
+        cliente:
+            class: Novosga\Entity\Cliente
     manyToOne:
         unidade:
             targetEntity: Novosga\Entity\Unidade
@@ -87,16 +71,6 @@ Novosga\Entity\AbstractAtendimento:
                     referencedColumnName: servico_id
                 unidade_id:
                     referencedColumnName: unidade_id
-            orphanRemoval: false
-        prioridade:
-            targetEntity: Novosga\Entity\Prioridade
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                prioridade_id:
-                    referencedColumnName: id
             orphanRemoval: false
         usuario:
             targetEntity: Novosga\Entity\Usuario

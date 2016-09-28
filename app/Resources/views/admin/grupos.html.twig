@@ -8,7 +8,7 @@
         </small>
     </h1>
         
-    <div ng-app="gropus">
+    <div ng-app="grupos">
         <div class="row" ng-controller="GroupsController as ctrl">
             <div class="col-md-8">
                 <ul class="list-group">
@@ -57,7 +57,7 @@
     <script src="{{ asset('js/angular.min.js') }}"></script>
 {#    <script type="text/javascript" src="{{ asset('bundles/novosgagroups/js/script.js') }}"></script>#}
     <script>
-        angular.module('gropus', [])
+        angular.module('grupos', [])
         .config(function($interpolateProvider){
             $interpolateProvider.startSymbol('[[').endSymbol(']]');
         })
@@ -67,7 +67,7 @@
     
             ctrl.load = function() {
                 $http.get('{{ path('admin_grupos_list') }}')
-                    .success(function(response) {
+                    .then(function(response) {
                         ctrl.groups = response.data;
                     });
             };

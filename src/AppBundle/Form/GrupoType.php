@@ -30,12 +30,14 @@ class GrupoType extends AbstractType
             ->add('parent', EntityType::class, [
                 'class' => Grupo::class,
                 'query_builder' => function (EntityRepository $er) use ($entity) {
+                    $id = $entity && $entity->getId() ? $entity->getId() : 0;
+                
                     return $er
                             ->createQueryBuilder('e')
                             ->where('e.id != :self')
                             ->orderBy('e.level', 'ASC')
                             ->addOrderBy('e.level', 'ASC')
-                            ->setParameter('self', $entity);
+                            ->setParameter('self', $id);
                 }
             ])
         ;

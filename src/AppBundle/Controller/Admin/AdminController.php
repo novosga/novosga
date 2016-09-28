@@ -7,7 +7,7 @@ use Novosga\Auth\AuthenticationProvider;
 use Novosga\Context;
 use Novosga\Http\Envelope;
 use Novosga\Entity\Configuracao;
-use Novosga\Entity\Util\Senha;
+use Novosga\Entity\Senha;
 use Novosga\Service\AtendimentoService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,8 +27,6 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->numeracoes = [
-            Senha::NUMERACAO_UNICA => _('Incremental única'),
-            Senha::NUMERACAO_SERVICO => _('Incremental por serviço')
         ];
     }
 

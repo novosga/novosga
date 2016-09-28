@@ -1,14 +1,13 @@
 Novosga\Entity\Modulo:
     type: entity
     table: modulos
-    fields:
+    id:
         chave:
             type: string
-            scale: 0
             length: 50
-            unique: true
-            nullable: false
-            precision: 0
+            generator:
+              strategy: NONE
+    fields:
         nome:
             type: string
             scale: 0

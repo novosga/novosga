@@ -1,7 +1,5 @@
-
-
 plugins: ~
-    
+
 modules:
     novosga.settings:
         class: \Novosga\SettingsBundle\NovosgaSettingsBundle

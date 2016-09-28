@@ -2,6 +2,11 @@ Novosga\Entity\Local:
     type: entity
     table: locais
     repositoryClass: Novosga\Repository\LocalRepository
+    id:
+        id:
+          type: integer
+          generator:
+            strategy: IDENTITY
     fields:
         nome:
             type: string

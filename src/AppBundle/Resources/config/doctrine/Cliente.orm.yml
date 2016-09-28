@@ -1,0 +1,14 @@
+Novosga\Entity\Cliente:
+    type: embeddable
+    fields:
+        nome:
+            type: string
+            length: 100
+            nullable: true
+            column: nm_cli
+        documento:
+            type: string
+            length: 20
+            unique: false
+            nullable: true
+            column: ident_cli

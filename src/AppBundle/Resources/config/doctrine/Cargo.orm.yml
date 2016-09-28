@@ -2,6 +2,11 @@ Novosga\Entity\Cargo:
     type: entity
     table: cargos
     repositoryClass: Novosga\Repository\CargoRepository
+    id:
+        id:
+          type: integer
+          generator:
+            strategy: IDENTITY
     fields:
         nome:
             type: string

@@ -88,7 +88,7 @@
     
             ctrl.load = function() {
                 $http.get('{{ path('admin_unidades_list') }}')
-                    .success(function(response) {
+                    .then(function(response) {
                         ctrl.locais = response.data;
                     });
             };
