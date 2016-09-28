@@ -27,7 +27,7 @@ class LocaisController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/locais.html.twig', [
+        return $this->render('admin/locais/index.html.twig', [
             'tab' => 'locais',
         ]);
     }

@@ -13,8 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  * 
- * @Route("/admin/groups")
- * 
+ * @Route("/admin/grupos")
  */
 class GruposController extends Controller
 {
@@ -30,7 +29,7 @@ class GruposController extends Controller
     {
         $form = $this->getForm(new Entity);
         
-        return $this->render('admin/grupos.html.twig', [
+        return $this->render('admin/grupos/index.html.twig', [
             'tab' => 'grupos',
             'form' => $form->createView()
         ]);

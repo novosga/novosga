@@ -26,7 +26,7 @@ class ApiController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/api.html.twig', [
+        return $this->render('admin/api/index.html.twig', [
             'tab' => 'api',
         ]);
     }

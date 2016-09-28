@@ -28,7 +28,7 @@ class PrioridadesController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/prioridades.html.twig', [
+        return $this->render('admin/prioridades/index.html.twig', [
             'tab' => 'prioridades',
         ]);
     }

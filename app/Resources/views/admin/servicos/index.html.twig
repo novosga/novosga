@@ -1,6 +1,20 @@
-{% extends "::base.html.twig" %}
+{% extends "admin.html.twig" %}
 
-{% block body %}
+{% block adminContent %}
+    <h1>
+        {% trans %}Serviços{% endtrans %}
+        <small>
+            {% trans %}Cadastro de serviços para atendimento{% endtrans %}
+        </small>
+    </h1>
+        
+    <div class="text-right">
+        <a href="{{ path('admin_servicos_edit') }}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-plus-sign"></span>
+            {% trans %}Novo serviço{% endtrans %}
+        </a>
+    </div>
+    
     <table id="datatable" class="table table-striped">
         <thead>
             <th>#</th>
@@ -25,7 +39,7 @@
                 processing: true,
                 serverSide: true,
                 searching: false,
-                ajax: '{{ path('novosga_services_search') }}',
+                ajax: '{{ path('admin_servicos_search') }}',
                 pageLength: 10,
                 columns: [
                     {
@@ -43,7 +57,7 @@
                     {
                         data: 'id',
                         render: function (id) {
-                            return '<a href="{{ path('novosga_services_index') }}edit/' + id + '" class="btn btn-default"><i class="fa fa-edit"></i></a>';
+                            return '<a href="{{ path('admin_servicos_index') }}edit/' + id + '" class="btn btn-default"><i class="fa fa-edit"></i></a>';
                         }
                     }
                 ]

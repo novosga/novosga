@@ -25,7 +25,7 @@ class ModulosController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/modulos.html.twig', [
+        return $this->render('admin/modulos/index.html.twig', [
             'tab' => 'modulos',
         ]);
     }

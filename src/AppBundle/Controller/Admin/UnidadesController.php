@@ -69,7 +69,7 @@ class UnidadesController extends Controller
             }
         }
         
-        return $this->render('admin/unidades.html.twig', [
+        return $this->render('admin/unidades/index.html.twig', [
             'tab' => 'unidades',
             'entity' => $entity,
             'form' => $form->createView()
