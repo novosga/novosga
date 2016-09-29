@@ -2,15 +2,16 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\ORM\EntityRepository;
+use Novosga\Entity\Servico;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Novosga\Entity\Servico;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ServicoType extends AbstractType
 {
@@ -40,7 +41,7 @@ class ServicoType extends AbstractType
                 'class' => Servico::class,
                 'placeholder' => 'Nenhum',
                 'required' => false,
-                'query_builder' => function (\Doctrine\ORM\EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('e')
                                 ->where('e.mestre IS NULL');
                 }
@@ -49,12 +50,12 @@ class ServicoType extends AbstractType
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => \Novosga\Entity\Servico::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Servico::class
+        ]);
     }
 }

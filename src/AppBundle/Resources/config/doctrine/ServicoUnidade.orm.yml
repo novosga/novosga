@@ -1,6 +1,6 @@
 Novosga\Entity\ServicoUnidade:
     type: entity
-    table: uni_serv
+    table: servicos_unidades
     id:
         servico:
             associationKey: true

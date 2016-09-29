@@ -1,6 +1,6 @@
 Novosga\Entity\AtendimentoCodificado:
     type: entity
-    table: atend_codif
+    table: atendimentos_codificados
     id:
         atendimento:
             associationKey: true

@@ -1,6 +1,6 @@
 Novosga\Entity\UsuarioMeta:
     type: entity
-    table: usu_meta
+    table: usuarios_metadata
     id:
         usuario:
             associationKey: true

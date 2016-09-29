@@ -2,13 +2,14 @@
 
 namespace AppBundle\Form;
 
+use Novosga\Entity\Grupo;
 use Novosga\Entity\Unidade;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UnidadeType extends AbstractType
 {
@@ -22,7 +23,7 @@ class UnidadeType extends AbstractType
             ->add('codigo', TextType::class)
             ->add('nome', TextType::class)
             ->add('grupo', EntityType::class, [
-                'class' => \Novosga\Entity\Grupo::class
+                'class' => Grupo::class
             ])
             ->add('status', CheckboxType::class, [
                 'required' => false
@@ -31,9 +32,9 @@ class UnidadeType extends AbstractType
     }
 
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => Unidade::class

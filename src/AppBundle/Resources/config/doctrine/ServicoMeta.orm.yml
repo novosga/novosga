@@ -1,6 +1,6 @@
 Novosga\Entity\ServicoMeta:
     type: entity
-    table: serv_meta
+    table: servicos_metadata
     id:
         servico:
             associationKey: true

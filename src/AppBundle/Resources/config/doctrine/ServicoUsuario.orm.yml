@@ -1,6 +1,6 @@
 Novosga\Entity\ServicoUsuario:
     type: entity
-    table: usu_serv
+    table: servicos_usuarios
     id:
         servico:
             associationKey: true

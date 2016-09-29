@@ -5,12 +5,12 @@ Novosga\Entity\Senha:
             type: string
             length: 3
             nullable: false
-            column: sigla_senha
+            column: sigla
         numero:
             type: integer
             length: null
             nullable: false
-            column: num_senha
+            column: numero
     manyToOne:
         prioridade:
             targetEntity: Novosga\Entity\Prioridade

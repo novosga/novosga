@@ -4,9 +4,9 @@ Novosga\Entity\Unidade:
     repositoryClass: Novosga\Repository\UnidadeRepository
     id:
         id:
-          type: integer
-          generator:
-            strategy: IDENTITY
+            type: integer
+            generator:
+                strategy: IDENTITY
     fields:
         codigo:
             type: string
@@ -27,7 +27,7 @@ Novosga\Entity\Unidade:
             length: 100
             unique: false
             nullable: false
-            column: msg_imp
+            column: mensagem
     oneToOne:
         grupo:
             targetEntity: Novosga\Entity\Grupo

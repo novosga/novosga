@@ -4,9 +4,9 @@ Novosga\Entity\Local:
     repositoryClass: Novosga\Repository\LocalRepository
     id:
         id:
-          type: integer
-          generator:
-            strategy: IDENTITY
+            type: integer
+            generator:
+                strategy: IDENTITY
     fields:
         nome:
             type: string

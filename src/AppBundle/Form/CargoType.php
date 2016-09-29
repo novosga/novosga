@@ -4,10 +4,10 @@ namespace AppBundle\Form;
 
 use Novosga\Entity\Cargo;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CargoType extends AbstractType
 {
@@ -17,6 +17,14 @@ class CargoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $modulos = [];
+        dump($options['modulos']);
+        foreach ($options['modulos'] as $modulo) {
+            if ($modulo instanceof \Novosga\Module\ModuleInterface) {
+                $modulos[$modulo->getDisplayName()] = $modulo->getKeyName();
+            }
+        }
+        
         $builder
             ->add('nome')
             ->add('descricao', TextareaType::class, [
@@ -24,21 +32,23 @@ class CargoType extends AbstractType
                     'rows' => 4
                 ]
             ])
-            ->add('modulos', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class, [
-                'class' => \Novosga\Entity\Modulo::class,
+            ->add('modulos', ChoiceType::class, [
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
+                'choices' => $modulos
             ])
         ;
     }
     
     /**
-     * @param OptionsResolverInterface $resolver
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => Cargo::class
-        ));
+        $resolver
+            ->setDefaults([
+                'data_class' => Cargo::class
+            ])
+            ->setRequired('modulos');
     }
 }

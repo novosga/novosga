@@ -4,9 +4,9 @@ Novosga\Entity\Cargo:
     repositoryClass: Novosga\Repository\CargoRepository
     id:
         id:
-          type: integer
-          generator:
-            strategy: IDENTITY
+            type: integer
+            generator:
+                strategy: IDENTITY
     fields:
         nome:
             type: string
@@ -22,14 +22,6 @@ Novosga\Entity\Cargo:
             unique: false
             nullable: false
             precision: 0
-    manyToMany:
         modulos:
-            targetEntity: Modulo
-            joinTable:
-              name: cargos_mod_perm
-              joinColumns:
-                cargo_id:
-                  referencedColumnName: id
-              inverseJoinColumns:
-                modulo_id:
-                  referencedColumnName: id
+            type: simple_array
+            nullable: true

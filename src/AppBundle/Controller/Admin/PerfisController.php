@@ -80,4 +80,21 @@ class PerfisController extends CrudController
     {
         return EntityType::class;
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    protected function editFormOptions(Request $request, $entity)
+    {
+        $options = parent::editFormOptions($request, $entity);
+        
+        $kernel = $this->get('kernel');
+        $modulos = array_filter($kernel->getBundles(), function ($module) {
+            return ($module instanceof \Novosga\Module\ModuleInterface);
+        });
+        
+        return array_merge($options, [
+            'modulos' => $modulos
+        ]);
+    }
 }

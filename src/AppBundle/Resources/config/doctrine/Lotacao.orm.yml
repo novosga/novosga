@@ -1,6 +1,6 @@
 Novosga\Entity\Lotacao:
     type: entity
-    table: usu_grup_cargo
+    table: usuarios_grupos_cargos
     repositoryClass: Novosga\Repository\LotacaoRepository
     id:
         usuario:

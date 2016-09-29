@@ -1,6 +1,6 @@
 Novosga\Entity\UnidadeMeta:
     type: entity
-    table: uni_meta
+    table: unidades_metadata
     id:
         unidade:
             associationKey: true

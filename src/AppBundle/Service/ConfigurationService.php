@@ -2,7 +2,6 @@
 
 namespace AppBundle\Service;
 
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\Definition\Processor;
 use AppBundle\Config\NovosgaConfiguration;
@@ -27,7 +26,7 @@ class ConfigurationService
             $processor = new Processor();
             $configuration = $processor->processConfiguration(
                 new NovosgaConfiguration(),
-                [$config]
+                [$config['novosga']]
             );
         }
 
@@ -39,6 +38,6 @@ class ConfigurationService
      */
     public static function set($configuration)
     {
-            file_put_contents(self::$filename, Yaml::dump($configuration));
+        file_put_contents(self::$filename, Yaml::dump($configuration));
     }
 }

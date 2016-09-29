@@ -1,6 +1,10 @@
 Novosga\Entity\AbstractAtendimento:
     type: mappedSuperclass
-    table: abstract_atendimento
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
     fields:
         local:
             type: smallint

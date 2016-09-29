@@ -1,6 +1,11 @@
 Novosga\Entity\PainelSenha:
     type: entity
     table: painel_senha
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
     fields:
         numeroSenha:
             type: integer

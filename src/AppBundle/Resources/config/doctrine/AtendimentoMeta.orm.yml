@@ -1,6 +1,6 @@
 Novosga\Entity\AtendimentoMeta:
     type: entity
-    table: atend_meta
+    table: atendimentos_metadata
     id:
         atendimento:
             associationKey: true

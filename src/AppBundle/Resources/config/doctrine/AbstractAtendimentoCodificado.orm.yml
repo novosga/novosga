@@ -1,6 +1,5 @@
 Novosga\Entity\AbstractAtendimentoCodificado:
     type: mappedSuperclass
-    table: abstract_atendimento_codificado
     id:
         servico:
             associationKey: true
