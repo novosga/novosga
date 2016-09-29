@@ -20,15 +20,17 @@ class ConfigurationService
     {
         $configuration = [];
 
-        if (file_exists(self::$filename)) {
-            $config = Yaml::parse(file_get_contents(self::$filename));
-
-            $processor = new Processor();
-            $configuration = $processor->processConfiguration(
-                new NovosgaConfiguration(),
-                [$config['novosga']]
-            );
+        if (!file_exists(self::$filename)) {
+            file_put_contents(self::$filename, file_get_contents(self::$filename . '.dist'));
         }
+        
+        $config = Yaml::parse(file_get_contents(self::$filename));
+
+        $processor = new Processor();
+        $configuration = $processor->processConfiguration(
+            new NovosgaConfiguration(),
+            [$config['novosga']]
+        );
 
         return $configuration;
     }

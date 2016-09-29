@@ -3,17 +3,7 @@
     "license": "MIT",
     "type": "project",
     "autoload": {
-        "psr-4": { 
-            "": "src/",
-            "Novosga\\AttendanceBundle\\": "modules/Novosga/AttendanceBundle/",
-            "Novosga\\MonitorBundle\\": "modules/Novosga/MonitorBundle/",
-            "Novosga\\ReportsBundle\\": "modules/Novosga/ReportsBundle/",
-            "Novosga\\RolesBundle\\": "modules/Novosga/RolesBundle/",
-            "Novosga\\ServicesBundle\\": "modules/Novosga/ServicesBundle/",
-            "Novosga\\SettingsBundle\\": "modules/Novosga/SettingsBundle/",
-            "Novosga\\TriagemBundle\\": "modules/Novosga/TriagemBundle/",
-            "Novosga\\UsersBundle\\": "modules/Novosga/UsersBundle/"
-        },
+        "psr-4": { "": "src/" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {
@@ -32,7 +22,13 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "mangati/base-bundle": "dev-master",
-        "novosga/core": "dev-master"
+        "novosga/core": "dev-master",
+        "novosga/reports-bundle": "dev-master",
+        "novosga/attendance-bundle": "dev-master",
+        "novosga/monitor-bundle": "dev-master",
+        "novosga/settings-bundle": "dev-master",
+        "novosga/triagem-bundle": "dev-master",
+        "novosga/users-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
@@ -66,14 +62,9 @@
         "symfony-web-dir": "web",
         "symfony-tests-dir": "tests",
         "symfony-assets-install": "relative",
-        "incenteev-parameters": [
-            {
-                "file": "app/config/parameters.yml"
-            },
-            {
-                "file": "app/config/novosga.yml"
-            }
-        ],
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml"
+        },
         "branch-alias": {
             "dev-master": "3.1-dev"
         }

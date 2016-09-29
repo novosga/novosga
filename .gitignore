@@ -1,4 +1,5 @@
 /app/config/parameters.yml
+/app/config/novosga.yml
 /build/
 /phpunit.xml
 /var/*
