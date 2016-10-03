@@ -18,7 +18,7 @@ class CargoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $modulos = [];
-        dump($options['modulos']);
+        
         foreach ($options['modulos'] as $modulo) {
             if ($modulo instanceof \Novosga\Module\ModuleInterface) {
                 $modulos[$modulo->getDisplayName()] = $modulo->getKeyName();
