@@ -1,5 +1,53 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    modulos index
+    <h1>
+        {% trans %}Módulos{% endtrans %}
+        <small>
+            {% trans %}Gerenciamento dos módulos do Novo SGA{% endtrans %}
+        </small>
+    </h1>
+        
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>{% trans %}Módulo{% endtrans %}</th>
+                <th>{% trans %}Ativo{% endtrans %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for module in modules %}
+                <tr>
+                    <td>{{module.name}}</td>
+                    <td>
+                        <input type="checkbox" value="1" {% if module.active %}checked{% endif %} class="module-status" data-key="{{ module.key }}">
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function() {
+            'use strict'
+            
+            $('.module-status').on('change', function () {
+                var checkbox = $(this);
+                
+                $.ajax({
+                    url: '{{ path('admin_modulos_status') }}',
+                    type: 'post',
+                    data: {
+                        status: checkbox.is(':checked') ? 1 : 0,
+                        key: checkbox.data('key') 
+                    },
+                    succes: function () {
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

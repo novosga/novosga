@@ -29,7 +29,7 @@ class AppKernel extends Kernel
 
         $service = new \AppBundle\Service\ModuleService();
         
-        foreach ($service->getModules() as $key => $value) {
+        foreach ($service->getModules() as $value) {
             if ($value['active']) {
                 $module = new $value['class'];
                 if ($module instanceof \Novosga\Module\ModuleInterface) {

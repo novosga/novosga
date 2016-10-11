@@ -25,8 +25,40 @@ class ModulosController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $service = new \AppBundle\Service\ModuleService();
+        $modules = array_map(function ($value) {
+            $module = new $value['class'];
+            
+            return [
+                'active' => $value['active'],
+                'key' => $module->getKeyName(),
+                'name' => $module->getDisplayName(),
+            ];
+        }, $service->getModules());
+        
         return $this->render('admin/modulos/index.html.twig', [
             'tab' => 'modulos',
+            'modules' => $modules
+        ]);
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/update", name="admin_modulos_status")
+     */
+    public function statusAction(Request $request)
+    {
+        $key = $request->get('key');
+        $status = $request->get('status');
+        
+        $service = new \AppBundle\Service\ModuleService();
+        $service->update($key, $status);
+        
+        return $this->json([
+            'ok'
         ]);
     }
 

@@ -29,7 +29,7 @@ class ConfigurationService
         $processor = new Processor();
         $configuration = $processor->processConfiguration(
             new NovosgaConfiguration(),
-            [$config['novosga']]
+            [$config]
         );
 
         return $configuration;

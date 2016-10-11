@@ -26,6 +26,25 @@ class ModuleService
         return $modules;
     }
 
+    /**
+     *
+     * @param string
+     * @param bool
+     */
+    public function update($key, $status)
+    {
+        $configuration = ConfigurationService::get();
+
+        if (isset($configuration['modules']) && isset($configuration['modules'][$key])) {
+            $configuration['modules'][$key]['active'] = (bool) $status;
+            ConfigurationService::set($configuration);
+            
+            return true;
+        }
+
+        return false;
+    }
+
     public function discover()
     {
         $searchPath = realpath(__DIR__ . '/../../../modules');
