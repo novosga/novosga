@@ -42,11 +42,13 @@
                                 <i class="fa fa-question-circle fa-fw"></i>
                             </a>
                         </li>
-                        <li>
-                            <a href="{{ path('admin_index') }}" title="{% trans %}Administração{% endtrans %}">
-                                <i class="fa fa-cog fa-fw"></i>
-                            </a>
-                        </li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li>
+                                <a href="{{ path('admin_index') }}" title="{% trans %}Administração{% endtrans %}">
+                                    <i class="fa fa-cog fa-fw"></i>
+                                </a>
+                            </li>
+                        {% endif %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-user fa-fw"></i>
