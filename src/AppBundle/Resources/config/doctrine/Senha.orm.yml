@@ -11,14 +11,3 @@ Novosga\Entity\Senha:
             length: null
             nullable: false
             column: numero
-    manyToOne:
-        prioridade:
-            targetEntity: Novosga\Entity\Prioridade
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                prioridade_id:
-                    referencedColumnName: id
-            orphanRemoval: false
