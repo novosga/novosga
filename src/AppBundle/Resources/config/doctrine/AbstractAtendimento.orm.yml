@@ -64,6 +64,16 @@ Novosga\Entity\AbstractAtendimento:
                 servico_id:
                     referencedColumnName: id
             orphanRemoval: false
+        prioridade:
+            targetEntity: Novosga\Entity\Prioridade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prioridade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
         servicoUnidade:
             targetEntity: Novosga\Entity\ServicoUnidade
             cascade: {  }

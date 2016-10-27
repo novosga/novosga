@@ -50,7 +50,7 @@ class DefaultController extends Controller
         $listener = $this->get('novosga.security.listener');
         $listener->updateUnidade($request, $this->getUser(), $unidade);
 
-        return $this->json(true);
+        return $this->json(new Envelope());
     }
 
     /**
