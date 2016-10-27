@@ -700,29 +700,21 @@ var App = {
     
     Websocket: {
         
-        connect: function(props) {
-            props = props || {};
-            var conn,
-                host = props.host, 
-                port = props.port || 8080
-            ;
-            if (!host) {
-                var a = document.createElement('a');
-                a.href = App.baseUrl;
-                host = a.hostname;
-            }
-             
-            conn = new WebSocket('ws://' + host + ':' + port);
-            conn.onopen = props.open;
-            conn.onmessage = props.message;
-            conn.onerror = props.error;
-            
-            return conn;
+        connect: function() {
+            this.ws = io(':2020');
+        },
+        
+        on: function(evt, fn) {
+            this.ws.on(evt, fn);
+        },
+        
+        emit: function(evt, fn) {
+            this.ws.emit(evt, fn);
         }
         
     }
     
-}
+};
 
 /* helpers */
 
