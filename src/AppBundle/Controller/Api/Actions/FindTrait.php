@@ -1,7 +1,9 @@
 <?php
 
-namespace AppBundle\Controller\Api;
+namespace AppBundle\Controller\Api\Actions;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,6 +16,7 @@ trait FindTrait
     
     /**
      * @Route("")
+     * @Method("GET")
      */
     public function findAction(Request $request)
     {

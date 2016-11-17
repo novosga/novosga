@@ -14,8 +14,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class LocaisController extends ApiControllerBase
 {
     
-    use GetTrait,
-        FindTrait;
+    use Actions\GetTrait,
+        Actions\FindTrait,
+        Actions\PostTrait,
+        Actions\PutTrait,
+        Actions\DeleteTrait;
     
     public function __construct()
     {

@@ -14,8 +14,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class AtendimentosController extends ApiControllerBase
 {
     
-    use GetTrait,
-        FindTrait;
+    use Actions\GetTrait,
+        Actions\FindTrait;
     
     public function __construct()
     {

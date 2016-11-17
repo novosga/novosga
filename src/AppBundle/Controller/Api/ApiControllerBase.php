@@ -4,6 +4,9 @@ namespace AppBundle\Controller\Api;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * ApiControllerBase
@@ -60,21 +63,43 @@ abstract class ApiControllerBase extends Controller implements ApiControllerInte
     
     public function add($object)
     {
-        $this->getManager()->persist($object);
+        try {
+            $this->getManager()->persist($object);
+            $this->getManager()->flush();
+        } catch (\Exception $e) {
+            $object = [
+                'error' => $e->getMessage()
+            ];
+        }
         
         return $this->json($object);
     }
 
     public function remove($object)
     {
-        $this->getManager()->remove($object);
+        try {
+            $this->getManager()->remove($object);
+            $this->getManager()->flush();
+        } catch (\Exception $e) {
+            $object = [
+                'error' => $e->getMessage()
+            ];
+        }
+        
         
         return $this->json($object);
     }
 
     public function update($object)
     {
-        $this->getManager()->merge($object);
+        try {
+            $this->getManager()->merge($object);
+            $this->getManager()->flush();
+        } catch (\Exception $e) {
+            $object = [
+                'error' => $e->getMessage()
+            ];
+        }
         
         return $this->json($object);
     }
@@ -99,5 +124,24 @@ abstract class ApiControllerBase extends Controller implements ApiControllerInte
                             ->getRepository($this->entityName);
         
         return $repository;
+    }
+    
+    /**
+     * 
+     * @param string $json
+     * @param array  $args
+     * @return object
+     */
+    protected function deserialize($json, array $args = [])
+    {
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setIgnoredAttributes(['id']);
+        $encoder = new JsonEncoder();
+
+        $serializer = new Serializer([$normalizer], [$encoder]);
+        
+        $object = $serializer->deserialize($json, $this->entityName, 'json', $args);
+        
+        return $object;
     }
 }
