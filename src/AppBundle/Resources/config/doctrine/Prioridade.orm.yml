@@ -31,3 +31,5 @@ Novosga\Entity\Prioridade:
             nullable: false
             precision: 0
     lifecycleCallbacks: {  }
+    entityListeners:
+        Novosga\Listener\PrioridadeListener: ~

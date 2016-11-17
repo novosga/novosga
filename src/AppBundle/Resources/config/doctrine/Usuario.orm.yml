@@ -71,3 +71,5 @@ Novosga\Entity\Usuario:
             orphanRemoval: false
             orderBy: null
     lifecycleCallbacks: {  }
+    entityListeners:
+        Novosga\Listener\UsuarioListener: ~
