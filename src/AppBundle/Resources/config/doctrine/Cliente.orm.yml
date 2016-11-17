@@ -1,14 +1,27 @@
 Novosga\Entity\Cliente:
-    type: embeddable
+    type: entity
+    table: clientes
+    repositoryClass: Novosga\Repository\ClienteRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
     fields:
         nome:
             type: string
-            length: 100
+            length: 60
             nullable: true
-            column: nm_cli
+            column: nome
         documento:
             type: string
-            length: 20
+            length: 30
             unique: false
             nullable: true
-            column: ident_cli
+            column: documento
+        email:
+            type: string
+            length: 80
+            unique: true
+            nullable: true
+            column: email

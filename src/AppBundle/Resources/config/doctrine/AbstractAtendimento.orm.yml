@@ -11,7 +11,7 @@ Novosga\Entity\AbstractAtendimento:
             scale: 0
             length: null
             unique: false
-            nullable: false
+            nullable: true
             precision: 0
             column: num_local
         dataAgendamento:
@@ -41,78 +41,55 @@ Novosga\Entity\AbstractAtendimento:
     embedded:
         senha:
             class: Novosga\Entity\Senha
-        cliente:
-            class: Novosga\Entity\Cliente
     manyToOne:
+        cliente:
+            targetEntity: Novosga\Entity\Cliente
+            fetch: LAZY
+            cascade: [persist]
+            joinColumns:
+                cliente_id:
+                    referencedColumnName: id
         unidade:
             targetEntity: Novosga\Entity\Unidade
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 unidade_id:
                     referencedColumnName: id
-            orphanRemoval: false
         servico:
             targetEntity: Novosga\Entity\Servico
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 servico_id:
                     referencedColumnName: id
-            orphanRemoval: false
         prioridade:
             targetEntity: Novosga\Entity\Prioridade
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 prioridade_id:
                     referencedColumnName: id
-            orphanRemoval: false
         servicoUnidade:
             targetEntity: Novosga\Entity\ServicoUnidade
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 servico_id:
                     referencedColumnName: servico_id
                 unidade_id:
                     referencedColumnName: unidade_id
-            orphanRemoval: false
         usuario:
             targetEntity: Novosga\Entity\Usuario
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 usuario_id:
                     referencedColumnName: id
-            orphanRemoval: false
         usuarioTriagem:
             targetEntity: Novosga\Entity\Usuario
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 usuario_tri_id:
                     referencedColumnName: id
-            orphanRemoval: false
         pai:
             targetEntity: Novosga\Entity\Atendimento
-            cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 atendimento_id:
                     referencedColumnName: id
-            orphanRemoval: false
