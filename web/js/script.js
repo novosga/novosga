@@ -11,6 +11,39 @@ var App = {
     dateFormat: '',
     baseUrl: '/',
     
+    Storage: {
+        
+        set: function(name, value) {
+            if (localStorage) {
+                localStorage.setItem(name, value);
+            } else {
+                // cookie
+                var expires = "";
+                document.cookie = name + "=" + value + expires + "; path=/";
+            }
+        },
+                
+        get: function(name) {
+            if (localStorage) {
+                return localStorage.getItem(name);
+            } else {
+                // cookie
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for(var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1,c.length);
+                    }
+                    if (c.indexOf(nameEQ) === 0) {
+                        return c.substring(nameEQ.length, c.length);
+                    }
+                }
+            }
+            return null;
+        }
+    },
+    
     dialogs: {
         
         opened: 0,
@@ -206,82 +239,6 @@ var App = {
                 }
             }
         });
-    },
-    
-    Form: {
-        
-        labels: {
-            required: '_required_',
-        },
-        
-        searchBox: function(id) {
-            var input = $('#' + id);
-            input.on('focus', function() {
-                if (!input.data('width')) {
-                    input.data('width', input.width());
-                }
-                input.animate({width: 300});
-            });
-            input.on('blur', function() {
-                clearTimeout(this.timeoutId);
-                this.timeoutId = setTimeout(function() {
-                    input.animate({width: input.data('width')});
-                }, 1000);
-            });
-        },
-        
-        validate: function(formId) {
-            var form = $('#' + formId);
-            form.find(":input:visible:enabled:first").focus();
-            form.on('submit', function() {
-                return App.Form.checkRequireds(form);
-            });
-        },
-        
-        checkRequireds: function(main) {
-            if (typeof(main) === 'string') {
-                main = $(main);
-            }
-            var success = true;
-            main.find('div.required>:input, :input.required').each(function(i, v) {
-                var input = $(v);
-                if ($.trim(input.val()) === '') {
-                    success = false;
-                    var parent = input.parent();
-                    var error = parent.find('span.error');
-                    if (error.length === 0) {
-                        error = $('<span class="error"></span>');
-                        parent.append(error);
-                        parent.addClass('has-error');
-                        input.on('change', function() { 
-                            if ($.trim(input.val()) !== '') {
-                                error.text('');
-                                parent.removeClass('has-error');
-                            }
-                        });
-                    }
-                    error.text(App.Form.labels.required);
-                }
-            });
-            return success;
-        },
-        
-        confirm: function(message, success, failure) {
-            var r = window.confirm(message);
-            if (r && typeof(success) == 'function') {
-                success();
-            }
-            else if (!r && typeof(failure) == 'function') {
-                failure();
-            }
-        },
-        
-        loginValue: function(input) {
-            var value = input.value + "";
-            value = value.replace(/([^\w\d\.])+/g, '');
-            input.value = value.toLowerCase();
-        }
-        
     },
             
     Home: {
