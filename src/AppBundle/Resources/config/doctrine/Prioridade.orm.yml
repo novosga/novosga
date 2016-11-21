@@ -1,7 +1,7 @@
 Novosga\Entity\Prioridade:
     type: entity
     table: prioridades
-    repositoryClass: Novosga\Repository\PrioridadeRepository
+    repositoryClass: AppBundle\Repository\ORM\PrioridadeRepository
     id:
         id:
             type: integer
@@ -32,4 +32,4 @@ Novosga\Entity\Prioridade:
             precision: 0
     lifecycleCallbacks: {  }
     entityListeners:
-        Novosga\Listener\PrioridadeListener: ~
+        AppBundle\Listener\ORM\PrioridadeListener: ~

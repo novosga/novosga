@@ -2,6 +2,14 @@ parameters:
 #    parameter_name: value
 
 services:
+    fos_oauth_server.security.authentication.listener:
+        class: ApiBundle\Security\OAuthListener
+        arguments: ["@service_container"]
+    
+    novosga.user_provider:
+        class: AppBundle\Security\UserProvider
+        arguments: ["@doctrine"]
+    
     novosga.routing_loader:
         class: AppBundle\Loader\RouterLoader
         arguments: ["@kernel"]

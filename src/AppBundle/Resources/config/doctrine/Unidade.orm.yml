@@ -1,7 +1,7 @@
 Novosga\Entity\Unidade:
     type: entity
     table: unidades
-    repositoryClass: Novosga\Repository\UnidadeRepository
+    repositoryClass: AppBundle\Repository\ORM\UnidadeRepository
     id:
         id:
             type: integer

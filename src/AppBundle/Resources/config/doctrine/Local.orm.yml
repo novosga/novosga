@@ -1,7 +1,7 @@
 Novosga\Entity\Local:
     type: entity
     table: locais
-    repositoryClass: Novosga\Repository\LocalRepository
+    repositoryClass: AppBundle\Repository\ORM\LocalRepository
     id:
         id:
             type: integer

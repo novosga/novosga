@@ -1,7 +1,7 @@
 Novosga\Entity\Grupo:
     type: entity
     table: grupos
-    repositoryClass: Novosga\Repository\GrupoRepository
+    repositoryClass: AppBundle\Repository\ORM\GrupoRepository
     id:
         id:
             type: integer

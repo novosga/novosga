@@ -1,0 +1,11 @@
+AppBundle\Entity\NovaSenha:
+    exclusion_policy: ALL
+    properties:
+        unidade:
+            type: integer
+        prioridade:
+            type: integer
+        servico:
+            type: integer
+        cliente:
+            type: Novosga\Entity\Cliente

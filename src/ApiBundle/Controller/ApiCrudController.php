@@ -1,19 +1,15 @@
 <?php
 
-namespace AppBundle\Controller\Api;
+namespace ApiBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Serializer;
 
 /**
  * ApiControllerBase
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-abstract class ApiControllerBase extends Controller implements ApiControllerInterface
+abstract class ApiCrudController extends ApiControllerBase
 {
     
     private $entityName;
@@ -105,17 +101,6 @@ abstract class ApiControllerBase extends Controller implements ApiControllerInte
     }
     
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager
-     */
-    protected function getManager()
-    {
-        $manager = $this->getDoctrine()
-                            ->getManager();
-        
-        return $manager;
-    }
-    
-    /**
      * @return \Doctrine\Common\Persistence\ObjectRepository
      */
     protected function getRepository()
@@ -134,12 +119,7 @@ abstract class ApiControllerBase extends Controller implements ApiControllerInte
      */
     protected function deserialize($json, array $args = [])
     {
-        $normalizer = new ObjectNormalizer();
-        $normalizer->setIgnoredAttributes(['id']);
-        $encoder = new JsonEncoder();
-
-        $serializer = new Serializer([$normalizer], [$encoder]);
-        
+        $serializer = $this->getSerializer();
         $object = $serializer->deserialize($json, $this->entityName, 'json', $args);
         
         return $object;

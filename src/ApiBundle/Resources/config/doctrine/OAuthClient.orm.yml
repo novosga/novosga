@@ -1,0 +1,8 @@
+ApiBundle\Entity\OAuthClient:
+    type: entity
+    table: oauth_clients
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY

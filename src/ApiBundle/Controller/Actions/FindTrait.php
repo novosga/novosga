@@ -1,29 +1,26 @@
 <?php
 
-namespace AppBundle\Controller\Api\Actions;
+namespace ApiBundle\Controller\Actions;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * PostTrait
+ * FindTrait
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-trait PostTrait
+trait FindTrait
 {
     
     /**
      * @Route("")
-     * @Method("POST")
+     * @Method("GET")
      */
-    public function postAction(Request $request)
+    public function findAction(Request $request)
     {
-        $json = $request->getContent();
-        $object = $this->deserialize($json);
-        
-        return $this->add($object);
+        return $this->search($request);
     }
     
 }

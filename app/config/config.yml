@@ -18,8 +18,8 @@ framework:
         strict_requirements: ~
     form:            ~
     csrf_protection: ~
-    validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
+    validation:      { enable_annotations: false }
+    serializer:      { enable_annotations: false }
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
@@ -65,6 +65,10 @@ doctrine:
                 prefix: Novosga\Entity
                 alias: Novosga
                 is_bundle: false
+            ApiBundle:
+                type: yml
+                dir: "Resources/config/doctrine/"
+            FOSOAuthServerBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -73,3 +77,22 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+    
+    
+jms_serializer:
+    enable_short_alias: false
+    metadata:
+        auto_detection: true
+        directories:
+            novosga:
+                namespace_prefix: "Novosga\\Entity"
+                path: "@AppBundle/Resources/config/serializer"
+                
+fos_oauth_server:
+    db_driver: orm
+    client_class:        ApiBundle\Entity\OAuthClient
+    access_token_class:  ApiBundle\Entity\OAuthAccessToken
+    refresh_token_class: ApiBundle\Entity\OAuthRefreshToken
+    auth_code_class:     ApiBundle\Entity\OAuthAuthCode
+    service:
+        user_provider: novosga.user_provider

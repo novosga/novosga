@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Api\Actions;
+namespace ApiBundle\Controller\Actions;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

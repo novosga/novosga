@@ -1,17 +1,17 @@
 <?php
 
-namespace AppBundle\Controller\Api;
+namespace ApiBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * ServicosController
+ * GruposController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  * 
- * @Route("/api/servicos")
+ * @Route("/grupos")
  */
-class ServicosController extends ApiControllerBase
+class GruposController extends ApiCrudController
 {
     
     use Actions\GetTrait,
@@ -22,7 +22,7 @@ class ServicosController extends ApiControllerBase
     
     public function __construct()
     {
-        parent::__construct(\Novosga\Entity\Servico::class);
+        parent::__construct(\Novosga\Entity\Grupo::class);
     }
     
 }

@@ -1,7 +1,7 @@
 Novosga\Entity\Lotacao:
     type: entity
     table: usuarios_grupos_cargos
-    repositoryClass: Novosga\Repository\LotacaoRepository
+    repositoryClass: AppBundle\Repository\ORM\LotacaoRepository
     id:
         usuario:
             associationKey: true

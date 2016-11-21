@@ -1,7 +1,7 @@
 Novosga\Entity\Usuario:
     type: entity
     table: usuarios
-    repositoryClass: Novosga\Repository\UsuarioRepository
+    repositoryClass: AppBundle\Repository\ORM\UsuarioRepository
     id:
         id:
             type: integer
@@ -72,4 +72,4 @@ Novosga\Entity\Usuario:
             orderBy: null
     lifecycleCallbacks: {  }
     entityListeners:
-        Novosga\Listener\UsuarioListener: ~
+        AppBundle\Listener\ORM\UsuarioListener: ~

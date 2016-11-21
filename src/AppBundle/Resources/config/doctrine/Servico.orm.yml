@@ -1,7 +1,7 @@
 Novosga\Entity\Servico:
     type: entity
     table: servicos
-    repositoryClass: Novosga\Repository\ServicoRepository
+    repositoryClass: AppBundle\Repository\ORM\ServicoRepository
     id:
         id:
             type: integer

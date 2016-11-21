@@ -1,27 +1,25 @@
 <?php
 
-namespace AppBundle\Controller\Api\Actions;
+namespace ApiBundle\Controller\Actions;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
- * DeleteTrait
+ * GetTrait
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-trait DeleteTrait
+trait GetTrait
 {
     
     /**
      * @Route("/{id}")
-     * @Method("DELETE")
+     * @Method("GET")
      */
-    public function deleteAction($id)
+    public function getAction($id)
     {
-        $object = $this->getRepository()->find($id);
-        
-        return $this->remove($object);
+        return $this->find($id);
     }
     
 }

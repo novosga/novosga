@@ -6,18 +6,22 @@ security:
 
     providers:
         novosga_provider:
-            entity:
-                class: Novosga\Entity\Usuario
-                property: login
+            id: novosga.user_provider
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+            
+        oauth_token:
+            pattern:    ^/api/token
+            security:   false
 
         api:
-            pattern:  ^/api
-            security: false
+            pattern:    ^/api
+            fos_oauth:  true
+            stateless:  true
+            anonymous:  false
 
         login:
             pattern:  ^/login$
@@ -37,6 +41,7 @@ security:
 
 
     access_control:
+        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/, roles: ROLE_USER }

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Api;
+namespace ApiBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -11,7 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * 
  * @Route("/api/atendimentos")
  */
-class AtendimentosController extends ApiControllerBase
+class AtendimentosController extends ApiCrudController
 {
     
     use Actions\GetTrait,

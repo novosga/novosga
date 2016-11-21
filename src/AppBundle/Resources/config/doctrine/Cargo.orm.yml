@@ -1,7 +1,7 @@
 Novosga\Entity\Cargo:
     type: entity
     table: cargos
-    repositoryClass: Novosga\Repository\CargoRepository
+    repositoryClass: AppBundle\Repository\ORM\CargoRepository
     id:
         id:
             type: integer

@@ -1,17 +1,17 @@
 <?php
 
-namespace AppBundle\Controller\Api;
+namespace ApiBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 /**
- * UnidadesController
+ * PrioridadesController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  * 
- * @Route("/api/unidades")
+ * @Route("/prioridades")
  */
-class UnidadesController extends ApiControllerBase
+class PrioridadesController extends ApiCrudController
 {
     
     use Actions\GetTrait,
@@ -22,7 +22,7 @@ class UnidadesController extends ApiControllerBase
     
     public function __construct()
     {
-        parent::__construct(\Novosga\Entity\Unidade::class);
+        parent::__construct(\Novosga\Entity\Prioridade::class);
     }
     
 }

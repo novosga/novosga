@@ -31,26 +31,24 @@ class ApiController extends Controller
         ]);
     }
 
-    public function add_oauth_client(Context $context)
+    /**
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/new-oauth-client", name="admin_api_index")
+     */
+    public function newOauthClientAction(Request $request)
     {
         $envelope = new Envelope();
         try {
-            if (!$context->request()->isPost()) {
-                throw new Exception(_('Somente via POST'));
-            }
-            $client_id = $context->request()->post('client_id');
-            $client_secret = $context->request()->post('client_secret');
-            $redirect_uri = $context->request()->post('redirect_uri');
-            // apaga se ja existir
-            $this->delete_auth_client_by_id($client_id);
-            // insere novo cliente
-            $client = new \Novosga\Entity\OAuthClient();
-            $client->setId($client_id);
-            $client->setSecret($client_secret);
-            $client->setRedirectUri($redirect_uri);
-
-            $em->persist($client);
-            $em->flush();
+            $clientManager = $this->get('fos_oauth_server.client_manager.default');
+            $client = $clientManager->createClient();
+            $client->setRedirectUris(['http://www.example.com']);
+            $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);
+            $clientManager->updateClient($client);
+            
+            $envelope->setData($client);
 
         } catch (\Exception $e) {
             $envelope
