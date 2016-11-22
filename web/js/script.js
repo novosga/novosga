@@ -48,52 +48,6 @@ var App = {
         
         opened: 0,
         
-        modal: function(target, prop) {
-            if (typeof(target) === 'string') {
-                target = $(target);
-            }
-            prop = prop || {};
-            prop.title = prop.title || target.prop('title');
-            target.modal();
-            if (typeof(prop.create) === 'function') {
-                prop.create();
-            }
-            target.on('shown.bs.modal', function() {
-                if (typeof(prop.open) === 'function') {
-                    prop.open();
-                }
-                App.paused = true;
-                App.dialogs.opened++;
-            });
-            target.on('hidden.bs.modal', function() {
-                if (typeof(prop.close) === 'function') {
-                    prop.close();
-                }
-                App.dialogs.opened--;
-                if (App.dialogs.opened <= 0) {
-                    App.paused = false;
-                    App.dialogs.opened = 0;
-                }
-            });
-            return target;
-        },
-        
-        error: {
-            id: 'dialog-error',
-            title: '',
-            create: function(prop) {
-                var node = $('<div id="' + App.dialogs.error.id + '" class="modal fade" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">'+App.dialogs.error.title+'</h4></div> <div class="modal-body"><p><span class="glyphicon glyphicon-warning-sign"></span> '+ prop.message +'</p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button></div></div></div></div>');
-                $('body').append(node);
-                App.dialogs.modal(node, {
-                    close: function() {
-                        $('#' + App.dialogs.error.id).remove();
-                        if (typeof(prop.close) == 'function') {
-                            prop.close();
-                        }
-                    }
-                });
-            }
-        }
     },
     
     url: function(url) {    
@@ -657,8 +611,18 @@ var App = {
     
     Websocket: {
         
+        maxAttemps: 5,
+        
         connect: function() {
+            this.attemps = 0;
             this.ws = io(':2020');
+            this.ws.on('connect_error', function () {
+                if (App.Websocket.attemps > App.Websocket.maxAttemps) {
+                    console.log('reached max attempts');
+                    App.Websocket.ws.disconnect();
+                }
+                App.Websocket.attemps++;
+            });
         },
         
         on: function(evt, fn) {
@@ -682,7 +646,7 @@ Array.prototype.contains = function(elem) {
         }
     }
     return false;
-}
+};
 
 
 $(function() {
