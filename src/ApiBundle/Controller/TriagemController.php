@@ -35,10 +35,10 @@ class TriagemController extends ApiControllerBase
 
             $service = new AtendimentoService($manager);
 
-            $usuario    = 1;
-            $unidade    = $novaSenha->unidade;
-            $servico    = $novaSenha->servico;
-            $prioridade = $novaSenha->prioridade;
+            $usuario    = $this->getUser()->getId();
+            $unidade    = (int) $novaSenha->unidade;
+            $servico    = (int) $novaSenha->servico;
+            $prioridade = (int) $novaSenha->prioridade;
             $cliente    = $novaSenha->cliente;
 
             $response = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $cliente);
