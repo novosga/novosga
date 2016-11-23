@@ -28,13 +28,3 @@ Novosga\Entity\Unidade:
             unique: false
             nullable: false
             column: mensagem
-    oneToOne:
-        grupo:
-            targetEntity: Novosga\Entity\Grupo
-            fetch: EAGER
-            inversedBy: unidade
-            joinColumns:
-                grupo_id:
-                    referencedColumnName: id
-            orphanRemoval: false
-    lifecycleCallbacks: {  }

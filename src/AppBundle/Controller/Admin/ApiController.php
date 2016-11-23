@@ -36,7 +36,7 @@ class ApiController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/new-oauth-client", name="admin_api_index")
+     * @Route("/new-oauth-client")
      */
     public function newOauthClientAction(Request $request)
     {

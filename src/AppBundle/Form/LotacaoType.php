@@ -17,7 +17,7 @@ class LotacaoType extends AbstractType
     {
         $builder
             ->add('usuario')
-            ->add('grupo')
+            ->add('unidade')
             ->add('cargo')
         ;
     }

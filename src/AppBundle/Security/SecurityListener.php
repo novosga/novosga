@@ -26,7 +26,7 @@ class SecurityListener
         $usuario = $event->getAuthenticationToken()->getUser();
         $unidades = $this->em->getRepository(Unidade::class)->findByUsuario($usuario);
         
-        if (count($unidades) === 1) {
+        if (count($unidades) > 0) {
             $this->updateUnidade($event->getRequest(), $usuario, $unidades[0]);
         }
     }

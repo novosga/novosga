@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-use Novosga\Entity\Grupo;
 use Novosga\Entity\Unidade;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -22,9 +21,6 @@ class UnidadeType extends AbstractType
         $builder
             ->add('codigo', TextType::class)
             ->add('nome', TextType::class)
-            ->add('grupo', EntityType::class, [
-                'class' => Grupo::class
-            ])
             ->add('status', CheckboxType::class, [
                 'required' => false
             ])

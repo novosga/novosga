@@ -1,11 +1,11 @@
 Novosga\Entity\Lotacao:
     type: entity
-    table: usuarios_grupos_cargos
+    table: usuarios_unidades_cargos
     repositoryClass: AppBundle\Repository\ORM\LotacaoRepository
     id:
         usuario:
             associationKey: true
-        grupo:
+        unidade:
             associationKey: true
     manyToOne:
         usuario:
@@ -18,14 +18,14 @@ Novosga\Entity\Lotacao:
                 usuario_id:
                     referencedColumnName: id
             orphanRemoval: false
-        grupo:
-            targetEntity: Novosga\Entity\Grupo
+        unidade:
+            targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                grupo_id:
+                unidade_id:
                     referencedColumnName: id
             orphanRemoval: false
         cargo:

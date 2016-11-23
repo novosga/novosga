@@ -6,9 +6,6 @@ Novosga\Entity\Unidade:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: nome
             message: Já existe uma unidade com esse código
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
-            fields: grupo
-            message: Já existe uma unidade com esse código
     properties:
         codigo:
             - NotBlank: ~
@@ -20,6 +17,4 @@ Novosga\Entity\Unidade:
                 max: 20
                 min: 3
         status:
-            - NotNull: ~
-        grupo:
             - NotNull: ~

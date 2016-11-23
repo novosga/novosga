@@ -18,7 +18,6 @@
                         <tr>
                             <th>{% trans %}Código{% endtrans %}</th>
                             <th>{% trans %}Nome{% endtrans %}</th>
-                            <th>{% trans %}Grupo{% endtrans %}</th>
                             <th class="col-md-2"></th>
                         </tr>
                     </thead>
@@ -29,9 +28,6 @@
                             </td>
                             <td>
                                 [[unidade.nome]]
-                            </td>
-                            <td>
-                                [[unidade.grupo.nome]]
                             </td>
                             <td class="text-right">
                                 <button type="button" class="btn btn-default" ng-click="ctrl.edit(unidade)">
@@ -55,8 +51,6 @@
                         {{ form_row(form.codigo, { label: 'Código', attr: { 'ng-model': 'ctrl.unidade.codigo' } }) }}
 
                         {{ form_row(form.nome, { label: 'Nome', attr: { 'ng-model': 'ctrl.unidade.nome' } }) }}
-
-                        {{ form_row(form.grupo, { label: 'Grupo', attr: { 'ng-model': 'ctrl.unidade.grupo' } }) }}
 
                         <button type="submit" class="btn btn-primary">
                             <i class="fa fa-save"></i>
@@ -102,9 +96,6 @@
             ctrl.edit = function(unidade) {
                 ctrl.unidade = $.extend({}, unidade);
                 ctrl.unidade.status = !!unidade.status;
-                if (unidade.grupo) {
-                    ctrl.unidade.grupo = unidade.grupo.id + '';
-                }
             };
     
             ctrl.delete = function(unidade) {
