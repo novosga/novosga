@@ -1,4 +1,4 @@
-AppBundle\Entity\NovaSenha:
+ApiBundle\Entity\NovaSenha:
     exclusion_policy: ALL
     properties:
         unidade:
@@ -9,3 +9,5 @@ AppBundle\Entity\NovaSenha:
             type: integer
         cliente:
             type: Novosga\Entity\Cliente
+        metadata:
+            type: array

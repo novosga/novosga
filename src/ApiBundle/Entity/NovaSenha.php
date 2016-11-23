@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace ApiBundle\Entity;
 
 use Novosga\Entity\Cliente;
 
@@ -30,6 +30,11 @@ class NovaSenha
      * @var Cliente
      */
     public $cliente;
+    
+    /**
+     * @var mixed
+     */
+    public $metadata;
     
     public function __construct()
     {

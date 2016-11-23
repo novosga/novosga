@@ -2,7 +2,7 @@
 
 namespace ApiBundle\Controller;
 
-use AppBundle\Entity\NovaSenha;
+use ApiBundle\Entity\NovaSenha;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +40,7 @@ class TriagemController extends ApiControllerBase
             $servico    = (int) $novaSenha->servico;
             $prioridade = (int) $novaSenha->prioridade;
             $cliente    = $novaSenha->cliente;
-
+            
             $response = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $cliente);
             
         } catch (Exception $ex) {
