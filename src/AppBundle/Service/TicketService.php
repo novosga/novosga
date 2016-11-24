@@ -1,57 +1,34 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Service;
 
 use DateTime;
+use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Novosga\Config\AppConfig;
 use Novosga\Entity\Atendimento;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
- * TicketController.
+ * TicketService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class TicketController extends Controller
+class TicketService
 {
     /**
-     * Imprime a senha informado pelo ID do atendimento e o seu hash.
-     *
-     * @param Request $request
-     * @param int     $id
-     * @param hash    $hash
-     *
-     * @throws Exception
-     *
-     * @return string
+     * @var ObjectManager
      */
-    public function printAction(Request $request, $id, $hash)
-    {
-        $atendimento = $this->getAtendimento($id);
-        if ($hash !== $atendimento->hash()) {
-            throw new Exception(_('Chave de segurança do atendimento inválida'));
-        }
-
-        return $this->printTicket($atendimento);
-    }
-
+    private $objectManager;
+    
     /**
-     * @param int $id
-     *
-     * @throws Exception
-     *
-     * @return Atendimento
+     * @var \Twig_Environment
      */
-    public function getAtendimento($id)
+    private $twig;
+    
+    public function __construct(ObjectManager $objectManager, \Twig_Environment $twig)
     {
-        $atendimento = $this->em()->find(Atendimento::class, $id);
-        if (!$atendimento) {
-            throw new Exception(_('Atendimento inválido'));
-        }
-
-        return $atendimento;
+        $this->objectManager = $objectManager;
+        $this->twig = $twig;
     }
 
     /**
@@ -71,8 +48,15 @@ class TicketController extends Controller
             $params = $params($atendimento);
         }
         
+        $unidade = $atendimento->getUnidade();
+        $servico = $atendimento->getServico();
+        
+        $service = new \Novosga\Service\ServicoService($this->objectManager);
+        $servicoUnidade = $service->servicoUnidade($unidade, $servico);
+        
         $viewParams = [
             'atendimento' => $atendimento,
+            'servicoUnidade' => $servicoUnidade,
             'now' => new DateTime()
         ];
         
@@ -87,7 +71,7 @@ class TicketController extends Controller
         if (empty($template)) {
             $template = 'print.html.twig';
         }
-
-        return $this->render($template, $viewParams);
+        
+        return $this->twig->render($template, $viewParams);
     }
 }

@@ -3,10 +3,12 @@
 namespace ApiBundle\Controller;
 
 use ApiBundle\Entity\NovaSenha;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
+use Novosga\Entity\Atendimento;
 use Novosga\Service\AtendimentoService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * TriagemController
@@ -18,6 +20,19 @@ class TriagemController extends ApiControllerBase
         
     public function __construct()
     {
+    }
+    
+    /**
+     * @Route("/print/{id}/{hash}")
+     * @Method("POST")
+     */
+    public function imprimirAction(Request $request, Atendimento $atendimento, $hash)
+    {
+        if ($hash !== $atendimento->hash()) {
+            throw new Exception(_('Chave de segurança do atendimento inválida'));
+        }
+
+        return $this->printTicket($atendimento);
     }
     
     /**

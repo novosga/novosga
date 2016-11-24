@@ -10,6 +10,11 @@ services:
         class: AppBundle\Security\UserProvider
         arguments: ["@doctrine"]
     
+    
+    novosga.ticket_service:
+        class: AppBundle\Service\TicketService
+        arguments: ["@doctrine.orm.entity_manager", "@twig"]
+    
     novosga.routing_loader:
         class: AppBundle\Loader\RouterLoader
         arguments: ["@kernel"]
