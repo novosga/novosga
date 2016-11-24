@@ -24,10 +24,10 @@
                     <tbody>
                         <tr class="ng-cloak" ng-repeat="unidade in ctrl.locais">
                             <td>
-                                [[unidade.codigo]]
+                                ${unidade.codigo}
                             </td>
                             <td>
-                                [[unidade.nome]]
+                                ${unidade.nome}
                             </td>
                             <td class="text-right">
                                 <button type="button" class="btn btn-default" ng-click="ctrl.edit(unidade)">
@@ -44,7 +44,7 @@
             <div class="col-md-4">
                 <div class="well">
                     {{ form_start(form) }}
-                        <input type="hidden" name="id" value="[[ctrl.unidade.id]]">
+                        <input type="hidden" name="id" value="${ctrl.unidade.id}">
 
                         {{ form_row(form.status, { label: 'Status', attr: { 'ng-model': 'ctrl.unidade.status' } }) }}
                         
@@ -75,7 +75,7 @@
     <script>
         angular.module('admin', [])
         .config(function($interpolateProvider){
-            $interpolateProvider.startSymbol('[[').endSymbol(']]');
+            $interpolateProvider.startSymbol('${').endSymbol('}');
         })
         .controller('UnidadesController', function($http) {
             var ctrl = this;

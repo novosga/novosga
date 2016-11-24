@@ -7,6 +7,9 @@ Novosga\Entity\Unidade:
             type: integer
             generator:
                 strategy: IDENTITY
+    embedded:
+        impressao:
+            class: Novosga\Entity\ConfiguracaoImpressao
     fields:
         codigo:
             type: string
@@ -22,9 +25,3 @@ Novosga\Entity\Unidade:
             type: boolean
             unique: false
             nullable: false
-        mensagemImpressao:
-            type: string
-            length: 100
-            unique: false
-            nullable: false
-            column: mensagem

@@ -41,21 +41,9 @@ Novosga\Entity\ServicoUnidade:
         incremento:
             type: integer
             nullable: false
-        horaInicio:
-            name: hora_inicio
-            type: time
-            nullable: true
-        horaFim:
-            name: hora_fim
-            type: time
-            nullable: true
-        tempoAtendimento:
-            name: tempo_atendimento
-            type: integer
-            nullable: true
-        maximoAtendimentos:
-            name: max_atendimentos
-            type: integer
+        mensagem:
+            type: string
+            length: 255
             nullable: true
     manyToOne:
         servico:

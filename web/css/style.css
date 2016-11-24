@@ -366,3 +366,8 @@ td.buttons {
 #btn-delete {
     float: right;
 }
+
+body>.container-fluid>h1 {
+    padding: 0 0 20px 10px;
+    margin: 0;
+}

@@ -20,7 +20,7 @@
                 <tbody>
                     <tr class="ng-cloak" ng-repeat="local in ctrl.locais" ng-init="editing=false">
                         <td>
-                            <span ng-hide="editing">[[local.nome]]</span>
+                            <span ng-hide="editing">${local.nome}</span>
                             <input type="text" class="form-control" ng-model="local.nome" ng-show="editing">
                         </td>
                         <td class="text-right">
@@ -57,7 +57,7 @@
     <script>
         angular.module('admin', [])
         .config(function($interpolateProvider){
-            $interpolateProvider.startSymbol('[[').endSymbol(']]');
+            $interpolateProvider.startSymbol('${').endSymbol('}');
         })
         .controller('LocaisController', function($http) {
             var ctrl = this;

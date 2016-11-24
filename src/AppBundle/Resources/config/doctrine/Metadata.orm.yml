@@ -8,5 +8,5 @@ Novosga\Entity\Metadata:
             id: true
     fields:
         value:
-            type: json
+            type: json_array
             nullable: false

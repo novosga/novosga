@@ -21,11 +21,11 @@
                 <tbody>
                     <tr class="ng-cloak" ng-repeat="prioridade in ctrl.locais" ng-init="editing=false">
                         <td>
-                            <span ng-hide="editing">[[prioridade.nome]]</span>
+                            <span ng-hide="editing">${prioridade.nome}</span>
                             <input type="text" class="form-control" ng-model="prioridade.nome" ng-show="editing">
                         </td>
                         <td>
-                            <span ng-hide="editing">[[prioridade.peso]]</span>
+                            <span ng-hide="editing">${prioridade.peso}</span>
                             <input type="text" class="form-control" ng-model="prioridade.peso" ng-show="editing">
                         </td>
                         <td class="text-right">
@@ -63,7 +63,7 @@
     <script>
         angular.module('admin', [])
         .config(function($interpolateProvider){
-            $interpolateProvider.startSymbol('[[').endSymbol(']]');
+            $interpolateProvider.startSymbol('${').endSymbol('}');
         })
         .controller('LocaisController', function($http) {
             var ctrl = this;

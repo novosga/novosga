@@ -140,13 +140,19 @@ var App = {
     /* jQuery ajax wrapper */
     ajax: function(arg) {
         $('#ajax-loading').show();
-        var data = arg.data || {};
-        data.ts = (new Date()).getTime();
+        var data = arg.data || {},
+            method = arg.type || 'get';
+        
+        if (method != 'get') {
+            data = JSON.stringify(data);
+        }
+        
         $.ajax({
             url: arg.url,
             data: data,
-            type: arg.type || 'get',
+            type: method,
             dataType: arg.dataType || 'json',
+            contentType: "application/json",
             cache: false,
             success: function(response) {
                 if (response && response.success) {
