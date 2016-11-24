@@ -8,29 +8,31 @@
         </small>
     </h1>
     
-    <div ng-app="admin">
-        <div ng-controller="LocaisController as ctrl">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>{% trans %}Nome{% endtrans %}</th>
-                        <th class="col-md-2"></th>
-                    </tr>
-                </thead>
+    <div id="admin">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans %}Nome{% endtrans %}</th>
+                    <th class="col-md-2"></th>
+                </tr>
+            </thead>
+            {% verbatim %}
                 <tbody>
-                    <tr class="ng-cloak" ng-repeat="local in ctrl.locais" ng-init="editing=false">
+                    <tr v-for="local in locais">
                         <td>
-                            <span ng-hide="editing">${local.nome}</span>
-                            <input type="text" class="form-control" ng-model="local.nome" ng-show="editing">
+                            <input type="text" class="form-control" maxlength="20" v-model="local.nome" v-if="local.editing">
+                            <span v-else>
+                                {{local.nome}}
+                            </span>
                         </td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-primary" ng-click="ctrl.save(local);editing=false" ng-show="editing">
+                            <button type="button" class="btn btn-primary" v-on:click="save(local)" v-if="local.editing">
                                 <i class="fa fa-save"></i>
                             </button>
-                            <button type="button" class="btn btn-default" ng-click="editing=true" ng-hide="editing">
+                            <button type="button" class="btn btn-default" v-on:click="edit(local)" v-if="!local.editing">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button type="button" class="btn btn-default" ng-click="ctrl.delete(local)">
+                            <button type="button" class="btn btn-default" v-on:click="remove(local)">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
@@ -40,57 +42,91 @@
                     <tr>
                         <td></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default" ng-click="ctrl.add()">
+                            <button type="button" class="btn btn-default" v-on:click="add">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </td>
                     </tr>
                 </tfoot>
-            </table>
-        </div>
+            {% endverbatim %}
+        </table>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/angular.min.js') }}"></script>
     <script>
-        angular.module('admin', [])
-        .config(function($interpolateProvider){
-            $interpolateProvider.startSymbol('${').endSymbol('}');
-        })
-        .controller('LocaisController', function($http) {
-            var ctrl = this;
-    
-            ctrl.load = function() {
-                $http.get('{{ path('admin_locais_list') }}')
-                    .then(function(response) {
-                        ctrl.locais = response.data;
-                    });
-            };
-    
-            ctrl.add = function() {
-                var local = {
-                    nome: 'Novo local'
-                };
-                ctrl.save(local)
-                    .then(function(response) {
-                        ctrl.load();
-                    });
-            };
-    
-            ctrl.save = function(local) {
-                return $http.post('{{ path('admin_locais_save') }}', local);
-            };
-    
-            ctrl.delete = function(local) {
-                $http.post('{{ path('admin_locais_index') }}delete/' + local.id)
-                    .then(function(response) {
-                        ctrl.load();
-                    });
-            };
+        (function () {
+            'strinct'
             
-            ctrl.load();
-        })
+            var app = new Vue({
+                el: '#admin',
+                data: {
+                    locais: [],
+                    local: {},
+                },
+                methods: {
+                    load: function() {
+                        var self = this;
+                        App.ajax({
+                            url: '{{ path('admin_locais_list') }}',
+                            success: function(response) {
+                                self.locais = response.data.map(function (local) {
+                                    local.editing = false;
+                                    return local;
+                                });
+                            }
+                        });
+                    },
+                            
+                    save: function(local) {
+                        var defer = $.Deferred();
+                
+                        App.ajax({
+                            url: '{{ path('admin_locais_save') }}',
+                            type: 'post',
+                            data: local,
+                            success: function (response) {
+                                local.editing = false;
+                                defer.resolve(response.data);
+                            }
+                        });
+                    
+                        return defer.promise();
+                    },
+                    
+                    edit: function (local) {
+                        local.editing = true;
+                    },
+                            
+                    remove: function(local) {
+                        var self = this;
+                        
+                        App.ajax({
+                            url: '{{ path('admin_locais_index') }}delete/' + local.id,
+                            type: 'post',
+                            success: function(response) {
+                                self.locais.splice(self.locais.indexOf(local), 1);
+                            }
+                        })
+                    },
+                            
+                    add: function() {
+                        var self = this,
+                            local = {
+                                nome: window.prompt()
+                            };
+                        self.save(local)
+                            .then(function(local) {
+                                local.editing = false;
+                                self.locais.push(local);
+                            });
+                    }
+                }
+            });
+            
+            app.load();
+            
+        })();
     </script>
 {% endblock %}

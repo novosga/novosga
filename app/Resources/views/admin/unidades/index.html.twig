@@ -8,62 +8,65 @@
         </small>
     </h1>
     
-    <div ng-app="admin">
-        <div ng-controller="UnidadesController as ctrl">
-            {% include "MangatiBaseBundle:Crud:flashMessages.html.twig" %}
-            
-            <div class="col-md-8">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>{% trans %}Código{% endtrans %}</th>
-                            <th>{% trans %}Nome{% endtrans %}</th>
-                            <th class="col-md-2"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="ng-cloak" ng-repeat="unidade in ctrl.locais">
+    <div id="admin">
+        
+        {% include "MangatiBaseBundle:Crud:flashMessages.html.twig" %}
+
+        <div class="col-md-8">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{% trans %}Código{% endtrans %}</th>
+                        <th>{% trans %}Nome{% endtrans %}</th>
+                        <th class="col-md-2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% verbatim %}
+                        <tr v-for="unidade in unidades">
                             <td>
-                                ${unidade.codigo}
+                                {{unidade.codigo}}
                             </td>
                             <td>
-                                ${unidade.nome}
+                                {{unidade.nome}}
                             </td>
                             <td class="text-right">
-                                <button type="button" class="btn btn-default" ng-click="ctrl.edit(unidade)">
+                                <button type="button" class="btn btn-default" v-on:click="edit(unidade)">
                                     <i class="fa fa-edit"></i>
                                 </button>
-                                <button type="button" class="btn btn-default" ng-click="ctrl.delete(unidade)">
+                                <button type="button" class="btn btn-default" v-on:click="remove(unidade)">
                                     <i class="fa fa-trash"></i>
                                 </button>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-md-4">
-                <div class="well">
-                    {{ form_start(form) }}
-                        <input type="hidden" name="id" value="${ctrl.unidade.id}">
+                    {% endverbatim %}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <div class="well">
+                {{ form_start(form) }}
+                    {% verbatim %}
+                        <input type="hidden" name="id" v-bind:value="unidade.id">
+                    {% endverbatim %}
 
-                        {{ form_row(form.status, { label: 'Status', attr: { 'ng-model': 'ctrl.unidade.status' } }) }}
-                        
-                        {{ form_row(form.codigo, { label: 'Código', attr: { 'ng-model': 'ctrl.unidade.codigo' } }) }}
+                    {{ form_row(form.status, { label: 'Status', attr: { 'v-model': 'unidade.status' } }) }}
 
-                        {{ form_row(form.nome, { label: 'Nome', attr: { 'ng-model': 'ctrl.unidade.nome' } }) }}
+                    {{ form_row(form.codigo, { label: 'Código', attr: { 'v-model': 'unidade.codigo' } }) }}
 
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-save"></i>
-                            {% trans %}Salvar{% endtrans %}
-                        </button>
+                    {{ form_row(form.nome, { label: 'Nome', attr: { 'v-model': 'unidade.nome' } }) }}
 
-                        <button type="button" class="btn btn-default pull-right" ng-click="ctrl.new()">
-                            <i class="fa fa-plus"></i>
-                            {% trans %}Novo{% endtrans %}
-                        </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        {% trans %}Salvar{% endtrans %}
+                    </button>
 
-                    {{ form_end(form) }}
-                </div>
+                    <button type="button" class="btn btn-default pull-right" v-on:click="add">
+                        <i class="fa fa-plus"></i>
+                        {% trans %}Novo{% endtrans %}
+                    </button>
+
+                {{ form_end(form) }}
             </div>
         </div>
     </div>
@@ -71,42 +74,51 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/angular.min.js') }}"></script>
     <script>
-        angular.module('admin', [])
-        .config(function($interpolateProvider){
-            $interpolateProvider.startSymbol('${').endSymbol('}');
-        })
-        .controller('UnidadesController', function($http) {
-            var ctrl = this;
-    
-            ctrl.load = function() {
-                $http.get('{{ path('admin_unidades_list') }}')
-                    .then(function(response) {
-                        ctrl.locais = response.data;
-                    });
-            };
-    
-            ctrl.new = function() {
-                ctrl.unidade = {
-                    status: true
-                };
-            };
-    
-            ctrl.edit = function(unidade) {
-                ctrl.unidade = $.extend({}, unidade);
-                ctrl.unidade.status = !!unidade.status;
-            };
-    
-            ctrl.delete = function(unidade) {
-                $http.post('{{ path('admin_unidades_index') }}/delete/' + unidade.id)
-                    .success(function(response) {
-                        ctrl.load();
-                    });
-            };
+        (function () {
+            'strinct'
             
-            ctrl.load();
-            ctrl.edit({{ entity|json_encode()|raw }});
-        });
+            var app = new Vue({
+                el: '#admin',
+                data: {
+                    unidades: [],
+                    unidade: {}
+                },
+                methods: {
+                    load: function() {
+                        var self = this;
+                        App.ajax({
+                            url: '{{ path('admin_unidades_list') }}',
+                            success: function(response) {
+                                self.unidades = response.data;
+                            }
+                        });
+                    },
+            
+                    add: function() {
+                        this.unidade = {
+                            status: true
+                        };
+                    },
+
+                    edit: function(unidade) {
+                        this.unidade = $.extend({}, unidade);
+                        this.unidade.status = !!unidade.status;
+                    },
+
+                    remove: function(unidade) {
+                        App.ajax({
+                            url: '{{ path('admin_unidades_index') }}/delete/' + unidade.id,
+                            success: function() {
+                                self.unidades.splice(self.unidades.indexOf(unidade), 1);
+                            }
+                        });
+                    }
+                }
+            });
+            
+            app.load();
+            app.edit({{ entity|json_encode()|raw }});
+        })();
     </script>
 {% endblock %}

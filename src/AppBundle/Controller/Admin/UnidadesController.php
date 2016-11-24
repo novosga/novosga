@@ -6,6 +6,7 @@ use Exception;
 use Novosga\Entity\Unidade;
 use Novosga\Http\Envelope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +58,9 @@ class UnidadesController extends Controller
                 if ($entity->getId()) {
                     $em->merge($entity);
                 } else {
-                    $entity->setMensagemImpressao('');
+                    $entity->getImpressao()->setCabecalho(_('Novo SGA'));
+                    $entity->getImpressao()->setRodape(_('========'));
+                    
                     $em->persist($entity);
                 }
 
@@ -91,7 +94,10 @@ class UnidadesController extends Controller
                 ->getRepository(Unidade::class)
                 ->findBy([], ['nome' => 'ASC']);
         
-        return $this->json($unidades);
+        $envelope = new Envelope();
+        $envelope->setData($unidades);
+        
+        return $this->json($envelope);
     }
     
     /**
@@ -100,18 +106,23 @@ class UnidadesController extends Controller
      * @return Response
      *
      * @Route("/delete/{id}", name="admin_unidades_delete")
+     * @Method("POST")
      */
     public function deleteAction(Request $request, Unidade $unidade)
     {
+        $envelope = new Envelope();
+        
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($unidade);
             $em->flush();
             
-            return $this->json();
+            $envelope->setData($unidade);
         } catch (Exception $e) {
-            return $this->json($e->getMessage(), false);
+            $envelope->exception($e);
         }
+        
+        return $this->json($envelope);
     }
     
     private function getForm($entity)

@@ -6,6 +6,7 @@ use Exception;
 use Novosga\Entity\Prioridade;
 use Novosga\Http\Envelope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,7 +49,10 @@ class PrioridadesController extends Controller
                 ->getRepository(Prioridade::class)
                 ->findBy([], ['nome' => 'ASC']);
         
-        return $this->json($prioridades);
+        $envelope = new Envelope();
+        $envelope->setData($prioridades);
+        
+        return $this->json($envelope);
     }
     
     /**
@@ -57,9 +61,12 @@ class PrioridadesController extends Controller
      * @return Response
      *
      * @Route("/save", name="admin_prioridades_save")
+     * @Method("POST")
      */
     public function saveAction(Request $request)
     {
+        $envelope = new Envelope();
+        
         try {
             $json = $request->getContent();
             $data = json_decode($json);
@@ -73,12 +80,12 @@ class PrioridadesController extends Controller
             if (isset($data->id)) {
                 $prioridade = $em->find(Prioridade::class, $data->id);
                 $prioridade->setNome($data->nome);
-                $prioridade->setPeso($data->peso);
+                $prioridade->setPeso((int) $data->peso);
                 $em->merge($prioridade);
             } else {
                 $prioridade = new Prioridade();
                 $prioridade->setNome($data->nome);
-                $prioridade->setPeso($data->peso);
+                $prioridade->setPeso((int) $data->peso);
                 $prioridade->setDescricao('');
                 $prioridade->setStatus(1);
                 $em->persist($prioridade);
@@ -86,10 +93,12 @@ class PrioridadesController extends Controller
             
             $em->flush();
             
-            return $this->json($prioridade);
+            $envelope->setData($prioridade);
         } catch (Exception $e) {
-            return $this->json($e->getMessage(), false);
+            $envelope->exception($e);
         }
+        
+        return $this->json($envelope);
     }
     
     /**
@@ -98,18 +107,23 @@ class PrioridadesController extends Controller
      * @return Response
      *
      * @Route("/delete/{id}", name="admin_prioridades_delete")
+     * @Method("POST")
      */
     public function deleteAction(Request $request, Prioridade $prioridade)
     {
+        $envelope = new Envelope();
+        
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($prioridade);
             $em->flush();
             
-            return $this->json();
+            $envelope->setData($prioridade);
         } catch (Exception $e) {
-            return $this->json($e->getMessage(), false);
+            $envelope->exception($e);
         }
+        
+        return $this->json($envelope);
     }
 
 }

@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Admin;
 use Novosga\Entity\Local;
 use Novosga\Http\Envelope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,7 +48,10 @@ class LocaisController extends Controller
                 ->getRepository(Local::class)
                 ->findBy([], ['nome' => 'ASC']);
         
-        return $this->json($locais);
+        $envelope = new Envelope();
+        $envelope->setData($locais);
+        
+        return $this->json($envelope);
     }
     
     /**
@@ -56,9 +60,12 @@ class LocaisController extends Controller
      * @return Response
      *
      * @Route("/save", name="admin_locais_save")
+     * @Method("POST")
      */
     public function saveAction(Request $request)
     {
+        $envelope = new Envelope();
+        
         try {
             $json = $request->getContent();
             $data = json_decode($json);
@@ -81,10 +88,12 @@ class LocaisController extends Controller
             
             $em->flush();
             
-            return $this->json($local);
+            $envelope->setData($local);
         } catch (\Exception $e) {
-            return $this->json($e->getMessage(), false);
+            $envelope->exception($e);
         }
+        
+        return $this->json($envelope);
     }
     
     /**
@@ -93,18 +102,23 @@ class LocaisController extends Controller
      * @return Response
      *
      * @Route("/delete/{id}", name="admin_locais_delete")
+     * @Method("POST")
      */
     public function deleteAction(Request $request, Local $local)
     {
+        $envelope = new Envelope();
+        
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($local);
             $em->flush();
             
-            return $this->json();
+            $envelope->setData($local);
         } catch (\Exception $e) {
-            return $this->json($e->getMessage(), false);
+            $envelope->exception($e);
         }
+        
+        return $this->json($envelope);
     }
 
 }

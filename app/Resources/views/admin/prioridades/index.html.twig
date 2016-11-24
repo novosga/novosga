@@ -8,34 +8,38 @@
         </small>
     </h1>
     
-    <div ng-app="admin">
-        <div ng-controller="LocaisController as ctrl">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>{% trans %}Nome{% endtrans %}</th>
-                        <th>{% trans %}Peso{% endtrans %}</th>
-                        <th class="col-md-2"></th>
-                    </tr>
-                </thead>
+    <div id="admin">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>{% trans %}Nome{% endtrans %}</th>
+                    <th>{% trans %}Peso{% endtrans %}</th>
+                    <th class="col-md-2"></th>
+                </tr>
+            </thead>
+            {% verbatim %}
                 <tbody>
-                    <tr class="ng-cloak" ng-repeat="prioridade in ctrl.locais" ng-init="editing=false">
+                    <tr v-for="prioridade in prioridades">
                         <td>
-                            <span ng-hide="editing">${prioridade.nome}</span>
-                            <input type="text" class="form-control" ng-model="prioridade.nome" ng-show="editing">
+                            <input type="text" class="form-control" v-model="prioridade.nome" v-if="prioridade.editing">
+                            <span v-else>
+                                {{prioridade.nome}}
+                            </span>
                         </td>
                         <td>
-                            <span ng-hide="editing">${prioridade.peso}</span>
-                            <input type="text" class="form-control" ng-model="prioridade.peso" ng-show="editing">
+                            <input type="text" class="form-control" v-model="prioridade.peso" v-if="prioridade.editing">
+                            <span v-else>
+                                {{prioridade.peso}}
+                            </span>
                         </td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-primary" ng-click="ctrl.save(prioridade);editing=false" ng-show="editing">
+                            <button type="button" class="btn btn-primary" v-on:click="save(prioridade)" v-if="prioridade.editing">
                                 <i class="fa fa-save"></i>
                             </button>
-                            <button type="button" class="btn btn-default" ng-click="editing=true" ng-hide="editing">
+                            <button type="button" class="btn btn-default" v-on:click="prioridade.editing=true" v-if="!prioridade.editing">
                                 <i class="fa fa-edit"></i>
                             </button>
-                            <button type="button" class="btn btn-default" ng-click="ctrl.delete(prioridade)">
+                            <button type="button" class="btn btn-default" v-on:click="remove(prioridade)">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>
@@ -46,58 +50,87 @@
                         <td></td>
                         <td></td>
                         <td class="text-right">
-                            <button type="button" class="btn btn-default" ng-click="ctrl.add()">
+                            <button type="button" class="btn btn-default" v-on:click="add">
                                 <i class="fa fa-plus"></i>
                             </button>
                         </td>
                     </tr>
                 </tfoot>
-            </table>
-        </div>
+            {% endverbatim %}
+        </table>
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('js/angular.min.js') }}"></script>
     <script>
-        angular.module('admin', [])
-        .config(function($interpolateProvider){
-            $interpolateProvider.startSymbol('${').endSymbol('}');
-        })
-        .controller('LocaisController', function($http) {
-            var ctrl = this;
-    
-            ctrl.load = function() {
-                $http.get('{{ path('admin_prioridades_list') }}')
-                    .then(function(response) {
-                        ctrl.locais = response.data;
-                    });
-            };
-    
-            ctrl.add = function() {
-                var prioridade = {
-                    nome: 'Nova prioridae',
-                    peso: 1
-                };
-                ctrl.save(prioridade)
-                    .then(function(response) {
-                        ctrl.load();
-                    });
-            };
-    
-            ctrl.save = function(local) {
-                return $http.post('{{ path('admin_prioridades_save') }}', local);
-            };
-    
-            ctrl.delete = function(local) {
-                $http.post('{{ path('admin_prioridades_index') }}delete/' + local.id)
-                    .success(function(response) {
-                        ctrl.load();
-                    });
-            };
+        (function () {
+            'strinct'
             
-            ctrl.load();
-        })
+            var app = new Vue({
+                el: '#admin',
+                data: {
+                    prioridades: [],
+                    prioridade: {}
+                },
+                methods: {
+                    load: function() {
+                        var self = this;
+                        App.ajax({
+                            url: '{{ path('admin_prioridades_list') }}',
+                            success: function(response) {
+                                self.prioridades = response.data.map(function (prioridade) {
+                                    prioridade.editing = false;
+                                    return prioridade;
+                                });;
+                            }
+                        });
+                    },
+
+                    add: function() {
+                        var self = this;
+                        var prioridade = {
+                            nome: window.prompt(),
+                            peso: 1
+                        };
+                        self.save(prioridade)
+                            .then(function(prioridade) {
+                                prioridade.editing = false;
+                                self.prioridades.push(prioridade);
+                            });
+                    },
+
+                    save: function(prioridade) {
+                        var defer = $.Deferred();
+                        
+                        App.ajax({ 
+                            url: '{{ path('admin_prioridades_save') }}', 
+                            type: 'post',
+                            data: prioridade,
+                            success: function (response) {
+                                prioridade.editing = false;
+                                defer.resolve(response.data);
+                            }
+                        });
+                        
+                        return defer.promise();
+                    },
+
+                    remove: function(prioridade) {
+                        var self = this;
+                        App.ajax({
+                            url: '{{ path('admin_prioridades_index') }}delete/' + prioridade.id,
+                            type: 'post',
+                            success: function() {
+                                self.prioridades.splice(self.prioridades.indexOf(prioridade), 1);
+                            }
+                        })
+                    }
+                }
+            });
+            
+            app.load();
+            
+        })();
     </script>
 {% endblock %}
