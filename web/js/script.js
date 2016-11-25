@@ -137,6 +137,14 @@ var App = {
         return "";
     },
     
+    showErrorDialog: function (response) {
+        $('#error-modal')
+            .data('sessionStatus', response.sessionStatus)
+            .modal('show')
+            .find('.modal-body>p')
+                .text(response.message);
+    },
+    
     /* jQuery ajax wrapper */
     ajax: function(arg) {
         $('#ajax-loading').show();
@@ -161,25 +169,7 @@ var App = {
                         fn(response);
                     }
                 } else {
-                    // checking session
-                    if (response.inactive || response.invalid) {
-                        App.paused = true;
-                        var message; 
-                        if (response.inactive) {
-                            message = App.inactiveSession;
-                        } else {
-                            message = App.invalidSession;
-                        }
-                        App.dialogs.error.create({
-                            message: message, 
-                            close: App.reload
-                        });
-                    } else {
-                        App.dialogs.error.create({
-                            message: response.message,
-                            close: arg.error
-                        });
-                    }
+                    App.showErrorDialog(response);
                 }
                 if (response.time) {
                     App.Clock.update(response.time);
@@ -187,6 +177,9 @@ var App = {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 var fn = arg.error;
+                
+                App.showErrorDialog(JSON.parse(jqXHR.responseText));
+                
                 if (fn && typeof(fn) === 'function') {
                     fn(jqXHR, textStatus, errorThrown);
                 }
@@ -667,6 +660,11 @@ $(function() {
         if (App.dialogs.opened <= 0) {
             App.paused = false;
             App.dialogs.opened = 0;
+        }
+    })
+    .on('hide.bs.modal', function() {
+        if ($(this).data('sessionStatus') === 'inactive') {
+            window.location.href = App.baseUrl;
         }
     });
     

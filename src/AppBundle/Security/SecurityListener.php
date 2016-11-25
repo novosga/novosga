@@ -24,6 +24,12 @@ class SecurityListener
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
         $usuario = $event->getAuthenticationToken()->getUser();
+        
+        $sessionId = $event->getRequest()->getSession()->getId();
+        $usuario->setSessionId($sessionId);
+        $this->em->merge($usuario);
+        $this->em->flush();
+        
         $unidades = $this->em->getRepository(Unidade::class)->findByUsuario($usuario);
         
         if (count($unidades) > 0) {
