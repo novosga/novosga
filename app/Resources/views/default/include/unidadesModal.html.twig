@@ -6,7 +6,7 @@
                 <h4 class="modal-title">{% trans %}Unidade{% endtrans %}</h4>
             </div>
             <div class="modal-body">
-                {% set unidade = app.request.session.get('unidade') %}
+                {% set unidade = app.user.lotacao.unidade %}
                 <div>
                     <label>{% trans %}Favor escolher a unidade{% endtrans %}</label>
                     <select id="unidade" class="form-control">
@@ -23,6 +23,7 @@
         </div>
     </div>
 </div>
-{% if not app.request.session.get('unidade') %}
-<script type="text/javascript"> App.Unidades.show(); </script>
+                
+{% if not app.user.lotacao.unidade %}
+    <script type="text/javascript"> App.Unidades.show(); </script>
 {% endif %}

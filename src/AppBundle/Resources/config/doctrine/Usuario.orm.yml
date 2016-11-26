@@ -64,12 +64,9 @@ Novosga\Entity\Usuario:
     oneToMany:
         lotacoes:
             targetEntity: Novosga\Entity\Lotacao
-            cascade: {  }
-            fetch: LAZY
+            cascade: ['all']
             mappedBy: usuario
-            inversedBy: null
-            orphanRemoval: false
-            orderBy: null
+            orphanRemoval: true
     lifecycleCallbacks: {  }
     entityListeners:
         AppBundle\Listener\ORM\UsuarioListener: ~

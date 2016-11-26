@@ -20,13 +20,45 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
  */
 class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInterface, UserLoaderInterface, UserProviderInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function loadUserByUsername($username) 
     {
         $usuario = $this->findOneByLogin($username);
         return $usuario;
     }
     
-    public function loadRoles(Usuario $usuario, Unidade $unidade = null)
+    /**
+     * {@inheritdoc}
+     */
+    public function refreshUser(UserInterface $user) 
+    {
+        $em = $this->getEntityManager();
+        
+        $usuario = $em->find(Usuario::class, $user->getId());
+        $unidade = $this->loadUnidade($usuario);
+        $lotacao = $em->getRepository(Lotacao::class)->getLotacao($usuario, $unidade);
+        
+        if (!$lotacao) {
+            throw new Exception(_('Não existe lotação para o usuário atual na unidade informada.'));
+        }
+        
+        $this->loadRoles($usuario, $lotacao);
+        $usuario->setLotacao($lotacao);
+        
+        return $usuario;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsClass($class) 
+    {
+        return $class === Usuario::class;
+    }
+    
+    public function loadRoles(Usuario $usuario, Lotacao $lotacao)
     {
         $usuario->addRole('ROLE_USER');
         
@@ -34,43 +66,47 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
             $usuario->addRole('ROLE_ADMIN');
         }
         
-        if ($unidade) {
-            $em = $this->getEntityManager();
-            $lotacao = $em->getRepository(Lotacao::class)->getLotacao($usuario, $unidade);
-            if (!$lotacao) {
-                throw new Exception(_('Não existe lotação para o usuário atual na unidade informada.'));
-            }
+        $roles = $usuario->getRoles();
+        $permissoes = $lotacao->getCargo()->getModulos();
 
-            $roles = $usuario->getRoles();
-            $permissoes = $lotacao->getCargo()->getModulos();
-            
-            
-            foreach ($permissoes as $modulo) {
-                $role = 'ROLE_' . strtoupper(str_replace('.', '_', $modulo));
-                if (!in_array($role, $roles)) {
-                    $usuario->addRole($role);
-                }
+        foreach ($permissoes as $modulo) {
+            $role = 'ROLE_' . strtoupper(str_replace('.', '_', $modulo));
+            if (!in_array($role, $roles)) {
+                $usuario->addRole($role);
             }
-            
-            $service = new UsuarioService($em);
-            $service->meta($em->getReference(Usuario::class, $usuario->getId()), 'session.unidade', $unidade->getId());
         }
     }
-    
-    public function refreshUser(UserInterface $user) {
-        $unidade = null;
-        $service = new UsuarioService($this->getEntityManager());
-        $meta = $service->meta($user, 'session.unidade');
-        if ($meta) {
-            $unidade = $this->getEntityManager()->getReference(Unidade::class, $meta->getValue());
-        }
-        $usuario = $this->getEntityManager()->find(Usuario::class, $user->getId());
-        $this->loadRoles($usuario, $unidade);
-        return $usuario;
-    }
 
-    public function supportsClass($class) {
+    public function loadUnidade(Usuario $usuario)
+    {
+        $em = $this->getEntityManager();
+        $service = new \Novosga\Service\UsuarioService($em);
+        $meta = $service->meta($usuario, 'session.unidade');
         
+        if ($meta) {
+            $unidade = $this->getEntityManager()
+                            ->find(Unidade::class, $meta->getValue());
+        } else {
+            $unidades = $em->getRepository(Unidade::class)->findByUsuario($usuario);
+
+            if (count($unidades) > 0) {
+                $unidade = $unidades[0];
+            }
+        }
+        
+        if (!$unidade) {
+            throw new Exception(_('Nenhuma unidade definida para o usuário.'));
+        }
+        
+        return $unidade;
     }
 
+    public function updateUnidade(Usuario $usuario, Unidade $unidade)
+    {
+        $em = $this->getEntityManager();
+        $service = new UsuarioService($em);
+        $service->meta($usuario, 'session.unidade', $unidade->getId());
+        
+        return $unidade;
+    }
 }

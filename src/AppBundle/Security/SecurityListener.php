@@ -30,16 +30,8 @@ class SecurityListener
         $this->em->merge($usuario);
         $this->em->flush();
         
-        $unidades = $this->em->getRepository(Unidade::class)->findByUsuario($usuario);
-        
-        if (count($unidades) > 0) {
-            $this->updateUnidade($event->getRequest(), $usuario, $unidades[0]);
-        }
-    }
-    
-    public function updateUnidade(Request $request, Usuario $usuario, Unidade $unidade)
-    {
-        $this->em->getRepository(Usuario::class)->loadRoles($usuario, $unidade);
-        $request->getSession()->set('unidade', $unidade);
+        $repository = $this->em->getRepository(Usuario::class);
+        $unidade = $repository->loadUnidade($usuario);
+        $repository->updateUnidade($usuario, $unidade);
     }
 }

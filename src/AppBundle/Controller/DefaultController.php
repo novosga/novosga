@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Novosga\Entity\Unidade;
+use Novosga\Entity\Usuario;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -34,7 +35,10 @@ class DefaultController extends Controller
     public function unidadesAction(Request $request)
     {
         $usuario = $this->getUser();
-        $unidades = $this->getDoctrine()->getManager()->getRepository(Unidade::class)->findByUsuario($usuario);
+        $unidades = $this->getDoctrine()
+                        ->getManager()
+                        ->getRepository(Unidade::class)
+                        ->findByUsuario($usuario);
 
         return $this->render('default/include/unidadesModal.html.twig', [
             'unidades' => $unidades,
@@ -47,9 +51,13 @@ class DefaultController extends Controller
      */
     public function setUnidadeAction(Request $request, Unidade $unidade)
     {
-        $listener = $this->get('novosga.security.listener');
-        $listener->updateUnidade($request, $this->getUser(), $unidade);
-
+        $usuario = $this->getUser();
+        
+        $this->getDoctrine()
+                ->getManager()
+                ->getRepository(Usuario::class)
+                ->updateUnidade($usuario, $unidade);
+        
         return $this->json(new Envelope());
     }
 

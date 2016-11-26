@@ -12,30 +12,22 @@ Novosga\Entity\Lotacao:
             targetEntity: Novosga\Entity\Usuario
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
             inversedBy: lotacoes
             joinColumns:
                 usuario_id:
                     referencedColumnName: id
-            orphanRemoval: false
         unidade:
             targetEntity: Novosga\Entity\Unidade
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 unidade_id:
                     referencedColumnName: id
-            orphanRemoval: false
         cargo:
             targetEntity: Novosga\Entity\Cargo
             cascade: {  }
             fetch: LAZY
-            mappedBy: null
-            inversedBy: null
             joinColumns:
                 cargo_id:
                     referencedColumnName: id
-            orphanRemoval: false
     lifecycleCallbacks: {  }

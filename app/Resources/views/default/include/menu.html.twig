@@ -1,4 +1,4 @@
-{% set unidade = app.request.session.get('unidade') %}
+{% set unidade = app.user.lotacao.unidade %}
 
 <ul class="nav navbar-nav">
     {% if unidade %}
