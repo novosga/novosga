@@ -22,6 +22,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "mangati/base-bundle": "dev-master",
+        "novosga/composer-installer-plugin": "v1.0",
         "novosga/core": "dev-master",
         "novosga/reports-bundle": "dev-master",
         "novosga/attendance-bundle": "dev-master",
