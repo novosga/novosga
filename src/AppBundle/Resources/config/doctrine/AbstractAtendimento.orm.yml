@@ -35,8 +35,8 @@ Novosga\Entity\AbstractAtendimento:
             nullable: true
             column: dt_fim
         status:
-            type: smallint
-            length: 50
+            type: string
+            length: 25
             nullable: false
     embedded:
         senha:
