@@ -20,7 +20,6 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
      * Retorna as lotações do usuário
      * 
      * @param Usuario $usuario
-     * @param Unidade $unidade
      * @return Lotacao[]
      */
     public function getLotacoes(Usuario $usuario)
@@ -35,6 +34,30 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
                 ->join('e.unidade', 'u')
                 ->where("e.usuario = :usuario")
                 ->setParameter('usuario', $usuario)
+                ->getQuery()
+                ->getResult()
+        ;
+        
+    }
+    
+    /**
+     * Retorna as lotações do usuário
+     * 
+     * @param Unidade $unidade
+     * @return Lotacao[]
+     */
+    public function getLotacoesUnidade(Unidade $unidade)
+    {
+        return $this->getEntityManager()
+                ->createQueryBuilder()
+                ->select([
+                    'e', 'c', 'u'
+                ])
+                ->from($this->getEntityName(), 'e')
+                ->join('e.cargo', 'c')
+                ->join('e.usuario', 'u')
+                ->where("e.unidade = :unidade")
+                ->setParameter('unidade', $unidade)
                 ->getQuery()
                 ->getResult()
         ;
