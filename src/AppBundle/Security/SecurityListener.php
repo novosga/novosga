@@ -3,9 +3,7 @@
 namespace AppBundle\Security;
 
 use Doctrine\ORM\EntityManager;
-use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 /**
