@@ -4,6 +4,8 @@ Novosga\Entity\ServicoUsuario:
     id:
         servico:
             associationKey: true
+        unidade:
+            associationKey: true
         usuario:
             associationKey: true
     fields:
