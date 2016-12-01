@@ -47,7 +47,8 @@ class ModuleService
         $modules = $this->getModules();
         
         foreach ($modules as $entry) {
-            if (isset($entry['active']) && $entry['active'] === true) {
+            if (isset($entry['active']) && $entry['active']) {
+                $actives[] = $entry;
                 yield $entry;
             }
         }
