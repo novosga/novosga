@@ -15,7 +15,6 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new AppBundle\AppBundle(),
             new ApiBundle\ApiBundle(),
             
             new Mangati\BaseBundle\MangatiBaseBundle(),
@@ -29,18 +28,12 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
-
-        $service = new \AppBundle\Service\ModuleService();
         
-        foreach ($service->getModules() as $value) {
-            if ($value['active']) {
-                $module = new $value['class'];
-                if ($module instanceof \Novosga\Module\ModuleInterface) {
-                    $bundles[] = $module;
-                }
-            }
-        }
-
+        $appBundle = new AppBundle\AppBundle();
+        $appBundle->registerModules($bundles);
+        
+        $bundles[] = $appBundle;
+        
         return $bundles;
     }
 

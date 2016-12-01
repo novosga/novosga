@@ -7,23 +7,50 @@ use Symfony\Component\Finder\Finder;
 
 class ModuleService
 {
+ 
+    const MODULES_DIR = __DIR__ . '/../../../modules';
+    
+    /**
+     * @var string
+     */
+    private $modulesCache;
+    
+    public function __construct()
+    {
+        $this->modulesCache = self::MODULES_DIR . '/modules.cache.php';
+    }
 
     /**
-     *
      * @return array
      */
     public function getModules()
     {
-        $configuration = ConfigurationService::get();
-
-        if (!isset($configuration['modules'])) {
-            $configuration['modules'] = $this->discover();
-            ConfigurationService::set($configuration);
+        $modules = null;
+        
+        if (file_exists($this->modulesCache)) {
+            $modules = require $this->modulesCache;
+        }
+        
+        if (!is_array($modules)) {
+            $modules = $this->discover();
+            $this->createCache($modules);
         }
 
-        $modules = $configuration['modules'];
-
         return $modules;
+    }
+
+    /**
+     * @return Generator
+     */
+    public function getActiveModules()
+    {
+        $modules = $this->getModules();
+        
+        foreach ($modules as $entry) {
+            if (isset($entry['active']) && $entry['active'] === true) {
+                yield $entry;
+            }
+        }
     }
 
     /**
@@ -33,11 +60,11 @@ class ModuleService
      */
     public function update($key, $status)
     {
-        $configuration = ConfigurationService::get();
-
-        if (isset($configuration['modules']) && isset($configuration['modules'][$key])) {
-            $configuration['modules'][$key]['active'] = (bool) $status;
-            ConfigurationService::set($configuration);
+        $modules = $this->getModules();
+        
+        if (isset($modules[$key])) {
+            $modules[$key]['active'] = (bool) $status;
+            $this->createCache($modules);
             
             return true;
         }
@@ -47,29 +74,66 @@ class ModuleService
 
     public function discover()
     {
-        $searchPath = realpath(__DIR__ . '/../../../modules');
+        $searchPath = realpath(self::MODULES_DIR);
+        
         $finder     = new Finder();
         $finder->files()
                ->in($searchPath)
                ->name('*Bundle.php');
-
+        
         $modules = [];
 
         foreach ($finder as $file) {
-            $path       = substr($file->getRealpath(), strlen($searchPath) + 1, -4);
-            $parts      = explode('/', $path);
-            $class      = array_pop($parts);
-            $namespace  = implode('\\', $parts);
-            $class      = '\\' . $namespace.'\\'.$class;
-            if (class_exists($class)) {
-                $modules[]  = [
+            $class = $this->extractClassName($file->getRealpath(), $searchPath);
+            
+            if (count($class) === 2 && class_exists($class[1])) {
+                $key = $this->classNameToKey($class[0]);
+
+                $modules[$key]  = [
                     'active' => true,
-                    'class' => $class
+                    'class' => $class[1]
                 ];
             }
         }
 
         return $modules;
     }
+    
+    private function createCache(array $modules)
+    {
+        $str = \Novosga\Util\Arrays::toString($modules);
+        $time = time();
+        file_put_contents($this->modulesCache, "<?php /* generated at {$time} */ return {$str};");
+    }
+    
+    private function extractClassName($filename, $basepath)
+    {
+        $path       = substr($filename, strlen($basepath) + 1, -4);
+        $parts      = explode('/', $path);
+        $class      = array_pop($parts);
 
+        $content = file_get_contents($filename);
+        preg_match("/namespace\ (.*)?;/", $content, $match);
+
+        if (count($match) !== 2) {
+            return null;
+        }
+        
+        $namespace = $match[1];
+        
+        return [
+            $class,
+            $namespace . '\\' . $class,
+        ];
+    }
+    
+    private function classNameToKey($class)
+    {
+        $classWithoutSuffix = substr($class, 0, strpos($class, 'Bundle'));
+        $tokens = preg_split('/(?=[A-Z])/', $classWithoutSuffix, -1, PREG_SPLIT_NO_EMPTY);
+        $key = strtolower(implode('.', $tokens));
+        
+        return $key;
+    }
+    
 }
