@@ -17,14 +17,14 @@ class FilaService extends ModelService
 {
     // default queue ordering
     public static $ordering = [
-        // wait time
-        [
-            'exp'   => '((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))',
-            'order' => 'DESC',
-        ],
         // priority
         [
             'exp'   => 'p.peso',
+            'order' => 'DESC',
+        ],
+        // wait time
+        [
+            'exp'   => '((p.peso + 1) * (CURRENT_TIMESTAMP() - e.dataChegada))',
             'order' => 'DESC',
         ],
         // ticket number
