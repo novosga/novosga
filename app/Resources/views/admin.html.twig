@@ -4,48 +4,39 @@
     <div class="row">
         <div class="col-md-2 col-xs-3">
             <aside>
-                <ul class="nav nav-pills nav-stacked">
-                    <li {% if tab == 'index' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_index') }}">
-                            {% trans %}Sistema{% endtrans %}
-                        </a>
-                    </li>
-                    <li {% if tab == 'unidades' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_unidades_index') }}">
-                            {% trans %}Unidades{% endtrans %}
-                        </a>
-                    </li>
-                    <li {% if tab == 'servicos' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_servicos_index') }}">
-                            {% trans %}Serviços{% endtrans %}
-                        </a>
-                    </li>
-                    <li {% if tab == 'perfis' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_perfis_index') }}">
-                            {% trans %}Perfis{% endtrans %}
-                        </a>
-                    </li>
-                    <li {% if tab == 'prioridades' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_prioridades_index') }}">
-                            {% trans %}Prioridades{% endtrans %}
-                        </a>
-                    </li>
-                    <li {% if tab == 'locais' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_locais_index') }}">
-                            {% trans %}Locais{% endtrans %}
-                        </a>
-                    </li>
-                    <li {% if tab == 'modulos' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_modulos_index') }}">
-                            {% trans %}Módulos{% endtrans %}
-                        </a>
-                    </li>
-                    <li {% if tab == 'api' %}class="active"{% endif %}>
-                        <a href="{{ path('admin_api_index') }}">
-                            Web API
-                        </a>
-                    </li>
-                </ul>
+                <div class="list-group">
+                    <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
+                        {% trans %}Sistema{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_unidades_index') }}" class="list-group-item {% if tab == 'unidades' %}active{% endif %}">
+                        {% trans %}Unidades{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_servicos_index') }}" class="list-group-item {% if tab == 'servicos' %}active{% endif %}">
+                        {% trans %}Serviços{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_perfis_index') }}" class="list-group-item {% if tab == 'perfis' %}active{% endif %}">
+                        {% trans %}Perfis{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_prioridades_index') }}" class="list-group-item {% if tab == 'prioridades' %}active{% endif %}">
+                        {% trans %}Prioridades{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_locais_index') }}" class="list-group-item {% if tab == 'locais' %}active{% endif %}">
+                        {% trans %}Locais{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_modulos_index') }}" class="list-group-item {% if tab == 'modulos' %}active{% endif %}">
+                        {% trans %}Módulos{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_api_index') }}" class="list-group-item {% if tab == 'api' %}active{% endif %}">
+                        Web API
+                    </a>
+                </div>
             </aside>
         </div>
         <div class="col-md-10 col-xs-9">
