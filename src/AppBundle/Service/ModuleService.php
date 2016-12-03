@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Novo SGA project.
+ *
+ * (c) Rogerio Lino <rogeriolino@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace AppBundle\Service;
 
 use Symfony\Component\Finder\Finder;
@@ -104,7 +113,16 @@ class ModuleService
     {
         $str = \Novosga\Util\Arrays::toString($modules);
         $time = time();
-        file_put_contents($this->modulesCache, "<?php /* generated at {$time} */ return {$str};");
+        file_put_contents($this->modulesCache, "<?php
+
+/*
+ * This file is part of the Novo SGA project.
+ *
+ * (c) Rogerio Lino <rogeriolino@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */ /* generated at {$time} */ return {$str};");
     }
     
     private function extractClassName($filename, $basepath)

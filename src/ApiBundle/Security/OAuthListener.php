@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the Novo SGA project.
+ *
+ * (c) Rogerio Lino <rogeriolino@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace ApiBundle\Security;
 
 use FOS\OAuthServerBundle\Security\Firewall\OAuthListener as ListenerBase;
@@ -11,7 +20,7 @@ use Symfony\Component\Security\Http\Firewall\ListenerInterface;
 /**
  * OAuthListener
  *
- * @author rogerio
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class OAuthListener implements ListenerInterface
 {
