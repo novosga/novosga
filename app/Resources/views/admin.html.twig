@@ -5,6 +5,12 @@
         <div class="col-md-2 col-xs-3">
             <aside>
                 <div class="list-group">
+                    <div class="list-group-item disabled">
+                        <h4 class="list-group-item-heading">
+                            {% trans %}Administração{% endtrans %}
+                        </h4>
+                    </div>
+                    
                     <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
                         {% trans %}Sistema{% endtrans %}
                     </a>
