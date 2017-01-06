@@ -18,7 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  * 
- * @Route("/api/atendimentos")
+ * @Route("/atendimentos")
  */
 class AtendimentosController extends ApiCrudController
 {
