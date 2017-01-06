@@ -625,11 +625,15 @@ var App = {
         },
         
         on: function(evt, fn) {
-            this.ws.on(evt, fn);
+            if (this.ws) {
+                this.ws.on(evt, fn);
+            }
         },
         
         emit: function(evt, fn) {
-            this.ws.emit(evt, fn);
+            if (this.ws) {
+                this.ws.emit(evt, fn);
+            }
         }
         
     }
