@@ -28,7 +28,8 @@ class DefaultController extends Controller
     public function indexAction()
     {
         return $this->json([
-            'status' => 'ok'
+            'status' => 'ok',
+            'time'   => time(),
         ]);
     }
     
