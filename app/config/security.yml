@@ -6,7 +6,9 @@ security:
             cost: 12
             
         md5:
-            id: novosga.security.encoder.md5
+            algorithm: md5
+            encode_as_base64: false
+            iterations: 1
 
     providers:
         novosga_provider:
