@@ -61,6 +61,7 @@ Novosga\Entity\Usuario:
         salt:
             type: string
             length: 60
+            nullable: true
     oneToMany:
         lotacoes:
             targetEntity: Novosga\Entity\Lotacao

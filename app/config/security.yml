@@ -1,6 +1,10 @@
 security:
 
     encoders:
+        bcrypt:
+            algorithm: bcrypt
+            cost: 12
+            
         md5:
             id: novosga.security.encoder.md5
 
