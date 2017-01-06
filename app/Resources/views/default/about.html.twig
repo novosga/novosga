@@ -5,8 +5,8 @@
         <h1>Novo SGA v{{ version }}</h1>
         <p>Sistema de Gerenciamento de Atendimento</p>
         <p>
-            <button id="btn-checkversion" class="btn btn-default btn-lg" role="button" onclick="return App.Admin.checkVersion();">
-                <span class="glyphicon glyphicon-refresh"></span>
+            <button id="btn-checkversion" class="btn btn-default btn-lg" role="button" onclick="return App.checkVersion();">
+                <span class="fa fa-refresh"></span>
                 {% trans %}Verificar nova versão{% endtrans %}
             </button>
             <a id="btn-downloader" href="#" class="btn btn-success btn-lg" role="button" style="display:none">

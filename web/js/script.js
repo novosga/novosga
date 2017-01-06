@@ -636,6 +636,36 @@ var App = {
             }
         }
         
+    },
+    
+    checkVersion: function() {
+        var self = this;
+        self.intervalId = self.intervalId || 0;
+        clearInterval(self.intervalId);
+        var icon = $('#btn-checkversion').prop('disabled', true).find('span');
+        icon.addClass('fa-spin');
+        
+        $.ajax({
+            url: 'https://api.github.com/repos/novosga/novosga/tags',
+            success: function(response) {
+                clearInterval(self.intervalId);
+                $('#btn-checkversion').hide();
+                var latest = response[0];
+                if (App.version !== latest.name.replace('v', '')) {
+                    $('#btn-downloader')
+                            .show()
+                            .prop('href', latest.zipball_url)
+                            .find('.version')
+                            .text(latest.name);
+                } else {
+                    $('#update-alert').show();
+                }
+            },
+            complete: function () {
+                icon.removeClass('fa-spin');
+            }
+        });
+        return false;
     }
     
 };

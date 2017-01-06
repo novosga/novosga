@@ -50,3 +50,9 @@
         </div>
     </div>
 {% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset("js/admin.js") }}"></script>
+{% endblock %}
