@@ -31,7 +31,9 @@
                     <a class="navbar-brand" href="{{ path('home') }}">Novo SGA</a>
                 </div>
                 <div class="collapse navbar-collapse novosga-navbar">
-                    {{ render(controller('AppBundle:Default:menu')) }}
+                    {% if app.user.lotacao %}
+                        {{ render(controller('AppBundle:Default:menu')) }}
+                    {% endif %}
 
                     {% if is_granted('ROLE_USER') %}
                     <ul class="nav navbar-nav navbar-right">
@@ -116,7 +118,9 @@
         {% block javascripts %}
         {% endblock %}
 
-        {{ render(controller('AppBundle:Default:unidades')) }}
+        {% if app.user.lotacao %}
+            {{ render(controller('AppBundle:Default:unidades')) }}
+        {% endif %}
 
         <span id="ajax-loading" class="mini-loading" style="display:none"></span>
     </body>

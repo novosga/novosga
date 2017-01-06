@@ -39,6 +39,8 @@ class SecurityListener
         
         $repository = $this->em->getRepository(Usuario::class);
         $unidade = $repository->loadUnidade($usuario);
-        $repository->updateUnidade($usuario, $unidade);
+        if ($unidade) {
+            $repository->updateUnidade($usuario, $unidade);
+        }
     }
 }

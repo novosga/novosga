@@ -47,10 +47,14 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         
         $usuario = $em->find(Usuario::class, $user->getId());
         $unidade = $this->loadUnidade($usuario);
-        $lotacao = $em->getRepository(Lotacao::class)->getLotacao($usuario, $unidade);
+        $lotacao = null;
         
-        if (!$lotacao) {
-            throw new Exception(_('Não existe lotação para o usuário atual na unidade informada.'));
+        if ($unidade) {
+            $lotacao = $em->getRepository(Lotacao::class)->getLotacao($usuario, $unidade);
+
+            if (!$lotacao) {
+                throw new Exception(_('Não existe lotação para o usuário atual na unidade informada.'));
+            }
         }
         
         $this->loadRoles($usuario, $lotacao);
@@ -67,7 +71,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         return $class === Usuario::class;
     }
     
-    public function loadRoles(Usuario $usuario, Lotacao $lotacao)
+    public function loadRoles(Usuario $usuario, Lotacao $lotacao = null)
     {
         $usuario->addRole('ROLE_USER');
         
@@ -76,12 +80,15 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         }
         
         $roles = $usuario->getRoles();
-        $permissoes = $lotacao->getCargo()->getModulos();
+        
+        if ($lotacao) {
+            $permissoes = $lotacao->getCargo()->getModulos();
 
-        foreach ($permissoes as $modulo) {
-            $role = 'ROLE_' . strtoupper(str_replace('.', '_', $modulo));
-            if (!in_array($role, $roles)) {
-                $usuario->addRole($role);
+            foreach ($permissoes as $modulo) {
+                $role = 'ROLE_' . strtoupper(str_replace('.', '_', $modulo));
+                if (!in_array($role, $roles)) {
+                    $usuario->addRole($role);
+                }
             }
         }
     }
@@ -91,6 +98,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         $em = $this->getEntityManager();
         $service = new \Novosga\Service\UsuarioService($em);
         $meta = $service->meta($usuario, 'session.unidade');
+        $unidade = null;
         
         if ($meta) {
             $unidade = $this->getEntityManager()
@@ -104,7 +112,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         }
         
         if (!$unidade) {
-            throw new Exception(_('Nenhuma unidade definida para o usuário.'));
+//            throw new Exception(_('Nenhuma unidade definida para o usuário.'));
         }
         
         return $unidade;
