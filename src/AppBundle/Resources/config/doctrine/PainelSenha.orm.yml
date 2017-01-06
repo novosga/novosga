@@ -18,7 +18,7 @@ Novosga\Entity\PainelSenha:
         siglaSenha:
             type: string
             scale: 0
-            length: 1
+            length: 3
             unique: false
             nullable: false
             precision: 0
