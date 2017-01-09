@@ -40,18 +40,13 @@ Novosga\Entity\Servico:
     oneToMany:
         subServicos:
             targetEntity: Novosga\Entity\Servico
-            cascade: {  }
             fetch: LAZY
             mappedBy: mestre
-            inversedBy: null
             orphanRemoval: false
-            orderBy: null
+            orderBy: 
+                nome: ASC
         servicosUnidade:
             targetEntity: Novosga\Entity\ServicoUnidade
-            cascade: {  }
             fetch: LAZY
             mappedBy: servico
-            inversedBy: null
             orphanRemoval: false
-            orderBy: null
-    lifecycleCallbacks: {  }
