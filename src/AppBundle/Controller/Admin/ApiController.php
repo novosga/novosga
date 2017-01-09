@@ -11,11 +11,12 @@
 
 namespace AppBundle\Controller\Admin;
 
-use Novosga\Context;
 use Novosga\Http\Envelope;
+use ApiBundle\Entity\OAuthClient;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * ApiController
@@ -45,70 +46,82 @@ class ApiController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/new-oauth-client")
+     * @Route("/oauth-clients", name="admin_api_clients")
+     * @Method("GET")
+     */
+    public function oauthClientsAction(Request $request)
+    {
+        $envelope = new Envelope();
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $clients = $em->getRepository(OAuthClient::class)
+                            ->findAll();
+            
+            $envelope->setData($clients);
+
+        } catch (\Exception $e) {
+            $envelope->exception($e);
+        }
+
+        return $this->json($envelope);
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/oauth-clients", name="admin_api_newclient")
+     * @Method("POST")
      */
     public function newOauthClientAction(Request $request)
     {
         $envelope = new Envelope();
         try {
+            $json = json_decode($request->getContent());
+            $uri = isset($json->redirectUri) ? trim($json->redirectUri) : '';
+            
             $clientManager = $this->get('fos_oauth_server.client_manager.default');
             $client = $clientManager->createClient();
-            $client->setRedirectUris(['http://www.example.com']);
+            if (!empty($uri)) {
+                $client->setRedirectUris([
+                    $uri
+                ]);
+            }
             $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);
             $clientManager->updateClient($client);
             
             $envelope->setData($client);
 
         } catch (\Exception $e) {
-            $envelope
-                    ->setSuccess(false)
-                    ->setMessage($e->getMessage());
+            $envelope->exception($e);
         }
 
         return $this->json($envelope);
     }
 
-    public function get_oauth_client(Context $context)
+    /**
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/oauth-clients/{id}", name="admin_api_removeclient")
+     * @Method("DELETE")
+     */
+    public function removeOauthClientAction(Request $request, OAuthClient $client)
     {
         $envelope = new Envelope();
-        $client_id = $context->request()->get('client_id');
-        $query = $em->createQuery('SELECT e FROM Novosga\Entity\OAuthClient e WHERE e.id = :client_id');
-        $query->setParameter('client_id', $client_id);
-        $client = $query->getOneOrNullResult();
-        if ($client) {
-            $data = $client->jsonSerialize();
-            $envelope->setData($data);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($client);
+            $em->flush();
+            
+            $envelope->setData($client);
+            
+        } catch (\Exception $e) {
+            $envelope->exception($e);
         }
 
         return $this->json($envelope);
-    }
-
-    public function get_all_oauth_client(Context $context)
-    {
-        $envelope = new Envelope();
-        $rs = $em->getRepository('Novosga\Entity\OAuthClient')->findBy([], ['id' => 'ASC']);
-        $data = [];
-        foreach ($rs as $client) {
-            $data[] = $client->jsonSerialize();
-        }
-        $envelope->setData($data);
-
-        return $this->json($envelope);
-    }
-
-    public function delete_oauth_client(Context $context)
-    {
-        $envelope = new Envelope();
-        $client_id = $context->request()->post('client_id');
-        $this->delete_auth_client_by_id($client_id);
-
-        return $this->json($envelope);
-    }
-
-    private function delete_auth_client_by_id($client_id)
-    {
-        $query = $em->createQuery('DELETE Novosga\Entity\OAuthClient e WHERE e.id = :client_id');
-        $query->setParameter('client_id', $client_id);
-        $query->execute();
     }
 }

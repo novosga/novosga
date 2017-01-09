@@ -1,114 +1,246 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <fieldset>
-        <legend>Web API</legend>
-        <p>As URLs abaixo são usadas para integrar o Novo SGA com outros projetos, como por exemplo o <strong>Painel Web</strong> e a <strong>Triagem Touch</strong>.</p>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Method</th>
-                    <th>URI</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <span class="label label-danger">POST</span>
-                    </td>
-                    <td>
-                        /api/token
-                    </td>
-                    <td>
-                        Autentica o usuário retornando o token de acesso.
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="label label-success">GET</span>
-                    </td>
-                    <td>
-                        /api/unidades
-                    </td>
-                    <td>
-                        Retorna todas as unidades disponíveis
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="label label-success">GET</span>
-                    </td>
-                    <td>
-                        /api/prioridades
-                    </td>
-                    <td>
-                        Retorna todas as prioridades disponíveis
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="label label-success">GET</span>
-                    </td>
-                    <td>
-                        /api/servicos
-                    </td>
-                    <td>
-                        Retorna os serviços globais
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="label label-success">GET</span>
-                    </td>
-                    <td>
-                        /api/servicos/:unidade
-                    </td>
-                    <td>
-                        Retorna os serviços habilitados para a unidade informada
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span class="label label-danger">POST</span>
-                    </td>
-                    <td>
-                        /api/distribui
-                    </td>
-                    <td>
-                        Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </fieldset>
-    <fieldset>
-        <legend>{% trans %}Clientes{% endtrans %}</legend>
-        <p>Para acessar algumas URLs é necessário possuir um token de acesso, e para isso é necessário primeiro cadastrar a aplicação cliente.</p>
-        <table id="oauth_clients" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Client Id</th>
-                    <th>Client Secret</th>
-                    <th>Redirect URI</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="buttons">
-                        <a href="#dialog-clientid" data-toggle="modal" class="btn btn-default" onclick="$('#dialog-clientid :input').val('');">
-                            <span class="glyphicon glyphicon-plus"></span>
-                            {% trans %}Adicionar{% endtrans %}
-                        </a>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </fieldset>
+    <h1>
+        {% trans %}Web API{% endtrans %}
+        <small>
+            {% trans %}API Web para integração com outros sistemas.{% endtrans %}
+        </small>
+    </h1>
+    
+    <div id="admin">
+        <fieldset>
+            <legend>{% trans %}Clientes{% endtrans %}</legend>
+            <p>Para acessar algumas URLs é necessário possuir um token de acesso, e para isso é necessário primeiro cadastrar a aplicação cliente.</p>
+            <table id="oauth_clients" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Public Id</th>
+                        <th>Client Secret</th>
+                        <th>Redirect URI</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="client in clients">
+                        <td>
+                            {% verbatim %}
+                                {{ client.publicId }}
+                            {% endverbatim %}
+                        </td>
+                        <td>
+                            <a href="#" title="{% trans %}Visualizar{% endtrans %}" v-on:click.prevent="showSecret(client, $event)">
+                                ******
+                            </a>
+                        </td>
+                        <td>
+                            {% verbatim %}
+                                {{ client.redirectUris[0] }}
+                            {% endverbatim %}
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger" title="{% trans %}Remover{% endtrans %}"
+                                    v-on:click.prevent="removeClient(client)">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="buttons">
+                            <button type="button" class="btn btn-default" v-on:click.prevent="newClient">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                {% trans %}Adicionar{% endtrans %}
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </fieldset>
+                            
+        <fieldset>
+            <legend>URLs</legend>
+            <p>As URLs abaixo são usadas para integrar o Novo SGA com outros projetos, como por exemplo o <strong>Painel Web</strong> e a <strong>Triagem Touch</strong>.</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>URI</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span class="label label-danger">POST</span>
+                        </td>
+                        <td>
+                            /api/token
+                        </td>
+                        <td>
+                            {% trans %}Autentica o usuário retornando o token de acesso.{% endtrans %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="label label-success">GET</span>
+                        </td>
+                        <td>
+                            /api/unidades
+                        </td>
+                        <td>
+                            {% trans %}Retorna todas as unidades disponíveis.{% endtrans %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="label label-success">GET</span>
+                        </td>
+                        <td>
+                            /api/prioridades
+                        </td>
+                        <td>
+                            {% trans %}Retorna todas as prioridades disponíveis.{% endtrans %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="label label-success">GET</span>
+                        </td>
+                        <td>
+                            /api/servicos
+                        </td>
+                        <td>
+                            {% trans %}Retorna os serviços globais.{% endtrans %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="label label-success">GET</span>
+                        </td>
+                        <td>
+                            /api/locais
+                        </td>
+                        <td>
+                            {% trans %}Retorna os locais de atendimentos.{% endtrans %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="label label-success">GET</span>
+                        </td>
+                        <td>
+                            /api/usuarios
+                        </td>
+                        <td>
+                            {% trans %}Retorna os usuários do sistema.{% endtrans %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span class="label label-danger">POST</span>
+                        </td>
+                        <td>
+                            /api/distribui
+                        </td>
+                        <td>
+                            {% trans %}Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.{% endtrans %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <div id="dialog-api-client" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form v-on:submit.prevent="addClient">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">{% trans %}API Client{% endtrans %}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>{% trans %}Redirect URI{% endtrans %}</label>
+                                <input type="url" class="form-control" v-model="client.redirectUri" name="redirectUri">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                {% trans %}Fechar{% endtrans %}
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                {% trans %}Adicionar{% endtrans %}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function () {
+            'strinct'
+            
+            var app = new Vue({
+                el: '#admin',
+                data: {
+                    client: {},
+                    clients: []
+                },
+                methods: {
+                    load: function() {
+                        var self = this;
+                        App.ajax({
+                            url: '{{ path('admin_api_clients') }}',
+                            success: function(response) {
+                                self.clients = response.data;
+                            }
+                        });
+                    },
+                    newClient: function() {
+                        this.client = {};
+                        $('#dialog-api-client').modal('show');
+                    },
+                    addClient: function() {
+                        var self = this;
+                        App.ajax({
+                            url: '{{ path('admin_api_newclient') }}',
+                            type: 'POST',
+                            data: self.client,
+                            success: function() {
+                                self.load();
+                                $('#dialog-api-client').modal('hide');
+                            }
+                        });
+                    },
+                    showSecret: function (client, evt) {
+                        evt.target.innerHTML = client.secret;
+                    },
+                    removeClient: function (client) {
+                        var self = this;
+                        if (confirm('{% trans %}Deseja realmente remover o cliente?{% endtrans %}')) {
+                            App.ajax({
+                                url: '{{ path('admin_api_clients') }}/' + client.id,
+                                type: 'DELETE',
+                                success: function() {
+                                    self.load();
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+            
+            app.load();
+        })();
+    </script>
 {% endblock %}
