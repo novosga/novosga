@@ -21,6 +21,7 @@ use Novosga\Service\AtendimentoService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * AdminController
@@ -53,72 +54,25 @@ class AdminController extends Controller
         ]);
     }
 
-    public function auth_save(Context $context)
+    /**
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/acumular_atendimentos", name="admin_acumular_atendimentos")
+     * @Method("POST")
+     */
+    public function acumular_atendimentos(Request $request)
     {
         $envelope = new Envelope();
         try {
-            $auth = Configuracao::get($em, AuthenticationProvider::KEY);
-            $value = $auth->getValor();
-            $type = $context->request()->post('type');
-            $value['type'] = $type;
-            if (!isset($value[$type])) {
-                $value[$type] = [];
-            }
-            foreach ($_POST as $k => $v) {
-                $value[$type][$k] = $v;
-            }
-            $auth = App::authenticationFactory()->create($context, $value);
-            if (!$auth) {
-                throw new \Exception(_('Opção inválida'));
-            }
-            $auth->test();
-            Configuracao::set($em, AuthenticationProvider::KEY, $value);
-        } catch (\Exception $e) {
-            $envelope
-                    ->setSuccess(false)
-                    ->setMessage($e->getMessage());
-        }
-
-        return $this->json($envelope);
-    }
-
-    public function acumular_atendimentos(Context $context)
-    {
-        $envelope = new Envelope();
-        try {
-            if (!$context->request()->isPost()) {
-                throw new Exception(_('Somente via POST'));
-            }
+            $em = $this->getDoctrine()->getManager();
             $service = new AtendimentoService($em);
             $service->acumularAtendimentos();
         } catch (\Exception $e) {
-            $envelope
-                    ->setSuccess(false)
-                    ->setMessage($e->getMessage());
+            $envelope->exception($e);
         }
 
         return $this->json($envelope);
     }
-
-    public function change_numeracao(Context $context)
-    {
-        $envelope = new Envelope();
-        try {
-            if (!$context->request()->isPost()) {
-                throw new Exception(_('Somente via POST'));
-            }
-            $tipo = (int) $context->request()->post('tipo');
-            if (!array_key_exists($tipo, $this->numeracoes)) {
-                throw new \Exception(_('Valor inválido'));
-            }
-            Configuracao::set($em, Senha::TIPO_NUMERACAO, $tipo);
-        } catch (\Exception $e) {
-            $envelope
-                    ->setSuccess(false)
-                    ->setMessage($e->getMessage());
-        }
-
-        return $this->json($envelope);
-    }
-
 }

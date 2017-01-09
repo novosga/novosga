@@ -141,7 +141,7 @@ App.Admin = {
                 url: App.url('acumular_atendimentos'),
                 type: 'post',
                 success: function() {
-                    App.dialogs.modal("#dialog-reiniciar");
+                    $("#dialog-reiniciar").modal('show');
                 }
             });
         }
