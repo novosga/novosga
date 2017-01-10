@@ -61,7 +61,7 @@ doctrine:
         mappings:
             novosga:
                 type: yml
-                dir: "%kernel.root_dir%/../vendor/novosga/core/src/Novosga/Entity"
+                dir: "%kernel.root_dir%/../vendor/novosga/core/Entity"
                 prefix: Novosga\Entity
                 alias: Novosga
                 is_bundle: false
