@@ -23,6 +23,11 @@ Novosga\Entity\Usuario:
             length: 100
             unique: false
             nullable: false
+        email:
+            type: string
+            length: 150
+            unique: true
+            nullable: true
         senha:
             type: string
             length: 128
