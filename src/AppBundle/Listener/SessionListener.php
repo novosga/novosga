@@ -13,7 +13,6 @@ namespace AppBundle\Listener;
 
 use Novosga\Http\Envelope;
 use Novosga\Entity\Usuario;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -24,7 +23,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AjaxSessionListener
+class SessionListener extends AppListener
 {
     /**
      * @var TokenStorage
@@ -63,13 +62,5 @@ class AjaxSessionListener
                 $event->setResponse($response);
             }
         }
-    }
-    
-    private function isApiRequest(Request $request) 
-    {
-        $path = $request->getPathInfo();
-        $isApi = strpos($path, '/api') === 0;
-        
-        return $isApi;
     }
 }

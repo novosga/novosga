@@ -12,6 +12,7 @@
 namespace ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * ApiControllerBase
@@ -31,6 +32,10 @@ abstract class ApiCrudController extends ApiControllerBase
     public function find($id)
     {
         $object = $this->getRepository()->find($id);
+        
+        if (!$object) {
+            throw new NotFoundHttpException;
+        }
         
         return $this->json($object);
     }

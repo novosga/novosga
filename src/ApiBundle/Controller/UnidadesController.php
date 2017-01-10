@@ -11,7 +11,11 @@
 
 namespace ApiBundle\Controller;
 
+use Exception;
+use Novosga\Service\ServicoService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * UnidadesController
@@ -34,4 +38,32 @@ class UnidadesController extends ApiCrudController
         parent::__construct(\Novosga\Entity\Unidade::class);
     }
     
+    /**
+     * @Route("/{id}/servicos")
+     * @Method("GET")
+     */
+    public function servicosAction($id)
+    {
+        try {
+            $unidade = $this->getRepository()->find($id);
+            
+            if (!$unidade) {
+                throw new NotFoundHttpException;
+            }
+            
+            $em = $this->getDoctrine()->getManager();
+            
+            $service = new ServicoService($em);
+            $servicos = $service->servicosUnidade($unidade, 'e.status = 1');
+            
+            $response = $servicos;
+            
+        } catch (Exception $e) {
+            $response = [
+                'error' => $e->getMessage()
+            ];
+        }
+        
+        return $this->json($response);
+    }
 }

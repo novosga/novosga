@@ -10,14 +10,14 @@ services:
         class: AppBundle\Security\UserProvider
         arguments: ["@doctrine"]
     
-    novosga.ajax_session_listener:
-        class: AppBundle\Listener\AjaxSessionListener
+    novosga.listener.session:
+        class: AppBundle\Listener\SessionListener
         arguments: ['@security.token_storage']
         tags:
             - { name: kernel.event_listener, event: kernel.request }
             
-    novosga.ajax_exception_listener:
-        class: AppBundle\Listener\AjaxExceptionListener
+    novosga.listener.json_exception:
+        class: AppBundle\Listener\JsonExceptionListener
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
     

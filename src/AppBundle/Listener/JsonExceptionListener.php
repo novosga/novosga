@@ -15,20 +15,37 @@ use Novosga\Http\Envelope;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * AjaxListener
+ * JsonExceptionListener
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class AjaxExceptionListener
+class JsonExceptionListener extends AppListener
 {
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
         $request = $event->getRequest();
         
-        if ($request->isXmlHttpRequest()) {
+        if ($this->isApiRequest($request)) {
+            if ($exception instanceof NotFoundHttpException) {
+                $json = [
+                    'code' => 404,
+                    'error' => 'Not found',
+                ];
+            } else {
+                $json = [
+                    'code' => 400,
+                    'error' => $exception->getMessage(),
+                ];
+            }
+            
+            $response = new JsonResponse($json);
+            $event->setResponse($response);
+        }
+        else if ($request->isXmlHttpRequest()) {
             $envelope = new Envelope();
             $envelope->exception($exception);
             

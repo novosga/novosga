@@ -41,4 +41,26 @@ abstract class ApiControllerBase extends Controller
         
         return $serializer;
     }
+    
+    /**
+     * @return \Symfony\Bundle\FrameworkBundle\Translation\Translator
+     */
+    protected function getTranslator()
+    {
+        $translator = $this->get('translator');
+        
+        return $translator;
+    }
+    
+    /**
+     * 
+     * @param string $msg
+     * @return string
+     */
+    protected function translate($id, array $params = [])
+    {
+        $translated = $this->getTranslator()->trans($id, $params);
+        
+        return $translated;
+    }
 }
