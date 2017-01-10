@@ -13,6 +13,7 @@ namespace AppBundle\Listener;
 
 use Novosga\Http\Envelope;
 use Novosga\Entity\Usuario;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -38,10 +39,11 @@ class AjaxSessionListener
     public function onKernelRequest(GetResponseEvent $event)
     {
         $token = $this->tokenStorage->getToken();
+        $request = $event->getRequest();
 
-        if ($token) {
+        if (!$this->isApiRequest($request) && $token) {
             $user = $token->getUser();
-            $sessionId = $event->getRequest()->getSession()->getId();
+            $sessionId = $request->getSession()->getId();
 
             if ($user instanceof Usuario && $user->getSessionId() !== $sessionId) {
 
@@ -61,5 +63,13 @@ class AjaxSessionListener
                 $event->setResponse($response);
             }
         }
+    }
+    
+    private function isApiRequest(Request $request) 
+    {
+        $path = $request->getPathInfo();
+        $isApi = strpos($path, '/api') === 0;
+        
+        return $isApi;
     }
 }
