@@ -29,7 +29,7 @@ class AppKernel extends Kernel
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
-        
+
         $appBundle = new AppBundle\AppBundle();
         $appBundle->registerModules($bundles);
         
