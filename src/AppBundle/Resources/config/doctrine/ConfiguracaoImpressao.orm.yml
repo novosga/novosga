@@ -25,10 +25,6 @@ Novosga\Entity\ConfiguracaoImpressao:
             type: boolean
             nullable: false
             column: exibir_nome_servico
-        exibirNomeServico:
-            type: boolean
-            nullable: false
-            column: exibir_nome_servico
         exibirMensagemServico:
             type: boolean
             nullable: false
