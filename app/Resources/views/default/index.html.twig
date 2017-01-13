@@ -3,7 +3,7 @@
 {% block body %}
     <div class="jumbotron">
         <div class="container">
-            <h1>{% trans with {'%name%': app.user } from 'app' %}Bem-vindo, %name%{% endtrans %}</h1>
+            <h1>{% trans with {'%name%': app.user } from 'messages' %}Bem-vindo, %name%{% endtrans %}</h1>
             <p>Novo SGA - Sistema de Gerenciamento de Atendimento</p>
             <p>
                 <a class="btn btn-primary btn-lg" href="{{ path('about') }}" role="button">

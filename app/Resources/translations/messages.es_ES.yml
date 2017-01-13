@@ -1,0 +1,80 @@
+Unidades: __Unidades
+'Cadastro de unidades de atendimento': '__Cadastro de unidades de atendimento'
+Código: __Código
+Nome: __Nome
+Salvar: __Salvar
+Novo: __Novo
+'Zona de perigo': '__Zona de perigo'
+'Reiniciar senhas': '__Reiniciar senhas'
+'Deseja realmente reiniciar as senhas de todas unidades?': '__Deseja realmente reiniciar as senhas de todas unidades?'
+Reiniciar: __Reiniciar
+Configuração: __Configuração
+'Senhas reiniciadas com sucesso': '__Senhas reiniciadas com sucesso'
+Fechar: __Fechar
+'Web API': '__Web API'
+'API Web para integração com outros sistemas.': '__API Web para integração com outros sistemas.'
+Clientes: __Clientes
+Visualizar: __Visualizar
+Remover: __Remover
+Adicionar: __Adicionar
+'Autentica o usuário retornando o token de acesso.': '__Autentica o usuário retornando o token de acesso.'
+'Retorna todas as unidades disponíveis.': '__Retorna todas as unidades disponíveis.'
+'Retorna todas as prioridades disponíveis.': '__Retorna todas as prioridades disponíveis.'
+'Retorna os serviços globais.': '__Retorna os serviços globais.'
+'Retorna os locais de atendimentos.': '__Retorna os locais de atendimentos.'
+'Retorna os usuários do sistema.': '__Retorna os usuários do sistema.'
+'Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.': '__Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.'
+'API Client': '__API Client'
+'Redirect URI': '__Redirect URI'
+'Deseja realmente remover o cliente?': '__Deseja realmente remover o cliente?'
+Prioridades: __Prioridades
+'Cadastro de prioridades de atendimento': '__Cadastro de prioridades de atendimento'
+Peso: __Peso
+Perfis: __Perfis
+'Cadastro de perfis de acesso': '__Cadastro de perfis de acesso'
+'Novo perfil': '__Novo perfil'
+Voltar: __Voltar
+Módulos: __Módulos
+'Gerenciamento dos módulos do Novo SGA': '__Gerenciamento dos módulos do Novo SGA'
+Módulo: __Módulo
+Ativo: __Ativo
+Locais: __Locais
+'Cadastro de locais de atendimento': '__Cadastro de locais de atendimento'
+Serviços: __Serviços
+'Cadastro de serviços para atendimento': '__Cadastro de serviços para atendimento'
+'Novo serviço': '__Novo serviço'
+Status: __Status
+Subserviços: __Subserviços
+Administração: __Administração
+Sistema: __Sistema
+'Bem-vindo, %name%': '__Bem-vindo, %name%'
+'Leia mais sobre': '__Leia mais sobre'
+Unidade: __Unidade
+'Favor escolher a unidade': '__Favor escolher a unidade'
+Selecione: __Selecione
+Enviar: __Enviar
+'Trocar unidade': '__Trocar unidade'
+'Escolhe unidade': '__Escolhe unidade'
+'Nome Usuário': '__Nome Usuário'
+Senha: __Senha
+Entrar: __Entrar
+'Verificar nova versão': '__Verificar nova versão'
+'Parabéns, você possui a versão mais recente': '__Parabéns, você possui a versão mais recente'
+Acessar: __Acessar
+Perfil: __Perfil
+'Visualize e atualize o seu perfil': '__Visualize e atualize o seu perfil'
+'Perfil atualizado com sucesso': '__Perfil atualizado com sucesso'
+Login: __Login
+Sobrenome: __Sobrenome
+'Alterar senha': '__Alterar senha'
+'Senha atual': '__Senha atual'
+'Nova senha': '__Nova senha'
+'Confirmar nova senha': '__Confirmar nova senha'
+Alterar: __Alterar
+'Senha alterada com sucesso': '__Senha alterada com sucesso'
+Sobre: __Sobre
+Sair: __Sair
+Erro: __Erro
+d/m/Y: __d/m/Y
+'Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.': '__Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.'
+'Sessão expirada. Favor efetuar o login novamente.': '__Sessão expirada. Favor efetuar o login novamente.'
