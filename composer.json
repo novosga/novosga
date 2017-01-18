@@ -32,7 +32,8 @@
         "novosga/triagem-bundle": "dev-master",
         "novosga/users-bundle": "dev-master",
         "jms/serializer-bundle": "^1.1",
-        "friendsofsymfony/oauth-server-bundle": "^1.5"
+        "friendsofsymfony/oauth-server-bundle": "^1.5",
+        "nelmio/cors-bundle": "^1.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
