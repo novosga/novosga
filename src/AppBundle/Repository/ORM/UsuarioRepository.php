@@ -82,7 +82,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         $roles = $usuario->getRoles();
         
         if ($lotacao) {
-            $permissoes = $lotacao->getCargo()->getModulos();
+            $permissoes = $lotacao->getPerfil()->getModulos();
 
             foreach ($permissoes as $modulo) {
                 $role = 'ROLE_' . strtoupper(str_replace('.', '_', $modulo));

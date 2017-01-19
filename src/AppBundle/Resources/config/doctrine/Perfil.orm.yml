@@ -1,7 +1,7 @@
-Novosga\Entity\Cargo:
+Novosga\Entity\Perfil:
     type: entity
-    table: cargos
-    repositoryClass: AppBundle\Repository\ORM\CargoRepository
+    table: perfis
+    repositoryClass: AppBundle\Repository\ORM\PerfilRepository
     id:
         id:
             type: integer

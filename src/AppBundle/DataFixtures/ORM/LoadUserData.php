@@ -62,10 +62,10 @@ class LoadUserData extends AbstractFixture implements FixtureInterface, OrderedF
         $manager->persist($user);
         
         $unidade = $this->getReference('unidade');
-        $cargo   = $this->getReference('cargo-gerente');
+        $perfil   = $this->getReference('perfil-gerente');
         
         $lotacao = new Lotacao();
-        $lotacao->setCargo($cargo);
+        $lotacao->setPerfil($perfil);
         $lotacao->setUnidade($unidade);
         $lotacao->setUsuario($user);
         

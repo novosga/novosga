@@ -12,7 +12,7 @@
 namespace AppBundle\Repository\ORM;
 
 use Doctrine\ORM\EntityRepository;
-use Novosga\Entity\Cargo;
+use Novosga\Entity\Cliente;
 use Novosga\Repository\ClienteRepositoryInterface;
 
 /**
@@ -24,9 +24,9 @@ class ClienteRepository extends EntityRepository implements ClienteRepositoryInt
 {
     
     /**
-     * Retorna todos os cargos ordenados pelo nível e pelo nome
+     * Retorna todos os clientes ordenados pelo nome
      * 
-     * @return Cargo[]
+     * @return Cliente[]
      */
     public function findAll()
     {

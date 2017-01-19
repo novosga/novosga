@@ -11,11 +11,11 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Form\CargoType as EntityType;
+use AppBundle\Form\PerfilType as EntityType;
 use Mangati\BaseBundle\Controller\CrudController;
 use Mangati\BaseBundle\Event\CrudEvent;
 use Mangati\BaseBundle\Event\CrudEvents;
-use Novosga\Entity\Cargo as Entity;
+use Novosga\Entity\Perfil as Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

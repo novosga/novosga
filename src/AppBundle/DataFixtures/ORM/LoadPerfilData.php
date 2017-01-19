@@ -11,7 +11,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use Novosga\Entity\Cargo;
+use Novosga\Entity\Perfil;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -20,21 +20,21 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 /**
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class LoadCargoData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
+class LoadPerfilData extends AbstractFixture implements FixtureInterface, OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         $modulos = (new \AppBundle\Service\ModuleService())->getModules();
         
-        $cargo = new Cargo();
-        $cargo->setNome('Gerente');
-        $cargo->setDescricao('Descrição do cargo');
-        $cargo->setModulos(array_keys($modulos));
+        $perfil = new Perfil();
+        $perfil->setNome('Gerente');
+        $perfil->setDescricao('Descrição do perfil');
+        $perfil->setModulos(array_keys($modulos));
         
-        $manager->persist($cargo);
+        $manager->persist($perfil);
         $manager->flush();
         
-        $this->addReference('cargo-gerente', $cargo);
+        $this->addReference('perfil-gerente', $perfil);
     }
     
     public function getOrder()

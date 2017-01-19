@@ -12,21 +12,21 @@
 namespace AppBundle\Repository\ORM;
 
 use Doctrine\ORM\EntityRepository;
-use Novosga\Entity\Cargo;
-use Novosga\Repository\CargoRepositoryInterface;
+use Novosga\Entity\Perfil;
+use Novosga\Repository\PerfilRepositoryInterface;
 
 /**
- * CargoRepository
+ * PerfilRepository
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class CargoRepository extends EntityRepository implements CargoRepositoryInterface
+class PerfilRepository extends EntityRepository implements PerfilRepositoryInterface
 {
     
     /**
-     * Retorna todos os cargos ordenados pelo nível e pelo nome
+     * Retorna todos os perfis ordenados pelo nível e pelo nome
      * 
-     * @return Cargo[]
+     * @return Perfil[]
      */
     public function findAll()
     {

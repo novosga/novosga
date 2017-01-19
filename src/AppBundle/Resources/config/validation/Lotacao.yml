@@ -8,5 +8,5 @@ Novosga\Entity\Lotacao:
     properties:
         unidade:
             - NotNull: ~
-        cargo:
+        perfil:
             - NotNull: ~

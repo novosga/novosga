@@ -39,7 +39,7 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
                     'e', 'c', 'u'
                 ])
                 ->from($this->getEntityName(), 'e')
-                ->join('e.cargo', 'c')
+                ->join('e.perfil', 'c')
                 ->join('e.unidade', 'u')
                 ->where("e.usuario = :usuario")
                 ->setParameter('usuario', $usuario)
@@ -63,7 +63,7 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
                     'e', 'c', 'u'
                 ])
                 ->from($this->getEntityName(), 'e')
-                ->join('e.cargo', 'c')
+                ->join('e.perfil', 'c')
                 ->join('e.usuario', 'u')
                 ->where("e.unidade = :unidade")
                 ->setParameter('unidade', $unidade)
@@ -88,7 +88,7 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
                     'e', 'c', 'u'
                 ])
                 ->from($this->getEntityName(), 'e')
-                ->join('e.cargo', 'c')
+                ->join('e.perfil', 'c')
                 ->join('e.unidade', 'u')
                 ->where("e.usuario = :usuario")
                 ->andWhere("e.unidade = :unidade")

@@ -1,6 +1,6 @@
 Novosga\Entity\Lotacao:
     type: entity
-    table: usuarios_unidades_cargos
+    table: lotacoes
     repositoryClass: AppBundle\Repository\ORM\LotacaoRepository
     id:
         usuario:
@@ -23,11 +23,11 @@ Novosga\Entity\Lotacao:
             joinColumns:
                 unidade_id:
                     referencedColumnName: id
-        cargo:
-            targetEntity: Novosga\Entity\Cargo
+        perfil:
+            targetEntity: Novosga\Entity\Perfil
             cascade: {  }
             fetch: LAZY
             joinColumns:
-                cargo_id:
+                perfil_id:
                     referencedColumnName: id
     lifecycleCallbacks: {  }
