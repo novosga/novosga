@@ -16,6 +16,17 @@ use FOS\OAuthServerBundle\Entity\Client as BaseClient;
 /**
  * OAuthClient
  */
-class OAuthClient extends BaseClient
+class OAuthClient extends BaseClient implements \JsonSerializable
 {
+    
+    public function jsonSerialize()
+    {
+        return [
+            'publicId' => $this->getPublicId(),
+            'randomId' => $this->getRandomId(),
+            'redirectUris' => $this->getRedirectUris(),
+            'secret' => $this->getSecret(),
+        ];
+    }
+    
 }
