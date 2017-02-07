@@ -12,10 +12,11 @@
 namespace ApiBundle\Controller;
 
 use Exception;
+use Novosga\Entity\Unidade;
+use Novosga\Entity\Atendimento;
 use Novosga\Service\ServicoService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * UnidadesController
@@ -35,35 +36,49 @@ class UnidadesController extends ApiCrudController
     
     public function __construct()
     {
-        parent::__construct(\Novosga\Entity\Unidade::class);
+        parent::__construct(Unidade::class);
     }
     
     /**
      * @Route("/{id}/servicos")
      * @Method("GET")
      */
-    public function servicosAction($id)
+    public function servicosAction(Unidade $unidade)
     {
-        try {
-            $unidade = $this->getRepository()->find($id);
-            
-            if (!$unidade) {
-                throw new NotFoundHttpException;
-            }
-            
-            $em = $this->getDoctrine()->getManager();
-            
-            $service = new ServicoService($em);
-            $servicos = $service->servicosUnidade($unidade, 'e.status = 1');
-            
-            $response = $servicos;
-            
-        } catch (Exception $e) {
-            $response = [
-                'error' => $e->getMessage()
-            ];
-        }
-        
-        return $this->json($response);
+        $em = $this->getDoctrine()->getManager();
+
+        $service = new ServicoService($em);
+        $servicos = $service->servicosUnidade($unidade, 'e.status = 1');
+
+        return $this->json($servicos);
+    }
+    
+    /**
+     * @Route("/{id}/atendimentos")
+     * @Method("GET")
+     */
+    public function atendimentosAction(Unidade $unidade)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $atendimentos = $em
+                ->createQueryBuilder()
+                ->select([
+                    'e', 'su', 's', 'ut', 'u'
+                ])
+                ->from(Atendimento::class, 'e')
+                ->join('e.servicoUnidade', 'su')
+                ->join('e.servico', 's')
+                ->join('e.usuarioTriagem', 'ut')
+                ->leftJoin('e.usuario', 'u')
+                ->where('e.unidade = :unidade')
+                ->orderBy('e.id', 'ASC')
+                ->setParameters([
+                    'unidade' => $unidade,
+                ])
+                ->getQuery()
+                ->getResult();
+
+        return $this->json($atendimentos);
     }
 }
