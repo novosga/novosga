@@ -134,5 +134,4 @@ class PrioridadesController extends Controller
         
         return $this->json($envelope);
     }
-
 }

@@ -32,7 +32,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function loadUserByUsername($username) 
+    public function loadUserByUsername($username)
     {
         $usuario = $this->findOneByLogin($username);
         return $usuario;
@@ -41,7 +41,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function refreshUser(UserInterface $user) 
+    public function refreshUser(UserInterface $user)
     {
         $em = $this->getEntityManager();
         
@@ -66,7 +66,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
     /**
      * {@inheritdoc}
      */
-    public function supportsClass($class) 
+    public function supportsClass($class)
     {
         return $class === Usuario::class;
     }

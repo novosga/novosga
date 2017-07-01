@@ -25,12 +25,11 @@ class ClienteRepository extends EntityRepository implements ClienteRepositoryInt
     
     /**
      * Retorna todos os clientes ordenados pelo nome
-     * 
+     *
      * @return Cliente[]
      */
     public function findAll()
     {
         return $this->findBy([], ['nome' => 'ASC']);
     }
-    
 }

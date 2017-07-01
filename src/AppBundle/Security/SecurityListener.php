@@ -20,11 +20,12 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class SecurityListener 
+class SecurityListener
 {
     private $em;
     
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em)
+    {
         $this->em = $em;
     }
     

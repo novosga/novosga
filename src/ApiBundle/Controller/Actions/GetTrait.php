@@ -30,5 +30,4 @@ trait GetTrait
     {
         return $this->find($id);
     }
-    
 }

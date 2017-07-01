@@ -25,6 +25,4 @@ class LoginController extends BaseLoginController
     {
         return 'login.html.twig';
     }
-
-
 }

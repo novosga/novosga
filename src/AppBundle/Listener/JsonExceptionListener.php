@@ -44,8 +44,7 @@ class JsonExceptionListener extends AppListener
             
             $response = new JsonResponse($json);
             $event->setResponse($response);
-        }
-        else if ($request->isXmlHttpRequest()) {
+        } else if ($request->isXmlHttpRequest()) {
             $envelope = new Envelope();
             $envelope->exception($exception);
             

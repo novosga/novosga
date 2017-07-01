@@ -36,5 +36,4 @@ trait PutTrait
         
         return $this->update($object);
     }
-    
 }

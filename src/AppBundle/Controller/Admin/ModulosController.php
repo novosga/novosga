@@ -70,5 +70,4 @@ class ModulosController extends Controller
             'ok'
         ]);
     }
-
 }

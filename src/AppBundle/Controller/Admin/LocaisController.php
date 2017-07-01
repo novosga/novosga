@@ -129,5 +129,4 @@ class LocaisController extends Controller
         
         return $this->json($envelope);
     }
-
 }

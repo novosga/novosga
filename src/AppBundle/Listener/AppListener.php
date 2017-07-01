@@ -15,12 +15,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * AppListener
- * 
+ *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 abstract class AppListener
 {
-    protected function isApiRequest(Request $request) 
+    protected function isApiRequest(Request $request)
     {
         $path = $request->getPathInfo();
         $isApi = strpos($path, '/api') === 0;

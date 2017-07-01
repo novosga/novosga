@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="PHP_CodeSniffer">
+    <description>The coding standard for PHP_CodeSniffer itself.</description>
+
+    <file>bin</file>
+    <file>src</file>
+
+    <exclude-pattern>*/Standards/*/Tests/*.(inc|css|js)</exclude-pattern>
+
+    <arg name="colors" />
+    <arg value="np"/>
+
+    <!-- Don't hide tokenizer exceptions -->
+    <rule ref="Internal.Tokenizer.Exception">
+        <type>error</type>
+    </rule>
+
+    <rule ref="PSR2">
+        <type>error</type>
+    </rule>
+    <rule ref="PSR1">
+        <type>error</type>
+    </rule>
+
+</ruleset>

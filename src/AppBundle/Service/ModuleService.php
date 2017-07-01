@@ -13,7 +13,6 @@ namespace AppBundle\Service;
 
 use Symfony\Component\Finder\Finder;
 
-
 class ModuleService
 {
  
@@ -146,5 +145,4 @@ class ModuleService
         
         return $key;
     }
-    
 }

@@ -25,12 +25,11 @@ class PerfilRepository extends EntityRepository implements PerfilRepositoryInter
     
     /**
      * Retorna todos os perfis ordenados pelo nível e pelo nome
-     * 
+     *
      * @return Perfil[]
      */
     public function findAll()
     {
         return $this->findBy([], ['nome' => 'ASC']);
     }
-    
 }

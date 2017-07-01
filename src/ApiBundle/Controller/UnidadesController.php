@@ -22,7 +22,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
  * UnidadesController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/unidades")
  */
 class UnidadesController extends ApiCrudController

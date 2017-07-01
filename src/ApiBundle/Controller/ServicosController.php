@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * ServicosController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/servicos")
  */
 class ServicosController extends ApiCrudController
@@ -33,5 +33,4 @@ class ServicosController extends ApiCrudController
     {
         parent::__construct(\Novosga\Entity\Servico::class);
     }
-    
 }

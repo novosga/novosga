@@ -49,5 +49,4 @@ class NovaSenha
     {
         $this->cliente = new Cliente();
     }
-
 }

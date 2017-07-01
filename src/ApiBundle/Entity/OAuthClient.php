@@ -28,5 +28,4 @@ class OAuthClient extends BaseClient implements \JsonSerializable
             'secret' => $this->getSecret(),
         ];
     }
-    
 }

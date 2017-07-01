@@ -27,7 +27,7 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
     
     /**
      * Retorna as lotações do usuário
-     * 
+     *
      * @param Usuario $usuario
      * @return Lotacao[]
      */
@@ -51,7 +51,7 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
     
     /**
      * Retorna as lotações do usuário
-     * 
+     *
      * @param Unidade $unidade
      * @return Lotacao[]
      */
@@ -75,7 +75,7 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
     
     /**
      * Retorna a lotação do usuário na unidade
-     * 
+     *
      * @param Usuario $usuario
      * @param Unidade $unidade
      * @return Lotacao
@@ -99,5 +99,4 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
         ;
         
     }
-    
 }

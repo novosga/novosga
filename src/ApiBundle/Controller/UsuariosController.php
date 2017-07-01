@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * UsuariosController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/usuarios")
  */
 class UsuariosController extends ApiCrudController
@@ -30,5 +30,4 @@ class UsuariosController extends ApiCrudController
     {
         parent::__construct(\Novosga\Entity\Usuario::class);
     }
-    
 }

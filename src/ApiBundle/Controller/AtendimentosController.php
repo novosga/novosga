@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * AtendimentosController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/atendimentos")
  */
 class AtendimentosController extends ApiCrudController
@@ -30,5 +30,4 @@ class AtendimentosController extends ApiCrudController
     {
         parent::__construct(\Novosga\Entity\Atendimento::class);
     }
-    
 }

@@ -24,22 +24,26 @@ use Ratchet\Server\IoServer;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ServerCommand extends Command {
+class ServerCommand extends Command
+{
     
     private $em;
     
-    public function __construct(EntityManager $em, $name = null) {
+    public function __construct(EntityManager $em, $name = null)
+    {
         parent::__construct($name = null);
         $this->em = $em;
     }
     
-    protected function configure() {
+    protected function configure()
+    {
         $this->setName('server:painel')
             ->setDescription('Start painel server')
             ->addArgument('port', InputArgument::OPTIONAL, 'Server port', 8080);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $server = IoServer::factory(
             new \Ratchet\Http\HttpServer(
                 new \Ratchet\WebSocket\WsServer(
@@ -51,5 +55,4 @@ class ServerCommand extends Command {
 
         $server->run();
     }
-    
 }

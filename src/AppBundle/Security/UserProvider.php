@@ -26,5 +26,4 @@ class UserProvider extends EntityUserProvider
     {
         parent::__construct($registry, 'Novosga\Entity\Usuario', 'login');
     }
-    
 }

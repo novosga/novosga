@@ -31,5 +31,4 @@ trait FindTrait
     {
         return $this->search($request);
     }
-    
 }

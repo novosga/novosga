@@ -31,5 +31,4 @@ class PrioridadeRepository extends EntityRepository implements PrioridadeReposit
                 ->getQuery()
                 ->getResult();
     }
-    
 }

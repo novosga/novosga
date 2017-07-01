@@ -23,21 +23,22 @@ use Symfony\Component\HttpFoundation\Request;
  * ServicosController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/admin/servicos")
  */
 class ServicosController extends CrudController
 {
     
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct(Servico::class);
     }
     
     /**
-     * 
+     *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Route("/", name="admin_servicos_index")
      */
     public function indexAction(Request $request)
@@ -50,10 +51,10 @@ class ServicosController extends CrudController
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Route("/search.json", name="admin_servicos_search")
      */
-    public function searchAction(Request $request) 
+    public function searchAction(Request $request)
     {
         $query = $this
                 ->getDoctrine()
@@ -68,10 +69,10 @@ class ServicosController extends CrudController
     }
     
     /**
-     * 
+     *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Route("/edit/{id}", name="admin_servicos_edit")
      */
     public function editAction(Request $request, $id = 0)
@@ -84,7 +85,7 @@ class ServicosController extends CrudController
         return $this->edit('admin/servicos/edit.html.twig', $request, $id);
     }
 
-    protected function createFormType() 
+    protected function createFormType()
     {
         return ServicoType::class;
     }

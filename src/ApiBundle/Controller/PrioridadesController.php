@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * PrioridadesController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/prioridades")
  */
 class PrioridadesController extends ApiCrudController
@@ -33,5 +33,4 @@ class PrioridadesController extends ApiCrudController
     {
         parent::__construct(\Novosga\Entity\Prioridade::class);
     }
-    
 }

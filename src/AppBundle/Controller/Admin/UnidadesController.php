@@ -142,5 +142,4 @@ class UnidadesController extends Controller
         
         return $form;
     }
-
 }

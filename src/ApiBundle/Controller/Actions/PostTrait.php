@@ -34,5 +34,4 @@ trait PostTrait
         
         return $this->add($object);
     }
-    
 }

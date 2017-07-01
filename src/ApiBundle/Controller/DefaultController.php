@@ -32,5 +32,4 @@ class DefaultController extends Controller
             'time'   => time(),
         ]);
     }
-    
 }

@@ -53,7 +53,7 @@ abstract class ApiControllerBase extends Controller
     }
     
     /**
-     * 
+     *
      * @param string $msg
      * @return string
      */

@@ -35,7 +35,7 @@ class RouterLoader extends Loader
     /**
      * @param KernelInterface $kernel
      */
-    public function __construct(KernelInterface $kernel) 
+    public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
     }
@@ -95,8 +95,7 @@ class RouterLoader extends Loader
         if (file_exists($resourcePath)) {
             $type = 'yaml';
             $resource = "@{$name}{$routingFilePath}";
-        } 
-        // annotation
+        } // annotation
         else {
             $type = 'annotation';
             $resource = "@{$name}/Controller/";

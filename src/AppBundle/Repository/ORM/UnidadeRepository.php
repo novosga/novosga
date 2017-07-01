@@ -27,7 +27,7 @@ class UnidadeRepository extends EntityRepository implements UnidadeRepositoryInt
     
     /**
      * Retorna todas as unidades ordenadas por nome
-     * 
+     *
      * @return Unidade[]
      */
     public function findAll()
@@ -36,12 +36,12 @@ class UnidadeRepository extends EntityRepository implements UnidadeRepositoryInt
     }
     
     /**
-     * 
+     *
      * @param Usuario $usuario
      * @return Unidade[]
      */
     public function findByUsuario(Usuario $usuario)
-    {   
+    {
         $unidades = $this->createQueryBuilder('e')
                 ->join(Lotacao::class, 'l', 'WITH', 'l.unidade = e')
                 ->where('l.usuario = :usuario')
@@ -51,5 +51,4 @@ class UnidadeRepository extends EntityRepository implements UnidadeRepositoryInt
         
         return $unidades;
     }
-    
 }

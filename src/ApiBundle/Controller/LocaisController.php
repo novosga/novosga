@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  * LocaisController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/locais")
  */
 class LocaisController extends ApiCrudController
@@ -33,5 +33,4 @@ class LocaisController extends ApiCrudController
     {
         parent::__construct(\Novosga\Entity\Local::class);
     }
-    
 }

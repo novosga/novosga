@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  * DefaultController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/admin/perfis")
  */
 class PerfisController extends CrudController
@@ -36,10 +36,10 @@ class PerfisController extends CrudController
     }
 
     /**
-     * 
+     *
      * @param Request $request
      * @return Response
-     * 
+     *
      * @Route("/", name="admin_perfis_index")
      */
     public function indexAction(Request $request)
@@ -52,10 +52,10 @@ class PerfisController extends CrudController
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * 
+     *
      * @Route("/search.json", name="admin_perfis_search")
      */
-    public function searchAction(Request $request) 
+    public function searchAction(Request $request)
     {
         $query = $this
                 ->getDoctrine()
@@ -69,10 +69,10 @@ class PerfisController extends CrudController
     }
     
     /**
-     * 
+     *
      * @param Request $request
      * @return Response
-     * 
+     *
      * @Route("/edit/{id}", name="admin_perfis_edit")
      */
     public function editAction(Request $request, $id = 0)

@@ -32,5 +32,4 @@ trait DeleteTrait
         
         return $this->remove($object);
     }
-    
 }
