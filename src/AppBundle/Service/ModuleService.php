@@ -17,7 +17,8 @@ use Symfony\Component\Finder\Finder;
 class ModuleService
 {
  
-    const MODULES_DIR = __DIR__ . '/../../../modules';
+    const ROOT_DIR = __DIR__ . '/../../..';
+    const MODULES_DIR = self::ROOT_DIR . '/modules';
     
     /**
      * @var string
@@ -26,7 +27,7 @@ class ModuleService
     
     public function __construct()
     {
-        $this->modulesCache = self::MODULES_DIR . '/modules.cache.php';
+        $this->modulesCache = self::ROOT_DIR . '/var/modules.php.cache';
     }
 
     /**
