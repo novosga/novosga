@@ -20,7 +20,7 @@
             <th>#</th>
             <th>{% trans %}Nome{% endtrans %}</th>
             <th>{% trans %}Peso{% endtrans %}</th>
-            <th>{% trans %}Status{% endtrans %}</th>
+            <th>{% trans %}Situação{% endtrans %}</th>
             <th class="col-md-1"></th>
         </thead>
         <tbody>
@@ -59,7 +59,10 @@
                         data: 'peso',
                     },
                     {
-                        data: 'status'
+                        data: 'ativo',
+                        render: function (ativo) {
+                            return ativo ? '{% trans %}Ativo{% endtrans %}' : '{% trans %}Inativo{% endtrans %}';
+                        }
                     },
                     {
                         data: 'id',

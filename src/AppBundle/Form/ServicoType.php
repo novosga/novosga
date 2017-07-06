@@ -39,7 +39,7 @@ class ServicoType extends AbstractType
                     'rows' => 4
                 ]
             ])
-            ->add('status', CheckboxType::class, [
+            ->add('ativo', CheckboxType::class, [
                 'required' => false
             ])
             ->add('peso', NumberType::class)

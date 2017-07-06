@@ -33,9 +33,8 @@ Novosga\Entity\Usuario:
             length: 128
             unique: false
             nullable: false
-        status:
+        ativo:
             type: boolean
-            unique: false
             nullable: false
         ultimoAcesso:
             type: datetime

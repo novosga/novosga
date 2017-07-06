@@ -16,5 +16,5 @@ Novosga\Entity\Unidade:
             - Length:
                 max: 20
                 min: 3
-        status:
+        ativo:
             - NotNull: ~

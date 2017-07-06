@@ -12,7 +12,6 @@
 namespace AppBundle\Form;
 
 use Novosga\Entity\Unidade;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -30,7 +29,7 @@ class UnidadeType extends AbstractType
         $builder
             ->add('codigo', TextType::class)
             ->add('nome', TextType::class)
-            ->add('status', CheckboxType::class, [
+            ->add('ativo', CheckboxType::class, [
                 'required' => false
             ])
         ;

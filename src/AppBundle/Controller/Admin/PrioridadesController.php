@@ -96,7 +96,7 @@ class PrioridadesController extends Controller
                 $prioridade->setNome($data->nome);
                 $prioridade->setPeso((int) $data->peso);
                 $prioridade->setDescricao('');
-                $prioridade->setStatus(1);
+                $prioridade->setAtivo(true);
                 $em->persist($prioridade);
             }
             

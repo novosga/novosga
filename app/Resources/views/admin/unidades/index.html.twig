@@ -50,7 +50,7 @@
                         <input type="hidden" name="id" v-bind:value="unidade.id">
                     {% endverbatim %}
 
-                    {{ form_row(form.status, { label: 'Status', attr: { 'v-model': 'unidade.status' } }) }}
+                    {{ form_row(form.ativo, { label: 'Ativo', attr: { 'v-model': 'unidade.ativo' } }) }}
 
                     {{ form_row(form.codigo, { label: 'Código', attr: { 'v-model': 'unidade.codigo' } }) }}
 
@@ -97,13 +97,13 @@
             
                     add: function() {
                         this.unidade = {
-                            status: true
+                            ativo: true
                         };
                     },
 
                     edit: function(unidade) {
                         this.unidade = $.extend({}, unidade);
-                        this.unidade.status = !!unidade.status;
+                        this.unidade.ativo = !!unidade.ativo;
                     },
 
                     remove: function(unidade) {

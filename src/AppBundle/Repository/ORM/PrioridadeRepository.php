@@ -26,7 +26,7 @@ class PrioridadeRepository extends EntityRepository implements PrioridadeReposit
     {
         return $this
                 ->createQueryBuilder('e')
-                ->where('e.status = 1 AND e.peso > 0')
+                ->where('e.ativo = TRUE AND e.peso > 0')
                 ->orderBy('e.nome', 'ASC')
                 ->getQuery()
                 ->getResult();

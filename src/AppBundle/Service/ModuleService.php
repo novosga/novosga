@@ -68,12 +68,12 @@ class ModuleService
      * @param string
      * @param bool
      */
-    public function update($key, $status)
+    public function update(string $key, bool $active)
     {
         $modules = $this->getModules();
         
         if (isset($modules[$key])) {
-            $modules[$key]['active'] = (bool) $status;
+            $modules[$key]['active'] = $active;
             $this->createCache($modules);
             
             return true;

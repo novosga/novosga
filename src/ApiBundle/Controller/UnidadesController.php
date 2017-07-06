@@ -48,7 +48,7 @@ class UnidadesController extends ApiCrudController
         $em = $this->getDoctrine()->getManager();
 
         $service = new ServicoService($em);
-        $servicos = $service->servicosUnidade($unidade, 'e.status = 1');
+        $servicos = $service->servicosUnidade($unidade, 'e.ativo = TRUE');
 
         return $this->json($servicos);
     }

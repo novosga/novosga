@@ -28,7 +28,7 @@ class LoadPrioridadeData extends AbstractFixture implements FixtureInterface, Or
         $normal->setNome('Normal');
         $normal->setDescricao('Atendimento convencional');
         $normal->setPeso(0);
-        $normal->setStatus(1);
+        $normal->setAtivo(true);
         
         $manager->persist($normal);
         
@@ -36,7 +36,7 @@ class LoadPrioridadeData extends AbstractFixture implements FixtureInterface, Or
         $prioridade->setNome('Prioridade');
         $prioridade->setDescricao('Atendimento prioritário');
         $prioridade->setPeso(1);
-        $prioridade->setStatus(1);
+        $prioridade->setAtivo(true);
         
         $manager->persist($prioridade);
         

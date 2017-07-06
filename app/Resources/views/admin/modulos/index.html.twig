@@ -38,11 +38,11 @@
                 var checkbox = $(this);
                 
                 $.ajax({
-                    url: '{{ path('admin_modulos_status') }}',
+                    url: '{{ path('admin_modulos_update') }}',
                     type: 'post',
                     data: {
-                        status: checkbox.is(':checked') ? 1 : 0,
-                        key: checkbox.data('key') 
+                        key: checkbox.data('key') ,
+                        active: checkbox.is(':checked') ? 1 : 0,
                     },
                     succes: function () {
                     }

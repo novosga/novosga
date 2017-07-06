@@ -18,9 +18,8 @@ Novosga\Entity\Servico:
             length: 100
             unique: false
             nullable: false
-        status:
+        ativo:
             type: boolean
-            unique: false
             nullable: false
         peso:
             type: smallint

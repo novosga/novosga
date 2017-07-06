@@ -56,15 +56,15 @@ class ModulosController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/update", name="admin_modulos_status")
+     * @Route("/update", name="admin_modulos_update")
      */
-    public function statusAction(Request $request)
+    public function updateAction(Request $request)
     {
         $key = $request->get('key');
-        $status = $request->get('status');
+        $active = $request->get('active');
         
         $service = new \AppBundle\Service\ModuleService();
-        $service->update($key, $status);
+        $service->update($key, $active);
         
         return $this->json([
             'ok'

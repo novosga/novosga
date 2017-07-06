@@ -45,7 +45,7 @@ class LoadServicoUnidadeData extends AbstractFixture implements FixtureInterface
                 $su->setUnidade($unidade);
                 $su->setServico($servico);
                 $su->setPrioridade(true);
-                $su->setStatus(1);
+                $su->setAtivo(true);
                 
                 $manager->persist($su);
                 

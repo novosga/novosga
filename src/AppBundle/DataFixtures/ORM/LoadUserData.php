@@ -45,7 +45,7 @@ class LoadUserData extends AbstractFixture implements FixtureInterface, OrderedF
         $admin->setNome('Administrator');
         $admin->setSobrenome('Global');
         $admin->setLogin('admin');
-        $admin->setStatus(1);
+        $admin->setAtivo(true);
         $admin->setSenha($encoder->encodePassword($admin, '123456'));
         
         $manager->persist($admin);
@@ -56,7 +56,7 @@ class LoadUserData extends AbstractFixture implements FixtureInterface, OrderedF
         $user->setNome('Rogerio');
         $user->setSobrenome('Lino');
         $user->setLogin('rogerio');
-        $user->setStatus(1);
+        $user->setAtivo(true);
         $user->setSenha($encoder->encodePassword($user, '123456'));
         
         $manager->persist($user);

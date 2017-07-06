@@ -27,7 +27,7 @@ class LoadUnidadeData extends AbstractFixture implements FixtureInterface, Order
         $unidade = new Unidade();
         $unidade->setCodigo('UN1');
         $unidade->setNome('Unidade Padrão');
-        $unidade->setStatus(1);
+        $unidade->setAtivo(true);
         $unidade->getImpressao()
                     ->setCabecalho('HEADER')
                     ->setRodape('FOOTER')

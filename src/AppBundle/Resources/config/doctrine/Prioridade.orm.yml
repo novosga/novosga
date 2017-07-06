@@ -24,12 +24,9 @@ Novosga\Entity\Prioridade:
             unique: false
             nullable: false
             precision: 0
-        status:
-            type: smallint
-            scale: 0
-            unique: false
+        ativo:
+            type: boolean
             nullable: false
-            precision: 0
     lifecycleCallbacks: {  }
     entityListeners:
         AppBundle\Listener\ORM\PrioridadeListener: ~

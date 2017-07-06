@@ -13,13 +13,9 @@ Novosga\Entity\ServicoUnidade:
             unique: false
             nullable: false
             precision: 0
-        status:
-            type: smallint
-            scale: 0
-            length: null
-            unique: false
+        ativo:
+            type: boolean
             nullable: false
-            precision: 0
         peso:
             type: smallint
             scale: 0

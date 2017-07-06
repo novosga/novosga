@@ -21,7 +21,6 @@ Novosga\Entity\Unidade:
             length: 50
             unique: false
             nullable: false
-        status:
+        ativo:
             type: boolean
-            unique: false
             nullable: false
