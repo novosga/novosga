@@ -32,7 +32,7 @@
                     <a class="navbar-brand" href="{{ path('home') }}">Novo SGA</a>
                 </div>
                 <div class="collapse navbar-collapse novosga-navbar">
-                    {% if app.user.lotacao %}
+                    {% if app.user.admin or app.user.lotacao %}
                         {{ render(controller('AppBundle:Default:menu')) }}
                     {% endif %}
 

@@ -50,7 +50,12 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         $lotacao = null;
         
         if ($unidade) {
-            $lotacao = $em->getRepository(Lotacao::class)->getLotacao($usuario, $unidade);
+            if (!$usuario->isAdmin()) {
+                $lotacao = $em->getRepository(Lotacao::class)->getLotacao($usuario, $unidade);
+            } else {
+                $lotacao = new Lotacao();
+                $lotacao->setUnidade($unidade);
+            }
 
             if (!$lotacao) {
                 throw new Exception(_('Não existe lotação para o usuário atual na unidade informada.'));
@@ -77,17 +82,17 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         
         if ($usuario->isAdmin()) {
             $usuario->addRole('ROLE_ADMIN');
-        }
+        } else {
+            $roles = $usuario->getRoles();
         
-        $roles = $usuario->getRoles();
-        
-        if ($lotacao) {
-            $permissoes = $lotacao->getPerfil()->getModulos();
+            if ($lotacao) {
+                $permissoes = $lotacao->getPerfil()->getModulos();
 
-            foreach ($permissoes as $modulo) {
-                $role = 'ROLE_' . strtoupper(str_replace('.', '_', $modulo));
-                if (!in_array($role, $roles)) {
-                    $usuario->addRole($role);
+                foreach ($permissoes as $modulo) {
+                    $role = 'ROLE_' . strtoupper(str_replace('.', '_', $modulo));
+                    if (!in_array($role, $roles)) {
+                        $usuario->addRole($role);
+                    }
                 }
             }
         }

@@ -42,10 +42,16 @@ class UnidadeRepository extends EntityRepository implements UnidadeRepositoryInt
      */
     public function findByUsuario(Usuario $usuario)
     {
-        $unidades = $this->createQueryBuilder('e')
+        $qb = $this->createQueryBuilder('e');
+                
+        if (!$usuario->isAdmin()) {
+            $qb
                 ->join(Lotacao::class, 'l', 'WITH', 'l.unidade = e')
                 ->where('l.usuario = :usuario')
-                ->setParameter('usuario', $usuario)
+                ->setParameter('usuario', $usuario);
+        }
+                        
+        $unidades = $qb
                 ->getQuery()
                 ->getResult();
         

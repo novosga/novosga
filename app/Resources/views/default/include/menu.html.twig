@@ -6,7 +6,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ unidade.nome }} <b class="caret"></b></a>
             <ul class="dropdown-menu">
                 {% for module in modules %}
-                    {% if is_granted(module.roleName) %}
+                    {% if app.user.admin or is_granted(module.roleName) %}
                         <li>
                             <a href="{{ path(module.homeRoute) }}">
                                 <i class="fa fa-{{ module.iconName }} fa-fw"></i>
