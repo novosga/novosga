@@ -76,7 +76,7 @@ var App = {
             data = JSON.stringify(data);
         }
         
-        $.ajax({
+        return $.ajax({
             url: arg.url,
             data: data,
             type: method,
