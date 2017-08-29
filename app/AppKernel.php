@@ -15,9 +15,8 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new AppBundle\AppBundle(),
             new ApiBundle\ApiBundle(),
-            
-            new Mangati\BaseBundle\MangatiBaseBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
@@ -27,14 +26,23 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+
+            if ('dev' === $this->getEnvironment()) {
+                $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+                $bundles[] = new Symfony\Bundle\WebServerBundle\WebServerBundle();
+            }
         }
 
-        $appBundle = new AppBundle\AppBundle();
-        $appBundle->registerModules($bundles);
+        $service = new AppBundle\Service\ModuleService();
+        $modules = $service->getActiveModules();
         
-        $bundles[] = $appBundle;
+        foreach ($modules as $entry) {
+            $module = new $entry['class'];
+            if ($module instanceof \Novosga\Module\ModuleInterface) {
+                $bundles[] = $module;
+            }
+        }
         
         return $bundles;
     }

@@ -10,7 +10,7 @@
     
     {{ form_start(form) }}
     
-        {% include 'MangatiBaseBundle:Crud:flashMessages.html.twig' %}
+        {% include 'flashMessages.html.twig' %}
     
         <div class="row">
             <div class="col-md-8">
@@ -27,11 +27,11 @@
 
         <div class="buttons">
             <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-save"></span> 
+                <i class="fa fa-check"></i> 
                 {% trans %}Salvar{% endtrans %}
             </button>
-            <a href="{{ path('admin_perfis_index') }}" class="btn btn-default">
-                <span class="glyphicon glyphicon-chevron-left"></span> 
+            <a href="{{ path('admin_perfis_index') }}" class="btn btn-secondary">
+                <i class="fa fa-chevron-left"></i>
                 {% trans %}Voltar{% endtrans %}
             </a>
         </div>

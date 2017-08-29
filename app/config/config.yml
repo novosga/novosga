@@ -4,31 +4,30 @@ imports:
     - { resource: services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
-# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     version: 2.0.0-dev
 
 framework:
-    #esi:             ~
-    translator:      { fallbacks: ["%locale%"] }
-    secret:          "%secret%"
+    #esi: ~
+    #translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
     router:
-        resource: "%kernel.root_dir%/config/routing.yml"
+        resource: '%kernel.project_dir%/app/config/routing.yml'
         strict_requirements: ~
-    form:            ~
+    form: ~
     csrf_protection: ~
-    validation:      { enable_annotations: false }
-    #serializer:      { enable_annotations: false }
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
     templating:
         engines: ['twig']
-    default_locale:  "%locale%"
-    trusted_hosts:   ~
-    trusted_proxies: ~
+    default_locale: '%locale%'
+    trusted_hosts: ~
     session:
-        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id:  session.handler.native_file
-        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
-    fragments:       ~
+        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id: session.handler.native_file
+        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+    fragments: ~
     http_method_override: true
     assets: ~
     php_errors:
@@ -36,10 +35,10 @@ framework:
 
 # Twig Configuration
 twig:
-    debug:            "%kernel.debug%"
-    strict_variables: "%kernel.debug%"
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
     form_themes:
-        - MangatiBaseBundle:Form:bootstrap.html.twig
+        - bootstrap_3_layout.html.twig
     globals:
         locale: "%locale%"
         version: "%version%"
@@ -73,11 +72,11 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    spool:     { type: memory }
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
 
 jms_serializer:
     enable_short_alias: false

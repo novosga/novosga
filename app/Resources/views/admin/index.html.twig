@@ -2,11 +2,11 @@
 
 {% block adminContent %}
     
-<div class="panel panel-danger">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header text-white bg-danger">
         {% trans %}Zona de perigo{% endtrans %}
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <p>
             {% trans %}Reiniciar senhas{% endtrans %}
             <button class="btn btn-danger pull-right"
@@ -24,14 +24,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
+                <h5 class="modal-title">{% trans %}Configuração{% endtrans %}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{% trans %}Configuração{% endtrans %}</h4>
             </div>
             <div class="modal-body">
                 <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
             </div>
         </div>
     </div>

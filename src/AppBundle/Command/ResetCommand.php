@@ -28,7 +28,7 @@ class ResetCommand extends Command
 {
     private $em;
 
-    public function __construct(EntityManager $em, $name = null)
+    public function __construct(EntityManager $em = null, $name = null)
     {
         parent::__construct($name = null);
         $this->em = $em;

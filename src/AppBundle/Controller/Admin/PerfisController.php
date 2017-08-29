@@ -12,9 +12,6 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Form\PerfilType as EntityType;
-use Mangati\BaseBundle\Controller\CrudController;
-use Mangati\BaseBundle\Event\CrudEvent;
-use Mangati\BaseBundle\Event\CrudEvents;
 use Novosga\Entity\Perfil as Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,14 +24,8 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @Route("/admin/perfis")
  */
-class PerfisController extends CrudController
+class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Controller
 {
-    
-    public function __construct()
-    {
-        parent::__construct(Entity::class);
-    }
-
     /**
      *
      * @param Request $request
@@ -44,28 +35,19 @@ class PerfisController extends CrudController
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/perfis/index.html.twig', [
-            'tab' => 'perfis',
-        ]);
-    }
-   
-    /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/search.json", name="admin_perfis_search")
-     */
-    public function searchAction(Request $request)
-    {
-        $query = $this
+        $perfis = $this
                 ->getDoctrine()
                 ->getManager()
                 ->createQueryBuilder()
                 ->select('e')
                 ->from(Entity::class, 'e')
-                ->getQuery();
+                ->getQuery()
+                ->getResult();
         
-        return $this->dataTable($request, $query, false);
+        return $this->render('admin/perfis/index.html.twig', [
+            'tab'    => 'perfis',
+            'perfis' => $perfis
+        ]);
     }
     
     /**
@@ -73,37 +55,41 @@ class PerfisController extends CrudController
      * @param Request $request
      * @return Response
      *
-     * @Route("/edit/{id}", name="admin_perfis_edit")
+     * @Route("/new", name="admin_perfis_new")
+     * @Route("/{id}", name="admin_perfis_edit")
      */
-    public function editAction(Request $request, $id = 0)
+    public function formAction(Request $request, Entity $entity = null)
     {
-        $this->addEventListener(CrudEvents::FORM_RENDER, function (CrudEvent $event) {
-            $params = $event->getData();
-            $params['tab'] = 'perfis';
-        });
-        
-        return $this->edit('admin/perfis/edit.html.twig', $request, $id);
-    }
-    
-    protected function createFormType()
-    {
-        return EntityType::class;
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    protected function editFormOptions(Request $request, $entity)
-    {
-        $options = parent::editFormOptions($request, $entity);
+        if (!$entity) {
+            $entity = new Entity;
+        }
         
         $kernel = $this->get('kernel');
         $modulos = array_filter($kernel->getBundles(), function ($module) {
             return ($module instanceof \Novosga\Module\ModuleInterface);
         });
         
-        return array_merge($options, [
-            'modulos' => $modulos
+        $form = $this->createForm(EntityType::class, $entity, [
+            'modulos' => $modulos,
+        ]);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            
+            $trans = $this->get('translator');
+            
+            $this->addFlash('success', $trans->trans('Perfil salvo com sucesso!'));
+            
+            return $this->redirectToRoute('admin_perfis_edit', [ 'id' => $entity->getId() ]);
+        }
+        
+        return $this->render('admin/perfis/form.html.twig', [
+            'tab'    => 'perfis',
+            'entity' => $entity,
+            'form'   => $form->createView(),
         ]);
     }
 }

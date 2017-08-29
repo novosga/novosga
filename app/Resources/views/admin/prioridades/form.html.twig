@@ -1,0 +1,35 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <h1>
+        {% trans %}Prioridades{% endtrans %}
+        <small>
+            {% trans %}Cadastro de prioridades de atendimento{% endtrans %}
+        </small>
+    </h1>
+    
+    {{ form_start(form) }}
+    
+        {% include 'flashMessages.html.twig' %}
+        
+        {{ form_row(form.ativo, { label: 'Ativo' }) }}
+    
+        {{ form_row(form.nome, { label: 'Nome' }) }}
+
+        {{ form_row(form.descricao, { label: 'Descrição' }) }}
+
+        {{ form_row(form.peso, { label: 'Peso' }) }}
+
+        <div class="buttons">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-check"></i> 
+                {% trans %}Salvar{% endtrans %}
+            </button>
+            <a href="{{ path('admin_prioridades_index') }}" class="btn btn-secondary">
+                <i class="fa fa-chevron-left"></i>
+                {% trans %}Voltar{% endtrans %}
+            </a>
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

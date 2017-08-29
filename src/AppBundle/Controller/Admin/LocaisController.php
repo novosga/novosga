@@ -11,10 +11,12 @@
 
 namespace AppBundle\Controller\Admin;
 
-use Novosga\Entity\Local;
+use AppBundle\Form\LocalType as EntityType;
+use Exception;
+use Novosga\Entity\Local as Entity;
 use Novosga\Http\Envelope;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,8 +39,15 @@ class LocaisController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $locais = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository(Entity::class)
+                ->findBy([], ['nome' => 'ASC']);
+        
         return $this->render('admin/locais/index.html.twig', [
-            'tab' => 'locais',
+            'tab'    => 'locais',
+            'locais' => $locais,
         ]);
     }
     
@@ -47,62 +56,36 @@ class LocaisController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/list", name="admin_locais_list")
+     * @Route("/new", name="admin_locais_new")
+     * @Route("/{id}", name="admin_locais_edit")
+     * @Method({"GET", "POST"})
      */
-    public function listAction(Request $request)
+    public function formAction(Request $request, Entity $entity = null)
     {
-        $em = $this->getDoctrine()->getManager();
-        
-        $locais = $em
-                ->getRepository(Local::class)
-                ->findBy([], ['nome' => 'ASC']);
-        
-        $envelope = new Envelope();
-        $envelope->setData($locais);
-        
-        return $this->json($envelope);
-    }
-    
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/save", name="admin_locais_save")
-     * @Method("POST")
-     */
-    public function saveAction(Request $request)
-    {
-        $envelope = new Envelope();
-        
-        try {
-            $json = $request->getContent();
-            $data = json_decode($json);
-
-            if (!isset($data->nome)) {
-                throw new \Exception('Json inválido');
-            }
-            
-            $em = $this->getDoctrine()->getManager();
-
-            if (isset($data->id)) {
-                $local = $em->find(Local::class, $data->id);
-                $local->setNome($data->nome);
-                $em->merge($local);
-            } else {
-                $local = new Local();
-                $local->setNome($data->nome);
-                $em->persist($local);
-            }
-            
-            $em->flush();
-            
-            $envelope->setData($local);
-        } catch (\Exception $e) {
-            $envelope->exception($e);
+        if (!$entity) {
+            $entity = new Entity();
         }
         
-        return $this->json($envelope);
+        $form = $this->createForm(EntityType::class, $entity);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            
+            $trans = $this->get('translator');
+            
+            $this->addFlash('success', $trans->trans('Local salvo com sucesso!'));
+            
+            return $this->redirectToRoute('admin_locais_edit', [ 'id' => $entity->getId() ]);
+        }
+        
+        return $this->render('admin/locais/form.html.twig', [
+            'tab'    => 'locais',
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ]);
     }
     
     /**
@@ -110,10 +93,10 @@ class LocaisController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/delete/{id}", name="admin_locais_delete")
-     * @Method("POST")
+     * @Route("/{id}", name="admin_locais_delete")
+     * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Local $local)
+    public function deleteAction(Request $request, Entity $local)
     {
         $envelope = new Envelope();
         
@@ -123,7 +106,7 @@ class LocaisController extends Controller
             $em->flush();
             
             $envelope->setData($local);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $envelope->exception($e);
         }
         

@@ -1,28 +1,23 @@
 {% set unidade = app.user.lotacao.unidade %}
 
-<ul class="nav navbar-nav">
+<ul class="navbar-nav mr-auto">
     {% if unidade %}
-        <li class="dropdown">
+        <li class="nav-item dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ unidade.nome }} <b class="caret"></b></a>
-            <ul class="dropdown-menu">
+            <div class="dropdown-menu">
                 {% for module in modules %}
                     {% if app.user.admin or is_granted(module.roleName) %}
-                        <li>
-                            <a href="{{ path(module.homeRoute) }}">
-                                <i class="fa fa-{{ module.iconName }} fa-fw"></i>
-                                {{ module.displayName }}
-                            </a>
-                        </li>
+                        <a href="{{ path(module.homeRoute) }}" class="dropdown-item">
+                            <i class="fa fa-{{ module.iconName }} fa-fw"></i>
+                            {{ module.displayName }}
+                        </a>
                     {% endif %}
                 {% endfor %}
-                <li role="separator" class="divider"></li>
-                <li>
-                    <a href="#dialog-unidade" data-toggle="modal">
-                        <span class="fa fa-exchange"></span> &nbsp;
-                        {% trans %}Trocar unidade{% endtrans %}
-                    </a>
-                </li>
-            </ul>
+                <a href="#dialog-unidade" data-toggle="modal" class="dropdown-item">
+                    <i class="fa fa-exchange"></i> &nbsp;
+                    {% trans %}Trocar unidade{% endtrans %}
+                </a>
+            </div>
         </li>
     {% else %}
         <li>

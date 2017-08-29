@@ -9,94 +9,79 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="shortcut icon" href="{{ asset("images/favicon.png") }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset("css/bootstrap.min.css") }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/bootstrap-theme.min.css") }}" />
         <link rel="stylesheet" type="text/css" href="{{ asset("css/font-awesome.min.css") }}">
         <link rel="stylesheet" type="text/css" href="{{ asset("css/style.css") }}" />
-        <!--[if lt IE 9]>
-        <script src="{{ asset("js/html5shiv.js") }}"></script>
-        <script src="{{ asset("js/respond.min.js") }}"></script>
-        <![endif]-->
-        {% block stylesheets %}
-        {% endblock %}
+        {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".novosga-navbar">
-                        <span class="sr-only">Menu</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ path('home') }}">Novo SGA</a>
-                </div>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="{{ path('home') }}">
+                    <img src="{{ asset('images/novosga-navbar.png') }}" alt="Novo SGA" title="Novo SGA">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".novosga-navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
                 <div class="collapse navbar-collapse novosga-navbar">
                     {% if app.user.admin or app.user.lotacao %}
                         {{ render(controller('AppBundle:Default:menu')) }}
                     {% endif %}
 
                     {% if is_granted('ROLE_USER') %}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{{ path('about') }}" title="{% trans %}Sobre{% endtrans %}">
-                                <i class="fa fa-question-circle fa-fw"></i>
-                            </a>
-                        </li>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li>
-                                <a href="{{ path('admin_index') }}" title="{% trans %}Administração{% endtrans %}">
-                                    <i class="fa fa-cog fa-fw"></i>
+                        <ul class="navbar-nav mr-sm-2">
+                            <li class="nav-item">
+                                <a href="{{ path('about') }}" title="{% trans %}Sobre{% endtrans %}" class="nav-link">
+                                    <i class="fa fa-question-circle fa-fw"></i>
                                 </a>
                             </li>
-                        {% endif %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-user fa-fw"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="{{ app.request.baseUrl() }}/profile" title="">
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <li class="nav-item">
+                                    <a href="{{ path('admin_index') }}" title="{% trans %}Administração{% endtrans %}" class="nav-link">
+                                        <i class="fa fa-cog fa-fw"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-user fa-fw"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="{{ app.request.baseUrl() }}/profile" title="" class="dropdown-item">
                                         <i class="fa fa-user fa-fw"></i>
                                         {% trans %}Perfil{% endtrans %}
                                     </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a href="{{ app.request.baseUrl() }}/logout">
+                                    <a href="{{ app.request.baseUrl() }}/logout" class="dropdown-item">
                                         <i class="fa fa-sign-out fa-fw"></i>
                                         {% trans %}Sair{% endtrans %}
                                     </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                                </div>
+                            </li>
+                        </ul>
                     {% endif %}
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </header>
         <div class="container-fluid">
             {% block body %}
             {% endblock %}
         </div>
-        <div id="footer">
+        <footer>
             <p>Novo SGA v{{ version }}</p>
-        </div>
+        </footer>
         
         <div id="error-modal" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h5 class="modal-title">{% trans %}Erro{% endtrans %}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">
-                            {% trans %}Erro{% endtrans %}
-                        </h4>
                     </div>
                     <div class="modal-body">
                         <p></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             {% trans %}Fechar{% endtrans %}
                         </button>
                     </div>
@@ -105,6 +90,7 @@
         </div>
 
         <script type="text/javascript" src="{{ asset("js/jquery.js") }}"></script>
+        <script type="text/javascript" src="{{ asset("js/popper.min.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/bootstrap.min.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/socket.io-1.4.5.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/vue.min.js") }}"></script>

@@ -12,7 +12,8 @@
 namespace AppBundle\Controller\Admin;
 
 use Exception;
-use Novosga\Entity\Prioridade;
+use Novosga\Entity\Prioridade as Entity;
+use AppBundle\Form\PrioridadeType as EntityType;
 use Novosga\Http\Envelope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -38,8 +39,15 @@ class PrioridadesController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $prioridades = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository(Entity::class)
+                ->findBy([], ['nome' => 'ASC']);
+        
         return $this->render('admin/prioridades/index.html.twig', [
             'tab' => 'prioridades',
+            'prioridades' => $prioridades,
         ]);
     }
     
@@ -48,66 +56,36 @@ class PrioridadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/list", name="admin_prioridades_list")
+     * @Route("/new", name="admin_prioridades_new")
+     * @Route("/{id}", name="admin_prioridades_edit")
+     * @Method({"GET","POST"})
      */
-    public function listAction(Request $request)
+    public function formAction(Request $request, Entity $entity = null)
     {
-        $em = $this->getDoctrine()->getManager();
-        
-        $prioridades = $em
-                ->getRepository(Prioridade::class)
-                ->findBy([], ['nome' => 'ASC']);
-        
-        $envelope = new Envelope();
-        $envelope->setData($prioridades);
-        
-        return $this->json($envelope);
-    }
-    
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/save", name="admin_prioridades_save")
-     * @Method("POST")
-     */
-    public function saveAction(Request $request)
-    {
-        $envelope = new Envelope();
-        
-        try {
-            $json = $request->getContent();
-            $data = json_decode($json);
-
-            if (!isset($data->nome) || !(isset($data->peso))) {
-                throw new Exception('Json inválido');
-            }
-            
-            $em = $this->getDoctrine()->getManager();
-
-            if (isset($data->id)) {
-                $prioridade = $em->find(Prioridade::class, $data->id);
-                $prioridade->setNome($data->nome);
-                $prioridade->setPeso((int) $data->peso);
-                $em->merge($prioridade);
-            } else {
-                $prioridade = new Prioridade();
-                $prioridade->setNome($data->nome);
-                $prioridade->setPeso((int) $data->peso);
-                $prioridade->setDescricao('');
-                $prioridade->setAtivo(true);
-                $em->persist($prioridade);
-            }
-            
-            $em->flush();
-            
-            $envelope->setData($prioridade);
-        } catch (Exception $e) {
-            $envelope->exception($e);
+        if (!$entity) {
+            $entity = new Entity();
         }
         
-        return $this->json($envelope);
+        $form = $this->createForm(EntityType::class, $entity);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            
+            $trans = $this->get('translator');
+            
+            $this->addFlash('success', $trans->trans('Local salvo com sucesso!'));
+            
+            return $this->redirectToRoute('admin_prioridades_edit', [ 'id' => $entity->getId() ]);
+        }
+        
+        return $this->render('admin/prioridades/form.html.twig', [
+            'tab'    => 'prioridades',
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ]);
     }
     
     /**
@@ -115,10 +93,10 @@ class PrioridadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/delete/{id}", name="admin_prioridades_delete")
-     * @Method("POST")
+     * @Route("/{id}", name="admin_prioridades_delete")
+     * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Prioridade $prioridade)
+    public function deleteAction(Request $request, Entity $prioridade)
     {
         $envelope = new Envelope();
         

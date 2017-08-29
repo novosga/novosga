@@ -7,126 +7,38 @@
             {% trans %}Cadastro de locais de atendimento{% endtrans %}
         </small>
     </h1>
-    
-    <div id="admin">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>{% trans %}Nome{% endtrans %}</th>
-                    <th class="col-md-2"></th>
-                </tr>
-            </thead>
-            {% verbatim %}
-                <tbody>
-                    <tr v-for="local in locais">
-                        <td>
-                            <input type="text" class="form-control" maxlength="20" v-model="local.nome" v-if="local.editing">
-                            <span v-else>
-                                {{local.nome}}
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-primary" v-on:click="save(local)" v-if="local.editing">
-                                <i class="fa fa-save"></i>
-                            </button>
-                            <button type="button" class="btn btn-default" v-on:click="edit(local)" v-if="!local.editing">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button type="button" class="btn btn-default" v-on:click="remove(local)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-default" v-on:click="add">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tfoot>
-            {% endverbatim %}
-        </table>
+        
+    <div class="text-right">
+        <a href="{{ path('admin_locais_new') }}" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            {% trans %}Novo local{% endtrans %}
+        </a>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        (function () {
-            'strinct'
-            
-            var app = new Vue({
-                el: '#admin',
-                data: {
-                    locais: [],
-                    local: {},
-                },
-                methods: {
-                    load: function() {
-                        var self = this;
-                        App.ajax({
-                            url: '{{ path('admin_locais_list') }}',
-                            success: function(response) {
-                                self.locais = response.data.map(function (local) {
-                                    local.editing = false;
-                                    return local;
-                                });
-                            }
-                        });
-                    },
-                            
-                    save: function(local) {
-                        var defer = $.Deferred();
-                
-                        App.ajax({
-                            url: '{{ path('admin_locais_save') }}',
-                            type: 'post',
-                            data: local,
-                            success: function (response) {
-                                local.editing = false;
-                                defer.resolve(response.data);
-                            }
-                        });
-                    
-                        return defer.promise();
-                    },
-                    
-                    edit: function (local) {
-                        local.editing = true;
-                    },
-                            
-                    remove: function(local) {
-                        var self = this;
-                        
-                        App.ajax({
-                            url: '{{ path('admin_locais_index') }}delete/' + local.id,
-                            type: 'post',
-                            success: function(response) {
-                                self.locais.splice(self.locais.indexOf(local), 1);
-                            }
-                        })
-                    },
-                            
-                    add: function() {
-                        var self = this,
-                            local = {
-                                nome: window.prompt()
-                            };
-                        self.save(local)
-                            .then(function(local) {
-                                local.editing = false;
-                                self.locais.push(local);
-                            });
-                    }
-                }
-            });
-            
-            app.load();
-            
-        })();
-    </script>
+        
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% trans %}Nome{% endtrans %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for local in locais %}
+                <tr>
+                    <td>
+                        {{ local.id }}
+                    </td>
+                    <td>
+                        {{ local.nome }}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_locais_edit', { id: local.id }) }}" class="btn btn-secondary">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

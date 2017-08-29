@@ -1,16 +1,14 @@
 {% extends "base.html.twig" %}
 
+{% block title %}
+    {% trans %}Administraçao{% endtrans %}
+{% endblock %}
+
 {% block body %}
     <div class="row">
-        <div class="col-md-2 col-xs-3">
+        <div class="col-md-2 col-3">
             <aside>
                 <div class="list-group">
-                    <div class="list-group-item disabled">
-                        <h4 class="list-group-item-heading">
-                            {% trans %}Administração{% endtrans %}
-                        </h4>
-                    </div>
-                    
                     <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
                         {% trans %}Sistema{% endtrans %}
                     </a>
@@ -45,7 +43,7 @@
                 </div>
             </aside>
         </div>
-        <div class="col-md-10 col-xs-9">
+        <div class="col-md-10 col-9">
             {% block adminContent %}{% endblock %}
         </div>
     </div>

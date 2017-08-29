@@ -7,118 +7,44 @@
             {% trans %}Cadastro de unidades de atendimento{% endtrans %}
         </small>
     </h1>
-    
-    <div id="admin">
         
-        {% include "MangatiBaseBundle:Crud:flashMessages.html.twig" %}
-
-        <div class="col-md-8">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>{% trans %}Código{% endtrans %}</th>
-                        <th>{% trans %}Nome{% endtrans %}</th>
-                        <th class="col-md-2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% verbatim %}
-                        <tr v-for="unidade in unidades">
-                            <td>
-                                {{unidade.codigo}}
-                            </td>
-                            <td>
-                                {{unidade.nome}}
-                            </td>
-                            <td class="text-right">
-                                <button type="button" class="btn btn-default" v-on:click="edit(unidade)">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button type="button" class="btn btn-default" v-on:click="remove(unidade)">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    {% endverbatim %}
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-4">
-            <div class="well">
-                {{ form_start(form) }}
-                    {% verbatim %}
-                        <input type="hidden" name="id" v-bind:value="unidade.id">
-                    {% endverbatim %}
-
-                    {{ form_row(form.ativo, { label: 'Ativo', attr: { 'v-model': 'unidade.ativo' } }) }}
-
-                    {{ form_row(form.codigo, { label: 'Código', attr: { 'v-model': 'unidade.codigo' } }) }}
-
-                    {{ form_row(form.nome, { label: 'Nome', attr: { 'v-model': 'unidade.nome' } }) }}
-
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-save"></i>
-                        {% trans %}Salvar{% endtrans %}
-                    </button>
-
-                    <button type="button" class="btn btn-default pull-right" v-on:click="add">
-                        <i class="fa fa-plus"></i>
-                        {% trans %}Novo{% endtrans %}
-                    </button>
-
-                {{ form_end(form) }}
-            </div>
-        </div>
+    <div class="text-right">
+        <a href="{{ path('admin_unidades_new') }}" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            {% trans %}Nova unidade{% endtrans %}
+        </a>
     </div>
-{% endblock %}
+    
+    {% include "flashMessages.html.twig" %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        (function () {
-            'strinct'
-            
-            var app = new Vue({
-                el: '#admin',
-                data: {
-                    unidades: [],
-                    unidade: {}
-                },
-                methods: {
-                    load: function() {
-                        var self = this;
-                        App.ajax({
-                            url: '{{ path('admin_unidades_list') }}',
-                            success: function(response) {
-                                self.unidades = response.data;
-                            }
-                        });
-                    },
-            
-                    add: function() {
-                        this.unidade = {
-                            ativo: true
-                        };
-                    },
-
-                    edit: function(unidade) {
-                        this.unidade = $.extend({}, unidade);
-                        this.unidade.ativo = !!unidade.ativo;
-                    },
-
-                    remove: function(unidade) {
-                        App.ajax({
-                            url: '{{ path('admin_unidades_index') }}/delete/' + unidade.id,
-                            success: function() {
-                                self.unidades.splice(self.unidades.indexOf(unidade), 1);
-                            }
-                        });
-                    }
-                }
-            });
-            
-            app.load();
-            app.edit({{ entity|json_encode()|raw }});
-        })();
-    </script>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% trans %}Código{% endtrans %}</th>
+                <th>{% trans %}Nome{% endtrans %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for unidade in unidades %}
+                <tr>
+                    <td>
+                        {{ unidade.id }}
+                    </td>
+                    <td>
+                        {{ unidade.codigo }}
+                    </td>
+                    <td>
+                        {{ unidade.nome }}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_unidades_edit', { id: unidade.id }) }}" class="btn btn-secondary">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

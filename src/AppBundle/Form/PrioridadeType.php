@@ -11,9 +11,7 @@
 
 namespace AppBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
-use Novosga\Entity\Servico;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Novosga\Entity\Prioridade;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -22,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ServicoType extends AbstractType
+class PrioridadeType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -30,8 +28,6 @@ class ServicoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $entity = $options['data'];
-        
         $builder
             ->add('nome', TextType::class)
             ->add('descricao', TextareaType::class, [
@@ -44,18 +40,6 @@ class ServicoType extends AbstractType
             ])
             ->add('peso', IntegerType::class)
         ;
-        
-        if (!$entity->isMestre()) {
-            $builder->add('mestre', EntityType::class, [
-                'class' => Servico::class,
-                'placeholder' => 'Nenhum',
-                'required' => false,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('e')
-                                ->where('e.mestre IS NULL');
-                }
-            ]);
-        }
     }
     
     /**
@@ -63,8 +47,8 @@ class ServicoType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Servico::class
-        ]);
+        $resolver->setDefaults(array(
+            'data_class' => Prioridade::class
+        ));
     }
 }

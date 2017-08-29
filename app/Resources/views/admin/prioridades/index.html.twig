@@ -7,131 +7,50 @@
             {% trans %}Cadastro de prioridades de atendimento{% endtrans %}
         </small>
     </h1>
-    
-    <div id="admin">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>{% trans %}Nome{% endtrans %}</th>
-                    <th>{% trans %}Peso{% endtrans %}</th>
-                    <th>{% trans %}Situação{% endtrans %}</th>
-                    <th class="col-md-2"></th>
-                </tr>
-            </thead>
-            {% verbatim %}
-                <tbody>
-                    <tr v-for="prioridade in prioridades">
-                        <td>
-                            <input type="text" class="form-control" v-model="prioridade.nome" v-if="prioridade.editing">
-                            <span v-else>
-                                {{prioridade.nome}}
-                            </span>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" v-model="prioridade.peso" v-if="prioridade.editing">
-                            <span v-else>
-                                {{prioridade.peso}}
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-primary" v-on:click="save(prioridade)" v-if="prioridade.editing">
-                                <i class="fa fa-save"></i>
-                            </button>
-                            <button type="button" class="btn btn-default" v-on:click="prioridade.editing=true" v-if="!prioridade.editing">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button type="button" class="btn btn-default" v-on:click="remove(prioridade)">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td class="text-right">
-                            <button type="button" class="btn btn-default" v-on:click="add">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tfoot>
-            {% endverbatim %}
-        </table>
+        
+    <div class="text-right">
+        <a href="{{ path('admin_prioridades_new') }}" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
+            {% trans %}Nova prioridade{% endtrans %}
+        </a>
     </div>
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        (function () {
-            'strinct'
-            
-            var app = new Vue({
-                el: '#admin',
-                data: {
-                    prioridades: [],
-                    prioridade: {}
-                },
-                methods: {
-                    load: function() {
-                        var self = this;
-                        App.ajax({
-                            url: '{{ path('admin_prioridades_list') }}',
-                            success: function(response) {
-                                self.prioridades = response.data.map(function (prioridade) {
-                                    prioridade.editing = false;
-                                    return prioridade;
-                                });;
-                            }
-                        });
-                    },
-
-                    add: function() {
-                        var self = this;
-                        var prioridade = {
-                            nome: window.prompt(),
-                            peso: 1
-                        };
-                        self.save(prioridade)
-                            .then(function(prioridade) {
-                                prioridade.editing = false;
-                                self.prioridades.push(prioridade);
-                            });
-                    },
-
-                    save: function(prioridade) {
-                        var defer = $.Deferred();
-                        
-                        App.ajax({ 
-                            url: '{{ path('admin_prioridades_save') }}', 
-                            type: 'post',
-                            data: prioridade,
-                            success: function (response) {
-                                prioridade.editing = false;
-                                defer.resolve(response.data);
-                            }
-                        });
-                        
-                        return defer.promise();
-                    },
-
-                    remove: function(prioridade) {
-                        var self = this;
-                        App.ajax({
-                            url: '{{ path('admin_prioridades_index') }}delete/' + prioridade.id,
-                            type: 'post',
-                            success: function() {
-                                self.prioridades.splice(self.prioridades.indexOf(prioridade), 1);
-                            }
-                        })
-                    }
-                }
-            });
-            
-            app.load();
-            
-        })();
-    </script>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{% trans %}Nome{% endtrans %}</th>
+                <th>{% trans %}Peso{% endtrans %}</th>
+                <th>{% trans %}Situação{% endtrans %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prioridade in prioridades %}
+                <tr>
+                    <td>
+                        {{ prioridade.id }}
+                    </td>
+                    <td>
+                        {{ prioridade.nome }}
+                    </td>
+                    <td>
+                        {{ prioridade.peso }}
+                    </td>
+                    <td>
+                        {% if prioridade.ativo %}
+                            {% trans %}Ativo{% endtrans %}
+                        {% else %}
+                            {% trans %}Inativo{% endtrans %}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_prioridades_edit', { id: prioridade.id }) }}" class="btn btn-secondary">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

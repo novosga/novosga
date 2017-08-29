@@ -11,13 +11,13 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Form\ServicoType;
-use Mangati\BaseBundle\Controller\CrudController;
-use Mangati\BaseBundle\Event\CrudEvent;
-use Mangati\BaseBundle\Event\CrudEvents;
-use Novosga\Entity\Servico;
+use AppBundle\Form\ServicoType as EntityType;
+use Novosga\Entity\Servico as Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * ServicosController.
@@ -26,67 +26,68 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/admin/servicos")
  */
-class ServicosController extends CrudController
+class ServicosController extends Controller
 {
-    
-    public function __construct()
-    {
-        parent::__construct(Servico::class);
-    }
-    
     /**
      *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/", name="admin_servicos_index")
+     * @Method("GET")
      */
     public function indexAction(Request $request)
     {
-        return $this->render('admin/servicos/index.html.twig', [
-            'tab' => 'servicos',
-        ]);
-    }
-    
-    /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/search.json", name="admin_servicos_search")
-     */
-    public function searchAction(Request $request)
-    {
-        $query = $this
+        $servicos = $this
                 ->getDoctrine()
                 ->getManager()
                 ->createQueryBuilder()
                 ->select('e')
-                ->from(Servico::class, 'e')
+                ->from(Entity::class, 'e')
                 ->where('e.mestre IS NULL')
-                ->getQuery();
+                ->getQuery()
+                ->getResult();
         
-        return $this->dataTable($request, $query, false);
+        return $this->render('admin/servicos/index.html.twig', [
+            'tab'      => 'servicos',
+            'servicos' => $servicos,
+        ]);
     }
     
     /**
      *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
-     * @Route("/edit/{id}", name="admin_servicos_edit")
+     * @Route("/new", name="admin_servicos_new")
+     * @Route("/{id}", name="admin_servicos_edit")
+     * @Method({"GET","POST"})
      */
-    public function editAction(Request $request, $id = 0)
+    public function formAction(Request $request, Entity $entity = null)
     {
-        $this->addEventListener(CrudEvents::FORM_RENDER, function (CrudEvent $event) {
-            $params = $event->getData();
-            $params['tab'] = 'servicos';
-        });
+        if (!$entity) {
+            $entity = new Entity();
+        }
         
-        return $this->edit('admin/servicos/edit.html.twig', $request, $id);
-    }
-
-    protected function createFormType()
-    {
-        return ServicoType::class;
+        $form = $this->createForm(EntityType::class, $entity);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+            $em->flush();
+            
+            $trans = $this->get('translator');
+            
+            $this->addFlash('success', $trans->trans('Serviço salvo com sucesso!'));
+            
+            return $this->redirectToRoute('admin_servicos_edit', [ 'id' => $entity->getId() ]);
+        }
+        
+        return $this->render('admin/servicos/form.html.twig', [
+            'tab'    => 'servicos',
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        ]);
     }
 }

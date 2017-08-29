@@ -11,8 +11,8 @@
     <div id="admin">
         <fieldset>
             <legend>{% trans %}Clientes{% endtrans %}</legend>
-            <p>Para acessar algumas URLs é necessário possuir um token de acesso, e para isso é necessário primeiro cadastrar a aplicação cliente.</p>
-            <table id="oauth_clients" class="table table-striped">
+            <p>{% trans %}Para acessar algumas URLs é necessário possuir um token de acesso, e para isso é necessário primeiro cadastrar a aplicação cliente.{% endtrans %}</p>
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Public Id</th>
@@ -52,8 +52,8 @@
                         <td></td>
                         <td></td>
                         <td class="buttons">
-                            <button type="button" class="btn btn-default" v-on:click.prevent="newClient">
-                                <span class="glyphicon glyphicon-plus"></span>
+                            <button type="button" class="btn btn-secondary" v-on:click.prevent="newClient">
+                                <i class="fa fa-plus"></i>
                                 {% trans %}Adicionar{% endtrans %}
                             </button>
                         </td>
@@ -64,8 +64,8 @@
                             
         <fieldset>
             <legend>URLs</legend>
-            <p>As URLs abaixo são usadas para integrar o Novo SGA com outros projetos, como por exemplo o <strong>Painel Web</strong> e a <strong>Triagem Touch</strong>.</p>
-            <table class="table table-striped">
+            <p>{% trans %}As URLs abaixo são usadas para integrar o Novo SGA com outros projetos, como por exemplo o <strong>Painel Web</strong> e a <strong>Triagem Touch</strong>.{% endtrans %}</p>
+            <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>Method</th>
@@ -155,13 +155,15 @@
             </table>
         </fieldset>
 
-        <div id="dialog-api-client" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog">
+        <div id="dialog-api-client" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <form v-on:submit.prevent="addClient">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">{% trans %}API Client{% endtrans %}</h4>
+                            <h5 class="modal-title">{% trans %}API Client{% endtrans %}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
@@ -170,7 +172,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
                                 {% trans %}Fechar{% endtrans %}
                             </button>
                             <button type="submit" class="btn btn-primary">

@@ -9,65 +9,34 @@
     </h1>
         
     <div class="text-right">
-        <a href="{{ path('admin_perfis_edit') }}" class="btn btn-primary">
-            <span class="glyphicon glyphicon-plus-sign"></span>
+        <a href="{{ path('admin_perfis_new') }}" class="btn btn-primary">
+            <i class="fa fa-plus"></i>
             {% trans %}Novo perfil{% endtrans %}
         </a>
     </div>
         
-    <table id="datatable" class="table table-striped">
+    <table class="table table-bordered">
         <thead>
             <th>#</th>
             <th>{% trans %}Nome{% endtrans %}</th>
-            <th class="col-md-1"></th>
+            <th></th>
         </thead>
         <tbody>
+            {% for perfil in perfis %}
+                <tr>
+                    <td>
+                        {{ perfil.id }}
+                    </td>
+                    <td>
+                        {{ perfil.nome }}
+                    </td>
+                    <td>
+                        <a href="{{ path('admin_perfis_edit', { id: perfil.id }) }}" class="btn btn-secondary">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/jquery.dataTables.min.css") }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset("css/dataTables.bootstrap.min.css") }}" />
-{% endblock %}
-    
-{% block javascripts %}
-    {{ parent() }}
-    <script type="text/javascript" src="{{ asset("js/jquery.dataTables.min.js") }}"></script>
-    <script type="text/javascript" src="{{ asset("js/dataTables.bootstrap.min.js") }}"></script>
-    <script>
-        (function() {
-            'use strict'
-            
-            $('#datatable').dataTable({
-                processing: true,
-                serverSide: true,
-                searching: false,
-                ajax: '{{ path('admin_perfis_search') }}',
-                pageLength: 10,
-                columns: [
-                    {
-                        data: 'id'
-                    },
-                    {
-                        data: 'nome'
-                    },
-                    {
-                        data: 'id',
-                        render: function (id) {
-                            return '<a href="{{ path('admin_perfis_index') }}edit/' + id + '" class="btn btn-default"><i class="fa fa-edit"></i></a>';
-                        }
-                    }
-                ]
-            }).on('preXhr.dt', function (e, settings, data) {
-                $('#search-form :input').each(function (i, e) {
-                    var input = $(e);
-                    data.search[input.prop('name')] = input.val();
-                });
-            }).on('draw.dt', function () {
-                
-            });
-        })();
-    </script>
 {% endblock %}

@@ -10,29 +10,29 @@
     
     {{ form_start(form) }}
     
-        {% include 'MangatiBaseBundle:Crud:flashMessages.html.twig' %}
+        {% include 'flashMessages.html.twig' %}
         
         <div class="row">
             <div class="col-md-12">
-                {{ form_row(form.ativo) }}
+                {{ form_row(form.ativo, { label: 'Ativo' }) }}
             </div>
             <div class="col-md-6">
         
-                {{ form_row(form.nome) }}
+                {{ form_row(form.nome, { label: 'Nome' }) }}
 
-                {{ form_row(form.descricao) }}
+                {{ form_row(form.descricao, { label: 'Descrição' }) }}
 
-                {{ form_row(form.peso) }}
+                {{ form_row(form.peso, { label: 'Peso' }) }}
                 
                 {% if not entity.isMestre() %}
-                    {{ form_row(form.mestre) }}
+                    {{ form_row(form.mestre, { label: 'Serviço superior' }) }}
                 {% endif %}
             </div>
             <div class="col-md-6">
                 {% if entity.isMestre() %}
                     <fieldset>
                         <legend>{% trans %}Subserviços{% endtrans %}</legend>
-                        <table class="table">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>{% trans %}Nome{% endtrans %}</th>
@@ -46,12 +46,9 @@
                                     <td>{{ sub.nome }}</td>
                                     <td>{{ sub.peso }}</td>
                                     <td>
-                                        <a href="{{ path('admin_servicos_edit', {id: sub.id }) }}" class="btn btn-default">
+                                        <a href="{{ path('admin_servicos_edit', {id: sub.id }) }}" class="btn btn-secondary">
                                             <i class="fa fa-edit"></i>
                                         </a>
-                                        <button class="btn btn-default">
-                                            <i class="fa fa-level-up"></i>
-                                        </button>
                                     </td>
                                 </tr>
                                 {% endfor %}
@@ -64,11 +61,11 @@
         
         <div class="buttons">
             <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-save"></span> 
+                <i class="fa fa-check"></i> 
                 {% trans %}Salvar{% endtrans %}
             </button>
-            <a href="{{ path('admin_servicos_index') }}" class="btn btn-default">
-                <span class="glyphicon glyphicon-chevron-left"></span> 
+            <a href="{{ path('admin_servicos_index') }}" class="btn btn-secondary">
+                <i class="fa fa-chevron-left"></i>
                 {% trans %}Voltar{% endtrans %}
             </a>
         </div>
