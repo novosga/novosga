@@ -9,72 +9,51 @@ Novosga\Entity\PainelSenha:
     fields:
         numeroSenha:
             type: integer
-            scale: 0
-            length: null
             unique: false
             nullable: false
-            precision: 0
             column: num_senha
         siglaSenha:
             type: string
-            scale: 0
             length: 3
             unique: false
             nullable: false
-            precision: 0
             column: sig_senha
         mensagem:
             type: string
-            scale: 0
-            length: 20
+            length: 255
             unique: false
             nullable: false
-            precision: 0
             column: msg_senha
         local:
             type: string
-            scale: 0
             length: 15
             unique: false
             nullable: false
-            precision: 0
         numeroLocal:
             type: smallint
-            scale: 0
-            length: null
             unique: false
             nullable: false
-            precision: 0
             column: num_local
         peso:
             type: smallint
-            scale: 0
-            length: null
             unique: false
             nullable: false
-            precision: 0
         prioridade:
             type: string
-            scale: 0
             length: 100
             unique: false
             nullable: true
-            precision: 0
         nomeCliente:
             type: string
-            scale: 0
             length: 100
             unique: false
             nullable: true
-            precision: 0
             column: nome_cliente
         documentoCliente:
             type: string
-            scale: 0
             length: 30
             unique: false
             nullable: true
-            precision: 0
             column: documento_cliente
     manyToOne:
         servico:
