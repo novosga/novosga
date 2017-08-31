@@ -28,6 +28,11 @@ services:
         resource: '../../src/AppBundle/Controller'
         public: true
         tags: ['controller.service_arguments']
+        
+    # novosga core services
+    Novosga\Service\:
+        resource: '../../vendor/novosga/core/Service'
+        public: true
 
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
