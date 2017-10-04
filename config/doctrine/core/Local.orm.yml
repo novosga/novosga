@@ -1,0 +1,18 @@
+Novosga\Entity\Local:
+    type: entity
+    table: locais
+    repositoryClass: App\Repository\ORM\LocalRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        nome:
+            type: string
+            scale: 0
+            length: 20
+            unique: true
+            nullable: false
+            precision: 0
+    lifecycleCallbacks: {  }

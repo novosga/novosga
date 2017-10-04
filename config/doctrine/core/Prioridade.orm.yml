@@ -1,0 +1,32 @@
+Novosga\Entity\Prioridade:
+    type: entity
+    table: prioridades
+    repositoryClass: App\Repository\ORM\PrioridadeRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        nome:
+            type: string
+            length: 64
+            unique: false
+            nullable: false
+        descricao:
+            type: string
+            length: 100
+            unique: false
+            nullable: false
+        peso:
+            type: smallint
+            scale: 0
+            unique: false
+            nullable: false
+            precision: 0
+        ativo:
+            type: boolean
+            nullable: false
+    lifecycleCallbacks: {  }
+    entityListeners:
+        App\Listener\ORM\PrioridadeListener: ~

@@ -1,0 +1,8 @@
+jms_serializer:
+    enable_short_alias: false
+    metadata:
+        auto_detection: false
+        directories:
+            novosga:
+                namespace_prefix: "App"
+                path: "%kernel.project_dir%/config/serializer"

@@ -1,0 +1,7 @@
+Novosga\Entity\Local:
+    properties:
+        nome:
+            - NotBlank: ~
+            - Length:
+                max: 20
+                min: 3

@@ -2,93 +2,72 @@
     "name": "novosga/novosga",
     "license": "MIT",
     "type": "project",
-    "description": "Sistema de Gerenciamento de Atendimento",
+    "require": {
+        "php": "^7.1.3",
+        "friendsofsymfony/oauth-server-bundle": "^1.5",
+        "jms/serializer-bundle": "^1.1",
+        "nelmio/cors-bundle": "^1.5",
+        "novosga/attendance-bundle": "self.version",
+        "novosga/composer-installer-plugin": "v1.0",
+        "novosga/core": "self.version",
+        "novosga/websocket-server": "self.version",
+        "novosga/monitor-bundle": "self.version",
+        "novosga/reports-bundle": "self.version",
+        "novosga/settings-bundle": "self.version",
+        "novosga/triagem-bundle": "self.version",
+        "novosga/users-bundle": "self.version",
+        "sensio/framework-extra-bundle": "^3.0",
+        "symfony/asset": "^3.3",
+        "symfony/console": "^3.3",
+        "symfony/debug-bundle": "^3.3",
+        "symfony/debug-pack": "^1.0",
+        "symfony/flex": "^1.0",
+        "symfony/form": "^3.3",
+        "symfony/framework-bundle": "^3.3",
+        "symfony/orm-pack": "^1.0",
+        "symfony/security-bundle": "^3.3",
+        "symfony/twig-bundle": "^3.3",
+        "symfony/validator": "^3.3",
+        "symfony/web-server-bundle": "^3.3",
+        "symfony/yaml": "^3.3"
+    },
+    "require-dev": {
+        "symfony/dotenv": "^3.3"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
     "autoload": {
         "psr-4": {
-            "AppBundle\\": "src/AppBundle",
-            "ApiBundle\\": "src/ApiBundle"
-        },
-        "classmap": [
-            "app/AppKernel.php",
-            "app/AppCache.php"
-        ]
+            "App\\": "src/"
+        }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
-        },
-        "files": [
-            "vendor/symfony/symfony/src/Symfony/Component/VarDumper/Resources/functions/dump.php"
-        ]
-    },
-    "require": {
-        "php": ">=7.0.0",
-        "doctrine/doctrine-bundle": "^1.6",
-        "doctrine/orm": "^2.5",
-        "incenteev/composer-parameter-handler": "^2.0",
-        "sensio/distribution-bundle": "^5.0.19",
-        "sensio/framework-extra-bundle": "^3.0.2",
-        "symfony/monolog-bundle": "^3.1.0",
-        "symfony/polyfill-apcu": "^1.0",
-        "symfony/swiftmailer-bundle": "^2.3.10",
-        "symfony/symfony": "3.3.*",
-        "twig/twig": "^1.0||^2.0",
-        "novosga/composer-installer-plugin": "v1.0",
-        "novosga/core": "dev-master",
-        "novosga/reports-bundle": "dev-master",
-        "novosga/attendance-bundle": "dev-master",
-        "novosga/monitor-bundle": "dev-master",
-        "novosga/settings-bundle": "dev-master",
-        "novosga/triagem-bundle": "dev-master",
-        "novosga/users-bundle": "dev-master",
-        "jms/serializer-bundle": "^1.1",
-        "friendsofsymfony/oauth-server-bundle": "^1.5",
-        "nelmio/cors-bundle": "^1.5"
-    },
-    "require-dev": {
-        "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0",
-        "doctrine/doctrine-fixtures-bundle": "^2.3"
+            "App\\Tests\\": "tests/"
+        }
     },
     "scripts": {
-        "symfony-scripts": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
-        ],
+        "auto-scripts": {
+            "make cache-warmup": "script",
+            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
+        },
         "post-install-cmd": [
-            "@symfony-scripts"
+            "@auto-scripts"
         ],
         "post-update-cmd": [
-            "@symfony-scripts"
+            "@auto-scripts"
         ]
     },
-    "config": {
-        "sort-packages": true
+    "conflict": {
+        "symfony/symfony": "*",
+        "symfony/twig-bundle": "<3.3",
+        "symfony/debug": "<3.3"
     },
     "extra": {
-        "symfony-app-dir": "app",
-        "symfony-bin-dir": "bin",
-        "symfony-var-dir": "var",
-        "symfony-web-dir": "web",
-        "symfony-tests-dir": "tests",
-        "symfony-assets-install": "relative",
-        "incenteev-parameters": {
-            "file": "app/config/parameters.yml",
-            "env-map": {
-                "database_host": "DATABASE_HOST",
-                "database_port": "DATABASE_PORT",
-                "database_name": "DATABASE_NAME",
-                "database_user": "DATABASE_USER",
-                "database_password": "DATABASE_PASSWORD",
-                "database_tableprefix": "DATABASE_TABLE_PREFIX",
-                "locale": "NOVOSGA_LOCALE",
-                "secret": "SYMFONY_SECRET"
-            }
-        },
         "branch-alias": {
             "dev-master": "2.0-dev"
         }

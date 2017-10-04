@@ -1,0 +1,33 @@
+Novosga\Entity\Lotacao:
+    type: entity
+    table: lotacoes
+    repositoryClass: App\Repository\ORM\LotacaoRepository
+    id:
+        usuario:
+            associationKey: true
+        unidade:
+            associationKey: true
+    manyToOne:
+        usuario:
+            targetEntity: Novosga\Entity\Usuario
+            cascade: {  }
+            fetch: LAZY
+            inversedBy: lotacoes
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: id
+        unidade:
+            targetEntity: Novosga\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+        perfil:
+            targetEntity: Novosga\Entity\Perfil
+            cascade: {  }
+            fetch: LAZY
+            joinColumns:
+                perfil_id:
+                    referencedColumnName: id
+    lifecycleCallbacks: {  }
