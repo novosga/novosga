@@ -11,9 +11,7 @@ security:
             
     providers:
         novosga_provider:
-            entity:
-                class: Novosga\Entity\Usuario
-                property: login
+            id: App\Security\UserProvider
             
     firewalls:
         dev:
