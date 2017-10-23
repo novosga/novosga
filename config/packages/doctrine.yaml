@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         url: '%env(DATABASE_URL)%'
-        password: "12345"
+        password: '%env(DATABASE_PASS)%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
