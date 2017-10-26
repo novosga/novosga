@@ -14,7 +14,6 @@ namespace App\Service;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
-use Novosga\Config\AppConfig;
 use Novosga\Entity\Atendimento;
 
 /**
@@ -52,10 +51,7 @@ class TicketService
     public function printTicket(Atendimento $atendimento)
     {
         // custom view parameters
-        $params = AppConfig::getInstance()->get('ticket.print.params');
-        if (is_callable($params)) {
-            $params = $params($atendimento);
-        }
+        $params = [];
         
         $unidade = $atendimento->getUnidade();
         $servico = $atendimento->getServico();
@@ -76,7 +72,7 @@ class TicketService
         }
         
         // custom print template
-        $template = AppConfig::getInstance()->get('ticket.print.template');
+        $template = null;
         if (empty($template)) {
             $template = 'print.html.twig';
         }

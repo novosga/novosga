@@ -531,17 +531,39 @@ var App = {
     
     Websocket: {
         
-        maxAttemps: 5,
+        maxAttemps: 3,
         
         connect: function() {
-            this.attemps = 0;
-            this.ws = io(':2020');
+            if (!this.ws) {
+                this.create();
+            } else {
+                this.ws.open();
+            }
+        },
+        
+        create: function() {
+            this.ws = io(':2020', {
+                reconnectionAttempts: App.Websocket.maxAttemps
+            });
+
+            this.ws.on('connect', function () {
+                console.log('[ws] connected!');
+            });
+            
+            this.ws.on('disconnect', function () {
+                console.log('[ws] disconnected!');
+            });
+            
             this.ws.on('connect_error', function () {
-                if (App.Websocket.attemps > App.Websocket.maxAttemps) {
-                    console.log('reached max attempts');
-                    App.Websocket.ws.disconnect();
-                }
-                App.Websocket.attemps++;
+                console.log('[ws] connect error');
+            });
+            
+            this.ws.on('reconnect_failed', function () {
+                console.log('[ws] reached max attempts');
+            });
+            
+            this.on('error', function () {
+                console.log('[ws] error');
             });
         },
         

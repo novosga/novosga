@@ -52,16 +52,14 @@ class ApiController extends Controller
     public function oauthClientsAction(Request $request)
     {
         $envelope = new Envelope();
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $clients = $em->getRepository(OAuthClient::class)
-                            ->findAll();
+        
+        $clients = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository(OAuthClient::class)
+                ->findAll();
             
-            $envelope->setData($clients);
-
-        } catch (\Exception $e) {
-            $envelope->exception($e);
-        }
+        $envelope->setData($clients);
 
         return $this->json($envelope);
     }
@@ -77,25 +75,21 @@ class ApiController extends Controller
     public function newOauthClientAction(Request $request)
     {
         $envelope = new Envelope();
-        try {
-            $json = json_decode($request->getContent());
-            $uri = isset($json->redirectUri) ? trim($json->redirectUri) : '';
-            
-            $clientManager = $this->get('fos_oauth_server.client_manager.default');
-            $client = $clientManager->createClient();
-            if (!empty($uri)) {
-                $client->setRedirectUris([
-                    $uri
-                ]);
-            }
-            $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);
-            $clientManager->updateClient($client);
-            
-            $envelope->setData($client);
+        
+        $json = json_decode($request->getContent());
+        $uri = isset($json->redirectUri) ? trim($json->redirectUri) : '';
 
-        } catch (\Exception $e) {
-            $envelope->exception($e);
+        $clientManager = $this->get('fos_oauth_server.client_manager.default');
+        $client = $clientManager->createClient();
+        if (!empty($uri)) {
+            $client->setRedirectUris([
+                $uri
+            ]);
         }
+        $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);
+        $clientManager->updateClient($client);
+
+        $envelope->setData($client);
 
         return $this->json($envelope);
     }
@@ -111,16 +105,12 @@ class ApiController extends Controller
     public function removeOauthClientAction(Request $request, OAuthClient $client)
     {
         $envelope = new Envelope();
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($client);
-            $em->flush();
-            
-            $envelope->setData($client);
-            
-        } catch (\Exception $e) {
-            $envelope->exception($e);
-        }
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($client);
+        $em->flush();
+
+        $envelope->setData($client);
 
         return $this->json($envelope);
     }

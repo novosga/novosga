@@ -100,15 +100,11 @@ class LocaisController extends Controller
     {
         $envelope = new Envelope();
         
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($local);
-            $em->flush();
-            
-            $envelope->setData($local);
-        } catch (Exception $e) {
-            $envelope->exception($e);
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($local);
+        $em->flush();
+
+        $envelope->setData($local);
         
         return $this->json($envelope);
     }

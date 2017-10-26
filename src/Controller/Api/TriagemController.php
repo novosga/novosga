@@ -45,7 +45,7 @@ class TriagemController extends ApiControllerBase
      * @Route("/distribui")
      * @Method("POST")
      */
-    public function distribuiAction(Request $request)
+    public function distribuiAction(Request $request, AtendimentoService $service)
     {
         $logger = $this->get('logger');
         
@@ -57,8 +57,6 @@ class TriagemController extends ApiControllerBase
         
             $serializer = $this->getSerializer();
             $novaSenha = $serializer->deserialize($json, NovaSenha::class, 'json');
-
-            $service = new AtendimentoService($manager);
 
             $usuario    = $this->getUser()->getId();
             $unidade    = (int) $novaSenha->unidade;

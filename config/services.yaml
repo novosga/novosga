@@ -29,10 +29,16 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
         
+    App\Service\ModuleService:
+        $rootDir: '%kernel.project_dir%'
+        
     # novosga core services
     Novosga\Service\:
         resource: '../vendor/novosga/core/Service'
         public: true
+        
+    Novosga\Service\Configuration:
+        $rootDir: '%kernel.project_dir%'
 
     App\Listener\SessionListener:
         arguments: ['@security.token_storage']
@@ -40,6 +46,7 @@ services:
             - { name: kernel.event_listener, event: kernel.request }
             
     App\Listener\JsonExceptionListener:
+        arguments: ['@kernel']
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
     

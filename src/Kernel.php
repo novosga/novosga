@@ -32,8 +32,8 @@ class Kernel extends BaseKernel
                 yield new $class();
             }
         }
-
-        $service = new \App\Service\ModuleService();
+        
+        $service = new \App\Service\ModuleService(dirname(__DIR__));
         $modules = $service->getActiveModules();
         
         foreach ($modules as $entry) {

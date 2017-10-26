@@ -11,6 +11,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Service\ModuleService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,9 +33,8 @@ class ModulosController extends Controller
      *
      * @Route("/", name="admin_modulos_index")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, ModuleService $service)
     {
-        $service = new \App\Service\ModuleService();
         $modules = array_map(function ($value) {
             $module = new $value['class'];
             
@@ -58,12 +58,11 @@ class ModulosController extends Controller
      *
      * @Route("/update", name="admin_modulos_update")
      */
-    public function updateAction(Request $request)
+    public function updateAction(Request $request, ModuleService $service)
     {
         $key = $request->get('key');
         $active = $request->get('active');
         
-        $service = new \App\Service\ModuleService();
         $service->update($key, $active);
         
         return $this->json([

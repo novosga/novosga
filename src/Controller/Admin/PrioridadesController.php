@@ -100,15 +100,11 @@ class PrioridadesController extends Controller
     {
         $envelope = new Envelope();
         
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($prioridade);
-            $em->flush();
-            
-            $envelope->setData($prioridade);
-        } catch (Exception $e) {
-            $envelope->exception($e);
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($prioridade);
+        $em->flush();
+
+        $envelope->setData($prioridade);
         
         return $this->json($envelope);
     }

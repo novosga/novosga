@@ -16,17 +16,20 @@ use Symfony\Component\Finder\Finder;
 class ModuleService
 {
  
-    const ROOT_DIR = __DIR__ . '/../..';
-    const MODULES_DIR = self::ROOT_DIR . '/modules';
+    /**
+     * @var string
+     */
+    private $modulesDir;
     
     /**
      * @var string
      */
     private $modulesCache;
     
-    public function __construct()
+    public function __construct($rootDir)
     {
-        $this->modulesCache = self::ROOT_DIR . '/var/modules.php.cache';
+        $this->modulesDir   = "{$rootDir}/modules";
+        $this->modulesCache = "{$rootDir}/var/modules.php";
     }
 
     /**
@@ -42,7 +45,7 @@ class ModuleService
         
         if (!is_array($modules)) {
             $modules = $this->discover();
-            $this->createCache($modules);
+            $this->dump($this->modulesCache, $modules);
         }
 
         return $modules;
@@ -74,7 +77,7 @@ class ModuleService
         
         if (isset($modules[$key])) {
             $modules[$key]['active'] = $active;
-            $this->createCache($modules);
+            $this->dump($this->modulesCache, $modules);
             
             return true;
         }
@@ -84,7 +87,7 @@ class ModuleService
 
     public function discover()
     {
-        $searchPath = realpath(self::MODULES_DIR);
+        $searchPath = realpath($this->modulesDir);
         
         $finder     = new Finder();
         $finder->files()
@@ -107,13 +110,6 @@ class ModuleService
         }
 
         return $modules;
-    }
-    
-    private function createCache(array $modules)
-    {
-        $str = \Novosga\Util\Arrays::toString($modules);
-        $time = time();
-        file_put_contents($this->modulesCache, "<?php /* generated at {$time} */ return {$str};");
     }
     
     private function extractClassName($filename, $basepath)
@@ -144,5 +140,38 @@ class ModuleService
         $key = strtolower(implode('.', $tokens));
         
         return $key;
+    }
+
+    private function dump(string $file, array $modules)
+    {
+        $contents = "<?php\n\nreturn [\n";
+        foreach ($modules as $name => $props) {
+            $contents .= "    '{$name}' => [";
+            foreach ($props as $key => $value) {
+                switch ($key) {
+                    case 'class':
+                        $parsed = "$value::class";
+                        break;
+                    case 'active':
+                        $parsed = $value ? 'true' : 'false';
+                        break;
+                    default:
+                        $parsed = "'{$value}'";
+                }
+                $contents .= "'$key' => $parsed, ";
+            }
+            $contents = substr($contents, 0, -2)."],\n";
+        }
+        $contents .= "];\n";
+
+        if (!is_dir(dirname($file))) {
+            mkdir(dirname($file), 0777, true);
+        }
+
+        file_put_contents($file, $contents);
+
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($file);
+        }
     }
 }

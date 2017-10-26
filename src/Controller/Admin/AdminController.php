@@ -57,16 +57,10 @@ class AdminController extends Controller
      * @Route("/acumular_atendimentos", name="admin_acumular_atendimentos")
      * @Method("POST")
      */
-    public function acumular_atendimentos(Request $request)
+    public function acumular_atendimentos(Request $request, AtendimentoService $service)
     {
         $envelope = new Envelope();
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $service = new AtendimentoService($em);
-            $service->acumularAtendimentos();
-        } catch (\Exception $e) {
-            $envelope->exception($e);
-        }
+        $service->acumularAtendimentos();
 
         return $this->json($envelope);
     }

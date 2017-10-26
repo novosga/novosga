@@ -102,15 +102,11 @@ class UnidadesController extends Controller
     {
         $envelope = new Envelope();
         
-        try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($unidade);
-            $em->flush();
-            
-            $envelope->setData($unidade);
-        } catch (Exception $e) {
-            $envelope->exception($e);
-        }
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($unidade);
+        $em->flush();
+
+        $envelope->setData($unidade);
         
         return $this->json($envelope);
     }

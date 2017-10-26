@@ -24,6 +24,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class JsonExceptionListener extends AppListener
 {
+    private $kernel;
+    
+    public function __construct(\Symfony\Component\HttpKernel\Kernel $kernel)
+    {
+        $this->kernel = $kernel;
+    }
+    
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
@@ -46,8 +53,10 @@ class JsonExceptionListener extends AppListener
             $response = new JsonResponse($json);
             $event->setResponse($response);
         } else if ($request->isXmlHttpRequest()) {
+            $debug = $this->kernel->getEnvironment() === 'dev';
+            
             $envelope = new Envelope();
-            $envelope->exception($exception);
+            $envelope->exception($exception, $debug);
             
             if ($exception instanceof AuthenticationException) {
                 $envelope->setSessionStatus('inactive');

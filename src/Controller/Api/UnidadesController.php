@@ -42,11 +42,8 @@ class UnidadesController extends ApiCrudController
      * @Route("/{id}/servicos")
      * @Method("GET")
      */
-    public function servicosAction(Unidade $unidade)
+    public function servicosAction(Unidade $unidade, ServicoService $service)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $service = new ServicoService($em);
         $servicos = $service->servicosUnidade($unidade, 'e.ativo = TRUE');
 
         return $this->json($servicos);
@@ -58,9 +55,9 @@ class UnidadesController extends ApiCrudController
      */
     public function atendimentosAction(Unidade $unidade)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $atendimentos = $em
+        $atendimentos = $this
+                ->getDoctrine()
+                ->getManager()
                 ->createQueryBuilder()
                 ->select([
                     'e', 'su', 's', 'ut', 'u'
