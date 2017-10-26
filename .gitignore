@@ -1,3 +1,5 @@
+config/app.php
+nbproject/
 modules/*
 
 ###> symfony/framework-bundle ###
