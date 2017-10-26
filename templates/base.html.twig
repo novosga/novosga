@@ -62,10 +62,12 @@
                 </div>
             </nav>
         </header>
-        <div class="container-fluid">
-            {% block body %}
-            {% endblock %}
-        </div>
+        <section>
+            <div class="container-fluid">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </section>
         <footer>
             <p>Novo SGA v{{ version }}</p>
         </footer>
@@ -95,6 +97,7 @@
         <script type="text/javascript" src="{{ asset("js/socket.io.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/vue.min.js") }}"></script>
         <script type="text/javascript" src="{{ asset("js/script.js") }}"></script>
+        <script type="text/javascript" src="{{ asset("js/moment-with-locales.min.js") }}"></script>
         <script type="text/javascript">
             App.baseUrl = '{{ app.request.baseUrl() }}';
             App.version = '{{ version }}';
