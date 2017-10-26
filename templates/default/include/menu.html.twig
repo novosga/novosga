@@ -13,6 +13,9 @@
                         </a>
                     {% endif %}
                 {% endfor %}
+                {% if modules|length %}
+                    <div class="dropdown-divider"></div>
+                {% endif %}
                 <a href="#dialog-unidade" data-toggle="modal" class="dropdown-item">
                     <i class="fa fa-exchange"></i> &nbsp;
                     {% trans %}Trocar unidade{% endtrans %}
