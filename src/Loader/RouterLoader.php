@@ -23,7 +23,7 @@ use Symfony\Component\Routing\RouteCollection;
 class RouterLoader extends Loader
 {
     /**
-     * @var boolean
+     * @var bool
      */
     private $loaded = false;
 

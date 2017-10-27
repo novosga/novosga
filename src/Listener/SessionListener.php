@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * SessionListener
@@ -37,6 +38,10 @@ class SessionListener extends AppListener
     
     public function onKernelRequest(GetResponseEvent $event)
     {
+        if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+            return;
+        }
+        
         $token = $this->tokenStorage->getToken();
         $request = $event->getRequest();
         $session = $request->getSession();

@@ -5,22 +5,20 @@
     "require": {
         "php": "^7.1.3",
         "friendsofsymfony/oauth-server-bundle": "^1.5",
-        "jms/serializer-bundle": "^1.1",
-        "nelmio/cors-bundle": "^1.5",
+        "jms/serializer-bundle": "^2.2",
         "novosga/attendance-bundle": "self.version",
         "novosga/composer-installer-plugin": "v1.0",
         "novosga/core": "self.version",
-        "novosga/websocket-server": "self.version",
         "novosga/monitor-bundle": "self.version",
         "novosga/reports-bundle": "self.version",
         "novosga/settings-bundle": "self.version",
         "novosga/triagem-bundle": "self.version",
         "novosga/users-bundle": "self.version",
+        "novosga/websocket-server": "self.version",
         "sensio/framework-extra-bundle": "^3.0",
         "symfony/asset": "^3.3",
         "symfony/console": "^3.3",
-        "symfony/debug-bundle": "^3.3",
-        "symfony/debug-pack": "^1.0",
+        "symfony/dependency-injection": "^3.3",
         "symfony/flex": "^1.0",
         "symfony/form": "^3.3",
         "symfony/framework-bundle": "^3.3",
@@ -28,11 +26,13 @@
         "symfony/security-bundle": "^3.3",
         "symfony/twig-bundle": "^3.3",
         "symfony/validator": "^3.3",
-        "symfony/web-server-bundle": "^3.3",
         "symfony/yaml": "^3.3"
     },
     "require-dev": {
-        "symfony/dotenv": "^3.3"
+        "symfony/debug-bundle": "^3.3",
+        "symfony/debug-pack": "^1.0",
+        "symfony/dotenv": "^3.3",
+        "symfony/web-server-bundle": "^3.3"
     },
     "config": {
         "preferred-install": {

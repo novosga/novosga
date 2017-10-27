@@ -11,7 +11,7 @@
 
 namespace App\Security;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Novosga\Entity\Usuario;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
@@ -22,11 +22,14 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
  */
 class SecurityListener
 {
-    private $em;
+    /**
+     * @var ObjectManager
+     */
+    private $om;
     
-    public function __construct(EntityManager $em)
+    public function __construct(ObjectManager $om)
     {
-        $this->em = $em;
+        $this->om = $om;
     }
     
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
@@ -35,10 +38,10 @@ class SecurityListener
         
         $sessionId = $event->getRequest()->getSession()->getId();
         $usuario->setSessionId($sessionId);
-        $this->em->merge($usuario);
-        $this->em->flush();
+        $this->om->merge($usuario);
+        $this->om->flush();
         
-        $repository = $this->em->getRepository(Usuario::class);
+        $repository = $this->om->getRepository(Usuario::class);
         $unidade = $repository->loadUnidade($usuario);
         if ($unidade) {
             $repository->updateUnidade($usuario, $unidade);

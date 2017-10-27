@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * JsonExceptionListener
@@ -26,13 +27,17 @@ class JsonExceptionListener extends AppListener
 {
     private $kernel;
     
-    public function __construct(\Symfony\Component\HttpKernel\Kernel $kernel)
+    public function __construct(KernelInterface $kernel)
     {
         $this->kernel = $kernel;
     }
     
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+        if (KernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
+            return;
+        }
+        
         $exception = $event->getException();
         $request = $event->getRequest();
         

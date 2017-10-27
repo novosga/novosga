@@ -41,12 +41,14 @@ services:
         $rootDir: '%kernel.project_dir%'
 
     App\Listener\SessionListener:
-        arguments: ['@security.token_storage']
         tags:
             - { name: kernel.event_listener, event: kernel.request }
             
+    App\Listener\CorsListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 250 }
+            
     App\Listener\JsonExceptionListener:
-        arguments: ['@kernel']
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
     
@@ -55,12 +57,10 @@ services:
         public: true
     
     App\Loader\RouterLoader:
-        arguments: ["@kernel"]
         tags:
             - { name: routing.loader }
             
     App\Security\SecurityListener:
-        arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
             
