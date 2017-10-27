@@ -83,6 +83,10 @@ class DefaultController extends Controller
             $bundles = array_filter($kernel->getBundles(), function ($bundle) {
                 return $bundle instanceof \Novosga\Module\ModuleInterface;
             });
+            
+            usort($bundles, function (\Novosga\Module\ModuleInterface $a, \Novosga\Module\ModuleInterface $b) {
+                return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+            });
         }
         
         return $this->render('default/include/menu.html.twig', [
