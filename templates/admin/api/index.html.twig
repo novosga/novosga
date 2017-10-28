@@ -8,12 +8,14 @@
         </small>
     </h1>
     
+    <hr>
+    
     <div id="admin">
         <fieldset>
             <legend>{% trans %}Clientes{% endtrans %}</legend>
             <p>{% trans %}Para acessar algumas URLs é necessário possuir um token de acesso, e para isso é necessário primeiro cadastrar a aplicação cliente.{% endtrans %}</p>
             <table class="table table-bordered">
-                <thead>
+                <thead class="thead-light">
                     <tr>
                         <th>Public Id</th>
                         <th>Client Secret</th>
@@ -21,7 +23,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody v-cloak>
                     <tr v-for="client in clients">
                         <td>
                             {% verbatim %}
@@ -38,7 +40,7 @@
                                 {{ client.redirectUris[0] }}
                             {% endverbatim %}
                         </td>
-                        <td>
+                        <td class="text-center">
                             <button type="button" class="btn btn-danger" title="{% trans %}Remover{% endtrans %}"
                                     v-on:click.prevent="removeClient(client)">
                                 <span class="fa fa-trash"></span>
@@ -51,7 +53,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="buttons">
+                        <td class="text-center">
                             <button type="button" class="btn btn-secondary" v-on:click.prevent="newClient">
                                 <i class="fa fa-plus"></i>
                                 {% trans %}Adicionar{% endtrans %}
@@ -225,7 +227,7 @@
                         });
                     },
                     showSecret: function (client, evt) {
-                        evt.target.innerHTML = client.secret;
+                        evt.target.parentNode.innerHTML = client.secret;
                     },
                     removeClient: function (client) {
                         var self = this;

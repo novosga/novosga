@@ -8,6 +8,8 @@
         </small>
     </h1>
     
+    <hr>
+    
     {{ form_start(form) }}
     
         {% include 'flashMessages.html.twig' %}
@@ -33,11 +35,11 @@
                     <fieldset>
                         <legend>{% trans %}Subserviços{% endtrans %}</legend>
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="thead-light">
                                 <tr>
                                     <th>{% trans %}Nome{% endtrans %}</th>
                                     <th>{% trans %}Peso{% endtrans %}</th>
-                                    <th class="col-md-2"></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,7 +47,7 @@
                                 <tr>
                                     <td>{{ sub.nome }}</td>
                                     <td>{{ sub.peso }}</td>
-                                    <td>
+                                    <td class="text-center">
                                         <a href="{{ path('admin_servicos_edit', {id: sub.id }) }}" class="btn btn-secondary">
                                             <i class="fa fa-edit"></i>
                                         </a>

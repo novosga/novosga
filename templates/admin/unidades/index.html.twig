@@ -1,24 +1,29 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <h1>
-        {% trans %}Unidades{% endtrans %}
-        <small>
-            {% trans %}Cadastro de unidades de atendimento{% endtrans %}
-        </small>
-    </h1>
-        
-    <div class="text-right">
-        <a href="{{ path('admin_unidades_new') }}" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            {% trans %}Nova unidade{% endtrans %}
-        </a>
+    <div class="row">
+        <div class="col-8">
+            <h1>
+                {% trans %}Unidades{% endtrans %}
+                <small>
+                    {% trans %}Cadastro de unidades de atendimento{% endtrans %}
+                </small>
+            </h1>
+        </div>
+        <div class="col-4 text-right">
+            <a href="{{ path('admin_unidades_new') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+                {% trans %}Nova unidade{% endtrans %}
+            </a>
+        </div>
     </div>
     
+    <hr>
+        
     {% include "flashMessages.html.twig" %}
 
     <table class="table table-bordered">
-        <thead>
+        <thead class="thead-light">
             <tr>
                 <th>#</th>
                 <th>{% trans %}Código{% endtrans %}</th>
@@ -38,7 +43,7 @@
                     <td>
                         {{ unidade.nome }}
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a href="{{ path('admin_unidades_edit', { id: unidade.id }) }}" class="btn btn-secondary">
                             <i class="fa fa-edit"></i>
                         </a>

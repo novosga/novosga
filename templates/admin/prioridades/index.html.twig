@@ -1,22 +1,27 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <h1>
-        {% trans %}Prioridades{% endtrans %}
-        <small>
-            {% trans %}Cadastro de prioridades de atendimento{% endtrans %}
-        </small>
-    </h1>
-        
-    <div class="text-right">
-        <a href="{{ path('admin_prioridades_new') }}" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            {% trans %}Nova prioridade{% endtrans %}
-        </a>
+    <div class="row">
+        <div class="col-8">
+            <h1>
+                {% trans %}Prioridades{% endtrans %}
+                <small>
+                    {% trans %}Cadastro de prioridades de atendimento{% endtrans %}
+                </small>
+            </h1>
+        </div>
+        <div class="col-4 text-right">
+            <a href="{{ path('admin_prioridades_new') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+                {% trans %}Nova prioridade{% endtrans %}
+            </a>
+        </div>
     </div>
     
+    <hr>
+    
     <table class="table table-bordered">
-        <thead>
+        <thead class="thead-light">
             <tr>
                 <th>#</th>
                 <th>{% trans %}Nome{% endtrans %}</th>
@@ -44,7 +49,7 @@
                             {% trans %}Inativo{% endtrans %}
                         {% endif %}
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a href="{{ path('admin_prioridades_edit', { id: prioridade.id }) }}" class="btn btn-secondary">
                             <i class="fa fa-edit"></i>
                         </a>

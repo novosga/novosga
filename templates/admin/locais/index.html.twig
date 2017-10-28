@@ -1,22 +1,27 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <h1>
-        {% trans %}Locais{% endtrans %}
-        <small>
-            {% trans %}Cadastro de locais de atendimento{% endtrans %}
-        </small>
-    </h1>
-        
-    <div class="text-right">
-        <a href="{{ path('admin_locais_new') }}" class="btn btn-primary">
-            <i class="fa fa-plus"></i>
-            {% trans %}Novo local{% endtrans %}
-        </a>
+    <div class="row">
+        <div class="col-8">
+            <h1>
+                {% trans %}Locais{% endtrans %}
+                <small>
+                    {% trans %}Cadastro de locais de atendimento{% endtrans %}
+                </small>
+            </h1>
+        </div>
+        <div class="col-4 text-right">
+            <a href="{{ path('admin_locais_new') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+                {% trans %}Novo local{% endtrans %}
+            </a>
+        </div>
     </div>
+    
+    <hr>
         
     <table class="table table-bordered">
-        <thead>
+        <thead class="thead-light">
             <tr>
                 <th>#</th>
                 <th>{% trans %}Nome{% endtrans %}</th>
@@ -32,7 +37,7 @@
                     <td>
                         {{ local.nome }}
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a href="{{ path('admin_locais_edit', { id: local.id }) }}" class="btn btn-secondary">
                             <i class="fa fa-edit"></i>
                         </a>
