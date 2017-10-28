@@ -10,7 +10,7 @@ Novosga\Entity\Usuario:
     fields:
         login:
             type: string
-            length: 20
+            length: 30
             unique: true
             nullable: false
         nome:
