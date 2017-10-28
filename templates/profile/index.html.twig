@@ -1,5 +1,159 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    {% trans %}Perfil{% endtrans %}
+{% endblock %}
+
 {% block body %}
-    profile
+    <h1>
+        <i class="fa fa-user" aria-hidden="true"></i>
+        {% trans %}Perfil{% endtrans %}
+        <small>
+            {% trans %}Dados pessoais do usuário{% endtrans %}
+        </small>
+    </h1>
+    
+    <hr>
+    
+    {{ form_start(form) }}
+    
+        {% include 'flashMessages.html.twig' %}
+        
+        <div class="row">
+            <div class="col-5">
+                <fieldset>
+                    <legend>{% trans %}Geral{% endtrans %}</legend>
+                    
+                    <p class="text-secondary">{% trans %}Dados básico do usuário.{% endtrans %}</p>
+                    
+                    <div class="form-group">
+                        <label>{% trans %}Usuário{% endtrans %}</label>
+                        <input type="text" class="form-control" value="{{user.login}}" readonly>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4 col-lg-3">
+                            {{ form_row(form.nome) }}
+                        </div>
+                        <div class="col-md-8 col-lg-9">
+                            {{ form_row(form.sobrenome) }}
+                        </div>
+                    </div>
+
+                    {{ form_row(form.email) }}
+                </fieldset>
+            </div>
+            <div class="col-6 ml-auto">
+                <fieldset>
+                    <legend>{% trans %}Lotações{% endtrans %}</legend>
+                    
+                    <p class="text-secondary">{% trans %}Lotação é utilizada para definir o perfil de acesso do usuário nas unidades.{% endtrans %}</p>
+                    
+                    <table class="table table-bordered">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>
+                                    {% trans %}Unidade{% endtrans %}
+                                </th>
+                                <th>
+                                    {% trans %}Perfil{% endtrans %}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for lotacao in user.lotacoes %}
+                                <tr>
+                                    <td>
+                                        {{lotacao.unidade}}
+                                    </td>
+                                    <td>
+                                        {{lotacao.perfil}}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-save"></i>
+            {% trans %}Atualizar{% endtrans %}
+        </button>
+        
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#dialog-senha">
+            <i class="fa fa-lock"></i>
+            {% trans %}Alterar senha{% endtrans %}
+        </button>
+    
+    {{ form_end(form) }}
+    
+    <div id="dialog-senha" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="form-senha">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{% trans %}Alterar senha{% endtrans %}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="senha_atual">{% trans %}Senha atual{% endtrans %}</label>
+                            <input id="senha_atual" type="password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="senha_senha">{% trans %}Nova Senha{% endtrans %}</label>
+                            <input id="senha_senha" type="password" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="senha_confirmacao">{% trans %}Confirmar senha{% endtrans %}</label>
+                            <input id="senha_confirmacao" type="password" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">
+                            {% trans %}Alterar{% endtrans %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body>section {
+            padding: 20px 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function () {
+            'use strict'
+            
+            $('#form-senha').on('submit', function (form) {
+                App.ajax({
+                    url: App.url('/profile/password'),
+                    type: 'post',
+                    data: {
+                        atual: $('#senha_atual').val(),
+                        senha: $('#senha_senha').val(),
+                        confirmacao: $('#senha_confirmacao').val()
+                    },
+                    success: function (response) {
+                        $(form).trigger('reset');
+                        $('#dialog-senha').modal('hide');
+                    }
+                });
+                
+                return false;
+            });
+        })();
+    </script>
 {% endblock %}
