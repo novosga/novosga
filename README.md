@@ -1,4 +1,5 @@
 # Novo SGA
+<img src="https://raw.githubusercontent.com/novosga/art/39bf72ac/dist/logo_1200x630.png" width="20%">
 
 [![Packagist](http://img.shields.io/packagist/v/novosga/novosga.svg)](https://packagist.org/packages/novosga/novosga)
 [![Packagist](http://img.shields.io/packagist/dt/novosga/novosga.svg)](https://packagist.org/packages/novosga/novosga)
