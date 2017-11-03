@@ -24,3 +24,20 @@ Novosga\Entity\Unidade:
         ativo:
             type: boolean
             nullable: false
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
+        deletedAt:
+            type: datetime
+            column: deleted_at
+            nullable: true
+    lifecycleCallbacks: {  }
+    entityListeners:
+        App\Listener\ORM\UnidadeListener: ~

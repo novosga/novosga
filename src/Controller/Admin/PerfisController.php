@@ -14,6 +14,7 @@ namespace App\Controller\Admin;
 use App\Form\PerfilType as EntityType;
 use Novosga\Entity\Perfil as Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -57,6 +58,7 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      *
      * @Route("/new", name="admin_perfis_new")
      * @Route("/{id}", name="admin_perfis_edit")
+     * @Method({"GET", "POST"})
      */
     public function formAction(Request $request, Entity $entity = null)
     {
@@ -91,5 +93,38 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
             'entity' => $entity,
             'form'   => $form->createView(),
         ]);
+    }
+    
+    /**
+     *
+     * @param Request $request
+     * @return Response
+     *
+     * @Route("/{id}", name="admin_perfis_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, Entity $perfil)
+    {
+        $trans = $this->get('translator');
+        
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($perfil);
+            $em->flush();
+        
+            $this->addFlash('success', $trans->trans('Perfil removido com sucesso!'));
+            
+            return $this->redirectToRoute('admin_perfis_index');
+        } catch (\Exception $e) {
+            if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
+                $message = 'O perfil não pode ser removido porque está sendo utilizado.';
+            } else {
+                $message = $e->getMessage();
+            }
+            
+            $this->addFlash('error', $trans->trans($message));
+            
+            return $this->redirect($request->headers->get('REFERER'));
+        }
     }
 }

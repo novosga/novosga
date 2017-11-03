@@ -25,6 +25,20 @@ Novosga\Entity\Servico:
             type: smallint
             unique: false
             nullable: false
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
+        deletedAt:
+            type: datetime
+            column: deleted_at
+            nullable: true
     manyToOne:
         mestre:
             targetEntity: Novosga\Entity\Servico
@@ -49,3 +63,6 @@ Novosga\Entity\Servico:
             fetch: LAZY
             mappedBy: servico
             orphanRemoval: false
+    lifecycleCallbacks: {  }
+    entityListeners:
+        App\Listener\ORM\ServicoListener: ~

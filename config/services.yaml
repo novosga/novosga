@@ -51,6 +51,10 @@ services:
     App\Listener\JsonExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
+            
+    App\Listener\ORM\DoctrineListener:
+        tags:
+            - { name: doctrine.event_subscriber }
     
     App\Service\TicketService:
         arguments: ["@doctrine.orm.entity_manager", "@twig"]

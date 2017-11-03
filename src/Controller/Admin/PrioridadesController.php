@@ -11,10 +11,8 @@
 
 namespace App\Controller\Admin;
 
-use Exception;
 use Novosga\Entity\Prioridade as Entity;
 use App\Form\PrioridadeType as EntityType;
-use Novosga\Http\Envelope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -98,14 +96,26 @@ class PrioridadesController extends Controller
      */
     public function deleteAction(Request $request, Entity $prioridade)
     {
-        $envelope = new Envelope();
+        $trans = $this->get('translator');
         
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($prioridade);
-        $em->flush();
-
-        $envelope->setData($prioridade);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($prioridade);
+            $em->flush();
         
-        return $this->json($envelope);
+            $this->addFlash('success', $trans->trans('Prioridade removida com sucesso!'));
+            
+            return $this->redirectToRoute('admin_prioridades_index');
+        } catch (\Exception $e) {
+            if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
+                $message = 'A prioridade não pode ser removida porque está sendo utilizada.';
+            } else {
+                $message = $e->getMessage();
+            }
+            
+            $this->addFlash('error', $trans->trans($message));
+            
+            return $this->redirect($request->headers->get('REFERER'));
+        }
     }
 }

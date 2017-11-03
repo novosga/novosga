@@ -66,6 +66,20 @@ Novosga\Entity\Usuario:
             type: string
             length: 60
             nullable: true
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
+        deletedAt:
+            type: datetime
+            column: deleted_at
+            nullable: true
     oneToMany:
         lotacoes:
             targetEntity: Novosga\Entity\Lotacao

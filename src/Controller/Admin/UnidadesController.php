@@ -56,6 +56,7 @@ class UnidadesController extends Controller
      *
      * @Route("/new", name="admin_unidades_new")
      * @Route("/{id}", name="admin_unidades_edit")
+     * @Method({"GET","POST"})
      */
     public function formAction(Request $request, Entity $entity = null)
     {
@@ -100,14 +101,26 @@ class UnidadesController extends Controller
      */
     public function deleteAction(Request $request, Entity $unidade)
     {
-        $envelope = new Envelope();
+        $trans = $this->get('translator');
         
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($unidade);
-        $em->flush();
-
-        $envelope->setData($unidade);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($unidade);
+            $em->flush();
         
-        return $this->json($envelope);
+            $this->addFlash('success', $trans->trans('Unidade removida com sucesso!'));
+            
+            return $this->redirectToRoute('admin_unidades_index');
+        } catch (\Exception $e) {
+            if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
+                $message = 'A unidade não pode ser removida porque está sendo utilizada.';
+            } else {
+                $message = $e->getMessage();
+            }
+            
+            $this->addFlash('error', $trans->trans($message));
+            
+            return $this->redirect($request->headers->get('REFERER'));
+        }
     }
 }

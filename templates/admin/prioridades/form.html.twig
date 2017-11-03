@@ -22,16 +22,20 @@
 
         {{ form_row(form.peso, { label: 'Peso' }) }}
 
-        <div class="buttons">
-            <button type="submit" class="btn btn-primary">
-                <i class="fa fa-check"></i> 
-                {% trans %}Salvar{% endtrans %}
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-check"></i> 
+            {% trans %}Salvar{% endtrans %}
+        </button>
+        <a href="{{ path('admin_prioridades_index') }}" class="btn btn-secondary">
+            <i class="fa fa-chevron-left"></i>
+            {% trans %}Voltar{% endtrans %}
+        </a>
+        {% if entity.id and entity.id != 1 %}
+            <button type="submit" class="btn btn-danger pull-right" name="_method" value="DELETE">
+                <i class="fa fa-trash"></i> 
+                {% trans %}Excluir{% endtrans %}
             </button>
-            <a href="{{ path('admin_prioridades_index') }}" class="btn btn-secondary">
-                <i class="fa fa-chevron-left"></i>
-                {% trans %}Voltar{% endtrans %}
-            </a>
-        </div>
+        {% endif %}
 
     {{ form_end(form) }}
 {% endblock %}

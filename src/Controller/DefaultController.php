@@ -43,11 +43,12 @@ class DefaultController extends Controller
      */
     public function unidadesAction(Request $request)
     {
-        $usuario = $this->getUser();
-        $unidades = $this->getDoctrine()
-                        ->getManager()
-                        ->getRepository(Unidade::class)
-                        ->findByUsuario($usuario);
+        $usuario  = $this->getUser();
+        $unidades = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository(Unidade::class)
+                ->findByUsuario($usuario);
 
         return $this->render('default/include/unidadesModal.html.twig', [
             'unidades' => $unidades,

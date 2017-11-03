@@ -25,3 +25,16 @@ Novosga\Entity\Perfil:
         modulos:
             type: simple_array
             nullable: true
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
+    lifecycleCallbacks: {  }
+    entityListeners:
+        App\Listener\ORM\PerfilListener: ~

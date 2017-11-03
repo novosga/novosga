@@ -12,9 +12,7 @@
 namespace App\Controller\Admin;
 
 use App\Form\LocalType as EntityType;
-use Exception;
 use Novosga\Entity\Local as Entity;
-use Novosga\Http\Envelope;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -98,14 +96,26 @@ class LocaisController extends Controller
      */
     public function deleteAction(Request $request, Entity $local)
     {
-        $envelope = new Envelope();
+        $trans = $this->get('translator');
+               
+        try {
+            $em  = $this->getDoctrine()->getManager();
+            $em->remove($local);
+            $em->flush();
         
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($local);
-        $em->flush();
-
-        $envelope->setData($local);
-        
-        return $this->json($envelope);
+            $this->addFlash('success', $trans->trans('Local removido com sucesso!'));
+            
+            return $this->redirectToRoute('admin_locais_index');
+        } catch (\Exception $e) {
+            if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
+                $message = 'O local não pode ser removido porque está sendo utilizado.';
+            } else {
+                $message = $e->getMessage();
+            }
+            
+            $this->addFlash('error', $trans->trans($message));
+            
+            return $this->redirect($request->headers->get('REFERER'));
+        }
     }
 }

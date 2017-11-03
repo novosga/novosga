@@ -14,7 +14,6 @@ namespace App\Listener\ORM;
 use Exception;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Novosga\Entity\Usuario;
-use Novosga\Entity\Atendimento;
 
 /**
  * UsuarioListener
@@ -23,21 +22,20 @@ use Novosga\Entity\Atendimento;
  */
 class UsuarioListener
 {
+    public function prePersist(Usuario $usuario, LifecycleEventArgs $args)
+    {
+        $usuario->setCreatedAt(new \DateTime);
+    }
+    
+    public function preUpdate(Usuario $usuario, LifecycleEventArgs $args)
+    {
+        $usuario->setUpdatedAt(new \DateTime);
+    }
     
     public function preRemove(Usuario $usuario, LifecycleEventArgs $args)
     {
-        $em = $args->getEntityManager();
-        
-        $total = (int) $em->createQueryBuilder()
-            ->select('COUNT(e)')
-            ->from(Atendimento::class, 'e')
-            ->where('e.usuario = :usuario OR e.usuarioTriagem = :usuario')
-            ->setParameter('usuario', $usuario)
-            ->getQuery()
-            ->getSingleScalarResult();
-        
-        if ($total > 0) {
-            throw new Exception('Não é possível remover o usuário porque já existe atendimento vinculado.');
+        if ($usuario->isAdmin()) {
+            throw new Exception('Não pode remover um usuário administrador.');
         }
     }
 }

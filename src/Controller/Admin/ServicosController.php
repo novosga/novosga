@@ -90,4 +90,37 @@ class ServicosController extends Controller
             'form'   => $form->createView(),
         ]);
     }
+    
+    /**
+     *
+     * @param Request $request
+     * @return Response
+     *
+     * @Route("/{id}", name="admin_servicos_delete")
+     * @Method("DELETE")
+     */
+    public function deleteAction(Request $request, Entity $servico)
+    {
+        $trans = $this->get('translator');
+        
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($servico);
+            $em->flush();
+        
+            $this->addFlash('success', $trans->trans('Serviço removido com sucesso!'));
+            
+            return $this->redirectToRoute('admin_servicos_index');
+        } catch (\Exception $e) {
+            if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
+                $message = 'O serviço não pode ser removido porque está sendo utilizado.';
+            } else {
+                $message = $e->getMessage();
+            }
+            
+            $this->addFlash('error', $trans->trans($message));
+            
+            return $this->redirect($request->headers->get('REFERER'));
+        }
+    }
 }
