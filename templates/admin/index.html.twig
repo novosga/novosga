@@ -7,16 +7,22 @@
         <i class="fa fa-warning"></i> 
         {% trans %}Zona de perigo{% endtrans %}
     </div>
-    <div class="card-body">
-        <p>
-            {% trans %}Reiniciar senhas{% endtrans %}
-            <button class="btn btn-danger pull-right"
-                    onclick="return App.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?{% endtrans %}')">
-                <i class="fa fa-refresh"></i>
-                {% trans %}Reiniciar{% endtrans %}
-            </button>
-        </p>
-    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    {% trans %}Reiniciar senhas{% endtrans %}
+                </td>
+                <td class="text-right">
+                    <button class="btn btn-danger"
+                            onclick="return App.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?{% endtrans %}')">
+                        <i class="fa fa-refresh"></i>
+                        {% trans %}Reiniciar{% endtrans %}
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 
