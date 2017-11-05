@@ -32,4 +32,14 @@ class ClienteRepository extends EntityRepository implements ClienteRepositoryInt
     {
         return $this->findBy([], ['nome' => 'ASC']);
     }
+    
+    public function findByDocumento($documento)
+    {
+        return $this
+                ->createQueryBuilder('e')
+                ->where('e.documento LIKE :documento')
+                ->setParameter('documento', $documento)
+                ->getQuery()
+                ->getResult();
+    }
 }
