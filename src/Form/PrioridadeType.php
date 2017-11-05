@@ -38,7 +38,11 @@ class PrioridadeType extends AbstractType
             ->add('ativo', CheckboxType::class, [
                 'required' => false
             ])
-            ->add('peso', IntegerType::class)
+            ->add('peso', IntegerType::class, [
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
+                ]
+            ])
         ;
     }
     
