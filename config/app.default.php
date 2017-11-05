@@ -6,4 +6,23 @@
  */
 
 return [
+    'queue' => [
+        'ordering' =>  [
+            // priority
+            [
+                'exp'   => 'prioridade.peso',
+                'order' => 'DESC',
+            ],
+            // peso servico x usuario
+            [
+                'exp'   => 'servicoUsuario.peso',
+                'order' => 'ASC',
+            ],
+            // ticket number
+            [
+                'exp'   => 'atendimento.senha.numero',
+                'order' => 'ASC',
+            ]
+        ]
+    ]
 ];
