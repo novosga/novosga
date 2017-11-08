@@ -1,7 +1,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'pt_BR'
+    locale: 'en'
     version: '2.0.0-dev'
 
 services:
@@ -28,52 +28,52 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-        
+
     App\Service\ModuleService:
         $rootDir: '%kernel.project_dir%'
-        
+
     # novosga core services
     Novosga\Service\:
         resource: '../vendor/novosga/core/Service'
         public: true
-        
+
     Novosga\Service\Configuration:
         $rootDir: '%kernel.project_dir%'
 
     App\Listener\SessionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
-            
+
     App\Listener\CorsListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 250 }
-            
+
     App\Listener\JsonExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
-            
+
     App\Listener\ORM\DoctrineListener:
         tags:
             - { name: doctrine.event_subscriber }
-    
+
     App\Service\TicketService:
         arguments: ["@doctrine.orm.entity_manager", "@twig"]
         public: true
-    
+
     App\Loader\RouterLoader:
         tags:
             - { name: routing.loader }
-            
+
     App\Security\SecurityListener:
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
-            
+
     App\Extensions\Doctrine\TablePrefix:
         arguments: [""]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }
-            
-    
+
+
     fos_oauth_server.security.authentication.listener:
         class: App\Security\OAuthListener
         arguments: ["@service_container"]

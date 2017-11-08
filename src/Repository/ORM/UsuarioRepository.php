@@ -37,18 +37,18 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         $usuario = $this->findOneByLogin($username);
         return $usuario;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function refreshUser(UserInterface $user)
     {
         $em = $this->getEntityManager();
-        
+
         $usuario = $em->find(Usuario::class, $user->getId());
         $unidade = $this->loadUnidade($usuario);
         $lotacao = null;
-        
+
         if ($unidade) {
             if (!$usuario->isAdmin()) {
                 $lotacao = $em->getRepository(Lotacao::class)->getLotacao($usuario, $unidade);
@@ -61,10 +61,10 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
                 throw new Exception(_('Não existe lotação para o usuário atual na unidade informada.'));
             }
         }
-        
+
         $this->loadRoles($usuario, $lotacao);
         $usuario->setLotacao($lotacao);
-        
+
         return $usuario;
     }
 
@@ -75,16 +75,16 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
     {
         return $class === Usuario::class;
     }
-    
+
     public function loadRoles(Usuario $usuario, Lotacao $lotacao = null)
     {
         $usuario->addRole('ROLE_USER');
-        
+
         if ($usuario->isAdmin()) {
             $usuario->addRole('ROLE_ADMIN');
         } else {
             $roles = $usuario->getRoles();
-        
+
             if ($lotacao) {
                 $permissoes = $lotacao->getPerfil()->getModulos();
 
@@ -104,7 +104,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         $service = new \Novosga\Service\UsuarioService($em);
         $meta = $service->meta($usuario, 'session.unidade');
         $unidade = null;
-        
+
         if ($meta) {
             $unidade = $this->getEntityManager()
                             ->find(Unidade::class, $meta->getValue());
@@ -115,11 +115,11 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
                 $unidade = $unidades[0];
             }
         }
-        
+
         if (!$unidade) {
 //            throw new Exception(_('Nenhuma unidade definida para o usuário.'));
         }
-        
+
         return $unidade;
     }
 
@@ -128,7 +128,7 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         $em = $this->getEntityManager();
         $service = new UsuarioService($em);
         $service->meta($usuario, 'session.unidade', $unidade->getId());
-        
+
         return $unidade;
     }
 }

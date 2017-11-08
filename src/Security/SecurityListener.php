@@ -26,21 +26,21 @@ class SecurityListener
      * @var ObjectManager
      */
     private $om;
-    
+
     public function __construct(ObjectManager $om)
     {
         $this->om = $om;
     }
-    
+
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
         $usuario = $event->getAuthenticationToken()->getUser();
-        
+
         $sessionId = $event->getRequest()->getSession()->getId();
         $usuario->setSessionId($sessionId);
         $this->om->merge($usuario);
         $this->om->flush();
-        
+
         $repository = $this->om->getRepository(Usuario::class);
         $unidade = $repository->loadUnidade($usuario);
         if ($unidade) {

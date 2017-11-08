@@ -14,6 +14,7 @@ namespace App\Command;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Novosga\Service\AtendimentoService;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,17 +31,16 @@ class ResetCommand extends ContainerAwareCommand
      * @var ObjectManager
      */
     private $om;
-    
+
     /**
      * @var AtendimentoService
      */
     private $atendimentoService;
 
-    public function __construct(ObjectManager $om, AtendimentoService $atendimentoService)
+    public function __construct(ObjectManager $om)
     {
         parent::__construct();
         $this->om = $om;
-        $this->atendimentoService = $atendimentoService;
     }
 
     protected function configure()
@@ -64,7 +64,8 @@ class ResetCommand extends ContainerAwareCommand
                 throw new Exception("Unidade inválida: $id");
             }
         }
-        $this->atendimentoService->acumularAtendimentos($id);
+        $atendimentoService = $this->getContainer()->get(AtendimentoService::class);
+        $atendimentoService->acumularAtendimentos($id);
         $output->writeln('<info>Senhas reiniciadas com sucesso</info>');
     }
 }

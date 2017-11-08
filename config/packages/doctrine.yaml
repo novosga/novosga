@@ -10,12 +10,12 @@ doctrine:
             App:
                 is_bundle: false
                 type: yml
-                dir: 'config/doctrine/api'
+                dir: '%kernel.project_dir%/config/doctrine/api'
                 prefix: 'App\Entity'
                 alias: App
             Core:
                 is_bundle: false
                 type: yml
-                dir: 'config/doctrine/core'
+                dir: '%kernel.project_dir%/config/doctrine/core'
                 prefix: Novosga\Entity
                 alias: Novosga

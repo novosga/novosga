@@ -2,37 +2,38 @@
     "name": "novosga/novosga",
     "license": "MIT",
     "type": "project",
+    "minimum-stability": "beta",
     "require": {
-        "php": "^7.1.3",
-        "friendsofsymfony/oauth-server-bundle": "^1.5",
+        "php": "^7.0.8",
         "jms/serializer-bundle": "^2.2",
         "novosga/attendance-bundle": "self.version",
         "novosga/composer-installer-plugin": "v1.0",
         "novosga/core": "self.version",
         "novosga/monitor-bundle": "self.version",
+        "novosga/oauth-server-bundle": "self.version",
         "novosga/reports-bundle": "self.version",
         "novosga/settings-bundle": "self.version",
         "novosga/triagem-bundle": "self.version",
         "novosga/users-bundle": "self.version",
         "novosga/websocket-server": "self.version",
-        "sensio/framework-extra-bundle": "^3.0",
-        "symfony/asset": "^3.3",
-        "symfony/console": "^3.3",
-        "symfony/dependency-injection": "^3.3",
+        "sensio/framework-extra-bundle": "^5.0",
+        "symfony/asset": "^4.0",
+        "symfony/console": "^4.0",
+        "symfony/dependency-injection": "^4.0",
         "symfony/flex": "^1.0",
-        "symfony/form": "^3.3",
-        "symfony/framework-bundle": "^3.3",
+        "symfony/form": "^4.0",
+        "symfony/framework-bundle": "^4.0",
+        "symfony/lts": "^4@dev",
         "symfony/orm-pack": "^1.0",
-        "symfony/security-bundle": "^3.3",
-        "symfony/twig-bundle": "^3.3",
-        "symfony/validator": "^3.3",
-        "symfony/yaml": "^3.3"
+        "symfony/profiler-pack": "^1.0",
+        "symfony/security-bundle": "^4.0",
+        "symfony/twig-bundle": "^4.0",
+        "symfony/validator": "^4.0",
+        "symfony/yaml": "^4.0"
     },
     "require-dev": {
-        "symfony/debug-bundle": "^3.3",
-        "symfony/debug-pack": "^1.0",
-        "symfony/dotenv": "^3.3",
-        "symfony/web-server-bundle": "^3.3"
+        "symfony/dotenv": "^4.0",
+        "symfony/web-server-bundle": "^4.0"
     },
     "config": {
         "preferred-install": {
@@ -52,12 +53,11 @@
     },
     "scripts": {
         "auto-scripts": {
-            "make cache-warmup": "script",
+            "cache:clear": "symfony-cmd",
             "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts",
-            "bin/console novosga:install"
+            "@auto-scripts"
         ],
         "post-update-cmd": [
             "@auto-scripts",
@@ -65,9 +65,7 @@
         ]
     },
     "conflict": {
-        "symfony/symfony": "*",
-        "symfony/twig-bundle": "<3.3",
-        "symfony/debug": "<3.3"
+        "symfony/symfony": "*"
     },
     "extra": {
         "branch-alias": {
