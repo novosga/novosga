@@ -44,7 +44,8 @@ class ServicosController extends Controller
                 ->createQueryBuilder()
                 ->select('e')
                 ->from(Entity::class, 'e')
-                ->where('e.mestre IS NULL')
+                ->where('e.deletedAt IS NULL')
+                ->andWhere('e.mestre IS NULL')
                 ->getQuery()
                 ->getResult();
         

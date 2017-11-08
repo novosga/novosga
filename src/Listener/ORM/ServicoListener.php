@@ -15,6 +15,7 @@ use Exception;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Novosga\Entity\Servico;
 use Novosga\Entity\ServicoUnidade;
+use Novosga\Entity\ServicoUsuario;
 
 /**
  * ServicoListener
@@ -54,6 +55,14 @@ class ServicoListener
         $em
             ->createQueryBuilder()
             ->delete(ServicoUnidade::class, 'e')
+            ->where('e.servico = :servico')
+            ->setParameter('servico', $servico)
+            ->getQuery()
+            ->execute();
+        
+        $em
+            ->createQueryBuilder()
+            ->delete(ServicoUsuario::class, 'e')
             ->where('e.servico = :servico')
             ->setParameter('servico', $servico)
             ->getQuery()

@@ -21,12 +21,15 @@ use Novosga\Repository\PrioridadeRepositoryInterface;
  */
 class PrioridadeRepository extends EntityRepository implements PrioridadeRepositoryInterface
 {
+    use SoftDeleteTrait;
     
     public function findAtivas()
     {
         return $this
                 ->createQueryBuilder('e')
-                ->where('e.ativo = TRUE AND e.peso > 0')
+                ->where('e.deletedAt IS NULL')
+                ->andWhere('e.ativo = TRUE')
+                ->andWhere('e.peso > 0')
                 ->orderBy('e.nome', 'ASC')
                 ->getQuery()
                 ->getResult();
