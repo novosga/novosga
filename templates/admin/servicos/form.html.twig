@@ -44,15 +44,17 @@
                             </thead>
                             <tbody>
                                 {% for sub in entity.subServicos %}
-                                <tr>
-                                    <td>{{ sub.nome }}</td>
-                                    <td>{{ sub.peso }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ path('admin_servicos_edit', {id: sub.id }) }}" class="btn btn-secondary">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                    {% if not sub.deletedAt %}
+                                        <tr>
+                                            <td>{{ sub.nome }}</td>
+                                            <td>{{ sub.peso }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ path('admin_servicos_edit', {id: sub.id }) }}" class="btn btn-secondary">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
