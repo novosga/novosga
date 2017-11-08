@@ -11,7 +11,7 @@
 
 namespace App\Command;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,30 +24,30 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UnidadesCommand extends Command
 {
-    private $em;
+    /**
+     * @var ObjectManager
+     */
+    private $om;
 
-    public function __construct(EntityManager $em = null, $name = null)
+    public function __construct(ObjectManager $om)
     {
-        parent::__construct($name = null);
-        $this->em = $em;
+        parent::__construct();
+        $this->om = $om;
     }
 
     protected function configure()
     {
-        $this->setName('unidades')
+        $this->setName('novosga:unidades')
             ->setDescription('Lista as unidades do sistema e seus respectivos ids.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $unidades = $this->em->getRepository('Novosga\Entity\Unidade')->findBy(['ativo' => true], ['id' => 'ASC']);
-            $output->writeln('<info>Unidades</info>');
-            foreach ($unidades as $unidade) {
-                $output->writeln("Id: {$unidade->getId()}, Unidade: {$unidade->getCodigo()} - {$unidade->getNome()}");
-            }
-        } catch (Exception $e) {
-            $output->writeln("<error>{$e->getMessage()}</error>");
+        $unidades = $this->om->getRepository(\Novosga\Entity\Unidade::class)
+                ->findBy(['ativo' => true], ['id' => 'ASC']);
+        $output->writeln('<info>Unidades</info>');
+        foreach ($unidades as $unidade) {
+            $output->writeln("Id: {$unidade->getId()}, Unidade: {$unidade->getCodigo()} - {$unidade->getNome()}");
         }
     }
 }

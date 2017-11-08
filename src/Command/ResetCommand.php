@@ -11,10 +11,10 @@
 
 namespace App\Command;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Novosga\Service\AtendimentoService;
-use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -24,19 +24,28 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ResetCommand extends Command
+class ResetCommand extends ContainerAwareCommand
 {
-    private $em;
+    /**
+     * @var ObjectManager
+     */
+    private $om;
+    
+    /**
+     * @var AtendimentoService
+     */
+    private $atendimentoService;
 
-    public function __construct(EntityManager $em = null, $name = null)
+    public function __construct(ObjectManager $om, AtendimentoService $atendimentoService)
     {
-        parent::__construct($name = null);
-        $this->em = $em;
+        parent::__construct();
+        $this->om = $om;
+        $this->atendimentoService = $atendimentoService;
     }
 
     protected function configure()
     {
-        $this->setName('reset')
+        $this->setName('novosga:reset')
             ->setDescription('Reinicia a numeração das senhas de todas ou uma única unidade.')
             ->addArgument(
                 'unidade',
@@ -47,20 +56,15 @@ class ResetCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        try {
-            $id = (int) $input->getArgument('unidade');
-            if ($id > 0) {
-                // verificando unidade
-                $unidade = $this->em->find('Novosga\Entity\Unidade', $id);
-                if (!$unidade) {
-                    throw new Exception("Unidade inválida: $id");
-                }
+        $id = (int) $input->getArgument('unidade');
+        if ($id > 0) {
+            // verificando unidade
+            $unidade = $this->om->find(\Novosga\Entity\Unidade::class, $id);
+            if (!$unidade) {
+                throw new Exception("Unidade inválida: $id");
             }
-            $service = new AtendimentoService($this->em);
-            $service->acumularAtendimentos($id);
-            $output->writeln('<info>Senhas reiniciadas com sucesso</info>');
-        } catch (Exception $e) {
-            $output->writeln("<error>{$e->getMessage()}</error>");
         }
+        $this->atendimentoService->acumularAtendimentos($id);
+        $output->writeln('<info>Senhas reiniciadas com sucesso</info>');
     }
 }
