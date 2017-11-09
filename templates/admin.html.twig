@@ -6,7 +6,7 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-md-2 col-3">
+        <div class="col-md-2 col-lg-3">
             <aside>
                 <div class="list-group">
                     <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
@@ -43,7 +43,7 @@
                 </div>
             </aside>
         </div>
-        <div class="col-md-10 col-9">
+        <div class="col-md-10 col-lg-9">
             {% block adminContent %}{% endblock %}
         </div>
     </div>
