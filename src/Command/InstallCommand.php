@@ -82,36 +82,92 @@ class InstallCommand extends UpdateCommand
         
         // user
         if (!$this->existsData(Usuario::class)) {
-            $username  = $this->read($input, $output, '[Admin] Please enter the username of administrator user: ', 'admin');
-            $password  = $this->read($input, $output, '[Admin] Please enter the administrator password: ');
+            $username = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_ADMIN_USERNAME',
+                    '[Admin] Please enter the username of administrator user: ',
+                    'admin'
+            );
+            $password = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_ADMIN_PASSWORD',
+                    '[Admin] Please enter the administrator password: '
+            );
             if (strlen($password) < 6) {
                 throw new Exception('The admin password must contain at least 6 characters');
             }
-            $firstname = $this->read($input, $output, '[Admin] Please enter the firstname of administrator user: ', 'Administrator');
-            $lastname  = $this->read($input, $output, '[Admin] Please enter the lastname of administrator user: ', 'Global');
+            $firstname = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_ADMIN_FIRSTNAME',
+                    '[Admin] Please enter the firstname of administrator user: ',
+                    'Administrator'
+            );
+            $lastname = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_ADMIN_LASTNAME',
+                    '[Admin] Please enter the lastname of administrator user: ',
+                    'Global'
+            );
             
-            $admin     = $this->createAdmin($firstname, $lastname, $username, $password);
-            
+            $admin = $this->createAdmin($firstname, $lastname, $username, $password);
             $this->om->persist($admin);
         }
 
         // unity
         if (!$this->existsData(Unidade::class)) {
-            $unityName = $this->read($input, $output, '[Unity] Unity name: ', 'Unidade padrão');
-            $unityCode = $this->read($input, $output, '[Unity] Unity code: ', 'UNI1');
+            $unityName = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_UNITY_NAME',
+                    '[Unity] Unity name: ',
+                    'Unidade padrão'
+            );
+            $unityCode = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_UNITY_CODE',
+                    '[Unity] Unity code: ',
+                    'UNI1'
+            );
             
-            $unity      = $this->createUnity($unityName, $unityCode);
-            
+            $unity = $this->createUnity($unityName, $unityCode);
             $this->om->persist($unity);
         }
         
         // priority
         if (!$this->existsData(Prioridade::class)) {
-            $p1Name        = $this->read($input, $output, '[No priority] No priority name: ', 'Normal');
-            $p1Description = $this->read($input, $output, '[No priority] No priority description: ', 'Sem prioridade');
+            $p1Name = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_NOPRIORITY_NAME',
+                    '[No priority] No priority name: ',
+                    'Normal'
+            );
+            $p1Description = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_NOPRIORITY_DESCRIPTION',
+                    '[No priority] No priority description: ',
+                    'Sem prioridade'
+            );
             
-            $p2Name        = $this->read($input, $output, '[Priority] Priority name: ', 'Prioridade');
-            $p2Description = $this->read($input, $output, '[Priority] Priority description: ', 'Atendimento prioritário');
+            $p2Name = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_PRIORITY_NAME',
+                    '[Priority] Priority name: ', 'Prioridade'
+            );
+            $p2Description = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_PRIORITY_DESCRIPTION',
+                    '[Priority] Priority description: ',
+                    'Atendimento prioritário'
+            );
             
             $noPriority = $this->createPriority($p1Name, $p1Description, 0);
             $priority   = $this->createPriority($p2Name, $p2Description, 1);
@@ -122,10 +178,15 @@ class InstallCommand extends UpdateCommand
 
         // attendance place
         if (!$this->existsData(\Novosga\Entity\Local::class)) {
-            $placeName = $this->read($input, $output, '[Place] Default attendance place name: ', 'Guichê');
+            $placeName = $this->read(
+                    $input,
+                    $output,
+                    'NOVOSGA_PLACE_NAME',
+                    '[Place] Default attendance place name: ',
+                    'Guichê'
+            );
             
-            $place     = $this->createPlace($placeName);
-            
+            $place = $this->createPlace($placeName);
             $this->om->persist($place);
         }
             
@@ -165,8 +226,14 @@ class InstallCommand extends UpdateCommand
         return !!$entity;
     }
     
-    private function read(InputInterface $input, OutputInterface $output, string $message, $default = null)
+    private function read(InputInterface $input, OutputInterface $output, string $envname, string $message, $default = null)
     {
+        $envvar = getenv($envname);
+        
+        if ($envvar) {
+            return $envvar;
+        }
+        
         if ($default) {
             $message .= "[{$default}] ";
         }
