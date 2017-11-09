@@ -1271,12 +1271,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "cd9649bee41e85b745b2840c72b774d164823bf5"
+                "reference": "881bc0bc8090b6b9f318e13efcc5a024d797db62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/cd9649bee41e85b745b2840c72b774d164823bf5",
-                "reference": "cd9649bee41e85b745b2840c72b774d164823bf5",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/881bc0bc8090b6b9f318e13efcc5a024d797db62",
+                "reference": "881bc0bc8090b6b9f318e13efcc5a024d797db62",
                 "shasum": ""
             },
             "require": {
@@ -1298,7 +1298,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T16:28:56+00:00"
+            "time": "2017-11-09T19:10:50+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1555,12 +1555,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triagem-bundle.git",
-                "reference": "33491bc9e9dd38ef1a7c658099038f99112f14f5"
+                "reference": "bbc395afcf2cbda8615717b14a1399d679cc4f7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triagem-bundle/zipball/33491bc9e9dd38ef1a7c658099038f99112f14f5",
-                "reference": "33491bc9e9dd38ef1a7c658099038f99112f14f5",
+                "url": "https://api.github.com/repos/novosga/triagem-bundle/zipball/bbc395afcf2cbda8615717b14a1399d679cc4f7c",
+                "reference": "bbc395afcf2cbda8615717b14a1399d679cc4f7c",
                 "shasum": ""
             },
             "require": {
@@ -1582,7 +1582,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T16:30:53+00:00"
+            "time": "2017-11-09T19:05:58+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -2800,16 +2800,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.40",
+            "version": "v1.0.41",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "f0dd66c55e8e69f305fabec9fbbcbf5f36c9762b"
+                "reference": "f3ac6de242d0dd7f0a36abfcc413e6cee1442702"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/f0dd66c55e8e69f305fabec9fbbcbf5f36c9762b",
-                "reference": "f0dd66c55e8e69f305fabec9fbbcbf5f36c9762b",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/f3ac6de242d0dd7f0a36abfcc413e6cee1442702",
+                "reference": "f3ac6de242d0dd7f0a36abfcc413e6cee1442702",
                 "shasum": ""
             },
             "require": {
@@ -2842,7 +2842,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2017-11-08T20:41:53+00:00"
+            "time": "2017-11-09T19:21:33+00:00"
         },
         {
             "name": "symfony/form",
