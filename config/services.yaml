@@ -2,7 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    version: '2.0.0-dev'
+    version: '2.0.0-beta1'
 
 services:
     # default configuration for services in *this* file
