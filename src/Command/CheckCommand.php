@@ -11,10 +11,10 @@
 
 namespace App\Command;
 
-use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * CheckCommand.
@@ -28,17 +28,22 @@ class CheckCommand extends Command
     protected function configure()
     {
         $this->setName('novosga:check')
-            ->setDescription('Check NovoSGA installation.');
+            ->setDescription('Check NovoSGA installation.')
+            ->addOption('no-header', '', InputOption::VALUE_NONE, 'Disable comment header');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $header = [ 
-            "*******************\n",
-            "Checking NovoSGA installation\n",
-            "*******************",
-        ];
-        $this->writef($output, $header, 'info');
+        $showHeader = !$input->getOption('no-header');
+        
+        if ($showHeader) {
+            $header = [ 
+                "*******************\n",
+                "Checking NovoSGA installation\n",
+                "*******************",
+            ];
+            $this->writef($output, $header, 'info');
+        }
         
         $vars = [
             'DATABASE_URL',
@@ -61,10 +66,13 @@ class CheckCommand extends Command
         
         if (!$var) {
             $error = "Environment variable {$varname} not found.";
-            $instruction = "Please fill variable in the .env file for development installation or set the variable on your environment.";
+            $instruction = [
+                "Please fill the missing variable in the .env file for development installation",
+                "or set the variable on your environment for production stage.",
+            ];
             
             $this->writef($output, $error, 'error');
-            $this->writef($output, $instruction, 'info');
+            $this->writef($output, $instruction, 'comment');
             
             return false;
         }

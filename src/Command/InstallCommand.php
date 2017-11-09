@@ -54,15 +54,31 @@ class InstallCommand extends UpdateCommand
         
         $this->writef($output, $header, 'info');
         
-        if (!$this->createDatabase($output)) {
-            return;
+        $output->writeln('> Checking environment...');
+        
+        if (!$this->checkEnv($output)) {
+            return 1;
         }
+        
+        $output->writeln('Environment <info>Ok</info>!');
+        
+        $output->writeln('> Creating database...');
+        
+        if (!$this->createDatabase($output)) {
+            return 1;
+        }
+        
+        $output->writeln('Database <info>Ok</info>!');
+        
+        $output->writeln('> Updating database schema...');
         
         if (!$this->updateSchema($output)) {
-            return;
+            return 1;
         }
         
-        $output->writeln('Checking data...');
+        $output->writeln('Schema <info>Ok</info>!');
+        
+        $output->writeln('> Checking data...');
         
         // user
         if (!$this->existsData(Usuario::class)) {
@@ -114,12 +130,22 @@ class InstallCommand extends UpdateCommand
         }
             
         $this->om->flush();
-        $output->writeln('OK.');
+        $output->writeln('Data <info>Ok</info>.');
+    }
+    
+    private function checkEnv(OutputInterface $output): bool
+    {
+        $check = $this->getApplication()->find('novosga:check');
+        $code = $check->run(
+            new ArrayInput([ '--no-header' => true ]),
+            $output
+        );
+        
+        return $code === 0;
     }
     
     private function createDatabase(OutputInterface $output): bool
     {
-        $output->writeln('Checking database...');
         $createDatabase = $this->getApplication()->find('doctrine:database:create');
         $code = $createDatabase->run(
                 new ArrayInput([ '--if-not-exists' => true ]), 
