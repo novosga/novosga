@@ -1,0 +1,19 @@
+controllers:
+    resource: ../src/Controller/
+    type: annotation
+
+login_check:
+    path: /login_check
+ 
+logout:
+    path: /logout
+    
+app_modules:
+    resource: .
+    type: novosga.modules
+
+fos_oauth_server_token:
+    path: /api/token
+    defaults:
+        _controller: fos_oauth_server.controller.token:tokenAction
+        route: fos_oauth_server_token

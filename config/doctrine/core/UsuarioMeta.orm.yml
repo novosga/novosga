@@ -1,0 +1,15 @@
+Novosga\Entity\UsuarioMeta:
+    type: entity
+    table: usuarios_metadata
+    id:
+        usuario:
+            associationKey: true
+    manyToOne:
+        usuario:
+            targetEntity: Novosga\Entity\Usuario
+            fetch: LAZY
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

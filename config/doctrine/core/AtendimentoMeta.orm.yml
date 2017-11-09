@@ -1,0 +1,18 @@
+Novosga\Entity\AtendimentoMeta:
+    type: entity
+    table: atendimentos_metadata
+    id:
+        atendimento:
+            associationKey: true
+    manyToOne:
+        atendimento:
+            targetEntity: Novosga\Entity\Atendimento
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                atendimento_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

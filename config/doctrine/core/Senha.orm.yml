@@ -1,0 +1,13 @@
+Novosga\Entity\Senha:
+    type: embeddable
+    fields:
+        sigla:
+            type: string
+            length: 3
+            nullable: false
+            column: sigla
+        numero:
+            type: integer
+            length: null
+            nullable: false
+            column: numero

@@ -1,0 +1,35 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <h1>
+        {% trans %}Locais{% endtrans %}
+        <small>
+            {% trans %}Cadastro de locais de atendimento{% endtrans %}
+        </small>
+    </h1>
+    
+    <hr>
+    
+    {{ form_start(form) }}
+    
+        {% include 'flashMessages.html.twig' %}
+    
+        {{ form_row(form.nome, { label: 'Nome' }) }}
+
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-check"></i> 
+            {% trans %}Salvar{% endtrans %}
+        </button>
+        <a href="{{ path('admin_locais_index') }}" class="btn btn-secondary">
+            <i class="fa fa-chevron-left"></i>
+            {% trans %}Voltar{% endtrans %}
+        </a>
+        {% if entity.id %}
+            <button type="submit" class="btn btn-danger pull-right" name="_method" value="DELETE">
+                <i class="fa fa-trash"></i> 
+                {% trans %}Excluir{% endtrans %}
+            </button>
+        {% endif %}
+        
+    {{ form_end(form) }}
+{% endblock %}

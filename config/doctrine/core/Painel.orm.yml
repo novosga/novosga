@@ -1,0 +1,41 @@
+Novosga\Entity\Painel:
+    type: entity
+    table: paineis
+    id:
+        host:
+            type: integer
+            scale: 0
+            length: null
+            unique: false
+            nullable: false
+            precision: 0
+            id: true
+    fields:
+        senha:
+            type: string
+            scale: 0
+            length: 128
+            unique: false
+            nullable: true
+            precision: 0
+    manyToOne:
+        unidade:
+            targetEntity: Novosga\Entity\Unidade
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        servicos:
+            targetEntity: Novosga\Entity\PainelServico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: painel
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null
+    lifecycleCallbacks: {  }

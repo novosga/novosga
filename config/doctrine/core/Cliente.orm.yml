@@ -1,0 +1,27 @@
+Novosga\Entity\Cliente:
+    type: entity
+    table: clientes
+    repositoryClass: App\Repository\ORM\ClienteRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        nome:
+            type: string
+            length: 60
+            nullable: true
+            column: nome
+        documento:
+            type: string
+            length: 30
+            unique: false
+            nullable: true
+            column: documento
+        email:
+            type: string
+            length: 80
+            unique: true
+            nullable: true
+            column: email

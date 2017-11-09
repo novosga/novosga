@@ -1,0 +1,46 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    
+<div class="card">
+    <div class="card-header text-white bg-danger">
+        <i class="fa fa-warning"></i> 
+        {% trans %}Zona de perigo{% endtrans %}
+    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>
+                    {% trans %}Reiniciar senhas{% endtrans %}
+                </td>
+                <td class="text-right">
+                    <button class="btn btn-danger"
+                            onclick="return App.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?{% endtrans %}')">
+                        <i class="fa fa-refresh"></i>
+                        {% trans %}Reiniciar{% endtrans %}
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+{# reiniciar #}
+<div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{% trans %}Configuração{% endtrans %}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

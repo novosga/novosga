@@ -1,0 +1,95 @@
+Novosga\Entity\AbstractAtendimento:
+    type: mappedSuperclass
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        local:
+            type: smallint
+            scale: 0
+            length: null
+            unique: false
+            nullable: true
+            precision: 0
+            column: num_local
+        dataAgendamento:
+            type: datetime
+            nullable: true
+            column: dt_age
+        dataChegada:
+            type: datetime
+            nullable: false
+            column: dt_cheg
+        dataChamada:
+            type: datetime
+            nullable: true
+            column: dt_cha
+        dataInicio:
+            type: datetime
+            nullable: true
+            column: dt_ini
+        dataFim:
+            type: datetime
+            nullable: true
+            column: dt_fim
+        status:
+            type: string
+            length: 25
+            nullable: false
+    embedded:
+        senha:
+            class: Novosga\Entity\Senha
+    manyToOne:
+        cliente:
+            targetEntity: Novosga\Entity\Cliente
+            fetch: LAZY
+            cascade: [persist]
+            joinColumns:
+                cliente_id:
+                    referencedColumnName: id
+        unidade:
+            targetEntity: Novosga\Entity\Unidade
+            fetch: LAZY
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+        servico:
+            targetEntity: Novosga\Entity\Servico
+            fetch: LAZY
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
+        prioridade:
+            targetEntity: Novosga\Entity\Prioridade
+            fetch: LAZY
+            joinColumns:
+                prioridade_id:
+                    referencedColumnName: id
+        servicoUnidade:
+            targetEntity: Novosga\Entity\ServicoUnidade
+            fetch: LAZY
+            joinColumns:
+                servico_id:
+                    referencedColumnName: servico_id
+                unidade_id:
+                    referencedColumnName: unidade_id
+        usuario:
+            targetEntity: Novosga\Entity\Usuario
+            fetch: LAZY
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: id
+        usuarioTriagem:
+            targetEntity: Novosga\Entity\Usuario
+            fetch: LAZY
+            joinColumns:
+                usuario_tri_id:
+                    referencedColumnName: id
+        pai:
+            targetEntity: Novosga\Entity\Atendimento
+            fetch: LAZY
+            joinColumns:
+                atendimento_id:
+                    referencedColumnName: id

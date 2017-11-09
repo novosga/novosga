@@ -1,0 +1,19 @@
+App\Entity\OAuthAccessToken:
+    type: entity
+    table: oauth_access_tokens
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        client:
+            targetEntity: App\Entity\OAuthClient
+            joinColumns:
+                client_id:
+                    referencedColumnName: id
+        user:
+            targetEntity: Novosga\Entity\Usuario
+            joinColumns:
+                user_id:
+                    referencedColumnName: id

@@ -1,0 +1,64 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {% trans %}Administraçao{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-2 col-lg-3">
+            <aside>
+                <div class="list-group">
+                    <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
+                        {% trans %}Sistema{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_unidades_index') }}" class="list-group-item {% if tab == 'unidades' %}active{% endif %}">
+                        {% trans %}Unidades{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_servicos_index') }}" class="list-group-item {% if tab == 'servicos' %}active{% endif %}">
+                        {% trans %}Serviços{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_perfis_index') }}" class="list-group-item {% if tab == 'perfis' %}active{% endif %}">
+                        {% trans %}Perfis{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_prioridades_index') }}" class="list-group-item {% if tab == 'prioridades' %}active{% endif %}">
+                        {% trans %}Prioridades{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_locais_index') }}" class="list-group-item {% if tab == 'locais' %}active{% endif %}">
+                        {% trans %}Locais{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_modulos_index') }}" class="list-group-item {% if tab == 'modulos' %}active{% endif %}">
+                        {% trans %}Módulos{% endtrans %}
+                    </a>
+                    
+                    <a href="{{ path('admin_api_index') }}" class="list-group-item {% if tab == 'api' %}active{% endif %}">
+                        Web API
+                    </a>
+                </div>
+            </aside>
+        </div>
+        <div class="col-md-10 col-lg-9">
+            {% block adminContent %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body>section {
+            padding: 20px 0;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset("js/admin.js") }}"></script>
+{% endblock %}

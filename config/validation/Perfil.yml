@@ -1,0 +1,12 @@
+Novosga\Entity\Perfil:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nome
+    properties:
+        nome:
+            - NotBlank: ~
+            - Length:
+                max: 50
+        descricao:
+            - NotNull: ~
+            - Length:
+                max: 150

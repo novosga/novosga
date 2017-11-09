@@ -1,8 +1,13 @@
-vendor/
-composer.lock
-composer.phar
+config/app.php
 nbproject/
-config/
-var/
 modules/*
-!modules/sga/
+
+###> symfony/framework-bundle ###
+.env
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+###> symfony/web-server-bundle ###
+.web-server-pid
+###< symfony/web-server-bundle ###

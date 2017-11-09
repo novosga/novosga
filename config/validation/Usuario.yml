@@ -1,0 +1,8 @@
+Novosga\Entity\Usuario:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: login
+    properties:
+        nome:
+            - NotBlank: ~
+            - Length:
+                min: 5

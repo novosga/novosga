@@ -1,46 +1,88 @@
+
 {
     "name": "novosga/novosga",
+    "description": "Support queue management system",
     "type": "project",
-    "description": "Sistema de Gerenciamento de Atendimento",
-    "keywords": ["sga", "atendimento", "fila", "gerenciamento", "controle"],
-    "homepage": "http://www.novosga.org",
+    "minimum-stability": "beta",
+    "homepage": "http://novosga.org",
     "license": "MIT",
     "authors": [
         {
-            "name": "Rogério Alencar Lino Filho",
-            "email": "rogeriolino@gmail.com",
-            "homepage": "http://rogeriolino.com",
-            "role": "Developer"
+            "name": "Rogério Lino",
+            "email": "rogeriolino@gmail.com"
+        },
+        {
+            "name": "NovoSGA Community",
+            "homepage": "https://github.com/novosga/novosga/graphs/contributors"
         }
     ],
     "require": {
-        "php": ">=5.4",
-        "ext-pdo": "~1.0",
-        "ext-json": "*",
-        "ext-gettext": "*",
-        "slim/slim": "~2.6",
-        "slim/views": "~0.1",
-        "twig/twig": "~1.18",
-        "twig/extensions": "~1.2",
-        "doctrine/orm": "~2.5",
-        "bshaffer/oauth2-server-php": "~1.7"
+        "php": "^7.0.8",
+        "jms/serializer-bundle": "^2.2",
+        "novosga/attendance-bundle": "self.version",
+        "novosga/composer-installer-plugin": "v1.0",
+        "novosga/core": "self.version",
+        "novosga/monitor-bundle": "self.version",
+        "novosga/oauth-server-bundle": "self.version",
+        "novosga/reports-bundle": "self.version",
+        "novosga/settings-bundle": "self.version",
+        "novosga/triagem-bundle": "self.version",
+        "novosga/users-bundle": "self.version",
+        "novosga/websocket-server": "self.version",
+        "sensio/framework-extra-bundle": "^5.0",
+        "symfony/asset": "^4.0",
+        "symfony/console": "^4.0",
+        "symfony/dependency-injection": "^4.0",
+        "symfony/flex": "^1.0",
+        "symfony/form": "^4.0",
+        "symfony/framework-bundle": "^4.0",
+        "symfony/lts": "^4@dev",
+        "symfony/orm-pack": "^1.0",
+        "symfony/profiler-pack": "^1.0",
+        "symfony/security-bundle": "^4.0",
+        "symfony/twig-bundle": "^4.0",
+        "symfony/validator": "^4.0",
+        "symfony/yaml": "^4.0"
     },
-    "suggest": {
-        "ext-mysql": "For MySQL or MariaDB databases",
-        "ext-pgsql": "For PostgreSQL databases"
-    },
-    "autoload": {
-        "psr-0": {
-            "Novosga\\": "src/",
-            "modules\\": "./"
-        }
+    "require-dev": {
+        "symfony/dotenv": "^4.0",
+        "symfony/web-server-bundle": "^4.0"
     },
     "config": {
-        "bin-dir": "bin"
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install --symlink --relative %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.5-dev"
+            "dev-master": "2.0-dev"
         }
     }
 }
+

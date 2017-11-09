@@ -1,0 +1,82 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <h1>
+        {% trans %}Serviços{% endtrans %}
+        <small>
+            {% trans %}Cadastro de serviços para atendimento{% endtrans %}
+        </small>
+    </h1>
+    
+    <hr>
+    
+    {{ form_start(form) }}
+    
+        {% include 'flashMessages.html.twig' %}
+        
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_row(form.ativo, { label: 'Ativo' }) }}
+            </div>
+            <div class="col-md-6">
+        
+                {{ form_row(form.nome, { label: 'Nome' }) }}
+
+                {{ form_row(form.descricao, { label: 'Descrição' }) }}
+
+                {{ form_row(form.peso, { label: 'Peso' }) }}
+                
+                {% if not entity.isMestre() %}
+                    {{ form_row(form.mestre, { label: 'Serviço superior' }) }}
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {% if entity.isMestre() %}
+                    <fieldset>
+                        <legend>{% trans %}Subserviços{% endtrans %}</legend>
+                        <table class="table table-bordered">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>{% trans %}Nome{% endtrans %}</th>
+                                    <th>{% trans %}Peso{% endtrans %}</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sub in entity.subServicos %}
+                                    {% if not sub.deletedAt %}
+                                        <tr>
+                                            <td>{{ sub.nome }}</td>
+                                            <td>{{ sub.peso }}</td>
+                                            <td class="text-center">
+                                                <a href="{{ path('admin_servicos_edit', {id: sub.id }) }}" class="btn btn-secondary">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </fieldset>
+                {% endif %}
+            </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-check"></i> 
+            {% trans %}Salvar{% endtrans %}
+        </button>
+        <a href="{{ path('admin_servicos_index') }}" class="btn btn-secondary">
+            <i class="fa fa-chevron-left"></i>
+            {% trans %}Voltar{% endtrans %}
+        </a>
+        {% if entity.id %}
+            <button type="submit" class="btn btn-danger pull-right" name="_method" value="DELETE">
+                <i class="fa fa-trash"></i> 
+                {% trans %}Excluir{% endtrans %}
+            </button>
+        {% endif %}
+
+    {{ form_end(form) }}
+{% endblock %}

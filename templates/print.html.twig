@@ -3,26 +3,61 @@
 <head>
     <meta charset="utf-8">
     <title>{{ atendimento.senha }}</title>
-    <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/css/style.css?v={{ version }}" />
-    <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/css/bootstrap.min.css?v={{ version }}" />
-    <link type="text/css" rel="stylesheet" href="{{ baseUrl() }}/css/print.css?v={{ version }}" />
+    <link type="text/css" rel="stylesheet" href="{{ asset("css/print.css") }}?v={{ version }}" />
     <link rel="shortcut icon" href="images/favicon.png" />
 </head>
 <body onload="window.print()">
     <div id="senha">
-        <div id="senha-header">
-            {{ atendimento.unidade.nome }}<br />
-            <span class="data">{{ now|date('d/m/Y H:i') }}</span>
-        </div>
-        <div id="senha-body">
-            {{ atendimento.senha }}
-            <span class="descricao">
-                {{ atendimento.senha.prioridade.nome }}
-            </span>
-        </div>
-        <div id="senha-footer">
-            {{ atendimento.unidade.mensagemImpressao }}
-        </div>
+        <header>
+            {% if atendimento.unidade.impressao.exibirNomeUnidade %}
+                <p class="unidade">
+                    {{ atendimento.unidade.nome }}
+                </p>
+            {% endif %}
+            <p>
+                {{ atendimento.unidade.impressao.cabecalho|nl2br }}
+            </p>
+        </header>
+        <section>
+            {% if atendimento.unidade.impressao.exibirPrioridade %}
+                <p class="prioridade">
+                    {{ atendimento.prioridade.nome }}
+                </p>
+            {% endif %}
+            
+            <p class="senha">
+                {{ atendimento.senha }}
+            </p>
+            
+            {% if atendimento.unidade.impressao.exibirNomeServico %}
+                <p class="servico">
+                    {{ atendimento.servico.nome }}
+                </p>
+            {% endif %}
+            
+            {% if atendimento.unidade.impressao.exibirMensagemServico %}
+                <p class="servico">
+                    {{ servicoUnidade.mensagem|nl2br }}
+                </p>
+            {% endif %}
+            
+            {% if atendimento.unidade.impressao.exibirData %}
+                <div class="data-hora">
+                    <p class="data">
+                        {{ now|date('d/m/Y') }}
+                    </p>
+                    <p class="hora">
+                        Hora de chegada {{ now|date('H\\hi') }} <br>
+                        ( Horário local )
+                    </p>
+                </div>
+            {% endif %}
+        </section>
+        <footer>
+            <p>
+                {{ atendimento.unidade.impressao.rodape|nl2br }}
+            </p>
+        </footer>
     </div>
 </body>
 </html>

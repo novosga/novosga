@@ -1,0 +1,12 @@
+Novosga\Entity\Metadata:
+    type: mappedSuperclass
+    id:
+        name:
+            type: string
+            length: 50
+            nullable: false
+            id: true
+    fields:
+        value:
+            type: json_array
+            nullable: false

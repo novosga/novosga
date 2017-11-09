@@ -1,0 +1,12 @@
+Novosga\Entity\Lotacao:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: 
+            fields: 
+                - unidade
+                - usuario
+            message: Já existe uma lotação para essa unidade
+    properties:
+        unidade:
+            - NotNull: ~
+        perfil:
+            - NotNull: ~

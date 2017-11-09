@@ -1,0 +1,68 @@
+Novosga\Entity\Servico:
+    type: entity
+    table: servicos
+    repositoryClass: App\Repository\ORM\ServicoRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        nome:
+            type: string
+            length: 50
+            unique: false
+            nullable: false
+        descricao:
+            type: string
+            length: 100
+            unique: false
+            nullable: false
+        ativo:
+            type: boolean
+            nullable: false
+        peso:
+            type: smallint
+            unique: false
+            nullable: false
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
+        deletedAt:
+            type: datetime
+            column: deleted_at
+            nullable: true
+    manyToOne:
+        mestre:
+            targetEntity: Novosga\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: subServicos
+            joinColumns:
+                macro_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    oneToMany:
+        subServicos:
+            targetEntity: Novosga\Entity\Servico
+            fetch: LAZY
+            mappedBy: mestre
+            orphanRemoval: false
+            orderBy: 
+                nome: ASC
+        servicosUnidade:
+            targetEntity: Novosga\Entity\ServicoUnidade
+            fetch: LAZY
+            mappedBy: servico
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
+    entityListeners:
+        App\Listener\ORM\ServicoListener: ~

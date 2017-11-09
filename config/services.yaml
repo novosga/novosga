@@ -1,0 +1,78 @@
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    version: '2.0.0-dev'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        # automatically injects dependencies in your services
+        autowire: true
+        # automatically registers your services as commands, event subscribers, etc.
+        autoconfigure: true
+        # this means you cannot fetch services directly from the container via $container->get()
+        # if you need to do this, you can override this setting on individual services
+        public: false
+        bind:
+            $rootDir: '%kernel.project_dir%'
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        # you can exclude directories or files
+        # but if a service is unused, it's removed anyway
+        exclude: '../src/{Entity,Migrations,Repository,Tests}'
+
+    # controllers are imported separately to make sure they
+    # have the tag that allows actions to type-hint services
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    # novosga core services
+    Novosga\Service\:
+        resource: '../vendor/novosga/core/Service'
+        public: true
+
+    Novosga\Service\Configuration:
+        $rootDir: '%kernel.project_dir%'
+
+    App\Listener\SessionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 700 }
+
+    App\Listener\CorsListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 250 }
+
+    App\Listener\JsonExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
+
+    App\Listener\ORM\DoctrineListener:
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    App\Service\TicketService:
+        arguments: ["@doctrine.orm.entity_manager", "@twig"]
+        public: true
+
+    App\Loader\RouterLoader:
+        tags:
+            - { name: routing.loader }
+
+    App\Security\SecurityListener:
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
+
+    App\Extensions\Doctrine\TablePrefix:
+        arguments: [""]
+        tags:
+            - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }
+
+
+    fos_oauth_server.security.authentication.listener:
+        class: App\Security\OAuthListener
+        arguments: ["@service_container"]

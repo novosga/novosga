@@ -1,0 +1,12 @@
+Novosga\Entity\AtendimentoHistorico:
+    type: entity
+    table: historico_atendimentos
+    oneToMany:
+        codificados:
+            targetEntity: Novosga\Entity\AtendimentoCodificadoHistorico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: atendimento
+            inversedBy: null
+            orphanRemoval: false
+            orderBy: null

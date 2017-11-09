@@ -1,0 +1,26 @@
+Novosga\Entity\Contador:
+    type: entity
+    table: contador
+    id:
+        unidade:
+            associationKey: true
+        servico:
+            associationKey: true
+    fields:
+        numero:
+            type: integer
+            nullable: true
+    oneToOne:
+        unidade:
+            targetEntity: Novosga\Entity\Unidade
+            fetch: LAZY
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+        servico:
+            targetEntity: Novosga\Entity\Servico
+            fetch: LAZY
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
+    lifecycleCallbacks: {  }

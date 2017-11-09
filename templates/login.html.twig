@@ -1,38 +1,31 @@
 <!DOCTYPE html>
-<html lang="{{ lang }}">
+<html>
     <head>
         <meta charset="utf-8" />
         <title>Login | Novo SGA</title>
-        <link rel="shortcut icon" href="{{ baseUrl() }}/images/favicon.png" />
-        <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/bootstrap.min.css?v={{ version }}" />
-        <link rel="stylesheet" type="text/css" href="{{ baseUrl() }}/css/login.css?v={{ version }}" />
+        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}" />
         <!--[if lt IE 9]>
-        <script src="{{ baseUrl() }}/js/html5shiv.js"></script>
-        <script src="{{ baseUrl() }}/js/respond.min.js"></script>
+        <script src="{{ asset('js/html5shiv.js') }}"></script>
+        <script src="{{ asset('js/respond.min.js') }}"></script>
         <![endif]-->
     </head>
     <body>
         <div class="container">
-            <form id="login-form" action="login" method="post" class="form-signin">
+            <form id="login-form" action="{{ path('login_check') }}" method="post" class="form-signin">
                 <h2 id="logo" class="form-signin-heading">Novo SGA</h2>
-                {% if flash['error'] %}
-                    <div class="alert alert-danger">
-                        {{ flash['error'] }}
-                    </div>
+                {% if error %}
+                <div class="alert alert-danger">
+                    {{ error.messageKey|trans(error.messageData) }}
+                </div>
                 {% endif %}
                 <div id="login">
-                    <input type="text" name="username" class="form-control" placeholder="{% trans %}Nome Usuário{% endtrans %}" autofocus>
-                    <input type="password" name="password" class="form-control" placeholder="{% trans %}Senha{% endtrans %}">
+                    <input type="text" name="_username" class="form-control" placeholder="{% trans %}Nome Usuário{% endtrans %}" autofocus value="{{ last_username }}">
+                    <input type="password" name="_password" class="form-control" placeholder="{% trans %}Senha{% endtrans %}">
                     <button class="btn btn-lg btn-primary btn-block" type="submit">{% trans %}Entrar{% endtrans %}</button>
                 </div>
             </form>
         </div>
-        <script type="text/javascript" src="js/jquery.js"></script>
-        <script type="text/javascript" src="js/script.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('#login').focus();
-            });
-        </script>
     </body>
 </html>

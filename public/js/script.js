@@ -2,7 +2,7 @@
  * Novo SGA - Main script
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-var SGA = {
+var App = {
     
     version: 0,
     module: '',
@@ -11,167 +11,77 @@ var SGA = {
     dateFormat: '',
     baseUrl: '/',
     
+    Storage: {
+        
+        set: function(name, value) {
+            if (localStorage) {
+                localStorage.setItem(name, value);
+            } else {
+                // cookie
+                var expires = "";
+                document.cookie = name + "=" + value + expires + "; path=/";
+            }
+        },
+                
+        get: function(name) {
+            if (localStorage) {
+                return localStorage.getItem(name);
+            } else {
+                // cookie
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for(var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) === ' ') {
+                        c = c.substring(1,c.length);
+                    }
+                    if (c.indexOf(nameEQ) === 0) {
+                        return c.substring(nameEQ.length, c.length);
+                    }
+                }
+            }
+            return null;
+        }
+    },
+    
     dialogs: {
         
         opened: 0,
         
-        modal: function(target, prop) {
-            if (typeof(target) === 'string') {
-                target = $(target);
-            }
-            prop = prop || {};
-            prop.title = prop.title || target.prop('title');
-            target.modal();
-            if (typeof(prop.create) === 'function') {
-                prop.create();
-            }
-            target.on('shown.bs.modal', function() {
-                if (typeof(prop.open) === 'function') {
-                    prop.open();
-                }
-                SGA.paused = true;
-                SGA.dialogs.opened++;
-            });
-            target.on('hidden.bs.modal', function() {
-                if (typeof(prop.close) === 'function') {
-                    prop.close();
-                }
-                SGA.dialogs.opened--;
-                if (SGA.dialogs.opened <= 0) {
-                    SGA.paused = false;
-                    SGA.dialogs.opened = 0;
-                }
-            });
-            return target;
-        },
-        
-        error: {
-            id: 'dialog-error',
-            title: '',
-            create: function(prop) {
-                var node = $('<div id="' + SGA.dialogs.error.id + '" class="modal fade" role="dialog" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">'+SGA.dialogs.error.title+'</h4></div> <div class="modal-body"><p><span class="glyphicon glyphicon-warning-sign"></span> '+ prop.message +'</p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button></div></div></div></div>');
-                $('body').append(node);
-                SGA.dialogs.modal(node, {
-                    close: function() {
-                        $('#' + SGA.dialogs.error.id).remove();
-                        if (typeof(prop.close) == 'function') {
-                            prop.close();
-                        }
-                    }
-                });
-            }
-        }
     },
     
-    url: function() {
-        var arg = arguments.length > 0 ? arguments[0] : {};
-        if (typeof(arg) === 'string') {
-            arg = {page: arg};
-        }
-        var url = '/';
-        if (SGA.module || arg.module) {
-            var module = SGA.module || arg.module;
-            url += 'modules/' + module;
-            if (arg.page) {
-                url += '/' + arg.page;
-            }
-        }
-        return SGA.baseUrl + url;
+    url: function(url) {    
+        return App.baseUrl + url;
     },
         
     reload: function() {
         window.location = window.location;
     },
-            
-    secToTime: function(seconds) {
-        var hours = Math.floor(seconds / 3600);
-        var mins = Math.floor((seconds - (hours * 3600)) / 60);
-        mins = mins < 10 ? '0' + mins : mins;
-        var secs = Math.floor((seconds - (hours * 3600) - (mins * 60)));
-        secs = secs < 10 ? '0' + secs : secs;
-        return hours + ":" + mins + ":" + secs;
-    },
-            
-    formatTime: function(sqlDate) {
-        if (sqlDate && sqlDate != "") {
-            var datetime = sqlDate.split(' ');
-            if (datetime.length > 1) {
-                // excluindo timezone e microtime
-                return datetime[1].substring(0, 8);
-            }
-        }
-        return "";
-    },
     
-    formatDate: function(sqlDate, onEmpty) {
-        if (sqlDate && sqlDate != "") {
-            var datetime = sqlDate.split(' ');
-            var date = datetime[0].split('-');
-            // date i18n
-            var format = SGA.dateFormat.toLowerCase().split("/");
-            var finalDate = [];
-            for (var i = 0; i < format.length; i++) {
-                switch (format[i]) {
-                case 'd':
-                    finalDate[i] = date[2];
-                    break;
-                case 'm':
-                    finalDate[i] = date[1];
-                    break;
-                case 'y':
-                    finalDate[i] = date[0];
-                    break;
-                }
-            }
-            var time = '';
-            if (datetime.length > 1) {
-                // excluindo timezone e microtime
-                time = ' ' + datetime[1].substring(0, 8);
-            }
-            return finalDate.join('/') + time;
-        }
-        return onEmpty || "";
-    },
-    
-    dateToSql: function(localeDate) {
-        if (localeDate && localeDate != "") {
-            var datetime = localeDate.split(' ');
-            var date = datetime[0].split('/');
-            var time = '';
-            // date i18n
-            var format = SGA.dateFormat.toLowerCase().split("/");
-            var sqlDate = [];
-            for (var i = 0; i < format.length; i++) {
-                switch (format[i]) {
-                case 'd':
-                    sqlDate[2] = date[i];
-                    break;
-                case 'm':
-                    sqlDate[1] = date[i];
-                    break;
-                case 'y':
-                    sqlDate[0] = date[i];
-                    break;
-                }
-            }
-            if (datetime.length > 1) {
-                time = ' ' + datetime[1];
-            }
-            return sqlDate.join('-') + time;
-        }
-        return "";
+    showErrorDialog: function (response) {
+        $('#error-modal')
+            .data('sessionStatus', response.sessionStatus)
+            .modal('show')
+            .find('.modal-body>p')
+                .text(response.message);
     },
     
     /* jQuery ajax wrapper */
     ajax: function(arg) {
         $('#ajax-loading').show();
-        var data = arg.data || {};
-        data.ts = (new Date()).getTime();
-        $.ajax({
+        var data = arg.data || {},
+            method = arg.type || 'get';
+        
+        if (method != 'get') {
+            data = JSON.stringify(data);
+        }
+        
+        return $.ajax({
             url: arg.url,
             data: data,
-            type: arg.type || 'get',
+            type: method,
             dataType: arg.dataType || 'json',
+            contentType: "application/json",
             cache: false,
             success: function(response) {
                 if (response && response.success) {
@@ -180,32 +90,17 @@ var SGA = {
                         fn(response);
                     }
                 } else {
-                    // checking session
-                    if (response.inactive || response.invalid) {
-                        SGA.paused = true;
-                        var message; 
-                        if (response.inactive) {
-                            message = SGA.inactiveSession;
-                        } else {
-                            message = SGA.invalidSession;
-                        }
-                        SGA.dialogs.error.create({
-                            message: message, 
-                            close: SGA.reload
-                        });
-                    } else {
-                        SGA.dialogs.error.create({
-                            message: response.message,
-                            close: arg.error
-                        });
-                    }
+                    App.showErrorDialog(response);
                 }
                 if (response.time) {
-                    SGA.Clock.update(response.time);
+                    App.Clock.update(response.time);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 var fn = arg.error;
+                
+                App.showErrorDialog(JSON.parse(jqXHR.responseText));
+                
                 if (fn && typeof(fn) === 'function') {
                     fn(jqXHR, textStatus, errorThrown);
                 }
@@ -219,82 +114,6 @@ var SGA = {
             }
         });
     },
-    
-    Form: {
-        
-        labels: {
-            required: '_required_',
-        },
-        
-        searchBox: function(id) {
-            var input = $('#' + id);
-            input.on('focus', function() {
-                if (!input.data('width')) {
-                    input.data('width', input.width());
-                }
-                input.animate({width: 300});
-            });
-            input.on('blur', function() {
-                clearTimeout(this.timeoutId);
-                this.timeoutId = setTimeout(function() {
-                    input.animate({width: input.data('width')});
-                }, 1000);
-            });
-        },
-        
-        validate: function(formId) {
-            var form = $('#' + formId);
-            form.find(":input:visible:enabled:first").focus();
-            form.on('submit', function() {
-                return SGA.Form.checkRequireds(form);
-            });
-        },
-        
-        checkRequireds: function(main) {
-            if (typeof(main) === 'string') {
-                main = $(main);
-            }
-            var success = true;
-            main.find('div.required>:input, :input.required').each(function(i, v) {
-                var input = $(v);
-                if ($.trim(input.val()) === '') {
-                    success = false;
-                    var parent = input.parent();
-                    var error = parent.find('span.error');
-                    if (error.length === 0) {
-                        error = $('<span class="error"></span>');
-                        parent.append(error);
-                        parent.addClass('has-error');
-                        input.on('change', function() { 
-                            if ($.trim(input.val()) !== '') {
-                                error.text('');
-                                parent.removeClass('has-error');
-                            }
-                        });
-                    }
-                    error.text(SGA.Form.labels.required);
-                }
-            });
-            return success;
-        },
-        
-        confirm: function(message, success, failure) {
-            var r = window.confirm(message);
-            if (r && typeof(success) == 'function') {
-                success();
-            }
-            else if (!r && typeof(failure) == 'function') {
-                failure();
-            }
-        },
-        
-        loginValue: function(input) {
-            var value = input.value + "";
-            value = value.replace(/([^\w\d\.])+/g, '');
-            input.value = value.toLowerCase();
-        }
-        
-    },
             
     Home: {
         filter: function() {
@@ -302,7 +121,7 @@ var SGA = {
             $("#modules ul li").each(function(i,e) {
                 var item = $(e);
                 var name = item.find('.name').text();
-                if (SGA.String.search(name, searchString) >= 0) {
+                if (App.String.search(name, searchString) >= 0) {
                     item.show();
                 } else {
                     item.hide();
@@ -318,12 +137,11 @@ var SGA = {
         },
         
         set: function() {
-            SGA.ajax({
-                url: SGA.baseUrl + '/home/set_unidade',
-                data: { unidade: $('#unidade').val() },
+            App.ajax({
+                url: App.baseUrl + '/set_unidade/' + $('#unidade').val(),
                 type: 'post',
                 success: function(response) {
-                    SGA.reload();
+                    App.reload();
                 }
             });
         }
@@ -363,7 +181,7 @@ var SGA = {
         
         search: function(str, searchString) {
             str = str || "";
-            return str.search(SGA.String.pattern(searchString));
+            return str.search(App.String.pattern(searchString));
         },
         
         pattern: function(searchString) {
@@ -378,7 +196,7 @@ var SGA = {
             words.sort(length_comp);
             // replace characters by their compositors
             var accent_replacer = function(chr) {
-                return SGA.String.accented[chr.toUpperCase()] || chr;
+                return App.String.accented[chr.toUpperCase()] || chr;
             }
             for (var i = 0; i < words.length; i++) {
                 words[i] = words[i].replace(/\S/g,accent_replacer);
@@ -399,13 +217,13 @@ var SGA = {
         
         init: function(targetId, milis) {
             // evitando o parser do jquery para pegar por id
-            SGA.Clock.target = $(document.getElementById(targetId));
-            if (SGA.Clock.target.length > 0) {
-                SGA.Clock.createNodes(SGA.Clock.target);
-                SGA.Clock.date = new Date(milis);
-                SGA.Clock.update();
-                setInterval(SGA.Clock.update, 1000);
-                var separators = SGA.Clock.target.find('.time .sep');
+            App.Clock.target = $(document.getElementById(targetId));
+            if (App.Clock.target.length > 0) {
+                App.Clock.createNodes(App.Clock.target);
+                App.Clock.date = new Date(milis);
+                App.Clock.update();
+                setInterval(App.Clock.update, 1000);
+                var separators = App.Clock.target.find('.time .sep');
                 setInterval(function() {
                     separators.each(function(i, v) {
                         var node = $(v);
@@ -420,23 +238,23 @@ var SGA = {
         createNodes: function() {
             var time = $('<div class="time"></div>');
             var date = $('<div class="date"></div>');
-            SGA.Clock._createNodes(time, SGA.Clock.timeChilds, ':');
+            App.Clock._createNodes(time, App.Clock.timeChilds, ':');
             // i18n
-            if (SGA.dateFormat[0] === 'm') {
+            if (App.dateFormat[0] === 'm') {
                 // swapping month and day
-                var a = SGA.Clock.dateChilds[0];
-                SGA.Clock.dateChilds[0] = SGA.Clock.dateChilds[1];
-                SGA.Clock.dateChilds[1] = a;
+                var a = App.Clock.dateChilds[0];
+                App.Clock.dateChilds[0] = App.Clock.dateChilds[1];
+                App.Clock.dateChilds[1] = a;
             }
-            SGA.Clock._createNodes(date, SGA.Clock.dateChilds, '/');
-            SGA.Clock.target.append(time).append(date);
+            App.Clock._createNodes(date, App.Clock.dateChilds, '/');
+            App.Clock.target.append(time).append(date);
         },
         
         _createNodes: function(target, childs, sepChar) {
             for (var i = 0; i < childs.length; i++) {
                 var c = childs[i];
-                SGA.Clock[c] = $('<span class="dt ' + c + '"></span>');
-                target.append(SGA.Clock[c]);
+                App.Clock[c] = $('<span class="dt ' + c + '"></span>');
+                target.append(App.Clock[c]);
                 if (i < childs.length - 1) {
                     target.append('<span class="sep" data-blink="">' + sepChar + '</span>');
                 }
@@ -444,16 +262,16 @@ var SGA = {
         },
         
         update: function(milis) {
-            var c = SGA.Clock;
+            var c = App.Clock;
             if (c.target) {
                 if (milis) {
                     c.date = new Date(milis);
                 }
-                c.hours.text(SGA.Clock.zeroFill(c.date.getHours()));
-                c.mins.text(SGA.Clock.zeroFill(c.date.getMinutes()));
-                c.secs.text(SGA.Clock.zeroFill(c.date.getSeconds()));
-                c.day.text(SGA.Clock.zeroFill(c.date.getDate()));
-                c.mon.text(SGA.Clock.zeroFill(c.date.getMonth() + 1));
+                c.hours.text(App.Clock.zeroFill(c.date.getHours()));
+                c.mins.text(App.Clock.zeroFill(c.date.getMinutes()));
+                c.secs.text(App.Clock.zeroFill(c.date.getSeconds()));
+                c.day.text(App.Clock.zeroFill(c.date.getDate()));
+                c.mon.text(App.Clock.zeroFill(c.date.getMonth() + 1));
                 c.year.text(c.date.getFullYear());
                 // incrementa em 1 segundo
                 c.date.setSeconds(c.date.getSeconds() + 1);
@@ -507,23 +325,23 @@ var SGA = {
                 tree.find('.toggler').each(function(i, v) {
                     var toggler = $(v);
                     var parent = toggler.parent();
-                    var childs = SGA.TreeView.childs(tree, parent);
+                    var childs = App.TreeView.childs(tree, parent);
                     if (childs.length > 0) {
                         toggler.on('click', function(e) {
                             for (var i = 0; i < childs.length; i++) {
                                 var item = childs[i];
                                 if (parent.data('open')) {
-                                    SGA.TreeView.close(item);
+                                    App.TreeView.close(item);
                                     item.hide();
                                 } else {
                                     item.show();
-                                    SGA.TreeView.open(item);
+                                    App.TreeView.open(item);
                                 }
                             }
                             if (parent.data('open')) {
-                                SGA.TreeView.close(parent);
+                                App.TreeView.close(parent);
                             } else {
-                                SGA.TreeView.open(parent);
+                                App.TreeView.open(parent);
                             }
                         });
                     } else {
@@ -568,8 +386,8 @@ var SGA = {
         
         dialogSenha: function(label) {
             var buttons = {};
-            buttons[label] = SGA.Perfil.alterarSenha;
-            SGA.dialogs.modal('#dialog-senha', {
+            buttons[label] = App.Perfil.alterarSenha;
+            App.dialogs.modal('#dialog-senha', {
                 width: 500,
                 buttons: buttons
             });
@@ -578,8 +396,8 @@ var SGA = {
 
         alterarSenha: function() {
             $('#dialog-message').hide();
-            SGA.ajax({
-                url: SGA.baseUrl + '/profile/password',
+            App.ajax({
+                url: App.baseUrl + '/profile/password',
                 type: 'post',
                 data: {
                     atual: $('#senha_atual').val(), 
@@ -588,8 +406,8 @@ var SGA = {
                 },
                 success: function(response) {
                     if (response.success) {
-                        SGA.Perfil.clear();
-                        $('#dialog-message').html(SGA.Perfil.labelSenhaAlterada)
+                        App.Perfil.clear();
+                        $('#dialog-message').html(App.Perfil.labelSenhaAlterada)
                                 .removeClass('alert-error')
                                 .addClass('alert-success')
                                 .show();
@@ -602,7 +420,7 @@ var SGA = {
                 },
                 error: function() {
                     return false;
-                    SGA.Perfil.clear();
+                    App.Perfil.clear();
                     $('#dialog-message').hide();
                 }
             });
@@ -620,10 +438,10 @@ var SGA = {
     FullScreen: {
 
         toggle: function(elem) {
-            if (!SGA.FullScreen.element()) {
-                SGA.FullScreen.request(elem);
+            if (!App.FullScreen.element()) {
+                App.FullScreen.request(elem);
             } else {
-                SGA.FullScreen.cancel();
+                App.FullScreen.cancel();
             }
         },
         
@@ -703,15 +521,97 @@ var SGA = {
 
         show: function(title, content) {
             if (this.allowed()) {
-                new Notification(title, { body: content, icon: SGA.baseUrl + '/images/favicon.png' });
+                new Notification(title, { body: content, icon: App.baseUrl + '/images/favicon.png' });
             } else {
                 this.request();
             }
         }
 
+    },
+    
+    Websocket: {
+        
+        maxAttemps: 3,
+        
+        connect: function() {
+            if (!this.ws) {
+                this.create();
+            } else {
+                this.ws.open();
+            }
+        },
+        
+        create: function() {
+            this.ws = io(':2020', {
+                reconnectionAttempts: App.Websocket.maxAttemps
+            });
+
+            this.ws.on('connect', function () {
+                console.log('[ws] connected!');
+            });
+            
+            this.ws.on('disconnect', function () {
+                console.log('[ws] disconnected!');
+            });
+            
+            this.ws.on('connect_error', function () {
+                console.log('[ws] connect error');
+            });
+            
+            this.ws.on('reconnect_failed', function () {
+                console.log('[ws] reached max attempts');
+            });
+            
+            this.on('error', function () {
+                console.log('[ws] error');
+            });
+        },
+        
+        on: function(evt, fn) {
+            if (this.ws) {
+                this.ws.on(evt, fn);
+            }
+        },
+        
+        emit: function(evt, fn) {
+            if (this.ws) {
+                this.ws.emit(evt, fn);
+            }
+        }
+        
+    },
+    
+    checkVersion: function() {
+        var self = this;
+        self.intervalId = self.intervalId || 0;
+        clearInterval(self.intervalId);
+        var icon = $('#btn-checkversion').prop('disabled', true).find('span');
+        icon.addClass('fa-spin');
+        
+        $.ajax({
+            url: 'https://api.github.com/repos/novosga/novosga/tags',
+            success: function(response) {
+                clearInterval(self.intervalId);
+                $('#btn-checkversion').hide();
+                var latest = response[0];
+                if (App.version !== latest.name.replace('v', '')) {
+                    $('#btn-downloader')
+                            .show()
+                            .prop('href', latest.zipball_url)
+                            .find('.version')
+                            .text(latest.name);
+                } else {
+                    $('#update-alert').show();
+                }
+            },
+            complete: function () {
+                icon.removeClass('fa-spin');
+            }
+        });
+        return false;
     }
     
-}
+};
 
 /* helpers */
 
@@ -722,21 +622,26 @@ Array.prototype.contains = function(elem) {
         }
     }
     return false;
-}
+};
 
 
 $(function() {
     
     $('div.modal')
     .on('shown.bs.modal', function() {
-        SGA.paused = true;
-        SGA.dialogs.opened++;
+        App.paused = true;
+        App.dialogs.opened++;
     })
     .on('hidden.bs.modal', function() {
-        SGA.dialogs.opened--;
-        if (SGA.dialogs.opened <= 0) {
-            SGA.paused = false;
-            SGA.dialogs.opened = 0;
+        App.dialogs.opened--;
+        if (App.dialogs.opened <= 0) {
+            App.paused = false;
+            App.dialogs.opened = 0;
+        }
+    })
+    .on('hide.bs.modal', function() {
+        if ($(this).data('sessionStatus') === 'inactive') {
+            window.location.href = App.baseUrl;
         }
     });
     

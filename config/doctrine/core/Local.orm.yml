@@ -1,0 +1,30 @@
+Novosga\Entity\Local:
+    type: entity
+    table: locais
+    repositoryClass: App\Repository\ORM\LocalRepository
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        nome:
+            type: string
+            scale: 0
+            length: 20
+            unique: true
+            nullable: false
+            precision: 0
+        createdAt:
+            type: datetime
+            column: created_at
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+        updatedAt:
+            type: datetime
+            column: updated_at
+            nullable: true
+    lifecycleCallbacks: {  }
+    entityListeners:
+        App\Listener\ORM\LocalListener: ~

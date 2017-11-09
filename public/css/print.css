@@ -5,35 +5,59 @@
  
 #senha {
     width: 300px;
-    height: 150px;
+    min-height: 150px;
     margin: auto;
-    text-align: center;
-    background: #ffffff;
 }
 
-#senha #senha-header {
+#senha * {
+    font-family: monospace;
+    font-size: 12pt;
+    text-align: center;
+    line-height: 1;
+}
+
+#senha header {
     font-size: 10pt;
-    text-align: center;
+    padding: 10px 0;
 }
 
-#senha #senha-header .data {
-    font-size: 8pt;
+#senha header p {
+    margin: 0;
 }
 
-#senha #senha-body {
-    font-size: 35pt;
-    line-height: 35pt;
+#senha header .unidade {
+    font-size: 14pt;
     font-weight: bold;
 }
 
-#senha  #senha-body .descricao {
-    text-align: center;
+#senha section {
     font-size: 10pt;
-    line-height: 10pt;
-    display: block;
+    padding: 10px 0;
 }
 
-#senha #senha-footer {
+#senha section p {
+    margin: 5px 0;
+}
+
+#senha section .prioridade {
+    font-weight: bold;
+}
+
+#senha section .senha {
+    font-size: 35pt;
+    line-height: 50pt;
+    font-weight: bold;
+}
+
+#senha section .data-hora {
+    padding: 10pt 0;
+}
+
+#senha footer {
     font-size: 8pt;
-    text-align: center;
+    padding: 10px 0;
+}
+
+#senha footer p {
+    margin: 0;
 }

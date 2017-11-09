@@ -1,0 +1,20 @@
+Novosga\Entity\Unidade:
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: 
+            fields: codigo
+            message: Já existe uma unidade com esse código
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: nome
+            message: Já existe uma unidade com esse código
+    properties:
+        codigo:
+            - NotBlank: ~
+            - Length:
+                max: 10
+        nome:
+            - NotBlank: ~
+            - Length:
+                max: 20
+                min: 3
+        ativo:
+            - NotNull: ~

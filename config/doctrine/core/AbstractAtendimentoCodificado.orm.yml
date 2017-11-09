@@ -1,0 +1,17 @@
+Novosga\Entity\AbstractAtendimentoCodificado:
+    type: mappedSuperclass
+    id:
+        servico:
+            associationKey: true
+    manyToOne:
+        servico:
+            targetEntity: Novosga\Entity\Servico
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -1,0 +1,82 @@
+'Bem-vindo': Bem-vindo
+'Senha|Bilhete': Senha
+Unidades: Unidades
+'Cadastro de unidades de atendimento': 'Cadastro de unidades de atendimento'
+Código: Código
+Nome: Nome
+Salvar: Salvar
+Novo: Novo
+'Zona de perigo': 'Zona de perigo'
+'Reiniciar senhas': 'Reiniciar senhas'
+'Deseja realmente reiniciar as senhas de todas unidades?': 'Deseja realmente reiniciar as senhas de todas unidades?'
+Reiniciar: Reiniciar
+Configuração: Configuração
+'Senhas reiniciadas com sucesso': 'Senhas reiniciadas com sucesso'
+Fechar: Fechar
+'Web API': 'Web API'
+'API Web para integração com outros sistemas.': 'API Web para integração com outros sistemas.'
+Clientes: Clientes
+Visualizar: Visualizar
+Remover: Remover
+Adicionar: Adicionar
+'Autentica o usuário retornando o token de acesso.': 'Autentica o usuário retornando o token de acesso.'
+'Retorna todas as unidades disponíveis.': 'Retorna todas as unidades disponíveis.'
+'Retorna todas as prioridades disponíveis.': 'Retorna todas as prioridades disponíveis.'
+'Retorna os serviços globais.': 'Retorna os serviços globais.'
+'Retorna os locais de atendimentos.': 'Retorna os locais de atendimentos.'
+'Retorna os usuários do sistema.': 'Retorna os usuários do sistema.'
+'Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.': 'Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.'
+'API Client': 'API Client'
+'Redirect URI': 'Redirect URI'
+'Deseja realmente remover o cliente?': 'Deseja realmente remover o cliente?'
+Prioridades: Prioridades
+'Cadastro de prioridades de atendimento': 'Cadastro de prioridades de atendimento'
+Peso: Peso
+Perfis: Perfis
+'Cadastro de perfis de acesso': 'Cadastro de perfis de acesso'
+'Novo perfil': 'Novo perfil'
+Voltar: Voltar
+Módulos: Módulos
+'Gerenciamento dos módulos do Novo SGA': 'Gerenciamento dos módulos do Novo SGA'
+Módulo: Módulo
+Ativo: Ativo
+Locais: Locais
+'Cadastro de locais de atendimento': 'Cadastro de locais de atendimento'
+Serviços: Serviços
+'Cadastro de serviços para atendimento': 'Cadastro de serviços para atendimento'
+'Novo serviço': 'Novo serviço'
+Status: Status
+Subserviços: Subserviços
+Administração: Administração
+Sistema: Sistema
+'Bem-vindo, %name%': 'Bem-vindo, %name%'
+'Leia mais sobre': 'Leia mais sobre'
+Unidade: Unidade
+'Favor escolher a unidade': 'Favor escolher a unidade'
+Selecione: Selecione
+Enviar: Enviar
+'Trocar unidade': 'Trocar unidade'
+'Escolhe unidade': 'Escolhe unidade'
+'Nome Usuário': 'Nome Usuário'
+Senha: Senha
+Entrar: Entrar
+'Verificar nova versão': 'Verificar nova versão'
+'Parabéns, você possui a versão mais recente': 'Parabéns, você possui a versão mais recente'
+Acessar: Acessar
+Perfil: Perfil
+'Visualize e atualize o seu perfil': 'Visualize e atualize o seu perfil'
+'Perfil atualizado com sucesso': 'Perfil atualizado com sucesso'
+Login: Login
+Sobrenome: Sobrenome
+'Alterar senha': 'Alterar senha'
+'Senha atual': 'Senha atual'
+'Nova senha': 'Nova senha'
+'Confirmar nova senha': 'Confirmar nova senha'
+Alterar: Alterar
+'Senha alterada com sucesso': 'Senha alterada com sucesso'
+Sobre: Sobre
+Sair: Sair
+Erro: Erro
+d/m/Y: d/m/Y
+'Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.': 'Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.'
+'Sessão expirada. Favor efetuar o login novamente.': 'Sessão expirada. Favor efetuar o login novamente.'

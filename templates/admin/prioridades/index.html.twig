@@ -1,0 +1,63 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <div class="row">
+        <div class="col-8">
+            <h1>
+                {% trans %}Prioridades{% endtrans %}
+                <small>
+                    {% trans %}Cadastro de prioridades de atendimento{% endtrans %}
+                </small>
+            </h1>
+        </div>
+        <div class="col-4 text-right">
+            <a href="{{ path('admin_prioridades_new') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+                {% trans %}Nova prioridade{% endtrans %}
+            </a>
+        </div>
+    </div>
+    
+    <hr>
+        
+    {% include "flashMessages.html.twig" %}
+    
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>{% trans %}Nome{% endtrans %}</th>
+                <th>{% trans %}Peso{% endtrans %}</th>
+                <th>{% trans %}Situação{% endtrans %}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for prioridade in prioridades %}
+                <tr>
+                    <td>
+                        {{ prioridade.id }}
+                    </td>
+                    <td>
+                        {{ prioridade.nome }}
+                    </td>
+                    <td>
+                        {{ prioridade.peso }}
+                    </td>
+                    <td>
+                        {% if prioridade.ativo %}
+                            {% trans %}Ativo{% endtrans %}
+                        {% else %}
+                            {% trans %}Inativo{% endtrans %}
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ path('admin_prioridades_edit', { id: prioridade.id }) }}" class="btn btn-secondary">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

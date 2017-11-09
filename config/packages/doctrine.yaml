@@ -1,0 +1,21 @@
+doctrine:
+    dbal:
+        url: '%env(DATABASE_URL)%'
+        password: '%env(DATABASE_PASS)%'
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/config/doctrine/api'
+                prefix: 'App\Entity'
+                alias: App
+            Core:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/config/doctrine/core'
+                prefix: Novosga\Entity
+                alias: Novosga

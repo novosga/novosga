@@ -1,0 +1,15 @@
+Novosga\Entity\UnidadeMeta:
+    type: entity
+    table: unidades_metadata
+    id:
+        unidade:
+            associationKey: true
+    manyToOne:
+        unidade:
+            targetEntity: Novosga\Entity\Unidade
+            fetch: LAZY
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
