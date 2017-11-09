@@ -16,7 +16,6 @@ use Exception;
 use Novosga\Entity\Prioridade;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -47,16 +46,13 @@ class InstallCommand extends UpdateCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var $formatter FormatterHelper */
-        $formatter = $this->getHelper('formatter');
-        
-        $errorMessages = [ 
+        $header = [ 
             "*******************\n",
             "Welcome to NovoSGA installer\n",
             "*******************",
         ];
-        $formattedBlock = $formatter->formatBlock($errorMessages, 'info', true);
-        $output->writeln($formattedBlock);
+        
+        $this->writef($output, $header, 'info');
         
         if (!$this->createDatabase($output)) {
             return;

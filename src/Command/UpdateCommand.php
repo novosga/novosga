@@ -24,6 +24,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UpdateCommand extends Command
 {
+    use FormattedOutputTrait;
+    
     protected function configure()
     {
         $this->setName('novosga:update')
@@ -32,16 +34,13 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /* @var $formatter FormatterHelper */
-        $formatter = $this->getHelper('formatter');
-        
-        $errorMessages = [ 
+        $header = [ 
             "*******************\n",
             "Updating NovoSGA installation\n",
             "*******************",
         ];
-        $formattedBlock = $formatter->formatBlock($errorMessages, 'info', true);
-        $output->writeln($formattedBlock);
+        
+        $this->writef($output, $header, 'info');
         
         $this->updateSchema($output);
     }
