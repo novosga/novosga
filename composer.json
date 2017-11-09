@@ -60,8 +60,7 @@
             "@auto-scripts"
         ],
         "post-update-cmd": [
-            "@auto-scripts",
-            "bin/console novosga:update"
+            "@auto-scripts"
         ]
     },
     "conflict": {
