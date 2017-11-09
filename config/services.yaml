@@ -1,6 +1,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    locale: en
     version: '2.0.0-dev'
 
 services:
@@ -13,6 +14,8 @@ services:
         # this means you cannot fetch services directly from the container via $container->get()
         # if you need to do this, you can override this setting on individual services
         public: false
+        bind:
+            $rootDir: '%kernel.project_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -28,9 +31,6 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    App\Service\ModuleService:
-        $rootDir: '%kernel.project_dir%'
-
     # novosga core services
     Novosga\Service\:
         resource: '../vendor/novosga/core/Service'
@@ -41,7 +41,7 @@ services:
 
     App\Listener\SessionListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.request }
+            - { name: kernel.event_listener, event: kernel.request, priority: 700 }
 
     App\Listener\CorsListener:
         tags:
