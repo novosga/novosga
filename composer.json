@@ -1,8 +1,20 @@
 {
     "name": "novosga/novosga",
-    "license": "MIT",
+    "description": "Support queue management system",
     "type": "project",
     "minimum-stability": "beta",
+    "homepage": "http://novosga.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rogério Lino",
+            "email": "rogeriolino@gmail.com"
+        },
+        {
+            "name": "NovoSGA Community",
+            "homepage": "https://github.com/novosga/novosga/graphs/contributors"
+        }
+    ],
     "require": {
         "php": "^7.0.8",
         "jms/serializer-bundle": "^2.2",
