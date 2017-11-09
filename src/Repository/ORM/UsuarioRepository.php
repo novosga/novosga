@@ -21,6 +21,7 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 /**
  * UsuarioRepository
@@ -35,6 +36,11 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
     public function loadUserByUsername($username)
     {
         $usuario = $this->findOneByLogin($username);
+        
+        if ($usuario) {
+            $this->loadLotacao($usuario);
+        }
+        
         return $usuario;
     }
 
@@ -46,8 +52,23 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
         $em = $this->getEntityManager();
 
         $usuario = $em->find(Usuario::class, $user->getId());
-        $unidade = $this->loadUnidade($usuario);
+        $this->loadLotacao($usuario);
+
+        return $usuario;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supportsClass($class)
+    {
+        return $class === Usuario::class;
+    }
+    
+    private function loadLotacao(Usuario $usuario)
+    {
         $lotacao = null;
+        $unidade = $this->loadUnidade($usuario);
 
         if ($unidade) {
             if (!$usuario->isAdmin()) {
@@ -64,16 +85,6 @@ class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInt
 
         $this->loadRoles($usuario, $lotacao);
         $usuario->setLotacao($lotacao);
-
-        return $usuario;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsClass($class)
-    {
-        return $class === Usuario::class;
     }
 
     public function loadRoles(Usuario $usuario, Lotacao $lotacao = null)

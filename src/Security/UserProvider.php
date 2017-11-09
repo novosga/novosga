@@ -24,6 +24,6 @@ class UserProvider extends EntityUserProvider
     
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, 'Novosga\Entity\Usuario', 'login');
+        parent::__construct($registry, 'Novosga\Entity\Usuario');
     }
 }
