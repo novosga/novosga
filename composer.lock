@@ -1407,12 +1407,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/FOSOAuthServerBundle.git",
-                "reference": "b0f57319959137d539e5f2a83f818d405b4d2e33"
+                "reference": "3ee0778d14bc4cb1de519e2140d4ea4c62aeec50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/FOSOAuthServerBundle/zipball/b0f57319959137d539e5f2a83f818d405b4d2e33",
-                "reference": "b0f57319959137d539e5f2a83f818d405b4d2e33",
+                "url": "https://api.github.com/repos/novosga/FOSOAuthServerBundle/zipball/3ee0778d14bc4cb1de519e2140d4ea4c62aeec50",
+                "reference": "3ee0778d14bc4cb1de519e2140d4ea4c62aeec50",
                 "shasum": ""
             },
             "require": {
@@ -1477,7 +1477,7 @@
                 "oauth2",
                 "server"
             ],
-            "time": "2017-11-08T18:07:06+00:00"
+            "time": "2017-11-09T19:31:38+00:00"
         },
         {
             "name": "novosga/reports-bundle",
