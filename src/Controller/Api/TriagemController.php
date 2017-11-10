@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
  * TriagemController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/api")
  */
 class TriagemController extends ApiControllerBase
@@ -65,7 +65,6 @@ class TriagemController extends ApiControllerBase
             $cliente    = $novaSenha->cliente;
             
             $response = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $cliente);
-            
         } catch (Exception $ex) {
             $response = [
                 'error' => $ex->getMessage()

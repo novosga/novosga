@@ -21,14 +21,16 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 /**
  * UsuarioRepository
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class UsuarioRepository extends EntityRepository implements UsuarioRepositoryInterface, UserLoaderInterface, UserProviderInterface
+class UsuarioRepository extends EntityRepository implements
+    UsuarioRepositoryInterface,
+    UserLoaderInterface,
+    UserProviderInterface
 {
     /**
      * {@inheritdoc}

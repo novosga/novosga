@@ -29,7 +29,8 @@ class TablePrefix
     {
         $classMetadata = $eventArgs->getClassMetadata();
 
-        if (!$classMetadata->isInheritanceTypeSingleTable() || $classMetadata->getName() === $classMetadata->rootEntityName) {
+        if (!$classMetadata->isInheritanceTypeSingleTable() ||
+                $classMetadata->getName() === $classMetadata->rootEntityName) {
             $classMetadata->setTableName($this->prefix . $classMetadata->getTableName());
         }
 

@@ -34,7 +34,7 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $header = [ 
+        $header = [
             "*******************\n",
             "Updating NovoSGA installation\n",
             "*******************",
@@ -49,8 +49,8 @@ class UpdateCommand extends Command
     {
         $updateDatabase = $this->getApplication()->find('doctrine:schema:update');
         $code = $updateDatabase->run(
-                new ArrayInput([ '--force' => true ]), 
-                $output
+            new ArrayInput([ '--force' => true ]),
+            $output
         );
         
         return $code === 0;

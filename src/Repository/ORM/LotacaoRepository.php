@@ -46,7 +46,6 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
                 ->getQuery()
                 ->getResult()
         ;
-        
     }
     
     /**
@@ -70,7 +69,6 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
                 ->getQuery()
                 ->getResult()
         ;
-        
     }
     
     /**
@@ -97,6 +95,5 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
                 ->getQuery()
                 ->getOneOrNullResult()
         ;
-        
     }
 }

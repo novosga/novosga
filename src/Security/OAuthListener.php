@@ -41,8 +41,11 @@ class OAuthListener implements ListenerInterface
      */
     private $storage;
     
-    public function __construct(Container $container, AuthenticationManagerInterface $manager, TokenStorageInterface $storage)
-    {
+    public function __construct(
+        Container $container,
+        AuthenticationManagerInterface $manager,
+        TokenStorageInterface $storage
+    ) {
         $this->container = $container;
         $this->manager   = $manager;
         $this->storage   = $storage;
