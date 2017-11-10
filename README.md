@@ -5,7 +5,9 @@ Support queue management system.
 
 ## Installation
 
-Create project using Composer:
+### Via Composer
+
+Create project:
 
     composer create-project "novosga/novosga:v2.0.x-dev" novosga2
 
@@ -14,9 +16,23 @@ Run app installation command and follow instructions:
     bin/console novosga:install
 
 
+### Via Docker
+
+Documentation in the Novo SGA official [docker repository](https://github.com/novosga/docker/tree/master/novosga-2.0).
+
+
+### Via Git
+
+Clone repository:
+
+    git clone https://github.com/novosga/novosga.git novosga2
+
+Then follow Composer install instruction.
+
+
 ### Automated installation
 
-To automated installation you need to set the following environment variables before install command run:
+To automated installation you need to set up the following environment variables before run `novosga:install` command:
 
 **Database**
 
