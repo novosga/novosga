@@ -322,5 +322,92 @@
             "version": "1.2",
             "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
         }
+    },
+    "sebastian/version": {
+        "version": "2.0.1"
+    },
+    "sebastian/resource-operations": {
+        "version": "1.0.0"
+    },
+    "sebastian/recursion-context": {
+        "version": "3.0.0"
+    },
+    "sebastian/object-reflector": {
+        "version": "1.1.1"
+    },
+    "sebastian/object-enumerator": {
+        "version": "3.0.3"
+    },
+    "sebastian/global-state": {
+        "version": "2.0.0"
+    },
+    "sebastian/exporter": {
+        "version": "3.1.0"
+    },
+    "sebastian/environment": {
+        "version": "3.1.0"
+    },
+    "sebastian/diff": {
+        "version": "2.0.1"
+    },
+    "sebastian/comparator": {
+        "version": "2.1.0"
+    },
+    "phpunit/php-text-template": {
+        "version": "1.2.1"
+    },
+    "phpunit/phpunit-mock-objects": {
+        "version": "4.0.4"
+    },
+    "phpunit/php-timer": {
+        "version": "1.0.9"
+    },
+    "phpunit/php-file-iterator": {
+        "version": "1.4.2"
+    },
+    "theseer/tokenizer": {
+        "version": "1.1.0"
+    },
+    "sebastian/code-unit-reverse-lookup": {
+        "version": "1.0.1"
+    },
+    "phpunit/php-token-stream": {
+        "version": "2.0.1"
+    },
+    "phpunit/php-code-coverage": {
+        "version": "5.2.3"
+    },
+    "webmozart/assert": {
+        "version": "1.2.0"
+    },
+    "phpdocumentor/reflection-common": {
+        "version": "1.0.1"
+    },
+    "phpdocumentor/type-resolver": {
+        "version": "0.4.0"
+    },
+    "phpdocumentor/reflection-docblock": {
+        "version": "4.1.1"
+    },
+    "phpspec/prophecy": {
+        "version": "v1.7.2"
+    },
+    "phar-io/version": {
+        "version": "1.0.1"
+    },
+    "phar-io/manifest": {
+        "version": "1.0.1"
+    },
+    "myclabs/deep-copy": {
+        "version": "1.7.0"
+    },
+    "phpunit/phpunit": {
+        "version": "4.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.7",
+            "ref": "a5708058bd6f16863618096090e825c549a231e1"
+        }
     }
 }
