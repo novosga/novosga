@@ -1,3 +1,4 @@
+
 {
     "name": "novosga/novosga",
     "description": "Support queue management system",
@@ -84,3 +85,4 @@
         }
     }
 }
+

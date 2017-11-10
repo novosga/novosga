@@ -46,9 +46,10 @@ class InstallCommand extends UpdateCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $header = [ 
+        $version = $this->getContainer()->getParameter('version');
+        $header  = [
             "*******************\n",
-            "Welcome to NovoSGA installer\n",
+            "Welcome to NovoSGA v{$version} installer\n",
             "*******************",
         ];
         

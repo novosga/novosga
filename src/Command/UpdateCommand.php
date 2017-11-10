@@ -11,7 +11,7 @@
 
 namespace App\Command;
 
-use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class UpdateCommand extends Command
+class UpdateCommand extends ContainerAwareCommand
 {
     use FormattedOutputTrait;
     
@@ -34,9 +34,10 @@ class UpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $header = [ 
+        $version = $this->getContainer()->getParameter('version');
+        $header  = [
             "*******************\n",
-            "Updating NovoSGA installation\n",
+            "Updating NovoSGA v{$version} installation\n",
             "*******************",
         ];
         
