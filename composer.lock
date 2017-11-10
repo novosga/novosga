@@ -1271,12 +1271,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "881bc0bc8090b6b9f318e13efcc5a024d797db62"
+                "reference": "05387afb9cccbce5f814bac00010a4ab607bce48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/881bc0bc8090b6b9f318e13efcc5a024d797db62",
-                "reference": "881bc0bc8090b6b9f318e13efcc5a024d797db62",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/05387afb9cccbce5f814bac00010a4ab607bce48",
+                "reference": "05387afb9cccbce5f814bac00010a4ab607bce48",
                 "shasum": ""
             },
             "require": {
@@ -1298,7 +1298,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T19:10:50+00:00"
+            "time": "2017-11-10T23:29:03+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1338,12 +1338,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "ca0c87e64c066e4dbcf30e18cbbcce362f5ed368"
+                "reference": "3215aeabe723de8a2f18a585c0d3c730d6e782e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/ca0c87e64c066e4dbcf30e18cbbcce362f5ed368",
-                "reference": "ca0c87e64c066e4dbcf30e18cbbcce362f5ed368",
+                "url": "https://api.github.com/repos/novosga/core/zipball/3215aeabe723de8a2f18a585c0d3c730d6e782e3",
+                "reference": "3215aeabe723de8a2f18a585c0d3c730d6e782e3",
                 "shasum": ""
             },
             "require": {
@@ -1364,7 +1364,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T16:27:57+00:00"
+            "time": "2017-11-10T23:46:21+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1372,12 +1372,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "f2d7301dcd429c56b7ce7f7e065c8327f7027c86"
+                "reference": "e8c60894008c753f0440c869ed947d35318c5867"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/f2d7301dcd429c56b7ce7f7e065c8327f7027c86",
-                "reference": "f2d7301dcd429c56b7ce7f7e065c8327f7027c86",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/e8c60894008c753f0440c869ed947d35318c5867",
+                "reference": "e8c60894008c753f0440c869ed947d35318c5867",
                 "shasum": ""
             },
             "require": {
@@ -1399,7 +1399,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T16:31:08+00:00"
+            "time": "2017-11-10T23:29:31+00:00"
         },
         {
             "name": "novosga/oauth-server-bundle",
@@ -1485,12 +1485,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "e3311a463ff251cb11655b12115dfe63ec987e5e"
+                "reference": "e8972ba49b76a7b77d677e42e5e1cb039fd67b01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/e3311a463ff251cb11655b12115dfe63ec987e5e",
-                "reference": "e3311a463ff251cb11655b12115dfe63ec987e5e",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/e8972ba49b76a7b77d677e42e5e1cb039fd67b01",
+                "reference": "e8972ba49b76a7b77d677e42e5e1cb039fd67b01",
                 "shasum": ""
             },
             "require": {
@@ -1512,7 +1512,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T16:29:15+00:00"
+            "time": "2017-11-10T23:29:46+00:00"
         },
         {
             "name": "novosga/settings-bundle",
@@ -1520,12 +1520,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "e81cf2c89e026c26290c3feacb9f2da5aee62e2a"
+                "reference": "7cfa73a638eef43a6278937d48de1738fa765694"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/e81cf2c89e026c26290c3feacb9f2da5aee62e2a",
-                "reference": "e81cf2c89e026c26290c3feacb9f2da5aee62e2a",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/7cfa73a638eef43a6278937d48de1738fa765694",
+                "reference": "7cfa73a638eef43a6278937d48de1738fa765694",
                 "shasum": ""
             },
             "require": {
@@ -1547,7 +1547,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T16:30:28+00:00"
+            "time": "2017-11-10T23:29:57+00:00"
         },
         {
             "name": "novosga/triagem-bundle",
@@ -1555,12 +1555,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triagem-bundle.git",
-                "reference": "bbc395afcf2cbda8615717b14a1399d679cc4f7c"
+                "reference": "fbebdc35397f18adb695bc079067b089df7f7efa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triagem-bundle/zipball/bbc395afcf2cbda8615717b14a1399d679cc4f7c",
-                "reference": "bbc395afcf2cbda8615717b14a1399d679cc4f7c",
+                "url": "https://api.github.com/repos/novosga/triagem-bundle/zipball/fbebdc35397f18adb695bc079067b089df7f7efa",
+                "reference": "fbebdc35397f18adb695bc079067b089df7f7efa",
                 "shasum": ""
             },
             "require": {
@@ -1582,7 +1582,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T19:05:58+00:00"
+            "time": "2017-11-10T23:30:09+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -1590,12 +1590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "301a2c763ed2bdb6ee7ce471176098ea56dc981b"
+                "reference": "b0864cfa85ada5df86f2c2a57f22142477679c7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/301a2c763ed2bdb6ee7ce471176098ea56dc981b",
-                "reference": "301a2c763ed2bdb6ee7ce471176098ea56dc981b",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/b0864cfa85ada5df86f2c2a57f22142477679c7b",
+                "reference": "b0864cfa85ada5df86f2c2a57f22142477679c7b",
                 "shasum": ""
             },
             "require": {
@@ -1617,7 +1617,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-09T16:31:22+00:00"
+            "time": "2017-11-10T23:30:19+00:00"
         },
         {
             "name": "novosga/websocket-server",
