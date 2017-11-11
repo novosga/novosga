@@ -1349,12 +1349,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "05387afb9cccbce5f814bac00010a4ab607bce48"
+                "reference": "993a3c78b1b5e4c11a3b9b29dbe329d8e1edf63e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/05387afb9cccbce5f814bac00010a4ab607bce48",
-                "reference": "05387afb9cccbce5f814bac00010a4ab607bce48",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/993a3c78b1b5e4c11a3b9b29dbe329d8e1edf63e",
+                "reference": "993a3c78b1b5e4c11a3b9b29dbe329d8e1edf63e",
                 "shasum": ""
             },
             "require": {
@@ -1376,7 +1376,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-10T23:29:03+00:00"
+            "time": "2017-11-11T14:12:24+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1416,12 +1416,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "6284890672fd1cc1d858fb779ad7216a51e51054"
+                "reference": "6fc661a92068dd7c4d9a2e389112e75009243eb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/6284890672fd1cc1d858fb779ad7216a51e51054",
-                "reference": "6284890672fd1cc1d858fb779ad7216a51e51054",
+                "url": "https://api.github.com/repos/novosga/core/zipball/6fc661a92068dd7c4d9a2e389112e75009243eb7",
+                "reference": "6fc661a92068dd7c4d9a2e389112e75009243eb7",
                 "shasum": ""
             },
             "require": {
@@ -1442,7 +1442,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-11T12:51:56+00:00"
+            "time": "2017-11-11T14:11:58+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
