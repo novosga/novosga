@@ -409,5 +409,8 @@
             "version": "4.7",
             "ref": "a5708058bd6f16863618096090e825c549a231e1"
         }
+    },
+    "squizlabs/php_codesniffer": {
+        "version": "3.1.1"
     }
 }
