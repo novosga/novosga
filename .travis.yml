@@ -9,12 +9,6 @@ php:
 git:
     depth: 1
 
-addons:
-    apt_packages:
-        - libicu-dev
-        - libxml2-dev
-        - zlib1g-dev
-
 env:
     global:
         - APP_ENV="prod"
@@ -22,8 +16,15 @@ env:
         - DATABASE_PASS="just-to-build"
         - COMPOSER_ROOT_VERSION="2.0.x-dev"
 
-  
-install: travis_retry composer update --prefer-dist --no-dev
+install:
+    - travis_retry composer update --prefer-dist
+
+before_script:
+    - pyrus install pear/PHP_CodeSniffer
+
+script:
+    - phpcs .
+    - phpunit
 
 cache:
     directories:
