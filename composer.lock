@@ -1338,12 +1338,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "6fc661a92068dd7c4d9a2e389112e75009243eb7"
+                "reference": "15a3bd76a50b2dd0c4119ab44074228d2196b839"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/6fc661a92068dd7c4d9a2e389112e75009243eb7",
-                "reference": "6fc661a92068dd7c4d9a2e389112e75009243eb7",
+                "url": "https://api.github.com/repos/novosga/core/zipball/15a3bd76a50b2dd0c4119ab44074228d2196b839",
+                "reference": "15a3bd76a50b2dd0c4119ab44074228d2196b839",
                 "shasum": ""
             },
             "require": {
@@ -1364,7 +1364,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-11T14:11:58+00:00"
+            "time": "2017-11-13T11:48:51+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1485,12 +1485,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "bcb7ba5356ded04153da0397e00ae33cd22a473e"
+                "reference": "c398cf2eb801ef4c6fc69937ecdb742874369b33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/bcb7ba5356ded04153da0397e00ae33cd22a473e",
-                "reference": "bcb7ba5356ded04153da0397e00ae33cd22a473e",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/c398cf2eb801ef4c6fc69937ecdb742874369b33",
+                "reference": "c398cf2eb801ef4c6fc69937ecdb742874369b33",
                 "shasum": ""
             },
             "require": {
@@ -1512,7 +1512,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-11T13:02:44+00:00"
+            "time": "2017-11-13T11:06:43+00:00"
         },
         {
             "name": "novosga/settings-bundle",
@@ -1555,12 +1555,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triagem-bundle.git",
-                "reference": "fbebdc35397f18adb695bc079067b089df7f7efa"
+                "reference": "49ae4d871188ffc7ee3551058e84531ee1553b9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triagem-bundle/zipball/fbebdc35397f18adb695bc079067b089df7f7efa",
-                "reference": "fbebdc35397f18adb695bc079067b089df7f7efa",
+                "url": "https://api.github.com/repos/novosga/triagem-bundle/zipball/49ae4d871188ffc7ee3551058e84531ee1553b9a",
+                "reference": "49ae4d871188ffc7ee3551058e84531ee1553b9a",
                 "shasum": ""
             },
             "require": {
@@ -1582,7 +1582,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-10T23:30:09+00:00"
+            "time": "2017-11-13T12:02:08+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -2249,16 +2249,16 @@
         },
         {
             "name": "symfony/asset",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/asset.git",
-                "reference": "1986b499c1efc95f67659d781f4972e1b64c417b"
+                "reference": "3f5117a59af74dd3cecf3ebc70d1e35478ae2d01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/asset/zipball/1986b499c1efc95f67659d781f4972e1b64c417b",
-                "reference": "1986b499c1efc95f67659d781f4972e1b64c417b",
+                "url": "https://api.github.com/repos/symfony/asset/zipball/3f5117a59af74dd3cecf3ebc70d1e35478ae2d01",
+                "reference": "3f5117a59af74dd3cecf3ebc70d1e35478ae2d01",
                 "shasum": ""
             },
             "require": {
@@ -2301,20 +2301,20 @@
             ],
             "description": "Symfony Asset Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-24T14:16:56+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/cache",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "51129c7822744d39166d693091746c1344ddf155"
+                "reference": "5b2fffcad066341f9168513ed08e56cf95d377c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/51129c7822744d39166d693091746c1344ddf155",
-                "reference": "51129c7822744d39166d693091746c1344ddf155",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/5b2fffcad066341f9168513ed08e56cf95d377c6",
+                "reference": "5b2fffcad066341f9168513ed08e56cf95d377c6",
                 "shasum": ""
             },
             "require": {
@@ -2370,20 +2370,20 @@
                 "caching",
                 "psr6"
             ],
-            "time": "2017-10-31T15:19:56+00:00"
+            "time": "2017-11-10T19:37:45+00:00"
         },
         {
             "name": "symfony/config",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "02f018e3b9f63e51113da1f036b402aeeb2538dd"
+                "reference": "5737a596f9aecded1dc60ea4096a741f2862bf21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/02f018e3b9f63e51113da1f036b402aeeb2538dd",
-                "reference": "02f018e3b9f63e51113da1f036b402aeeb2538dd",
+                "url": "https://api.github.com/repos/symfony/config/zipball/5737a596f9aecded1dc60ea4096a741f2862bf21",
+                "reference": "5737a596f9aecded1dc60ea4096a741f2862bf21",
                 "shasum": ""
             },
             "require": {
@@ -2430,20 +2430,20 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-11T15:54:51+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "77848ab790c4e7dcce7e5e40733dc2e45cf829bf"
+                "reference": "481dcfc9c0be0ed91be456ab72960ee8a07168e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/77848ab790c4e7dcce7e5e40733dc2e45cf829bf",
-                "reference": "77848ab790c4e7dcce7e5e40733dc2e45cf829bf",
+                "url": "https://api.github.com/repos/symfony/console/zipball/481dcfc9c0be0ed91be456ab72960ee8a07168e2",
+                "reference": "481dcfc9c0be0ed91be456ab72960ee8a07168e2",
                 "shasum": ""
             },
             "require": {
@@ -2499,20 +2499,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-12T16:54:20+00:00"
         },
         {
             "name": "symfony/debug",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "a5bb97fb9fbd0e2a5e44feb8b32bb541f8b5b7b7"
+                "reference": "92697a71cd55c5852d0f19cd80e7fb6d1eb12b88"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/a5bb97fb9fbd0e2a5e44feb8b32bb541f8b5b7b7",
-                "reference": "a5bb97fb9fbd0e2a5e44feb8b32bb541f8b5b7b7",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/92697a71cd55c5852d0f19cd80e7fb6d1eb12b88",
+                "reference": "92697a71cd55c5852d0f19cd80e7fb6d1eb12b88",
                 "shasum": ""
             },
             "require": {
@@ -2555,20 +2555,20 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-24T14:16:56+00:00"
+            "time": "2017-11-12T16:47:31+00:00"
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "baa6ee6118305caef06f82506c081860bcdd500e"
+                "reference": "55d1d0001b0594273bfa62e955b8af0deaf96564"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/baa6ee6118305caef06f82506c081860bcdd500e",
-                "reference": "baa6ee6118305caef06f82506c081860bcdd500e",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/55d1d0001b0594273bfa62e955b8af0deaf96564",
+                "reference": "55d1d0001b0594273bfa62e955b8af0deaf96564",
                 "shasum": ""
             },
             "require": {
@@ -2626,20 +2626,20 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T18:15:34+00:00"
+            "time": "2017-11-12T16:47:31+00:00"
         },
         {
             "name": "symfony/doctrine-bridge",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/doctrine-bridge.git",
-                "reference": "5e9728a38a7c117d0aae41abce76778faa5a6aa1"
+                "reference": "496f1ec1a5d288020f83aebcb70bf0571d92a517"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/5e9728a38a7c117d0aae41abce76778faa5a6aa1",
-                "reference": "5e9728a38a7c117d0aae41abce76778faa5a6aa1",
+                "url": "https://api.github.com/repos/symfony/doctrine-bridge/zipball/496f1ec1a5d288020f83aebcb70bf0571d92a517",
+                "reference": "496f1ec1a5d288020f83aebcb70bf0571d92a517",
                 "shasum": ""
             },
             "require": {
@@ -2705,20 +2705,20 @@
             ],
             "description": "Symfony Doctrine Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "0528d15f9ec51c3f464b8a05b0357eedc243be51"
+                "reference": "6223fb2b68e7059e8d5843c0103999a84e7275cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/0528d15f9ec51c3f464b8a05b0357eedc243be51",
-                "reference": "0528d15f9ec51c3f464b8a05b0357eedc243be51",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/6223fb2b68e7059e8d5843c0103999a84e7275cf",
+                "reference": "6223fb2b68e7059e8d5843c0103999a84e7275cf",
                 "shasum": ""
             },
             "require": {
@@ -2768,20 +2768,20 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-09T17:30:28+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "63967eebb9f8e29e417a7c8174fc76c7aec88622"
+                "reference": "1e8e2a3a34c9d1e85ecd3e71c77587417111fb95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/63967eebb9f8e29e417a7c8174fc76c7aec88622",
-                "reference": "63967eebb9f8e29e417a7c8174fc76c7aec88622",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/1e8e2a3a34c9d1e85ecd3e71c77587417111fb95",
+                "reference": "1e8e2a3a34c9d1e85ecd3e71c77587417111fb95",
                 "shasum": ""
             },
             "require": {
@@ -2817,20 +2817,20 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "2d9d7374d27cfce41cb9f79b18a7cb2f569291f8"
+                "reference": "c9cdda4dc4a3182d8d6daeebce4a25fef078ea4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/2d9d7374d27cfce41cb9f79b18a7cb2f569291f8",
-                "reference": "2d9d7374d27cfce41cb9f79b18a7cb2f569291f8",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/c9cdda4dc4a3182d8d6daeebce4a25fef078ea4c",
+                "reference": "c9cdda4dc4a3182d8d6daeebce4a25fef078ea4c",
                 "shasum": ""
             },
             "require": {
@@ -2866,7 +2866,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/flex",
@@ -2916,16 +2916,16 @@
         },
         {
             "name": "symfony/form",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/form.git",
-                "reference": "7784f138181bf227de8235e419eea099090f26e1"
+                "reference": "e97d0a645c676fbaeba0d3df27f2c5fc64b35f38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/form/zipball/7784f138181bf227de8235e419eea099090f26e1",
-                "reference": "7784f138181bf227de8235e419eea099090f26e1",
+                "url": "https://api.github.com/repos/symfony/form/zipball/e97d0a645c676fbaeba0d3df27f2c5fc64b35f38",
+                "reference": "e97d0a645c676fbaeba0d3df27f2c5fc64b35f38",
                 "shasum": ""
             },
             "require": {
@@ -2992,20 +2992,20 @@
             ],
             "description": "Symfony Form Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T17:13:32+00:00"
+            "time": "2017-11-12T16:47:31+00:00"
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "aa3b1798148b999a18552f9167156831bdd95518"
+                "reference": "2554dd997931860dd487753486901c70c0e981bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/aa3b1798148b999a18552f9167156831bdd95518",
-                "reference": "aa3b1798148b999a18552f9167156831bdd95518",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/2554dd997931860dd487753486901c70c0e981bb",
+                "reference": "2554dd997931860dd487753486901c70c0e981bb",
                 "shasum": ""
             },
             "require": {
@@ -3014,7 +3014,7 @@
                 "symfony/cache": "~3.4|~4.0",
                 "symfony/config": "~3.4|~4.0",
                 "symfony/dependency-injection": "~3.4|~4.0",
-                "symfony/event-dispatcher": "~3.4|~4.0",
+                "symfony/event-dispatcher": "~3.4-beta4|~4.0-beta4",
                 "symfony/filesystem": "~3.4|~4.0",
                 "symfony/finder": "~3.4|~4.0",
                 "symfony/http-foundation": "~3.4|~4.0",
@@ -3106,20 +3106,20 @@
             ],
             "description": "Symfony FrameworkBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T17:01:13+00:00"
+            "time": "2017-11-12T16:47:31+00:00"
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v3.4.0-BETA3",
+            "version": "v3.4.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "24068b1c8b5f330654b4ef5a95646a1a658171ea"
+                "reference": "ce3c40e528a2786453fa4154c85480ee6e9b8500"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/24068b1c8b5f330654b4ef5a95646a1a658171ea",
-                "reference": "24068b1c8b5f330654b4ef5a95646a1a658171ea",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/ce3c40e528a2786453fa4154c85480ee6e9b8500",
+                "reference": "ce3c40e528a2786453fa4154c85480ee6e9b8500",
                 "shasum": ""
             },
             "require": {
@@ -3160,20 +3160,20 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T19:07:09+00:00"
+            "time": "2017-11-10T07:36:19+00:00"
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "4001fb48388e665ee470b8705c45d197e45861da"
+                "reference": "9a9e4d013f7a871a2695577350b077ac959e479c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/4001fb48388e665ee470b8705c45d197e45861da",
-                "reference": "4001fb48388e665ee470b8705c45d197e45861da",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/9a9e4d013f7a871a2695577350b077ac959e479c",
+                "reference": "9a9e4d013f7a871a2695577350b077ac959e479c",
                 "shasum": ""
             },
             "require": {
@@ -3246,11 +3246,11 @@
             ],
             "description": "Symfony HttpKernel Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T23:23:30+00:00"
+            "time": "2017-11-12T18:08:08+00:00"
         },
         {
             "name": "symfony/inflector",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -3307,16 +3307,16 @@
         },
         {
             "name": "symfony/intl",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/intl.git",
-                "reference": "07c9701c782404797c24d97cc0330cbf0d12f567"
+                "reference": "f3d0f0ef8c09f3ab9d7a8ee5bbb28c100b101b91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/intl/zipball/07c9701c782404797c24d97cc0330cbf0d12f567",
-                "reference": "07c9701c782404797c24d97cc0330cbf0d12f567",
+                "url": "https://api.github.com/repos/symfony/intl/zipball/f3d0f0ef8c09f3ab9d7a8ee5bbb28c100b101b91",
+                "reference": "f3d0f0ef8c09f3ab9d7a8ee5bbb28c100b101b91",
                 "shasum": ""
             },
             "require": {
@@ -3378,7 +3378,7 @@
                 "l10n",
                 "localization"
             ],
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-10T19:37:45+00:00"
         },
         {
             "name": "symfony/lts",
@@ -3474,16 +3474,16 @@
         },
         {
             "name": "symfony/monolog-bridge",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bridge.git",
-                "reference": "c46fa079a7a9cd3166330427887d9a974ad6c0fc"
+                "reference": "55fead8897d6c17c4491b775c527421f10271bbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bridge/zipball/c46fa079a7a9cd3166330427887d9a974ad6c0fc",
-                "reference": "c46fa079a7a9cd3166330427887d9a974ad6c0fc",
+                "url": "https://api.github.com/repos/symfony/monolog-bridge/zipball/55fead8897d6c17c4491b775c527421f10271bbb",
+                "reference": "55fead8897d6c17c4491b775c527421f10271bbb",
                 "shasum": ""
             },
             "require": {
@@ -3535,7 +3535,7 @@
             ],
             "description": "Symfony Monolog Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-10-31T15:19:56+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/monolog-bundle",
@@ -3602,16 +3602,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "4a1ed9064c7f5c63b5f3a598b3cc30d3c2055b73"
+                "reference": "ef617a2867c7d889d4ecee3c29595698d87474a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/4a1ed9064c7f5c63b5f3a598b3cc30d3c2055b73",
-                "reference": "4a1ed9064c7f5c63b5f3a598b3cc30d3c2055b73",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/ef617a2867c7d889d4ecee3c29595698d87474a4",
+                "reference": "ef617a2867c7d889d4ecee3c29595698d87474a4",
                 "shasum": ""
             },
             "require": {
@@ -3652,7 +3652,7 @@
                 "configuration",
                 "options"
             ],
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/orm-pack",
@@ -3943,16 +3943,16 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "2aae9cf57d9ae0ebb38fde363a656beb69256cc5"
+                "reference": "3e543feb45ce8a09dc81c1e72974bb5691a2888b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/2aae9cf57d9ae0ebb38fde363a656beb69256cc5",
-                "reference": "2aae9cf57d9ae0ebb38fde363a656beb69256cc5",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/3e543feb45ce8a09dc81c1e72974bb5691a2888b",
+                "reference": "3e543feb45ce8a09dc81c1e72974bb5691a2888b",
                 "shasum": ""
             },
             "require": {
@@ -4006,20 +4006,20 @@
                 "property path",
                 "reflection"
             ],
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-09T12:45:29+00:00"
         },
         {
             "name": "symfony/routing",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "a031adc974a737fe9880b652b551435db2629e98"
+                "reference": "faffea9e427c2ab337eba8419de6f5a7ade636ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/a031adc974a737fe9880b652b551435db2629e98",
-                "reference": "a031adc974a737fe9880b652b551435db2629e98",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/faffea9e427c2ab337eba8419de6f5a7ade636ce",
+                "reference": "faffea9e427c2ab337eba8419de6f5a7ade636ce",
                 "shasum": ""
             },
             "require": {
@@ -4084,20 +4084,20 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-10-24T14:16:56+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/security",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security.git",
-                "reference": "c936dfc4938a441c2b503a58c526245b201e0438"
+                "reference": "8cc60ec980925ea1d3dd3547028e305698da11fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security/zipball/c936dfc4938a441c2b503a58c526245b201e0438",
-                "reference": "c936dfc4938a441c2b503a58c526245b201e0438",
+                "url": "https://api.github.com/repos/symfony/security/zipball/8cc60ec980925ea1d3dd3547028e305698da11fc",
+                "reference": "8cc60ec980925ea1d3dd3547028e305698da11fc",
                 "shasum": ""
             },
             "require": {
@@ -4161,20 +4161,20 @@
             ],
             "description": "Symfony Security Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-09T12:45:29+00:00"
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "df8e4c692209e60db0a94bbfdacd50eeb54794f5"
+                "reference": "8ed71f5152ae5d9816ae75d9bfd301a707dbc6a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/df8e4c692209e60db0a94bbfdacd50eeb54794f5",
-                "reference": "df8e4c692209e60db0a94bbfdacd50eeb54794f5",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/8ed71f5152ae5d9816ae75d9bfd301a707dbc6a6",
+                "reference": "8ed71f5152ae5d9816ae75d9bfd301a707dbc6a6",
                 "shasum": ""
             },
             "require": {
@@ -4241,20 +4241,20 @@
             ],
             "description": "Symfony SecurityBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-10-29T21:09:05+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/stopwatch",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/stopwatch.git",
-                "reference": "46fbaea465b7482c0e4886548104e8b02744fb1d"
+                "reference": "ac0e49150555c703fef6b696d8eaba1db7a3ca03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/46fbaea465b7482c0e4886548104e8b02744fb1d",
-                "reference": "46fbaea465b7482c0e4886548104e8b02744fb1d",
+                "url": "https://api.github.com/repos/symfony/stopwatch/zipball/ac0e49150555c703fef6b696d8eaba1db7a3ca03",
+                "reference": "ac0e49150555c703fef6b696d8eaba1db7a3ca03",
                 "shasum": ""
             },
             "require": {
@@ -4290,20 +4290,20 @@
             ],
             "description": "Symfony Stopwatch Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-09T12:45:29+00:00"
         },
         {
             "name": "symfony/translation",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "7beac86f46d28608e021764721c47da219a6bd8a"
+                "reference": "6826748b10976339b62b04e9df00eacad95dc5ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/7beac86f46d28608e021764721c47da219a6bd8a",
-                "reference": "7beac86f46d28608e021764721c47da219a6bd8a",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/6826748b10976339b62b04e9df00eacad95dc5ee",
+                "reference": "6826748b10976339b62b04e9df00eacad95dc5ee",
                 "shasum": ""
             },
             "require": {
@@ -4358,20 +4358,20 @@
             ],
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "d39b9905cf6f8b0f6c2cea95bb36054d02997605"
+                "reference": "5695b11dc81bea7c944a44548569171e43075593"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/d39b9905cf6f8b0f6c2cea95bb36054d02997605",
-                "reference": "d39b9905cf6f8b0f6c2cea95bb36054d02997605",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/5695b11dc81bea7c944a44548569171e43075593",
+                "reference": "5695b11dc81bea7c944a44548569171e43075593",
                 "shasum": ""
             },
             "require": {
@@ -4389,7 +4389,7 @@
                 "symfony/dependency-injection": "~3.4|~4.0",
                 "symfony/expression-language": "~3.4|~4.0",
                 "symfony/finder": "~3.4|~4.0",
-                "symfony/form": "~3.4-beta2|~4.0-beta2",
+                "symfony/form": "~3.4-beta4|~4.0-beta4",
                 "symfony/http-foundation": "~3.4|~4.0",
                 "symfony/http-kernel": "~3.4|~4.0",
                 "symfony/polyfill-intl-icu": "~1.0",
@@ -4448,20 +4448,20 @@
             ],
             "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-12T16:47:31+00:00"
         },
         {
             "name": "symfony/twig-bundle",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bundle.git",
-                "reference": "8fe3b199818dc8097c5ff7200d554713e0d6513d"
+                "reference": "c459be47b77d193d415f75a75c100efa02bc8d85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bundle/zipball/8fe3b199818dc8097c5ff7200d554713e0d6513d",
-                "reference": "8fe3b199818dc8097c5ff7200d554713e0d6513d",
+                "url": "https://api.github.com/repos/symfony/twig-bundle/zipball/c459be47b77d193d415f75a75c100efa02bc8d85",
+                "reference": "c459be47b77d193d415f75a75c100efa02bc8d85",
                 "shasum": ""
             },
             "require": {
@@ -4521,20 +4521,20 @@
             ],
             "description": "Symfony TwigBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-10T19:37:45+00:00"
         },
         {
             "name": "symfony/validator",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/validator.git",
-                "reference": "9cd8c12144e99c9fba9fe8c170f206702e86cf4c"
+                "reference": "b48c7374297358711f8c5d79073b03e62d70e9d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/validator/zipball/9cd8c12144e99c9fba9fe8c170f206702e86cf4c",
-                "reference": "9cd8c12144e99c9fba9fe8c170f206702e86cf4c",
+                "url": "https://api.github.com/repos/symfony/validator/zipball/b48c7374297358711f8c5d79073b03e62d70e9d9",
+                "reference": "b48c7374297358711f8c5d79073b03e62d70e9d9",
                 "shasum": ""
             },
             "require": {
@@ -4605,20 +4605,20 @@
             ],
             "description": "Symfony Validator Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-10T19:37:45+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "f79fb63c1f4468566e0d55fc9fc1d79ee60fa2e1"
+                "reference": "bbe2c65c7068cac878027fa6eb90676319edb449"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f79fb63c1f4468566e0d55fc9fc1d79ee60fa2e1",
-                "reference": "f79fb63c1f4468566e0d55fc9fc1d79ee60fa2e1",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/bbe2c65c7068cac878027fa6eb90676319edb449",
+                "reference": "bbe2c65c7068cac878027fa6eb90676319edb449",
                 "shasum": ""
             },
             "require": {
@@ -4674,20 +4674,20 @@
                 "debug",
                 "dump"
             ],
-            "time": "2017-11-05T17:01:13+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "a66b0af66e427b6601fbddd46e64c4eb8fd14821"
+                "reference": "f624f9bd6b9d8ff245652150be2b54bf3a3137f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/a66b0af66e427b6601fbddd46e64c4eb8fd14821",
-                "reference": "a66b0af66e427b6601fbddd46e64c4eb8fd14821",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/f624f9bd6b9d8ff245652150be2b54bf3a3137f0",
+                "reference": "f624f9bd6b9d8ff245652150be2b54bf3a3137f0",
                 "shasum": ""
             },
             "require": {
@@ -4740,20 +4740,20 @@
             ],
             "description": "Symfony WebProfilerBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T17:01:13+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "f63664afe959bb1289147112342506a8e215e271"
+                "reference": "686c7fc416b454fe4019f1a225206b133ceb4fc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/f63664afe959bb1289147112342506a8e215e271",
-                "reference": "f63664afe959bb1289147112342506a8e215e271",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/686c7fc416b454fe4019f1a225206b133ceb4fc1",
+                "reference": "686c7fc416b454fe4019f1a225206b133ceb4fc1",
                 "shasum": ""
             },
             "require": {
@@ -4798,7 +4798,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-10-24T14:36:35+00:00"
+            "time": "2017-11-10T19:37:45+00:00"
         },
         {
             "name": "twig/twig",
@@ -6448,16 +6448,16 @@
         },
         {
             "name": "symfony/dotenv",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dotenv.git",
-                "reference": "7072a5465eb21b03b28a3d9d52b1a87d9a045c6d"
+                "reference": "a8b75ab0c7ce3436709d0eef1bbf4b31bb7182d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dotenv/zipball/7072a5465eb21b03b28a3d9d52b1a87d9a045c6d",
-                "reference": "7072a5465eb21b03b28a3d9d52b1a87d9a045c6d",
+                "url": "https://api.github.com/repos/symfony/dotenv/zipball/a8b75ab0c7ce3436709d0eef1bbf4b31bb7182d5",
+                "reference": "a8b75ab0c7ce3436709d0eef1bbf4b31bb7182d5",
                 "shasum": ""
             },
             "require": {
@@ -6501,20 +6501,20 @@
                 "env",
                 "environment"
             ],
-            "time": "2017-09-06T19:16:37+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/process",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "049573cec841dd4638258d92af750fa8921691d4"
+                "reference": "14ec41fb318afb39b11fd5d24b880f29b085600b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/049573cec841dd4638258d92af750fa8921691d4",
-                "reference": "049573cec841dd4638258d92af750fa8921691d4",
+                "url": "https://api.github.com/repos/symfony/process/zipball/14ec41fb318afb39b11fd5d24b880f29b085600b",
+                "reference": "14ec41fb318afb39b11fd5d24b880f29b085600b",
                 "shasum": ""
             },
             "require": {
@@ -6550,20 +6550,20 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-11-05T16:26:21+00:00"
+            "time": "2017-11-07T14:45:01+00:00"
         },
         {
             "name": "symfony/web-server-bundle",
-            "version": "v4.0.0-BETA3",
+            "version": "v4.0.0-BETA4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-server-bundle.git",
-                "reference": "0b8bd66313a5597aab1b1bc4016668f99f2f3d1d"
+                "reference": "80117562a485939da29493bdce7efb96bf0ea9a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-server-bundle/zipball/0b8bd66313a5597aab1b1bc4016668f99f2f3d1d",
-                "reference": "0b8bd66313a5597aab1b1bc4016668f99f2f3d1d",
+                "url": "https://api.github.com/repos/symfony/web-server-bundle/zipball/80117562a485939da29493bdce7efb96bf0ea9a8",
+                "reference": "80117562a485939da29493bdce7efb96bf0ea9a8",
                 "shasum": ""
             },
             "require": {
@@ -6604,7 +6604,7 @@
             ],
             "description": "Symfony WebServerBundle",
             "homepage": "https://symfony.com",
-            "time": "2017-10-20T19:28:39+00:00"
+            "time": "2017-11-10T19:37:45+00:00"
         },
         {
             "name": "theseer/tokenizer",
