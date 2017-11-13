@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.0.8",
-        "jms/serializer-bundle": "^2.2",
+        "jms/serializer": "^1.9",
         "novosga/attendance-bundle": "self.version",
         "novosga/composer-installer-plugin": "v1.0",
         "novosga/core": "self.version",

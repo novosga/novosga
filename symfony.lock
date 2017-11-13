@@ -77,9 +77,6 @@
             "ref": "7d7b119ceafc18a71ca03b7bbd66dfc98d8224fd"
         }
     },
-    "phpoption/phpoption": {
-        "version": "1.5.0"
-    },
     "doctrine/instantiator": {
         "version": "1.1.0"
     },
@@ -88,27 +85,6 @@
     },
     "doctrine/annotations": {
         "version": "v1.5.0"
-    },
-    "phpcollection/phpcollection": {
-        "version": "0.5.0"
-    },
-    "jms/parser-lib": {
-        "version": "1.0.0"
-    },
-    "jms/metadata": {
-        "version": "1.6.0"
-    },
-    "jms/serializer": {
-        "version": "1.9.1"
-    },
-    "jms/serializer-bundle": {
-        "version": "2.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "2.0",
-            "ref": "fe60ce509ef04a3f40da96e3979bc8d9b13b2372"
-        }
     },
     "novosga/core": {
         "version": "2.0-dev"
@@ -427,5 +403,20 @@
             "version": "3.1",
             "ref": "545a182debed2f70594c9ea66421887b0bcd9f69"
         }
+    },
+    "phpoption/phpoption": {
+        "version": "1.5.0"
+    },
+    "phpcollection/phpcollection": {
+        "version": "0.5.0"
+    },
+    "jms/parser-lib": {
+        "version": "1.0.0"
+    },
+    "jms/metadata": {
+        "version": "1.6.0"
+    },
+    "jms/serializer": {
+        "version": "1.9.1"
     }
 }

@@ -20,6 +20,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  */
 abstract class ApiControllerBase extends Controller
 {
+    /**
+     * @var string
+     */
+    private $rootDir;
+    
+    public function __construct($rootDir)
+    {
+        $this->rootDir = $rootDir;
+    }
     
     /**
      * @return \Doctrine\Common\Persistence\ObjectManager
@@ -33,11 +42,15 @@ abstract class ApiControllerBase extends Controller
     }
     
     /**
-     * @return Serializer
+     * @return \JMS\Serializer\SerializerInterface
      */
     protected function getSerializer()
     {
-        $serializer = $this->get('jms_serializer');
+        $serializer =
+            \JMS\Serializer\SerializerBuilder::create()
+                ->addMetadataDir("{$this->rootDir}/config/serializer/app", 'App')
+                ->addMetadataDir("{$this->rootDir}/config/serializer/core", 'Novosga')
+                ->build();
         
         return $serializer;
     }

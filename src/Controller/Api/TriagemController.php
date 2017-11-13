@@ -45,19 +45,20 @@ class TriagemController extends ApiControllerBase
      * @Route("/distribui")
      * @Method("POST")
      */
-    public function distribuiAction(Request $request, AtendimentoService $service)
-    {
-        $logger = $this->get('logger');
-        
+    public function distribuiAction(
+        Request $request,
+        AtendimentoService $service,
+        \Psr\Log\LoggerInterface $logger
+    ) {
         try {
             $json = $request->getContent();
-            $manager = $this->getManager();
             
             $logger->info('[/api/distribui] ' . $json);
         
-            $serializer = $this->getSerializer();
-            $novaSenha = $serializer->deserialize($json, NovaSenha::class, 'json');
-
+            $novaSenha = $this
+                ->getSerializer()
+                ->deserialize($json, NovaSenha::class, 'json');
+            
             $usuario    = $this->getUser()->getId();
             $unidade    = (int) $novaSenha->unidade;
             $servico    = (int) $novaSenha->servico;
@@ -70,7 +71,7 @@ class TriagemController extends ApiControllerBase
                 'error' => $ex->getMessage()
             ];
             
-            $logger->error($ex->getMessage());
+            $logger->error('[/api/distribui] ' . $ex->getMessage());
         }
         
         return $this->json($response);
