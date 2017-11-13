@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
  * PainelController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * 
+ *
  * @Route("/api")
  */
 class PainelController extends ApiControllerBase

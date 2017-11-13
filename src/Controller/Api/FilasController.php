@@ -31,7 +31,7 @@ class FilasController extends Controller
 {
     /**
      * Retorna a lista de atendimentos do usuário atual na unidade informada.
-     * 
+     *
      * @Route("/{unidadeId}")
      * @ParamConverter("unidade", class="Novosga\Entity\Unidade", options={"id" = "unidadeId"})
      * @Method("GET")
@@ -53,7 +53,7 @@ class FilasController extends Controller
     /**
      * Atualiza o statuso do atendimento atual do usuário para o novo status
      * informado.
-     * 
+     *
      * @Route("")
      * @Method("PUT")
      */

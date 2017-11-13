@@ -12,7 +12,6 @@
 namespace App\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,7 +34,7 @@ class UpdateCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $version = $this->getContainer()->getParameter('version');
-        $header  = [
+        $header = [
             "*******************\n",
             "Updating NovoSGA v{$version} installation\n",
             "*******************",
@@ -50,8 +49,8 @@ class UpdateCommand extends ContainerAwareCommand
     {
         $updateDatabase = $this->getApplication()->find('doctrine:schema:update');
         $code = $updateDatabase->run(
-                new ArrayInput([ '--force' => true ]), 
-                $output
+            new ArrayInput([ '--force' => true ]),
+            $output
         );
         
         return $code === 0;

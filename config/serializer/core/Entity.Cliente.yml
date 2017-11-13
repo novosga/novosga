@@ -1,0 +1,8 @@
+Novosga\Entity\Cliente:
+    properties:
+        id:
+            read_only: true
+        nome:
+            type: string
+        documento:
+            type: string

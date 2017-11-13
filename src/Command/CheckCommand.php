@@ -37,7 +37,7 @@ class CheckCommand extends Command
         $showHeader = !$input->getOption('no-header');
         
         if ($showHeader) {
-            $header = [ 
+            $header = [
                 "*******************\n",
                 "Checking NovoSGA installation\n",
                 "*******************",
@@ -58,7 +58,7 @@ class CheckCommand extends Command
         }
         
         return 0;
-    }        
+    }
     
     private function checkEnvVar(OutputInterface $output, $varname): bool
     {
