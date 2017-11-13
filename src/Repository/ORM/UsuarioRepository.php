@@ -74,7 +74,10 @@ class UsuarioRepository extends EntityRepository implements
 
         if ($unidade) {
             if (!$usuario->isAdmin()) {
-                $lotacao = $em->getRepository(Lotacao::class)->getLotacao($usuario, $unidade);
+                $lotacao = $this
+                    ->getEntityManager()
+                    ->getRepository(Lotacao::class)
+                    ->getLotacao($usuario, $unidade);
             } else {
                 $lotacao = new Lotacao();
                 $lotacao->setUnidade($unidade);
