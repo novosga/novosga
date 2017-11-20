@@ -11,6 +11,7 @@ git:
 
 env:
     global:
+        - LANGUAGE="en"
         - APP_ENV="prod"
         - DATABASE_URL="mysql://root@127.0.0.1:3306/db?charset=utf8mb4&serverVersion=5.7"
         - DATABASE_PASS="just-to-build"
