@@ -31,13 +31,13 @@
                     {% if is_granted('ROLE_USER') %}
                         <ul class="navbar-nav mr-sm-2">
                             <li class="nav-item">
-                                <a href="{{ path('about') }}" title="{% trans %}Sobre{% endtrans %}" class="nav-link">
+                                <a href="{{ path('about') }}" title="{{ 'menu.about'|trans }}" class="nav-link">
                                     <i class="fa fa-question-circle fa-fw"></i>
                                 </a>
                             </li>
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li class="nav-item">
-                                    <a href="{{ path('admin_index') }}" title="{% trans %}Administração{% endtrans %}" class="nav-link">
+                                    <a href="{{ path('admin_index') }}" title="{{ 'menu.admin'|trans }}" class="nav-link">
                                         <i class="fa fa-cog fa-fw"></i>
                                     </a>
                                 </li>
@@ -49,11 +49,11 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="{{ app.request.baseUrl() }}/profile" title="" class="dropdown-item">
                                         <i class="fa fa-user fa-fw"></i>
-                                        {% trans %}Perfil{% endtrans %}
+                                        {{ 'menu.user.profile'|trans }}
                                     </a>
                                     <a href="{{ app.request.baseUrl() }}/logout" class="dropdown-item">
                                         <i class="fa fa-sign-out fa-fw"></i>
-                                        {% trans %}Sair{% endtrans %}
+                                        {{ 'menu.user.logout'|trans }}
                                     </a>
                                 </div>
                             </li>
@@ -76,15 +76,17 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">{% trans %}Erro{% endtrans %}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h5 class="modal-title">{{ 'modal.error.title'|trans }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'button.close'|trans }}">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
                         <p></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            {% trans %}Fechar{% endtrans %}
+                            {{ 'button.close'|trans }}
                         </button>
                     </div>
                 </div>
@@ -101,12 +103,9 @@
         <script type="text/javascript">
             App.baseUrl = '{{ app.request.baseUrl() }}';
             App.version = '{{ version }}';
-            App.dateFormat = '{% trans %}d/m/Y{% endtrans %}';
-            App.invalidSession = '{% trans %}Sessão Inválida. Possivelmente o seu usuário está sendo utilizado em outra máquina.{% endtrans %}';
-            App.inactiveSession = '{% trans %}Sessão expirada. Favor efetuar o login novamente.{% endtrans %}';
+            App.dateFormat = '{{ 'm/d/Y'|trans }}';
         </script>
-        {% block javascripts %}
-        {% endblock %}
+        {% block javascripts %}{% endblock %}
 
         {% if app.user.lotacao %}
             {{ render(controller('App\\Controller\\DefaultController:unidadesAction')) }}

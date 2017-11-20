@@ -29,16 +29,21 @@ class PrioridadeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nome', TextType::class)
+            ->add('nome', TextType::class, [
+                'label' => 'admin.priorities.field.name',
+            ])
             ->add('descricao', TextareaType::class, [
+                'label' => 'admin.priorities.field.description',
                 'attr' => [
                     'rows' => 4
                 ]
             ])
             ->add('ativo', CheckboxType::class, [
+                'label' => 'admin.priorities.field.enabled',
                 'required' => false
             ])
             ->add('peso', IntegerType::class, [
+                'label' => 'admin.priorities.field.weight',
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
                 ]

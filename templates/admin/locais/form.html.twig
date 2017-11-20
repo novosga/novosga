@@ -2,9 +2,9 @@
 
 {% block adminContent %}
     <h1>
-        {% trans %}Locais{% endtrans %}
+        {{ 'admin.places.title'|trans }}
         <small>
-            {% trans %}Cadastro de locais de atendimento{% endtrans %}
+            {{ 'admin.places.subtitle'|trans }}
         </small>
     </h1>
     
@@ -14,20 +14,20 @@
     
         {% include 'flashMessages.html.twig' %}
     
-        {{ form_row(form.nome, { label: 'Nome' }) }}
+        {{ form_row(form.nome) }}
 
         <button type="submit" class="btn btn-primary">
             <i class="fa fa-check"></i> 
-            {% trans %}Salvar{% endtrans %}
+            {{ 'button.save'|trans }}
         </button>
         <a href="{{ path('admin_locais_index') }}" class="btn btn-secondary">
             <i class="fa fa-chevron-left"></i>
-            {% trans %}Voltar{% endtrans %}
+            {{ 'button.back'|trans }}
         </a>
         {% if entity.id %}
             <button type="submit" class="btn btn-danger pull-right" name="_method" value="DELETE">
                 <i class="fa fa-trash"></i> 
-                {% trans %}Excluir{% endtrans %}
+                {{ 'button.remove'|trans }}
             </button>
         {% endif %}
         

@@ -44,11 +44,10 @@
             {% if atendimento.unidade.impressao.exibirData %}
                 <div class="data-hora">
                     <p class="data">
-                        {{ now|date('d/m/Y') }}
+                        {{ now|date('m/d/Y'|trans) }}
                     </p>
                     <p class="hora">
-                        Hora de chegada {{ now|date('H\\hi') }} <br>
-                        ( Horário local )
+                        {{ 'print.ticket.date'|trans({ '%time%': now|date('H\\hi') })|raw }}
                     </p>
                 </div>
             {% endif %}

@@ -14,35 +14,31 @@ namespace App\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 
 /**
- * LoginController.
+ * SecurityController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class LoginController extends Controller
+class SecurityController extends Controller
 {
     
     /**
      * @Route("/login")
      * 
      * @param Request $request
-     *
-     * @return array
      */
-    public function loginAction(Request $request)
+    public function loginAction(Request $request, AuthenticationUtils $authUtils)
     {
-        $authenticationUtils = $this->get('security.authentication_utils');
-
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $error = $authUtils->getLastAuthenticationError();
 
         // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        $lastUsername = $authUtils->getLastUsername();
 
-        return $this->render('login.html.twig', [
-            // last username entered by the user
+        return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
         ]);

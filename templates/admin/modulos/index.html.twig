@@ -2,9 +2,9 @@
 
 {% block adminContent %}
     <h1>
-        {% trans %}Módulos{% endtrans %}
+        {{ 'admin.modules.title'|trans }}
         <small>
-            {% trans %}Gerenciamento dos módulos do Novo SGA{% endtrans %}
+            {{ 'admin.modules.subtitle'|trans }}
         </small>
     </h1>
     
@@ -13,8 +13,8 @@
     <table class="table table-bordered">
         <thead class="thead-light">
             <tr>
-                <th>{% trans %}Módulo{% endtrans %}</th>
-                <th>{% trans %}Ativo{% endtrans %}</th>
+                <th>{{ 'label.module'|trans }}</th>
+                <th>{{ 'label.enabled'|trans }}</th>
             </tr>
         </thead>
         <tbody>

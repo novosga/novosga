@@ -2,15 +2,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{% trans %}Unidade{% endtrans %}</h5>
+                <h5 class="modal-title">{{ 'label.unity'|trans }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
                 {% set unidade = app.user.lotacao.unidade %}
                 <div>
-                    <label>{% trans %}Favor escolher a unidade{% endtrans %}</label>
+                    <label>{{ 'modal.unity.label'|trans }}</label>
                     <select id="unidade" class="form-control">
-                        <option value="">{% trans %}Selecione{% endtrans %}</option>
+                        <option value="">{{ 'label.choose'|trans }}</option>
                         {% for item in unidades %}
                         <option value="{{ item.id }}" {% if unidade != null and item.id == unidade.id %}selected="selected"{% endif %}>{{ item.nome }}</option>
                         {% endfor %}
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="App.Unidades.set()">{% trans %}Enviar{% endtrans %}</button>
+                <button type="button" class="btn btn-primary" onclick="App.Unidades.set()">{{ 'modal.unity.submit'|trans }}</button>
             </div>
         </div>
     </div>

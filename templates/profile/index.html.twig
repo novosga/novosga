@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {% trans %}Perfil{% endtrans %}
+    {{ 'profile.title'|trans }}
 {% endblock %}
 
 {% block body %}
     <h1>
         <i class="fa fa-user" aria-hidden="true"></i>
-        {% trans %}Perfil{% endtrans %}
+        {{ 'profile.title'|trans }}
         <small>
-            {% trans %}Dados pessoais do usuário{% endtrans %}
+            {{ 'profile.subtitle'|trans }}
         </small>
     </h1>
     
@@ -22,12 +22,12 @@
         <div class="row">
             <div class="col-5">
                 <fieldset>
-                    <legend>{% trans %}Geral{% endtrans %}</legend>
+                    <legend>{{ 'profile.general'|trans }}</legend>
                     
-                    <p class="text-secondary">{% trans %}Dados básico do usuário.{% endtrans %}</p>
+                    <p class="text-secondary">{{ 'profile.general.description'|trans }}</p>
                     
                     <div class="form-group">
-                        <label>{% trans %}Usuário{% endtrans %}</label>
+                        <label>{{ 'profile.field.username'|trans }}</label>
                         <input type="text" class="form-control" value="{{user.login}}" readonly>
                     </div>
                     
@@ -45,18 +45,18 @@
             </div>
             <div class="col-6 ml-auto">
                 <fieldset>
-                    <legend>{% trans %}Lotações{% endtrans %}</legend>
+                    <legend>{{ 'profile.lotation'|trans }}</legend>
                     
-                    <p class="text-secondary">{% trans %}Lotação é utilizada para definir o perfil de acesso do usuário nas unidades.{% endtrans %}</p>
+                    <p class="text-secondary">{{ 'profile.lotation.description'|trans }}</p>
                     
                     <table class="table table-bordered">
                         <thead class="thead-light">
                             <tr>
                                 <th>
-                                    {% trans %}Unidade{% endtrans %}
+                                    {{ 'label.unity'|trans }}
                                 </th>
                                 <th>
-                                    {% trans %}Perfil{% endtrans %}
+                                    {{ 'label.role'|trans }}
                                 </th>
                             </tr>
                         </thead>
@@ -79,12 +79,12 @@
         
         <button type="submit" class="btn btn-primary">
             <i class="fa fa-save"></i>
-            {% trans %}Atualizar{% endtrans %}
+            {{ 'button.update'|trans }}
         </button>
         
         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#dialog-senha">
             <i class="fa fa-lock"></i>
-            {% trans %}Alterar senha{% endtrans %}
+            {{ 'profile.button.change_password'|trans }}
         </button>
     
     {{ form_end(form) }}
@@ -94,26 +94,26 @@
             <div class="modal-content">
                 <form id="form-senha">
                     <div class="modal-header">
-                        <h5 class="modal-title">{% trans %}Alterar senha{% endtrans %}</h5>
+                        <h5 class="modal-title">{{ 'profile.change_password'|trans }}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="senha_atual">{% trans %}Senha atual{% endtrans %}</label>
+                            <label for="senha_atual">{{ 'profile.field.current_password'|trans }}</label>
                             <input id="senha_atual" type="password" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="senha_senha">{% trans %}Nova Senha{% endtrans %}</label>
+                            <label for="senha_senha">{{ 'profile.field.new_password'|trans }}</label>
                             <input id="senha_senha" type="password" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="senha_confirmacao">{% trans %}Confirmar senha{% endtrans %}</label>
+                            <label for="senha_confirmacao">{{ 'profile.field.password_confirm'|trans }}</label>
                             <input id="senha_confirmacao" type="password" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">
-                            {% trans %}Alterar{% endtrans %}
+                            {{ 'profile.button.change_password'|trans }}
                         </button>
                     </div>
                 </form>
