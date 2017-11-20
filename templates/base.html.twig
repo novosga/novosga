@@ -1,10 +1,10 @@
-{% use 'blocks.html.twig' %}
+{% use 'blocks.html.twig' -%}
 
 <!DOCTYPE html>
 <html lang="{{ locale }}">
     <head>
         <meta charset="utf-8">
-        <title>{{ block('title') }} | Novo SGA</title>
+        <title>{{- block('title') -}} | Novo SGA</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="shortcut icon" href="{{ asset("images/favicon.png") }}" />
