@@ -9,7 +9,7 @@
                     {% if app.user.admin or is_granted(module.roleName) %}
                         <a href="{{ path(module.homeRoute) }}" class="dropdown-item">
                             <i class="fa fa-{{ module.iconName }} fa-fw"></i>
-                            {{ module.displayName }}
+                            {{ module.displayName|trans({}, module.name) }}
                         </a>
                     {% endif %}
                 {% endfor %}
