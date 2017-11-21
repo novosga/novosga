@@ -227,7 +227,7 @@ var App = {
                 setInterval(function() {
                     separators.each(function(i, v) {
                         var node = $(v);
-                        var b = node.data('blink');
+                        var b = node.data('blink') || ' ';
                         node.data('blink', node.text());
                         node.text(b);
                     });
