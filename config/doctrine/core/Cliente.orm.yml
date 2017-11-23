@@ -11,17 +11,15 @@ Novosga\Entity\Cliente:
         nome:
             type: string
             length: 60
-            nullable: true
+            nullable: false
             column: nome
         documento:
             type: string
             length: 30
-            unique: false
-            nullable: true
+            nullable: false
             column: documento
         email:
             type: string
             length: 80
-            unique: true
             nullable: true
             column: email

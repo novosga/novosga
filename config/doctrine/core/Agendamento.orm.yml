@@ -1,0 +1,41 @@
+Novosga\Entity\Agendamento:
+    type: entity
+    table: agendamentos
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: IDENTITY
+    fields:
+        data:
+            type: date
+            nullable: false
+            column: data
+        hora:
+            type: time
+            nullable: false
+            column: hora
+        dataConfirmacao:
+            type: datetime
+            nullable: true
+            column: data_confirmacao
+    manyToOne:
+        cliente:
+            targetEntity: Novosga\Entity\Cliente
+            fetch: LAZY
+            cascade: [persist]
+            joinColumns:
+                cliente_id:
+                    referencedColumnName: id
+        unidade:
+            targetEntity: Novosga\Entity\Unidade
+            fetch: LAZY
+            joinColumns:
+                unidade_id:
+                    referencedColumnName: id
+        servico:
+            targetEntity: Novosga\Entity\Servico
+            fetch: LAZY
+            joinColumns:
+                servico_id:
+                    referencedColumnName: id

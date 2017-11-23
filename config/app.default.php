@@ -14,7 +14,12 @@ return [
          * @return array
          */
         'ordering' =>  function (\Novosga\Entity\Unidade $unidade, \Novosga\Entity\Usuario $usuario = null) {
-            $ordering = [];
+            $ordering = [
+                [
+                    'exp' => 'atendimento.dataAgendamento',
+                    'order' => 'ASC',
+                ]
+            ];
             
             if ($usuario) {
                 // peso servico x usuario
