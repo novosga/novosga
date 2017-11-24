@@ -26,7 +26,7 @@
         "novosga/oauth-server-bundle": "self.version",
         "novosga/reports-bundle": "self.version",
         "novosga/settings-bundle": "self.version",
-        "novosga/triagem-bundle": "self.version",
+        "novosga/triage-bundle": "self.version",
         "novosga/users-bundle": "self.version",
         "novosga/websocket-server": "self.version",
         "sensio/framework-extra-bundle": "^5.0",

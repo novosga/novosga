@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f280089a5b99954393be4f6673f4af40",
+    "content-hash": "35fda0e9962a71306eb7279580b88f93",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1271,12 +1271,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "876157800828772db204f7449c58ae44cd12aa5f"
+                "reference": "dc778575833659c374fe8d128fb067ea0286b3af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/876157800828772db204f7449c58ae44cd12aa5f",
-                "reference": "876157800828772db204f7449c58ae44cd12aa5f",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/dc778575833659c374fe8d128fb067ea0286b3af",
+                "reference": "dc778575833659c374fe8d128fb067ea0286b3af",
                 "shasum": ""
             },
             "require": {
@@ -1298,7 +1298,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-22T20:29:09+00:00"
+            "time": "2017-11-23T13:24:01+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1338,12 +1338,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "d4f3b579a229988cf0c3b8290268ed192bf3be6c"
+                "reference": "bc71ec8d6a489688adf2b8f0668cce01e42b44f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/d4f3b579a229988cf0c3b8290268ed192bf3be6c",
-                "reference": "d4f3b579a229988cf0c3b8290268ed192bf3be6c",
+                "url": "https://api.github.com/repos/novosga/core/zipball/bc71ec8d6a489688adf2b8f0668cce01e42b44f1",
+                "reference": "bc71ec8d6a489688adf2b8f0668cce01e42b44f1",
                 "shasum": ""
             },
             "require": {
@@ -1364,7 +1364,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-22T12:25:27+00:00"
+            "time": "2017-11-24T13:10:34+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1550,17 +1550,17 @@
             "time": "2017-11-22T12:29:08+00:00"
         },
         {
-            "name": "novosga/triagem-bundle",
+            "name": "novosga/triage-bundle",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/novosga/triagem-bundle.git",
-                "reference": "0e241ec69e6bfbfd6f8b62041d9415eb2478e2a4"
+                "url": "https://github.com/novosga/triage-bundle.git",
+                "reference": "5b815ab58639684edcc55cf9d2752f6a5e239821"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triagem-bundle/zipball/0e241ec69e6bfbfd6f8b62041d9415eb2478e2a4",
-                "reference": "0e241ec69e6bfbfd6f8b62041d9415eb2478e2a4",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/5b815ab58639684edcc55cf9d2752f6a5e239821",
+                "reference": "5b815ab58639684edcc55cf9d2752f6a5e239821",
                 "shasum": ""
             },
             "require": {
@@ -1575,14 +1575,14 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Novosga\\TriagemBundle\\": ""
+                    "Novosga\\TriageBundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-22T12:24:45+00:00"
+            "time": "2017-11-23T15:10:22+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -6706,7 +6706,7 @@
         "novosga/oauth-server-bundle": 20,
         "novosga/reports-bundle": 20,
         "novosga/settings-bundle": 20,
-        "novosga/triagem-bundle": 20,
+        "novosga/triage-bundle": 20,
         "novosga/users-bundle": 20,
         "novosga/websocket-server": 20,
         "symfony/lts": 20
@@ -6714,7 +6714,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.0.8"
+        "php": "^7.1.3"
     },
     "platform-dev": []
 }
