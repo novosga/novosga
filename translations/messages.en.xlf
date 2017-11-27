@@ -1,8 +1,9 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
-    <file datatype="plaintext" original="messages.pt_BR.xlf" source-language="pt-BR" target-language="en">
+    <file datatype="plaintext" original="messages.pt_BR.xlf" source-language="pt-BR" target-language="en-US">
         <body> 
             <trans-unit id="1"> 
-                <source>default.title</source>
+                <source>default.title</source> 
+                <target>Welcome</target>
                  
             </trans-unit> 
             <trans-unit id="2"> 
@@ -12,17 +13,17 @@
             </trans-unit> 
             <trans-unit id="3"> 
                 <source>modal.unity.label</source> 
-                <target>Please choose a Unity</target>
+                <target>Please choose section</target>
                  
             </trans-unit> 
             <trans-unit id="4"> 
                 <source>modal.unity.submit</source> 
-                <target>Send</target>
+                <target>Submit</target>
                  
             </trans-unit> 
             <trans-unit id="5"> 
                 <source>label.unity</source> 
-                <target>Unity</target>
+                <target>Section</target>
                  
             </trans-unit> 
             <trans-unit id="6"> 
@@ -31,11 +32,13 @@
                  
             </trans-unit> 
             <trans-unit id="7"> 
-                <source>label.module</source>
+                <source>label.module</source> 
+                <target>Module</target>
                  
             </trans-unit> 
             <trans-unit id="8"> 
-                <source>label.success</source>
+                <source>label.success</source> 
+                <target>Success </target>
                  
             </trans-unit> 
             <trans-unit id="9"> 
@@ -45,12 +48,12 @@
             </trans-unit> 
             <trans-unit id="10"> 
                 <source>label.enabled</source> 
-                <target>Active</target>
+                <target>Enabled</target>
                  
             </trans-unit> 
             <trans-unit id="11"> 
                 <source>label.disabled</source> 
-                <target>Inactive</target>
+                <target>Disabled </target>
                  
             </trans-unit> 
             <trans-unit id="12"> 
@@ -60,7 +63,7 @@
             </trans-unit> 
             <trans-unit id="13"> 
                 <source>label.choose</source> 
-                <target>Choose</target>
+                <target>Select</target>
                  
             </trans-unit> 
             <trans-unit id="14"> 
@@ -79,7 +82,8 @@
                  
             </trans-unit> 
             <trans-unit id="17"> 
-                <source>button.update</source>
+                <source>button.update</source> 
+                <target>Update </target>
                  
             </trans-unit> 
             <trans-unit id="18"> 
@@ -99,17 +103,17 @@
             </trans-unit> 
             <trans-unit id="21"> 
                 <source>m/d/Y</source> 
-                <target>m/d/Y</target>
+                <target>d/m/Y</target>
                  
             </trans-unit> 
             <trans-unit id="22"> 
                 <source>menu.change_unity</source> 
-                <target>Change unity</target>
+                <target>Change section</target>
                  
             </trans-unit> 
             <trans-unit id="23"> 
                 <source>menu.choose_unity</source> 
-                <target>Choose unity</target>
+                <target>Choose section</target>
                  
             </trans-unit> 
             <trans-unit id="24"> 
@@ -119,7 +123,7 @@
             </trans-unit> 
             <trans-unit id="25"> 
                 <source>menu.user.logout</source> 
-                <target>Logout</target>
+                <target>Logout </target>
                  
             </trans-unit> 
             <trans-unit id="26"> 
@@ -129,19 +133,22 @@
             </trans-unit> 
             <trans-unit id="27"> 
                 <source>menu.admin</source> 
-                <target>Administration</target>
+                <target>Administration </target>
                  
             </trans-unit> 
             <trans-unit id="28"> 
-                <source>print.ticket.date</source>
+                <source>print.ticket.date</source> 
+                <target>Arrival time %ti me% &lt;br&gt; ( Local time )</target>
                  
             </trans-unit> 
             <trans-unit id="29"> 
-                <source>login.title</source>
+                <source>login.title</source> 
+                <target>Login | Novo SGA</target>
                  
             </trans-unit> 
             <trans-unit id="30"> 
-                <source>login.field.username</source>
+                <source>login.field.username</source> 
+                <target>User name</target>
                  
             </trans-unit> 
             <trans-unit id="31"> 
@@ -151,19 +158,22 @@
             </trans-unit> 
             <trans-unit id="32"> 
                 <source>login.field.button.submit</source> 
-                <target>Enter</target>
+                <target>Login</target>
                  
             </trans-unit> 
             <trans-unit id="33"> 
-                <source>home.welcome.title</source>
+                <source>home.welcome.title</source> 
+                <target>Welcome, %name%</target>
                  
             </trans-unit> 
             <trans-unit id="34"> 
-                <source>home.welcome.subtitle</source>
+                <source>home.welcome.subtitle</source> 
+                <target>Novo SGA - Queue Management System</target>
                  
             </trans-unit> 
             <trans-unit id="35"> 
-                <source>home.welcome.button.read</source>
+                <source>home.welcome.button.read</source> 
+                <target>More about</target>
                  
             </trans-unit> 
             <trans-unit id="36"> 
@@ -172,11 +182,13 @@
                  
             </trans-unit> 
             <trans-unit id="37"> 
-                <source>about.version.title</source>
+                <source>about.version.title</source> 
+                <target>Novo SGA v%version%</target>
                  
             </trans-unit> 
             <trans-unit id="38"> 
-                <source>about.version.subtitle</source>
+                <source>about.version.subtitle</source> 
+                <target>Queue Management System</target>
                  
             </trans-unit> 
             <trans-unit id="39"> 
@@ -185,7 +197,8 @@
                  
             </trans-unit> 
             <trans-unit id="40"> 
-                <source>about.version.download</source>
+                <source>about.version.download</source> 
+                <target>Download</target>
                  
             </trans-unit> 
             <trans-unit id="41"> 
@@ -194,28 +207,33 @@
                  
             </trans-unit> 
             <trans-unit id="42"> 
-                <source>about.community.title</source>
+                <source>about.community.title</source> 
+                <target>Community</target>
                  
             </trans-unit> 
             <trans-unit id="43"> 
-                <source>about.community.subtitle</source>
+                <source>about.community.subtitle</source> 
+                <target>Looking fo help? Check one of links below </target>
                  
             </trans-unit> 
             <trans-unit id="44"> 
-                <source>about.community.blog.title</source>
+                <source>about.community.blog.title</source> 
+                <target>Blog</target>
                  
             </trans-unit> 
             <trans-unit id="45"> 
-                <source>about.community.blog.description</source>
+                <source>about.community.blog.description</source> 
+                <target>News related to the Novo SGA project and new versions release.</target>
                  
             </trans-unit> 
             <trans-unit id="46"> 
                 <source>about.community.blog.button</source> 
-                <target>Go</target>
+                <target>Access </target>
                  
             </trans-unit> 
             <trans-unit id="47"> 
-                <source>about.community.forum.title</source>
+                <source>about.community.forum.title</source> 
+                <target>Forum</target>
                  
             </trans-unit> 
             <trans-unit id="48"> 
@@ -224,11 +242,12 @@
             </trans-unit> 
             <trans-unit id="49"> 
                 <source>about.community.forum.button</source> 
-                <target>Go</target>
+                <target>Access </target>
                  
             </trans-unit> 
             <trans-unit id="50"> 
-                <source>about.community.github.title</source>
+                <source>about.community.github.title</source> 
+                <target>Github</target>
                  
             </trans-unit> 
             <trans-unit id="51"> 
@@ -237,7 +256,7 @@
             </trans-unit> 
             <trans-unit id="52"> 
                 <source>about.community.github.button</source> 
-                <target>Go</target>
+                <target>Access </target>
                  
             </trans-unit> 
             <trans-unit id="53"> 
@@ -246,7 +265,8 @@
                  
             </trans-unit> 
             <trans-unit id="54"> 
-                <source>profile.subtitle</source>
+                <source>profile.subtitle</source> 
+                <target>User information</target>
                  
             </trans-unit> 
             <trans-unit id="55"> 
@@ -255,12 +275,13 @@
                  
             </trans-unit> 
             <trans-unit id="56"> 
-                <source>profile.general.description</source>
+                <source>profile.general.description</source> 
+                <target>Basic user information</target>
                  
             </trans-unit> 
             <trans-unit id="57"> 
                 <source>profile.field.username</source> 
-                <target>Username</target>
+                <target>Login</target>
                  
             </trans-unit> 
             <trans-unit id="58"> 
@@ -274,12 +295,12 @@
                  
             </trans-unit> 
             <trans-unit id="60"> 
-                <source>profile.field.email</source>
+                <source>profile.field.email</source> 
+                <target>E-mail</target>
                  
             </trans-unit> 
             <trans-unit id="61"> 
-                <source>profile.lotation</source> 
-                <target>Lotation</target>
+                <source>profile.lotation</source>
                  
             </trans-unit> 
             <trans-unit id="62"> 
@@ -308,16 +329,17 @@
             </trans-unit> 
             <trans-unit id="67"> 
                 <source>profile.field.password_confirm</source> 
-                <target>New password confirm</target>
+                <target>Confirm new password</target>
                  
             </trans-unit> 
             <trans-unit id="68"> 
                 <source>profile.message.success</source> 
-                <target>Your profile has been successfully updated</target>
+                <target>Profile successfully updated</target>
                  
             </trans-unit> 
             <trans-unit id="69"> 
-                <source>admin.title</source>
+                <source>admin.title</source> 
+                <target>Administration </target>
                  
             </trans-unit> 
             <trans-unit id="70"> 
@@ -327,7 +349,7 @@
             </trans-unit> 
             <trans-unit id="71"> 
                 <source>admin.menu.unities</source> 
-                <target>Unities</target>
+                <target>Sections</target>
                  
             </trans-unit> 
             <trans-unit id="72"> 
@@ -336,17 +358,18 @@
                  
             </trans-unit> 
             <trans-unit id="73"> 
-                <source>admin.menu.roles</source>
+                <source>admin.menu.roles</source> 
+                <target>Profiles</target>
                  
             </trans-unit> 
             <trans-unit id="74"> 
                 <source>admin.menu.priorities</source> 
-                <target>Priorities</target>
+                <target>Priorities </target>
                  
             </trans-unit> 
             <trans-unit id="75"> 
                 <source>admin.menu.places</source> 
-                <target>Places</target>
+                <target>Place</target>
                  
             </trans-unit> 
             <trans-unit id="76"> 
@@ -355,11 +378,13 @@
                  
             </trans-unit> 
             <trans-unit id="77"> 
-                <source>admin.menu.webapi</source>
+                <source>admin.menu.webapi</source> 
+                <target>Web API</target>
                  
             </trans-unit> 
             <trans-unit id="78"> 
-                <source>admin.system.danger_zone</source>
+                <source>admin.system.danger_zone</source> 
+                <target>Danger zone</target>
                  
             </trans-unit> 
             <trans-unit id="79"> 
@@ -369,12 +394,11 @@
             </trans-unit> 
             <trans-unit id="80"> 
                 <source>admin.system.reset_tickets.alert</source> 
-                <target>You are about to reset the tickets for all units. continue ?</target>
+                <target>Do you really want to reset the tickets from all sections?</target>
                  
             </trans-unit> 
             <trans-unit id="81"> 
-                <source>admin.system.reset_tickets.success</source> 
-                <target>Ticket number queues successfully reset  </target>
+                <source>admin.system.reset_tickets.success</source>
                  
             </trans-unit> 
             <trans-unit id="82"> 
@@ -383,12 +407,13 @@
                  
             </trans-unit> 
             <trans-unit id="83"> 
-                <source>admin.modules.subtitle</source>
+                <source>admin.modules.subtitle</source> 
+                <target>Novo SGA modules management. </target>
                  
             </trans-unit> 
             <trans-unit id="84"> 
                 <source>admin.places.title</source> 
-                <target>Places</target>
+                <target>Place</target>
                  
             </trans-unit> 
             <trans-unit id="85"> 
@@ -396,7 +421,8 @@
                  
             </trans-unit> 
             <trans-unit id="86"> 
-                <source>admin.places.button.new</source>
+                <source>admin.places.button.new</source> 
+                <target>New place</target>
                  
             </trans-unit> 
             <trans-unit id="87"> 
@@ -405,15 +431,18 @@
                  
             </trans-unit> 
             <trans-unit id="88"> 
-                <source>admin.roles.title</source>
+                <source>admin.roles.title</source> 
+                <target>Profiles</target>
                  
             </trans-unit> 
             <trans-unit id="89"> 
-                <source>admin.roles.subtitle</source>
+                <source>admin.roles.subtitle</source> 
+                <target>Create new profile</target>
                  
             </trans-unit> 
             <trans-unit id="90"> 
-                <source>admin.roles.button.new</source>
+                <source>admin.roles.button.new</source> 
+                <target>New profile</target>
                  
             </trans-unit> 
             <trans-unit id="91"> 
@@ -428,12 +457,12 @@
             </trans-unit> 
             <trans-unit id="93"> 
                 <source>admin.roles.field.modules</source> 
-                <target>Permissions</target>
+                <target>Permission </target>
                  
             </trans-unit> 
             <trans-unit id="94"> 
                 <source>admin.priorities.title</source> 
-                <target>Priorities</target>
+                <target>Priorities </target>
                  
             </trans-unit> 
             <trans-unit id="95"> 
@@ -442,7 +471,7 @@
             </trans-unit> 
             <trans-unit id="96"> 
                 <source>admin.priorities.button.new</source> 
-                <target>New priority</target>
+                <target>New priority </target>
                  
             </trans-unit> 
             <trans-unit id="97"> 
@@ -457,7 +486,7 @@
             </trans-unit> 
             <trans-unit id="99"> 
                 <source>admin.priorities.field.enabled</source> 
-                <target>Active</target>
+                <target>Enabled</target>
                  
             </trans-unit> 
             <trans-unit id="100"> 
@@ -480,8 +509,7 @@
                  
             </trans-unit> 
             <trans-unit id="104"> 
-                <source>admin.services.childs</source> 
-                <target>Subservices </target>
+                <source>admin.services.childs</source>
                  
             </trans-unit> 
             <trans-unit id="105"> 
@@ -496,7 +524,7 @@
             </trans-unit> 
             <trans-unit id="107"> 
                 <source>admin.services.field.enabled</source> 
-                <target>Active</target>
+                <target>Enabled</target>
                  
             </trans-unit> 
             <trans-unit id="108"> 
@@ -510,7 +538,7 @@
             </trans-unit> 
             <trans-unit id="110"> 
                 <source>admin.unities.title</source> 
-                <target>Unities</target>
+                <target>Sections</target>
                  
             </trans-unit> 
             <trans-unit id="111"> 
@@ -518,7 +546,8 @@
                  
             </trans-unit> 
             <trans-unit id="112"> 
-                <source>admin.unities.button.new</source>
+                <source>admin.unities.button.new</source> 
+                <target>New section</target>
                  
             </trans-unit> 
             <trans-unit id="113"> 
@@ -533,44 +562,52 @@
             </trans-unit> 
             <trans-unit id="115"> 
                 <source>admin.unities.field.enabled</source> 
-                <target>Active</target>
+                <target>Enabled</target>
                  
             </trans-unit> 
             <trans-unit id="116"> 
-                <source>admin.webapi.title</source>
+                <source>admin.webapi.title</source> 
+                <target>Web API</target>
                  
             </trans-unit> 
             <trans-unit id="117"> 
-                <source>admin.webapi.subtitle</source>
+                <source>admin.webapi.subtitle</source> 
+                <target>Web API for system integration </target>
                  
             </trans-unit> 
             <trans-unit id="118"> 
                 <source>admin.webapi.clients.title</source> 
-                <target>Clients</target>
+                <target>Clients </target>
                  
             </trans-unit> 
             <trans-unit id="119"> 
-                <source>admin.webapi.clients.subtitle</source>
+                <source>admin.webapi.clients.subtitle</source> 
+                <target>To access some URLs it is necessary to have a access token, for that you need first to register the client app.</target>
                  
             </trans-unit> 
             <trans-unit id="120"> 
-                <source>admin.webapi.clients.public_id</source>
+                <source>admin.webapi.clients.public_id</source> 
+                <target>Public ID</target>
                  
             </trans-unit> 
             <trans-unit id="121"> 
-                <source>admin.webapi.clients.public_secret</source>
+                <source>admin.webapi.clients.public_secret</source> 
+                <target>Client secret</target>
                  
             </trans-unit> 
             <trans-unit id="122"> 
-                <source>admin.webapi.clients.redirect_uri</source>
+                <source>admin.webapi.clients.redirect_uri</source> 
+                <target>Redirect URI</target>
                  
             </trans-unit> 
             <trans-unit id="123"> 
-                <source>admin.webapi.clients.remove_alert</source>
+                <source>admin.webapi.clients.remove_alert</source> 
+                <target>Do you really want to remove this client?</target>
                  
             </trans-unit> 
             <trans-unit id="124"> 
-                <source>admin.webapi.clients.modal</source>
+                <source>admin.webapi.clients.modal</source> 
+                <target>Client API</target>
                  
             </trans-unit> 
         </body>
