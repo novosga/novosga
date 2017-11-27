@@ -30,15 +30,7 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
-
-    # novosga core services
-    Novosga\Service\:
-        resource: '../vendor/novosga/core/Service'
-        public: true
-
-    Novosga\Service\Configuration:
-        $rootDir: '%kernel.project_dir%'
-
+        
     App\Listener\SessionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 700 }
@@ -71,7 +63,20 @@ services:
         arguments: [""]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }
+    
+    # implementations
+    novosga.storage:
+        class: App\Infrastructure\Storage\MySQLStorage
 
+    # novosga core services
+    Novosga\Service\:
+        resource: '../vendor/novosga/core/Service'
+        public: true
+        
+    Novosga\Infrastructure\StorageInterface: '@novosga.storage'
+
+    Novosga\Service\Configuration:
+        $rootDir: '%kernel.project_dir%'
 
     fos_oauth_server.security.authentication.listener:
         class: App\Security\OAuthListener

@@ -1,11 +1,12 @@
 Novosga\Entity\AtendimentoMeta:
     type: entity
     table: atendimentos_metadata
+    repositoryClass: App\Repository\ORM\MetadataRepository
     id:
-        atendimento:
+        entity:
             associationKey: true
     manyToOne:
-        atendimento:
+        entity:
             targetEntity: Novosga\Entity\Atendimento
             cascade: {  }
             fetch: LAZY

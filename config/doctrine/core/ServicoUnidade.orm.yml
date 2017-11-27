@@ -1,6 +1,7 @@
 Novosga\Entity\ServicoUnidade:
     type: entity
     table: servicos_unidades
+    repositoryClass: App\Repository\ORM\ServicoUnidadeRepository
     id:
         servico:
             associationKey: true

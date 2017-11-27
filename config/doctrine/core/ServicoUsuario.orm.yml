@@ -1,6 +1,7 @@
 Novosga\Entity\ServicoUsuario:
     type: entity
     table: servicos_usuarios
+    repositoryClass: App\Repository\ORM\ServicoUsuarioRepository
     id:
         servico:
             associationKey: true

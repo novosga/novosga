@@ -67,14 +67,6 @@ Novosga\Entity\AbstractAtendimento:
             joinColumns:
                 prioridade_id:
                     referencedColumnName: id
-        servicoUnidade:
-            targetEntity: Novosga\Entity\ServicoUnidade
-            fetch: LAZY
-            joinColumns:
-                servico_id:
-                    referencedColumnName: servico_id
-                unidade_id:
-                    referencedColumnName: unidade_id
         usuario:
             targetEntity: Novosga\Entity\Usuario
             fetch: LAZY

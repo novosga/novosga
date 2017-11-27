@@ -1,11 +1,12 @@
 Novosga\Entity\UnidadeMeta:
     type: entity
     table: unidades_metadata
+    repositoryClass: App\Repository\ORM\MetadataRepository
     id:
-        unidade:
+        entity:
             associationKey: true
     manyToOne:
-        unidade:
+        entity:
             targetEntity: Novosga\Entity\Unidade
             fetch: LAZY
             joinColumns:
