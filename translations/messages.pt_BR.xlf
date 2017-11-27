@@ -498,54 +498,6 @@
                 <source>admin.webapi.clients.modal</source>
                 <target>API Client</target> 
             </trans-unit> 
-            <trans-unit id="125"> 
-                <source>admin.webapi.urls.title</source>
-                <target>URLs</target> 
-            </trans-unit> 
-            <trans-unit id="126"> 
-                <source>admin.webapi.urls.subtitle</source>
-                <target>As URLs abaixo são usadas para integrar o Novo SGA com outros projetos, como por exemplo o &lt;strong&gt;Painel Web&lt;/strong&gt; e a &lt;strong&gt;Triagem Touch&lt;/strong&gt;.</target> 
-            </trans-unit> 
-            <trans-unit id="127"> 
-                <source>admin.webapi.urls.method</source>
-                <target>Método</target> 
-            </trans-unit> 
-            <trans-unit id="128"> 
-                <source>admin.webapi.urls.uri</source>
-                <target>URI</target> 
-            </trans-unit> 
-            <trans-unit id="129"> 
-                <source>admin.webapi.urls.description</source>
-                <target>Descrição</target> 
-            </trans-unit> 
-            <trans-unit id="130"> 
-                <source>admin.webapi.urls.post.token</source>
-                <target>Autentica o usuário retornando o token de acesso.</target> 
-            </trans-unit> 
-            <trans-unit id="131"> 
-                <source>admin.webapi.urls.get.unidades</source>
-                <target>Retorna todas as unidades disponíveis.</target> 
-            </trans-unit> 
-            <trans-unit id="132"> 
-                <source>admin.webapi.urls.get.prioridades</source>
-                <target>Retorna todas as prioridades disponíveis.</target> 
-            </trans-unit> 
-            <trans-unit id="133"> 
-                <source>admin.webapi.urls.get.servicos</source>
-                <target>Retorna os serviços globais.</target> 
-            </trans-unit> 
-            <trans-unit id="134"> 
-                <source>admin.webapi.urls.get.locais</source>
-                <target>Retorna os locais de atendimentos.</target> 
-            </trans-unit> 
-            <trans-unit id="135"> 
-                <source>admin.webapi.urls.get.usuarios</source>
-                <target>Retorna os usuários do sistema.</target> 
-            </trans-unit> 
-            <trans-unit id="136"> 
-                <source>admin.webapi.urls.post.distribui</source>
-                <target>Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.</target> 
-            </trans-unit> 
         </body>
     </file>
 </xliff>

@@ -573,55 +573,6 @@
                 <source>admin.webapi.clients.modal</source>
                  
             </trans-unit> 
-            <trans-unit id="125"> 
-                <source>admin.webapi.urls.title</source>
-                 
-            </trans-unit> 
-            <trans-unit id="126"> 
-                <source>admin.webapi.urls.subtitle</source>
-                 
-            </trans-unit> 
-            <trans-unit id="127"> 
-                <source>admin.webapi.urls.method</source>
-                 
-            </trans-unit> 
-            <trans-unit id="128"> 
-                <source>admin.webapi.urls.uri</source>
-                 
-            </trans-unit> 
-            <trans-unit id="129"> 
-                <source>admin.webapi.urls.description</source> 
-                <target>Description</target>
-                 
-            </trans-unit> 
-            <trans-unit id="130"> 
-                <source>admin.webapi.urls.post.token</source>
-                 
-            </trans-unit> 
-            <trans-unit id="131"> 
-                <source>admin.webapi.urls.get.unidades</source>
-                 
-            </trans-unit> 
-            <trans-unit id="132"> 
-                <source>admin.webapi.urls.get.prioridades</source>
-                 
-            </trans-unit> 
-            <trans-unit id="133"> 
-                <source>admin.webapi.urls.get.servicos</source>
-                 
-            </trans-unit> 
-            <trans-unit id="134"> 
-                <source>admin.webapi.urls.get.locais</source>
-                 
-            </trans-unit> 
-            <trans-unit id="135"> 
-                <source>admin.webapi.urls.get.usuarios</source>
-                 
-            </trans-unit> 
-            <trans-unit id="136"> 
-                <source>admin.webapi.urls.post.distribui</source>
-                 
-            </trans-unit> 
         </body>
     </file>
 </xliff>
