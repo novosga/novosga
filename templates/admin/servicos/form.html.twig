@@ -26,12 +26,12 @@
 
                 {{ form_row(form.peso) }}
                 
-                {% if not entity.isMestre() %}
+                {% if form.mestre is defined %}
                     {{ form_row(form.mestre) }}
                 {% endif %}
             </div>
             <div class="col-md-6">
-                {% if entity.isMestre() %}
+                {% if entity.subServicos|length %}
                     <fieldset>
                         <legend>{{ 'admin.services.childs'|trans }}</legend>
                         <table class="table table-bordered">
@@ -39,6 +39,7 @@
                                 <tr>
                                     <th>{{ 'admin.services.field.name'|trans }}</th>
                                     <th>{{ 'admin.services.field.weight'|trans }}</th>
+                                    <th>{{ 'label.status'|trans }}</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -48,6 +49,13 @@
                                         <tr>
                                             <td>{{ sub.nome }}</td>
                                             <td>{{ sub.peso }}</td>
+                                            <td>
+                                                {% if sub.ativo %}
+                                                    <span class="text-success">{{ 'label.enabled'|trans }}</span>
+                                                {% else %}
+                                                    <span class="text-danger">{{ 'label.disabled'|trans }}</span>
+                                                {% endif %}
+                                            </td>
                                             <td class="text-center">
                                                 <a href="{{ path('admin_servicos_edit', {id: sub.id }) }}" class="btn btn-secondary">
                                                     <i class="fa fa-edit"></i>

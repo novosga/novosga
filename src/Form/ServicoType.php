@@ -54,7 +54,7 @@ class ServicoType extends AbstractType
             ])
         ;
         
-        if (!$entity->isMestre()) {
+        if (!$entity->isMestre() || count($entity->getSubservicos()) === 0) {
             $builder->add('mestre', EntityType::class, [
                 'label' => 'admin.services.field.parent',
                 'class' => Servico::class,

@@ -46,9 +46,9 @@
                     </td>
                     <td>
                         {% if prioridade.ativo %}
-                            {{ 'label.enabled'|trans }}
+                            <span class="text-success">{{ 'label.enabled'|trans }}</span>
                         {% else %}
-                            {{ 'label.disabled'|trans }}
+                            <span class="text-danger">{{ 'label.disabled'|trans }}</span>
                         {% endif %}
                     </td>
                     <td class="text-center">
