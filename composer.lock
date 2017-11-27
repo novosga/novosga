@@ -1275,12 +1275,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "dc778575833659c374fe8d128fb067ea0286b3af"
+                "reference": "3b0182220c9eab9cb09738a17228ba829b4de88e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/dc778575833659c374fe8d128fb067ea0286b3af",
-                "reference": "dc778575833659c374fe8d128fb067ea0286b3af",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/3b0182220c9eab9cb09738a17228ba829b4de88e",
+                "reference": "3b0182220c9eab9cb09738a17228ba829b4de88e",
                 "shasum": ""
             },
             "require": {
@@ -1302,7 +1302,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-23T13:24:01+00:00"
+            "time": "2017-11-27T12:49:30+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1342,12 +1342,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "bc71ec8d6a489688adf2b8f0668cce01e42b44f1"
+                "reference": "2c604854484606f718772622fa1521a453616139"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/bc71ec8d6a489688adf2b8f0668cce01e42b44f1",
-                "reference": "bc71ec8d6a489688adf2b8f0668cce01e42b44f1",
+                "url": "https://api.github.com/repos/novosga/core/zipball/2c604854484606f718772622fa1521a453616139",
+                "reference": "2c604854484606f718772622fa1521a453616139",
                 "shasum": ""
             },
             "require": {
@@ -1368,7 +1368,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-24T13:10:34+00:00"
+            "time": "2017-11-27T12:44:05+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1376,12 +1376,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "9739df7f0e1574c88d776bef835a48785fdf4098"
+                "reference": "7b0390c7eb054e34282a2ac7522e38e9305b09be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/9739df7f0e1574c88d776bef835a48785fdf4098",
-                "reference": "9739df7f0e1574c88d776bef835a48785fdf4098",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/7b0390c7eb054e34282a2ac7522e38e9305b09be",
+                "reference": "7b0390c7eb054e34282a2ac7522e38e9305b09be",
                 "shasum": ""
             },
             "require": {
@@ -1403,7 +1403,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-22T20:14:13+00:00"
+            "time": "2017-11-27T12:49:43+00:00"
         },
         {
             "name": "novosga/oauth-server-bundle",
@@ -1524,12 +1524,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "c5488414fc3f67b39824c47161d5bb507d532a55"
+                "reference": "04bdeba063195f19ff52c97f8fa76a5771769bd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/c5488414fc3f67b39824c47161d5bb507d532a55",
-                "reference": "c5488414fc3f67b39824c47161d5bb507d532a55",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/04bdeba063195f19ff52c97f8fa76a5771769bd4",
+                "reference": "04bdeba063195f19ff52c97f8fa76a5771769bd4",
                 "shasum": ""
             },
             "require": {
@@ -1551,7 +1551,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-22T12:29:08+00:00"
+            "time": "2017-11-27T12:49:59+00:00"
         },
         {
             "name": "novosga/triage-bundle",
@@ -1559,12 +1559,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "5b815ab58639684edcc55cf9d2752f6a5e239821"
+                "reference": "afbe2688e3772048d4664debbdc5acec3aa96135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/5b815ab58639684edcc55cf9d2752f6a5e239821",
-                "reference": "5b815ab58639684edcc55cf9d2752f6a5e239821",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/afbe2688e3772048d4664debbdc5acec3aa96135",
+                "reference": "afbe2688e3772048d4664debbdc5acec3aa96135",
                 "shasum": ""
             },
             "require": {
@@ -1586,7 +1586,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-23T15:10:22+00:00"
+            "time": "2017-11-27T12:49:12+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -1630,12 +1630,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/websocket-server.git",
-                "reference": "9343cfc92b1527c86f0cd31a790e5eefbd97988a"
+                "reference": "5ea09b35f0cb636ee506a594518341031018e426"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/websocket-server/zipball/9343cfc92b1527c86f0cd31a790e5eefbd97988a",
-                "reference": "9343cfc92b1527c86f0cd31a790e5eefbd97988a",
+                "url": "https://api.github.com/repos/novosga/websocket-server/zipball/5ea09b35f0cb636ee506a594518341031018e426",
+                "reference": "5ea09b35f0cb636ee506a594518341031018e426",
                 "shasum": ""
             },
             "require": {
@@ -1658,7 +1658,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-25T12:50:48+00:00"
+            "time": "2017-11-25T13:37:23+00:00"
         },
         {
             "name": "ocramius/package-versions",
@@ -5449,16 +5449,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "5.2.3",
+            "version": "5.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "8e1d2397d8adf59a3f12b2878a3aaa66d1ab189d"
+                "reference": "033ec97498cf530cc1be4199264cad568b19be26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/8e1d2397d8adf59a3f12b2878a3aaa66d1ab189d",
-                "reference": "8e1d2397d8adf59a3f12b2878a3aaa66d1ab189d",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/033ec97498cf530cc1be4199264cad568b19be26",
+                "reference": "033ec97498cf530cc1be4199264cad568b19be26",
                 "shasum": ""
             },
             "require": {
@@ -5467,7 +5467,7 @@
                 "php": "^7.0",
                 "phpunit/php-file-iterator": "^1.4.2",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-token-stream": "^2.0",
+                "phpunit/php-token-stream": "^2.0.1",
                 "sebastian/code-unit-reverse-lookup": "^1.0.1",
                 "sebastian/environment": "^3.0",
                 "sebastian/version": "^2.0.1",
@@ -5509,20 +5509,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-11-03T13:47:33+00:00"
+            "time": "2017-11-27T09:00:30+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "1.4.3",
+            "version": "1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "8ebba84e5bd74fc5fdeb916b38749016c7232f93"
+                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/8ebba84e5bd74fc5fdeb916b38749016c7232f93",
-                "reference": "8ebba84e5bd74fc5fdeb916b38749016c7232f93",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/730b01bc3e867237eaac355e06a36b85dd93a8b4",
+                "reference": "730b01bc3e867237eaac355e06a36b85dd93a8b4",
                 "shasum": ""
             },
             "require": {
@@ -5556,7 +5556,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2017-11-24T15:00:59+00:00"
+            "time": "2017-11-27T13:52:08+00:00"
         },
         {
             "name": "phpunit/php-text-template",
@@ -5650,16 +5650,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "9a02332089ac48e704c70f6cefed30c224e3c0b0"
+                "reference": "791198a2c6254db10131eecfe8c06670700904db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/9a02332089ac48e704c70f6cefed30c224e3c0b0",
-                "reference": "9a02332089ac48e704c70f6cefed30c224e3c0b0",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/791198a2c6254db10131eecfe8c06670700904db",
+                "reference": "791198a2c6254db10131eecfe8c06670700904db",
                 "shasum": ""
             },
             "require": {
@@ -5695,7 +5695,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2017-08-20T05:47:52+00:00"
+            "time": "2017-11-27T05:48:46+00:00"
         },
         {
             "name": "phpunit/phpunit",
