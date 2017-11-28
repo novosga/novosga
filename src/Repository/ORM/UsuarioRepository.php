@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityRepository;
 use Novosga\Entity\Lotacao;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
+use Novosga\Entity\UsuarioMeta;
 use Novosga\Repository\UsuarioRepositoryInterface;
 use Novosga\Service\UsuarioService;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -117,8 +118,9 @@ class UsuarioRepository extends EntityRepository implements
     public function loadUnidade(Usuario $usuario)
     {
         $em = $this->getEntityManager();
-        $service = new \Novosga\Service\UsuarioService($em);
-        $meta = $service->meta($usuario, 'session.unidade');
+        $meta = $em
+            ->getRepository(UsuarioMeta::class)
+            ->get($usuario, 'session.unidade');
         $unidade = null;
 
         if ($meta) {
@@ -142,8 +144,9 @@ class UsuarioRepository extends EntityRepository implements
     public function updateUnidade(Usuario $usuario, Unidade $unidade)
     {
         $em = $this->getEntityManager();
-        $service = new UsuarioService($em);
-        $service->meta($usuario, 'session.unidade', $unidade->getId());
+        $em
+            ->getRepository(UsuarioMeta::class)
+            ->set($usuario, 'session.unidade', $unidade->getId());
 
         return $unidade;
     }

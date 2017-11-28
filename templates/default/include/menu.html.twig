@@ -9,7 +9,7 @@
                     {% if app.user.admin or is_granted(module.roleName) %}
                         <a href="{{ path(module.homeRoute) }}" class="dropdown-item">
                             <i class="fa fa-{{ module.iconName }} fa-fw"></i>
-                            {{ module.displayName }}
+                            {{ module.displayName|trans({}, module.name) }}
                         </a>
                     {% endif %}
                 {% endfor %}
@@ -18,14 +18,14 @@
                 {% endif %}
                 <a href="#dialog-unidade" data-toggle="modal" class="dropdown-item">
                     <i class="fa fa-exchange"></i> &nbsp;
-                    {% trans %}Trocar unidade{% endtrans %}
+                    {{ 'menu.change_unity'|trans }}
                 </a>
             </div>
         </li>
     {% else %}
         <li>
             <a href="#dialog-unidade" data-toggle="modal">
-                {% trans %}Escolhe unidade{% endtrans %}
+                {{ 'menu.choose_unity'|trans }}
             </a>
         </li>
     {% endif %}

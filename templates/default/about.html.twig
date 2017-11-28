@@ -1,42 +1,42 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    {% trans %}Sobre{% endtrans %}
+    {{ 'about.title'|trans }}
 {% endblock %}
 
 {% block body %}
     <div class="jumbotron">
-        <h1>Novo SGA v{{ version }}</h1>
-        <p>Sistema de Gerenciamento de Atendimento</p>
+        <h1>{{ 'about.version.title'|trans({'%version%': version}) }}</h1>
+        <p>{{ 'about.version.subtitle'|trans }}</p>
         <p>
             <button id="btn-checkversion" class="btn btn-secondary btn-lg" role="button" onclick="return App.checkVersion();">
                 <i class="fa fa-refresh"></i>
-                {% trans %}Verificar nova versão{% endtrans %}
+                {{ 'about.version.check_new'|trans }}
             </button>
             <a id="btn-downloader" href="#" class="btn btn-success btn-lg" role="button" style="display:none">
                 <i class="fa fa-download"></i>
-                Download <span class="version"></span>
+                {{ 'about.version.download'|trans }} <span class="version"></span>
             </a>
             <span id="update-alert" class="label label-success" style="display:none">
                 <i class="fa fa-check"></i>
-                {% trans %}Parabéns, você possui a versão mais recente{% endtrans %}
+                {{ 'about.version.newest'|trans }}
             </span>
         </p>
     </div>
-    <h2>Comunidade</h2>
-    <p>Procurando ajuda? Acesse um dos canais do projeto através dos links abaixo:</p>
+    <h2>{{ 'about.community.title'|trans }}</h2>
+    <p>{{ 'about.community.subtitle'|trans }}</p>
     <div class="row">
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">
-                    Blog
+                    {{ 'about.community.blog.title'|trans }}
                 </div>
                 <div class="card-body">
-                    <p>Notícias relacionadas aos projetos do Novo SGA e lançamento de novas versões</p>
+                    <p>{{ 'about.community.blog.description'|trans }}</p>
                     <p>
                         <a href="http://novosga.org/blog" class="btn btn-primary" target="_blank">
                             <i class="fa fa-eye"></i>&nbsp;
-                            {% trans %}Acessar{% endtrans %}
+                            {{ 'about.community.blog.button'|trans }}
                         </a>
                     </p>
                 </div>
@@ -45,14 +45,14 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">
-                    Fórum
+                    {{ 'about.community.forum.title'|trans }}
                 </div>
                 <div class="card-body">
-                    <p>Canal para tirar dúvidas sobre o uso ou instalação dos projetos.</p>
+                    <p>{{ 'about.community.forum.description'|trans }}</p>
                     <p>
                         <a href="http://novosga.org/forum" class="btn btn-primary" target="_blank">
                             <i class="fa fa-eye"></i>&nbsp;
-                            {% trans %}Acessar{% endtrans %}
+                            {{ 'about.community.forum.button'|trans }}
                         </a>
                     </p>
                 </div>
@@ -61,14 +61,14 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">
-                    Github
+                    {{ 'about.community.github.title'|trans }}
                 </div>
                 <div class="card-body">
-                    <p>Participe diretamente do desenvolvimento relatando problemas (issues).</p>
+                    <p>{{ 'about.community.github.description'|trans }}</p>
                     <p>
                         <a href="https://github.com/novosga/novosga" class="btn btn-primary" target="_blank">
                             <i class="fa fa-eye"></i>&nbsp;
-                            {% trans %}Acessar{% endtrans %}
+                            {{ 'about.community.github.button'|trans }}
                         </a>
                     </p>
                 </div>

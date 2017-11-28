@@ -4,16 +4,16 @@
     <div class="row">
         <div class="col-8">
             <h1>
-                {% trans %}Unidades{% endtrans %}
+                {{ 'admin.unities.title'|trans }}
                 <small>
-                    {% trans %}Cadastro de unidades de atendimento{% endtrans %}
+                    {{ 'admin.unities.subtitle'|trans }}
                 </small>
             </h1>
         </div>
         <div class="col-4 text-right">
             <a href="{{ path('admin_unidades_new') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
-                {% trans %}Nova unidade{% endtrans %}
+                {{ 'admin.unities.button.new'|trans }}
             </a>
         </div>
     </div>
@@ -26,8 +26,8 @@
         <thead class="thead-light">
             <tr>
                 <th>#</th>
-                <th>{% trans %}Código{% endtrans %}</th>
-                <th>{% trans %}Nome{% endtrans %}</th>
+                <th>{{ 'admin.unities.field.code'|trans }}</th>
+                <th>{{ 'admin.unities.field.name'|trans }}</th>
                 <th></th>
             </tr>
         </thead>

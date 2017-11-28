@@ -1,11 +1,11 @@
-{% for flashMessage in app.session.flashbag.get('success') %}
+{% for message in app.flashes('success') %}
     <div class="alert alert-success">
-        {{ flashMessage }}
+        {{ message }}
     </div>
 {% endfor %}
 
-{% for flashMessage in app.session.flashbag.get('error') %}
+{% for message in app.flashes('error') %}
     <div class="alert alert-danger">
-        {{ flashMessage }}
+        {{ message }}
     </div>
 {% endfor %}

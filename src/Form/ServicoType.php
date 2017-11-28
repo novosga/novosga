@@ -33,24 +33,30 @@ class ServicoType extends AbstractType
         $entity = $options['data'];
         
         $builder
-            ->add('nome', TextType::class)
+            ->add('nome', TextType::class, [
+                'label' => 'admin.services.field.name',
+            ])
             ->add('descricao', TextareaType::class, [
+                'label' => 'admin.services.field.description',
                 'attr' => [
                     'rows' => 4
                 ]
             ])
             ->add('ativo', CheckboxType::class, [
+                'label' => 'admin.services.field.enabled',
                 'required' => false
             ])
             ->add('peso', IntegerType::class, [
+                'label' => 'admin.services.field.weight',
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
                 ]
             ])
         ;
         
-        if (!$entity->isMestre()) {
+        if (!$entity->isMestre() || count($entity->getSubservicos()) === 0) {
             $builder->add('mestre', EntityType::class, [
+                'label' => 'admin.services.field.parent',
                 'class' => Servico::class,
                 'placeholder' => 'Nenhum',
                 'required' => false,

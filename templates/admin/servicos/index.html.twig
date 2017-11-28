@@ -4,16 +4,16 @@
     <div class="row">
         <div class="col-8">
             <h1>
-                {% trans %}Serviços{% endtrans %}
+                {{ 'admin.services.title'|trans }}
                 <small>
-                    {% trans %}Cadastro de serviços para atendimento{% endtrans %}
+                    {{ 'admin.services.subtitle'|trans }}
                 </small>
             </h1>
         </div>
         <div class="col-4 text-right">
             <a href="{{ path('admin_servicos_new') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
-                {% trans %}Novo serviço{% endtrans %}
+                {{ 'admin.services.button.new'|trans }}
             </a>
         </div>
     </div>
@@ -26,9 +26,9 @@
         <thead class="thead-light">
             <tr>
                 <th>#</th>
-                <th>{% trans %}Nome{% endtrans %}</th>
-                <th>{% trans %}Peso{% endtrans %}</th>
-                <th>{% trans %}Situação{% endtrans %}</th>
+                <th>{{ 'admin.services.field.name'|trans }}</th>
+                <th>{{ 'admin.services.field.weight'|trans }}</th>
+                <th>{{ 'label.status'|trans }}</th>
                 <th></th>
             </tr>
         </thead>
@@ -46,9 +46,9 @@
                     </td>
                     <td>
                         {% if servico.ativo %}
-                            {% trans %}Ativo{% endtrans %}
+                            <span class="text-success">{{ 'label.enabled'|trans }}</span>
                         {% else %}
-                            {% trans %}Inativo{% endtrans %}
+                            <span class="text-danger">{{ 'label.disabled'|trans }}</span>
                         {% endif %}
                     </td>
                     <td class="text-center">

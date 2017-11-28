@@ -27,9 +27,14 @@ class UnidadeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('codigo', TextType::class)
-            ->add('nome', TextType::class)
+            ->add('codigo', TextType::class, [
+                'label' => 'admin.unities.field.code',
+            ])
+            ->add('nome', TextType::class, [
+                'label' => 'admin.unities.field.name',
+            ])
             ->add('ativo', CheckboxType::class, [
+                'label' => 'admin.unities.field.enabled',
                 'required' => false
             ])
         ;

@@ -2,9 +2,9 @@
 
 {% block adminContent %}
     <h1>
-        {% trans %}Prioridades{% endtrans %}
+        {{ 'admin.priorities.title'|trans }}
         <small>
-            {% trans %}Cadastro de prioridades de atendimento{% endtrans %}
+            {{ 'admin.priorities.subtitle'|trans }}
         </small>
     </h1>
     
@@ -14,26 +14,26 @@
     
         {% include 'flashMessages.html.twig' %}
         
-        {{ form_row(form.ativo, { label: 'Ativo' }) }}
+        {{ form_row(form.ativo) }}
     
-        {{ form_row(form.nome, { label: 'Nome' }) }}
+        {{ form_row(form.nome) }}
 
-        {{ form_row(form.descricao, { label: 'Descrição' }) }}
+        {{ form_row(form.descricao) }}
 
-        {{ form_row(form.peso, { label: 'Peso' }) }}
+        {{ form_row(form.peso) }}
 
         <button type="submit" class="btn btn-primary">
             <i class="fa fa-check"></i> 
-            {% trans %}Salvar{% endtrans %}
+            {{ 'button.save'|trans }}
         </button>
         <a href="{{ path('admin_prioridades_index') }}" class="btn btn-secondary">
             <i class="fa fa-chevron-left"></i>
-            {% trans %}Voltar{% endtrans %}
+            {{ 'button.back'|trans }}
         </a>
         {% if entity.id and entity.id != 1 %}
             <button type="submit" class="btn btn-danger pull-right" name="_method" value="DELETE">
                 <i class="fa fa-trash"></i> 
-                {% trans %}Excluir{% endtrans %}
+                {{ 'button.remove'|trans }}
             </button>
         {% endif %}
 

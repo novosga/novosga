@@ -2,9 +2,9 @@
 
 {% block adminContent %}
     <h1>
-        {% trans %}Web API{% endtrans %}
+        {{ 'admin.webapi.title'|trans }}
         <small>
-            {% trans %}API Web para integração com outros sistemas.{% endtrans %}
+            {{ 'admin.webapi.subtitle'|trans }}
         </small>
     </h1>
     
@@ -12,14 +12,16 @@
     
     <div id="admin">
         <fieldset>
-            <legend>{% trans %}Clientes{% endtrans %}</legend>
-            <p>{% trans %}Para acessar algumas URLs é necessário possuir um token de acesso, e para isso é necessário primeiro cadastrar a aplicação cliente.{% endtrans %}</p>
+            <legend>{{ 'admin.webapi.clients.title'|trans }}</legend>
+            
+            <p>{{ 'admin.webapi.clients.subtitle'|trans }}</p>
+            
             <table class="table table-bordered">
                 <thead class="thead-light">
                     <tr>
-                        <th>Public Id</th>
-                        <th>Client Secret</th>
-                        <th>Redirect URI</th>
+                        <th>{{ 'admin.webapi.clients.public_id'|trans }}</th>
+                        <th>{{ 'admin.webapi.clients.public_secret'|trans }}</th>
+                        <th>{{ 'admin.webapi.clients.redirect_uri'|trans }}</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -31,7 +33,7 @@
                             {% endverbatim %}
                         </td>
                         <td>
-                            <a href="#" title="{% trans %}Visualizar{% endtrans %}" v-on:click.prevent="showSecret(client, $event)">
+                            <a href="#" title="{{ 'label.view'|trans }}" v-on:click.prevent="showSecret(client, $event)">
                                 ******
                             </a>
                         </td>
@@ -41,7 +43,7 @@
                             {% endverbatim %}
                         </td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-danger" title="{% trans %}Remover{% endtrans %}"
+                            <button type="button" class="btn btn-danger" title="{{ 'button.remove'|trans }}"
                                     v-on:click.prevent="removeClient(client)">
                                 <span class="fa fa-trash"></span>
                             </button>
@@ -56,104 +58,11 @@
                         <td class="text-center">
                             <button type="button" class="btn btn-secondary" v-on:click.prevent="newClient">
                                 <i class="fa fa-plus"></i>
-                                {% trans %}Adicionar{% endtrans %}
+                                {{ 'button.add'|trans }}
                             </button>
                         </td>
                     </tr>
                 </tfoot>
-            </table>
-        </fieldset>
-                            
-        <fieldset>
-            <legend>URLs</legend>
-            <p>{% trans %}As URLs abaixo são usadas para integrar o Novo SGA com outros projetos, como por exemplo o <strong>Painel Web</strong> e a <strong>Triagem Touch</strong>.{% endtrans %}</p>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Method</th>
-                        <th>URI</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <span class="label label-danger">POST</span>
-                        </td>
-                        <td>
-                            /api/token
-                        </td>
-                        <td>
-                            {% trans %}Autentica o usuário retornando o token de acesso.{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="label label-success">GET</span>
-                        </td>
-                        <td>
-                            /api/unidades
-                        </td>
-                        <td>
-                            {% trans %}Retorna todas as unidades disponíveis.{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="label label-success">GET</span>
-                        </td>
-                        <td>
-                            /api/prioridades
-                        </td>
-                        <td>
-                            {% trans %}Retorna todas as prioridades disponíveis.{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="label label-success">GET</span>
-                        </td>
-                        <td>
-                            /api/servicos
-                        </td>
-                        <td>
-                            {% trans %}Retorna os serviços globais.{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="label label-success">GET</span>
-                        </td>
-                        <td>
-                            /api/locais
-                        </td>
-                        <td>
-                            {% trans %}Retorna os locais de atendimentos.{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="label label-success">GET</span>
-                        </td>
-                        <td>
-                            /api/usuarios
-                        </td>
-                        <td>
-                            {% trans %}Retorna os usuários do sistema.{% endtrans %}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span class="label label-danger">POST</span>
-                        </td>
-                        <td>
-                            /api/distribui
-                        </td>
-                        <td>
-                            {% trans %}Distribui uma nova senha para atendimento. Requer autenticação, um access_token válido e ativo.{% endtrans %}
-                        </td>
-                    </tr>
-                </tbody>
             </table>
         </fieldset>
 
@@ -162,23 +71,23 @@
                 <div class="modal-content">
                     <form v-on:submit.prevent="addClient">
                         <div class="modal-header">
-                            <h5 class="modal-title">{% trans %}API Client{% endtrans %}</h5>
+                            <h5 class="modal-title">{{ 'admin.webapi.clients.modal'|trans }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>{% trans %}Redirect URI{% endtrans %}</label>
+                                <label>{{ 'admin.webapi.clients.redirect_uri'|trans }}</label>
                                 <input type="url" class="form-control" v-model="client.redirectUri" name="redirectUri">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                {% trans %}Fechar{% endtrans %}
+                                {{ 'button.close'|trans }}
                             </button>
                             <button type="submit" class="btn btn-primary">
-                                {% trans %}Adicionar{% endtrans %}
+                                {{ 'button.add'|trans }}
                             </button>
                         </div>
                     </form>
@@ -231,7 +140,7 @@
                     },
                     removeClient: function (client) {
                         var self = this;
-                        if (confirm('{% trans %}Deseja realmente remover o cliente?{% endtrans %}')) {
+                        if (confirm('{{ 'admin.webapi.clients.remove_alert'|trans }}')) {
                             App.ajax({
                                 url: '{{ path('admin_api_clients') }}/' + client.id,
                                 type: 'DELETE',

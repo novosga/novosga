@@ -4,16 +4,16 @@
     <div class="row">
         <div class="col-8">
             <h1>
-                {% trans %}Perfis{% endtrans %}
+                {{ 'admin.roles.title'|trans }}
                 <small>
-                    {% trans %}Cadastro de perfis de acesso{% endtrans %}
+                    {{ 'admin.roles.subtitle'|trans }}
                 </small>
             </h1>
         </div>
         <div class="col-4 text-right">
             <a href="{{ path('admin_perfis_new') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
-                {% trans %}Novo perfil{% endtrans %}
+                {{ 'admin.roles.button.new'|trans }}
             </a>
         </div>
     </div>
@@ -26,7 +26,7 @@
         <thead class="thead-light">
             <tr>
                 <th>#</th>
-                <th>{% trans %}Nome{% endtrans %}</th>
+                <th>{{ 'admin.roles.field.name'|trans }}</th>
                 <th></th>
             </tr>
         </thead>

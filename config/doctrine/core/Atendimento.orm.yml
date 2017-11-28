@@ -1,6 +1,7 @@
 Novosga\Entity\Atendimento:
     type: entity
     table: atendimentos
+    repositoryClass: App\Repository\ORM\AtendimentoRepository
     oneToMany:
         codificados:
             targetEntity: Novosga\Entity\AtendimentoCodificado

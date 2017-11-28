@@ -35,13 +35,17 @@ class PerfilType extends AbstractType
         }
         
         $builder
-            ->add('nome')
+            ->add('nome', TextType::class, [
+                'label' => 'admin.roles.field.name',
+            ])
             ->add('descricao', TextareaType::class, [
+                'label' => 'admin.roles.field.description',
                 'attr' => [
                     'rows' => 4
                 ]
             ])
             ->add('modulos', ChoiceType::class, [
+                'label' => 'admin.roles.field.modules',
                 'multiple' => true,
                 'expanded' => true,
                 'choices' => $modulos

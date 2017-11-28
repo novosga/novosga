@@ -1,11 +1,12 @@
 Novosga\Entity\UsuarioMeta:
     type: entity
     table: usuarios_metadata
+    repositoryClass: App\Repository\ORM\MetadataRepository
     id:
-        usuario:
+        entity:
             associationKey: true
     manyToOne:
-        usuario:
+        entity:
             targetEntity: Novosga\Entity\Usuario
             fetch: LAZY
             joinColumns:

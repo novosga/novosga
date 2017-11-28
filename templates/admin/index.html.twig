@@ -5,19 +5,19 @@
 <div class="card">
     <div class="card-header text-white bg-danger">
         <i class="fa fa-warning"></i> 
-        {% trans %}Zona de perigo{% endtrans %}
+        {{ 'admin.system.danger_zone'|trans }}
     </div>
     <table class="table">
         <tbody>
             <tr>
                 <td>
-                    {% trans %}Reiniciar senhas{% endtrans %}
+                    {{ 'admin.system.reset_tickets'|trans }}
                 </td>
                 <td class="text-right">
                     <button class="btn btn-danger"
-                            onclick="return App.Admin.reiniciarSenhas('{% trans %}Deseja realmente reiniciar as senhas de todas unidades?{% endtrans %}')">
+                            onclick="return App.Admin.reiniciarSenhas('{{ 'admin.system.reset_tickets.alert'|trans }}')">
                         <i class="fa fa-refresh"></i>
-                        {% trans %}Reiniciar{% endtrans %}
+                        {{ 'button.reset'|trans }}
                     </button>
                 </td>
             </tr>
@@ -31,14 +31,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">{% trans %}Configuração{% endtrans %}</h5>
+                <h5 class="modal-title">{{ 'label.success'|trans }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div>
             <div class="modal-body">
-                <p>{% trans %}Senhas reiniciadas com sucesso{% endtrans %}</p>
+                <p>{{ 'admin.system.reset_tickets.success'|trans }}</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans %}Fechar{% endtrans %}</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'button.close'|trans }}</button>
             </div>
         </div>
     </div>

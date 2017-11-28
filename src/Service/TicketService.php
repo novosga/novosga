@@ -15,13 +15,15 @@ use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Novosga\Entity\Atendimento;
+use Novosga\Service\StorageAwareService;
+use Twig_Environment;
 
 /**
  * TicketService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class TicketService
+class TicketService extends StorageAwareService
 {
     /**
      * @var ObjectManager
@@ -29,11 +31,11 @@ class TicketService
     private $objectManager;
     
     /**
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
     private $twig;
     
-    public function __construct(ObjectManager $objectManager, \Twig_Environment $twig)
+    public function __construct(ObjectManager $objectManager, Twig_Environment $twig)
     {
         $this->objectManager = $objectManager;
         $this->twig = $twig;
@@ -56,12 +58,13 @@ class TicketService
         $unidade = $atendimento->getUnidade();
         $servico = $atendimento->getServico();
         
-        $service = new \Novosga\Service\ServicoService($this->objectManager);
-        $servicoUnidade = $service->servicoUnidade($unidade, $servico);
+        $su = $this->storage
+            ->getRepository(ServicoUnidade::class)
+            ->get($unidade, $servico);
         
         $viewParams = [
             'atendimento' => $atendimento,
-            'servicoUnidade' => $servicoUnidade,
+            'servicoUnidade' => $su,
             'now' => new DateTime()
         ];
         

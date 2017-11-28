@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}">
+    <head>
+        <meta charset="utf-8" />
+        <title>{{ 'login.title'|trans }}</title>
+        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}" />
+    </head>
+    <body>
+        <div class="container">
+            <form id="login-form" action="{{ path('login_check') }}" method="post" class="form-signin">
+                <h2 id="logo" class="form-signin-heading">Novo SGA</h2>
+                {% if error %}
+                    <div class="alert alert-danger">
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+                <div id="login">
+                    <input type="text" name="_username" class="form-control" placeholder="{{ 'login.field.username'|trans }}" autofocus value="{{ last_username }}">
+                    <input type="password" name="_password" class="form-control" placeholder="{{ 'login.field.password'|trans }}">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'login.field.button.submit'|trans }}</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

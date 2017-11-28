@@ -125,9 +125,6 @@
     "novosga/settings-bundle": {
         "version": "2.0-dev"
     },
-    "novosga/triagem-bundle": {
-        "version": "2.0-dev"
-    },
     "novosga/users-bundle": {
         "version": "2.0-dev"
     },
@@ -418,5 +415,8 @@
     },
     "jms/serializer": {
         "version": "1.9.1"
+    },
+    "novosga/triage-bundle": {
+        "version": "2.0-dev"
     }
 }

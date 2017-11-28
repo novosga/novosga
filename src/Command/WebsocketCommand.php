@@ -36,19 +36,19 @@ class WebsocketCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $option      = $input->getArgument('option');
+        $option = $input->getArgument('option');
         
         if (!in_array($option, $this->validOptions)) {
             throw new Exception('Invalid option.');
         }
         
-        $projectDir  = $this->getContainer()->getParameter('kernel.project_dir');
-        $commandline = "{$projectDir}/vendor/novosga/websocket-server/bin/server {$option}";
-        $process     = new Process($commandline);
+        global $debug;
+        global $argv;
         
-        $process->start();
-        $process->wait();
+        $debug = false;
+        $argv  = ['NovoSGA', $option];
         
-        $output->writeln($process->getOutput());
+        $command = new \Novosga\Websocket\Command();
+        $command->run($output);
     }
 }

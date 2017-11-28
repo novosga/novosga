@@ -44,7 +44,7 @@ class UnidadesController extends ApiCrudController
      */
     public function servicosAction(Unidade $unidade, ServicoService $service)
     {
-        $servicos = $service->servicosUnidade($unidade, 'e.ativo = TRUE');
+        $servicos = $service->servicosUnidade($unidade, ['ativo' => true]);
 
         return $this->json($servicos);
     }
@@ -60,10 +60,9 @@ class UnidadesController extends ApiCrudController
                 ->getManager()
                 ->createQueryBuilder()
                 ->select([
-                    'e', 'su', 's', 'ut', 'u'
+                    'e', 's', 'ut', 'u'
                 ])
                 ->from(Atendimento::class, 'e')
-                ->join('e.servicoUnidade', 'su')
                 ->join('e.servico', 's')
                 ->join('e.usuarioTriagem', 'ut')
                 ->leftJoin('e.usuario', 'u')

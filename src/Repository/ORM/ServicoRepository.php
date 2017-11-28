@@ -12,6 +12,7 @@
 namespace App\Repository\ORM;
 
 use Doctrine\ORM\EntityRepository;
+use Novosga\Entity\Servico;
 use Novosga\Repository\ServicoRepositoryInterface;
 
 /**
@@ -21,4 +22,21 @@ use Novosga\Repository\ServicoRepositoryInterface;
  */
 class ServicoRepository extends EntityRepository implements ServicoRepositoryInterface
 {
+    public function getSubservicos(Servico $servico)
+    {
+        $subservicos = $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('e')
+            ->from(Servico::class, 'e')
+            ->where('e.mestre = :mestre')
+            ->andWhere('e.ativo = TRUE')
+            ->andWhere('e.deletedAt IS NULL')
+            ->orderBy('e.nome', 'ASC')
+            ->setParameter('mestre', $servico)
+            ->getQuery()
+            ->getResult();
+        
+        return $subservicos;
+    }
 }

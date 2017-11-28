@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    {% trans %}Administraçao{% endtrans %}
+    {{ 'admin.title'|trans }}
 {% endblock %}
 
 {% block body %}
@@ -10,35 +10,35 @@
             <aside>
                 <div class="list-group">
                     <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
-                        {% trans %}Sistema{% endtrans %}
+                        {{ 'admin.menu.system'|trans }}
                     </a>
                     
                     <a href="{{ path('admin_unidades_index') }}" class="list-group-item {% if tab == 'unidades' %}active{% endif %}">
-                        {% trans %}Unidades{% endtrans %}
+                        {{ 'admin.menu.unities'|trans }}
                     </a>
                     
                     <a href="{{ path('admin_servicos_index') }}" class="list-group-item {% if tab == 'servicos' %}active{% endif %}">
-                        {% trans %}Serviços{% endtrans %}
+                        {{ 'admin.menu.services'|trans }}
                     </a>
                     
                     <a href="{{ path('admin_perfis_index') }}" class="list-group-item {% if tab == 'perfis' %}active{% endif %}">
-                        {% trans %}Perfis{% endtrans %}
+                        {{ 'admin.menu.roles'|trans }}
                     </a>
                     
                     <a href="{{ path('admin_prioridades_index') }}" class="list-group-item {% if tab == 'prioridades' %}active{% endif %}">
-                        {% trans %}Prioridades{% endtrans %}
+                        {{ 'admin.menu.priorities'|trans }}
                     </a>
                     
                     <a href="{{ path('admin_locais_index') }}" class="list-group-item {% if tab == 'locais' %}active{% endif %}">
-                        {% trans %}Locais{% endtrans %}
+                        {{ 'admin.menu.places'|trans }}
                     </a>
                     
                     <a href="{{ path('admin_modulos_index') }}" class="list-group-item {% if tab == 'modulos' %}active{% endif %}">
-                        {% trans %}Módulos{% endtrans %}
+                        {{ 'admin.menu.modules'|trans }}
                     </a>
                     
                     <a href="{{ path('admin_api_index') }}" class="list-group-item {% if tab == 'api' %}active{% endif %}">
-                        Web API
+                        {{ 'admin.menu.webapi'|trans }}
                     </a>
                 </div>
             </aside>

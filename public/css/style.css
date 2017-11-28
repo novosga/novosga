@@ -33,7 +33,7 @@ body>footer p {
 }
 
 /* internal clock */
-#sga-clock {
+.clock {
     bottom: 15px;
     right: 15px;
     padding: 10px 15px;    
@@ -42,22 +42,22 @@ body>footer p {
     border-radius: 5px;
 }
 
-#sga-clock span { 
+.clock span {
     text-align: center;
     font-weight: bold;
     display: inline-block;
 }
 
-#sga-clock span.sep { width: 15px; }
+.clock span.sep { width: 15px; }
 
-#sga-clock .time span {
+.clock .time span {
     color: #fff;
     font-size: 20px;
 }
 
-#sga-clock .date { padding-top: 2px; }
+.clock .date { padding-top: 2px; }
 
-#sga-clock .date span {
+.clock .date span {
     color: #ccc;
     font-size: 14px;
 }
