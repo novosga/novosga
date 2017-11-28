@@ -38,15 +38,21 @@ class MetadataRepository extends EntityRepository implements MetadataRepositoryI
      */
     public function set($entity, $name, $value)
     {
+        $em = $this->getEntityManager();
         $metada = $this->get($entity, $name);
         
         if (!$metada) {
             $class  = $this->getEntityName();
             $metada = new $class;
             $metada->setEntity($entity);
+            $metada->setValue($value);
+            $em->persist($entity);
+        } else {
+            $metada->setValue($value);
+            $em->merge($entity);
         }
         
-        $metada->setValue($value);
+        $em->flush();
         
         return $metada;
     }
