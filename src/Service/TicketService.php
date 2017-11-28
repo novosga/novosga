@@ -15,6 +15,8 @@ use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Novosga\Entity\Atendimento;
+use Novosga\Entity\ServicoUnidade;
+use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\StorageAwareService;
 use Twig_Environment;
 
@@ -35,9 +37,9 @@ class TicketService extends StorageAwareService
      */
     private $twig;
     
-    public function __construct(ObjectManager $objectManager, Twig_Environment $twig)
+    public function __construct(StorageInterface $storage, Twig_Environment $twig)
     {
-        $this->objectManager = $objectManager;
+        parent::__construct($storage);
         $this->twig = $twig;
     }
 

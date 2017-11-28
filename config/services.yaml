@@ -48,7 +48,6 @@ services:
             - { name: doctrine.event_subscriber }
 
     App\Service\TicketService:
-        arguments: ["@doctrine.orm.entity_manager", "@twig"]
         public: true
 
     App\Loader\RouterLoader:
