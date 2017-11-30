@@ -3,7 +3,6 @@
     "name": "novosga/novosga",
     "description": "Support queue management system",
     "type": "project",
-    "minimum-stability": "beta",
     "homepage": "http://novosga.org",
     "license": "MIT",
     "authors": [

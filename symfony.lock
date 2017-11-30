@@ -418,5 +418,8 @@
     },
     "novosga/triage-bundle": {
         "version": "2.0-dev"
+    },
+    "pagerfanta/pagerfanta": {
+        "version": "v1.0.5"
     }
 }
