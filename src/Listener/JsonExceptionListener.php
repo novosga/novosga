@@ -14,9 +14,10 @@ namespace App\Listener;
 use Novosga\Http\Envelope;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * JsonExceptionListener
@@ -25,11 +26,20 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class JsonExceptionListener extends AppListener
 {
+    /**
+     * @var KernelInterface
+     */
     private $kernel;
     
-    public function __construct(KernelInterface $kernel)
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+    
+    public function __construct(KernelInterface $kernel, TranslatorInterface $translator)
     {
-        $this->kernel = $kernel;
+        $this->kernel     = $kernel;
+        $this->translator = $translator;
     }
     
     public function onKernelException(GetResponseForExceptionEvent $event)
@@ -64,8 +74,9 @@ class JsonExceptionListener extends AppListener
             $envelope->exception($exception, $debug);
             
             if ($exception instanceof AuthenticationException) {
+                $error = $this->translator->trans('session.invalid');
                 $envelope->setSessionStatus('inactive');
-                $envelope->setMessage(_('Sessão inválida'));
+                $envelope->setMessage($error);
             }
             
             $response = new JsonResponse($envelope);

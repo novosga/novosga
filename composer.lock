@@ -1344,12 +1344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "2c604854484606f718772622fa1521a453616139"
+                "reference": "165f7e0ad32ecd3c8829510fc4d604b362ba11e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/2c604854484606f718772622fa1521a453616139",
-                "reference": "2c604854484606f718772622fa1521a453616139",
+                "url": "https://api.github.com/repos/novosga/core/zipball/165f7e0ad32ecd3c8829510fc4d604b362ba11e3",
+                "reference": "165f7e0ad32ecd3c8829510fc4d604b362ba11e3",
                 "shasum": ""
             },
             "require": {
@@ -1370,7 +1370,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-11-27T12:44:05+00:00"
+            "time": "2017-12-08T12:16:41+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1491,12 +1491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "868d49334e7ea9d03e10595bbb87415a26633ba8"
+                "reference": "613314a1eb08d77e732043a2f5d1cc8bac2618d2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/868d49334e7ea9d03e10595bbb87415a26633ba8",
-                "reference": "868d49334e7ea9d03e10595bbb87415a26633ba8",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/613314a1eb08d77e732043a2f5d1cc8bac2618d2",
+                "reference": "613314a1eb08d77e732043a2f5d1cc8bac2618d2",
                 "shasum": ""
             },
             "require": {
@@ -1518,7 +1518,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-06T21:23:12+00:00"
+            "time": "2017-12-08T12:17:14+00:00"
         },
         {
             "name": "novosga/settings-bundle",
@@ -2876,16 +2876,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.46",
+            "version": "v1.0.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "d511e9d81301ecb1fe533cbba2c40809c58c6b62"
+                "reference": "73436bc5c0e3b63f5655552d580b48ad0e17543f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/d511e9d81301ecb1fe533cbba2c40809c58c6b62",
-                "reference": "d511e9d81301ecb1fe533cbba2c40809c58c6b62",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/73436bc5c0e3b63f5655552d580b48ad0e17543f",
+                "reference": "73436bc5c0e3b63f5655552d580b48ad0e17543f",
                 "shasum": ""
             },
             "require": {
@@ -2918,7 +2918,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2017-12-06T21:01:41+00:00"
+            "time": "2017-12-07T20:09:46+00:00"
         },
         {
             "name": "symfony/form",

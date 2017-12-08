@@ -498,6 +498,82 @@
                 <source>admin.webapi.clients.modal</source>
                 <target>API Client</target> 
             </trans-unit> 
+            <trans-unit id="125"> 
+                <source>api.triage.invalid_hash</source>
+                <target>Chave de segurança do atendimento inválida</target> 
+            </trans-unit> 
+            <trans-unit id="126"> 
+                <source>session.invalid</source>
+                <target>Sessão inválida</target> 
+            </trans-unit> 
+            <trans-unit id="127"> 
+                <source>ticket.status.generated</source>
+                <target>Senha emitida</target> 
+            </trans-unit> 
+            <trans-unit id="128"> 
+                <source>ticket.status.called</source>
+                <target>Chamado pela mesa</target> 
+            </trans-unit> 
+            <trans-unit id="129"> 
+                <source>ticket.status.started</source>
+                <target>Atendimento iniciado</target> 
+            </trans-unit> 
+            <trans-unit id="130"> 
+                <source>ticket.status.finished</source>
+                <target>Atendimento encerrado</target> 
+            </trans-unit> 
+            <trans-unit id="131"> 
+                <source>ticket.status.no_show</source>
+                <target>Não compareceu</target> 
+            </trans-unit> 
+            <trans-unit id="132"> 
+                <source>ticket.status.cancelled</source>
+                <target>Senha cancelada</target> 
+            </trans-unit> 
+            <trans-unit id="133"> 
+                <source>ticket.status.error</source>
+                <target>Erro triagem</target> 
+            </trans-unit> 
+            <trans-unit id="134"> 
+                <source>error.invalid_unity</source>
+                <target>Unidade inválida</target> 
+            </trans-unit> 
+            <trans-unit id="135"> 
+                <source>error.invalid_user</source>
+                <target>Usuário inválido</target> 
+            </trans-unit> 
+            <trans-unit id="136"> 
+                <source>error.invalid_service</source>
+                <target>Serviço inválido</target> 
+            </trans-unit> 
+            <trans-unit id="137"> 
+                <source>error.invalid_priority</source>
+                <target>Prioridade inválida</target> 
+            </trans-unit> 
+            <trans-unit id="138"> 
+                <source>error.user_unity_ticket_permission</source>
+                <target>O usuário que está tentando distribuir senha não tem lotação na unidade escolhida.</target> 
+            </trans-unit> 
+            <trans-unit id="139"> 
+                <source>error.no_servicing_available</source>
+                <target>Nenhum atendimento disponível</target> 
+            </trans-unit> 
+            <trans-unit id="140"> 
+                <source>error.change_status</source>
+                <target>Erro ao mudar status do atendimento</target> 
+            </trans-unit> 
+            <trans-unit id="141"> 
+                <source>error.service_unity_invalid</source>
+                <target>Serviço não disponível para a unidade atual</target> 
+            </trans-unit> 
+            <trans-unit id="142"> 
+                <source>error.service_unity_inactive</source>
+                <target>Serviço escolhido na está ativo na unidade desejada</target> 
+            </trans-unit> 
+            <trans-unit id="143"> 
+                <source>error.new_ticket</source>
+                <target>Erro ao tentar gerar nova senha</target> 
+            </trans-unit> 
         </body>
     </file>
 </xliff>

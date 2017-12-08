@@ -69,8 +69,8 @@ class UnidadesController extends Controller
         
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$entity->getId()) {
-                $entity->getImpressao()->setCabecalho(_('Novo SGA'));
-                $entity->getImpressao()->setRodape(_('========'));
+                $entity->getImpressao()->setCabecalho('Novo SGA');
+                $entity->getImpressao()->setRodape('========');
             }
             
             $em = $this->getDoctrine()->getManager();

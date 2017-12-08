@@ -85,7 +85,7 @@ class UsuarioRepository extends EntityRepository implements
             }
 
             if (!$lotacao) {
-                throw new Exception(_('Não existe lotação para o usuário atual na unidade informada.'));
+                throw new Exception('Não existe lotação para o usuário atual na unidade informada.');
             }
         }
 
@@ -135,7 +135,7 @@ class UsuarioRepository extends EntityRepository implements
         }
 
         if (!$unidade) {
-//            throw new Exception(_('Nenhuma unidade definida para o usuário.'));
+//            throw new Exception('Nenhuma unidade definida para o usuário.');
         }
 
         return $unidade;

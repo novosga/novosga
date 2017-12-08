@@ -1,5 +1,5 @@
 <?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
-    <file datatype="plaintext" original="messages.pt_BR.xlf" source-language="pt-BR" target-language="en-US">
+    <file datatype="plaintext" original="messages.pt_BR.xlf" source-language="pt-BR" target-language="en">
         <body> 
             <trans-unit id="1"> 
                 <source>default.title</source> 
@@ -13,17 +13,17 @@
             </trans-unit> 
             <trans-unit id="3"> 
                 <source>modal.unity.label</source> 
-                <target>Please choose section</target>
+                <target>Please choose a Unity</target>
                  
             </trans-unit> 
             <trans-unit id="4"> 
                 <source>modal.unity.submit</source> 
-                <target>Submit</target>
+                <target>Send</target>
                  
             </trans-unit> 
             <trans-unit id="5"> 
                 <source>label.unity</source> 
-                <target>Section</target>
+                <target>Unity</target>
                  
             </trans-unit> 
             <trans-unit id="6"> 
@@ -38,7 +38,7 @@
             </trans-unit> 
             <trans-unit id="8"> 
                 <source>label.success</source> 
-                <target>Success </target>
+                <target>Success</target>
                  
             </trans-unit> 
             <trans-unit id="9"> 
@@ -48,12 +48,12 @@
             </trans-unit> 
             <trans-unit id="10"> 
                 <source>label.enabled</source> 
-                <target>Enabled</target>
+                <target>Active</target>
                  
             </trans-unit> 
             <trans-unit id="11"> 
                 <source>label.disabled</source> 
-                <target>Disabled </target>
+                <target>Inactive</target>
                  
             </trans-unit> 
             <trans-unit id="12"> 
@@ -63,7 +63,7 @@
             </trans-unit> 
             <trans-unit id="13"> 
                 <source>label.choose</source> 
-                <target>Select</target>
+                <target>Choose</target>
                  
             </trans-unit> 
             <trans-unit id="14"> 
@@ -83,7 +83,7 @@
             </trans-unit> 
             <trans-unit id="17"> 
                 <source>button.update</source> 
-                <target>Update </target>
+                <target>Update</target>
                  
             </trans-unit> 
             <trans-unit id="18"> 
@@ -103,17 +103,17 @@
             </trans-unit> 
             <trans-unit id="21"> 
                 <source>m/d/Y</source> 
-                <target>d/m/Y</target>
+                <target>m/d/Y</target>
                  
             </trans-unit> 
             <trans-unit id="22"> 
                 <source>menu.change_unity</source> 
-                <target>Change section</target>
+                <target>Change unity</target>
                  
             </trans-unit> 
             <trans-unit id="23"> 
                 <source>menu.choose_unity</source> 
-                <target>Choose section</target>
+                <target>Choose unity</target>
                  
             </trans-unit> 
             <trans-unit id="24"> 
@@ -123,7 +123,7 @@
             </trans-unit> 
             <trans-unit id="25"> 
                 <source>menu.user.logout</source> 
-                <target>Logout </target>
+                <target>Logout</target>
                  
             </trans-unit> 
             <trans-unit id="26"> 
@@ -133,12 +133,12 @@
             </trans-unit> 
             <trans-unit id="27"> 
                 <source>menu.admin</source> 
-                <target>Administration </target>
+                <target>Administration</target>
                  
             </trans-unit> 
             <trans-unit id="28"> 
                 <source>print.ticket.date</source> 
-                <target>Arrival time %ti me% &lt;br&gt; ( Local time )</target>
+                <target>Arrival time %time% &lt;br&gt;  ( Local time )</target>
                  
             </trans-unit> 
             <trans-unit id="29"> 
@@ -148,7 +148,7 @@
             </trans-unit> 
             <trans-unit id="30"> 
                 <source>login.field.username</source> 
-                <target>User name</target>
+                <target>Username</target>
                  
             </trans-unit> 
             <trans-unit id="31"> 
@@ -158,7 +158,7 @@
             </trans-unit> 
             <trans-unit id="32"> 
                 <source>login.field.button.submit</source> 
-                <target>Login</target>
+                <target>Enter</target>
                  
             </trans-unit> 
             <trans-unit id="33"> 
@@ -167,13 +167,13 @@
                  
             </trans-unit> 
             <trans-unit id="34"> 
-                <source>home.welcome.subtitle</source> 
-                <target>Novo SGA - Queue Management System</target>
+                <source>home.welcome.subtitle</source>
+                <target>Novo SGA - Support Queue Management System</target>
                  
             </trans-unit> 
             <trans-unit id="35"> 
                 <source>home.welcome.button.read</source> 
-                <target>More about</target>
+                <target>Read more about it</target>
                  
             </trans-unit> 
             <trans-unit id="36"> 
@@ -187,8 +187,8 @@
                  
             </trans-unit> 
             <trans-unit id="38"> 
-                <source>about.version.subtitle</source> 
-                <target>Queue Management System</target>
+                <source>about.version.subtitle</source>
+                <target>Support queue Management System</target>
                  
             </trans-unit> 
             <trans-unit id="39"> 
@@ -212,8 +212,7 @@
                  
             </trans-unit> 
             <trans-unit id="43"> 
-                <source>about.community.subtitle</source> 
-                <target>Looking fo help? Check one of links below </target>
+                <source>about.community.subtitle</source>
                  
             </trans-unit> 
             <trans-unit id="44"> 
@@ -222,13 +221,12 @@
                  
             </trans-unit> 
             <trans-unit id="45"> 
-                <source>about.community.blog.description</source> 
-                <target>News related to the Novo SGA project and new versions release.</target>
+                <source>about.community.blog.description</source>
                  
             </trans-unit> 
             <trans-unit id="46"> 
                 <source>about.community.blog.button</source> 
-                <target>Access </target>
+                <target>Go</target>
                  
             </trans-unit> 
             <trans-unit id="47"> 
@@ -242,7 +240,7 @@
             </trans-unit> 
             <trans-unit id="49"> 
                 <source>about.community.forum.button</source> 
-                <target>Access </target>
+                <target>Go</target>
                  
             </trans-unit> 
             <trans-unit id="50"> 
@@ -256,7 +254,7 @@
             </trans-unit> 
             <trans-unit id="52"> 
                 <source>about.community.github.button</source> 
-                <target>Access </target>
+                <target>Go</target>
                  
             </trans-unit> 
             <trans-unit id="53"> 
@@ -265,8 +263,7 @@
                  
             </trans-unit> 
             <trans-unit id="54"> 
-                <source>profile.subtitle</source> 
-                <target>User information</target>
+                <source>profile.subtitle</source>
                  
             </trans-unit> 
             <trans-unit id="55"> 
@@ -275,13 +272,12 @@
                  
             </trans-unit> 
             <trans-unit id="56"> 
-                <source>profile.general.description</source> 
-                <target>Basic user information</target>
+                <source>profile.general.description</source>
                  
             </trans-unit> 
             <trans-unit id="57"> 
                 <source>profile.field.username</source> 
-                <target>Login</target>
+                <target>Username</target>
                  
             </trans-unit> 
             <trans-unit id="58"> 
@@ -296,11 +292,12 @@
             </trans-unit> 
             <trans-unit id="60"> 
                 <source>profile.field.email</source> 
-                <target>E-mail</target>
+                <target>Email</target>
                  
             </trans-unit> 
             <trans-unit id="61"> 
-                <source>profile.lotation</source>
+                <source>profile.lotation</source> 
+                <target>Lotation</target>
                  
             </trans-unit> 
             <trans-unit id="62"> 
@@ -329,17 +326,17 @@
             </trans-unit> 
             <trans-unit id="67"> 
                 <source>profile.field.password_confirm</source> 
-                <target>Confirm new password</target>
+                <target>New password confirm</target>
                  
             </trans-unit> 
             <trans-unit id="68"> 
                 <source>profile.message.success</source> 
-                <target>Profile successfully updated</target>
+                <target>Your profile has been successfully updated</target>
                  
             </trans-unit> 
             <trans-unit id="69"> 
                 <source>admin.title</source> 
-                <target>Administration </target>
+                <target>Administration</target>
                  
             </trans-unit> 
             <trans-unit id="70"> 
@@ -349,7 +346,7 @@
             </trans-unit> 
             <trans-unit id="71"> 
                 <source>admin.menu.unities</source> 
-                <target>Sections</target>
+                <target>Unities</target>
                  
             </trans-unit> 
             <trans-unit id="72"> 
@@ -359,17 +356,17 @@
             </trans-unit> 
             <trans-unit id="73"> 
                 <source>admin.menu.roles</source> 
-                <target>Profiles</target>
+                <target>Roles</target>
                  
             </trans-unit> 
             <trans-unit id="74"> 
                 <source>admin.menu.priorities</source> 
-                <target>Priorities </target>
+                <target>Priorities</target>
                  
             </trans-unit> 
             <trans-unit id="75"> 
                 <source>admin.menu.places</source> 
-                <target>Place</target>
+                <target>Places</target>
                  
             </trans-unit> 
             <trans-unit id="76"> 
@@ -394,11 +391,12 @@
             </trans-unit> 
             <trans-unit id="80"> 
                 <source>admin.system.reset_tickets.alert</source> 
-                <target>Do you really want to reset the tickets from all sections?</target>
+                <target>You are about to reset the tickets for all units. continue ?</target>
                  
             </trans-unit> 
             <trans-unit id="81"> 
-                <source>admin.system.reset_tickets.success</source>
+                <source>admin.system.reset_tickets.success</source> 
+                <target>Ticket number queues successfully reset  </target>
                  
             </trans-unit> 
             <trans-unit id="82"> 
@@ -407,13 +405,12 @@
                  
             </trans-unit> 
             <trans-unit id="83"> 
-                <source>admin.modules.subtitle</source> 
-                <target>Novo SGA modules management. </target>
+                <source>admin.modules.subtitle</source>
                  
             </trans-unit> 
             <trans-unit id="84"> 
                 <source>admin.places.title</source> 
-                <target>Place</target>
+                <target>Places</target>
                  
             </trans-unit> 
             <trans-unit id="85"> 
@@ -432,17 +429,16 @@
             </trans-unit> 
             <trans-unit id="88"> 
                 <source>admin.roles.title</source> 
-                <target>Profiles</target>
+                <target>Roles</target>
                  
             </trans-unit> 
             <trans-unit id="89"> 
-                <source>admin.roles.subtitle</source> 
-                <target>Create new profile</target>
+                <source>admin.roles.subtitle</source>
                  
             </trans-unit> 
             <trans-unit id="90"> 
                 <source>admin.roles.button.new</source> 
-                <target>New profile</target>
+                <target>New role</target>
                  
             </trans-unit> 
             <trans-unit id="91"> 
@@ -457,12 +453,12 @@
             </trans-unit> 
             <trans-unit id="93"> 
                 <source>admin.roles.field.modules</source> 
-                <target>Permission </target>
+                <target>Permissions</target>
                  
             </trans-unit> 
             <trans-unit id="94"> 
                 <source>admin.priorities.title</source> 
-                <target>Priorities </target>
+                <target>Priorities</target>
                  
             </trans-unit> 
             <trans-unit id="95"> 
@@ -471,7 +467,7 @@
             </trans-unit> 
             <trans-unit id="96"> 
                 <source>admin.priorities.button.new</source> 
-                <target>New priority </target>
+                <target>New priority</target>
                  
             </trans-unit> 
             <trans-unit id="97"> 
@@ -486,7 +482,7 @@
             </trans-unit> 
             <trans-unit id="99"> 
                 <source>admin.priorities.field.enabled</source> 
-                <target>Enabled</target>
+                <target>Active</target>
                  
             </trans-unit> 
             <trans-unit id="100"> 
@@ -509,7 +505,8 @@
                  
             </trans-unit> 
             <trans-unit id="104"> 
-                <source>admin.services.childs</source>
+                <source>admin.services.childs</source> 
+                <target>Subservices </target>
                  
             </trans-unit> 
             <trans-unit id="105"> 
@@ -524,7 +521,7 @@
             </trans-unit> 
             <trans-unit id="107"> 
                 <source>admin.services.field.enabled</source> 
-                <target>Enabled</target>
+                <target>Active</target>
                  
             </trans-unit> 
             <trans-unit id="108"> 
@@ -533,12 +530,13 @@
                  
             </trans-unit> 
             <trans-unit id="109"> 
-                <source>admin.services.field.parent</source>
+                <source>admin.services.field.parent</source> 
+                <target>Parent service</target>
                  
             </trans-unit> 
             <trans-unit id="110"> 
                 <source>admin.unities.title</source> 
-                <target>Sections</target>
+                <target>Unities</target>
                  
             </trans-unit> 
             <trans-unit id="111"> 
@@ -547,7 +545,7 @@
             </trans-unit> 
             <trans-unit id="112"> 
                 <source>admin.unities.button.new</source> 
-                <target>New section</target>
+                <target>New unity</target>
                  
             </trans-unit> 
             <trans-unit id="113"> 
@@ -562,7 +560,7 @@
             </trans-unit> 
             <trans-unit id="115"> 
                 <source>admin.unities.field.enabled</source> 
-                <target>Enabled</target>
+                <target>Active</target>
                  
             </trans-unit> 
             <trans-unit id="116"> 
@@ -571,23 +569,21 @@
                  
             </trans-unit> 
             <trans-unit id="117"> 
-                <source>admin.webapi.subtitle</source> 
-                <target>Web API for system integration </target>
+                <source>admin.webapi.subtitle</source>
                  
             </trans-unit> 
             <trans-unit id="118"> 
                 <source>admin.webapi.clients.title</source> 
-                <target>Clients </target>
+                <target>Clients</target>
                  
             </trans-unit> 
             <trans-unit id="119"> 
-                <source>admin.webapi.clients.subtitle</source> 
-                <target>To access some URLs it is necessary to have a access token, for that you need first to register the client app.</target>
+                <source>admin.webapi.clients.subtitle</source>
                  
             </trans-unit> 
             <trans-unit id="120"> 
                 <source>admin.webapi.clients.public_id</source> 
-                <target>Public ID</target>
+                <target>Public Id</target>
                  
             </trans-unit> 
             <trans-unit id="121"> 
@@ -601,13 +597,102 @@
                  
             </trans-unit> 
             <trans-unit id="123"> 
-                <source>admin.webapi.clients.remove_alert</source> 
-                <target>Do you really want to remove this client?</target>
+                <source>admin.webapi.clients.remove_alert</source>
                  
             </trans-unit> 
             <trans-unit id="124"> 
                 <source>admin.webapi.clients.modal</source> 
-                <target>Client API</target>
+                <target>API Client</target>
+                 
+            </trans-unit> 
+            <trans-unit id="125"> 
+                <source>api.triage.invalid_hash</source> 
+                <target>Invalid attending security key </target>
+                 
+            </trans-unit> 
+            <trans-unit id="126"> 
+                <source>session.invalid</source>
+                 
+            </trans-unit> 
+            <trans-unit id="127"> 
+                <source>ticket.status.generated</source> 
+                <target>Ticket generated</target>
+                 
+            </trans-unit> 
+            <trans-unit id="128"> 
+                <source>ticket.status.called</source> 
+                <target>Called by table</target>
+                 
+            </trans-unit> 
+            <trans-unit id="129"> 
+                <source>ticket.status.started</source> 
+                <target>Attending started</target>
+                 
+            </trans-unit> 
+            <trans-unit id="130"> 
+                <source>ticket.status.finished</source> 
+                <target>Attending finished</target>
+                 
+            </trans-unit> 
+            <trans-unit id="131"> 
+                <source>ticket.status.no_show</source> 
+                <target>No-show</target>
+                 
+            </trans-unit> 
+            <trans-unit id="132"> 
+                <source>ticket.status.cancelled</source> 
+                <target>Ticket cancelled</target>
+                 
+            </trans-unit> 
+            <trans-unit id="133"> 
+                <source>ticket.status.error</source> 
+                <target>Screening error</target>
+                 
+            </trans-unit> 
+            <trans-unit id="134"> 
+                <source>error.invalid_unity</source>
+                 
+            </trans-unit> 
+            <trans-unit id="135"> 
+                <source>error.invalid_user</source> 
+                <target>Invalid user</target>
+                 
+            </trans-unit> 
+            <trans-unit id="136"> 
+                <source>error.invalid_service</source> 
+                <target>Invalid service</target>
+                 
+            </trans-unit> 
+            <trans-unit id="137"> 
+                <source>error.invalid_priority</source> 
+                <target>Invalid priority</target>
+                 
+            </trans-unit> 
+            <trans-unit id="138"> 
+                <source>error.user_unity_ticket_permission</source>
+                 
+            </trans-unit> 
+            <trans-unit id="139"> 
+                <source>error.no_servicing_available</source> 
+                <target>No servicing available </target>
+                 
+            </trans-unit> 
+            <trans-unit id="140"> 
+                <source>error.change_status</source>
+                 
+            </trans-unit> 
+            <trans-unit id="141"> 
+                <source>error.service_unity_invalid</source> 
+                <target>Service not avaliable in the actual unit</target>
+                 
+            </trans-unit> 
+            <trans-unit id="142"> 
+                <source>error.service_unity_inactive</source>
+                 
+            </trans-unit> 
+            <trans-unit id="143"> 
+                <source>error.new_ticket</source> 
+                <target>Error generating a new ticket number</target>
                  
             </trans-unit> 
         </body>
