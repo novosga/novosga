@@ -12,31 +12,35 @@
                     <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
                         {{ 'admin.menu.system'|trans }}
                     </a>
-                    
+
                     <a href="{{ path('admin_unidades_index') }}" class="list-group-item {% if tab == 'unidades' %}active{% endif %}">
                         {{ 'admin.menu.unities'|trans }}
                     </a>
-                    
+
+                    <a href="{{ path('admin_departamentos_index') }}" class="list-group-item {% if tab == 'departamentos' %}active{% endif %}">
+                        {{ 'admin.menu.departments'|trans }}
+                    </a>
+
                     <a href="{{ path('admin_servicos_index') }}" class="list-group-item {% if tab == 'servicos' %}active{% endif %}">
                         {{ 'admin.menu.services'|trans }}
                     </a>
-                    
+
                     <a href="{{ path('admin_perfis_index') }}" class="list-group-item {% if tab == 'perfis' %}active{% endif %}">
                         {{ 'admin.menu.roles'|trans }}
                     </a>
-                    
+
                     <a href="{{ path('admin_prioridades_index') }}" class="list-group-item {% if tab == 'prioridades' %}active{% endif %}">
                         {{ 'admin.menu.priorities'|trans }}
                     </a>
-                    
+
                     <a href="{{ path('admin_locais_index') }}" class="list-group-item {% if tab == 'locais' %}active{% endif %}">
                         {{ 'admin.menu.places'|trans }}
                     </a>
-                    
+
                     <a href="{{ path('admin_modulos_index') }}" class="list-group-item {% if tab == 'modulos' %}active{% endif %}">
                         {{ 'admin.menu.modules'|trans }}
                     </a>
-                    
+
                     <a href="{{ path('admin_api_index') }}" class="list-group-item {% if tab == 'api' %}active{% endif %}">
                         {{ 'admin.menu.webapi'|trans }}
                     </a>

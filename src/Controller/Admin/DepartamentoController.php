@@ -11,43 +11,41 @@
 
 namespace App\Controller\Admin;
 
-use App\Form\PerfilType as EntityType;
-use Novosga\Entity\Perfil as Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use App\Form\DepartamentoType as EntityType;
+use Novosga\Entity\Departamento as Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * PerfisController
+ * DepartamentoController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  *
- * @Route("/admin/perfis")
+ * @Route("/admin/departamentos")
  */
-class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Controller
+class DepartamentoController extends Controller
 {
     /**
      *
      * @param Request $request
      * @return Response
      *
-     * @Route("/", name="admin_perfis_index")
+     * @Route("/", name="admin_departamentos_index")
      */
     public function indexAction(Request $request)
     {
-        $perfis = $this
+        $departamentos = $this
                 ->getDoctrine()
                 ->getManager()
-                ->createQueryBuilder()
-                ->select('e')
-                ->from(Entity::class, 'e')
-                ->getQuery()
-                ->getResult();
+                ->getRepository(Entity::class)
+                ->findBy([], ['nome' => 'ASC']);
 
-        return $this->render('admin/perfis/index.html.twig', [
-            'tab'    => 'perfis',
-            'perfis' => $perfis
+        return $this->render('admin/departamentos/index.html.twig', [
+            'tab'           => 'departamentos',
+            'departamentos' => $departamentos,
         ]);
     }
 
@@ -56,24 +54,17 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      * @param Request $request
      * @return Response
      *
-     * @Route("/new", name="admin_perfis_new")
-     * @Route("/{id}", name="admin_perfis_edit")
+     * @Route("/new", name="admin_departamentos_new")
+     * @Route("/{id}", name="admin_departamentos_edit")
      * @Method({"GET", "POST"})
      */
     public function formAction(Request $request, Entity $entity = null)
     {
         if (!$entity) {
-            $entity = new Entity;
+            $entity = new Entity();
         }
 
-        $kernel = $this->get('kernel');
-        $modulos = array_filter($kernel->getBundles(), function ($module) {
-            return ($module instanceof \Novosga\Module\ModuleInterface);
-        });
-
-        $form = $this->createForm(EntityType::class, $entity, [
-            'modulos' => $modulos,
-        ]);
+        $form = $this->createForm(EntityType::class, $entity);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -83,13 +74,13 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
 
             $trans = $this->get('translator');
 
-            $this->addFlash('success', $trans->trans('Perfil salvo com sucesso!'));
+            $this->addFlash('success', $trans->trans('Departamento salvo com sucesso!'));
 
-            return $this->redirectToRoute('admin_perfis_edit', [ 'id' => $entity->getId() ]);
+            return $this->redirectToRoute('admin_departamentos_edit', [ 'id' => $entity->getId() ]);
         }
 
-        return $this->render('admin/perfis/form.html.twig', [
-            'tab'    => 'perfis',
+        return $this->render('admin/departamentos/form.html.twig', [
+            'tab'    => 'departamentos',
             'entity' => $entity,
             'form'   => $form->createView(),
         ]);
@@ -100,24 +91,24 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      * @param Request $request
      * @return Response
      *
-     * @Route("/{id}", name="admin_perfis_delete")
+     * @Route("/{id}", name="admin_departamentos_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Entity $perfil)
+    public function deleteAction(Request $request, Entity $departamento)
     {
         $trans = $this->get('translator');
 
         try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($perfil);
+            $em  = $this->getDoctrine()->getManager();
+            $em->remove($departamento);
             $em->flush();
 
-            $this->addFlash('success', $trans->trans('Perfil removido com sucesso!'));
+            $this->addFlash('success', $trans->trans('Departamento removido com sucesso!'));
 
-            return $this->redirectToRoute('admin_perfis_index');
+            return $this->redirectToRoute('admin_departamentos_index');
         } catch (\Exception $e) {
             if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
-                $message = 'O perfil não pode ser removido porque está sendo utilizado.';
+                $message = 'O departamento não pode ser removido porque está sendo utilizado.';
             } else {
                 $message = $e->getMessage();
             }

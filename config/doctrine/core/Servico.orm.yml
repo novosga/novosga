@@ -42,27 +42,22 @@ Novosga\Entity\Servico:
     manyToOne:
         mestre:
             targetEntity: Novosga\Entity\Servico
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
             inversedBy: subServicos
             joinColumns:
                 macro_id:
                     referencedColumnName: id
-            orphanRemoval: false
     oneToMany:
         subServicos:
             targetEntity: Novosga\Entity\Servico
             fetch: LAZY
             mappedBy: mestre
             orphanRemoval: false
-            orderBy: 
+            orderBy:
                 nome: ASC
         servicosUnidade:
             targetEntity: Novosga\Entity\ServicoUnidade
             fetch: LAZY
             mappedBy: servico
             orphanRemoval: false
-    lifecycleCallbacks: {  }
     entityListeners:
         App\Listener\ORM\ServicoListener: ~

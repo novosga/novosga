@@ -30,24 +30,28 @@ class ClienteType extends AbstractType
     {
         $builder
             ->add('nome', TextType::class, [
+                'label' => 'label.name',
                 'constraints' => [
                     new NotNull(),
                     new Length([ 'min' => 3 ]),
                 ],
             ])
             ->add('documento', TextType::class, [
+                'label' => 'label.customer_id',
                 'constraints' => [
                     new NotNull(),
                     new Length([ 'min' => 3 ]),
                 ],
             ])
             ->add('email', EmailType::class, [
+                'label' => 'label.email',
             ])
             ->add('telefone', TextType::class, [
+                'label' => 'label.telefone',
             ])
         ;
     }
-    
+
     /**
      * {@inheritdoc}
      */

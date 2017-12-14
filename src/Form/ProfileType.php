@@ -32,21 +32,21 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add('nome', TextType::class, [
-                'label' => 'profile.field.firstname',
+                'label' => 'label.firstname',
                 'constraints' => [
                     new NotBlank(),
                     new Length([ 'min' => 3, 'max' => 20 ]),
                 ]
             ])
             ->add('sobrenome', TextType::class, [
-                'label' => 'profile.field.lastname',
+                'label' => 'label.lastname',
                 'constraints' => [
                     new NotNull(),
                     new Length([ 'max' => 100 ]),
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' => 'profile.field.email',
+                'label' => 'label.email',
                 'required' => false,
                 'constraints' => [
                     new Email(),

@@ -31,29 +31,29 @@ class ServicoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $entity = $options['data'];
-        
+
         $builder
             ->add('nome', TextType::class, [
-                'label' => 'admin.services.field.name',
+                'label' => 'label.name',
             ])
             ->add('descricao', TextareaType::class, [
-                'label' => 'admin.services.field.description',
+                'label' => 'label.description',
                 'attr' => [
                     'rows' => 4
                 ]
             ])
             ->add('ativo', CheckboxType::class, [
-                'label' => 'admin.services.field.enabled',
+                'label' => 'label.enabled',
                 'required' => false
             ])
             ->add('peso', IntegerType::class, [
-                'label' => 'admin.services.field.weight',
+                'label' => 'label.weight',
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
                 ]
             ])
         ;
-        
+
         if (!$entity->isMestre() || count($entity->getSubservicos()) === 0) {
             $builder->add('mestre', EntityType::class, [
                 'label' => 'admin.services.field.parent',
@@ -67,7 +67,7 @@ class ServicoType extends AbstractType
             ]);
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */

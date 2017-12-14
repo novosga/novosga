@@ -26,18 +26,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
  */
 class UnidadesController extends ApiCrudController
 {
-    
     use Actions\GetTrait,
         Actions\FindTrait,
         Actions\PostTrait,
         Actions\PutTrait,
         Actions\DeleteTrait;
-    
+
     public function __construct()
     {
         parent::__construct(Unidade::class);
     }
-    
+
     /**
      * @Route("/{id}/servicos")
      * @Method("GET")
@@ -48,7 +47,7 @@ class UnidadesController extends ApiCrudController
 
         return $this->json($servicos);
     }
-    
+
     /**
      * @Route("/{id}/atendimentos")
      * @Method("GET")
