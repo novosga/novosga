@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "doctrine/annotations",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "5beebb01b025c94e93686b7a0ed3edae81fe3e7f"
+                "reference": "c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/5beebb01b025c94e93686b7a0ed3edae81fe3e7f",
-                "reference": "5beebb01b025c94e93686b7a0ed3edae81fe3e7f",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5",
+                "reference": "c7f2050c68a9ab0bdb0f98567ec08d80ea7d24d5",
                 "shasum": ""
             },
             "require": {
@@ -26,12 +26,12 @@
             },
             "require-dev": {
                 "doctrine/cache": "1.*",
-                "phpunit/phpunit": "^5.7"
+                "phpunit/phpunit": "^6.4"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.5.x-dev"
+                    "dev-master": "1.6.x-dev"
                 }
             },
             "autoload": {
@@ -72,7 +72,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2017-07-22T10:58:02+00:00"
+            "time": "2017-12-06T07:11:42+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -1277,12 +1277,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "1de7e4b410f0823562a1f26432f3e115141629d8"
+                "reference": "8225d3e566a0ef2d65b1709ca83ffbe1525397cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/1de7e4b410f0823562a1f26432f3e115141629d8",
-                "reference": "1de7e4b410f0823562a1f26432f3e115141629d8",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/8225d3e566a0ef2d65b1709ca83ffbe1525397cf",
+                "reference": "8225d3e566a0ef2d65b1709ca83ffbe1525397cf",
                 "shasum": ""
             },
             "require": {
@@ -1304,7 +1304,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-01T00:18:03+00:00"
+            "time": "2017-12-09T14:42:38+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1344,12 +1344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "165f7e0ad32ecd3c8829510fc4d604b362ba11e3"
+                "reference": "5b19bc10cba00f09a8f05cbccb2e7af83f21556b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/165f7e0ad32ecd3c8829510fc4d604b362ba11e3",
-                "reference": "165f7e0ad32ecd3c8829510fc4d604b362ba11e3",
+                "url": "https://api.github.com/repos/novosga/core/zipball/5b19bc10cba00f09a8f05cbccb2e7af83f21556b",
+                "reference": "5b19bc10cba00f09a8f05cbccb2e7af83f21556b",
                 "shasum": ""
             },
             "require": {
@@ -1370,7 +1370,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-08T12:16:41+00:00"
+            "time": "2017-12-14T17:59:01+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1378,12 +1378,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "2a4817784fb0cbaa6400794e7b1ae38b70d21f0e"
+                "reference": "0a01028373a5aa04538c551534fd6c74098d394b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/2a4817784fb0cbaa6400794e7b1ae38b70d21f0e",
-                "reference": "2a4817784fb0cbaa6400794e7b1ae38b70d21f0e",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/0a01028373a5aa04538c551534fd6c74098d394b",
+                "reference": "0a01028373a5aa04538c551534fd6c74098d394b",
                 "shasum": ""
             },
             "require": {
@@ -1405,7 +1405,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-06T21:00:00+00:00"
+            "time": "2017-12-09T14:42:48+00:00"
         },
         {
             "name": "novosga/oauth-server-bundle",
@@ -1561,12 +1561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "f7ed735b71b327211721ba155b5ab151d18f807a"
+                "reference": "6380717545bc07ad639b448ee3d55db558d7f3ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/f7ed735b71b327211721ba155b5ab151d18f807a",
-                "reference": "f7ed735b71b327211721ba155b5ab151d18f807a",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/6380717545bc07ad639b448ee3d55db558d7f3ef",
+                "reference": "6380717545bc07ad639b448ee3d55db558d7f3ef",
                 "shasum": ""
             },
             "require": {
@@ -1588,7 +1588,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-06T21:16:59+00:00"
+            "time": "2017-12-09T14:41:56+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -1596,12 +1596,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "1b44b63af2d7abfad380c775360959a7724939b9"
+                "reference": "8675f45e5d7b20271c99f8c792375213752d3916"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/1b44b63af2d7abfad380c775360959a7724939b9",
-                "reference": "1b44b63af2d7abfad380c775360959a7724939b9",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/8675f45e5d7b20271c99f8c792375213752d3916",
+                "reference": "8675f45e5d7b20271c99f8c792375213752d3916",
                 "shasum": ""
             },
             "require": {
@@ -1624,7 +1624,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-06T21:19:44+00:00"
+            "time": "2017-12-09T14:41:35+00:00"
         },
         {
             "name": "novosga/websocket-server",
@@ -2876,16 +2876,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.48",
+            "version": "v1.0.49",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "73436bc5c0e3b63f5655552d580b48ad0e17543f"
+                "reference": "c3980f5ac79fbe8ba6b0d747baf7e57925f04ae2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/73436bc5c0e3b63f5655552d580b48ad0e17543f",
-                "reference": "73436bc5c0e3b63f5655552d580b48ad0e17543f",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/c3980f5ac79fbe8ba6b0d747baf7e57925f04ae2",
+                "reference": "c3980f5ac79fbe8ba6b0d747baf7e57925f04ae2",
                 "shasum": ""
             },
             "require": {
@@ -2918,7 +2918,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2017-12-07T20:09:46+00:00"
+            "time": "2017-12-11T15:40:16+00:00"
         },
         {
             "name": "symfony/form",
@@ -3662,16 +3662,16 @@
         },
         {
             "name": "symfony/orm-pack",
-            "version": "v1.0.4",
+            "version": "v1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/orm-pack.git",
-                "reference": "2544f5a96a90a236c23c91052e76c58367bba49c"
+                "reference": "1b58f752cd917a08c9c8df020781d9c46a2275b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/orm-pack/zipball/2544f5a96a90a236c23c91052e76c58367bba49c",
-                "reference": "2544f5a96a90a236c23c91052e76c58367bba49c",
+                "url": "https://api.github.com/repos/symfony/orm-pack/zipball/1b58f752cd917a08c9c8df020781d9c46a2275b1",
+                "reference": "1b58f752cd917a08c9c8df020781d9c46a2275b1",
                 "shasum": ""
             },
             "require": {
@@ -3680,13 +3680,13 @@
                 "doctrine/orm": "^2.5.11",
                 "php": "^7.0"
             },
-            "type": "metapackage",
+            "type": "symfony-pack",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "A pack for the Doctrine ORM",
-            "time": "2017-10-30T19:42:16+00:00"
+            "time": "2017-12-12T01:47:50+00:00"
         },
         {
             "name": "symfony/polyfill-intl-icu",
@@ -3921,16 +3921,16 @@
         },
         {
             "name": "symfony/profiler-pack",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/profiler-pack.git",
-                "reference": "ff9e32daca50ce4d98fcfeabdc27c9028cf6747b"
+                "reference": "fa2e2dad522a3bef322196abad28ffce6d0fdbc5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/profiler-pack/zipball/ff9e32daca50ce4d98fcfeabdc27c9028cf6747b",
-                "reference": "ff9e32daca50ce4d98fcfeabdc27c9028cf6747b",
+                "url": "https://api.github.com/repos/symfony/profiler-pack/zipball/fa2e2dad522a3bef322196abad28ffce6d0fdbc5",
+                "reference": "fa2e2dad522a3bef322196abad28ffce6d0fdbc5",
                 "shasum": ""
             },
             "require": {
@@ -3939,13 +3939,13 @@
                 "symfony/twig-bundle": "^3.3|^4.0",
                 "symfony/web-profiler-bundle": "^3.3|^4.0"
             },
-            "type": "metapackage",
+            "type": "symfony-pack",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "A pack for the Symfony web profiler",
-            "time": "2017-09-27T22:22:21+00:00"
+            "time": "2017-12-12T01:48:24+00:00"
         },
         {
             "name": "symfony/property-access",
@@ -5704,16 +5704,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.3",
+            "version": "6.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "882e886cc928a0abd3c61282b2a64026237d14a4"
+                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/882e886cc928a0abd3c61282b2a64026237d14a4",
-                "reference": "882e886cc928a0abd3c61282b2a64026237d14a4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
+                "reference": "1b2f933d5775f9237369deaa2d2bfbf9d652be4c",
                 "shasum": ""
             },
             "require": {
@@ -5731,7 +5731,7 @@
                 "phpunit/php-file-iterator": "^1.4.3",
                 "phpunit/php-text-template": "^1.2.1",
                 "phpunit/php-timer": "^1.0.9",
-                "phpunit/phpunit-mock-objects": "^5.0.4",
+                "phpunit/phpunit-mock-objects": "^5.0.5",
                 "sebastian/comparator": "^2.1",
                 "sebastian/diff": "^2.0",
                 "sebastian/environment": "^3.1",
@@ -5784,27 +5784,27 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-12-06T09:42:03+00:00"
+            "time": "2017-12-10T08:06:19+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "5.0.4",
+            "version": "5.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "16b50f4167e5e85e81ca8a3dd105d0a5fd32009a"
+                "reference": "283b9f4f670e3a6fd6c4ff95c51a952eb5c75933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/16b50f4167e5e85e81ca8a3dd105d0a5fd32009a",
-                "reference": "16b50f4167e5e85e81ca8a3dd105d0a5fd32009a",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/283b9f4f670e3a6fd6c4ff95c51a952eb5c75933",
+                "reference": "283b9f4f670e3a6fd6c4ff95c51a952eb5c75933",
                 "shasum": ""
             },
             "require": {
                 "doctrine/instantiator": "^1.0.5",
                 "php": "^7.0",
                 "phpunit/php-text-template": "^1.2.1",
-                "sebastian/exporter": "^3.0"
+                "sebastian/exporter": "^3.1"
             },
             "conflict": {
                 "phpunit/phpunit": "<6.0"
@@ -5843,7 +5843,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2017-12-02T05:31:19+00:00"
+            "time": "2017-12-10T08:01:53+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -6406,16 +6406,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.1.1",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "d667e245d5dcd4d7bf80f26f2c947d476b66213e"
+                "reference": "ba816f2e1bacc16278792c78b67c730dfff064a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d667e245d5dcd4d7bf80f26f2c947d476b66213e",
-                "reference": "d667e245d5dcd4d7bf80f26f2c947d476b66213e",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/ba816f2e1bacc16278792c78b67c730dfff064a6",
+                "reference": "ba816f2e1bacc16278792c78b67c730dfff064a6",
                 "shasum": ""
             },
             "require": {
@@ -6453,7 +6453,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-10-16T22:40:25+00:00"
+            "time": "2017-12-12T21:36:10+00:00"
         },
         {
             "name": "symfony/dotenv",
