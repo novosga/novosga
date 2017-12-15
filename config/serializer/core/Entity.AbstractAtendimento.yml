@@ -1,0 +1,69 @@
+Novosga\Entity\AbstractAtendimento:
+    exclusion_policy: ALL
+    virtual_properties:
+        getTempoEspera:
+            exp: DateInterval<'%H:%I:%S'>
+            serialized_name: tempoEspera
+    properties:
+        id:
+            read_only: true
+            expose: true
+        local:
+            type: int
+            expose: true
+        dataAgendamento:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: dataAgendamento
+            expose: true
+        dataChegada:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: dataChegada
+            expose: true
+        dataChamada:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: dataChamada
+            expose: true
+        dataInicio:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: dataInicio
+            expose: true
+        dataFim:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: dataFim
+            expose: true
+        status:
+            type: string
+            expose: true
+        hash:
+            type: string
+            expose: true
+        senha:
+            expose: true
+        cliente:
+            expose: true
+        unidade:
+            type: Novosga\Entity\Unidade
+            expose: true
+            max_depth: 1
+        servico:
+            type: Novosga\Entity\Servico
+            expose: true
+            max_depth: 1
+        prioridade:
+            type: Novosga\Entity\Prioridade
+            expose: true
+            max_depth: 1
+        usuario:
+            type: Novosga\Entity\Usuario
+            expose: true
+            max_depth: 1
+        usuarioTriagem:
+            type: Novosga\Entity\Usuario
+            expose: true
+            max_depth: 1
+            serialized_name: usuarioTriagem
+        pai:
+            type: Novosga\Entity\Atendimento
+            expose: true
+            max_depth: 1
+    

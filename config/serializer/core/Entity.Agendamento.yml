@@ -1,0 +1,27 @@
+Novosga\Entity\Agendamento:
+    exclusion_policy: ALL
+    properties:
+        id:
+            read_only: true
+            expose: true
+        data:
+            type: DateTime<'Y-m-d'>
+            expose: true
+        hora:
+            type: DateTime<'H:i'>
+            expose: true
+        cliente:
+            expose: true
+        unidade:
+            type: Novosga\Entity\Unidade
+            expose: true
+            max_depth: 1
+        servico:
+            type: Novosga\Entity\Servico
+            expose: true
+            max_depth: 1
+        dataConfirmacao:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: dataConfirmacao
+            expose: true
+    

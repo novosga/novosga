@@ -26,8 +26,8 @@ class AtendimentosController extends ApiCrudController
     use Actions\GetTrait,
         Actions\FindTrait;
     
-    public function __construct()
+    public function __construct($rootDir)
     {
-        parent::__construct(\Novosga\Entity\Atendimento::class);
+        parent::__construct(\Novosga\Entity\Atendimento::class, $rootDir);
     }
 }

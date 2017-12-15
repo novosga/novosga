@@ -27,9 +27,9 @@ class AgendamentosController extends ApiCrudController
     use Actions\GetTrait,
         Actions\FindTrait;
     
-    public function __construct()
+    public function __construct($rootDir)
     {
-        parent::__construct(\Novosga\Entity\Agendamento::class);
+        parent::__construct(\Novosga\Entity\Agendamento::class, $rootDir);
     }
     
     /**

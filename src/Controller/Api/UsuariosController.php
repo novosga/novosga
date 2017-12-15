@@ -26,8 +26,8 @@ class UsuariosController extends ApiCrudController
     use Actions\GetTrait,
         Actions\FindTrait;
     
-    public function __construct()
+    public function __construct($rootDir)
     {
-        parent::__construct(\Novosga\Entity\Usuario::class);
+        parent::__construct(\Novosga\Entity\Usuario::class, $rootDir);
     }
 }

@@ -29,8 +29,8 @@ class PrioridadesController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
     
-    public function __construct()
+    public function __construct($rootDir)
     {
-        parent::__construct(\Novosga\Entity\Prioridade::class);
+        parent::__construct(\Novosga\Entity\Prioridade::class, $rootDir);
     }
 }

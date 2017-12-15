@@ -24,8 +24,9 @@ abstract class ApiCrudController extends ApiControllerBase
     
     private $entityName;
     
-    public function __construct($entityName)
+    public function __construct($entityName, $rootDir)
     {
+        parent::__construct($rootDir);
         $this->entityName = $entityName;
     }
 
@@ -37,7 +38,9 @@ abstract class ApiCrudController extends ApiControllerBase
             throw new NotFoundHttpException;
         }
         
-        return $this->json($object);
+        $json = $this->serialize($object);
+        
+        return new \Symfony\Component\HttpFoundation\Response($json, 200, [ 'Content-type' => 'application/json' ]);
     }
 
     public function search(Request $request)
@@ -125,16 +128,27 @@ abstract class ApiCrudController extends ApiControllerBase
         return $repository;
     }
     
+    protected function serialize($object)
+    {
+        $ctx = \JMS\Serializer\SerializationContext::create()
+                ->enableMaxDepthChecks();
+        
+        $serializer = $this->getSerializer();
+        $data       = $serializer->serialize($object, 'json', $ctx);
+        return $data;
+    }
+
+
     /**
      *
      * @param string $json
      * @param array  $args
      * @return object
      */
-    protected function deserialize($json, array $args = [])
+    protected function deserialize($json)
     {
         $serializer = $this->getSerializer();
-        $object = $serializer->deserialize($json, $this->entityName, 'json', $args);
+        $object     = $serializer->deserialize($json, $this->entityName, 'json');
         
         return $object;
     }

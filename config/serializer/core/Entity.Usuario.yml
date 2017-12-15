@@ -1,0 +1,39 @@
+Novosga\Entity\Usuario:
+    exclusion_policy: ALL
+    properties:
+        id:
+            read_only: true
+            expose: true
+        login:
+            type: string
+            expose: true
+        nome:
+            type: string
+            expose: true
+        sobrenome:
+            type: string
+            expose: true
+        email:
+            type: string
+            expose: true
+        ativo:
+            type: bool
+            expose: true
+        peso:
+            type: int
+            expose: true
+        lotacoes:
+            type: array<Novosga\Entity\Lotacao>
+            expose: true
+            skip_when_empty: true
+        admin:
+            type: bool
+            expose: true
+        createdAt:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: createdAt
+            expose: true
+        updatedAt:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: updatedAt
+            expose: true

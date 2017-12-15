@@ -1,0 +1,31 @@
+Novosga\Entity\Servico:
+    exclusion_policy: ALL
+    properties:
+        id:
+            read_only: true
+            expose: true
+        nome:
+            type: string
+            expose: true
+        descricao:
+            type: string
+            expose: true
+        ativo:
+            type: bool
+            expose: true
+        peso:
+            type: int
+            expose: true
+        subServicos:
+            type: array<Novosga\Entity\Servico>
+            serialized_name: subServicos
+            skip_when_empty: true
+            expose: true
+        createdAt:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: createdAt
+            expose: true
+        updatedAt:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: updatedAt
+            expose: true

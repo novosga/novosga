@@ -1,0 +1,22 @@
+Novosga\Entity\Perfil:
+    exclusion_policy: ALL
+    properties:
+        id:
+            read_only: true
+            expose: true
+        nome:
+            type: string
+            expose: true
+        descricao:
+            type: string
+            expose: true
+        modulos:
+            expose: true
+        createdAt:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: createdAt
+            expose: true
+        updatedAt:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: updatedAt
+            expose: true

@@ -48,6 +48,8 @@ abstract class ApiControllerBase extends Controller
     {
         $serializer =
             \JMS\Serializer\SerializerBuilder::create()
+                ->addDefaultHandlers()
+                ->setExpressionEvaluator(new \JMS\Serializer\Expression\ExpressionEvaluator(new \Symfony\Component\ExpressionLanguage\ExpressionLanguage()))
                 ->addMetadataDir("{$this->rootDir}/config/serializer/app", 'App')
                 ->addMetadataDir("{$this->rootDir}/config/serializer/core", 'Novosga')
                 ->build();

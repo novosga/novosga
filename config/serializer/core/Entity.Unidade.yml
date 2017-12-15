@@ -1,0 +1,28 @@
+Novosga\Entity\Unidade:
+    exclusion_policy: ALL
+    properties:
+        id:
+            read_only: true
+            expose: true
+            groups: [list]
+        codigo:
+            type: string
+            expose: true
+        nome:
+            type: string
+            expose: true
+            groups: [list]
+        ativo:
+            type: bool
+            expose: true
+            groups: [list]
+        impressao:
+            expose: true
+        createdAt:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: createdAt
+            expose: true
+        updatedAt:
+            type: DateTime<'Y-m-d\TH:i:s'>
+            serialized_name: updatedAt
+            expose: true

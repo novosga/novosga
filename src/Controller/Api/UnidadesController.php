@@ -33,9 +33,9 @@ class UnidadesController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
     
-    public function __construct()
+    public function __construct($rootDir)
     {
-        parent::__construct(Unidade::class);
+        parent::__construct(Unidade::class, $rootDir);
     }
     
     /**

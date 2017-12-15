@@ -28,8 +28,8 @@ class LocaisController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
     
-    public function __construct()
+    public function __construct($rootDir)
     {
-        parent::__construct(\Novosga\Entity\Local::class);
+        parent::__construct(\Novosga\Entity\Local::class, $rootDir);
     }
 }
