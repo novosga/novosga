@@ -30,27 +30,27 @@ class PrioridadeType extends AbstractType
     {
         $builder
             ->add('nome', TextType::class, [
-                'label' => 'admin.priorities.field.name',
+                'label' => 'label.name',
             ])
             ->add('descricao', TextareaType::class, [
-                'label' => 'admin.priorities.field.description',
+                'label' => 'label.description',
                 'attr' => [
                     'rows' => 4
                 ]
             ])
             ->add('ativo', CheckboxType::class, [
-                'label' => 'admin.priorities.field.enabled',
+                'label' => 'label.enabled',
                 'required' => false
             ])
             ->add('peso', IntegerType::class, [
-                'label' => 'admin.priorities.field.weight',
+                'label' => 'label.weight',
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
                 ]
             ])
         ;
     }
-    
+
     /**
      * {@inheritdoc}
      */

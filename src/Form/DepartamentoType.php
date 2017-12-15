@@ -11,14 +11,16 @@
 
 namespace App\Form;
 
-use Novosga\Entity\Unidade;
+use Novosga\Entity\Departamento;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UnidadeType extends AbstractType
+class DepartamentoType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -27,15 +29,24 @@ class UnidadeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('codigo', TextType::class, [
-                'label' => 'label.code',
-            ])
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
+            ])
+            ->add('descricao', TextareaType::class, [
+                'label' => 'label.description',
+                'attr' => [
+                    'rows' => 4
+                ]
             ])
             ->add('ativo', CheckboxType::class, [
                 'label' => 'label.enabled',
                 'required' => false
+            ])
+            ->add('peso', IntegerType::class, [
+                'label' => 'label.weight',
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
+                ]
             ])
         ;
     }
@@ -46,7 +57,7 @@ class UnidadeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Unidade::class
+            'data_class' => Departamento::class
         ));
     }
 }

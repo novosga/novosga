@@ -14,6 +14,7 @@ namespace App\Form;
 use Novosga\Entity\Perfil;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,19 +28,19 @@ class PerfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $modulos = [];
-        
+
         foreach ($options['modulos'] as $modulo) {
             if ($modulo instanceof \Novosga\Module\ModuleInterface) {
                 $modulos[$modulo->getDisplayName()] = $modulo->getKeyName();
             }
         }
-        
+
         $builder
             ->add('nome', TextType::class, [
-                'label' => 'admin.roles.field.name',
+                'label' => 'label.name',
             ])
             ->add('descricao', TextareaType::class, [
-                'label' => 'admin.roles.field.description',
+                'label' => 'label.description',
                 'attr' => [
                     'rows' => 4
                 ]
@@ -52,7 +53,7 @@ class PerfilType extends AbstractType
             ])
         ;
     }
-    
+
     /**
      * {@inheritdoc}
      */

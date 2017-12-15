@@ -27,11 +27,11 @@ class LocalType extends AbstractType
     {
         $builder
             ->add('nome', TextType::class, [
-                'label' => 'admin.places.field.name',
+                'label' => 'label.name',
             ])
         ;
     }
-    
+
     /**
      * {@inheritdoc}
      */

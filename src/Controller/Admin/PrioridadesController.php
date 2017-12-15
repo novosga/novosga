@@ -42,13 +42,13 @@ class PrioridadesController extends Controller
                 ->getManager()
                 ->getRepository(Entity::class)
                 ->findBy([], ['nome' => 'ASC']);
-        
+
         return $this->render('admin/prioridades/index.html.twig', [
-            'tab' => 'prioridades',
+            'tab'         => 'prioridades',
             'prioridades' => $prioridades,
         ]);
     }
-    
+
     /**
      *
      * @param Request $request
@@ -63,29 +63,29 @@ class PrioridadesController extends Controller
         if (!$entity) {
             $entity = new Entity();
         }
-        
+
         $form = $this->createForm(EntityType::class, $entity);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            
+
             $trans = $this->get('translator');
-            
+
             $this->addFlash('success', $trans->trans('Local salvo com sucesso!'));
-            
+
             return $this->redirectToRoute('admin_prioridades_edit', [ 'id' => $entity->getId() ]);
         }
-        
+
         return $this->render('admin/prioridades/form.html.twig', [
             'tab'    => 'prioridades',
             'entity' => $entity,
             'form'   => $form->createView(),
         ]);
     }
-    
+
     /**
      *
      * @param Request $request
@@ -97,14 +97,14 @@ class PrioridadesController extends Controller
     public function deleteAction(Request $request, Entity $prioridade)
     {
         $trans = $this->get('translator');
-        
+
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($prioridade);
             $em->flush();
-        
+
             $this->addFlash('success', $trans->trans('Prioridade removida com sucesso!'));
-            
+
             return $this->redirectToRoute('admin_prioridades_index');
         } catch (\Exception $e) {
             if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
@@ -112,9 +112,9 @@ class PrioridadesController extends Controller
             } else {
                 $message = $e->getMessage();
             }
-            
+
             $this->addFlash('error', $trans->trans($message));
-            
+
             return $this->redirect($request->headers->get('REFERER'));
         }
     }

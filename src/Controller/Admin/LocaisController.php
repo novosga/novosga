@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * AdminLocaisController
+ * LocaisController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  *
@@ -42,13 +42,13 @@ class LocaisController extends Controller
                 ->getManager()
                 ->getRepository(Entity::class)
                 ->findBy([], ['nome' => 'ASC']);
-        
+
         return $this->render('admin/locais/index.html.twig', [
             'tab'    => 'locais',
             'locais' => $locais,
         ]);
     }
-    
+
     /**
      *
      * @param Request $request
@@ -63,29 +63,29 @@ class LocaisController extends Controller
         if (!$entity) {
             $entity = new Entity();
         }
-        
+
         $form = $this->createForm(EntityType::class, $entity);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            
+
             $trans = $this->get('translator');
-            
+
             $this->addFlash('success', $trans->trans('Local salvo com sucesso!'));
-            
+
             return $this->redirectToRoute('admin_locais_edit', [ 'id' => $entity->getId() ]);
         }
-        
+
         return $this->render('admin/locais/form.html.twig', [
             'tab'    => 'locais',
             'entity' => $entity,
             'form'   => $form->createView(),
         ]);
     }
-    
+
     /**
      *
      * @param Request $request
@@ -97,14 +97,14 @@ class LocaisController extends Controller
     public function deleteAction(Request $request, Entity $local)
     {
         $trans = $this->get('translator');
-               
+
         try {
             $em  = $this->getDoctrine()->getManager();
             $em->remove($local);
             $em->flush();
-        
+
             $this->addFlash('success', $trans->trans('Local removido com sucesso!'));
-            
+
             return $this->redirectToRoute('admin_locais_index');
         } catch (\Exception $e) {
             if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
@@ -112,9 +112,9 @@ class LocaisController extends Controller
             } else {
                 $message = $e->getMessage();
             }
-            
+
             $this->addFlash('error', $trans->trans($message));
-            
+
             return $this->redirect($request->headers->get('REFERER'));
         }
     }

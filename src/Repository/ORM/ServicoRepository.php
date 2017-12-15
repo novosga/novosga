@@ -12,6 +12,7 @@
 namespace App\Repository\ORM;
 
 use Doctrine\ORM\EntityRepository;
+use Novosga\Entity\Departamento;
 use Novosga\Entity\Servico;
 use Novosga\Repository\ServicoRepositoryInterface;
 
@@ -22,6 +23,9 @@ use Novosga\Repository\ServicoRepositoryInterface;
  */
 class ServicoRepository extends EntityRepository implements ServicoRepositoryInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function getSubservicos(Servico $servico)
     {
         $subservicos = $this
@@ -36,7 +40,7 @@ class ServicoRepository extends EntityRepository implements ServicoRepositoryInt
             ->setParameter('mestre', $servico)
             ->getQuery()
             ->getResult();
-        
+
         return $subservicos;
     }
 }

@@ -7,25 +7,27 @@
             {{ 'admin.services.subtitle'|trans }}
         </small>
     </h1>
-    
+
     <hr>
-    
+
     {{ form_start(form) }}
-    
+
         {% include 'flashMessages.html.twig' %}
-        
+
         <div class="row">
             <div class="col-md-12">
                 {{ form_row(form.ativo) }}
             </div>
             <div class="col-md-6">
-        
+
                 {{ form_row(form.nome) }}
 
                 {{ form_row(form.descricao) }}
 
                 {{ form_row(form.peso) }}
-                
+
+                {{ form_row(form.departamento) }}
+
                 {% if form.mestre is defined %}
                     {{ form_row(form.mestre) }}
                 {% endif %}
@@ -70,9 +72,9 @@
                 {% endif %}
             </div>
         </div>
-        
+
         <button type="submit" class="btn btn-primary">
-            <i class="fa fa-check"></i> 
+            <i class="fa fa-check"></i>
             {{ 'button.save'|trans }}
         </button>
         <a href="{{ path('admin_servicos_index') }}" class="btn btn-secondary">
@@ -81,7 +83,7 @@
         </a>
         {% if entity.id %}
             <button type="submit" class="btn btn-danger pull-right" name="_method" value="DELETE">
-                <i class="fa fa-trash"></i> 
+                <i class="fa fa-trash"></i>
                 {{ 'button.remove'|trans }}
             </button>
         {% endif %}
