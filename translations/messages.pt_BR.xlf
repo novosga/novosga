@@ -127,7 +127,7 @@
                 <target>Senha</target>
             </trans-unit>
             <trans-unit id="32">
-                <source>login.field.button.submit</source>
+                <source>login.button.submit</source>
                 <target>Entrar</target>
             </trans-unit>
             <trans-unit id="33">
@@ -329,6 +329,18 @@
             <trans-unit id="81">
                 <source>admin.system.reset_tickets.success</source>
                 <target>Senhas reiniciadas com sucesso</target>
+            </trans-unit>
+            <trans-unit id="79-1">
+                <source>admin.system.clear_tickets</source>
+                <target>Limpar atendimentos</target>
+            </trans-unit>
+            <trans-unit id="80-1">
+                <source>admin.system.clear_tickets.alert</source>
+                <target>Deseja realmente apagar o histórico de atendimento de todas unidades?</target>
+            </trans-unit>
+            <trans-unit id="81-1">
+                <source>admin.system.clear_tickets.success</source>
+                <target>Atendimentos removidos com sucesso</target>
             </trans-unit>
             <trans-unit id="82">
                 <source>admin.modules.title</source>

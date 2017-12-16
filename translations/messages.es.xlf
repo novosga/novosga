@@ -150,7 +150,7 @@
                 
             </trans-unit>
             <trans-unit id="32">
-                <source>login.field.button.submit</source>
+                <source>login.button.submit</source>
                 <target>Entrar</target>
                 
             </trans-unit>
