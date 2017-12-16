@@ -289,41 +289,63 @@ class MySQLStorage extends RelationalStorage
      */
     public function apagarDadosAtendimento(Unidade $unidade = null)
     {
+        // tables name
+        $historicoTable        = $this->om->getClassMetadata(AtendimentoHistorico::class)->getTableName();
+        $historicoCodifTable   = $this->om->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
+        $historicoMetaTable    = $this->om->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
+        $atendimentoTable      = $this->om->getClassMetadata(Atendimento::class)->getTableName();
+        $atendimentoCodifTable = $this->om->getClassMetadata(AtendimentoCodificado::class)->getTableName();
+        $atendimentoMetaTable  = $this->om->getClassMetadata(AtendimentoMeta::class)->getTableName();
+        
+        $unidadeId = $unidade ? $unidade->getId() : 0;
+        
         $conn = $this->om->getConnection();
         $conn->beginTransaction();
         
         try {
             $conn->exec('SET foreign_key_checks = 0');
             
-            $this->om
-                ->createQueryBuilder()
-                ->delete(AtendimentoCodificadoHistorico::class, 'e')
-                ->where('(:unidade = NULL OR e.unidade = :unidade)');
+            $query = $conn->prepare("
+                DELETE FROM {$historicoCodifTable}
+                WHERE atendimento_id IN (SELECT id FROM {$historicoTable} WHERE unidade_id = :unidade OR :unidade = 0)
+            ");
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
             
-            $this->om
-                ->createQueryBuilder()
-                ->delete(AtendimentoHistoricoMeta::class, 'e')
-                ->where('(:unidade = NULL OR e.unidade = :unidade)');
+            $query = $conn->prepare("
+                DELETE FROM {$historicoMetaTable}
+                WHERE atendimento_id IN (SELECT id FROM {$historicoTable} WHERE unidade_id = :unidade OR :unidade = 0)
+            ");
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
             
-            $this->om
-                ->createQueryBuilder()
-                ->delete(AtendimentoHistorico::class, 'e')
-                ->where('(:unidade = NULL OR e.unidade = :unidade)');
+            $query = $conn->prepare("
+                DELETE FROM {$historicoTable}
+                WHERE unidade_id = :unidade OR :unidade = 0
+            ");
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
             
-            $this->om
-                ->createQueryBuilder()
-                ->delete(AtendimentoCodificado::class, 'e')
-                ->where('(:unidade = NULL OR e.unidade = :unidade)');
+            $query = $conn->prepare("
+                DELETE FROM {$atendimentoCodifTable}
+                WHERE atendimento_id IN (SELECT id FROM {$atendimentoTable} WHERE unidade_id = :unidade OR :unidade = 0)
+            ");
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
             
-            $this->om
-                ->createQueryBuilder()
-                ->delete(AtendimentoMeta::class, 'e')
-                ->where('(:unidade = NULL OR e.unidade = :unidade)');
+            $query = $conn->prepare("
+                DELETE FROM {$atendimentoMetaTable}
+                WHERE atendimento_id IN (SELECT id FROM {$atendimentoTable} WHERE unidade_id = :unidade OR :unidade = 0)
+            ");
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
             
-            $this->om
-                ->createQueryBuilder()
-                ->delete(Atendimento::class, 'e')
-                ->where('(:unidade = NULL OR e.unidade = :unidade)');
+            $query = $conn->prepare("
+                DELETE FROM {$atendimentoTable}
+                WHERE unidade_id = :unidade OR :unidade = 0
+            ");
+            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+            $query->execute();
             
             $conn->commit();
         } catch (Exception $e) {

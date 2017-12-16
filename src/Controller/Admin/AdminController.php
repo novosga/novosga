@@ -57,10 +57,26 @@ class AdminController extends Controller
      * @Route("/acumular_atendimentos", name="admin_acumular_atendimentos")
      * @Method("POST")
      */
-    public function acumular_atendimentos(Request $request, AtendimentoService $service)
+    public function acumularAtendimentosACtion(Request $request, AtendimentoService $service)
     {
         $envelope = new Envelope();
         $service->acumularAtendimentos();
+
+        return $this->json($envelope);
+    }
+
+    /**
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @Route("/limpar_atendimentos", name="admin_limpar_atendimentos")
+     * @Method("POST")
+     */
+    public function limparAtendimentosAction(Request $request, AtendimentoService $service)
+    {
+        $envelope = new Envelope();
+        $service->limparDados();
 
         return $this->json($envelope);
     }

@@ -148,6 +148,19 @@ App.Admin = {
         return false;
     },
     
+    limparSenhas: function(alert) {
+        if (confirm(alert)) {
+            App.ajax({
+                url: App.url('limpar_atendimentos'),
+                type: 'post',
+                success: function() {
+                    $("#dialog-limpar").modal('show');
+                }
+            });
+        }
+        return false;
+    },
+    
     changeNumeracao: function() {
         App.ajax({
             url: App.url('change_numeracao'),

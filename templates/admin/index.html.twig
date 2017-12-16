@@ -21,10 +21,21 @@
                     </button>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    {{ 'admin.system.clear_tickets'|trans }}
+                </td>
+                <td class="text-right">
+                    <button class="btn btn-danger"
+                            onclick="return App.Admin.limparSenhas('{{ 'admin.system.clear_tickets.alert'|trans }}')">
+                        <i class="fa fa-refresh"></i>
+                        {{ 'button.reset'|trans }}
+                    </button>
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>
-
 
 {# reiniciar #}
 <div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -37,8 +48,20 @@
             <div class="modal-body">
                 <p>{{ 'admin.system.reset_tickets.success'|trans }}</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'button.close'|trans }}</button>
+        </div>
+    </div>
+</div>
+
+{# limpar #}
+<div id="dialog-limpar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">{{ 'label.success'|trans }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>{{ 'admin.system.clear_tickets.success'|trans }}</p>
             </div>
         </div>
     </div>
