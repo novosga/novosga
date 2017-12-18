@@ -76,3 +76,12 @@
         </div>
     </div>
 {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body>section {
+            padding: 20px 0;
+        }
+    </style>
+{% endblock %}
