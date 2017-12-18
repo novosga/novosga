@@ -12,7 +12,6 @@
 namespace App\Service;
 
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Novosga\Entity\Atendimento;
 use Novosga\Entity\ServicoUnidade;
@@ -27,11 +26,6 @@ use Twig_Environment;
  */
 class TicketService extends StorageAwareService
 {
-    /**
-     * @var ObjectManager
-     */
-    private $objectManager;
-    
     /**
      * @var Twig_Environment
      */
