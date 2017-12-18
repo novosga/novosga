@@ -11,13 +11,13 @@
 
 namespace App\Repository\ORM;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Novosga\Entity\Lotacao;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
 use Novosga\Entity\UsuarioMeta;
 use Novosga\Repository\UsuarioRepositoryInterface;
-use Novosga\Service\UsuarioService;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -33,6 +33,31 @@ class UsuarioRepository extends EntityRepository implements
     UserLoaderInterface,
     UserProviderInterface
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function findByUnidade(Unidade $unidade, Criteria $criteria = null)
+    {
+        $qb = $this
+            ->createQueryBuilder('e')
+            ->leftJoin('e.lotacoes', 'l')
+            ->where('e.admin = TRUE OR (e.admin = FALSE AND l.unidade = :unidade)')
+            ->setParameters([
+                'unidade' => $unidade
+            ])
+            ->orderBy('e.nome');
+        
+        if ($criteria) {
+            $qb->addCriteria($criteria);
+        }
+        
+        $usuarios = $qb
+            ->getQuery()
+            ->getResult();
+        
+        return $usuarios;
+    }
+    
     /**
      * {@inheritdoc}
      */
@@ -124,10 +149,13 @@ class UsuarioRepository extends EntityRepository implements
         $unidade = null;
 
         if ($meta) {
-            $unidade = $this->getEntityManager()
-                            ->find(Unidade::class, $meta->getValue());
+            $unidade = $this
+                ->getEntityManager()
+                ->find(Unidade::class, $meta->getValue());
         } else {
-            $unidades = $em->getRepository(Unidade::class)->findByUsuario($usuario);
+            $unidades = $em
+                ->getRepository(Unidade::class)
+                ->findByUsuario($usuario);
 
             if (count($unidades) > 0) {
                 $unidade = $unidades[0];
