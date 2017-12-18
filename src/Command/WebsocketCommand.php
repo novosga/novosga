@@ -11,21 +11,29 @@
 
 namespace App\Command;
 
+use App\Service\SecurityService;
 use Exception;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 /**
  * WebsocketCommand
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class WebsocketCommand extends ContainerAwareCommand
+class WebsocketCommand extends Command
 {
     private $validOptions = ['start', 'stop', 'restart', 'reload', 'status', 'connections'];
+    
+    private $securityService;
+    
+    public function __construct(SecurityService $securityService)
+    {
+        parent::__construct();
+        $this->securityService = $securityService;
+    }
     
     protected function configure()
     {
@@ -48,7 +56,9 @@ class WebsocketCommand extends ContainerAwareCommand
         $debug = false;
         $argv  = ['NovoSGA', $option];
         
+        $secret = $this->securityService->getWebsocketSecret();
+        
         $command = new \Novosga\Websocket\Command();
-        $command->run($output);
+        $command->run($secret, $output);
     }
 }
