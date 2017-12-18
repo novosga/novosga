@@ -1,0 +1,12 @@
+Novosga\Entity\Departamento:
+    exclusion_policy: ALL
+    properties:
+        id:
+            read_only: true
+            expose: true
+        nome:
+            type; string
+        descricao:
+            type: string
+        ativo:
+            type: bool

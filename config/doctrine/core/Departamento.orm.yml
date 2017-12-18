@@ -18,12 +18,6 @@ Novosga\Entity\Departamento:
             length: 100
             unique: false
             nullable: false
-        peso:
-            type: smallint
-            scale: 0
-            unique: false
-            nullable: false
-            precision: 0
         ativo:
             type: boolean
             nullable: false

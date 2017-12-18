@@ -42,12 +42,6 @@ class DepartamentoType extends AbstractType
                 'label' => 'label.enabled',
                 'required' => false
             ])
-            ->add('peso', IntegerType::class, [
-                'label' => 'label.weight',
-                'constraints' => [
-                    new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
-                ]
-            ])
         ;
     }
 

@@ -29,8 +29,8 @@ class DepartamentosController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
 
-    public function __construct()
+    public function __construct($rootDir)
     {
-        parent::__construct(Departamento::class);
+        parent::__construct(Departamento::class, $rootDir);
     }
 }
