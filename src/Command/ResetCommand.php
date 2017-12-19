@@ -13,11 +13,13 @@ namespace App\Command;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
+use Novosga\Entity\Unidade;
 use Novosga\Service\AtendimentoService;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * ResetCommand.
@@ -51,15 +53,19 @@ class ResetCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $id = (int) $input->getArgument('unidade');
+        
         if ($id > 0) {
             // verificando unidade
-            $unidade = $this->om->find(\Novosga\Entity\Unidade::class, $id);
+            $unidade = $this->om->find(Unidade::class, $id);
             if (!$unidade) {
                 throw new Exception("Unidade inválida: $id");
             }
         }
+        
         $atendimentoService = $this->getContainer()->get(AtendimentoService::class);
         $atendimentoService->acumularAtendimentos($id);
-        $output->writeln('<info>Senhas reiniciadas com sucesso</info>');
+        
+        $io = new SymfonyStyle($input, $output);
+        $io->success('Senhas reiniciadas com sucesso');
     }
 }
