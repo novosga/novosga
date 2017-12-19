@@ -11,7 +11,13 @@
 
 namespace App\Controller\Api;
 
+use Doctrine\Common\Persistence\ObjectManager;
+use JMS\Serializer\Expression\ExpressionEvaluator;
+use JMS\Serializer\SerializerBuilder;
+use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
  * ApiControllerBase
@@ -31,7 +37,7 @@ abstract class ApiControllerBase extends Controller
     }
     
     /**
-     * @return \Doctrine\Common\Persistence\ObjectManager
+     * @return ObjectManager
      */
     protected function getManager()
     {
@@ -42,14 +48,14 @@ abstract class ApiControllerBase extends Controller
     }
     
     /**
-     * @return \JMS\Serializer\SerializerInterface
+     * @return SerializerInterface
      */
     protected function getSerializer()
     {
         $serializer =
-            \JMS\Serializer\SerializerBuilder::create()
+            SerializerBuilder::create()
                 ->addDefaultHandlers()
-                ->setExpressionEvaluator(new \JMS\Serializer\Expression\ExpressionEvaluator(new \Symfony\Component\ExpressionLanguage\ExpressionLanguage()))
+                ->setExpressionEvaluator(new ExpressionEvaluator(new ExpressionLanguage()))
                 ->addMetadataDir("{$this->rootDir}/config/serializer/app", 'App')
                 ->addMetadataDir("{$this->rootDir}/config/serializer/core", 'Novosga')
                 ->build();
@@ -58,7 +64,7 @@ abstract class ApiControllerBase extends Controller
     }
     
     /**
-     * @return \Symfony\Bundle\FrameworkBundle\Translation\Translator
+     * @return Translator
      */
     protected function getTranslator()
     {
