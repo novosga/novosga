@@ -12,9 +12,10 @@
 namespace App\Controller\Admin;
 
 use App\Service\ModuleService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * ModulosController
@@ -33,15 +34,16 @@ class ModulosController extends Controller
      *
      * @Route("/", name="admin_modulos_index")
      */
-    public function indexAction(Request $request, ModuleService $service)
+    public function indexAction(Request $request, ModuleService $service, TranslatorInterface $translator)
     {
-        $modules = array_map(function ($value) {
+        $modules = array_map(function ($value) use ($translator) {
             $module = new $value['class'];
+            $name   = $translator->trans($module->getDisplayName(), [], $module->getName());
             
             return [
                 'active' => $value['active'],
                 'key' => $module->getKeyName(),
-                'name' => $module->getDisplayName(),
+                'name' => $name,
             ];
         }, $service->getModules());
         
