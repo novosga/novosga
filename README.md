@@ -37,7 +37,6 @@ To automated installation you need to set up the following environment variables
 **Database**
 
 - DATABASE_URL
-- DATABASE_PASS
 
 **Default administrator user**
 
