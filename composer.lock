@@ -1344,12 +1344,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "322c986f80d133fd7e951a51cb7121567f20c1be"
+                "reference": "a619323b05c0bf7f039a34c2e39d993729127b8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/322c986f80d133fd7e951a51cb7121567f20c1be",
-                "reference": "322c986f80d133fd7e951a51cb7121567f20c1be",
+                "url": "https://api.github.com/repos/novosga/core/zipball/a619323b05c0bf7f039a34c2e39d993729127b8b",
+                "reference": "a619323b05c0bf7f039a34c2e39d993729127b8b",
                 "shasum": ""
             },
             "require": {
@@ -1370,7 +1370,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-18T12:37:58+00:00"
+            "time": "2017-12-19T23:55:42+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1378,12 +1378,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "14d324611202142fbc01fd0952b4c1a777acd8ce"
+                "reference": "8e2036336023ba59b03fbc7e037c79956d778104"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/14d324611202142fbc01fd0952b4c1a777acd8ce",
-                "reference": "14d324611202142fbc01fd0952b4c1a777acd8ce",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/8e2036336023ba59b03fbc7e037c79956d778104",
+                "reference": "8e2036336023ba59b03fbc7e037c79956d778104",
                 "shasum": ""
             },
             "require": {
@@ -1405,7 +1405,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-19T14:01:28+00:00"
+            "time": "2017-12-19T22:16:37+00:00"
         },
         {
             "name": "novosga/oauth-server-bundle",
@@ -1491,12 +1491,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "613314a1eb08d77e732043a2f5d1cc8bac2618d2"
+                "reference": "3abf2130ba563f6b720c3eb39a5973936564f336"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/613314a1eb08d77e732043a2f5d1cc8bac2618d2",
-                "reference": "613314a1eb08d77e732043a2f5d1cc8bac2618d2",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/3abf2130ba563f6b720c3eb39a5973936564f336",
+                "reference": "3abf2130ba563f6b720c3eb39a5973936564f336",
                 "shasum": ""
             },
             "require": {
@@ -1518,7 +1518,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-08T12:17:14+00:00"
+            "time": "2017-12-19T23:57:52+00:00"
         },
         {
             "name": "novosga/settings-bundle",
@@ -1526,12 +1526,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "c8e470f357d413a4fdb9c66a12cc387c7ef52489"
+                "reference": "00b55a63a734fe95e19f1e852dc651a4f17a2a53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/c8e470f357d413a4fdb9c66a12cc387c7ef52489",
-                "reference": "c8e470f357d413a4fdb9c66a12cc387c7ef52489",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/00b55a63a734fe95e19f1e852dc651a4f17a2a53",
+                "reference": "00b55a63a734fe95e19f1e852dc651a4f17a2a53",
                 "shasum": ""
             },
             "require": {
@@ -1553,7 +1553,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-19T11:14:14+00:00"
+            "time": "2017-12-19T23:58:01+00:00"
         },
         {
             "name": "novosga/triage-bundle",
@@ -1561,12 +1561,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "e24fc3e6e8d577d1784ec5e783034d2554cb6dd4"
+                "reference": "da5ef1e11b307cae48a0dc28e5afe59f2463ac50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/e24fc3e6e8d577d1784ec5e783034d2554cb6dd4",
-                "reference": "e24fc3e6e8d577d1784ec5e783034d2554cb6dd4",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/da5ef1e11b307cae48a0dc28e5afe59f2463ac50",
+                "reference": "da5ef1e11b307cae48a0dc28e5afe59f2463ac50",
                 "shasum": ""
             },
             "require": {
@@ -1588,7 +1588,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-19T11:15:09+00:00"
+            "time": "2017-12-19T23:58:23+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -1596,12 +1596,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "6a67ef84b485a0e090218a845a6b31e88293e372"
+                "reference": "7edecc77c47f474dec14abb26e36ff47f943bd08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/6a67ef84b485a0e090218a845a6b31e88293e372",
-                "reference": "6a67ef84b485a0e090218a845a6b31e88293e372",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/7edecc77c47f474dec14abb26e36ff47f943bd08",
+                "reference": "7edecc77c47f474dec14abb26e36ff47f943bd08",
                 "shasum": ""
             },
             "require": {
@@ -1624,7 +1624,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-18T12:31:59+00:00"
+            "time": "2017-12-19T23:58:14+00:00"
         },
         {
             "name": "novosga/websocket-server",
@@ -2926,16 +2926,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.49",
+            "version": "v1.0.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "c3980f5ac79fbe8ba6b0d747baf7e57925f04ae2"
+                "reference": "cd39871203e755c44a3aa70031ef9c5901e95117"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/c3980f5ac79fbe8ba6b0d747baf7e57925f04ae2",
-                "reference": "c3980f5ac79fbe8ba6b0d747baf7e57925f04ae2",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/cd39871203e755c44a3aa70031ef9c5901e95117",
+                "reference": "cd39871203e755c44a3aa70031ef9c5901e95117",
                 "shasum": ""
             },
             "require": {
@@ -2968,7 +2968,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2017-12-11T15:40:16+00:00"
+            "time": "2017-12-19T22:53:13+00:00"
         },
         {
             "name": "symfony/form",
@@ -6457,16 +6457,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.2.1",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "4064632daf602552d40dcff30a1658ab76fc1621"
+                "reference": "d7c00c3000ac0ce79c96fcbfef86b49a71158cd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/4064632daf602552d40dcff30a1658ab76fc1621",
-                "reference": "4064632daf602552d40dcff30a1658ab76fc1621",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d7c00c3000ac0ce79c96fcbfef86b49a71158cd1",
+                "reference": "d7c00c3000ac0ce79c96fcbfef86b49a71158cd1",
                 "shasum": ""
             },
             "require": {
@@ -6504,7 +6504,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-12-18T00:24:01+00:00"
+            "time": "2017-12-19T21:44:46+00:00"
         },
         {
             "name": "symfony/dotenv",
