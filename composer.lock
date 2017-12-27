@@ -1497,12 +1497,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "3abf2130ba563f6b720c3eb39a5973936564f336"
+                "reference": "141733500c7fbce1acb7d47a495cabc846782714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/3abf2130ba563f6b720c3eb39a5973936564f336",
-                "reference": "3abf2130ba563f6b720c3eb39a5973936564f336",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/141733500c7fbce1acb7d47a495cabc846782714",
+                "reference": "141733500c7fbce1acb7d47a495cabc846782714",
                 "shasum": ""
             },
             "require": {
@@ -1524,7 +1524,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-19T23:57:52+00:00"
+            "time": "2017-12-27T11:41:52+00:00"
         },
         {
             "name": "novosga/settings-bundle",
