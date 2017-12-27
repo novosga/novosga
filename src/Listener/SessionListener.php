@@ -53,7 +53,7 @@ class SessionListener extends AppListener
         $request = $event->getRequest();
         $session = $request->getSession();
 
-        if (!$this->isApiRequest($request)) {
+        if (!$this->isApiRequest($request) && $token) {
             $user      = $token->getUser();
             $sessionId = $session ? $session->getId() : '-';
 

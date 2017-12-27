@@ -2,7 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: '%env(LANGUAGE)%'
-    version: '2.0.0-BETA6'
+    version: '2.0.0'
 
 services:
     # default configuration for services in *this* file
