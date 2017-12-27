@@ -131,7 +131,7 @@ class UsuarioRepository extends EntityRepository implements
                 $permissoes = $lotacao->getPerfil()->getModulos();
 
                 foreach ($permissoes as $modulo) {
-                    $role = 'ROLE_' . strtoupper(str_replace('.', '_', $modulo));
+                    $role = self::roleName($modulo);
                     if (!in_array($role, $roles)) {
                         $usuario->addRole($role);
                     }
@@ -177,5 +177,12 @@ class UsuarioRepository extends EntityRepository implements
             ->set($usuario, 'session.unidade', $unidade->getId());
 
         return $unidade;
+    }
+    
+    public static function roleName(string $module): string
+    {
+        $role = 'ROLE_' . strtoupper(str_replace('.', '_', $module));
+        
+        return $role;
     }
 }

@@ -49,11 +49,11 @@ class SessionListener extends AppListener
             return;
         }
         
-        $token = $this->tokenStorage->getToken();
+        $token   = $this->tokenStorage->getToken();
         $request = $event->getRequest();
         $session = $request->getSession();
 
-        if (!$this->isApiRequest($request) && $token) {
+        if (!$this->isApiRequest($request)) {
             $user      = $token->getUser();
             $sessionId = $session ? $session->getId() : '-';
 

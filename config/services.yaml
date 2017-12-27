@@ -7,12 +7,13 @@ parameters:
 services:
     # default configuration for services in *this* file
     _defaults:
-        # automatically injects dependencies in your services
+        # Automatically injects dependencies in your services.
         autowire: true
-        # automatically registers your services as commands, event subscribers, etc.
+        # Automatically registers your services as commands, event subscribers, etc.
         autoconfigure: true
-        # this means you cannot fetch services directly from the container via $container->get()
-        # if you need to do this, you can override this setting on individual services
+        # Allows optimizing the container by removing unused services; this also means
+        # fetching services directly from the container via $container->get() won't work.
+        # The best practice is to be explicit about your dependencies anyway.
         public: false
         bind:
             $rootDir: '%kernel.project_dir%'
@@ -23,7 +24,7 @@ services:
         resource: '../src/*'
         # you can exclude directories or files
         # but if a service is unused, it's removed anyway
-        exclude: '../src/{Entity,Migrations,Repository,Tests}'
+        exclude: '../src/{Entity,Migrations,Tests}'
 
     # controllers are imported separately to make sure they
     # have the tag that allows actions to type-hint services
@@ -33,11 +34,15 @@ services:
         
     App\Listener\SessionListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 700 }
+            - { name: kernel.event_listener, event: kernel.request, priority: 6 }
+        
+    App\Listener\AccessListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 7 }
 
     App\Listener\CorsListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 250 }
+            - { name: kernel.event_listener, event: kernel.request, priority: 700 }
 
     App\Listener\JsonExceptionListener:
         tags:

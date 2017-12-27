@@ -20,11 +20,56 @@ use Symfony\Component\HttpFoundation\Request;
  */
 abstract class AppListener
 {
-    protected function isApiRequest(Request $request)
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    protected function isApiRequest(Request $request): bool
     {
-        $path = $request->getPathInfo();
-        $isApi = strpos($path, '/api') === 0;
+        $path  = $request->getPathInfo();
+        $match = strpos($path, '/api') === 0;
         
-        return $isApi;
+        return $match;
+    }
+    
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    protected function isAdminRequest(Request $request): bool
+    {
+        $path  = $request->getPathInfo();
+        $match = strpos($path, '/admin') === 0;
+        
+        return $match;
+    }
+    
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    protected function isHomeRequest(Request $request): bool
+    {
+        $path  = $request->getPathInfo();
+        $match = $path === '/';
+        
+        return $match;
+    }
+    
+    /**
+     * Returns the module name or false
+     * @param Request $request
+     * @return mixed
+     */
+    protected function isModuleRequest(Request $request)
+    {
+        $path  = $request->getPathInfo();
+        preg_match("/\/(\w+\.\w+)\/?(.*)/", $path, $match);
+        
+        if (count($match) > 2) {
+            return $match[1];
+        }
+        
+        return false;
     }
 }
