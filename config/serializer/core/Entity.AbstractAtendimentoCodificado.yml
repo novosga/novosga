@@ -1,0 +1,11 @@
+Novosga\Entity\AbstractAtendimentoCodificado:
+    exclusion_policy: ALL
+    properties:
+        servico:
+            type: Novosga\Entity\Servico
+            expose: true
+            max_depth: 1
+        peso:
+            type: int
+            expose: true
+    
