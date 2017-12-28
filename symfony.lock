@@ -107,9 +107,6 @@
     "pagerfanta/pagerfanta": {
         "version": "v1.0.5"
     },
-    "paragonie/random_compat": {
-        "version": "v2.0.11"
-    },
     "phar-io/manifest": {
         "version": "1.0.1"
     },
@@ -314,9 +311,6 @@
     "symfony/polyfill-mbstring": {
         "version": "v1.6.0"
     },
-    "symfony/polyfill-php70": {
-        "version": "v1.6.0"
-    },
     "symfony/polyfill-php72": {
         "version": "v1.6.0"
     },
@@ -352,6 +346,9 @@
     },
     "symfony/stopwatch": {
         "version": "v4.0.0-beta3"
+    },
+    "symfony/thanks": {
+        "version": "v1.0.0"
     },
     "symfony/translation": {
         "version": "3.3",

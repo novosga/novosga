@@ -3,7 +3,7 @@ framework:
     #default_locale: en
     #csrf_protection: ~
     #http_method_override: true
-    #trusted_hosts: ~
+    
     # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
     session:
         handler_id: session.handler.native_file
