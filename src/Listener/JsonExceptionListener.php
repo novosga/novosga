@@ -49,7 +49,8 @@ class JsonExceptionListener extends AppListener
         }
         
         $exception = $event->getException();
-        $request = $event->getRequest();
+        $request   = $event->getRequest();
+        $debug     = $this->kernel->getEnvironment() === 'dev';
         
         if ($this->isApiRequest($request)) {
             if ($exception instanceof NotFoundHttpException) {
@@ -61,15 +62,16 @@ class JsonExceptionListener extends AppListener
                 $json = [
                     'code' => 400,
                     'error' => $exception->getMessage(),
-                    'detail' => $exception->getTraceAsString(),
                 ];
+            }
+            
+            if ($debug) {
+                $json['detail'] = $exception->getTraceAsString();
             }
             
             $response = new JsonResponse($json);
             $event->setResponse($response);
         } else if ($request->isXmlHttpRequest()) {
-            $debug = $this->kernel->getEnvironment() === 'dev';
-            
             $envelope = new Envelope();
             $envelope->exception($exception, $debug);
             
