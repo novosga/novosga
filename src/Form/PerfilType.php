@@ -28,13 +28,13 @@ class PerfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $modulos = [];
-
+        
         foreach ($options['modulos'] as $modulo) {
             if ($modulo instanceof \Novosga\Module\ModuleInterface) {
-                $modulos[$modulo->getDisplayName()] = $modulo->getKeyName();
+                $modulos[$modulo->getKeyName()] = $modulo->getKeyName();
             }
         }
-
+        
         $builder
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
