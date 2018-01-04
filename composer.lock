@@ -1532,12 +1532,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "00b55a63a734fe95e19f1e852dc651a4f17a2a53"
+                "reference": "182f8d76663393ef191c9e9d5b71a96b6c84ebfc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/00b55a63a734fe95e19f1e852dc651a4f17a2a53",
-                "reference": "00b55a63a734fe95e19f1e852dc651a4f17a2a53",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/182f8d76663393ef191c9e9d5b71a96b6c84ebfc",
+                "reference": "182f8d76663393ef191c9e9d5b71a96b6c84ebfc",
                 "shasum": ""
             },
             "require": {
@@ -1559,7 +1559,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-19T23:58:01+00:00"
+            "time": "2018-01-04T23:20:09+00:00"
         },
         {
             "name": "novosga/triage-bundle",
@@ -2884,16 +2884,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.53",
+            "version": "v1.0.57",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "cc4b1bac464597ce220d4f8208c38c75195e80c2"
+                "reference": "73423de7560c492f159aeb3eb9687b470bc87aec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/cc4b1bac464597ce220d4f8208c38c75195e80c2",
-                "reference": "cc4b1bac464597ce220d4f8208c38c75195e80c2",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/73423de7560c492f159aeb3eb9687b470bc87aec",
+                "reference": "73423de7560c492f159aeb3eb9687b470bc87aec",
                 "shasum": ""
             },
             "require": {
@@ -2926,7 +2926,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2017-12-27T16:06:01+00:00"
+            "time": "2018-01-03T11:28:30+00:00"
         },
         {
             "name": "symfony/form",
@@ -6513,16 +6513,16 @@
         },
         {
             "name": "symfony/thanks",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/thanks.git",
-                "reference": "f3e567198cbac9dbec5baf9004f1e51fecc82c79"
+                "reference": "b637913a92664571afd1067fc645ecb30c9cf5b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/thanks/zipball/f3e567198cbac9dbec5baf9004f1e51fecc82c79",
-                "reference": "f3e567198cbac9dbec5baf9004f1e51fecc82c79",
+                "url": "https://api.github.com/repos/symfony/thanks/zipball/b637913a92664571afd1067fc645ecb30c9cf5b2",
+                "reference": "b637913a92664571afd1067fc645ecb30c9cf5b2",
                 "shasum": ""
             },
             "require": {
@@ -6551,7 +6551,8 @@
                     "email": "p@tchwork.com"
                 }
             ],
-            "time": "2017-12-20T21:36:05+00:00"
+            "description": "Give thanks (in the form of a GitHub ⭐) to your fellow PHP package maintainers (not limited to Symfony components)!",
+            "time": "2018-01-03T09:30:52+00:00"
         },
         {
             "name": "symfony/web-server-bundle",
