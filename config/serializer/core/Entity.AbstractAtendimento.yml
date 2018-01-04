@@ -1,8 +1,8 @@
 Novosga\Entity\AbstractAtendimento:
     exclusion_policy: ALL
     virtual_properties:
-        getTempoEspera:
-            exp: DateInterval<'%H:%I:%S'>
+        tempoEspera:
+            exp: object.getTempoEspera().format('%H:%I:%S')
             serialized_name: tempoEspera
     properties:
         id:

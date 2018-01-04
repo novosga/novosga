@@ -45,9 +45,11 @@ abstract class ApiCrudController extends ApiControllerBase
 
     public function search(Request $request)
     {
-        $q     = explode(' ', $request->get('q'));
-        $sort  = (string) $request->get('sort');
-        $order = strtolower((string) $request->get('order'));
+        $q      = explode(' ', $request->get('q'));
+        $sort   = (string) $request->get('sort');
+        $order  = strtolower((string) $request->get('order'));
+        $limit  = $request->get('limit') ?? 25;
+        $offset = $request->get('offset') ?? 0;
         
         if (!in_array($order, ['asc', 'desc'])) {
             $order = 'asc';
@@ -69,7 +71,7 @@ abstract class ApiCrudController extends ApiControllerBase
             }
         }
         
-        $result = $this->getRepository()->findBy($criteria, $orderBy);
+        $result = $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
         
         return $this->json($result);
     }

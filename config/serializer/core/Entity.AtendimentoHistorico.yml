@@ -1,4 +1,4 @@
-Novosga\Entity\Atendimento:
+Novosga\Entity\AtendimentoHistorico:
     exclusion_policy: ALL
     properties:
         codificados:

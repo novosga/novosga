@@ -61,10 +61,6 @@ class MySQLStorage extends RelationalStorage
         $numeroAtual = (int) $stmt->fetchColumn();
         $numeroSenha = $numeroAtual;
 
-        if (!$numeroAtual) {
-            throw new Exception();
-        }
-
         $numeroSenha += $su->getIncremento();
         if ($su->getNumeroFinal() > 0 && $numeroSenha > $su->getNumeroFinal()) {
             $numeroSenha = $su->getNumeroInicial();
