@@ -1283,12 +1283,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "b7aa6d831653ea6b20be3745043fe6371633db3c"
+                "reference": "b89ff137bf76fe9bafd2f2ab67246d4d47e58cf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/b7aa6d831653ea6b20be3745043fe6371633db3c",
-                "reference": "b7aa6d831653ea6b20be3745043fe6371633db3c",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/b89ff137bf76fe9bafd2f2ab67246d4d47e58cf4",
+                "reference": "b89ff137bf76fe9bafd2f2ab67246d4d47e58cf4",
                 "shasum": ""
             },
             "require": {
@@ -1310,7 +1310,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-01-05T10:37:27+00:00"
+            "time": "2018-01-05T11:42:28+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
