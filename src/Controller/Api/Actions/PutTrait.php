@@ -27,7 +27,7 @@ trait PutTrait
      * @Route("/{id}")
      * @Method("PUT")
      */
-    public function putAction(Request $request, $id)
+    public function put(Request $request, $id)
     {
         $object = $this->getRepository()->find($id);
         

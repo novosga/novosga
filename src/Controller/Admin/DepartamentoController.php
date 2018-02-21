@@ -35,7 +35,7 @@ class DepartamentoController extends Controller
      *
      * @Route("/", name="admin_departamentos_index")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $departamentos = $this
                 ->getDoctrine()
@@ -58,7 +58,7 @@ class DepartamentoController extends Controller
      * @Route("/{id}", name="admin_departamentos_edit")
      * @Method({"GET", "POST"})
      */
-    public function formAction(Request $request, Entity $entity = null)
+    public function form(Request $request, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -94,7 +94,7 @@ class DepartamentoController extends Controller
      * @Route("/{id}", name="admin_departamentos_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Entity $departamento)
+    public function delete(Request $request, Entity $departamento)
     {
         $trans = $this->get('translator');
 

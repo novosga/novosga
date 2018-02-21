@@ -36,7 +36,7 @@ class ServicosController extends Controller
      * @Route("/", name="admin_servicos_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $servicos = $this
                 ->getDoctrine()
@@ -64,7 +64,7 @@ class ServicosController extends Controller
      * @Route("/{id}", name="admin_servicos_edit")
      * @Method({"GET","POST"})
      */
-    public function formAction(Request $request, Entity $entity = null)
+    public function form(Request $request, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -100,7 +100,7 @@ class ServicosController extends Controller
      * @Route("/{id}", name="admin_servicos_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Entity $servico)
+    public function delete(Request $request, Entity $servico)
     {
         $trans = $this->get('translator');
         

@@ -36,7 +36,7 @@ class FilasController extends Controller
      * @ParamConverter("unidade", class="Novosga\Entity\Unidade", options={"id" = "unidadeId"})
      * @Method("GET")
      */
-    public function atendimentosUsuarioAction(Unidade $unidade)
+    public function atendimentosUsuario(Unidade $unidade)
     {
         /* @var $filaService FilaService */
         $filaService    = $this->get('Novosga\Service\FilaService');
@@ -57,7 +57,7 @@ class FilasController extends Controller
      * @Route("")
      * @Method("PUT")
      */
-    public function alteraStatusAction(Request $request)
+    public function alteraStatus(Request $request)
     {
         $novoStatus = $request->get('novoStatus');
         $usuario    = $this->getUser();

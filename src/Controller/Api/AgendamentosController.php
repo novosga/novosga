@@ -36,7 +36,7 @@ class AgendamentosController extends ApiCrudController
      * @Route("")
      * @Method("POST")
      */
-    public function postAction(
+    public function post(
         Request $request,
         \Novosga\Service\AtendimentoService $atendimentoService
     ) {

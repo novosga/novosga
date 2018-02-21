@@ -41,7 +41,7 @@ class UnidadesController extends ApiCrudController
      * @Route("/{id}/servicos")
      * @Method("GET")
      */
-    public function servicosAction(Unidade $unidade, ServicoService $service)
+    public function servicos(Unidade $unidade, ServicoService $service)
     {
         $servicos = $service->servicosUnidade($unidade, ['ativo' => true]);
 
@@ -52,7 +52,7 @@ class UnidadesController extends ApiCrudController
      * @Route("/{id}/atendimentos")
      * @Method("GET")
      */
-    public function atendimentosAction(Unidade $unidade)
+    public function atendimentos(Unidade $unidade)
     {
         $atendimentos = $this
                 ->getDoctrine()

@@ -42,7 +42,7 @@ class AdminController extends Controller
      *
      * @Route("/", name="admin_index")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         return $this->render('admin/index.html.twig', [
             'tab' => 'index',
@@ -73,7 +73,7 @@ class AdminController extends Controller
      * @Route("/limpar_atendimentos", name="admin_limpar_atendimentos")
      * @Method("POST")
      */
-    public function limparAtendimentosAction(Request $request, AtendimentoService $service)
+    public function limparAtendimentos(Request $request, AtendimentoService $service)
     {
         $envelope = new Envelope();
         $service->limparDados();

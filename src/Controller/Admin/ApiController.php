@@ -34,7 +34,7 @@ class ApiController extends Controller
      *
      * @Route("/", name="admin_api_index")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         return $this->render('admin/api/index.html.twig', [
             'tab' => 'api',
@@ -49,7 +49,7 @@ class ApiController extends Controller
      * @Route("/oauth-clients", name="admin_api_clients")
      * @Method("GET")
      */
-    public function oauthClientsAction(Request $request)
+    public function oauthClients(Request $request)
     {
         $envelope = new Envelope();
         
@@ -72,7 +72,7 @@ class ApiController extends Controller
      * @Route("/oauth-clients", name="admin_api_newclient")
      * @Method("POST")
      */
-    public function newOauthClientAction(Request $request)
+    public function newOauthClient(Request $request)
     {
         $envelope = new Envelope();
         
@@ -102,7 +102,7 @@ class ApiController extends Controller
      * @Route("/oauth-clients/{id}", name="admin_api_removeclient")
      * @Method("DELETE")
      */
-    public function removeOauthClientAction(Request $request, OAuthClient $client)
+    public function removeOauthClient(Request $request, OAuthClient $client)
     {
         $envelope = new Envelope();
         

@@ -32,7 +32,7 @@ class PainelController extends ApiControllerBase
      * @Route("/unidades/{id}/painel")
      * @Method("GET")
      */
-    public function painelAction(Request $request, Unidade $unidade)
+    public function painel(Request $request, Unidade $unidade)
     {
         $servicos = explode(',', $request->get('servicos'));
         

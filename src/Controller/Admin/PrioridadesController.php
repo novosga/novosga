@@ -35,7 +35,7 @@ class PrioridadesController extends Controller
      *
      * @Route("/", name="admin_prioridades_index")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $prioridades = $this
                 ->getDoctrine()
@@ -58,7 +58,7 @@ class PrioridadesController extends Controller
      * @Route("/{id}", name="admin_prioridades_edit")
      * @Method({"GET","POST"})
      */
-    public function formAction(Request $request, Entity $entity = null)
+    public function form(Request $request, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -94,7 +94,7 @@ class PrioridadesController extends Controller
      * @Route("/{id}", name="admin_prioridades_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Entity $prioridade)
+    public function delete(Request $request, Entity $prioridade)
     {
         $trans = $this->get('translator');
 

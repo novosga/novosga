@@ -25,7 +25,7 @@ class DefaultController extends Controller
      * @Route("/api")
      * @Route("/api/")
      */
-    public function indexAction()
+    public function index()
     {
         return $this->json([
             'status' => 'ok',

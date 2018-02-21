@@ -34,7 +34,7 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      *
      * @Route("/", name="admin_perfis_index")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $perfis = $this
                 ->getDoctrine()
@@ -60,7 +60,7 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      * @Route("/{id}", name="admin_perfis_edit")
      * @Method({"GET", "POST"})
      */
-    public function formAction(Request $request, Entity $entity = null)
+    public function form(Request $request, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity;
@@ -103,7 +103,7 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      * @Route("/{id}", name="admin_perfis_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Entity $perfil)
+    public function delete(Request $request, Entity $perfil)
     {
         $trans = $this->get('translator');
 

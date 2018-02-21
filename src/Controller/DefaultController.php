@@ -24,7 +24,7 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="home")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         return $this->render('default/index.html.twig');
     }
@@ -32,7 +32,7 @@ class DefaultController extends Controller
     /**
      * @Route("/about", name="about")
      */
-    public function aboutAction(Request $request)
+    public function about(Request $request)
     {
         return $this->render('default/about.html.twig');
     }
@@ -41,7 +41,7 @@ class DefaultController extends Controller
      * @Route("/unidades", name="app_default_unidades")
      * @Method({"GET"})
      */
-    public function unidadesAction(Request $request)
+    public function unidades(Request $request)
     {
         $usuario  = $this->getUser();
         $unidades = $this
@@ -59,7 +59,7 @@ class DefaultController extends Controller
      * @Route("/set_unidade/{id}", name="app_default_setunidade")
      * @Method({"POST"})
      */
-    public function setUnidadeAction(Request $request, Unidade $unidade)
+    public function setUnidade(Request $request, Unidade $unidade)
     {
         $usuario = $this->getUser();
         
@@ -75,7 +75,7 @@ class DefaultController extends Controller
      * @Route("/menu", name="app_default_menu")
      * @Method({"GET"})
      */
-    public function menuAction(Request $request)
+    public function menu(Request $request)
     {
         $kernel = $this->get('kernel');
         $bundles = [];

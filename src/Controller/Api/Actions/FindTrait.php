@@ -27,7 +27,7 @@ trait FindTrait
      * @Route("")
      * @Method("GET")
      */
-    public function findAction(Request $request)
+    public function find(Request $request)
     {
         return $this->search($request);
     }

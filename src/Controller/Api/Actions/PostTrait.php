@@ -27,7 +27,7 @@ trait PostTrait
      * @Route("")
      * @Method("POST")
      */
-    public function postAction(Request $request)
+    public function post(Request $request)
     {
         $json = $request->getContent();
         $object = $this->deserialize($json);

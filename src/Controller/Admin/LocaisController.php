@@ -35,7 +35,7 @@ class LocaisController extends Controller
      *
      * @Route("/", name="admin_locais_index")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $locais = $this
                 ->getDoctrine()
@@ -58,7 +58,7 @@ class LocaisController extends Controller
      * @Route("/{id}", name="admin_locais_edit")
      * @Method({"GET", "POST"})
      */
-    public function formAction(Request $request, Entity $entity = null)
+    public function form(Request $request, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -94,7 +94,7 @@ class LocaisController extends Controller
      * @Route("/{id}", name="admin_locais_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Entity $local)
+    public function delete(Request $request, Entity $local)
     {
         $trans = $this->get('translator');
 

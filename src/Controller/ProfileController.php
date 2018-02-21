@@ -29,7 +29,7 @@ class ProfileController extends Controller
      * @Route("/", name="profile_index")
      * @Method("GET")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $user = $this->getUser();
         $form = $this->createForm(ProfileType::class, $user, [
@@ -46,7 +46,7 @@ class ProfileController extends Controller
      * @Route("/", name="profile_update")
      * @Method("POST")
      */
-    public function updateAction(Request $request)
+    public function update(Request $request)
     {
         $user = $this->getUser();
         $form = $this->createForm(ProfileType::class, $user);
@@ -69,7 +69,7 @@ class ProfileController extends Controller
      * @Route("/password")
      * @Method("POST")
      */
-    public function passwordAction(Request $request, EncoderFactoryInterface $factory)
+    public function password(Request $request, EncoderFactoryInterface $factory)
     {
         $envelope = new Envelope();
         

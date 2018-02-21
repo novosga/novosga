@@ -26,7 +26,7 @@ trait GetTrait
      * @Route("/{id}")
      * @Method("GET")
      */
-    public function getAction($id)
+    public function get($id)
     {
         return $this->find($id);
     }

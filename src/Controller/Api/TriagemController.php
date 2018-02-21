@@ -34,7 +34,7 @@ class TriagemController extends ApiControllerBase
      * @Route("/print/{id}/{hash}")
      * @Method("POST")
      */
-    public function imprimirAction(Request $request, Atendimento $atendimento, TranslatorInterface $translator, $hash)
+    public function imprimir(Request $request, Atendimento $atendimento, TranslatorInterface $translator, $hash)
     {
         if ($hash !== $atendimento->hash()) {
             $error = $translator->trans('api.triage.invalid_hash');
@@ -48,7 +48,7 @@ class TriagemController extends ApiControllerBase
      * @Route("/distribui")
      * @Method("POST")
      */
-    public function distribuiAction(Request $request, AtendimentoService $service, LoggerInterface $logger)
+    public function distribui(Request $request, AtendimentoService $service, LoggerInterface $logger)
     {
         try {
             $json = $request->getContent();

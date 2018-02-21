@@ -36,7 +36,7 @@ class UnidadesController extends Controller
      *
      * @Route("/", name="admin_unidades_index")
      */
-    public function indexAction(Request $request)
+    public function index(Request $request)
     {
         $unidades = $this
                 ->getDoctrine()
@@ -58,7 +58,7 @@ class UnidadesController extends Controller
      * @Route("/{id}", name="admin_unidades_edit")
      * @Method({"GET","POST"})
      */
-    public function formAction(Request $request, Entity $entity = null)
+    public function form(Request $request, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -99,7 +99,7 @@ class UnidadesController extends Controller
      * @Route("/{id}", name="admin_unidades_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Entity $unidade)
+    public function delete(Request $request, Entity $unidade)
     {
         $trans = $this->get('translator');
         

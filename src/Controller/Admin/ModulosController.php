@@ -34,7 +34,7 @@ class ModulosController extends Controller
      *
      * @Route("/", name="admin_modulos_index")
      */
-    public function indexAction(Request $request, ModuleService $service, TranslatorInterface $translator)
+    public function index(Request $request, ModuleService $service, TranslatorInterface $translator)
     {
         $modules = array_map(function ($value) use ($translator) {
             $module = new $value['class'];
@@ -60,7 +60,7 @@ class ModulosController extends Controller
      *
      * @Route("/update", name="admin_modulos_update")
      */
-    public function updateAction(Request $request, ModuleService $service)
+    public function update(Request $request, ModuleService $service)
     {
         $key = $request->get('key');
         $active = $request->get('active');
