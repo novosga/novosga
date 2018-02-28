@@ -38,10 +38,10 @@ class DepartamentoController extends Controller
     public function index(Request $request)
     {
         $departamentos = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Entity::class)
-                ->findBy([], ['nome' => 'ASC']);
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Entity::class)
+            ->findBy([], ['nome' => 'ASC']);
 
         return $this->render('admin/departamentos/index.html.twig', [
             'tab'           => 'departamentos',

@@ -38,10 +38,10 @@ class LocaisController extends Controller
     public function index(Request $request)
     {
         $locais = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Entity::class)
-                ->findBy([], ['nome' => 'ASC']);
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Entity::class)
+            ->findBy([], ['nome' => 'ASC']);
 
         return $this->render('admin/locais/index.html.twig', [
             'tab'    => 'locais',

@@ -39,15 +39,15 @@ class ServicosController extends Controller
     public function index(Request $request)
     {
         $servicos = $this
-                ->getDoctrine()
-                ->getManager()
-                ->createQueryBuilder()
-                ->select('e')
-                ->from(Entity::class, 'e')
-                ->where('e.deletedAt IS NULL')
-                ->andWhere('e.mestre IS NULL')
-                ->getQuery()
-                ->getResult();
+            ->getDoctrine()
+            ->getManager()
+            ->createQueryBuilder()
+            ->select('e')
+            ->from(Entity::class, 'e')
+            ->where('e.deletedAt IS NULL')
+            ->andWhere('e.mestre IS NULL')
+            ->getQuery()
+            ->getResult();
         
         return $this->render('admin/servicos/index.html.twig', [
             'tab'      => 'servicos',

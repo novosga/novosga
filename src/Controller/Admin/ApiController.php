@@ -54,10 +54,10 @@ class ApiController extends Controller
         $envelope = new Envelope();
         
         $clients = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(OAuthClient::class)
-                ->findAll();
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(OAuthClient::class)
+            ->findAll();
             
         $envelope->setData($clients);
 

@@ -39,10 +39,10 @@ class UnidadesController extends Controller
     public function index(Request $request)
     {
         $unidades = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Entity::class)
-                ->findBy([], ['nome' => 'ASC']);
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Entity::class)
+            ->findBy([], ['nome' => 'ASC']);
         
         return $this->render('admin/unidades/index.html.twig', [
             'tab'      => 'unidades',

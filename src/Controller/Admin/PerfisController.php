@@ -37,13 +37,13 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
     public function index(Request $request)
     {
         $perfis = $this
-                ->getDoctrine()
-                ->getManager()
-                ->createQueryBuilder()
-                ->select('e')
-                ->from(Entity::class, 'e')
-                ->getQuery()
-                ->getResult();
+            ->getDoctrine()
+            ->getManager()
+            ->createQueryBuilder()
+            ->select('e')
+            ->from(Entity::class, 'e')
+            ->getQuery()
+            ->getResult();
 
         return $this->render('admin/perfis/index.html.twig', [
             'tab'    => 'perfis',

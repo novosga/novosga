@@ -27,14 +27,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
  */
 class AdminController extends Controller
 {
-    private $numeracoes;
-
-    public function __construct()
-    {
-        $this->numeracoes = [
-        ];
-    }
-
     /**
      *
      * @param Request $request
@@ -57,7 +49,7 @@ class AdminController extends Controller
      * @Route("/acumular_atendimentos", name="admin_acumular_atendimentos")
      * @Method("POST")
      */
-    public function acumularAtendimentosACtion(Request $request, AtendimentoService $service)
+    public function acumularAtendimentos(Request $request, AtendimentoService $service)
     {
         $envelope = new Envelope();
         $service->acumularAtendimentos();

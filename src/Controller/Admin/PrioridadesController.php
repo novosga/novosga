@@ -38,10 +38,10 @@ class PrioridadesController extends Controller
     public function index(Request $request)
     {
         $prioridades = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Entity::class)
-                ->findBy([], ['nome' => 'ASC']);
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Entity::class)
+            ->findBy([], ['nome' => 'ASC']);
 
         return $this->render('admin/prioridades/index.html.twig', [
             'tab'         => 'prioridades',
