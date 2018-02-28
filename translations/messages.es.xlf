@@ -146,7 +146,7 @@
             </trans-unit>
             <trans-unit id="31">
                 <source>label.password</source>
-                <target>Billete</target>
+                <target>Contraseña</target>
                 
             </trans-unit>
             <trans-unit id="32">
@@ -491,14 +491,17 @@
             </trans-unit>
             <trans-unit id="110-1">
                 <source>admin.departments.title</source>
+                <target>Departamentos</target>
                 
             </trans-unit>
             <trans-unit id="111-1">
                 <source>admin.departments.subtitle</source>
+                <target>Cadastro de departamentos</target>
                 
             </trans-unit>
             <trans-unit id="112-1">
                 <source>admin.departments.button.new</source>
+                <target>Novo departamento</target>
                 
             </trans-unit>
             <trans-unit id="113">

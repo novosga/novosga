@@ -153,7 +153,7 @@
             </trans-unit>
             <trans-unit id="31">
                 <source>label.password</source>
-                <target>Ticket</target>
+                <target>Password</target>
                 
             </trans-unit>
             <trans-unit id="32">
@@ -351,6 +351,7 @@
             </trans-unit>
             <trans-unit id="71-1">
                 <source>admin.menu.departments</source>
+                <target>Departaments</target>
                 
             </trans-unit>
             <trans-unit id="72">
@@ -518,14 +519,17 @@
             </trans-unit>
             <trans-unit id="110-1">
                 <source>admin.departments.title</source>
+                <target>Departaments</target>
                 
             </trans-unit>
             <trans-unit id="111-1">
                 <source>admin.departments.subtitle</source>
+                <target>Cadastro de departamentos</target>
                 
             </trans-unit>
             <trans-unit id="112-1">
                 <source>admin.departments.button.new</source>
+                <target>Novo departamento</target>
                 
             </trans-unit>
             <trans-unit id="113">
