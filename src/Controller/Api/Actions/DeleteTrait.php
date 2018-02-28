@@ -26,7 +26,7 @@ trait DeleteTrait
      * @Route("/{id}")
      * @Method("DELETE")
      */
-    public function delete($id)
+    public function doDelete($id)
     {
         $object = $this->getRepository()->find($id);
         
