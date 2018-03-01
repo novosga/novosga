@@ -34,6 +34,18 @@ Novosga\Entity\AbstractAtendimento:
             type: datetime
             nullable: true
             column: dt_fim
+        tempoEspera:
+            type: integer
+            nullable: true
+            column: tempo_espera
+        tempoPermanencia:
+            type: integer
+            nullable: true
+            column: tempo_permanencia
+        tempoAtendimento:
+            type: integer
+            nullable: true
+            column: tempo_atendimento
         status:
             type: string
             length: 25
