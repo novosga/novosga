@@ -146,7 +146,7 @@
             </trans-unit>
             <trans-unit id="31">
                 <source>label.password</source>
-                <target>Contraseña</target>
+                <target>Billete</target>
                 
             </trans-unit>
             <trans-unit id="32">
@@ -381,6 +381,18 @@
                 <target>Llamadas reiniciadas exitosamente</target>
                 
             </trans-unit>
+            <trans-unit id="79-1">
+                <source>admin.system.clear_tickets</source>
+                
+            </trans-unit>
+            <trans-unit id="80-1">
+                <source>admin.system.clear_tickets.alert</source>
+                
+            </trans-unit>
+            <trans-unit id="81-1">
+                <source>admin.system.clear_tickets.success</source>
+                
+            </trans-unit>
             <trans-unit id="82">
                 <source>admin.modules.title</source>
                 <target>Módulos</target>
@@ -491,17 +503,14 @@
             </trans-unit>
             <trans-unit id="110-1">
                 <source>admin.departments.title</source>
-                <target>Departamentos</target>
                 
             </trans-unit>
             <trans-unit id="111-1">
                 <source>admin.departments.subtitle</source>
-                <target>Cadastro de departamentos</target>
                 
             </trans-unit>
             <trans-unit id="112-1">
                 <source>admin.departments.button.new</source>
-                <target>Novo departamento</target>
                 
             </trans-unit>
             <trans-unit id="113">

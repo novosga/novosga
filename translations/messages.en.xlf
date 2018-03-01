@@ -13,7 +13,7 @@
             </trans-unit>
             <trans-unit id="3">
                 <source>modal.unity.label</source>
-                <target>Please choose a Unity</target>
+                <target>Please choose an Unity</target>
                 
             </trans-unit>
             <trans-unit id="4">
@@ -158,7 +158,7 @@
             </trans-unit>
             <trans-unit id="32">
                 <source>login.button.submit</source>
-                <target>Enter</target>
+                <target>Login</target>
                 
             </trans-unit>
             <trans-unit id="33">
@@ -264,6 +264,7 @@
             </trans-unit>
             <trans-unit id="54">
                 <source>profile.subtitle</source>
+                <target>Personal user information</target>
                 
             </trans-unit>
             <trans-unit id="55">
@@ -273,6 +274,7 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>profile.general.description</source>
+                <target>General user information</target>
                 
             </trans-unit>
             <trans-unit id="57">
@@ -351,7 +353,7 @@
             </trans-unit>
             <trans-unit id="71-1">
                 <source>admin.menu.departments</source>
-                <target>Departaments</target>
+                <target>Departments</target>
                 
             </trans-unit>
             <trans-unit id="72">
@@ -404,6 +406,18 @@
                 <target>Ticket number queues successfully reset  </target>
                 
             </trans-unit>
+            <trans-unit id="79-1">
+                <source>admin.system.clear_tickets</source>
+                
+            </trans-unit>
+            <trans-unit id="80-1">
+                <source>admin.system.clear_tickets.alert</source>
+                
+            </trans-unit>
+            <trans-unit id="81-1">
+                <source>admin.system.clear_tickets.success</source>
+                
+            </trans-unit>
             <trans-unit id="82">
                 <source>admin.modules.title</source>
                 <target>Modules</target>
@@ -411,6 +425,7 @@
             </trans-unit>
             <trans-unit id="83">
                 <source>admin.modules.subtitle</source>
+                <target>Novo SGA modules management</target>
                 
             </trans-unit>
             <trans-unit id="84">
@@ -420,6 +435,7 @@
             </trans-unit>
             <trans-unit id="85">
                 <source>admin.places.subtitle</source>
+                <target>Servicing places</target>
                 
             </trans-unit>
             <trans-unit id="86">
@@ -439,6 +455,7 @@
             </trans-unit>
             <trans-unit id="89">
                 <source>admin.roles.subtitle</source>
+                <target>User access roles</target>
                 
             </trans-unit>
             <trans-unit id="90">
@@ -453,6 +470,7 @@
             </trans-unit>
             <trans-unit id="92-1">
                 <source>label.department</source>
+                <target>Department</target>
                 
             </trans-unit>
             <trans-unit id="93">
@@ -519,17 +537,16 @@
             </trans-unit>
             <trans-unit id="110-1">
                 <source>admin.departments.title</source>
-                <target>Departaments</target>
+                <target>Departments</target>
                 
             </trans-unit>
             <trans-unit id="111-1">
                 <source>admin.departments.subtitle</source>
-                <target>Cadastro de departamentos</target>
                 
             </trans-unit>
             <trans-unit id="112-1">
                 <source>admin.departments.button.new</source>
-                <target>Novo departamento</target>
+                <target>New department</target>
                 
             </trans-unit>
             <trans-unit id="113">
@@ -572,6 +589,7 @@
             </trans-unit>
             <trans-unit id="123">
                 <source>admin.webapi.clients.remove_alert</source>
+                <target>Do you really want to delete?</target>
                 
             </trans-unit>
             <trans-unit id="124">
@@ -586,6 +604,7 @@
             </trans-unit>
             <trans-unit id="126">
                 <source>session.invalid</source>
+                <target>Invalid session</target>
                 
             </trans-unit>
             <trans-unit id="127">
@@ -625,6 +644,7 @@
             </trans-unit>
             <trans-unit id="134">
                 <source>error.invalid_unity</source>
+                <target>Invalid unity</target>
                 
             </trans-unit>
             <trans-unit id="135">
@@ -653,6 +673,7 @@
             </trans-unit>
             <trans-unit id="140">
                 <source>error.change_status</source>
+                <target>Error when trying to change servicing status</target>
                 
             </trans-unit>
             <trans-unit id="141">
@@ -662,6 +683,7 @@
             </trans-unit>
             <trans-unit id="142">
                 <source>error.service_unity_inactive</source>
+                <target>Service chosen isn't enable on your unity</target>
                 
             </trans-unit>
             <trans-unit id="143">
