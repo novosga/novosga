@@ -46,6 +46,10 @@ Novosga\Entity\AbstractAtendimento:
             type: integer
             nullable: true
             column: tempo_atendimento
+        tempoDeslocamento:
+            type: integer
+            nullable: true
+            column: tempo_deslocamento
         status:
             type: string
             length: 25
