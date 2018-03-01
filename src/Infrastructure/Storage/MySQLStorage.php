@@ -127,12 +127,14 @@ class MySQLStorage extends RelationalStorage
                 (
                     id, unidade_id, usuario_id, servico_id, prioridade_id, status,
                     senha_sigla, senha_numero, cliente_id, num_local, dt_cheg,
-                    dt_cha, dt_ini, dt_fim, usuario_tri_id, atendimento_id
+                    dt_cha, dt_ini, dt_fim, usuario_tri_id, atendimento_id,
+                    tempo_espera, tempo_permanencia, tempo_atendimento, tempo_deslocamento
                 )
                 SELECT
                     a.id, a.unidade_id, a.usuario_id, a.servico_id, a.prioridade_id, a.status,
                     a.senha_sigla, a.senha_numero, a.cliente_id, a.num_local, a.dt_cheg,
-                    a.dt_cha, a.dt_ini, a.dt_fim, a.usuario_tri_id, a.atendimento_id
+                    a.dt_cha, a.dt_ini, a.dt_fim, a.usuario_tri_id, a.atendimento_id,
+                    a.tempo_espera, a.tempo_permanencia, a.tempo_atendimento, a.tempo_deslocamento
                 FROM
                     {$atendimentoTable} a
                 WHERE
