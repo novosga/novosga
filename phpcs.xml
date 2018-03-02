@@ -7,6 +7,7 @@
     <file>modules</file>
 
     <exclude-pattern>*.(inc|css|js)</exclude-pattern>
+    <exclude-pattern>bin/.phpunit</exclude-pattern>
 
     <arg name="colors" />
     <arg value="np"/>

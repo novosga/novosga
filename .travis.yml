@@ -21,8 +21,8 @@ install:
     - travis_retry composer update --prefer-dist
 
 script:
-    - vendor/bin/phpcs
-    - phpunit
+    - php vendor/bin/phpcs
+    - php bin/phpunit
 
 cache:
     directories:
