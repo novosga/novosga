@@ -97,9 +97,17 @@ var App = {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                var fn = arg.error;
+                var fn = arg.error, json;
                 
-                App.showErrorDialog(JSON.parse(jqXHR.responseText));
+                try {
+                    json = jqXHR.responseJSON || JSON.parse(jqXHR.responseText);
+                } catch (e) {
+                    json = {
+                        message: 'Invalid AJAX response'
+                    };
+                }
+                
+                App.showErrorDialog(json);
                 
                 if (fn && typeof(fn) === 'function') {
                     fn(jqXHR, textStatus, errorThrown);

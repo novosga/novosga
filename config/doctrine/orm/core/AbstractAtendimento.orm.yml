@@ -54,6 +54,9 @@ Novosga\Entity\AbstractAtendimento:
             type: string
             length: 25
             nullable: false
+        observacao:
+            type: text
+            nullable: true
     embedded:
         senha:
             class: Novosga\Entity\Senha

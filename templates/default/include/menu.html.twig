@@ -1,4 +1,4 @@
-{% set unidade = app.user.lotacao.unidade %}
+{% set unidade = app.user.lotacao ? app.user.lotacao.unidade : null %}
 
 <ul class="navbar-nav mr-auto">
     {% if unidade %}
