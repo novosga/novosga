@@ -14,6 +14,7 @@ namespace App\Repository\ORM;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Novosga\Entity\Lotacao;
+use Novosga\Entity\ServicoUnidade;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
 use Novosga\Entity\UsuarioMeta;
@@ -38,20 +39,26 @@ class UsuarioRepository extends EntityRepository implements
      */
     public function findByUnidade(Unidade $unidade, Criteria $criteria = null)
     {
-        $qb = $this
-            ->createQueryBuilder('e')
-            ->leftJoin('e.lotacoes', 'l')
-            ->where('e.admin = TRUE OR (e.admin = FALSE AND l.unidade = :unidade)')
-            ->setParameters([
-                'unidade' => $unidade
-            ])
-            ->orderBy('e.nome');
+        $usuarios = $this
+            ->queryBuilderFindByUnidade($unidade, $criteria)
+            ->getQuery()
+            ->getResult();
         
-        if ($criteria) {
-            $qb->addCriteria($criteria);
-        }
-        
-        $usuarios = $qb
+        return $usuarios;
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function findByServicoUnidade(ServicoUnidade $servicoUnidade, Criteria $criteria = null)
+    {
+        $unidade  = $servicoUnidade->getUnidade();
+        $servico  = $servicoUnidade->getServico();
+        $usuarios = $this
+            ->queryBuilderFindByUnidade($unidade, $criteria)
+            ->join(\Novosga\Entity\ServicoUsuario::class, 'su', 'WITH', 'su.usuario = e')
+            ->andWhere('su.servico = :servico')
+            ->setParameter('servico', $servico)
             ->getQuery()
             ->getResult();
         
@@ -184,5 +191,23 @@ class UsuarioRepository extends EntityRepository implements
         $role = 'ROLE_' . strtoupper(str_replace('.', '_', $module));
         
         return $role;
+    }
+    
+    private function queryBuilderFindByUnidade(Unidade $unidade, Criteria $criteria = null)
+    {
+        $qb = $this
+            ->createQueryBuilder('e')
+            ->leftJoin('e.lotacoes', 'l')
+            ->where('e.admin = TRUE OR (e.admin = FALSE AND l.unidade = :unidade)')
+            ->setParameters([
+                'unidade' => $unidade
+            ])
+            ->orderBy('e.nome');
+        
+        if ($criteria) {
+            $qb->addCriteria($criteria);
+        }
+        
+        return $qb;
     }
 }
