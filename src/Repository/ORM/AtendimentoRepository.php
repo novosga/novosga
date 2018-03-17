@@ -29,21 +29,29 @@ class AtendimentoRepository extends EntityRepository implements AtendimentoRepos
      */
     public function countByServicos(Unidade $unidade, array $servicos, $status = null)
     {
-        $rs = $this
+        $qb = $this
             ->getEntityManager()
             ->createQueryBuilder()
             ->select('s.id, COUNT(e) as total')
             ->from(Atendimento::class, 'e')
             ->join('e.servico', 's')
             ->where('e.unidade = :unidade')
-            ->andWhere('e.servico IN (:servicos)')
-            ->andWhere('(:status IS NULL OR e.status = :status)')
             ->groupBy('s.id')
-            ->setParameters([
-                'unidade'  => $unidade,
-                'servicos' => $servicos,
-                'status'   => $status,
-            ])
+            ->setParameter('unidade', $unidade);
+        
+        if (count($servicos)) {
+            $qb
+                ->andWhere('e.servico IN (:servicos)')
+                ->setParameter('servicos', $servicos);
+        }
+        
+        if ($status) {
+            $qb
+                ->andWhere('e.status = :status')
+                ->setParameter('status', $status);
+        }
+        
+        $rs = $qb
             ->getQuery()
             ->getArrayResult();
         
@@ -55,18 +63,22 @@ class AtendimentoRepository extends EntityRepository implements AtendimentoRepos
      */
     public function getUltimo(Unidade $unidade, Servico $servico = null)
     {
-        $atendimento = $this
+        $qb = $this
             ->getEntityManager()
             ->createQueryBuilder()
             ->select('e')
             ->from(Atendimento::class, 'e')
             ->where('e.unidade = :unidade')
-            ->andWhere('(:servico IS NULL OR e.servico = :servico)')
             ->orderBy('e.id', 'DESC')
-            ->setParameters([
-                'servico' => $servico,
-                'unidade' => $unidade
-            ])
+            ->setParameter('unidade', $unidade);
+        
+        if ($servico) {
+            $qb
+                ->andWhere('e.servico = :servico')
+                ->setParameter('servico', $servico);
+        }
+        
+        $atendimento = $qb
             ->getQuery()
             ->setMaxResults(1)
             ->getOneOrNullResult();

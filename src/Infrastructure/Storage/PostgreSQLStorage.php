@@ -17,11 +17,11 @@ use Novosga\Entity\Servico;
 use Novosga\Entity\Unidade;
 
 /**
- * MySQL Storage
+ * PostgreSQL Storage
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class MySQLStorage extends RelationalStorage
+class PostgreSQLStorage extends RelationalStorage
 {
     /**
      * {@inheritdoc}
@@ -52,7 +52,6 @@ class MySQLStorage extends RelationalStorage
      */
     protected function preAcumularAtendimentos(Connection $conn, Unidade $unidade = null)
     {
-        $conn->exec('SET foreign_key_checks = 0');
     }
     
     /**
@@ -60,6 +59,5 @@ class MySQLStorage extends RelationalStorage
      */
     protected function preApagarDadosAtendimento(Connection $conn, Unidade $unidade = null)
     {
-        $conn->exec('SET foreign_key_checks = 0');
     }
 }
