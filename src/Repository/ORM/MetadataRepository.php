@@ -23,9 +23,9 @@ use Novosga\Repository\MetadataRepositoryInterface;
 class MetadataRepository extends EntityRepository implements MetadataRepositoryInterface
 {
     /**
-     * @return Metadata
+     * {@inheritdoc}
      */
-    public function get($entity, $name)
+    public function get($entity, string $name)
     {
         return $this->findOneBy([
             'entity' => $entity,
@@ -34,9 +34,9 @@ class MetadataRepository extends EntityRepository implements MetadataRepositoryI
     }
     
     /**
-     * @return Metadata
+     * {@inheritdoc}
      */
-    public function set($entity, $name, $value)
+    public function set($entity, string $name, $value)
     {
         $em = $this->getEntityManager();
         $metada = $this->get($entity, $name);
