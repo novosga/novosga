@@ -1393,12 +1393,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "f142b16cca1d7a40adfd7e941c9944a746eda32e"
+                "reference": "caf0c98676f6af43c4441378cebcf47b9f85ff55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/f142b16cca1d7a40adfd7e941c9944a746eda32e",
-                "reference": "f142b16cca1d7a40adfd7e941c9944a746eda32e",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/caf0c98676f6af43c4441378cebcf47b9f85ff55",
+                "reference": "caf0c98676f6af43c4441378cebcf47b9f85ff55",
                 "shasum": ""
             },
             "require": {
@@ -1420,7 +1420,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-01T20:29:56+00:00"
+            "time": "2018-03-17T11:40:54+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1460,12 +1460,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "becb631cc8291a326fbb599f51f644912aad8db2"
+                "reference": "195872d42f8f3f3db9e1e571dc0d6528d94d6ef4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/becb631cc8291a326fbb599f51f644912aad8db2",
-                "reference": "becb631cc8291a326fbb599f51f644912aad8db2",
+                "url": "https://api.github.com/repos/novosga/core/zipball/195872d42f8f3f3db9e1e571dc0d6528d94d6ef4",
+                "reference": "195872d42f8f3f3db9e1e571dc0d6528d94d6ef4",
                 "shasum": ""
             },
             "require": {
@@ -1486,7 +1486,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-01T21:14:14+00:00"
+            "time": "2018-03-17T22:40:13+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1494,12 +1494,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "d3a8b73c835e089bcdd8b5a18d10b623063a6126"
+                "reference": "0de9cfe2d764eb02ac1a6f17f83cb54d9c3bbb4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/d3a8b73c835e089bcdd8b5a18d10b623063a6126",
-                "reference": "d3a8b73c835e089bcdd8b5a18d10b623063a6126",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/0de9cfe2d764eb02ac1a6f17f83cb54d9c3bbb4b",
+                "reference": "0de9cfe2d764eb02ac1a6f17f83cb54d9c3bbb4b",
                 "shasum": ""
             },
             "require": {
@@ -1521,7 +1521,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-01T20:34:08+00:00"
+            "time": "2018-03-17T12:46:00+00:00"
         },
         {
             "name": "novosga/oauth-server-bundle",
@@ -1607,12 +1607,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "3325a4f9515706c3420477233b7d7a8d7652ce0c"
+                "reference": "fa7bdf2631d24fb571feda3b5b45fe9d69fe83d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/3325a4f9515706c3420477233b7d7a8d7652ce0c",
-                "reference": "3325a4f9515706c3420477233b7d7a8d7652ce0c",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/fa7bdf2631d24fb571feda3b5b45fe9d69fe83d8",
+                "reference": "fa7bdf2631d24fb571feda3b5b45fe9d69fe83d8",
                 "shasum": ""
             },
             "require": {
@@ -1634,7 +1634,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-02T11:14:59+00:00"
+            "time": "2018-03-17T23:47:57+00:00"
         },
         {
             "name": "novosga/settings-bundle",
@@ -1642,12 +1642,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "cfe98b2fbfee809f34411e150389aa7ee572541b"
+                "reference": "83cef684de73dc23a21f87dfc46315256bad0ce8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/cfe98b2fbfee809f34411e150389aa7ee572541b",
-                "reference": "cfe98b2fbfee809f34411e150389aa7ee572541b",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/83cef684de73dc23a21f87dfc46315256bad0ce8",
+                "reference": "83cef684de73dc23a21f87dfc46315256bad0ce8",
                 "shasum": ""
             },
             "require": {
@@ -1669,7 +1669,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-16T13:36:21+00:00"
+            "time": "2018-03-17T22:41:33+00:00"
         },
         {
             "name": "novosga/triage-bundle",
@@ -1677,12 +1677,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "21750622261afe928e0abd18f54425f90d5f227f"
+                "reference": "25d82b8436cb3078b8ecb30f802a31b0895783c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/21750622261afe928e0abd18f54425f90d5f227f",
-                "reference": "21750622261afe928e0abd18f54425f90d5f227f",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/25d82b8436cb3078b8ecb30f802a31b0895783c4",
+                "reference": "25d82b8436cb3078b8ecb30f802a31b0895783c4",
                 "shasum": ""
             },
             "require": {
@@ -1704,7 +1704,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-01T20:31:59+00:00"
+            "time": "2018-03-18T15:57:36+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -1712,12 +1712,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "7edecc77c47f474dec14abb26e36ff47f943bd08"
+                "reference": "e97c70f4ed8eba2c360a06565ec25f5676aedda4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/7edecc77c47f474dec14abb26e36ff47f943bd08",
-                "reference": "7edecc77c47f474dec14abb26e36ff47f943bd08",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/e97c70f4ed8eba2c360a06565ec25f5676aedda4",
+                "reference": "e97c70f4ed8eba2c360a06565ec25f5676aedda4",
                 "shasum": ""
             },
             "require": {
@@ -1740,7 +1740,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2017-12-19T23:58:14+00:00"
+            "time": "2018-03-17T01:11:47+00:00"
         },
         {
             "name": "novosga/websocket-server",
@@ -5381,6 +5381,57 @@
             "time": "2018-01-10T08:34:20+00:00"
         },
         {
+            "name": "nikic/php-parser",
+            "version": "v4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "9c18e3db49fa469f5feffe40dbd7b1ec2b61e41f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/9c18e3db49fa469f5feffe40dbd7b1ec2b61e41f",
+                "reference": "9c18e3db49fa469f5feffe40dbd7b1ec2b61e41f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5 || ^7.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "time": "2018-02-28T20:39:30+00:00"
+        },
+        {
             "name": "squizlabs/php_codesniffer",
             "version": "3.2.3",
             "source": {
@@ -5699,29 +5750,34 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.2.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "9db72995231c12c701249f07743c0591ccf70e73"
+                "reference": "60df153a907b187cc3fd050dd6de7746ddc833b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/9db72995231c12c701249f07743c0591ccf70e73",
-                "reference": "9db72995231c12c701249f07743c0591ccf70e73",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/60df153a907b187cc3fd050dd6de7746ddc833b7",
+                "reference": "60df153a907b187cc3fd050dd6de7746ddc833b7",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.0.8",
+                "doctrine/inflector": "^1.2",
+                "nikic/php-parser": "^4.0",
+                "php": "^7.1.3",
                 "symfony/config": "^3.4|^4.0",
                 "symfony/console": "^3.4|^4.0",
                 "symfony/dependency-injection": "^3.4|^4.0",
                 "symfony/filesystem": "^3.4|^4.0",
+                "symfony/finder": "^3.4|^4.0",
                 "symfony/framework-bundle": "^3.4|^4.0",
                 "symfony/http-kernel": "^3.4|^4.0"
             },
             "require-dev": {
                 "allocine/twigcs": "^3.0",
+                "doctrine/doctrine-bundle": "^1.8",
+                "doctrine/orm": "^2.6",
                 "friendsofphp/php-cs-fixer": "^2.8",
                 "symfony/phpunit-bridge": "^3.4|^4.0",
                 "symfony/process": "^3.4|^4.0"
@@ -5755,7 +5811,7 @@
                 "scaffold",
                 "scaffolding"
             ],
-            "time": "2018-03-14T01:02:47+00:00"
+            "time": "2018-03-17T19:51:02+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
