@@ -4,7 +4,7 @@
 <html lang="{{ locale }}">
     <head>
         <meta charset="utf-8">
-        <title>{{- block('title') -}} | Novo SGA</title>
+        <title>{{- block('title') -}} | {{ title }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="shortcut icon" href="{{ asset("images/favicon.png") }}" />
@@ -17,7 +17,7 @@
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="{{ path('home') }}">
-                    <img src="{{ asset('images/novosga-navbar.png') }}" alt="Novo SGA" title="Novo SGA">
+                    <img src="{{ asset('images/novosga-navbar.png') }}" alt="{{ title }}" title="{{ title }}">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".novosga-navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -69,7 +69,7 @@
             </div>
         </section>
         <footer>
-            <p>Novo SGA v{{ version }}</p>
+            <p>{{ title }} v{{ version }}</p>
         </footer>
         
         <div id="error-modal" class="modal fade" tabindex="-1" role="dialog">

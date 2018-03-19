@@ -3,6 +3,7 @@
 parameters:
     locale: '%env(LANGUAGE)%'
     version: '2.0.0'
+    title: 'Novo SGA CE'
 
 services:
     # default configuration for services in *this* file
