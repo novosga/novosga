@@ -24,7 +24,7 @@ services:
     App\:
         resource: '../src/*'
         exclude: '../src/{Entity,Migrations,Tests}'
-
+        
     # controllers are imported separately to make sure they
     # have the tag that allows actions to type-hint services
     App\Controller\:
@@ -71,6 +71,8 @@ services:
     Novosga\Service\:
         resource: '../vendor/novosga/core/Service'
         public: true
+        
+    Novosga\Event\EventDispatcherInterface: '@App\Service\EventDispatcher'
         
     Novosga\Infrastructure\StorageInterface:
         factory: 'App\Infrastructure\StorageFactory:createStorage'

@@ -13,7 +13,7 @@ return [
          * @param \Novosga\Entity\Usuario $usuario (optional)
          * @return array
          */
-        'ordering' =>  function (\Novosga\Entity\Unidade $unidade, \Novosga\Entity\Usuario $usuario = null) {
+        'ordering' =>  function (\Novosga\Configuration\OrderingParameter $param) {
             $ordering = [
                 [
                     'exp' => 'atendimento.dataAgendamento',
@@ -21,7 +21,7 @@ return [
                 ]
             ];
             
-            if ($usuario) {
+            if ($param->getUsuario()) {
                 // peso servico x usuario
                 $ordering[] = [
                     'exp' => 'servicoUsuario.peso',
