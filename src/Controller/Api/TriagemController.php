@@ -42,7 +42,7 @@ class TriagemController extends ApiControllerBase
         TranslatorInterface $translator,
         TicketService $service
     ) {
-        $hash = $request->get('hash') ;
+        $hash = $request->headers->get('X-HASH') ?? $request->get('hash');
         
         if ($hash !== $atendimento->hash()) {
             $error = $translator->trans('api.triage.invalid_hash');
