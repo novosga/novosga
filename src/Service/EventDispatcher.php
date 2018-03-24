@@ -13,6 +13,7 @@ namespace App\Service;
 
 use Novosga\Event\AdvancedEvent;
 use Novosga\Event\Event;
+use Novosga\Event\EventInterface;
 use Novosga\Event\EventDispatcherInterface;
 use Novosga\Event\LoggerAwareEventInterface;
 use Novosga\Event\StorageAwareEventInterface;
@@ -65,7 +66,7 @@ class EventDispatcher implements EventDispatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function dispatch($event): bool
+    public function dispatch(EventInterface $event): bool
     {
         $eventName = $event->getName();
         $hookKey   = "hooks.{$eventName}";
