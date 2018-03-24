@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -57,6 +58,11 @@ class JsonExceptionListener extends AppListener
                 $json = [
                     'code' => 404,
                     'error' => 'Not found',
+                ];
+            } else if ($exception instanceof AuthenticationCredentialsNotFoundException) {
+                $json = [
+                    'code' => 403,
+                    'error' => 'Not authenticated',
                 ];
             } else {
                 $json = [
