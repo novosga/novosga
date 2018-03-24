@@ -12,6 +12,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\NovaSenha;
+use App\Service\TicketService;
 use Novosga\Entity\Atendimento;
 use Novosga\Service\AtendimentoService;
 use Psr\Log\LoggerInterface;
@@ -19,6 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
@@ -31,17 +33,25 @@ use Symfony\Component\Translation\TranslatorInterface;
 class TriagemController extends ApiControllerBase
 {
     /**
-     * @Route("/print/{id}/{hash}")
-     * @Method("POST")
+     * @Route("/print/{id}")
+     * @Method("GET")
      */
-    public function imprimir(Request $request, Atendimento $atendimento, TranslatorInterface $translator, $hash)
-    {
+    public function imprimir(
+        Request $request,
+        Atendimento $atendimento,
+        TranslatorInterface $translator,
+        TicketService $service
+    ) {
+        $hash = $request->get('hash') ;
+        
         if ($hash !== $atendimento->hash()) {
             $error = $translator->trans('api.triage.invalid_hash');
             throw new Exception($error);
         }
 
-        return $this->printTicket($atendimento);
+        $html = $service->printTicket($atendimento);
+
+        return new Response($html);
     }
     
     /**
