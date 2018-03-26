@@ -56,7 +56,7 @@ class CorsListener extends AppListener
             $response = new Response();
             $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
             $response->headers->set('Access-Control-Allow-Credentials', 'true');
-            $response->headers->set('Access-Control-Allow-Headers', 'Authorization');
+            $response->headers->set('Access-Control-Allow-Headers', 'Authorization, Content-type, X-Hash');
             $event->setResponse($response);
             return;
         }
