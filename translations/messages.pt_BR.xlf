@@ -479,8 +479,8 @@
                 <target>Client secret</target>
             </trans-unit>
             <trans-unit id="122">
-                <source>admin.webapi.clients.redirect_uri</source>
-                <target>Redirect URI</target>
+                <source>admin.webapi.clients.description</source>
+                <target>Descrição</target>
             </trans-unit>
             <trans-unit id="123">
                 <source>admin.webapi.clients.remove_alert</source>

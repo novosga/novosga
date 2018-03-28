@@ -583,8 +583,8 @@
                 
             </trans-unit>
             <trans-unit id="122">
-                <source>admin.webapi.clients.redirect_uri</source>
-                <target>Redirect URI</target>
+                <source>admin.webapi.clients.description</source>
+                <target>Description</target>
                 
             </trans-unit>
             <trans-unit id="123">

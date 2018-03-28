@@ -19,14 +19,19 @@
             <table class="table table-bordered">
                 <thead class="thead-light">
                     <tr>
+                        <th>{{ 'admin.webapi.clients.description'|trans }}</th>
                         <th>{{ 'admin.webapi.clients.public_id'|trans }}</th>
                         <th>{{ 'admin.webapi.clients.public_secret'|trans }}</th>
-                        <th>{{ 'admin.webapi.clients.redirect_uri'|trans }}</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody v-cloak>
                     <tr v-for="client in clients">
+                        <td>
+                            {% verbatim %}
+                                {{ client.description }}
+                            {% endverbatim %}
+                        </td>
                         <td>
                             {% verbatim %}
                                 {{ client.publicId }}
@@ -36,11 +41,6 @@
                             <a href="#" title="{{ 'label.view'|trans }}" v-on:click.prevent="showSecret(client, $event)">
                                 ******
                             </a>
-                        </td>
-                        <td>
-                            {% verbatim %}
-                                {{ client.redirectUris[0] }}
-                            {% endverbatim %}
                         </td>
                         <td class="text-center">
                             <button type="button" class="btn btn-danger" title="{{ 'button.remove'|trans }}"
@@ -78,8 +78,8 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>{{ 'admin.webapi.clients.redirect_uri'|trans }}</label>
-                                <input type="url" class="form-control" v-model="client.redirectUri" name="redirectUri">
+                                <label>{{ 'admin.webapi.clients.description'|trans }}</label>
+                                <input type="text" class="form-control" v-model="client.description" name="description" maxlength="30">
                             </div>
                         </div>
                         <div class="modal-footer">
