@@ -18,6 +18,7 @@ use Novosga\Entity\ServicoUnidade;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
 use Novosga\Entity\UsuarioMeta;
+use Novosga\Service\UsuarioService;
 use Novosga\Repository\UsuarioRepositoryInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -152,7 +153,7 @@ class UsuarioRepository extends EntityRepository implements
         $em = $this->getEntityManager();
         $meta = $em
             ->getRepository(UsuarioMeta::class)
-            ->get($usuario, 'session.unidade');
+            ->get($usuario, UsuarioService::ATTR_SESSION_UNIDADE);
         $unidade = null;
 
         if ($meta) {
@@ -181,7 +182,7 @@ class UsuarioRepository extends EntityRepository implements
         $em = $this->getEntityManager();
         $em
             ->getRepository(UsuarioMeta::class)
-            ->set($usuario, 'session.unidade', $unidade->getId());
+            ->set($usuario, UsuarioService::ATTR_SESSION_UNIDADE, $unidade->getId());
 
         return $unidade;
     }
