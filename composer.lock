@@ -5408,16 +5408,16 @@
         },
         {
             "name": "workerman/workerman",
-            "version": "v3.5.5",
+            "version": "v3.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "e3b3e23dcee7fc6f251cf3ca0255a0dc8d4109a2"
+                "reference": "46a77574a5ca39def6dec51ddf350cf50daab309"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/e3b3e23dcee7fc6f251cf3ca0255a0dc8d4109a2",
-                "reference": "e3b3e23dcee7fc6f251cf3ca0255a0dc8d4109a2",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/46a77574a5ca39def6dec51ddf350cf50daab309",
+                "reference": "46a77574a5ca39def6dec51ddf350cf50daab309",
                 "shasum": ""
             },
             "require": {
@@ -5450,7 +5450,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2018-04-03T02:42:27+00:00"
+            "time": "2018-04-11T11:25:52+00:00"
         },
         {
             "name": "zendframework/zend-code",
