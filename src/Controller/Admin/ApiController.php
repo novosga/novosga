@@ -11,12 +11,14 @@
 
 namespace App\Controller\Admin;
 
-use Novosga\Http\Envelope;
+use App\Entity\OAuthAccessToken;
 use App\Entity\OAuthClient;
+use App\Entity\OAuthRefreshToken;
+use Novosga\Http\Envelope;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * ApiController
@@ -77,15 +79,15 @@ class ApiController extends Controller
         $envelope = new Envelope();
         
         $json = json_decode($request->getContent());
-        $uri = isset($json->redirectUri) ? trim($json->redirectUri) : '';
+        $description = isset($json->description) ? trim($json->description) : '';
+        
+        if (strlen($description) > 30) {
+            $description = substr($description, 0, 30);
+        }
 
         $clientManager = $this->get('fos_oauth_server.client_manager.default');
         $client = $clientManager->createClient();
-        if (!empty($uri)) {
-            $client->setRedirectUris([
-                $uri
-            ]);
-        }
+        $client->setDescription($description);
         $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);
         $clientManager->updateClient($client);
 
@@ -107,8 +109,24 @@ class ApiController extends Controller
         $envelope = new Envelope();
         
         $em = $this->getDoctrine()->getManager();
-        $em->remove($client);
-        $em->flush();
+        $em->transactional(function ($em) use ($client) {
+            $em
+                ->createQueryBuilder()
+                ->delete(OAuthRefreshToken::class, 'e')
+                ->where('e.client = :client')
+                ->getQuery()
+                ->execute([ 'client' => $client ]);
+            
+            $em
+                ->createQueryBuilder()
+                ->delete(OAuthAccessToken::class, 'e')
+                ->where('e.client = :client')
+                ->getQuery()
+                ->execute([ 'client' => $client ]);
+            
+            $em->remove($client);
+            $em->flush();
+        });
 
         $envelope->setData($client);
 

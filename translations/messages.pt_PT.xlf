@@ -545,7 +545,7 @@
                 
             </trans-unit>
             <trans-unit id="122">
-                <source>admin.webapi.clients.redirect_uri</source>
+                <source>admin.webapi.clients.description</source>
                 
             </trans-unit>
             <trans-unit id="123">

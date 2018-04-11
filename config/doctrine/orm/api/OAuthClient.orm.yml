@@ -6,3 +6,7 @@ App\Entity\OAuthClient:
             type: integer
             generator:
                 strategy: IDENTITY
+    fields:
+        description:
+            type: string
+            length: 30
