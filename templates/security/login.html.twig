@@ -10,7 +10,9 @@
     <body>
         <div class="container">
             <form id="login-form" action="{{ path('login_check') }}" method="post" class="form-signin">
-                <h2 id="logo" class="form-signin-heading">Novo SGA</h2>
+                <h2 id="logo" class="form-signin-heading">
+                    <img alt="Novo SGA" src="{{ asset(logo) }}">
+                </h2>
                 {% if error %}
                     <div class="alert alert-danger">
                         {{ error.messageKey|trans(error.messageData, 'security') }}

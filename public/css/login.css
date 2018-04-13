@@ -46,10 +46,5 @@ body {
 #logo {
     width: 270px;
     height: 108px;
-    margin-bottom: 30px;
-    background-image: url(../images/novosga-login.png);
-    background-position: center center;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    text-indent: -999px;
+    text-align: center;
 }
