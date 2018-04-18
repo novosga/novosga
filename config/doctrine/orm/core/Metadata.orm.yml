@@ -1,10 +1,13 @@
 Novosga\Entity\Metadata:
     type: mappedSuperclass
     id:
+        namespace:
+            type: string
+            length: 30
+            id: true
         name:
             type: string
-            length: 50
-            nullable: false
+            length: 30
             id: true
     fields:
         value:

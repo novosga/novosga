@@ -25,21 +25,22 @@ class MetadataRepository extends EntityRepository implements MetadataRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function get($entity, string $name)
+    public function get($entity, string $namespace, string $name)
     {
         return $this->findOneBy([
-            'entity' => $entity,
-            'name'   => $name
+            'entity'    => $entity,
+            'namespace' => $namespace,
+            'name'      => $name
         ]);
     }
     
     /**
      * {@inheritdoc}
      */
-    public function set($entity, string $name, $value)
+    public function set($entity, string $namespace, string $name, $value)
     {
         $em = $this->getEntityManager();
-        $metada = $this->get($entity, $name);
+        $metada = $this->get($entity, $namespace, $name);
         
         if ($metada instanceof Metadata) {
             $metada->setValue($value);
@@ -48,6 +49,7 @@ class MetadataRepository extends EntityRepository implements MetadataRepositoryI
             $class  = $this->getEntityName();
             $metada = new $class;
             $metada->setEntity($entity);
+            $metada->setNamespace($namespace);
             $metada->setName($name);
             $metada->setValue($value);
             $em->persist($metada);
