@@ -928,16 +928,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.3",
+            "version": "2.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "1bec00a10039b823cc94eef4eddd47dcd3b2ca04"
+                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/1bec00a10039b823cc94eef4eddd47dcd3b2ca04",
-                "reference": "1bec00a10039b823cc94eef4eddd47dcd3b2ca04",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/8790f594151ca6a2010c6218e09d96df67173ad3",
+                "reference": "8790f594151ca6a2010c6218e09d96df67173ad3",
                 "shasum": ""
             },
             "require": {
@@ -946,7 +946,7 @@
             },
             "require-dev": {
                 "dominicsayers/isemail": "dev-master",
-                "phpunit/phpunit": "^4.8.35",
+                "phpunit/phpunit": "^4.8.35||^5.7||^6.0",
                 "satooshi/php-coveralls": "^1.0.1"
             },
             "suggest": {
@@ -981,7 +981,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2017-11-15T23:40:40+00:00"
+            "time": "2018-04-10T10:11:19+00:00"
         },
         {
             "name": "fig/link-util",
@@ -1395,12 +1395,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "4cc9cca309617b11d7b84bd807f94a5973e87bff"
+                "reference": "a446e5c1a2d8f5b36beb1b12c70b69a0f8294515"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/4cc9cca309617b11d7b84bd807f94a5973e87bff",
-                "reference": "4cc9cca309617b11d7b84bd807f94a5973e87bff",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/a446e5c1a2d8f5b36beb1b12c70b69a0f8294515",
+                "reference": "a446e5c1a2d8f5b36beb1b12c70b69a0f8294515",
                 "shasum": ""
             },
             "require": {
@@ -1422,7 +1422,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-26T14:00:42+00:00"
+            "time": "2018-04-17T13:09:47+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -5374,16 +5374,16 @@
         },
         {
             "name": "workerman/phpsocket.io",
-            "version": "v1.1.8",
+            "version": "v1.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/phpsocket.io.git",
-                "reference": "d9ab179bb2c0f2ccf8f224e0bf093b5b59323e01"
+                "reference": "8ee5fd56ea364e99c6428dd5df04b730f92e7d91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/phpsocket.io/zipball/d9ab179bb2c0f2ccf8f224e0bf093b5b59323e01",
-                "reference": "d9ab179bb2c0f2ccf8f224e0bf093b5b59323e01",
+                "url": "https://api.github.com/repos/walkor/phpsocket.io/zipball/8ee5fd56ea364e99c6428dd5df04b730f92e7d91",
+                "reference": "8ee5fd56ea364e99c6428dd5df04b730f92e7d91",
                 "shasum": ""
             },
             "require": {
@@ -5404,7 +5404,7 @@
             "keywords": [
                 "Socket.io"
             ],
-            "time": "2018-04-10T02:38:11+00:00"
+            "time": "2018-04-15T14:03:37+00:00"
         },
         {
             "name": "workerman/workerman",
@@ -6033,16 +6033,16 @@
         },
         {
             "name": "symfony/maker-bundle",
-            "version": "v1.3.1",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/maker-bundle.git",
-                "reference": "c936864823ac60508e37d8fb1d9bc6a02d03ffa7"
+                "reference": "253cee42124de11dc0a5bb7c91e5375d7197be12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/c936864823ac60508e37d8fb1d9bc6a02d03ffa7",
-                "reference": "c936864823ac60508e37d8fb1d9bc6a02d03ffa7",
+                "url": "https://api.github.com/repos/symfony/maker-bundle/zipball/253cee42124de11dc0a5bb7c91e5375d7197be12",
+                "reference": "253cee42124de11dc0a5bb7c91e5375d7197be12",
                 "shasum": ""
             },
             "require": {
@@ -6094,7 +6094,7 @@
                 "scaffold",
                 "scaffolding"
             ],
-            "time": "2018-03-21T13:40:46+00:00"
+            "time": "2018-04-11T22:44:12+00:00"
         },
         {
             "name": "symfony/phpunit-bridge",
