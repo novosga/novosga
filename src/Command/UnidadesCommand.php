@@ -36,17 +36,44 @@ class UnidadesCommand extends Command
 
     protected function configure()
     {
-        $this->setName('novosga:unidades')
-            ->setDescription('Lista as unidades do sistema e seus respectivos ids.');
+        $this
+            ->setName('novosga:unidades')
+            ->setDescription('Lista as unidades do sistema e seus respectivos ids.')
+            ->addOption('json', null, null, 'Retorna as unidades no formato JSON');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $unidades = $this->om->getRepository(\Novosga\Entity\Unidade::class)
-                ->findBy(['ativo' => true], ['id' => 'ASC']);
-        $output->writeln('<info>Unidades</info>');
-        foreach ($unidades as $unidade) {
-            $output->writeln("Id: {$unidade->getId()}, Nome: {$unidade->getNome()}, Descrição: {$unidade->getDescricao()}");
+        $unidades = $this
+            ->om
+            ->getRepository(\Novosga\Entity\Unidade::class)
+            ->findBy([], ['id' => 'ASC']);
+        
+        $json = $input->getOption('json');
+        
+        if ($json) {
+            $arr = [];
+            foreach ($unidades as $unidade) {
+                $arr[] = [
+                    'id'        => $unidade->getId(),
+                    'nome'      => $unidade->getNome(),
+                    'descricao' => $unidade->getDescricao(),
+                    'ativo'     => $unidade->isAtivo(),
+                ];
+            }
+            $output->writeln(json_encode($arr));
+        } else {
+            $output->writeln('<info>Unidades</info>');
+
+            foreach ($unidades as $unidade) {
+                $ativo = $unidade->isAtivo() ? 'Sim' : 'Não';
+
+                $output->writeln("----------");
+                $output->writeln("Id:        {$unidade->getId()}");
+                $output->writeln("Nome:      {$unidade->getNome()}");
+                $output->writeln("Descrição: {$unidade->getDescricao()}");
+                $output->writeln("Ativo:     {$ativo}");
+            }
         }
     }
 }
