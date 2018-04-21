@@ -59,8 +59,8 @@ class EventDispatcher implements EventDispatcherInterface
     ) {
         $this->config  = $config;
         $this->logger  = $logger;
-        $this->user    = $token->getToken()->getUser();
         $this->storage = $storage;
+        $this->user    = $token->getToken() ? $token->getToken()->getUser() : null;
     }
     
     /**
@@ -90,15 +90,15 @@ class EventDispatcher implements EventDispatcherInterface
             $event = new Event($eventName, $eventData);
         }
         
-        if ($event instanceof UserAwareEventInterface) {
+        if ($event instanceof UserAwareEventInterface && $this->user !== null) {
             $event->setUser($this->user);
         }
         
-        if ($event instanceof LoggerAwareEventInterface) {
+        if ($event instanceof LoggerAwareEventInterface && $this->logger !== null) {
             $event->setLogger($this->logger);
         }
         
-        if ($event instanceof StorageAwareEventInterface) {
+        if ($event instanceof StorageAwareEventInterface && $this->storage !== null) {
             $event->setStorage($this->storage);
         }
         
