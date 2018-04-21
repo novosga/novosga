@@ -26,8 +26,8 @@
         <thead class="thead-light">
             <tr>
                 <th>#</th>
-                <th>{{ 'label.code'|trans }}</th>
                 <th>{{ 'label.name'|trans }}</th>
+                <th>{{ 'label.status'|trans }}</th>
                 <th></th>
             </tr>
         </thead>
@@ -38,10 +38,14 @@
                         {{ unidade.id }}
                     </td>
                     <td>
-                        {{ unidade.codigo }}
+                        {{ unidade.nome }}
                     </td>
                     <td>
-                        {{ unidade.nome }}
+                        {% if unidade.ativo %}
+                            <span class="text-success">{{ 'label.enabled'|trans }}</span>
+                        {% else %}
+                            <span class="text-danger">{{ 'label.disabled'|trans }}</span>
+                        {% endif %}
                     </td>
                     <td class="text-center">
                         <a href="{{ path('admin_unidades_edit', { id: unidade.id }) }}" class="btn btn-secondary">

@@ -5,13 +5,13 @@ Novosga\Entity\Unidade:
             read_only: true
             expose: true
             groups: [list]
-        codigo:
-            type: string
-            expose: true
         nome:
             type: string
             expose: true
             groups: [list]
+        descricao:
+            type: string
+            expose: true
         ativo:
             type: bool
             expose: true

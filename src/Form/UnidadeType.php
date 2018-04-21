@@ -14,6 +14,7 @@ namespace App\Form;
 use Novosga\Entity\Unidade;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -27,11 +28,14 @@ class UnidadeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('codigo', TextType::class, [
-                'label' => 'label.code',
-            ])
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
+            ])
+            ->add('descricao', TextareaType::class, [
+                'label' => 'label.description',
+                'attr' => [
+                    'rows' => 4
+                ]
             ])
             ->add('ativo', CheckboxType::class, [
                 'label' => 'label.enabled',

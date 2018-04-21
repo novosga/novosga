@@ -46,7 +46,7 @@ class UnidadesCommand extends Command
                 ->findBy(['ativo' => true], ['id' => 'ASC']);
         $output->writeln('<info>Unidades</info>');
         foreach ($unidades as $unidade) {
-            $output->writeln("Id: {$unidade->getId()}, Unidade: {$unidade->getCodigo()} - {$unidade->getNome()}");
+            $output->writeln("Id: {$unidade->getId()}, Nome: {$unidade->getNome()}, Descrição: {$unidade->getDescricao()}");
         }
     }
 }

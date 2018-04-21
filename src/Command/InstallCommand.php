@@ -127,15 +127,15 @@ class InstallCommand extends UpdateCommand
                 '[Unity] Unity name: ',
                 'Unidade padrão'
             );
-            $unityCode = $this->read(
+            $unityDescription = $this->read(
                 $input,
                 $output,
-                'NOVOSGA_UNITY_CODE',
-                '[Unity] Unity code: ',
+                'NOVOSGA_UNITY_DESCRIPTION',
+                '[Unity] Unity description: ',
                 'UNI1'
             );
             
-            $unity = $this->createUnity($unityName, $unityCode);
+            $unity = $this->createUnity($unityName, $unityDescription);
             $this->om->persist($unity);
         }
         
@@ -276,11 +276,11 @@ class InstallCommand extends UpdateCommand
         return $user;
     }
     
-    private function createUnity(string $name, string $code): Unidade
+    private function createUnity(string $name, string $description): Unidade
     {
         $unidade = new Unidade();
         $unidade->setNome($name);
-        $unidade->setCodigo($code);
+        $unidade->setDescricao($description);
         $unidade->setAtivo(true);
         
         return $unidade;

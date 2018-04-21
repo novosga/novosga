@@ -11,14 +11,14 @@ Novosga\Entity\Unidade:
         impressao:
             class: Novosga\Entity\ConfiguracaoImpressao
     fields:
-        codigo:
-            type: string
-            length: 10
-            unique: true
-            nullable: false
         nome:
             type: string
             length: 50
+            unique: false
+            nullable: false
+        descricao:
+            type: string
+            length: 250
             unique: false
             nullable: false
         ativo:
