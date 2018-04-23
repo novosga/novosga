@@ -12,22 +12,23 @@
 namespace App\Repository\ORM;
 
 use Doctrine\ORM\EntityRepository;
-use Novosga\Entity\Metadata;
-use Novosga\Repository\MetadataRepositoryInterface;
+use Novosga\Entity\EntityMetadata;
+use Novosga\Repository\EntityMetadataRepositoryInterface;
 
 /**
- * MetadataRepository
+ * EntityMetadataRepository
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class MetadataRepository extends EntityRepository implements MetadataRepositoryInterface
+class EntityMetadataRepository extends EntityRepository implements EntityMetadataRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
-    public function get(string $namespace, string $name)
+    public function get($entity, string $namespace, string $name)
     {
         return $this->findOneBy([
+            'entity'    => $entity,
             'namespace' => $namespace,
             'name'      => $name
         ]);
@@ -36,12 +37,12 @@ class MetadataRepository extends EntityRepository implements MetadataRepositoryI
     /**
      * {@inheritdoc}
      */
-    public function set(string $namespace, string $name, $value)
+    public function set($entity, string $namespace, string $name, $value)
     {
-        $em = $this->getEntityManager();
-        $metada = $this->get($namespace, $name);
+        $em     = $this->getEntityManager();
+        $metada = $this->get($entity, $namespace, $name);
         
-        if ($metada instanceof Metadata) {
+        if ($metada instanceof EntityMetadata) {
             $metada->setValue($value);
             $em->merge($metada);
         } else {

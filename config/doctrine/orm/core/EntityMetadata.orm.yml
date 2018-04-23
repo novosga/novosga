@@ -1,7 +1,5 @@
-Novosga\Entity\Configuracao:
-    type: entity
-    table: config
-    repositoryClass: App\Repository\ORM\ConfiguracaoRepository
+Novosga\Entity\EntityMetadata:
+    type: mappedSuperclass
     id:
         namespace:
             type: string
@@ -13,6 +11,5 @@ Novosga\Entity\Configuracao:
             id: true
     fields:
         value:
-            type: text
-        type:
-            type: integer
+            type: json_array
+            nullable: false

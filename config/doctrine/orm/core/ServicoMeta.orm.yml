@@ -1,7 +1,7 @@
 Novosga\Entity\ServicoMeta:
     type: entity
     table: servicos_metadata
-    repositoryClass: App\Repository\ORM\MetadataRepository
+    repositoryClass: App\Repository\ORM\EntityMetadataRepository
     id:
         entity:
             associationKey: true

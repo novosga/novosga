@@ -1,7 +1,7 @@
 Novosga\Entity\AtendimentoMeta:
     type: entity
     table: atendimentos_metadata
-    repositoryClass: App\Repository\ORM\MetadataRepository
+    repositoryClass: App\Repository\ORM\EntityMetadataRepository
     id:
         entity:
             associationKey: true
