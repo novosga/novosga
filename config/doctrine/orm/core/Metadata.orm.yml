@@ -1,6 +1,6 @@
-Novosga\Entity\Configuracao:
+Novosga\Entity\Metadata:
     type: entity
-    table: config
+    table: metadata
     repositoryClass: App\Repository\ORM\MetadataRepository
     id:
         namespace:
