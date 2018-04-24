@@ -47,7 +47,6 @@ class MetadataRepository extends EntityRepository implements MetadataRepositoryI
         } else {
             $class  = $this->getEntityName();
             $metada = new $class;
-            $metada->setEntity($entity);
             $metada->setNamespace($namespace);
             $metada->setName($name);
             $metada->setValue($value);
