@@ -54,6 +54,10 @@ Novosga\Entity\AbstractAtendimento:
             type: string
             length: 25
             nullable: false
+        resolucao:
+            type: string
+            length: 25
+            nullable: true
         observacao:
             type: text
             nullable: true
