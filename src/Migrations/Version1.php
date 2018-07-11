@@ -15,7 +15,13 @@ final class Version1 extends AbstractVersion
         if ($this->existsViewAtendimento()) {
             $this->dropViewAtendimento();
         }
+        
+        if ($this->existsViewAtendimentoCodificado()) {
+            $this->dropViewAtendimentoCodificado();
+        }
+        
         $this->createViewAtendimento();
+        $this->createViewAtendimentoCodificado();
     }
 
     public function down(Schema $schema) : void

@@ -13,6 +13,7 @@ namespace App\Extensions\Doctrine;
 
 use Doctrine\ORM\Tools\Event\GenerateSchemaEventArgs;
 use Novosga\Entity\ViewAtendimento;
+use Novosga\Entity\ViewAtendimentoCodificado;
 
 /**
  * DoctrineListener
@@ -27,6 +28,7 @@ class SchemaViewIgnorer
  
         $ignoredEntities = [
             ViewAtendimento::class,
+            ViewAtendimentoCodificado::class,
         ];
         
         $ignoredTables = [];

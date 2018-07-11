@@ -64,6 +64,7 @@ Novosga\Entity\AbstractAtendimento:
     embedded:
         senha:
             class: Novosga\Entity\Senha
+            columnPrefix: senha_
     manyToOne:
         cliente:
             targetEntity: Novosga\Entity\Cliente

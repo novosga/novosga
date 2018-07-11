@@ -180,11 +180,13 @@ abstract class RelationalStorage extends DoctrineStorage
             $contadorTable         = $this->om->getClassMetadata(Contador::class)->getTableName();
             $painelSenhaTable      = $this->om->getClassMetadata(PainelSenha::class)->getTableName();
             $servicoUnidadeTable   = $this->om->getClassMetadata(ServicoUnidade::class)->getTableName();
+            
+            $helper = new \App\Helper\DoctrineHelper($this->om);
 
             // columns
-            $historicoColumns       = $this->getColumns(AtendimentoHistorico::class);
-            $historicoMetaColumns   = $this->getColumns(AtendimentoHistoricoMeta::class);
-            $historicoCodifColumns  = $this->getColumns(AtendimentoCodificadoHistorico::class);
+            $historicoColumns       = $helper->getEntityColumns(AtendimentoHistorico::class);
+            $historicoMetaColumns   = $helper->getEntityColumns(AtendimentoHistoricoMeta::class);
+            $historicoCodifColumns  = $helper->getEntityColumns(AtendimentoCodificadoHistorico::class);
             
             $self->preAcumularAtendimentos($conn, $unidade);
             
@@ -398,23 +400,5 @@ abstract class RelationalStorage extends DoctrineStorage
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
         });
-    }
-    
-    protected function getColumns($entity): array
-    {
-        $classMetadata = $this->om->getClassMetadata($entity);
-        $columns       = $classMetadata->getColumnNames();
-        $assocs        = $classMetadata->getAssociationNames();
-        
-        foreach ($assocs as $assoc) {
-            $mapping = $classMetadata->getAssociationMapping($assoc);
-            if (isset($mapping['joinColumns'])) {
-                foreach ($mapping['joinColumns'] as $join) {
-                    $columns[] = $join['name'];
-                }
-            }
-        }
-        
-        return $columns;
     }
 }

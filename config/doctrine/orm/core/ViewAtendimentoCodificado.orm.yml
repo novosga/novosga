@@ -1,0 +1,16 @@
+Novosga\Entity\ViewAtendimentoCodificado:
+    type: entity
+    table: view_atendimentos_codificados
+    readOnly: true
+    id:
+        atendimento:
+            associationKey: true
+    manyToOne:
+        atendimento:
+            targetEntity: Novosga\Entity\ViewAtendimento
+            fetch: LAZY
+            inversedBy: codificados
+            joinColumns:
+                atendimento_id:
+                    referencedColumnName: id
+            orphanRemoval: false
