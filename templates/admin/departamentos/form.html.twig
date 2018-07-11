@@ -28,7 +28,7 @@
             <i class="fa fa-chevron-left"></i>
             {{ 'button.back'|trans }}
         </a>
-        {% if entity.id and entity.id != 1 %}
+        {% if entity.id %}
             <button type="submit" class="btn btn-danger pull-right" name="_method" value="DELETE">
                 <i class="fa fa-trash"></i>
                 {{ 'button.remove'|trans }}

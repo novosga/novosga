@@ -11,7 +11,7 @@
 
 namespace App\Controller\Api;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * ServicosController
@@ -22,15 +22,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class ServicosController extends ApiCrudController
 {
-    
     use Actions\GetTrait,
         Actions\FindTrait,
         Actions\PostTrait,
         Actions\PutTrait,
         Actions\DeleteTrait;
     
-    public function __construct($rootDir)
+    public function getEntityName()
     {
-        parent::__construct(\Novosga\Entity\Servico::class, $rootDir);
+        return \Novosga\Entity\Servico::class;
     }
 }

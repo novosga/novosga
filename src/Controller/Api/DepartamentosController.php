@@ -11,7 +11,7 @@
 
 namespace App\Controller\Api;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Novosga\Entity\Departamento;
 
 /**
@@ -29,8 +29,8 @@ class DepartamentosController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
 
-    public function __construct($rootDir)
+    public function getEntityName()
     {
-        parent::__construct(Departamento::class, $rootDir);
+        return Departamento::class;
     }
 }

@@ -13,11 +13,11 @@ namespace App\Controller\Admin;
 
 use App\Form\ServicoType as EntityType;
 use Novosga\Entity\Servico as Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * ServicosController.
@@ -33,8 +33,7 @@ class ServicosController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/", name="admin_servicos_index")
-     * @Method("GET")
+     * @Route("/", name="admin_servicos_index", methods={"GET"})
      */
     public function index(Request $request)
     {
@@ -60,11 +59,10 @@ class ServicosController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/new", name="admin_servicos_new")
-     * @Route("/{id}", name="admin_servicos_edit")
-     * @Method({"GET","POST"})
+     * @Route("/new", name="admin_servicos_new", methods={"GET", "POST"})
+     * @Route("/{id}", name="admin_servicos_edit", methods={"GET", "POST"})
      */
-    public function form(Request $request, Entity $entity = null)
+    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -78,9 +76,7 @@ class ServicosController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            $trans = $this->get('translator');
-            
-            $this->addFlash('success', $trans->trans('Serviço salvo com sucesso!'));
+            $this->addFlash('success', $translator->trans('Serviço salvo com sucesso!'));
             
             return $this->redirectToRoute('admin_servicos_edit', [ 'id' => $entity->getId() ]);
         }
@@ -97,19 +93,16 @@ class ServicosController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/{id}", name="admin_servicos_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_servicos_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Entity $servico)
+    public function delete(Request $request, TranslatorInterface $translator, Entity $servico)
     {
-        $trans = $this->get('translator');
-        
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($servico);
             $em->flush();
         
-            $this->addFlash('success', $trans->trans('Serviço removido com sucesso!'));
+            $this->addFlash('success', $translator->trans('Serviço removido com sucesso!'));
             
             return $this->redirectToRoute('admin_servicos_index');
         } catch (\Exception $e) {
@@ -119,7 +112,7 @@ class ServicosController extends Controller
                 $message = $e->getMessage();
             }
             
-            $this->addFlash('error', $trans->trans($message));
+            $this->addFlash('error', $translator->trans($message));
             
             return $this->redirect($request->headers->get('REFERER'));
         }

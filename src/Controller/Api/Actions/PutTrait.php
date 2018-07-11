@@ -11,8 +11,7 @@
 
 namespace App\Controller\Api\Actions;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -24,8 +23,7 @@ trait PutTrait
 {
     
     /**
-     * @Route("/{id}")
-     * @Method("PUT")
+     * @Route("/{id}", methods={"PUT"})
      */
     public function doPut(Request $request, $id)
     {

@@ -21,14 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 abstract class ApiCrudController extends ApiControllerBase
 {
-    
-    private $entityName;
-    
-    public function __construct($entityName, $rootDir)
-    {
-        parent::__construct($rootDir);
-        $this->entityName = $entityName;
-    }
+    abstract public function getEntityName();
 
     public function find($id)
     {
@@ -124,8 +117,9 @@ abstract class ApiCrudController extends ApiControllerBase
      */
     protected function getRepository()
     {
-        $repository = $this->getManager()
-                            ->getRepository($this->entityName);
+        $repository = $this
+            ->getManager()
+            ->getRepository($this->getEntityName());
         
         return $repository;
     }
@@ -150,7 +144,7 @@ abstract class ApiCrudController extends ApiControllerBase
     protected function deserialize($json)
     {
         $serializer = $this->getSerializer();
-        $object     = $serializer->deserialize($json, $this->entityName, 'json');
+        $object     = $serializer->deserialize($json, $this->getEntityName(), 'json');
         
         return $object;
     }

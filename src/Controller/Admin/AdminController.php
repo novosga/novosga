@@ -15,8 +15,7 @@ use Novosga\Http\Envelope;
 use Novosga\Service\AtendimentoService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * AdminController
@@ -46,8 +45,7 @@ class AdminController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/acumular_atendimentos", name="admin_acumular_atendimentos")
-     * @Method("POST")
+     * @Route("/acumular_atendimentos", name="admin_acumular_atendimentos", methods={"POST"})
      */
     public function acumularAtendimentos(Request $request, AtendimentoService $service)
     {
@@ -62,8 +60,7 @@ class AdminController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/limpar_atendimentos", name="admin_limpar_atendimentos")
-     * @Method("POST")
+     * @Route("/limpar_atendimentos", name="admin_limpar_atendimentos", methods={"POST"})
      */
     public function limparAtendimentos(Request $request, AtendimentoService $service)
     {

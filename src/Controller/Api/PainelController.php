@@ -13,8 +13,7 @@ namespace App\Controller\Api;
 
 use Novosga\Entity\Unidade;
 use Novosga\Entity\PainelSenha;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -29,30 +28,29 @@ class PainelController extends ApiControllerBase
     /**
      * Retorna as senhas para serem exibidas no painel (max result 10).
      *
-     * @Route("/unidades/{id}/painel")
-     * @Method("GET")
+     * @Route("/unidades/{id}/painel", methods={"GET"})
      */
     public function painel(Request $request, Unidade $unidade)
     {
         $servicos = explode(',', $request->get('servicos'));
         
         $senhas = $this
-                ->getDoctrine()
-                ->getManager()
-                ->createQueryBuilder()
-                ->select('e')
-                ->from(PainelSenha::class, 'e')
-                ->join('e.servico', 's')
-                ->where('e.unidade = :unidade')
-                ->andWhere('s.id IN (:servicos)')
-                ->orderBy('e.id', 'DESC')
-                ->setParameters([
-                    'unidade'  => $unidade,
-                    'servicos' => $servicos,
-                ])
-                ->setMaxResults(10)
-                ->getQuery()
-                ->getArrayResult();
+            ->getDoctrine()
+            ->getManager()
+            ->createQueryBuilder()
+            ->select('e')
+            ->from(PainelSenha::class, 'e')
+            ->join('e.servico', 's')
+            ->where('e.unidade = :unidade')
+            ->andWhere('s.id IN (:servicos)')
+            ->orderBy('e.id', 'DESC')
+            ->setParameters([
+                'unidade'  => $unidade,
+                'servicos' => $servicos,
+            ])
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getArrayResult();
         
         return $this->json($senhas);
     }

@@ -11,8 +11,7 @@
 
 namespace App\Controller\Api;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,14 +26,13 @@ class AgendamentosController extends ApiCrudController
     use Actions\GetTrait,
         Actions\FindTrait;
     
-    public function __construct($rootDir)
+    public function getEntityName()
     {
-        parent::__construct(\Novosga\Entity\Agendamento::class, $rootDir);
+        return \Novosga\Entity\Agendamento::class;
     }
     
     /**
-     * @Route("")
-     * @Method("POST")
+     * @Route("", methods={"POST"})
      */
     public function post(
         Request $request,

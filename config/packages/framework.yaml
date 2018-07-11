@@ -17,3 +17,5 @@ framework:
         mapping:
             paths:
               - "%kernel.project_dir%/config/validation"
+    templating:
+        engines: ['twig']

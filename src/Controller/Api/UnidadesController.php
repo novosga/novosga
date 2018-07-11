@@ -14,8 +14,7 @@ namespace App\Controller\Api;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Atendimento;
 use Novosga\Service\ServicoService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * UnidadesController
@@ -32,14 +31,13 @@ class UnidadesController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
 
-    public function __construct($rootDir)
+    public function getEntityName()
     {
-        parent::__construct(Unidade::class, $rootDir);
+        return Unidade::class;
     }
 
     /**
-     * @Route("/{id}/servicos")
-     * @Method("GET")
+     * @Route("/{id}/servicos", methods={"GET"})
      */
     public function servicos(Unidade $unidade, ServicoService $service)
     {
@@ -49,29 +47,28 @@ class UnidadesController extends ApiCrudController
     }
 
     /**
-     * @Route("/{id}/atendimentos")
-     * @Method("GET")
+     * @Route("/{id}/atendimentos", methods={"GET"})
      */
     public function atendimentos(Unidade $unidade)
     {
         $atendimentos = $this
-                ->getDoctrine()
-                ->getManager()
-                ->createQueryBuilder()
-                ->select([
-                    'e', 's', 'ut', 'u'
-                ])
-                ->from(Atendimento::class, 'e')
-                ->join('e.servico', 's')
-                ->join('e.usuarioTriagem', 'ut')
-                ->leftJoin('e.usuario', 'u')
-                ->where('e.unidade = :unidade')
-                ->orderBy('e.id', 'ASC')
-                ->setParameters([
-                    'unidade' => $unidade,
-                ])
-                ->getQuery()
-                ->getResult();
+            ->getDoctrine()
+            ->getManager()
+            ->createQueryBuilder()
+            ->select([
+                'e', 's', 'ut', 'u'
+            ])
+            ->from(Atendimento::class, 'e')
+            ->join('e.servico', 's')
+            ->join('e.usuarioTriagem', 'ut')
+            ->leftJoin('e.usuario', 'u')
+            ->where('e.unidade = :unidade')
+            ->orderBy('e.id', 'ASC')
+            ->setParameters([
+                'unidade' => $unidade,
+            ])
+            ->getQuery()
+            ->getResult();
 
         return $this->json($atendimentos);
     }

@@ -27,7 +27,7 @@
 
                 <div class="collapse navbar-collapse novosga-navbar">
                     {% if app.user.admin or app.user.lotacao %}
-                        {{ render(controller('App\\Controller\\DefaultController:menu')) }}
+                        {{ render(controller('App\\Controller\\DefaultController::menu')) }}
                     {% endif %}
 
                     {% if is_granted('ROLE_USER') %}
@@ -110,7 +110,7 @@
         {% block javascripts %}{% endblock %}
 
         {% if app.user.lotacao %}
-            {{ render(controller('App\\Controller\\DefaultController:unidades')) }}
+            {{ render(controller('App\\Controller\\DefaultController::unidades')) }}
         {% endif %}
 
         <span id="ajax-loading" class="mini-loading" style="display:none"></span>

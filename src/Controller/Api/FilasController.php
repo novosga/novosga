@@ -15,9 +15,8 @@ use Novosga\Entity\Unidade;
 use Novosga\Service\AtendimentoService;
 use Novosga\Service\FilaService;
 use Novosga\Service\UsuarioService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -32,17 +31,14 @@ class FilasController extends Controller
     /**
      * Retorna a lista de atendimentos do usuário atual na unidade informada.
      *
-     * @Route("/{unidadeId}")
+     * @Route("/{unidadeId}", methods={"GET"})
      * @ParamConverter("unidade", class="Novosga\Entity\Unidade", options={"id" = "unidadeId"})
-     * @Method("GET")
      */
-    public function atendimentosUsuario(Unidade $unidade)
-    {
-        /* @var $filaService FilaService */
-        $filaService    = $this->get('Novosga\Service\FilaService');
-        /* @var $usuarioService UsuarioService */
-        $usuarioService = $this->get('Novosga\Service\UsuarioService');
-        
+    public function atendimentosUsuario(
+        FilaService $filaService,
+        UsuarioService $usuarioService,
+        Unidade $unidade
+    ) {
         $usuario      = $this->getUser();
         $servicos     = $usuarioService->servicos($usuario, $unidade);
         $atendimentos = $filaService->filaAtendimento($unidade, $servicos);
@@ -54,16 +50,12 @@ class FilasController extends Controller
      * Atualiza o statuso do atendimento atual do usuário para o novo status
      * informado.
      *
-     * @Route("")
-     * @Method("PUT")
+     * @Route("", methods={"PUT"})
      */
-    public function alteraStatus(Request $request)
+    public function alteraStatus(AtendimentoService $atendimentoService, Request $request)
     {
-        $novoStatus = $request->get('novoStatus');
-        $usuario    = $this->getUser();
-        
-        /* @var $atendimentoService AtendimentoService */
-        $atendimentoService = $this->get('Novosga\Service\AtendimentoService');
+        $novoStatus  = $request->get('novoStatus');
+        $usuario     = $this->getUser();
         $atendimento = $atendimentoService->alteraStatusAtendimentoUsuario($usuario, $novoStatus);
         
         return $this->json($atendimento);

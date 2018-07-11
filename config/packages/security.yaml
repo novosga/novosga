@@ -28,12 +28,8 @@ security:
             stateless:  true
             anonymous:  false
 
-        login:
-            pattern:  ^/login$
-            anonymous: ~
-
         main:
-            anonymous: false
+            anonymous: true
             pattern: ^/
             form_login:
                 login_path: /login

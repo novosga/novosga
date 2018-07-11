@@ -11,7 +11,7 @@
 
 namespace App\Controller\Api;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * UsuariosController
@@ -22,12 +22,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
  */
 class UsuariosController extends ApiCrudController
 {
-    
     use Actions\GetTrait,
         Actions\FindTrait;
     
-    public function __construct($rootDir)
+    public function getEntityName()
     {
-        parent::__construct(\Novosga\Entity\Usuario::class, $rootDir);
+        return \Novosga\Entity\Usuario::class;
     }
 }

@@ -11,8 +11,7 @@
 
 namespace App\Controller\Api\Actions;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * GetTrait
@@ -23,8 +22,7 @@ trait GetTrait
 {
     
     /**
-     * @Route("/{id}")
-     * @Method("GET")
+     * @Route("/{id}", methods={"GET"})
      */
     public function doGet($id)
     {

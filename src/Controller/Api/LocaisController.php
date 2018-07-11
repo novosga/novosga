@@ -11,7 +11,7 @@
 
 namespace App\Controller\Api;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * LocaisController
@@ -28,8 +28,8 @@ class LocaisController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
     
-    public function __construct($rootDir)
+    public function getEntityName()
     {
-        parent::__construct(\Novosga\Entity\Local::class, $rootDir);
+        return \Novosga\Entity\Local::class;
     }
 }

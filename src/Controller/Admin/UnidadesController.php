@@ -14,11 +14,11 @@ namespace App\Controller\Admin;
 use Exception;
 use Novosga\Entity\Unidade as Entity;
 use App\Form\UnidadeType as EntityType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * UnidadesController
@@ -54,11 +54,10 @@ class UnidadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/new", name="admin_unidades_new")
-     * @Route("/{id}", name="admin_unidades_edit")
-     * @Method({"GET","POST"})
+     * @Route("/new", name="admin_unidades_new", methods={"GET", "POST"})
+     * @Route("/{id}", name="admin_unidades_edit", methods={"GET", "POST"})
      */
-    public function form(Request $request, Entity $entity = null)
+    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -77,9 +76,7 @@ class UnidadesController extends Controller
             $em->persist($entity);
             $em->flush();
             
-            $trans = $this->get('translator');
-            
-            $this->addFlash('success', $trans->trans('Serviço salvo com sucesso!'));
+            $this->addFlash('success', $translator->trans('Serviço salvo com sucesso!'));
             
             return $this->redirectToRoute('admin_unidades_edit', [ 'id' => $entity->getId() ]);
         }
@@ -96,29 +93,26 @@ class UnidadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/{id}", name="admin_unidades_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_unidades_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Entity $unidade)
+    public function delete(Request $request, TranslatorInterface $translator, Entity $unidade)
     {
-        $trans = $this->get('translator');
-        
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($unidade);
             $em->flush();
         
-            $this->addFlash('success', $trans->trans('Unidade removida com sucesso!'));
+            $this->addFlash('success', $translator->trans('Unidade removida com sucesso!'));
             
             return $this->redirectToRoute('admin_unidades_index');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
                 $message = 'A unidade não pode ser removida porque está sendo utilizada.';
             } else {
                 $message = $e->getMessage();
             }
             
-            $this->addFlash('error', $trans->trans($message));
+            $this->addFlash('error', $translator->trans($message));
             
             return $this->redirect($request->headers->get('REFERER'));
         }

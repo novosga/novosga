@@ -173,3 +173,10 @@ App.Admin = {
         });
     }
 };
+
+
+$(function () {
+    $('[type=submit][value=DELETE]').on('click', function (e) {
+        return confirm('Você realmente deseja remover?');
+    });
+});

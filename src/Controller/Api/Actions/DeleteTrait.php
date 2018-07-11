@@ -11,8 +11,7 @@
 
 namespace App\Controller\Api\Actions;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * DeleteTrait
@@ -23,8 +22,7 @@ trait DeleteTrait
 {
     
     /**
-     * @Route("/{id}")
-     * @Method("DELETE")
+     * @Route("/{id}", methods={"DELETE"})
      */
     public function doDelete($id)
     {

@@ -16,8 +16,8 @@ use JMS\Serializer\Expression\ExpressionEvaluator;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * ApiControllerBase
@@ -31,9 +31,15 @@ abstract class ApiControllerBase extends Controller
      */
     private $rootDir;
     
-    public function __construct($rootDir)
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+    
+    public function __construct(TranslatorInterface $translator, $rootDir)
     {
-        $this->rootDir = $rootDir;
+        $this->rootDir    = $rootDir;
+        $this->translator = $translator;
     }
     
     /**
@@ -41,8 +47,9 @@ abstract class ApiControllerBase extends Controller
      */
     protected function getManager()
     {
-        $manager = $this->getDoctrine()
-                            ->getManager();
+        $manager = $this
+            ->getDoctrine()
+            ->getManager();
         
         return $manager;
     }
@@ -64,13 +71,11 @@ abstract class ApiControllerBase extends Controller
     }
     
     /**
-     * @return Translator
+     * @return TranslatorInterface
      */
     protected function getTranslator()
     {
-        $translator = $this->get('translator');
-        
-        return $translator;
+        return $this->translator;
     }
     
     /**

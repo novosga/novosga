@@ -15,8 +15,7 @@ use App\Entity\OAuthAccessToken;
 use App\Entity\OAuthClient;
 use App\Entity\OAuthRefreshToken;
 use Novosga\Http\Envelope;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -48,8 +47,7 @@ class ApiController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/oauth-clients", name="admin_api_clients")
-     * @Method("GET")
+     * @Route("/oauth-clients", name="admin_api_clients", methods={"GET"})
      */
     public function oauthClients(Request $request)
     {
@@ -71,10 +69,9 @@ class ApiController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/oauth-clients", name="admin_api_newclient")
-     * @Method("POST")
+     * @Route("/oauth-clients", name="admin_api_newclient", methods={"POST"})
      */
-    public function newOauthClient(Request $request)
+    public function newOauthClient(Request $request, \FOS\OAuthServerBundle\Model\ClientManagerInterface $clientManager)
     {
         $envelope = new Envelope();
         
@@ -85,7 +82,6 @@ class ApiController extends Controller
             $description = substr($description, 0, 30);
         }
 
-        $clientManager = $this->get('fos_oauth_server.client_manager.default');
         $client = $clientManager->createClient();
         $client->setDescription($description);
         $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);
@@ -101,8 +97,7 @@ class ApiController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      *
-     * @Route("/oauth-clients/{id}", name="admin_api_removeclient")
-     * @Method("DELETE")
+     * @Route("/oauth-clients/{id}", name="admin_api_removeclient", methods={"DELETE"})
      */
     public function removeOauthClient(Request $request, OAuthClient $client)
     {

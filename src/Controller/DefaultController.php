@@ -13,10 +13,10 @@ namespace App\Controller;
 
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Novosga\Http\Envelope;
 
 class DefaultController extends Controller
@@ -38,17 +38,16 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/unidades", name="app_default_unidades")
-     * @Method({"GET"})
+     * @Route("/unidades", name="app_default_unidades", methods={"GET"})
      */
     public function unidades(Request $request)
     {
         $usuario  = $this->getUser();
         $unidades = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository(Unidade::class)
-                ->findByUsuario($usuario);
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Unidade::class)
+            ->findByUsuario($usuario);
 
         return $this->render('default/include/unidadesModal.html.twig', [
             'unidades' => $unidades,
@@ -56,39 +55,33 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/set_unidade/{id}", name="app_default_setunidade")
-     * @Method({"POST"})
+     * @Route("/set_unidade/{id}", name="app_default_setunidade", methods={"POST"})
      */
     public function setUnidade(Request $request, Unidade $unidade)
     {
         $usuario = $this->getUser();
         
-        $this->getDoctrine()
-                ->getManager()
-                ->getRepository(Usuario::class)
-                ->updateUnidade($usuario, $unidade);
+        $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(Usuario::class)
+            ->updateUnidade($usuario, $unidade);
         
         return $this->json(new Envelope());
     }
 
     /**
-     * @Route("/menu", name="app_default_menu")
-     * @Method({"GET"})
+     * @Route("/menu", name="app_default_menu", methods={"GET"})
      */
-    public function menu(Request $request)
+    public function menu(KernelInterface $kernel, Request $request)
     {
-        $kernel = $this->get('kernel');
-        $bundles = [];
-        
-        if ($kernel instanceof \Symfony\Component\HttpKernel\Kernel) {
-            $bundles = array_filter($kernel->getBundles(), function ($bundle) {
-                return $bundle instanceof \Novosga\Module\ModuleInterface;
-            });
-            
-            usort($bundles, function (\Novosga\Module\ModuleInterface $a, \Novosga\Module\ModuleInterface $b) {
-                return strcasecmp($a->getDisplayName(), $b->getDisplayName());
-            });
-        }
+        $bundles = array_filter($kernel->getBundles(), function ($bundle) {
+            return $bundle instanceof \Novosga\Module\ModuleInterface;
+        });
+
+        usort($bundles, function (\Novosga\Module\ModuleInterface $a, \Novosga\Module\ModuleInterface $b) {
+            return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+        });
         
         return $this->render('default/include/menu.html.twig', [
             'modules' => $bundles,

@@ -14,11 +14,11 @@ namespace App\Controller;
 use App\Form\ProfileType;
 use Exception;
 use Novosga\Http\Envelope;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * @Route("/profile")
@@ -26,8 +26,7 @@ use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 class ProfileController extends Controller
 {
     /**
-     * @Route("/", name="profile_index")
-     * @Method("GET")
+     * @Route("/", name="profile_index", methods={"GET"})
      */
     public function index(Request $request)
     {
@@ -43,10 +42,9 @@ class ProfileController extends Controller
     }
     
     /**
-     * @Route("/", name="profile_update")
-     * @Method("POST")
+     * @Route("/", name="profile_update", methods={"POST"})
      */
-    public function update(Request $request)
+    public function update(Request $request, TranslatorInterface $translator)
     {
         $user = $this->getUser();
         $form = $this->createForm(ProfileType::class, $user);
@@ -57,17 +55,14 @@ class ProfileController extends Controller
             $em->merge($user);
             $em->flush();
             
-            $trans = $this->get('translator');
-            
-            $this->addFlash('success', $trans->trans('Perfil atualizado com sucesso!'));
+            $this->addFlash('success', $translatortrans('Perfil atualizado com sucesso!'));
         }
         
         return $this->redirectToRoute('profile_index');
     }
 
     /**
-     * @Route("/password")
-     * @Method("POST")
+     * @Route("/password", methods={"POST"})
      */
     public function password(Request $request, EncoderFactoryInterface $factory)
     {

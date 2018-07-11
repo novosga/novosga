@@ -13,11 +13,11 @@ namespace App\Controller\Admin;
 
 use App\Form\DepartamentoType as EntityType;
 use Novosga\Entity\Departamento as Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * DepartamentoController
@@ -54,11 +54,10 @@ class DepartamentoController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/new", name="admin_departamentos_new")
-     * @Route("/{id}", name="admin_departamentos_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="admin_departamentos_new", methods={"GET", "POST"})
+     * @Route("/{id}", name="admin_departamentos_edit", methods={"GET", "POST"})
      */
-    public function form(Request $request, Entity $entity = null)
+    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -72,9 +71,7 @@ class DepartamentoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $trans = $this->get('translator');
-
-            $this->addFlash('success', $trans->trans('Departamento salvo com sucesso!'));
+            $this->addFlash('success', $translator->trans('Departamento salvo com sucesso!'));
 
             return $this->redirectToRoute('admin_departamentos_edit', [ 'id' => $entity->getId() ]);
         }
@@ -91,19 +88,16 @@ class DepartamentoController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/{id}", name="admin_departamentos_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_departamentos_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Entity $departamento)
+    public function delete(Request $request, TranslatorInterface $translator, Entity $departamento)
     {
-        $trans = $this->get('translator');
-
         try {
             $em  = $this->getDoctrine()->getManager();
             $em->remove($departamento);
             $em->flush();
 
-            $this->addFlash('success', $trans->trans('Departamento removido com sucesso!'));
+            $this->addFlash('success', $translator->trans('Departamento removido com sucesso!'));
 
             return $this->redirectToRoute('admin_departamentos_index');
         } catch (\Exception $e) {
@@ -113,7 +107,7 @@ class DepartamentoController extends Controller
                 $message = $e->getMessage();
             }
 
-            $this->addFlash('error', $trans->trans($message));
+            $this->addFlash('error', $translator->trans($message));
 
             return $this->redirect($request->headers->get('REFERER'));
         }

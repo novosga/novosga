@@ -13,11 +13,11 @@ namespace App\Controller\Admin;
 
 use App\Form\LocalType as EntityType;
 use Novosga\Entity\Local as Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * LocaisController
@@ -54,11 +54,10 @@ class LocaisController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/new", name="admin_locais_new")
-     * @Route("/{id}", name="admin_locais_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="admin_locais_new", methods={"GET", "POST"})
+     * @Route("/{id}", name="admin_locais_edit", methods={"GET", "POST"})
      */
-    public function form(Request $request, Entity $entity = null)
+    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -72,9 +71,7 @@ class LocaisController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $trans = $this->get('translator');
-
-            $this->addFlash('success', $trans->trans('Local salvo com sucesso!'));
+            $this->addFlash('success', $translator->trans('Local salvo com sucesso!'));
 
             return $this->redirectToRoute('admin_locais_edit', [ 'id' => $entity->getId() ]);
         }
@@ -91,19 +88,16 @@ class LocaisController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/{id}", name="admin_locais_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_locais_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Entity $local)
+    public function delete(Request $request, TranslatorInterface $translator, Entity $local)
     {
-        $trans = $this->get('translator');
-
         try {
             $em  = $this->getDoctrine()->getManager();
             $em->remove($local);
             $em->flush();
 
-            $this->addFlash('success', $trans->trans('Local removido com sucesso!'));
+            $this->addFlash('success', $translator->trans('Local removido com sucesso!'));
 
             return $this->redirectToRoute('admin_locais_index');
         } catch (\Exception $e) {
@@ -113,7 +107,7 @@ class LocaisController extends Controller
                 $message = $e->getMessage();
             }
 
-            $this->addFlash('error', $trans->trans($message));
+            $this->addFlash('error', $translator->trans($message));
 
             return $this->redirect($request->headers->get('REFERER'));
         }

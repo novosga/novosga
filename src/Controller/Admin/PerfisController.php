@@ -13,10 +13,11 @@ namespace App\Controller\Admin;
 
 use App\Form\PerfilType as EntityType;
 use Novosga\Entity\Perfil as Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * PerfisController
@@ -56,17 +57,15 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      * @param Request $request
      * @return Response
      *
-     * @Route("/new", name="admin_perfis_new")
-     * @Route("/{id}", name="admin_perfis_edit")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="admin_perfis_new", methods={"GET", "POST"})
+     * @Route("/{id}", name="admin_perfis_edit", methods={"GET", "POST"})
      */
-    public function form(Request $request, Entity $entity = null)
+    public function form(Request $request, KernelInterface $kernel, TranslatorInterface $translator, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity;
         }
 
-        $kernel = $this->get('kernel');
         $modulos = array_filter($kernel->getBundles(), function ($module) {
             return ($module instanceof \Novosga\Module\ModuleInterface);
         });
@@ -81,9 +80,7 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
             $em->persist($entity);
             $em->flush();
 
-            $trans = $this->get('translator');
-
-            $this->addFlash('success', $trans->trans('Perfil salvo com sucesso!'));
+            $this->addFlash('success', $translator->trans('Perfil salvo com sucesso!'));
 
             return $this->redirectToRoute('admin_perfis_edit', [ 'id' => $entity->getId() ]);
         }
@@ -100,19 +97,16 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      * @param Request $request
      * @return Response
      *
-     * @Route("/{id}", name="admin_perfis_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_perfis_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Entity $perfil)
+    public function delete(Request $request, TranslatorInterface $translator, Entity $perfil)
     {
-        $trans = $this->get('translator');
-
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($perfil);
             $em->flush();
 
-            $this->addFlash('success', $trans->trans('Perfil removido com sucesso!'));
+            $this->addFlash('success', $translator->trans('Perfil removido com sucesso!'));
 
             return $this->redirectToRoute('admin_perfis_index');
         } catch (\Exception $e) {
@@ -122,7 +116,7 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
                 $message = $e->getMessage();
             }
 
-            $this->addFlash('error', $trans->trans($message));
+            $this->addFlash('error', $translator->trans($message));
 
             return $this->redirect($request->headers->get('REFERER'));
         }

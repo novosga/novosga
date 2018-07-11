@@ -13,11 +13,11 @@ namespace App\Controller\Admin;
 
 use Novosga\Entity\Prioridade as Entity;
 use App\Form\PrioridadeType as EntityType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * PrioridadesController
@@ -54,11 +54,10 @@ class PrioridadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/new", name="admin_prioridades_new")
-     * @Route("/{id}", name="admin_prioridades_edit")
-     * @Method({"GET","POST"})
+     * @Route("/new", name="admin_prioridades_new", methods={"GET", "POST"})
+     * @Route("/{id}", name="admin_prioridades_edit", methods={"GET", "POST"})
      */
-    public function form(Request $request, Entity $entity = null)
+    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null)
     {
         if (!$entity) {
             $entity = new Entity();
@@ -72,9 +71,7 @@ class PrioridadesController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            $trans = $this->get('translator');
-
-            $this->addFlash('success', $trans->trans('Local salvo com sucesso!'));
+            $this->addFlash('success', $translator->trans('Local salvo com sucesso!'));
 
             return $this->redirectToRoute('admin_prioridades_edit', [ 'id' => $entity->getId() ]);
         }
@@ -91,19 +88,16 @@ class PrioridadesController extends Controller
      * @param Request $request
      * @return Response
      *
-     * @Route("/{id}", name="admin_prioridades_delete")
-     * @Method("DELETE")
+     * @Route("/{id}", name="admin_prioridades_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Entity $prioridade)
+    public function delete(Request $request, TranslatorInterface $translator, Entity $prioridade)
     {
-        $trans = $this->get('translator');
-
         try {
             $em = $this->getDoctrine()->getManager();
             $em->remove($prioridade);
             $em->flush();
 
-            $this->addFlash('success', $trans->trans('Prioridade removida com sucesso!'));
+            $this->addFlash('success', $translator->trans('Prioridade removida com sucesso!'));
 
             return $this->redirectToRoute('admin_prioridades_index');
         } catch (\Exception $e) {
@@ -113,7 +107,7 @@ class PrioridadesController extends Controller
                 $message = $e->getMessage();
             }
 
-            $this->addFlash('error', $trans->trans($message));
+            $this->addFlash('error', $translator->trans($message));
 
             return $this->redirect($request->headers->get('REFERER'));
         }

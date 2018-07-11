@@ -11,6 +11,9 @@
     "nikic/php-parser": {
         "version": "v4.0.0"
     },
+    "novosga/oauth-server-bundle": {
+        "version": "2.0-dev"
+    },
     "squizlabs/php_codesniffer": {
         "version": "3.2.3"
     },
@@ -56,6 +59,9 @@
             "ref": "179470cb6492db92dffee208cfdb436f175c93b4"
         }
     },
+    "symfony/polyfill-ctype": {
+        "version": "v1.8.0"
+    },
     "symfony/polyfill-php72": {
         "version": "v1.7.0"
     },
@@ -64,6 +70,12 @@
     },
     "symfony/stopwatch": {
         "version": "v4.0.6"
+    },
+    "symfony/templating": {
+        "version": "v4.1.1"
+    },
+    "symfony/test-pack": {
+        "version": "v1.0.2"
     },
     "symfony/twig-bridge": {
         "version": "v4.0.6"

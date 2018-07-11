@@ -16,8 +16,7 @@ use App\Service\TicketService;
 use Novosga\Entity\Atendimento;
 use Novosga\Service\AtendimentoService;
 use Psr\Log\LoggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +32,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 class TriagemController extends ApiControllerBase
 {
     /**
-     * @Route("/print/{id}")
-     * @Method("GET")
+     * @Route("/print/{id}", methods={"GET"})
      */
     public function imprimir(
         Request $request,
@@ -55,8 +53,7 @@ class TriagemController extends ApiControllerBase
     }
     
     /**
-     * @Route("/distribui")
-     * @Method("POST")
+     * @Route("/distribui", methods={"POST"})
      */
     public function distribui(Request $request, AtendimentoService $service, LoggerInterface $logger)
     {
