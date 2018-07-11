@@ -1464,12 +1464,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "a3fd775bdcf5d82d148416c0b95c330eb76c6731"
+                "reference": "d27b9356dc541b73bd8163a3883d096ecbc5e847"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/a3fd775bdcf5d82d148416c0b95c330eb76c6731",
-                "reference": "a3fd775bdcf5d82d148416c0b95c330eb76c6731",
+                "url": "https://api.github.com/repos/novosga/core/zipball/d27b9356dc541b73bd8163a3883d096ecbc5e847",
+                "reference": "d27b9356dc541b73bd8163a3883d096ecbc5e847",
                 "shasum": ""
             },
             "require": {
@@ -1490,7 +1490,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-07T17:46:17+00:00"
+            "time": "2018-07-11T21:30:15+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -1611,12 +1611,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "fa7bdf2631d24fb571feda3b5b45fe9d69fe83d8"
+                "reference": "ee878677f0dc95601e0b232ac221a78af283a488"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/fa7bdf2631d24fb571feda3b5b45fe9d69fe83d8",
-                "reference": "fa7bdf2631d24fb571feda3b5b45fe9d69fe83d8",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/ee878677f0dc95601e0b232ac221a78af283a488",
+                "reference": "ee878677f0dc95601e0b232ac221a78af283a488",
                 "shasum": ""
             },
             "require": {
@@ -1638,7 +1638,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-17T23:47:57+00:00"
+            "time": "2018-07-11T21:51:01+00:00"
         },
         {
             "name": "novosga/settings-bundle",
@@ -3265,7 +3265,7 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.80",
+            "version": "v1.0.82",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
