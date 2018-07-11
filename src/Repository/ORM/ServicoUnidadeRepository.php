@@ -27,7 +27,8 @@ class ServicoUnidadeRepository extends EntityRepository implements ServicoUnidad
      */
     public function getAll($unidade)
     {
-        return $this->getEntityManager()
+        return $this
+            ->getEntityManager()
             ->createQueryBuilder()
             ->select('e')
             ->from(ServicoUnidade::class, 'e')
@@ -46,7 +47,8 @@ class ServicoUnidadeRepository extends EntityRepository implements ServicoUnidad
      */
     public function get($unidade, $servico)
     {
-        return $this->getEntityManager()
+        return $this
+            ->getEntityManager()
             ->createQueryBuilder()
             ->select('e')
             ->from(ServicoUnidade::class, 'e')

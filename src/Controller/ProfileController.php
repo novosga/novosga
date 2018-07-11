@@ -55,7 +55,7 @@ class ProfileController extends Controller
             $em->merge($user);
             $em->flush();
             
-            $this->addFlash('success', $translatortrans('Perfil atualizado com sucesso!'));
+            $this->addFlash('success', $translator->trans('Perfil atualizado com sucesso!'));
         }
         
         return $this->redirectToRoute('profile_index');

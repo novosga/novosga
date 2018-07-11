@@ -27,7 +27,8 @@ class ServicoUsuarioRepository extends EntityRepository implements ServicoUsuari
      */
     public function getAll($usuario, $unidade)
     {
-        return $this->getEntityManager()
+        return $this
+            ->getEntityManager()
             ->createQueryBuilder()
             ->select('e')
             ->from(ServicoUsuario::class, 'e')
@@ -48,7 +49,8 @@ class ServicoUsuarioRepository extends EntityRepository implements ServicoUsuari
      */
     public function get($usuario, $unidade, $servico)
     {
-        return $this->getEntityManager()
+        return $this
+            ->getEntityManager()
             ->createQueryBuilder()
             ->select('e')
             ->from(ServicoUsuario::class, 'e')

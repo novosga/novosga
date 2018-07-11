@@ -28,7 +28,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 class SessionListener extends AppListener
 {
     /**
-     * @var TokenStorage
+     * @var TokenStorageInterface
      */
     private $tokenStorage;
     

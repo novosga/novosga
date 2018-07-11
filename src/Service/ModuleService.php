@@ -52,7 +52,7 @@ class ModuleService
     }
 
     /**
-     * @return Generator
+     * @return \Generator
      */
     public function getActiveModules()
     {
