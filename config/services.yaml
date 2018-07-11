@@ -66,6 +66,10 @@ services:
         arguments: [""]
         tags:
             - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }
+
+    App\Extensions\Doctrine\SchemaViewIgnorer:
+        tags:
+            - { name: doctrine.event_listener, event: postGenerateSchema, connection: default }
     
     # novosga core services
     Novosga\Service\:

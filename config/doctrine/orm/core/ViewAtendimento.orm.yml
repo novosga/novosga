@@ -1,0 +1,4 @@
+Novosga\Entity\ViewAtendimento:
+    type: entity
+    table: view_atendimentos
+    readOnly: true
