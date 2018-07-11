@@ -95,8 +95,8 @@ class RouterLoader extends Loader
         if (file_exists($resourcePath)) {
             $type = 'yaml';
             $resource = "@{$name}{$routingFilePath}";
-        } // annotation
-        else {
+        } else {
+            // annotation
             $type = 'annotation';
             $resource = "@{$name}/Controller/";
         }

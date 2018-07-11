@@ -60,8 +60,12 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Contro
      * @Route("/new", name="admin_perfis_new", methods={"GET", "POST"})
      * @Route("/{id}", name="admin_perfis_edit", methods={"GET", "POST"})
      */
-    public function form(Request $request, KernelInterface $kernel, TranslatorInterface $translator, Entity $entity = null)
-    {
+    public function form(
+        Request $request,
+        KernelInterface $kernel,
+        TranslatorInterface $translator,
+        Entity $entity = null
+    ) {
         if (!$entity) {
             $entity = new Entity;
         }
