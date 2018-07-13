@@ -3,7 +3,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes:
-        - bootstrap_3_layout.html.twig
+        - bootstrap_4_layout.html.twig
     globals:
         locale: "%locale%"
         version: "%version%"
