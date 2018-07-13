@@ -1701,12 +1701,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "d27b9356dc541b73bd8163a3883d096ecbc5e847"
+                "reference": "adfcae683e8879d115ca3391e4188b8b547e5465"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/d27b9356dc541b73bd8163a3883d096ecbc5e847",
-                "reference": "d27b9356dc541b73bd8163a3883d096ecbc5e847",
+                "url": "https://api.github.com/repos/novosga/core/zipball/adfcae683e8879d115ca3391e4188b8b547e5465",
+                "reference": "adfcae683e8879d115ca3391e4188b8b547e5465",
                 "shasum": ""
             },
             "require": {
@@ -1727,7 +1727,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-07T17:46:17+00:00"
+            "time": "2018-07-13T00:45:57+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
