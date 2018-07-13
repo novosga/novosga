@@ -71,7 +71,7 @@ class ApiController extends Controller
      *
      * @Route("/oauth-clients", name="admin_api_newclient", methods={"POST"})
      */
-    public function newOauthClient(Request $request, \FOS\OAuthServerBundle\Model\ClientManagerInterface $clientManager)
+    public function newOauthClient(Request $request)
     {
         $envelope = new Envelope();
         
@@ -81,7 +81,8 @@ class ApiController extends Controller
         if (strlen($description) > 30) {
             $description = substr($description, 0, 30);
         }
-
+        
+        $clientManager = $this->get('fos_oauth_server.client_manager.default');
         $client = $clientManager->createClient();
         $client->setDescription($description);
         $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);
