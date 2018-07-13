@@ -1,4 +1,13 @@
 {
+    "doctrine/event-manager": {
+        "version": "v1.0.0"
+    },
+    "doctrine/persistence": {
+        "version": "v1.0.0"
+    },
+    "doctrine/reflection": {
+        "version": "v1.0.0"
+    },
     "easycorp/easy-log-handler": {
         "version": "1.0",
         "recipe": {
