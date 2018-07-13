@@ -27,7 +27,8 @@ class UpdateCommand extends ContainerAwareCommand
     
     protected function configure()
     {
-        $this->setName('novosga:update')
+        $this
+            ->setName('novosga:update')
             ->setDescription('Update command runned after composer update.');
     }
 

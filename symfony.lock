@@ -20,13 +20,28 @@
     "nikic/php-parser": {
         "version": "v4.0.0"
     },
+    "novosga/attendance-bundle": {
+        "version": "v2.0.0"
+    },
     "novosga/core": {
+        "version": "v2.0.0"
+    },
+    "novosga/monitor-bundle": {
         "version": "v2.0.0"
     },
     "novosga/oauth-server-bundle": {
         "version": "2.0-dev"
     },
     "novosga/reports-bundle": {
+        "version": "v2.0.0"
+    },
+    "novosga/settings-bundle": {
+        "version": "v2.0.0"
+    },
+    "novosga/triage-bundle": {
+        "version": "v2.0.0"
+    },
+    "novosga/users-bundle": {
         "version": "v2.0.0"
     },
     "squizlabs/php_codesniffer": {

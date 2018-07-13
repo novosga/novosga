@@ -40,7 +40,8 @@ class InstallCommand extends UpdateCommand
 
     protected function configure()
     {
-        $this->setName('novosga:install')
+        $this
+            ->setName('novosga:install')
             ->setDescription('Install command runned after composer install.');
     }
 
@@ -78,6 +79,14 @@ class InstallCommand extends UpdateCommand
         }
         
         $output->writeln('Schema <info>Ok</info>!');
+        
+        $output->writeln('> Running database migrations...');
+        
+        if (!$this->runMigrations($output)) {
+            return 1;
+        }
+        
+        $output->writeln('Migrations <info>Ok</info>!');
         
         $output->writeln('> Checking data...');
         
@@ -212,6 +221,17 @@ class InstallCommand extends UpdateCommand
         $createDatabase = $this->getApplication()->find('doctrine:database:create');
         $code = $createDatabase->run(
             new ArrayInput([ '--if-not-exists' => true ]),
+            $output
+        );
+        
+        return $code === 0;
+    }
+    
+    private function runMigrations(OutputInterface $output): bool
+    {
+        $migration = $this->getApplication()->find('doctrine:migrations:migrate');
+        $code = $migration->run(
+            new ArrayInput([ '-n' => true ]),
             $output
         );
         
