@@ -229,11 +229,11 @@ class InstallCommand extends UpdateCommand
     
     private function runMigrations(OutputInterface $output): bool
     {
+        $input = new ArrayInput([]);
+        $input->setInteractive(false);
+        
         $migration = $this->getApplication()->find('doctrine:migrations:migrate');
-        $code = $migration->run(
-            new ArrayInput([ '-n' => true ]),
-            $output
-        );
+        $code      = $migration->run($input, $output);
         
         return $code === 0;
     }
