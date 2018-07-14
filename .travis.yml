@@ -14,15 +14,16 @@ env:
         - LANGUAGE="en"
         - APP_ENV="prod"
         - DATABASE_URL="mysql://root@127.0.0.1:3306/db?charset=utf8mb4&serverVersion=5.7"
-        - DATABASE_PASS="just-to-build"
-        - COMPOSER_ROOT_VERSION="2.0.x-dev"
 
 install:
-    - travis_retry composer update --prefer-dist
+    - travis_retry composer install --no-interaction --prefer-dist --no-suggest
 
 script:
     - php vendor/bin/phpcs
     - php bin/phpunit
+    
+after_success:
+    - travis_retry composer install --no-dev --no-interaction --prefer-dist --no-suggest
 
 cache:
     directories:
