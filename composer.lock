@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d1ef4bacee56856f6bbccf8fb01eaf1",
+    "content-hash": "241966c3de13c32eb6f0ede4696e0d0c",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -300,28 +300,31 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.7.1",
+            "version": "v2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "11037b4352c008373561dc6fc836834eed80c3b5"
+                "reference": "5140a64c08b4b607b9bedaae0cedd26f04a0e621"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/11037b4352c008373561dc6fc836834eed80c3b5",
-                "reference": "11037b4352c008373561dc6fc836834eed80c3b5",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/5140a64c08b4b607b9bedaae0cedd26f04a0e621",
+                "reference": "5140a64c08b4b607b9bedaae0cedd26f04a0e621",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "^2.7.1",
+                "doctrine/cache": "^1.0",
+                "doctrine/event-manager": "^1.0",
                 "ext-pdo": "*",
                 "php": "^7.1"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^4.0",
-                "phpunit/phpunit": "^7.0",
+                "jetbrains/phpstorm-stubs": "^2018.1.2",
+                "phpstan/phpstan": "^0.10.1",
+                "phpunit/phpunit": "^7.1.2",
                 "phpunit/phpunit-mock-objects": "!=3.2.4,!=3.2.5",
-                "symfony/console": "^2.0.5||^3.0",
+                "symfony/console": "^2.0.5|^3.0|^4.0",
                 "symfony/phpunit-bridge": "^3.4.5|^4.0.5"
             },
             "suggest": {
@@ -333,7 +336,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7.x-dev"
+                    "dev-master": "2.8.x-dev",
+                    "dev-develop": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -371,7 +375,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2018-04-07T18:44:18+00:00"
+            "time": "2018-07-13T03:16:35+00:00"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -1630,20 +1634,20 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "860fc599bbb5452e5f09dbaaf0294bd3ffd46a43"
+                "reference": "a80518ddb1fafb8dce1db2c5431b9397f72d9ff4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/860fc599bbb5452e5f09dbaaf0294bd3ffd46a43",
-                "reference": "860fc599bbb5452e5f09dbaaf0294bd3ffd46a43",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/a80518ddb1fafb8dce1db2c5431b9397f72d9ff4",
+                "reference": "a80518ddb1fafb8dce1db2c5431b9397f72d9ff4",
                 "shasum": ""
             },
             "require": {
-                "novosga/core": "self.version",
+                "novosga/core": "^2.0",
                 "php": "^7.1.3"
             },
             "type": "novosga-module",
@@ -1661,7 +1665,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-07T17:46:47+00:00"
+            "time": "2018-07-14T16:55:43+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1731,20 +1735,20 @@
         },
         {
             "name": "novosga/monitor-bundle",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "3dfc8d380a3779f08974b2d4ae837eb7f272f13a"
+                "reference": "da904f332b5c45f8bd891e506ff8021e6946f518"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/3dfc8d380a3779f08974b2d4ae837eb7f272f13a",
-                "reference": "3dfc8d380a3779f08974b2d4ae837eb7f272f13a",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/da904f332b5c45f8bd891e506ff8021e6946f518",
+                "reference": "da904f332b5c45f8bd891e506ff8021e6946f518",
                 "shasum": ""
             },
             "require": {
-                "novosga/core": "self.version",
+                "novosga/core": "^2.0",
                 "php": "^7.1.3"
             },
             "type": "novosga-module",
@@ -1762,7 +1766,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-04-21T12:46:30+00:00"
+            "time": "2018-07-14T16:56:15+00:00"
         },
         {
             "name": "novosga/oauth-server-bundle",
@@ -1844,20 +1848,20 @@
         },
         {
             "name": "novosga/reports-bundle",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "ee878677f0dc95601e0b232ac221a78af283a488"
+                "reference": "160ceb982918bad936b38d4b21b17a69a058aca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/ee878677f0dc95601e0b232ac221a78af283a488",
-                "reference": "ee878677f0dc95601e0b232ac221a78af283a488",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/160ceb982918bad936b38d4b21b17a69a058aca8",
+                "reference": "160ceb982918bad936b38d4b21b17a69a058aca8",
                 "shasum": ""
             },
             "require": {
-                "novosga/core": "self.version",
+                "novosga/core": "^2.0",
                 "php": "^7.1.3"
             },
             "type": "novosga-module",
@@ -1875,24 +1879,24 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-17T23:47:57+00:00"
+            "time": "2018-07-14T16:56:26+00:00"
         },
         {
             "name": "novosga/settings-bundle",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "a0c64df57acf0edc2995457628afd83230cd777b"
+                "reference": "919d45f403763c5ba63d38bced264068e65ce60f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/a0c64df57acf0edc2995457628afd83230cd777b",
-                "reference": "a0c64df57acf0edc2995457628afd83230cd777b",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/919d45f403763c5ba63d38bced264068e65ce60f",
+                "reference": "919d45f403763c5ba63d38bced264068e65ce60f",
                 "shasum": ""
             },
             "require": {
-                "novosga/core": "self.version",
+                "novosga/core": "^2.0",
                 "php": "^7.1.3"
             },
             "type": "novosga-module",
@@ -1910,24 +1914,24 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-03-27T12:28:41+00:00"
+            "time": "2018-07-14T16:56:40+00:00"
         },
         {
             "name": "novosga/triage-bundle",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "51e83201f727a7ef6a902fb588347b443effbdaa"
+                "reference": "70c7aea9feb26aeb999e401476f99437478bdb84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/51e83201f727a7ef6a902fb588347b443effbdaa",
-                "reference": "51e83201f727a7ef6a902fb588347b443effbdaa",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/70c7aea9feb26aeb999e401476f99437478bdb84",
+                "reference": "70c7aea9feb26aeb999e401476f99437478bdb84",
                 "shasum": ""
             },
             "require": {
-                "novosga/core": "self.version",
+                "novosga/core": "^2.0",
                 "php": "^7.1.3"
             },
             "type": "novosga-module",
@@ -1945,24 +1949,24 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-04-20T11:03:33+00:00"
+            "time": "2018-07-14T16:56:53+00:00"
         },
         {
             "name": "novosga/users-bundle",
-            "version": "v2.0.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "bd3ef5cff4633f05c538cad2e3e228044a626ce7"
+                "reference": "91c1e2f5e47c0b986a05722a03b10588c59db25c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/bd3ef5cff4633f05c538cad2e3e228044a626ce7",
-                "reference": "bd3ef5cff4633f05c538cad2e3e228044a626ce7",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/91c1e2f5e47c0b986a05722a03b10588c59db25c",
+                "reference": "91c1e2f5e47c0b986a05722a03b10588c59db25c",
                 "shasum": ""
             },
             "require": {
-                "novosga/core": "self.version",
+                "novosga/core": "^2.0",
                 "pagerfanta/pagerfanta": "^1.0",
                 "php": "^7.1.3"
             },
@@ -1981,7 +1985,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-08T15:01:33+00:00"
+            "time": "2018-07-14T16:57:04+00:00"
         },
         {
             "name": "novosga/websocket-server",
@@ -2768,16 +2772,16 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.1.1",
+            "version": "v6.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "aa899fef280b1c1aec8d5d4ac069af7f80c89a23"
+                "reference": "7d760881d266d63c5e7a1155cbcf2ac656a31ca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/aa899fef280b1c1aec8d5d4ac069af7f80c89a23",
-                "reference": "aa899fef280b1c1aec8d5d4ac069af7f80c89a23",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/7d760881d266d63c5e7a1155cbcf2ac656a31ca8",
+                "reference": "7d760881d266d63c5e7a1155cbcf2ac656a31ca8",
                 "shasum": ""
             },
             "require": {
@@ -2823,7 +2827,7 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2018-07-04T11:12:44+00:00"
+            "time": "2018-07-13T07:04:35+00:00"
         },
         {
             "name": "symfony/asset",
@@ -3502,16 +3506,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.82",
+            "version": "v1.0.83",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "729aee08d62b47224e85b83c97e2824ff7d1735e"
+                "reference": "ec42e791e12ca37d73ac37dd8744ef763d39dbbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/729aee08d62b47224e85b83c97e2824ff7d1735e",
-                "reference": "729aee08d62b47224e85b83c97e2824ff7d1735e",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/ec42e791e12ca37d73ac37dd8744ef763d39dbbe",
+                "reference": "ec42e791e12ca37d73ac37dd8744ef763d39dbbe",
                 "shasum": ""
             },
             "require": {
@@ -3544,7 +3548,8 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2018-05-02T19:08:56+00:00"
+            "description": "Composer plugin for Symfony",
+            "time": "2018-07-13T07:56:08+00:00"
         },
         {
             "name": "symfony/form",
@@ -5598,20 +5603,21 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.4.8",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7b604c89da162034bdf4bb66310f358d313dd16d"
+                "reference": "6a5f676b77a90823c2d4eaf76137b771adf31323"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7b604c89da162034bdf4bb66310f358d313dd16d",
-                "reference": "7b604c89da162034bdf4bb66310f358d313dd16d",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/6a5f676b77a90823c2d4eaf76137b771adf31323",
+                "reference": "6a5f676b77a90823c2d4eaf76137b771adf31323",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
+                "symfony/polyfill-ctype": "^1.8",
                 "symfony/polyfill-mbstring": "~1.0"
             },
             "require-dev": {
@@ -5622,7 +5628,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "2.5-dev"
                 }
             },
             "autoload": {
@@ -5651,16 +5657,16 @@
                 },
                 {
                     "name": "Twig Team",
-                    "homepage": "http://twig.sensiolabs.org/contributors",
+                    "homepage": "https://twig.symfony.com/contributors",
                     "role": "Contributors"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
-            "homepage": "http://twig.sensiolabs.org",
+            "homepage": "https://twig.symfony.com",
             "keywords": [
                 "templating"
             ],
-            "time": "2018-04-02T09:24:19+00:00"
+            "time": "2018-07-13T07:18:09+00:00"
         },
         {
             "name": "webmozart/assert",

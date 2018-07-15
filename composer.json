@@ -23,7 +23,7 @@
         "novosga/composer-installer-plugin": "v1.0",
         "novosga/core": "^2.0",
         "novosga/monitor-bundle": "^2.0",
-        "novosga/oauth-server-bundle": "dev-master",
+        "novosga/oauth-server-bundle": "dev-master#3ee0778d14bc4cb1de519e2140d4ea4c62aeec50",
         "novosga/reports-bundle": "^2.0",
         "novosga/settings-bundle": "^2.0",
         "novosga/triage-bundle": "^2.0",
