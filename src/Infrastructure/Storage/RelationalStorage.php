@@ -57,6 +57,31 @@ abstract class RelationalStorage extends DoctrineStorage
     abstract protected function preApagarDadosAtendimento(Connection $conn, Unidade $unidade = null);
     
     /**
+     * Reinicia os contadores dos serviços da unidade
+     * @param Connection   $conn
+     * @param int          $unidadeId
+     */
+    protected function reiniciarContadores(Connection $conn, int $unidadeId)
+    {
+        $contadorTable       = $this->om->getClassMetadata(Contador::class)->getTableName();
+        $servicoUnidadeTable = $this->om->getClassMetadata(ServicoUnidade::class)->getTableName();
+        
+        $query = $conn->prepare("
+            UPDATE {$contadorTable}
+            SET numero = (
+                SELECT su.numero_inicial
+                FROM {$servicoUnidadeTable} su
+                WHERE
+                    su.unidade_id = {$contadorTable}.unidade_id AND
+                    su.servico_id = {$contadorTable}.servico_id
+            )
+            WHERE (unidade_id = :unidade OR :unidade = 0)
+        ");
+        $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
+        $query->execute();
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function chamar(Atendimento $atendimento)
@@ -147,7 +172,7 @@ abstract class RelationalStorage extends DoctrineStorage
             }
 
             $atendimento->setDataChegada(new DateTime());
-            $atendimento->getSenha()->setNumero($numeroSenha);
+            $atendimento->getSenha()->setNumero($numeroAtual);
 
             if ($agendamento) {
                 $agendamento->setDataConfirmacao(new DateTime());
@@ -321,19 +346,7 @@ abstract class RelationalStorage extends DoctrineStorage
             $query->execute();
 
             // reinicia o contador das senhas
-            $query = $conn->prepare("
-                UPDATE {$contadorTable}
-                SET numero = (
-                    SELECT su.numero_inicial
-                    FROM {$servicoUnidadeTable} su
-                    WHERE
-                        su.unidade_id = {$contadorTable}.unidade_id AND
-                        su.servico_id = {$contadorTable}.servico_id
-                )
-                WHERE (unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            $this->reiniciarContadores($conn, $unidadeId);
         });
     }
     
@@ -399,6 +412,9 @@ abstract class RelationalStorage extends DoctrineStorage
             ");
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
+            
+            // reinicia o contador das senhas
+            $this->reiniciarContadores($conn, $unidadeId);
         });
     }
 }
