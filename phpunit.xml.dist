@@ -15,6 +15,20 @@
         <env name="APP_SECRET" value="s$cretf0rt3st" />
         <env name="SHELL_VERBOSITY" value="-1" />
         <!-- define your env variables for the test env here -->
+
+        <!-- ###+ symfony/framework-bundle ### -->
+        <env name="APP_ENV" value="dev"/>
+        <env name="APP_SECRET" value="1b22fb032165ae33b22612fc499dbfe6"/>
+        <!-- env name="TRUSTED_PROXIES" value="127.0.0.1,127.0.0.2" -->
+        <!-- env name="TRUSTED_HOSTS" value="localhost,example.com" -->
+        <!-- ###- symfony/framework-bundle ### -->
+
+        <!-- ###+ symfony/swiftmailer-bundle ### -->
+        <!-- For Gmail as a transport, use: "gmail://username:password@localhost" -->
+        <!-- For a generic SMTP server, use: "smtp://localhost:25?encryption=&auth_mode=" -->
+        <!-- Delivery is disabled by default via "null://localhost" -->
+        <env name="MAILER_URL" value="null://localhost"/>
+        <!-- ###- symfony/swiftmailer-bundle ### -->
     </php>
 
     <testsuites>

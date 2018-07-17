@@ -1634,16 +1634,16 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "a80518ddb1fafb8dce1db2c5431b9397f72d9ff4"
+                "reference": "104e222189d7f583308c439fcbcd140559ae84a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/a80518ddb1fafb8dce1db2c5431b9397f72d9ff4",
-                "reference": "a80518ddb1fafb8dce1db2c5431b9397f72d9ff4",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/104e222189d7f583308c439fcbcd140559ae84a2",
+                "reference": "104e222189d7f583308c439fcbcd140559ae84a2",
                 "shasum": ""
             },
             "require": {
@@ -1665,7 +1665,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-14T16:55:43+00:00"
+            "time": "2018-07-17T16:08:03+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1731,7 +1731,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-13T00:45:57+00:00"
+            "time": "2018-07-11T21:30:15+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -5784,16 +5784,16 @@
         },
         {
             "name": "workerman/workerman",
-            "version": "v3.5.12",
+            "version": "v3.5.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/walkor/Workerman.git",
-                "reference": "2f89ef966809cb54de776bfb1ac8582d1deae185"
+                "reference": "cf2538169af989fbba4d55be1bfc8c8d80fa71e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/walkor/Workerman/zipball/2f89ef966809cb54de776bfb1ac8582d1deae185",
-                "reference": "2f89ef966809cb54de776bfb1ac8582d1deae185",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/cf2538169af989fbba4d55be1bfc8c8d80fa71e9",
+                "reference": "cf2538169af989fbba4d55be1bfc8c8d80fa71e9",
                 "shasum": ""
             },
             "require": {
@@ -5826,7 +5826,7 @@
                 "asynchronous",
                 "event-loop"
             ],
-            "time": "2018-07-05T08:31:48+00:00"
+            "time": "2018-07-16T02:11:10+00:00"
         },
         {
             "name": "zendframework/zend-code",
@@ -5989,16 +5989,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.0.2",
+            "version": "v4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "35b8caf75e791ba1b2d24fec1552168d72692b12"
+                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/35b8caf75e791ba1b2d24fec1552168d72692b12",
-                "reference": "35b8caf75e791ba1b2d24fec1552168d72692b12",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd088dc940a418f09cda079a9b5c7c478890fb8d",
+                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d",
                 "shasum": ""
             },
             "require": {
@@ -6036,7 +6036,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2018-06-03T11:33:10+00:00"
+            "time": "2018-07-15T17:25:16+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
