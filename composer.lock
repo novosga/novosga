@@ -1883,16 +1883,16 @@
         },
         {
             "name": "novosga/settings-bundle",
-            "version": "v2.0.3",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "65a2e3ee55deac2e01ce3ad3886c0083ea886ef4"
+                "reference": "e1d2d7e13d4fae7548201501f33f97fa35adc1b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/65a2e3ee55deac2e01ce3ad3886c0083ea886ef4",
-                "reference": "65a2e3ee55deac2e01ce3ad3886c0083ea886ef4",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/e1d2d7e13d4fae7548201501f33f97fa35adc1b0",
+                "reference": "e1d2d7e13d4fae7548201501f33f97fa35adc1b0",
                 "shasum": ""
             },
             "require": {
@@ -1914,7 +1914,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-15T13:55:25+00:00"
+            "time": "2018-07-17T19:59:29+00:00"
         },
         {
             "name": "novosga/triage-bundle",
