@@ -38,23 +38,27 @@ class AccessListener extends AppListener
         }
         
         $request  = $event->getRequest();
+        $isApi    = $this->isApiRequest($request);
         $isAdmin  = $this->isAdminRequest($request);
         $isModule = $this->isModuleRequest($request);
         
-        if ($isAdmin) {
-            if (!$this->authChecker->isGranted([ 'ROLE_ADMIN' ])) {
-                $response = new RedirectResponse("/");
-                $event->setResponse($response);
-                return;
+        
+        if (!$isApi) {
+            if ($isAdmin) {
+                if (!$this->authChecker->isGranted([ 'ROLE_ADMIN' ])) {
+                    $response = new RedirectResponse("/");
+                    $event->setResponse($response);
+                    return;
+                }
             }
-        }
-            
-        if ($isModule !== false) {
-            $role = UsuarioRepository::roleName($isModule);
-            if (!$this->authChecker->isGranted([ 'ROLE_ADMIN', $role ])) {
-                $response = new RedirectResponse("/");
-                $event->setResponse($response);
-                return;
+
+            if ($isModule !== false) {
+                $role = UsuarioRepository::roleName($isModule);
+                if (!$this->authChecker->isGranted([ 'ROLE_ADMIN', $role ])) {
+                    $response = new RedirectResponse("/");
+                    $event->setResponse($response);
+                    return;
+                }
             }
         }
     }

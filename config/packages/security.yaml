@@ -21,10 +21,15 @@ security:
         oauth_token:
             pattern:    ^/api/token
             security:   false
+            
+        api:
+            pattern:    ^/(api|\w+\.\w+/api)
+            fos_oauth:  true
+            stateless:  true
+            anonymous:  false
 
         main:
             anonymous: true
-            fos_oauth:  true
             pattern: ^/
             form_login:
                 login_path: /login
@@ -36,7 +41,6 @@ security:
     access_control:
         - { path: ^/(api|\w+\.\w+/api), roles: [ IS_AUTHENTICATED_FULLY ] }
         - { path: ^/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
-        - { path: ^/api/token, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
         - { path: ^/admin, roles: [ ROLE_ADMIN ] }
         - { path: ^/,      roles: [ ROLE_USER ] }
 
