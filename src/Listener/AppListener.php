@@ -26,8 +26,11 @@ abstract class AppListener
      */
     protected function isApiRequest(Request $request): bool
     {
-        $path  = $request->getPathInfo();
-        $match = strpos($path, '/api') === 0;
+        $output = [];
+        $path   = $request->getPathInfo();
+        preg_match("/^\/(api|\w+\.\w+\/api)/", $path, $output);
+        
+        $match = count($output) > 0;
         
         return $match;
     }
