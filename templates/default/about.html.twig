@@ -9,11 +9,11 @@
         <h1>{{ 'about.version.title'|trans({'%version%': version}) }}</h1>
         <p>{{ 'about.version.subtitle'|trans }}</p>
         <p>
-            <button id="btn-checkversion" class="btn btn-secondary btn-lg" role="button" onclick="return App.checkVersion();">
+            <button id="btn-checkversion" class="btn btn-secondary btn-lg" role="button">
                 <i class="fa fa-refresh"></i>
                 {{ 'about.version.check_new'|trans }}
             </button>
-            <a id="btn-downloader" href="#" class="btn btn-success btn-lg" role="button" style="display:none">
+            <a id="btn-downloader" href="#" class="btn btn-success btn-lg" role="button" target="_blank" style="display:none">
                 <i class="fa fa-download"></i>
                 {{ 'about.version.download'|trans }} <span class="version"></span>
             </a>
@@ -84,4 +84,39 @@
             padding: 20px 0;
         }
     </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function () {
+            'use strict'
+            
+            $('#btn-checkversion').on('click', function () {
+                var $elem = $(this);
+                var icon = $elem.prop('disabled', true).find('span');
+                icon.addClass('fa-spin');
+                $.ajax({
+                    url: 'https://api.github.com/repos/novosga/novosga/tags',
+                    success: function(response) {
+                        $('#btn-checkversion').hide();
+                        var latest = response[0];
+                        if (App.version !== latest.name.replace('v', '')) {
+                            $('#btn-downloader')
+                                .show()
+                                .prop('href', 'https://github.com/novosga/novosga/releases/' + latest.name)
+                                .find('.version')
+                                .text(latest.name);
+                        } else {
+                            $('#update-alert').show();
+                        }
+                    },
+                    complete: function () {
+                        icon.removeClass('fa-spin');
+                    }
+                });
+                return false;
+            });
+        })();
+    </script>
 {% endblock %}
