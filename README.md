@@ -9,10 +9,14 @@ Support queue management system.
 
 Create project:
 
-    composer create-project "novosga/novosga:v2.0.x-dev" novosga2
+    composer create-project "novosga/novosga:^2.0" novosga2
 
 Run app installation command and follow instructions:
 
+    export APP_ENV=prod
+    export LANGUAGE=pt_BR
+    export DATABASE_URL="mysql://user:pass@localhost:5432/novosgadb"
+    
     bin/console novosga:install
 
 
