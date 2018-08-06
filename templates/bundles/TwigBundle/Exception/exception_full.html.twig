@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ exception.message }} ({{ status_code }} {{ status_text }})
+{% endblock %}
+
+{% block body -%}
+    <div class="my-3">
+        <div class="exception-metadata">
+            <div class="container">
+                <h2 class="exception-http">
+                    HTTP {{ status_code }} <small>{{ status_text }}</small>
+                </h2>
+            </div>
+        </div>
+
+        <div class="exception-message-wrapper">
+            <div class="container">
+                <h1 class="break-long-words exception-message {{ exception.message|length > 180 ? 'long' }}">
+                    {{- exception.message|nl2br|format_file_from_text -}}
+                </h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}
