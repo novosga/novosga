@@ -11,6 +11,10 @@ var App = {
     dateFormat: '',
     baseUrl: '/',
     
+    dialogs: {
+        opened: 0
+    },
+    
     Storage: {
         
         set: function(name, value) {
