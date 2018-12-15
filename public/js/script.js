@@ -250,6 +250,7 @@ var App = {
     
     Websocket: {
         
+        timeout: 2000,
         maxAttemps: 3,
         
         connect: function() {
@@ -262,6 +263,10 @@ var App = {
         
         create: function() {
             this.ws = io(':2020', {
+                timeout: App.Websocket.timeout,
+                reconnection: true,
+                reconnectionDelay: 1000,
+                reconnectionDelayMax: 5000,
                 reconnectionAttempts: App.Websocket.maxAttemps
             });
 
