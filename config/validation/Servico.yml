@@ -1,8 +1,9 @@
 Novosga\Entity\Servico:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
-            fields: nome
+            fields: [nome, deletedAt]
             message: Já existe um serviço com esse código
+            ignoreNull: false
     properties:
         nome:
             - NotBlank: ~
