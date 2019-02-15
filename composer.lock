@@ -944,12 +944,12 @@
             "version": "v2.6.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/doctrine2.git",
+                "url": "https://github.com/doctrine/orm.git",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/434820973cadf2da2d66e7184be370084cc32ca8",
                 "reference": "434820973cadf2da2d66e7184be370084cc32ca8",
                 "shasum": ""
             },
@@ -1647,16 +1647,16 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.0.4",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "014963c9dc98d0e3bbb43d04bd8d3cd139508d3a"
+                "reference": "f5f0fbb2ca9d70698207d9a49e84320ba359a9f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/014963c9dc98d0e3bbb43d04bd8d3cd139508d3a",
-                "reference": "014963c9dc98d0e3bbb43d04bd8d3cd139508d3a",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/f5f0fbb2ca9d70698207d9a49e84320ba359a9f1",
+                "reference": "f5f0fbb2ca9d70698207d9a49e84320ba359a9f1",
                 "shasum": ""
             },
             "require": {
@@ -1678,7 +1678,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-18T21:55:14+00:00"
+            "time": "2019-02-15T11:26:44+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",

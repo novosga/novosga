@@ -263,6 +263,9 @@ var App = {
         
         create: function() {
             this.ws = io(':2020', {
+                path: '/socket.io',
+                transports: ['websocket'],
+                secure: true,
                 timeout: App.Websocket.timeout,
                 reconnection: true,
                 reconnectionDelay: 1000,
