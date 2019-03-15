@@ -546,6 +546,7 @@
             </trans-unit>
             <trans-unit id="122">
                 <source>admin.webapi.clients.description</source>
+                <target>Descrição</target>
                 
             </trans-unit>
             <trans-unit id="123">
