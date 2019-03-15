@@ -14,7 +14,7 @@ namespace App\Controller\Admin;
 use Novosga\Entity\Prioridade as Entity;
 use App\Form\PrioridadeType as EntityType;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -26,7 +26,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  *
  * @Route("/admin/prioridades")
  */
-class PrioridadesController extends Controller
+class PrioridadesController extends AbstractController
 {
     /**
      *

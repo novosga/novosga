@@ -16,7 +16,7 @@ use App\Entity\OAuthClient;
 use App\Entity\OAuthRefreshToken;
 use Novosga\Http\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/admin/api")
  */
-class ApiController extends Controller
+class ApiController extends AbstractController
 {
     /**
      *

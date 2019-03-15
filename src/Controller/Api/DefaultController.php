@@ -12,14 +12,14 @@
 namespace App\Controller\Api;
 
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * DefaultController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
     /**
      * @Route("/api")
