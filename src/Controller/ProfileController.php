@@ -15,7 +15,7 @@ use App\Form\ProfileType;
 use Exception;
 use Novosga\Http\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -23,7 +23,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 /**
  * @Route("/profile")
  */
-class ProfileController extends Controller
+class ProfileController extends AbstractController
 {
     /**
      * @Route("/", name="profile_index", methods={"GET"})

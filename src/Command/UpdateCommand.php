@@ -11,19 +11,28 @@
 
 namespace App\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Bundle\FrameworkBundle\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * UpdateCommand.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class UpdateCommand extends ContainerAwareCommand
+class UpdateCommand extends Command
 {
     use FormattedOutputTrait;
+
+    private $params;
+
+    public function __construct(ParameterBagInterface $params)
+    {
+        parent::__construct();
+        $this->params = $params;
+    }
     
     protected function configure()
     {
@@ -34,7 +43,7 @@ class UpdateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $version = $this->getContainer()->getParameter('version');
+        $version = $this->params->get('version');
         $header = [
             "*******************\n",
             "Updating NovoSGA v{$version} installation\n",

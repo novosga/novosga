@@ -26,7 +26,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  *
  * @Route("/admin/perfis")
  */
-class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Controller
+class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
 {
     /**
      *
