@@ -3,6 +3,7 @@
         <body>
             <trans-unit id="1">
                 <source>default.title</source>
+                <target>Bienvenido</target>
                 
             </trans-unit>
             <trans-unit id="2">
@@ -32,10 +33,12 @@
             </trans-unit>
             <trans-unit id="7">
                 <source>label.module</source>
+                <target>Módulo</target>
                 
             </trans-unit>
             <trans-unit id="8">
                 <source>label.success</source>
+                <target>Exito</target>
                 
             </trans-unit>
             <trans-unit id="9">
@@ -80,6 +83,7 @@
             </trans-unit>
             <trans-unit id="17">
                 <source>button.update</source>
+                <target>Actualización</target>
                 
             </trans-unit>
             <trans-unit id="18">
@@ -134,14 +138,17 @@
             </trans-unit>
             <trans-unit id="28">
                 <source>print.ticket.date</source>
+                <target>Hora de Llegada 1%time% (Hora Local)</target>
                 
             </trans-unit>
             <trans-unit id="29">
                 <source>login.title</source>
+                <target>Inicio  | Novo SGA</target>
                 
             </trans-unit>
             <trans-unit id="30">
                 <source>label.username</source>
+                <target>Nombre de usuario</target>
                 
             </trans-unit>
             <trans-unit id="31">
@@ -156,14 +163,17 @@
             </trans-unit>
             <trans-unit id="33">
                 <source>home.welcome.title</source>
+                <target>Bienvenido, 1%name%</target>
                 
             </trans-unit>
             <trans-unit id="34">
                 <source>home.welcome.subtitle</source>
+                <target>Novo SGA - Sistema de Gestión de Atención</target>
                 
             </trans-unit>
             <trans-unit id="35">
                 <source>home.welcome.button.read</source>
+                <target>Acerca de</target>
                 
             </trans-unit>
             <trans-unit id="36">
@@ -173,10 +183,12 @@
             </trans-unit>
             <trans-unit id="37">
                 <source>about.version.title</source>
+                <target>Novo SGA v%version%</target>
                 
             </trans-unit>
             <trans-unit id="38">
                 <source>about.version.subtitle</source>
+                <target>Sistema de Gestión de Atención</target>
                 
             </trans-unit>
             <trans-unit id="39">
@@ -186,6 +198,7 @@
             </trans-unit>
             <trans-unit id="40">
                 <source>about.version.download</source>
+                <target>Descarga</target>
                 
             </trans-unit>
             <trans-unit id="41">
@@ -195,18 +208,22 @@
             </trans-unit>
             <trans-unit id="42">
                 <source>about.community.title</source>
+                <target>Comunidad</target>
                 
             </trans-unit>
             <trans-unit id="43">
                 <source>about.community.subtitle</source>
+                <target>¿Buscando ayuda? Acceda a uno de los canales del proyecto a través de los siguientes enlaces</target>
                 
             </trans-unit>
             <trans-unit id="44">
                 <source>about.community.blog.title</source>
+                <target>Blog</target>
                 
             </trans-unit>
             <trans-unit id="45">
                 <source>about.community.blog.description</source>
+                <target>Noticias relacionadas con los proyectos del Novo SGA y lanzamiento de nuevas versiones</target>
                 
             </trans-unit>
             <trans-unit id="46">
@@ -216,10 +233,12 @@
             </trans-unit>
             <trans-unit id="47">
                 <source>about.community.forum.title</source>
+                <target>Foro</target>
                 
             </trans-unit>
             <trans-unit id="48">
                 <source>about.community.forum.description</source>
+                <target>Canal para tomar dudas sobre el uso o instalación de los proyectos.</target>
                 
             </trans-unit>
             <trans-unit id="49">
@@ -229,10 +248,12 @@
             </trans-unit>
             <trans-unit id="50">
                 <source>about.community.github.title</source>
+                <target>Github</target>
                 
             </trans-unit>
             <trans-unit id="51">
                 <source>about.community.github.description</source>
+                <target>Participe directamente del desarrollo informando problemas (issues).</target>
                 
             </trans-unit>
             <trans-unit id="52">
@@ -247,6 +268,7 @@
             </trans-unit>
             <trans-unit id="54">
                 <source>profile.subtitle</source>
+                <target>Datos personales del usuario</target>
                 
             </trans-unit>
             <trans-unit id="55">
@@ -256,6 +278,7 @@
             </trans-unit>
             <trans-unit id="56">
                 <source>profile.general.description</source>
+                <target>Datos básicos del usuario.</target>
                 
             </trans-unit>
             <trans-unit id="57">
@@ -275,6 +298,7 @@
             </trans-unit>
             <trans-unit id="60">
                 <source>label.email</source>
+                <target>Correo Electronico</target>
                 
             </trans-unit>
             <trans-unit id="61">
@@ -284,6 +308,7 @@
             </trans-unit>
             <trans-unit id="62">
                 <source>profile.lotation.description</source>
+                <target>La asignación se utiliza para definir el perfil de acceso del usuario en las unidades.</target>
                 
             </trans-unit>
             <trans-unit id="63">
@@ -318,6 +343,7 @@
             </trans-unit>
             <trans-unit id="69">
                 <source>admin.title</source>
+                <target>Administración</target>
                 
             </trans-unit>
             <trans-unit id="70">
@@ -332,6 +358,7 @@
             </trans-unit>
             <trans-unit id="71-1">
                 <source>admin.menu.departments</source>
+                <target>Departamentos</target>
                 
             </trans-unit>
             <trans-unit id="72">
@@ -341,6 +368,7 @@
             </trans-unit>
             <trans-unit id="73">
                 <source>admin.menu.roles</source>
+                <target>Perfiles</target>
                 
             </trans-unit>
             <trans-unit id="74">
@@ -360,10 +388,12 @@
             </trans-unit>
             <trans-unit id="77">
                 <source>admin.menu.webapi</source>
+                <target>Web API</target>
                 
             </trans-unit>
             <trans-unit id="78">
                 <source>admin.system.danger_zone</source>
+                <target>Zona de peligro</target>
                 
             </trans-unit>
             <trans-unit id="79">
@@ -383,14 +413,17 @@
             </trans-unit>
             <trans-unit id="79-1">
                 <source>admin.system.clear_tickets</source>
+                <target>Limpieza de las llamadas</target>
                 
             </trans-unit>
             <trans-unit id="80-1">
                 <source>admin.system.clear_tickets.alert</source>
+                <target>¿Desea realmente borrar el historial de atención de todas las unidades?</target>
                 
             </trans-unit>
             <trans-unit id="81-1">
                 <source>admin.system.clear_tickets.success</source>
+                <target>Llamadas eliminadas con éxito</target>
                 
             </trans-unit>
             <trans-unit id="82">
@@ -400,6 +433,7 @@
             </trans-unit>
             <trans-unit id="83">
                 <source>admin.modules.subtitle</source>
+                <target>Gestión de los módulos de Novo SGA</target>
                 
             </trans-unit>
             <trans-unit id="84">
@@ -409,10 +443,12 @@
             </trans-unit>
             <trans-unit id="85">
                 <source>admin.places.subtitle</source>
+                <target>Registro de locales de atención</target>
                 
             </trans-unit>
             <trans-unit id="86">
                 <source>admin.places.button.new</source>
+                <target>Nuevo local</target>
                 
             </trans-unit>
             <trans-unit id="87">
@@ -422,14 +458,17 @@
             </trans-unit>
             <trans-unit id="88">
                 <source>admin.roles.title</source>
+                <target>Perfiles</target>
                 
             </trans-unit>
             <trans-unit id="89">
                 <source>admin.roles.subtitle</source>
+                <target>Registro de perfiles de acceso</target>
                 
             </trans-unit>
             <trans-unit id="90">
                 <source>admin.roles.button.new</source>
+                <target>Nuevo perfil</target>
                 
             </trans-unit>
             <trans-unit id="92">
@@ -439,6 +478,7 @@
             </trans-unit>
             <trans-unit id="92-1">
                 <source>label.department</source>
+                <target>Departamento</target>
                 
             </trans-unit>
             <trans-unit id="93">
@@ -453,6 +493,7 @@
             </trans-unit>
             <trans-unit id="95">
                 <source>admin.priorities.subtitle</source>
+                <target>Registro de prioridades de atención</target>
                 
             </trans-unit>
             <trans-unit id="96">
@@ -472,6 +513,7 @@
             </trans-unit>
             <trans-unit id="102">
                 <source>admin.services.subtitle</source>
+                <target>Registro de servicios para atención</target>
                 
             </trans-unit>
             <trans-unit id="103">
@@ -486,6 +528,7 @@
             </trans-unit>
             <trans-unit id="109">
                 <source>admin.services.field.parent</source>
+                <target>Servicio superior</target>
                 
             </trans-unit>
             <trans-unit id="110">
@@ -495,22 +538,27 @@
             </trans-unit>
             <trans-unit id="111">
                 <source>admin.unities.subtitle</source>
+                <target>Registro de unidades de atención</target>
                 
             </trans-unit>
             <trans-unit id="112">
                 <source>admin.unities.button.new</source>
+                <target>Nueva unidad</target>
                 
             </trans-unit>
             <trans-unit id="110-1">
                 <source>admin.departments.title</source>
+                <target>Departamentos</target>
                 
             </trans-unit>
             <trans-unit id="111-1">
                 <source>admin.departments.subtitle</source>
+                <target>Registro de Departamentos</target>
                 
             </trans-unit>
             <trans-unit id="112-1">
                 <source>admin.departments.button.new</source>
+                <target>Nuevo Departamento</target>
                 
             </trans-unit>
             <trans-unit id="113">
@@ -520,10 +568,12 @@
             </trans-unit>
             <trans-unit id="116">
                 <source>admin.webapi.title</source>
+                <target>Web API</target>
                 
             </trans-unit>
             <trans-unit id="117">
                 <source>admin.webapi.subtitle</source>
+                <target>API Web para la integración con otros sistemas</target>
                 
             </trans-unit>
             <trans-unit id="118">
@@ -533,26 +583,32 @@
             </trans-unit>
             <trans-unit id="119">
                 <source>admin.webapi.clients.subtitle</source>
+                <target>Para acceder a algunas URL es necesario tener un token de acceso, y para ello es necesario primero registrar la aplicación cliente.</target>
                 
             </trans-unit>
             <trans-unit id="120">
                 <source>admin.webapi.clients.public_id</source>
+                <target>ID Publica</target>
                 
             </trans-unit>
             <trans-unit id="121">
                 <source>admin.webapi.clients.public_secret</source>
+                <target>Cliente Secreto</target>
                 
             </trans-unit>
             <trans-unit id="122">
                 <source>admin.webapi.clients.description</source>
+                <target>Descripción</target>
                 
             </trans-unit>
             <trans-unit id="123">
                 <source>admin.webapi.clients.remove_alert</source>
+                <target>¿Desea realmente quitar el cliente?</target>
                 
             </trans-unit>
             <trans-unit id="124">
                 <source>admin.webapi.clients.modal</source>
+                <target>API Cliente</target>
                 
             </trans-unit>
             <trans-unit id="125">
@@ -562,6 +618,7 @@
             </trans-unit>
             <trans-unit id="126">
                 <source>session.invalid</source>
+                <target>Sesión no válida</target>
                 
             </trans-unit>
             <trans-unit id="127">
@@ -601,6 +658,7 @@
             </trans-unit>
             <trans-unit id="134">
                 <source>error.invalid_unity</source>
+                <target>Unidad no válida</target>
                 
             </trans-unit>
             <trans-unit id="135">
@@ -620,6 +678,7 @@
             </trans-unit>
             <trans-unit id="138">
                 <source>error.user_unity_ticket_permission</source>
+                <target>El usuario que está intentando distribuir la contraseña no tiene asignación en la unidad elegida.</target>
                 
             </trans-unit>
             <trans-unit id="139">
@@ -629,6 +688,7 @@
             </trans-unit>
             <trans-unit id="140">
                 <source>error.change_status</source>
+                <target>Error al cambiar el estado de la atención</target>
                 
             </trans-unit>
             <trans-unit id="141">
@@ -638,6 +698,7 @@
             </trans-unit>
             <trans-unit id="142">
                 <source>error.service_unity_inactive</source>
+                <target>El servicio elegido no está activo en la unidad deseada</target>
                 
             </trans-unit>
             <trans-unit id="143">
