@@ -25,8 +25,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class WebsocketCommand extends Command
 {
+    protected static $defaultName = 'novosga:websocket';
+
     private $validOptions = ['start', 'stop', 'restart', 'reload', 'status', 'connections'];
     
+    /**
+     * @var SecurityService
+     */
     private $securityService;
     
     public function __construct(SecurityService $securityService)
@@ -37,7 +42,7 @@ class WebsocketCommand extends Command
     
     protected function configure()
     {
-        $this->setName('novosga:websocket')
+        $this
             ->setDescription('Start/stop websocket server')
             ->addArgument('option', InputArgument::REQUIRED, implode('|', $this->validOptions));
     }
