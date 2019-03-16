@@ -28,6 +28,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ResetCommand extends Command
 {
+    protected static $defaultName = 'novosga:reset';
+
     /**
      * @var ObjectManager
      */
@@ -47,7 +49,7 @@ class ResetCommand extends Command
 
     protected function configure()
     {
-        $this->setName('novosga:reset')
+        $this
             ->setDescription('Reinicia a numeração das senhas de todas ou uma única unidade.')
             ->addArgument(
                 'unidade',

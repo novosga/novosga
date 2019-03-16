@@ -23,6 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class UnidadesCommand extends Command
 {
+    protected static $defaultName = 'novosga:unidades';
+
     /**
      * @var ObjectManager
      */
@@ -37,7 +39,6 @@ class UnidadesCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('novosga:unidades')
             ->setDescription('Lista as unidades do sistema e seus respectivos ids.')
             ->addOption('json', null, null, 'Retorna as unidades no formato JSON');
     }

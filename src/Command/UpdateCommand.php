@@ -11,7 +11,7 @@
 
 namespace App\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,6 +26,8 @@ class UpdateCommand extends Command
 {
     use FormattedOutputTrait;
 
+    protected static $defaultName = 'novosga:update';
+
     private $params;
 
     public function __construct(ParameterBagInterface $params)
@@ -37,7 +39,6 @@ class UpdateCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('novosga:update')
             ->setDescription('Update command runned after composer update.');
     }
 
