@@ -17,7 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Novosga\Http\Envelope;
+use function usort;
 
 class DefaultController extends AbstractController
 {
@@ -73,18 +75,35 @@ class DefaultController extends AbstractController
     /**
      * @Route("/menu", name="app_default_menu", methods={"GET"})
      */
-    public function menu(KernelInterface $kernel, Request $request)
+    public function menu(Request $request, KernelInterface $kernel, TranslatorInterface $translator)
     {
-        $bundles = array_filter($kernel->getBundles(), function ($bundle) {
-            return $bundle instanceof \Novosga\Module\ModuleInterface;
-        });
+        $modules = [];
+        
+        foreach ($kernel->getBundles() as $bundle) {
+            if ($bundle instanceof \Novosga\Module\ModuleInterface) {
+                $displayName = $translator->trans(
+                    $bundle->getDisplayName(),
+                    [],
+                    $bundle->getName()
+                );
 
-        usort($bundles, function (\Novosga\Module\ModuleInterface $a, \Novosga\Module\ModuleInterface $b) {
-            return strcasecmp($a->getDisplayName(), $b->getDisplayName());
+                $modules[] = [
+                    'keyName'     => $bundle->getKeyName(),
+                    'roleName'    => $bundle->getRoleName(),
+                    'iconName'    => $bundle->getIconName(),
+                    'displayName' => $displayName,
+                    'name'        => $bundle->getName(),
+                    'homeRoute'   => $bundle->getHomeRoute(),
+                ];
+            }
+        }
+
+        usort($modules, function ($a, $b) {
+            return strcasecmp($a['displayName'], $b['displayName']);
         });
         
         return $this->render('default/include/menu.html.twig', [
-            'modules' => $bundles,
+            'modules' => $modules,
         ]);
     }
 }
