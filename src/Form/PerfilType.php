@@ -18,9 +18,21 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use function ksort;
 
 class PerfilType extends AbstractType
 {
+    /**
+     * @var TranslatorInterface
+     */
+    private $translator;
+
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -31,9 +43,22 @@ class PerfilType extends AbstractType
         
         foreach ($options['modulos'] as $modulo) {
             if ($modulo instanceof \Novosga\Module\ModuleInterface) {
-                $modulos[$modulo->getKeyName()] = $modulo->getKeyName();
+                $key    = $modulo->getKeyName();
+                $name   = $this
+                    ->translator
+                    ->trans(
+                        $modulo->getDisplayName(),
+                        [],
+                        $modulo->getName()
+                    );
+
+                $name .= " ({$key})";
+
+                $modulos[$name] = $key;
             }
         }
+
+        ksort($modulos);
         
         $builder
             ->add('nome', TextType::class, [
