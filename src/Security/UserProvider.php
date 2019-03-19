@@ -13,6 +13,7 @@ namespace App\Security;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\EntityUserProvider;
+use Novosga\Entity\Usuario;
 
 /**
  * UserProvider
@@ -24,6 +25,6 @@ class UserProvider extends EntityUserProvider
     
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, 'Novosga\Entity\Usuario');
+        parent::__construct($registry, Usuario::class);
     }
 }

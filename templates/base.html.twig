@@ -26,17 +26,19 @@
                 </button>
 
                 <div class="collapse navbar-collapse novosga-navbar">
-                    {% if app.user.admin or app.user.lotacao %}
+                    {% if app.user and (app.user.admin or app.user.lotacao) %}
                         {{ render(controller('App\\Controller\\DefaultController::menu')) }}
                     {% endif %}
 
-                    {% if is_granted('ROLE_USER') %}
+                    {% if app.user %}
                         <ul class="navbar-nav ml-auto mr-sm-2">
-                            <li class="nav-item">
-                                <a href="{{ path('about') }}" title="{{ 'menu.about'|trans }}" class="nav-link">
-                                    <i class="fa fa-question-circle fa-fw"></i>
-                                </a>
-                            </li>
+                            {% if is_granted('ROLE_USER') %}
+                                <li class="nav-item">
+                                    <a href="{{ path('about') }}" title="{{ 'menu.about'|trans }}" class="nav-link">
+                                        <i class="fa fa-question-circle fa-fw"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
                                 <li class="nav-item">
                                     <a href="{{ path('admin_index') }}" title="{{ 'menu.admin'|trans }}" class="nav-link">
@@ -109,7 +111,7 @@
         </script>
         {% block javascripts %}{% endblock %}
 
-        {% if app.user.lotacao %}
+        {% if app.user and app.user.lotacao %}
             {{ render(controller('App\\Controller\\DefaultController::unidades')) }}
         {% endif %}
 

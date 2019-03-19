@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d80fa4c0bd47db560f2f5eff098d5617",
+    "content-hash": "e7a253744a6b338c130e1b1d62eec733",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1290,6 +1290,90 @@
             "time": "2016-10-17T18:31:11+00:00"
         },
         {
+            "name": "friendsofsymfony/oauth-server-bundle",
+            "version": "1.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FriendsOfSymfony/FOSOAuthServerBundle.git",
+                "reference": "fcaa25cc49474bdb0db7894f880976fe76ffed23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSOAuthServerBundle/zipball/fcaa25cc49474bdb0db7894f880976fe76ffed23",
+                "reference": "fcaa25cc49474bdb0db7894f880976fe76ffed23",
+                "shasum": ""
+            },
+            "require": {
+                "friendsofsymfony/oauth2-php": "~1.1",
+                "paragonie/random_compat": "^1|^2",
+                "php": "^5.5|^7.0",
+                "symfony/dependency-injection": "^2.8|~3.0|^4.0",
+                "symfony/framework-bundle": "~2.8|~3.0|^4.0",
+                "symfony/security-bundle": "~2.8|~3.0|^4.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-bundle": "~1.0",
+                "doctrine/mongodb-odm": "~1.0",
+                "doctrine/orm": "~2.2",
+                "phing/phing": "~2.4",
+                "php-mock/php-mock-phpunit": "^1.1",
+                "phpunit/phpunit": "~4.8|~5.0",
+                "propel/propel1": "^1.6.5",
+                "symfony/class-loader": "~2.8|~3.0|^4.0",
+                "symfony/console": "~2.8|~3.0|^4.0",
+                "symfony/form": "~2.8|~3.0|^4.0",
+                "symfony/phpunit-bridge": "~2.8|~3.0|^4.0",
+                "symfony/templating": "~2.8|~3.0|^4.0",
+                "symfony/twig-bundle": "~2.8|~3.0|^4.0",
+                "symfony/yaml": "~2.8|~3.0|^4.0",
+                "willdurand/propel-typehintable-behavior": "^1.0.4"
+            },
+            "suggest": {
+                "doctrine/doctrine-bundle": "*",
+                "doctrine/mongodb-odm-bundle": "*",
+                "propel/propel-bundle": "If you want to use Propel with Symfony2, then you will have to install the PropelBundle",
+                "symfony/console": "Needed to be able to use commands",
+                "symfony/form": "Needed to be able to use the AuthorizeFormType",
+                "willdurand/propel-typehintable-behavior": "The Typehintable behavior is useful to add type hints on generated methods, to be compliant with interfaces"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "FOS\\OAuthServerBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arnaud Le Blanc",
+                    "email": "arnaud.lb@gmail.com"
+                },
+                {
+                    "name": "FriendsOfSymfony Community",
+                    "homepage": "https://github.com/FriendsOfSymfony/FOSOAuthServerBundle/contributors"
+                }
+            ],
+            "description": "Symfony2 OAuth Server Bundle",
+            "homepage": "http://friendsofsymfony.github.com",
+            "keywords": [
+                "oauth",
+                "oauth2",
+                "server"
+            ],
+            "time": "2019-01-23T15:23:04+00:00"
+        },
+        {
             "name": "friendsofsymfony/oauth2-php",
             "version": "1.2.3",
             "source": {
@@ -1647,16 +1731,16 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.0.5",
+            "version": "v2.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "f5f0fbb2ca9d70698207d9a49e84320ba359a9f1"
+                "reference": "598ea735822ed7da0ef2cf1fb2b2575358e62859"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/f5f0fbb2ca9d70698207d9a49e84320ba359a9f1",
-                "reference": "f5f0fbb2ca9d70698207d9a49e84320ba359a9f1",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/598ea735822ed7da0ef2cf1fb2b2575358e62859",
+                "reference": "598ea735822ed7da0ef2cf1fb2b2575358e62859",
                 "shasum": ""
             },
             "require": {
@@ -1678,7 +1762,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2019-02-15T11:26:44+00:00"
+            "time": "2019-03-15T22:13:14+00:00"
         },
         {
             "name": "novosga/composer-installer-plugin",
@@ -1714,16 +1798,16 @@
         },
         {
             "name": "novosga/core",
-            "version": "v2.0.0",
+            "version": "v2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "adfcae683e8879d115ca3391e4188b8b547e5465"
+                "reference": "56c532164591e058246626c2cd809de52f4735c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/adfcae683e8879d115ca3391e4188b8b547e5465",
-                "reference": "adfcae683e8879d115ca3391e4188b8b547e5465",
+                "url": "https://api.github.com/repos/novosga/core/zipball/56c532164591e058246626c2cd809de52f4735c5",
+                "reference": "56c532164591e058246626c2cd809de52f4735c5",
                 "shasum": ""
             },
             "require": {
@@ -1744,20 +1828,20 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-11T21:30:15+00:00"
+            "time": "2019-03-15T22:15:12+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "da904f332b5c45f8bd891e506ff8021e6946f518"
+                "reference": "a5fd666c25e68d56eb3094b148064b0fa7042363"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/da904f332b5c45f8bd891e506ff8021e6946f518",
-                "reference": "da904f332b5c45f8bd891e506ff8021e6946f518",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/a5fd666c25e68d56eb3094b148064b0fa7042363",
+                "reference": "a5fd666c25e68d56eb3094b148064b0fa7042363",
                 "shasum": ""
             },
             "require": {
@@ -1779,98 +1863,20 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-14T16:56:15+00:00"
-        },
-        {
-            "name": "novosga/oauth-server-bundle",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/novosga/FOSOAuthServerBundle.git",
-                "reference": "3ee0778d14bc4cb1de519e2140d4ea4c62aeec50"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/novosga/FOSOAuthServerBundle/zipball/3ee0778d14bc4cb1de519e2140d4ea4c62aeec50",
-                "reference": "3ee0778d14bc4cb1de519e2140d4ea4c62aeec50",
-                "shasum": ""
-            },
-            "require": {
-                "friendsofsymfony/oauth2-php": "~1.1",
-                "php": "^7.0.8",
-                "symfony/dependency-injection": "^4.0",
-                "symfony/framework-bundle": "^4.0",
-                "symfony/security-bundle": "^4.0"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "~1.6",
-                "doctrine/mongodb-odm": "~1.0",
-                "doctrine/orm": "~2.3",
-                "phing/phing": "~2.4",
-                "propel/propel1": "^1.6.5",
-                "symfony/class-loader": "^4.0",
-                "symfony/console": "^4.0",
-                "symfony/form": "^4.0",
-                "symfony/yaml": "^4.0",
-                "willdurand/propel-typehintable-behavior": "^1.0.4"
-            },
-            "suggest": {
-                "doctrine/doctrine-bundle": "*",
-                "doctrine/mongodb-odm-bundle": "*",
-                "propel/propel-bundle": "If you want to use Propel with Symfony2, then you will have to install the PropelBundle",
-                "symfony/console": "Needed to be able to use commands",
-                "symfony/form": "Needed to be able to use the AuthorizeFormType",
-                "willdurand/propel-typehintable-behavior": "The Typehintable behavior is useful to add type hints on generated methods, to be compliant with interfaces"
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "FOS\\OAuthServerBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Arnaud Le Blanc",
-                    "email": "arnaud.lb@gmail.com"
-                },
-                {
-                    "name": "FriendsOfSymfony Community",
-                    "homepage": "https://github.com/FriendsOfSymfony/FOSOAuthServerBundle/contributors"
-                }
-            ],
-            "description": "Symfony4 OAuth Server Bundle",
-            "homepage": "http://friendsofsymfony.github.com",
-            "keywords": [
-                "oauth",
-                "oauth2",
-                "server"
-            ],
-            "time": "2017-11-09T19:31:38+00:00"
+            "time": "2019-03-15T22:12:06+00:00"
         },
         {
             "name": "novosga/reports-bundle",
-            "version": "v2.0.2",
+            "version": "v2.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "160ceb982918bad936b38d4b21b17a69a058aca8"
+                "reference": "e390dc9a5f11655307e377da8d4135c2ee24dd06"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/160ceb982918bad936b38d4b21b17a69a058aca8",
-                "reference": "160ceb982918bad936b38d4b21b17a69a058aca8",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/e390dc9a5f11655307e377da8d4135c2ee24dd06",
+                "reference": "e390dc9a5f11655307e377da8d4135c2ee24dd06",
                 "shasum": ""
             },
             "require": {
@@ -1892,20 +1898,20 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-14T16:56:26+00:00"
+            "time": "2019-03-15T22:13:35+00:00"
         },
         {
             "name": "novosga/settings-bundle",
-            "version": "v2.0.4",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "e1d2d7e13d4fae7548201501f33f97fa35adc1b0"
+                "reference": "7890d85b8b3880fb85b388710ba242bb7cb3a311"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/e1d2d7e13d4fae7548201501f33f97fa35adc1b0",
-                "reference": "e1d2d7e13d4fae7548201501f33f97fa35adc1b0",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/7890d85b8b3880fb85b388710ba242bb7cb3a311",
+                "reference": "7890d85b8b3880fb85b388710ba242bb7cb3a311",
                 "shasum": ""
             },
             "require": {
@@ -1927,20 +1933,20 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-17T19:59:29+00:00"
+            "time": "2019-03-16T13:05:53+00:00"
         },
         {
             "name": "novosga/triage-bundle",
-            "version": "v2.0.3",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "30891682cab5c3ae637320c3329495ace432074d"
+                "reference": "7240114af1d99e1712dcb72ae2144bd0c5859c68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/30891682cab5c3ae637320c3329495ace432074d",
-                "reference": "30891682cab5c3ae637320c3329495ace432074d",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/7240114af1d99e1712dcb72ae2144bd0c5859c68",
+                "reference": "7240114af1d99e1712dcb72ae2144bd0c5859c68",
                 "shasum": ""
             },
             "require": {
@@ -1962,20 +1968,20 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-08-06T18:13:01+00:00"
+            "time": "2019-03-16T13:22:11+00:00"
         },
         {
             "name": "novosga/users-bundle",
-            "version": "v2.0.3",
+            "version": "v2.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "1eb825d7429573b0ee2e128ab0ec2f8608db1460"
+                "reference": "344f7cb949d10a61562e8ab3f840c228db6be741"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/1eb825d7429573b0ee2e128ab0ec2f8608db1460",
-                "reference": "1eb825d7429573b0ee2e128ab0ec2f8608db1460",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/344f7cb949d10a61562e8ab3f840c228db6be741",
+                "reference": "344f7cb949d10a61562e8ab3f840c228db6be741",
                 "shasum": ""
             },
             "require": {
@@ -1998,7 +2004,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2018-07-14T16:57:04+00:00"
+            "time": "2019-03-15T22:14:43+00:00"
         },
         {
             "name": "novosga/websocket-server",
@@ -2223,6 +2229,55 @@
                 "paging"
             ],
             "time": "2018-05-01T10:49:10+00:00"
+        },
+        {
+            "name": "paragonie/random_compat",
+            "version": "v2.0.18",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/random_compat.git",
+                "reference": "0a58ef6e3146256cc3dc7cc393927bcc7d1b72db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/0a58ef6e3146256cc3dc7cc393927bcc7d1b72db",
+                "reference": "0a58ef6e3146256cc3dc7cc393927bcc7d1b72db",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*|5.*"
+            },
+            "suggest": {
+                "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/random.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com"
+                }
+            ],
+            "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
+            "keywords": [
+                "csprng",
+                "polyfill",
+                "pseudorandom",
+                "random"
+            ],
+            "time": "2019-01-03T20:59:08+00:00"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -4397,7 +4452,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -6493,16 +6548,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.4.0",
+            "version": "3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "379deb987e26c7cd103a7b387aea178baec96e48"
+                "reference": "5b4333b4010625d29580eb4a41f1e53251be6baa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/379deb987e26c7cd103a7b387aea178baec96e48",
-                "reference": "379deb987e26c7cd103a7b387aea178baec96e48",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5b4333b4010625d29580eb4a41f1e53251be6baa",
+                "reference": "5b4333b4010625d29580eb4a41f1e53251be6baa",
                 "shasum": ""
             },
             "require": {
@@ -6535,12 +6590,12 @@
                 }
             ],
             "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
-            "homepage": "http://www.squizlabs.com/php-codesniffer",
+            "homepage": "https://github.com/squizlabs/PHP_CodeSniffer",
             "keywords": [
                 "phpcs",
                 "standards"
             ],
-            "time": "2018-12-19T23:57:18+00:00"
+            "time": "2019-03-19T03:22:27+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -7373,9 +7428,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "novosga/oauth-server-bundle": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

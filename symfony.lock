@@ -20,6 +20,12 @@
     "facebook/webdriver": {
         "version": "1.6.0"
     },
+    "friendsofsymfony/oauth-server-bundle": {
+        "version": "1.6.2"
+    },
+    "friendsofsymfony/oauth2-php": {
+        "version": "1.2.3"
+    },
     "nikic/php-parser": {
         "version": "v4.0.0"
     },
@@ -32,9 +38,6 @@
     "novosga/monitor-bundle": {
         "version": "v2.0.0"
     },
-    "novosga/oauth-server-bundle": {
-        "version": "2.0-dev"
-    },
     "novosga/reports-bundle": {
         "version": "v2.0.0"
     },
@@ -46,6 +49,9 @@
     },
     "novosga/users-bundle": {
         "version": "v2.0.0"
+    },
+    "paragonie/random_compat": {
+        "version": "v2.0.18"
     },
     "squizlabs/php_codesniffer": {
         "version": "3.2.3"
