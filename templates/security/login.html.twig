@@ -11,7 +11,7 @@
     </head>
     <body>
         <div class="container">
-            <form id="login-form" action="{{ path('login_check') }}" method="post" class="form-signin">
+            <form id="login-form" action="{{ path('app_login') }}" method="post" class="form-signin">
                 <h2 id="logo" class="form-signin-heading">
                     <img alt="Novo SGA" src="{{ asset(logo) }}">
                 </h2>
@@ -21,10 +21,12 @@
                     </div>
                 {% endif %}
                 <div id="login">
-                    <input type="text" name="_username" class="form-control" placeholder="{{ 'label.username'|trans }}" autofocus value="{{ last_username }}">
-                    <input type="password" name="_password" class="form-control" placeholder="{{ 'label.password'|trans }}">
+                    <input type="text" name="username" class="form-control" placeholder="{{ 'label.username'|trans }}" autofocus value="{{ last_username }}">
+                    <input type="password" name="password" class="form-control" placeholder="{{ 'label.password'|trans }}">
                     <button class="btn btn-lg btn-primary btn-block" type="submit">{{ 'login.button.submit'|trans }}</button>
                 </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
             </form>
         </div>
     </body>
