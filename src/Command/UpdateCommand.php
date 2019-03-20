@@ -28,7 +28,7 @@ class UpdateCommand extends Command
 
     protected static $defaultName = 'novosga:update';
 
-    private $params;
+    protected $params;
 
     public function __construct(ParameterBagInterface $params)
     {
