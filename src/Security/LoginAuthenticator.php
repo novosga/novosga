@@ -17,6 +17,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class LoginAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -25,15 +26,18 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
     private $entityManager;
     private $urlGenerator;
     private $csrfTokenManager;
+    private $passwordEncoder;
 
     public function __construct(
         EntityManagerInterface $entityManager,
         UrlGeneratorInterface $urlGenerator,
-        CsrfTokenManagerInterface $csrfTokenManager
+        CsrfTokenManagerInterface $csrfTokenManager,
+        UserPasswordEncoderInterface $passwordEncoder
     ) {
         $this->entityManager    = $entityManager;
         $this->urlGenerator     = $urlGenerator;
         $this->csrfTokenManager = $csrfTokenManager;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     public function supports(Request $request)
@@ -81,7 +85,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
             throw new \Exception('Usuário desabilitado');
         }
 
-        return true;
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
