@@ -13,7 +13,7 @@ namespace App\Controller\Admin;
 
 use App\Service\ModuleService;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -24,7 +24,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  *
  * @Route("/admin/modulos")
  */
-class ModulosController extends Controller
+class ModulosController extends AbstractController
 {
 
     /**

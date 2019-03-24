@@ -19,3 +19,7 @@ framework:
               - "%kernel.project_dir%/config/validation"
     templating:
         engines: ['twig']
+
+
+sensio_framework_extra:
+    router: { annotations: false }

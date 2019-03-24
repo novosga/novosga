@@ -14,7 +14,7 @@ namespace App\Controller\Admin;
 use App\Form\DepartamentoType as EntityType;
 use Novosga\Entity\Departamento as Entity;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -26,7 +26,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  *
  * @Route("/admin/departamentos")
  */
-class DepartamentoController extends Controller
+class DepartamentoController extends AbstractController
 {
     /**
      *

@@ -15,7 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Novosga\Entity\Unidade;
 use Novosga\Service\AtendimentoService;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Bundle\FrameworkBundle\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,22 +26,30 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ResetCommand extends ContainerAwareCommand
+class ResetCommand extends Command
 {
+    protected static $defaultName = 'novosga:reset';
+
     /**
      * @var ObjectManager
      */
     private $om;
 
-    public function __construct(ObjectManager $om)
+    /**
+     * @var AtendimentoService
+     */
+    private $atendimentoService;
+
+    public function __construct(ObjectManager $om, AtendimentoService $atendimentoService)
     {
         parent::__construct();
-        $this->om = $om;
+        $this->om                 = $om;
+        $this->atendimentoService = $atendimentoService;
     }
 
     protected function configure()
     {
-        $this->setName('novosga:reset')
+        $this
             ->setDescription('Reinicia a numeração das senhas de todas ou uma única unidade.')
             ->addArgument(
                 'unidade',
@@ -62,8 +70,7 @@ class ResetCommand extends ContainerAwareCommand
             }
         }
         
-        $atendimentoService = $this->getContainer()->get(AtendimentoService::class);
-        $atendimentoService->acumularAtendimentos($id);
+        $this->atendimentoService->acumularAtendimentos($id);
         
         $io = new SymfonyStyle($input, $output);
         $io->success('Senhas reiniciadas com sucesso');

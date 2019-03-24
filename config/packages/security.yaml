@@ -11,7 +11,9 @@ security:
 
     providers:
         novosga_provider:
-            id: App\Security\UserProvider
+            entity:
+                class: Novosga\Entity\Usuario
+                property: login
 
     firewalls:
         dev:
@@ -19,21 +21,21 @@ security:
             security: false
 
         oauth_token:
-            pattern:    ^/api/token
-            security:   false
+           pattern:    ^/api/token
+           security:   false
             
         api:
-            pattern:    ^/(api|\w+\.\w+/api)
-            fos_oauth:  true
-            stateless:  true
-            anonymous:  false
+           pattern:    ^/(api|\w+\.\w+/api)
+           fos_oauth:  true
+           stateless:  true
+           anonymous:  false
 
         main:
             anonymous: true
             pattern: ^/
-            form_login:
-                login_path: /login
-                check_path: /login_check
+            guard:
+                authenticators:
+                    - App\Security\LoginAuthenticator
             logout:
                 path:   /logout
                 target: /

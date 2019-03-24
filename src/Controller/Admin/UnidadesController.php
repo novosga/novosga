@@ -15,7 +15,7 @@ use Exception;
 use Novosga\Entity\Unidade as Entity;
 use App\Form\UnidadeType as EntityType;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -27,7 +27,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  *
  * @Route("/admin/unidades")
  */
-class UnidadesController extends Controller
+class UnidadesController extends AbstractController
 {
     /**
      *

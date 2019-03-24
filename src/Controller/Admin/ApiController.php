@@ -16,8 +16,9 @@ use App\Entity\OAuthClient;
 use App\Entity\OAuthRefreshToken;
 use Novosga\Http\Envelope;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use FOS\OAuthServerBundle\Model\ClientManagerInterface;
 
 /**
  * ApiController
@@ -26,7 +27,7 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @Route("/admin/api")
  */
-class ApiController extends Controller
+class ApiController extends AbstractController
 {
     /**
      *
@@ -71,7 +72,7 @@ class ApiController extends Controller
      *
      * @Route("/oauth-clients", name="admin_api_newclient", methods={"POST"})
      */
-    public function newOauthClient(Request $request)
+    public function newOauthClient(Request $request, ClientManagerInterface $clientManager)
     {
         $envelope = new Envelope();
         
@@ -82,7 +83,6 @@ class ApiController extends Controller
             $description = substr($description, 0, 30);
         }
         
-        $clientManager = $this->get('fos_oauth_server.client_manager.default');
         $client = $clientManager->createClient();
         $client->setDescription($description);
         $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);

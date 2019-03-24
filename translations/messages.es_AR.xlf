@@ -358,6 +358,7 @@
             </trans-unit>
             <trans-unit id="71-1">
                 <source>admin.menu.departments</source>
+                <target>Departamentos</target>
                 
             </trans-unit>
             <trans-unit id="72">
@@ -412,14 +413,17 @@
             </trans-unit>
             <trans-unit id="79-1">
                 <source>admin.system.clear_tickets</source>
+                <target>Borrar atenciones</target>
                 
             </trans-unit>
             <trans-unit id="80-1">
                 <source>admin.system.clear_tickets.alert</source>
+                <target>Desea realmente borrar el historial de atención de todas las unidades?</target>
                 
             </trans-unit>
             <trans-unit id="81-1">
                 <source>admin.system.clear_tickets.success</source>
+                <target>Atenciones borradas con éxito</target>
                 
             </trans-unit>
             <trans-unit id="82">
@@ -474,6 +478,7 @@
             </trans-unit>
             <trans-unit id="92-1">
                 <source>label.department</source>
+                <target>Departamento</target>
                 
             </trans-unit>
             <trans-unit id="93">
@@ -543,14 +548,17 @@
             </trans-unit>
             <trans-unit id="110-1">
                 <source>admin.departments.title</source>
+                <target>Departamentos</target>
                 
             </trans-unit>
             <trans-unit id="111-1">
                 <source>admin.departments.subtitle</source>
+                <target>Registro de Departamento</target>
                 
             </trans-unit>
             <trans-unit id="112-1">
                 <source>admin.departments.button.new</source>
+                <target>Nuevo Departamento</target>
                 
             </trans-unit>
             <trans-unit id="113">
@@ -610,6 +618,7 @@
             </trans-unit>
             <trans-unit id="126">
                 <source>session.invalid</source>
+                <target>Sesión no válida</target>
                 
             </trans-unit>
             <trans-unit id="127">
@@ -649,6 +658,7 @@
             </trans-unit>
             <trans-unit id="134">
                 <source>error.invalid_unity</source>
+                <target>Unidad no válida</target>
                 
             </trans-unit>
             <trans-unit id="135">
@@ -668,6 +678,7 @@
             </trans-unit>
             <trans-unit id="138">
                 <source>error.user_unity_ticket_permission</source>
+                <target>El usuario que está intentando distribuir número de atención no está asignado en la unidad elegida.</target>
                 
             </trans-unit>
             <trans-unit id="139">
@@ -677,6 +688,7 @@
             </trans-unit>
             <trans-unit id="140">
                 <source>error.change_status</source>
+                <target>Error al cambiar el estado de atención</target>
                 
             </trans-unit>
             <trans-unit id="141">
@@ -686,6 +698,7 @@
             </trans-unit>
             <trans-unit id="142">
                 <source>error.service_unity_inactive</source>
+                <target>El Servicio elegido no está activo en la Unidad deseada</target>
                 
             </trans-unit>
             <trans-unit id="143">

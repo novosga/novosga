@@ -213,6 +213,7 @@
             </trans-unit>
             <trans-unit id="43">
                 <source>about.community.subtitle</source>
+                <target>Looking for help? Access one of the project channels through the links below</target>
                 
             </trans-unit>
             <trans-unit id="44">
@@ -222,6 +223,7 @@
             </trans-unit>
             <trans-unit id="45">
                 <source>about.community.blog.description</source>
+                <target>News related to the projects of the New SGA and launch of new versions</target>
                 
             </trans-unit>
             <trans-unit id="46">
@@ -236,6 +238,7 @@
             </trans-unit>
             <trans-unit id="48">
                 <source>about.community.forum.description</source>
+                <target>Channel for questions about the use or installation of projects.</target>
                 
             </trans-unit>
             <trans-unit id="49">
@@ -250,6 +253,7 @@
             </trans-unit>
             <trans-unit id="51">
                 <source>about.community.github.description</source>
+                <target>Participate directly in development reporting problems (issues).</target>
                 
             </trans-unit>
             <trans-unit id="52">
@@ -304,6 +308,7 @@
             </trans-unit>
             <trans-unit id="62">
                 <source>profile.lotation.description</source>
+                <target>Capacity is used to define the user access profile in the units.</target>
                 
             </trans-unit>
             <trans-unit id="63">
@@ -408,14 +413,17 @@
             </trans-unit>
             <trans-unit id="79-1">
                 <source>admin.system.clear_tickets</source>
+                <target>Clear calls</target>
                 
             </trans-unit>
             <trans-unit id="80-1">
                 <source>admin.system.clear_tickets.alert</source>
+                <target>Are you sure you want to delete the service history for all drives?</target>
                 
             </trans-unit>
             <trans-unit id="81-1">
                 <source>admin.system.clear_tickets.success</source>
+                <target>Received calls successfully removed</target>
                 
             </trans-unit>
             <trans-unit id="82">
@@ -485,6 +493,7 @@
             </trans-unit>
             <trans-unit id="95">
                 <source>admin.priorities.subtitle</source>
+                <target>Registration of service priorities</target>
                 
             </trans-unit>
             <trans-unit id="96">
@@ -504,6 +513,7 @@
             </trans-unit>
             <trans-unit id="102">
                 <source>admin.services.subtitle</source>
+                <target>Registration of services for care</target>
                 
             </trans-unit>
             <trans-unit id="103">
@@ -528,6 +538,7 @@
             </trans-unit>
             <trans-unit id="111">
                 <source>admin.unities.subtitle</source>
+                <target>Registration of service units</target>
                 
             </trans-unit>
             <trans-unit id="112">
@@ -542,6 +553,7 @@
             </trans-unit>
             <trans-unit id="111-1">
                 <source>admin.departments.subtitle</source>
+                <target>Department registration</target>
                 
             </trans-unit>
             <trans-unit id="112-1">
@@ -561,6 +573,7 @@
             </trans-unit>
             <trans-unit id="117">
                 <source>admin.webapi.subtitle</source>
+                <target>Web API for integration with other systems</target>
                 
             </trans-unit>
             <trans-unit id="118">
@@ -570,6 +583,7 @@
             </trans-unit>
             <trans-unit id="119">
                 <source>admin.webapi.clients.subtitle</source>
+                <target>To access some URLs you must have an access token, and for this you must first register the client application.</target>
                 
             </trans-unit>
             <trans-unit id="120">
@@ -664,6 +678,7 @@
             </trans-unit>
             <trans-unit id="138">
                 <source>error.user_unity_ticket_permission</source>
+                <target>The user who is trying to distribute password has no stock in the chosen drive.</target>
                 
             </trans-unit>
             <trans-unit id="139">

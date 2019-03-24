@@ -15,7 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use JMS\Serializer\Expression\ExpressionEvaluator;
 use JMS\Serializer\SerializerBuilder;
 use JMS\Serializer\SerializerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -24,7 +24,7 @@ use Symfony\Component\Translation\TranslatorInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-abstract class ApiControllerBase extends Controller
+abstract class ApiControllerBase extends AbstractController
 {
     /**
      * @var string

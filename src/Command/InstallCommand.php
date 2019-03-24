@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * InstallCommand.
@@ -30,24 +31,28 @@ use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
  */
 class InstallCommand extends UpdateCommand
 {
-    private $om;
+    protected static $defaultName = 'novosga:install';
 
-    public function __construct(ObjectManager $om)
+    /**
+     * @var ObjectManager
+     */
+    private $om;
+    
+    public function __construct(ObjectManager $om, ParameterBagInterface $params)
     {
-        parent::__construct();
+        parent::__construct($params);
         $this->om = $om;
     }
 
     protected function configure()
     {
         $this
-            ->setName('novosga:install')
             ->setDescription('Install command runned after composer install.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $version = $this->getContainer()->getParameter('version');
+        $version = $this->params->get('version');
         $header  = [
             "*******************\n",
             "Welcome to NovoSGA v{$version} installer\n",

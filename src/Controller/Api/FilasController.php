@@ -17,7 +17,7 @@ use Novosga\Service\FilaService;
 use Novosga\Service\UsuarioService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @author Rogério Lino <rogeriolino@gmail.com>
  * @Route("/api/filas")
  */
-class FilasController extends Controller
+class FilasController extends AbstractController
 {
     /**
      * Retorna a lista de atendimentos do usuário atual na unidade informada.

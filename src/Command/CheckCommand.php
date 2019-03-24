@@ -23,11 +23,13 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class CheckCommand extends Command
 {
+    protected static $defaultName = 'novosga:check';
+
     use FormattedOutputTrait;
 
     protected function configure()
     {
-        $this->setName('novosga:check')
+        $this
             ->setDescription('Check NovoSGA installation.')
             ->addOption('no-header', '', InputOption::VALUE_NONE, 'Disable comment header');
     }
