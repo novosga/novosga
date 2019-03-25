@@ -1972,16 +1972,16 @@
         },
         {
             "name": "novosga/users-bundle",
-            "version": "v2.0.4",
+            "version": "v2.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "344f7cb949d10a61562e8ab3f840c228db6be741"
+                "reference": "bc1f29889a018ccffee277788a39f9958baf73f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/344f7cb949d10a61562e8ab3f840c228db6be741",
-                "reference": "344f7cb949d10a61562e8ab3f840c228db6be741",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/bc1f29889a018ccffee277788a39f9958baf73f1",
+                "reference": "bc1f29889a018ccffee277788a39f9958baf73f1",
                 "shasum": ""
             },
             "require": {
@@ -2004,7 +2004,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2019-03-15T22:14:43+00:00"
+            "time": "2019-03-25T10:21:14+00:00"
         },
         {
             "name": "novosga/websocket-server",
