@@ -50,7 +50,7 @@ class AdminController extends AbstractController
     public function acumularAtendimentos(Request $request, AtendimentoService $service)
     {
         $envelope = new Envelope();
-        $service->acumularAtendimentos();
+        $service->acumularAtendimentos(null);
 
         return $this->json($envelope);
     }

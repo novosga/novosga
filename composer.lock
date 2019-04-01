@@ -1798,16 +1798,16 @@
         },
         {
             "name": "novosga/core",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "56c532164591e058246626c2cd809de52f4735c5"
+                "reference": "3e7a0ef572cf093c8dc9ea121e90a4e7bbe582d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/56c532164591e058246626c2cd809de52f4735c5",
-                "reference": "56c532164591e058246626c2cd809de52f4735c5",
+                "url": "https://api.github.com/repos/novosga/core/zipball/3e7a0ef572cf093c8dc9ea121e90a4e7bbe582d6",
+                "reference": "3e7a0ef572cf093c8dc9ea121e90a4e7bbe582d6",
                 "shasum": ""
             },
             "require": {
@@ -1828,7 +1828,7 @@
             "license": [
                 "MIT"
             ],
-            "time": "2019-03-15T22:15:12+00:00"
+            "time": "2019-04-01T14:42:27+00:00"
         },
         {
             "name": "novosga/monitor-bundle",

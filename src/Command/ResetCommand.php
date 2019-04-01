@@ -15,8 +15,9 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Exception;
 use Novosga\Entity\Unidade;
 use Novosga\Service\AtendimentoService;
-use Symfony\Bundle\FrameworkBundle\Command\Command;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -55,12 +56,20 @@ class ResetCommand extends Command
                 'unidade',
                 InputArgument::OPTIONAL,
                 'Id da unidade a ser reiniciada'
+            )
+            ->addOption(
+                'seguro',
+                's',
+                InputOption::VALUE_NONE,
+                'Se for informado não apagará os atendimentos do dia atual'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $id = (int) $input->getArgument('unidade');
+        $id      = (int) $input->getArgument('unidade');
+        $seguro  = $input->getOption('seguro');
+        $unidade = null;
         
         if ($id > 0) {
             // verificando unidade
@@ -69,8 +78,17 @@ class ResetCommand extends Command
                 throw new Exception("Unidade inválida: $id");
             }
         }
+
+        $ctx = [];
+
+        if ($seguro) {
+            $dt = new \DateTime();
+            $dt->sub(new \DateInterval('P1D'));
+            $dt->setTime(23, 59, 59);
+            $ctx['data'] = $dt;
+        }
         
-        $this->atendimentoService->acumularAtendimentos($id);
+        $this->atendimentoService->acumularAtendimentos($unidade, $ctx);
         
         $io = new SymfonyStyle($input, $output);
         $io->success('Senhas reiniciadas com sucesso');
