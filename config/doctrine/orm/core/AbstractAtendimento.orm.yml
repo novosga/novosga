@@ -6,7 +6,7 @@ Novosga\Entity\AbstractAtendimento:
             generator:
                 strategy: IDENTITY
     fields:
-        local:
+        numeroLocal:
             type: smallint
             scale: 0
             length: null
@@ -108,4 +108,10 @@ Novosga\Entity\AbstractAtendimento:
             fetch: LAZY
             joinColumns:
                 atendimento_id:
+                    referencedColumnName: id
+        local:
+            targetEntity: Novosga\Entity\Local
+            fetch: LAZY
+            joinColumns:
+                local_id:
                     referencedColumnName: id

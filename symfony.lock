@@ -53,6 +53,9 @@
     "paragonie/random_compat": {
         "version": "v2.0.18"
     },
+    "psr/simple-cache": {
+        "version": "1.0.1"
+    },
     "squizlabs/php_codesniffer": {
         "version": "3.2.3"
     },
@@ -331,5 +334,8 @@
     },
     "twig/twig": {
         "version": "v2.4.7"
+    },
+    "zendframework/zend-eventmanager": {
+        "version": "3.2.1"
     }
 }

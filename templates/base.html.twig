@@ -51,6 +51,10 @@
                                     <i class="fa fa-user fa-fw"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">
+                                        {{app.user}}
+                                    </a>
+                                    <div class="dropdown-divider"></div>
                                     <a href="{{ app.request.baseUrl() }}/profile" title="" class="dropdown-item">
                                         <i class="fa fa-user fa-fw"></i>
                                         {{ 'menu.user.profile'|trans }}

@@ -58,13 +58,6 @@ Novosga\Entity\ServicoUnidade:
                 unidade_id:
                     referencedColumnName: id
             orphanRemoval: false
-        local:
-            targetEntity: Novosga\Entity\Local
-            fetch: LAZY
-            joinColumns:
-                local_id:
-                    referencedColumnName: id
-            orphanRemoval: false
         departamento:
             targetEntity: Novosga\Entity\Departamento
             joinColumns:
