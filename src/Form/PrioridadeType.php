@@ -28,6 +28,8 @@ class PrioridadeType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $data = $options['data'];
+
         $builder
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
@@ -43,7 +45,8 @@ class PrioridadeType extends AbstractType
                 'required' => false
             ])
             ->add('peso', IntegerType::class, [
-                'label' => 'label.weight',
+                'label'       => 'label.weight',
+                'disabled'    => $data && $data->getId() === 1,
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
                 ]
