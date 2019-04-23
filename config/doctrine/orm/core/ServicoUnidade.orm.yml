@@ -24,9 +24,11 @@ Novosga\Entity\ServicoUnidade:
             unique: false
             nullable: false
             precision: 0
-        prioridade:
-            type: boolean
+        tipo:
+            type: smallint
             nullable: false
+            options:
+                default: 1
         numeroInicial:
             name: numero_inicial
             type: integer
@@ -38,6 +40,9 @@ Novosga\Entity\ServicoUnidade:
         incremento:
             type: integer
             nullable: false
+        maximo:
+            type: integer
+            nullable: true
         mensagem:
             type: string
             length: 255
