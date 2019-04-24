@@ -44,6 +44,20 @@ abstract class AbstractVersion extends AbstractMigration implements ContainerAwa
         
         return $tableName;
     }
+
+    protected function updateViews()
+    {
+        if ($this->existsViewAtendimento()) {
+            $this->dropViewAtendimento();
+        }
+        
+        if ($this->existsViewAtendimentoCodificado()) {
+            $this->dropViewAtendimentoCodificado();
+        }
+        
+        $this->createViewAtendimento();
+        $this->createViewAtendimentoCodificado();
+    }
     
     protected function existsViewAtendimento(): bool
     {
@@ -87,12 +101,25 @@ abstract class AbstractVersion extends AbstractMigration implements ContainerAwa
         $this->addSql($sql);
     }
     
-    private function existsView($viewName): bool
+    protected function existsView($viewName): bool
     {
         $list   = $this->sm->listViews();
         $exists = !!($list[$viewName] ?? false);
         
         return $exists;
+    }
+    
+    protected function existsColumn($tableName, $columnName): bool
+    {
+        $columns = $this->sm->listTableColumns($tableName);
+        
+        foreach ($columns as $column) {
+            if ($column->getName() === $columnName) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     private function createViewWithUnion(string $viewName, string $entity1, string $entity2): void

@@ -2,8 +2,8 @@
 
 namespace DoctrineMigrations;
 
-use App\Migrations\AbstractVersion;
 use Doctrine\DBAL\Schema\Schema;
+use App\Migrations\AbstractVersion;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 final class Version1 extends AbstractVersion
@@ -12,16 +12,7 @@ final class Version1 extends AbstractVersion
     
     public function up(Schema $schema) : void
     {
-        if ($this->existsViewAtendimento()) {
-            $this->dropViewAtendimento();
-        }
-        
-        if ($this->existsViewAtendimentoCodificado()) {
-            $this->dropViewAtendimentoCodificado();
-        }
-        
-        $this->createViewAtendimento();
-        $this->createViewAtendimentoCodificado();
+        $this->updateViews();
     }
 
     public function down(Schema $schema) : void
