@@ -5,6 +5,7 @@ namespace App\Infrastructure;
 use Exception;
 use App\Infrastructure\Storage\MySQLStorage;
 use App\Infrastructure\Storage\PostgreSQLStorage;
+use App\Infrastructure\Storage\SQLServerStorage;
 use Doctrine\Common\Persistence\ObjectManager;
 use Novosga\Infrastructure\StorageInterface;
 
@@ -30,7 +31,7 @@ class StorageFactory
             }
             
             if ($platform instanceof \Doctrine\DBAL\Platforms\SQLServerPlatform) {
-                // TODO: implement SQLServerStorage
+                return new SQLServerStorage($om);
             }
         }
         
