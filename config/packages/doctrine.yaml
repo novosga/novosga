@@ -3,7 +3,14 @@ parameters:
 
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        default_connection:
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+            sqlsrv:
+                url: '%env(resolve:DATABASE_URL)%'
+                mapping_types:
+                    timestamp: datetime
         mapping_types:
                 timestamp: datetime
     orm:
