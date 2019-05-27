@@ -82,7 +82,7 @@ class LoginAuthenticator extends AbstractFormLoginAuthenticator
     public function checkCredentials($credentials, UserInterface $user)
     {
         if (!$user->isEnabled()) {
-            throw new \Exception('Usuário desabilitado');
+            throw new CustomUserMessageAuthenticationException('Usuário desabilitado');
         }
 
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
