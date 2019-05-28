@@ -26,7 +26,7 @@ Novosga\Entity\PainelSenha:
             column: msg_senha
         local:
             type: string
-            length: 15
+            length: 20
             unique: false
             nullable: false
         numeroLocal:

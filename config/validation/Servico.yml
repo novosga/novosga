@@ -13,6 +13,6 @@ Novosga\Entity\Servico:
         descricao:
             - NotBlank: ~
             - Length:
-                max: 100
+                max: 250
         peso:
             - NotNull: ~

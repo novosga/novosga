@@ -7,7 +7,7 @@ Novosga\Entity\Unidade:
         nome:
             - NotBlank: ~
             - Length:
-                max: 20
+                max: 50
                 min: 3
         descricao:
             - NotBlank: ~

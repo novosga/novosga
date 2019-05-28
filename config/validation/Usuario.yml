@@ -3,7 +3,19 @@ Novosga\Entity\Usuario:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: login
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email
     properties:
+        login:
+            - NotBlank: ~
+            - Length:
+                min: 3
+                max: 30
         nome:
             - NotBlank: ~
             - Length:
                 min: 3
+        sobrenome:
+            - NotBlank: ~
+            - Length:
+                max: 100
+        email:
+            - Length:
+                max: 150

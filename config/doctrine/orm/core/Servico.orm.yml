@@ -15,7 +15,7 @@ Novosga\Entity\Servico:
             nullable: false
         descricao:
             type: string
-            length: 100
+            length: 250
             unique: false
             nullable: false
         ativo:
