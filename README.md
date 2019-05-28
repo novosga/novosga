@@ -9,7 +9,7 @@ Support queue management system.
 
 Create project:
 
-    composer create-project "novosga/novosga:^2.0" novosga2
+    composer create-project "novosga/novosga:^2.1" novosga2
 
 Run app installation command and follow instructions:
 
@@ -22,7 +22,7 @@ Run app installation command and follow instructions:
 
 ### Via Docker
 
-Documentation in the Novo SGA official [docker repository](https://github.com/novosga/docker/tree/master/novosga-2.0).
+Documentation in the Novo SGA official [docker repository](https://github.com/novosga/docker/tree/master/novosga-2.1).
 
 
 ### Via Git
