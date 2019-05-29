@@ -247,6 +247,53 @@ var App = {
         }
 
     },
+
+    SSE: {
+        reconnectId: 0,
+        reconnectAttempts: 0,
+        maxReconnectAttempts: 3,
+        reconnectTimeout: 2000,
+        
+        connect (topics) {
+            // const url = new URL(location.protocol + '//' + location.hostname + ':3000/hub');
+            const url = new URL('http://mercure.teste.pmv.local/hub');
+            for (let topic of topics) {
+                url.searchParams.append('topic', topic);
+            }
+
+            this.eventSource = new EventSource(url);
+
+            this.eventSource.onopen = e => {
+                clearTimeout(this.reconnectId);
+                this.reconnectAttempts = 0;
+                this.onopen(e);
+            }
+
+            this.eventSource.onerror = e => {
+                clearTimeout(this.reconnectId);
+                this.onerror(e);
+                if (this.reconnectAttempts < this.maxReconnectAttempts) {
+                    this.reconnectAttempts++;
+                    this.reconnectId = setTimeout(() => {
+                        this.connect(topics)
+                    }, this.reconnectTimeout);
+                } else {
+                    this.reconnectAttempts = 0;
+                    this.ondisconnect();
+                }
+            }
+
+            this.eventSource.onmessage = e => {
+                let data = JSON.parse(e.data);
+                this.onmessage(e, data);
+            };
+        },
+
+        onopen (e) {},
+        onerror (e) {},
+        onmessage (e, data) {},
+        ondisconnect () {}
+    },
     
     Websocket: {
         
