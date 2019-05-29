@@ -39,14 +39,14 @@ class ServicoListener
         $em = $args->getEntityManager();
         
         $total = (int) $em
-                ->createQueryBuilder()
-                ->select('COUNT(1)')
-                ->from(ServicoUnidade::class, 'e')
-                ->where('e.servico = :servico')
-                ->andWhere('e.ativo = TRUE')
-                ->setParameter('servico', $servico)
-                ->getQuery()
-                ->getSingleScalarResult();
+            ->createQueryBuilder()
+            ->select('COUNT(1)')
+            ->from(ServicoUnidade::class, 'e')
+            ->where('e.servico = :servico')
+            ->andWhere('e.ativo = TRUE')
+            ->setParameter('servico', $servico)
+            ->getQuery()
+            ->getSingleScalarResult();
         
         if ($total > 0) {
             throw new Exception('Não é possível remover o serviço porque está habilitado em uma unidade.');
