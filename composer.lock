@@ -5078,6 +5078,9 @@
             "conflict": {
                 "symfony/http-kernel": "<4.4"
             },
+            "conflict": {
+                "symfony/mailer": "<4.4"
+            },
             "require-dev": {
                 "symfony/amazon-mailer": "^4.4|^5.0",
                 "symfony/google-mailer": "^4.4|^5.0",
