@@ -21,7 +21,7 @@
         "friendsofsymfony/oauth-server-bundle": "^1.6",
         "jms/serializer": "^1.9",
         "novosga/attendance-bundle": "^2.0",
-        "novosga/composer-installer-plugin": "v1.0",
+        "novosga/composer-installer-plugin": "v1.1",
         "novosga/core": "^2.0",
         "novosga/monitor-bundle": "^2.0",
         "novosga/reports-bundle": "^2.0",

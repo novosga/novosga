@@ -11,23 +11,23 @@
 
 namespace App\Infrastructure\Storage;
 
+use PDO;
 use DateTime;
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\LockMode;
 use Exception;
+use Doctrine\DBAL\LockMode;
+use Novosga\Entity\Servico;
+use Novosga\Entity\Unidade;
+use Novosga\Entity\Contador;
+use Doctrine\DBAL\Connection;
 use Novosga\Entity\Agendamento;
 use Novosga\Entity\Atendimento;
-use Novosga\Entity\AtendimentoCodificado;
-use Novosga\Entity\AtendimentoCodificadoHistorico;
-use Novosga\Entity\AtendimentoHistorico;
-use Novosga\Entity\AtendimentoHistoricoMeta;
-use Novosga\Entity\AtendimentoMeta;
-use Novosga\Entity\Contador;
 use Novosga\Entity\PainelSenha;
-use Novosga\Entity\Servico;
 use Novosga\Entity\ServicoUnidade;
-use Novosga\Entity\Unidade;
-use PDO;
+use Novosga\Entity\AtendimentoMeta;
+use Novosga\Entity\AtendimentoHistorico;
+use Novosga\Entity\AtendimentoCodificado;
+use Novosga\Entity\AtendimentoHistoricoMeta;
+use Novosga\Entity\AtendimentoCodificadoHistorico;
 
 /**
  * ORM Storage
@@ -43,19 +43,19 @@ abstract class RelationalStorage extends DoctrineStorage
      * @return int
      */
     abstract protected function numeroAtual(Connection $conn, Unidade $unidade, Servico $servico): int;
-    
+
     /**
      * @param Connection   $conn
      * @param Unidade|null $unidade
      */
     abstract protected function preAcumularAtendimentos(Connection $conn, Unidade $unidade = null);
-    
+
     /**
      * @param Connection   $conn
      * @param Unidade|null $unidade
      */
     abstract protected function preApagarDadosAtendimento(Connection $conn, Unidade $unidade = null);
-    
+
     /**
      * Reinicia os contadores dos serviços da unidade
      * @param Connection   $conn
@@ -65,7 +65,7 @@ abstract class RelationalStorage extends DoctrineStorage
     {
         $contadorTable       = $this->om->getClassMetadata(Contador::class)->getTableName();
         $servicoUnidadeTable = $this->om->getClassMetadata(ServicoUnidade::class)->getTableName();
-        
+
         $query = $conn->prepare("
             UPDATE {$contadorTable}
             SET numero = (
@@ -80,7 +80,7 @@ abstract class RelationalStorage extends DoctrineStorage
         $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
         $query->execute();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -98,23 +98,23 @@ abstract class RelationalStorage extends DoctrineStorage
             throw $e;
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function encerrar(Atendimento $atendimento, array $codificados, Atendimento $novoAtendimento = null)
     {
         $this->om->beginTransaction();
-        
+
         try {
             foreach ($codificados as $codificado) {
                 $this->om->persist($codificado);
             }
-            
+
             if ($novoAtendimento) {
                 $this->om->persist($novoAtendimento);
             }
-            
+
             $this->om->merge($atendimento);
             $this->om->commit();
             $this->om->flush();
@@ -123,10 +123,10 @@ abstract class RelationalStorage extends DoctrineStorage
                 $this->om->rollback();
             } catch (Exception $ex) {
             }
-            throw new $e;
+            throw new $e();
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -134,12 +134,12 @@ abstract class RelationalStorage extends DoctrineStorage
     {
         $self = $this;
         $conn = $this->om->getConnection();
-        
+
         $conn->transactional(function ($conn) use ($self, $atendimento, $agendamento) {
             $contadorTable = $this->om->getClassMetadata(Contador::class)->getTableName();
             $unidade       = $atendimento->getUnidade();
             $servico       = $atendimento->getServico();
-            
+
             $su = $this
                 ->getRepository(ServicoUnidade::class)
                 ->get($unidade, $servico);
@@ -153,7 +153,7 @@ abstract class RelationalStorage extends DoctrineStorage
             }
 
             $stmt = $conn->prepare("
-                UPDATE {$contadorTable} 
+                UPDATE {$contadorTable}
                 SET numero = :numero
                 WHERE
                     unidade_id = :unidade AND
@@ -167,7 +167,7 @@ abstract class RelationalStorage extends DoctrineStorage
             $stmt->execute();
             $success = $stmt->rowCount() === 1;
 
-            if (!$success) {
+            if ( ! $success) {
                 throw new Exception();
             }
 
@@ -182,15 +182,15 @@ abstract class RelationalStorage extends DoctrineStorage
             $this->om->flush();
         });
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function acumularAtendimentos(Unidade $unidade = null)
+    public function acumularAtendimentos(?Unidade $unidade, array $ctx = [])
     {
         $self = $this;
         $conn = $this->om->getConnection();
-        
+
         $conn->transactional(function ($conn) use ($self, $unidade) {
             $data      = (new DateTime())->format('Y-m-d H:i:s');
             $unidadeId = $unidade ? $unidade->getId() : 0;
@@ -205,16 +205,16 @@ abstract class RelationalStorage extends DoctrineStorage
             $contadorTable         = $this->om->getClassMetadata(Contador::class)->getTableName();
             $painelSenhaTable      = $this->om->getClassMetadata(PainelSenha::class)->getTableName();
             $servicoUnidadeTable   = $this->om->getClassMetadata(ServicoUnidade::class)->getTableName();
-            
+
             $helper = new \App\Helper\DoctrineHelper($this->om);
 
             // columns
             $historicoColumns       = $helper->getEntityColumns(AtendimentoHistorico::class);
             $historicoMetaColumns   = $helper->getEntityColumns(AtendimentoHistoricoMeta::class);
             $historicoCodifColumns  = $helper->getEntityColumns(AtendimentoCodificadoHistorico::class);
-            
+
             $self->preAcumularAtendimentos($conn, $unidade);
-            
+
             // copia os atendimentos para o historico
             $sql = "
                 INSERT INTO {$historicoTable}
@@ -267,7 +267,7 @@ abstract class RelationalStorage extends DoctrineStorage
 
             // copia os atendimentos codificados para o historico
             $query = $conn->prepare("
-                INSERT INTO $historicoCodifTable 
+                INSERT INTO $historicoCodifTable
                 (
                     " . join(', ', $historicoCodifColumns) . "
                 )
@@ -277,7 +277,7 @@ abstract class RelationalStorage extends DoctrineStorage
                     {$atendimentoCodifTable} ac
                     JOIN {$atendimentoTable} a ON a.id = ac.atendimento_id
                 WHERE
-                    a.dt_cheg <= :data AND 
+                    a.dt_cheg <= :data AND
                     (a.unidade_id = :unidade OR :unidade = 0)
             ");
             $query->bindValue('data', $data, PDO::PARAM_STR);
@@ -329,7 +329,7 @@ abstract class RelationalStorage extends DoctrineStorage
             // limpa atendimentos da unidade
             $query = $conn->prepare("
                 DELETE FROM {$atendimentoTable}
-                WHERE 
+                WHERE
                     dt_cheg <= :data AND
                     (unidade_id = :unidade OR :unidade = 0)
             ");
@@ -349,15 +349,15 @@ abstract class RelationalStorage extends DoctrineStorage
             $this->reiniciarContadores($conn, $unidadeId);
         });
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    public function apagarDadosAtendimento(Unidade $unidade = null)
+    public function apagarDadosAtendimento(?Unidade $unidade, array $ctx = [])
     {
         $self = $this;
         $conn = $this->om->getConnection();
-        
+
         $conn->transactional(function ($conn) use ($self, $unidade) {
             // tables name
             $historicoTable        = $this->om->getClassMetadata(AtendimentoHistorico::class)->getTableName();
@@ -370,49 +370,49 @@ abstract class RelationalStorage extends DoctrineStorage
             $unidadeId = $unidade ? $unidade->getId() : 0;
 
             $self->preApagarDadosAtendimento($conn, $unidade);
-            
+
             $query = $conn->prepare("
                 DELETE FROM {$historicoCodifTable}
                 WHERE atendimento_id IN (SELECT id FROM {$historicoTable} WHERE unidade_id = :unidade OR :unidade = 0)
             ");
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
-            
+
             $query = $conn->prepare("
                 DELETE FROM {$historicoMetaTable}
                 WHERE atendimento_id IN (SELECT id FROM {$historicoTable} WHERE unidade_id = :unidade OR :unidade = 0)
             ");
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
-            
+
             $query = $conn->prepare("
                 DELETE FROM {$historicoTable}
                 WHERE unidade_id = :unidade OR :unidade = 0
             ");
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
-            
+
             $query = $conn->prepare("
                 DELETE FROM {$atendimentoCodifTable}
                 WHERE atendimento_id IN (SELECT id FROM {$atendimentoTable} WHERE unidade_id = :unidade OR :unidade = 0)
             ");
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
-            
+
             $query = $conn->prepare("
                 DELETE FROM {$atendimentoMetaTable}
                 WHERE atendimento_id IN (SELECT id FROM {$atendimentoTable} WHERE unidade_id = :unidade OR :unidade = 0)
             ");
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
-            
+
             $query = $conn->prepare("
                 DELETE FROM {$atendimentoTable}
                 WHERE unidade_id = :unidade OR :unidade = 0
             ");
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
-            
+
             // reinicia o contador das senhas
             $this->reiniciarContadores($conn, $unidadeId);
         });
