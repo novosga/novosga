@@ -113,7 +113,7 @@ abstract class ApiCrudController extends ApiControllerBase
     }
     
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return \Doctrine\Persistence\ObjectRepository
      */
     protected function getRepository()
     {

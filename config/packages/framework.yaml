@@ -1,25 +1,17 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
-    #default_locale: en
-    #csrf_protection: ~
+    #csrf_protection: true
     #http_method_override: true
-    
-    # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+
+    # Enables session support. Note that the session will ONLY be started if you read or write from it.
+    # Remove or comment this section to explicitly disable session support.
     session:
-        handler_id: session.handler.native_file
-        save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
-    #esi: ~
-    #fragments: ~
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+
+    #esi: true
+    #fragments: true
     php_errors:
         log: true
-    validation:
-        enabled: true
-        mapping:
-            paths:
-              - "%kernel.project_dir%/config/validation"
-    templating:
-        engines: ['twig']
-
-
-sensio_framework_extra:
-    router: { annotations: false }

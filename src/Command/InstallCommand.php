@@ -11,7 +11,7 @@
 
 namespace App\Command;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Novosga\Entity\Prioridade;
 use Novosga\Entity\Unidade;

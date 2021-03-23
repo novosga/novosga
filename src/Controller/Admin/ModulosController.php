@@ -11,11 +11,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Kernel;
 use App\Service\ModuleService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * ModulosController
@@ -34,18 +35,19 @@ class ModulosController extends AbstractController
      *
      * @Route("/", name="admin_modulos_index")
      */
-    public function index(Request $request, ModuleService $service, TranslatorInterface $translator)
-    {
-        $modules = array_map(function ($value) use ($translator) {
-            $module = new $value['class'];
-            $name   = $translator->trans($module->getDisplayName(), [], $module->getName());
-            
+    public function index(
+        Kernel $kernel,
+        ModuleService $service,
+        TranslatorInterface $translator
+    ) {
+        $modules = array_map(function ($module) use ($translator) {
+            $name = $translator->trans($module->getDisplayName(), [], $module->getName());
             return [
-                'active' => $value['active'],
+                'active' => true,
                 'key' => $module->getKeyName(),
                 'name' => $name,
             ];
-        }, $service->getModules());
+        }, $service->filterModules($kernel->getBundles()));
         
         return $this->render('admin/modulos/index.html.twig', [
             'tab' => 'modulos',

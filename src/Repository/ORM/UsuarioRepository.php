@@ -19,7 +19,7 @@ use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
 use Novosga\Service\UsuarioService;
 use Novosga\Repository\UsuarioRepositoryInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -40,7 +40,7 @@ class UsuarioRepository extends ServiceEntityRepository implements
      */
     private $usuarioService;
     
-    public function __construct(RegistryInterface $registry, UsuarioService $usuarioService)
+    public function __construct(ManagerRegistry $registry, UsuarioService $usuarioService)
     {
         parent::__construct($registry, Usuario::class);
         $this->usuarioService = $usuarioService;

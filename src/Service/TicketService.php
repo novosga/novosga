@@ -17,7 +17,7 @@ use Novosga\Entity\Atendimento;
 use Novosga\Entity\ServicoUnidade;
 use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\StorageAwareService;
-use Twig_Environment;
+use Twig\Environment;
 
 /**
  * TicketService
@@ -27,11 +27,11 @@ use Twig_Environment;
 class TicketService extends StorageAwareService
 {
     /**
-     * @var Twig_Environment
+     * @var Environment
      */
     private $twig;
     
-    public function __construct(StorageInterface $storage, Twig_Environment $twig)
+    public function __construct(StorageInterface $storage, Environment $twig)
     {
         parent::__construct($storage);
         $this->twig = $twig;

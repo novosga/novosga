@@ -41,6 +41,10 @@
         <env name="MERCURE_PUBLISH_URL" value="https://demo.mercure.rocks/hub"/>
         <env name="MERCURE_JWT_SECRET" value="#see https://mercure.rocks"/>
         <!-- ###- symfony/mercure-bundle ### -->
+
+        <!-- ###+ symfony/mailer ### -->
+        <!-- MAILER_DSN=smtp://localhost -->
+        <!-- ###- symfony/mailer ### -->
     </php>
 
     <testsuites>

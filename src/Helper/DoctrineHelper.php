@@ -2,7 +2,7 @@
 
 namespace App\Helper;
 
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * DoctrineHelper

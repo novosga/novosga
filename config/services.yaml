@@ -1,36 +1,32 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: '%env(LANGUAGE)%'
+    locale: '%env(APP_LANGUAGE)%'
     version: '2.1.0'
     title: 'Novo SGA CE'
-    env(MERCURE_PUBLISH_URL): ''
-    env(MERCURE_JWT_SECRET): ''
 
 services:
     # default configuration for services in *this* file
     _defaults:
-        # Automatically injects dependencies in your services.
-        autowire: true
-        # Automatically registers your services as commands, event subscribers, etc.
-        autoconfigure: true
-        # Allows optimizing the container by removing unused services; this also means
-        # fetching services directly from the container via $container->get() won't work.
-        # The best practice is to be explicit about your dependencies anyway.
-        public: false
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $rootDir: '%kernel.project_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
-        resource: '../src/*'
-        exclude: '../src/{Entity,Migrations,Tests}'
-        
-    # controllers are imported separately to make sure they
-    # have the tag that allows actions to type-hint services
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
     App\Controller\:
-        resource: '../src/Controller'
+        resource: '../src/Controller/'
         tags: ['controller.service_arguments']
         
     App\Listener\SessionListener:
@@ -68,6 +64,9 @@ services:
     App\Extensions\Doctrine\SchemaViewIgnorer:
         tags:
             - { name: doctrine.event_listener, event: postGenerateSchema, connection: default }
+
+    
+    Doctrine\Persistence\ObjectManager: '@Doctrine\ORM\EntityManagerInterface'
     
     # novosga core services
     Novosga\Service\:
@@ -75,9 +74,10 @@ services:
         public: true
         
     Novosga\Event\EventDispatcherInterface: '@App\Service\EventDispatcher'
-        
+    
     Novosga\Infrastructure\StorageInterface:
-        factory: 'App\Infrastructure\StorageFactory:createStorage'
+        factory: ['App\Infrastructure\StorageFactory', 'createStorage']
+        arguments: ['@Doctrine\Persistence\ObjectManager']
 
     Novosga\Service\Configuration:
         $rootDir: '%kernel.project_dir%'

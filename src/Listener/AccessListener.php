@@ -13,7 +13,7 @@ namespace App\Listener;
 
 use App\Repository\ORM\UsuarioRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
@@ -31,7 +31,7 @@ class AccessListener extends AppListener
         $this->authChecker = $authChecker;
     }
     
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
@@ -43,22 +43,26 @@ class AccessListener extends AppListener
         $isModule = $this->isModuleRequest($request);
         
         
-        if (!$isApi) {
-            if ($isAdmin) {
-                if (!$this->authChecker->isGranted([ 'ROLE_ADMIN' ])) {
-                    $response = new RedirectResponse("/");
-                    $event->setResponse($response);
-                    return;
-                }
-            }
+        if ($isApi) {
+            return;
+        }
 
-            if ($isModule !== false) {
-                $role = UsuarioRepository::roleName($isModule);
-                if (!$this->authChecker->isGranted([ 'ROLE_ADMIN', $role ])) {
-                    $response = new RedirectResponse("/");
-                    $event->setResponse($response);
-                    return;
-                }
+        if ($isAdmin) {
+            $isUserAdmin = $this->authChecker->isGranted('ROLE_ADMIN');
+            if (!$isUserAdmin) {
+                $response = new RedirectResponse("/");
+                $event->setResponse($response);
+                return;
+            }
+        }
+
+        if ($isModule !== false) {
+            $role = UsuarioRepository::roleName($isModule);
+            $isUserModule = $this->authChecker->isGranted($role);
+            $isUserAdmin = $this->authChecker->isGranted('ROLE_ADMIN');
+            if (!$isUserAdmin && !$isUserModule) {
+                $response = new RedirectResponse("/");
+                $event->setResponse($response);
             }
         }
     }

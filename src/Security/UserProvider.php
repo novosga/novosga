@@ -11,7 +11,7 @@
 
 namespace App\Security;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\EntityUserProvider;
 use Novosga\Entity\Usuario;
 

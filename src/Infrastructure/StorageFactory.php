@@ -5,7 +5,7 @@ namespace App\Infrastructure;
 use Exception;
 use App\Infrastructure\Storage\MySQLStorage;
 use App\Infrastructure\Storage\PostgreSQLStorage;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Novosga\Infrastructure\StorageInterface;
 
 /**
@@ -15,7 +15,7 @@ use Novosga\Infrastructure\StorageInterface;
  */
 class StorageFactory
 {
-    public function createStorage(ObjectManager $om): StorageInterface
+    public static function createStorage(ObjectManager $om): StorageInterface
     {
         if ($om instanceof \Doctrine\ORM\EntityManager) {
             $conn     = $om->getConnection();
@@ -25,11 +25,11 @@ class StorageFactory
                 return new MySQLStorage($om);
             }
             
-            if ($platform instanceof \Doctrine\DBAL\Platforms\PostgreSqlPlatform) {
+            if ($platform instanceof \Doctrine\DBAL\Platforms\PostgreSQL94Platform) {
                 return new PostgreSQLStorage($om);
             }
             
-            if ($platform instanceof \Doctrine\DBAL\Platforms\SQLServerPlatform) {
+            if ($platform instanceof \Doctrine\DBAL\Platforms\SQLServer2012Platform) {
                 // TODO: implement SQLServerStorage
             }
         }

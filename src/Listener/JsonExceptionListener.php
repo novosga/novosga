@@ -13,12 +13,12 @@ namespace App\Listener;
 
 use Novosga\Http\Envelope;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * JsonExceptionListener
@@ -43,13 +43,13 @@ class JsonExceptionListener extends AppListener
         $this->translator = $translator;
     }
     
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function onKernelException(ExceptionEvent $event)
     {
         if (KernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
         }
         
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
         $request   = $event->getRequest();
         $debug     = $this->kernel->getEnvironment() === 'dev';
         

@@ -11,8 +11,8 @@
 
 namespace App\Infrastructure\Storage;
 
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Novosga\Infrastructure\StorageInterface;
 
 /**
