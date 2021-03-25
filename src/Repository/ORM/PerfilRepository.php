@@ -11,7 +11,8 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\Perfil;
 use Novosga\Repository\PerfilRepositoryInterface;
 
@@ -20,9 +21,13 @@ use Novosga\Repository\PerfilRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class PerfilRepository extends EntityRepository implements PerfilRepositoryInterface
+class PerfilRepository extends ServiceEntityRepository implements PerfilRepositoryInterface
 {
-    
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Perfil::class);
+    }
+
     /**
      * Retorna todos os perfis ordenados pelo nível e pelo nome
      *

@@ -11,14 +11,16 @@
 
 namespace App\Controller;
 
+use App\Repository\ORM\UnidadeRepository;
+use App\Repository\ORM\UsuarioRepository;
 use Novosga\Entity\Unidade;
-use Novosga\Entity\Usuario;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Novosga\Http\Envelope;
+
 use function usort;
 
 class DefaultController extends AbstractController
@@ -42,14 +44,10 @@ class DefaultController extends AbstractController
     /**
      * @Route("/unidades", name="app_default_unidades", methods={"GET"})
      */
-    public function unidades(Request $request)
+    public function unidades(Request $request, UnidadeRepository $unidade)
     {
-        $usuario  = $this->getUser();
-        $unidades = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Unidade::class)
-            ->findByUsuario($usuario);
+        $usuario = $this->getUser();
+        $unidades = $unidade->findByUsuario($usuario);
 
         return $this->render('default/include/unidadesModal.html.twig', [
             'unidades' => $unidades,
@@ -59,15 +57,10 @@ class DefaultController extends AbstractController
     /**
      * @Route("/set_unidade/{id}", name="app_default_setunidade", methods={"POST"})
      */
-    public function setUnidade(Request $request, Unidade $unidade)
+    public function setUnidade(Request $request, Unidade $unidade, UsuarioRepository $repository)
     {
         $usuario = $this->getUser();
-        
-        $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Usuario::class)
-            ->updateUnidade($usuario, $unidade);
+        $repository->updateUnidade($usuario, $unidade);
         
         return $this->json(new Envelope());
     }

@@ -11,7 +11,8 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\Metadata;
 use Novosga\Repository\MetadataRepositoryInterface;
 
@@ -20,8 +21,13 @@ use Novosga\Repository\MetadataRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class MetadataRepository extends EntityRepository implements MetadataRepositoryInterface
+class MetadataRepository extends ServiceEntityRepository implements MetadataRepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Metadata::class);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -43,16 +49,15 @@ class MetadataRepository extends EntityRepository implements MetadataRepositoryI
         
         if ($metada instanceof Metadata) {
             $metada->setValue($value);
-            $em->merge($metada);
         } else {
             $class  = $this->getEntityName();
             $metada = new $class;
             $metada->setNamespace($namespace);
             $metada->setName($name);
             $metada->setValue($value);
-            $em->persist($metada);
         }
         
+        $em->persist($metada);
         $em->flush();
         
         return $metada;

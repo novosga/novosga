@@ -11,7 +11,9 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Novosga\Entity\Prioridade;
 use Novosga\Repository\PrioridadeRepositoryInterface;
 
 /**
@@ -19,9 +21,14 @@ use Novosga\Repository\PrioridadeRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class PrioridadeRepository extends EntityRepository implements PrioridadeRepositoryInterface
+class PrioridadeRepository extends ServiceEntityRepository implements PrioridadeRepositoryInterface
 {
     use SoftDeleteTrait;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Prioridade::class);
+    }
     
     public function findAtivas()
     {

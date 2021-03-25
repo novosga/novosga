@@ -249,42 +249,44 @@ var App = {
     },
 
     SSE: {
-        reconnectId: 0,
+        connected: false,
         reconnectAttempts: 0,
-        maxReconnectAttempts: 3,
-        reconnectTimeout: 2000,
+        maxReconnectAttempts: 5,
         
         connect (topics) {
-            // const url = new URL(location.protocol + '//' + location.hostname + ':3000/hub');
-            const url = new URL('http://mercure.teste.pmv.local/hub');
+            this.url = new URL(document.body.dataset.mercureUrl);
             for (let topic of topics) {
-                url.searchParams.append('topic', topic);
+                this.url.searchParams.append('topic', topic);
             }
 
-            this.eventSource = new EventSource(url);
+            this.eventSource = new EventSource(this.url);
 
-            this.eventSource.onopen = e => {
-                clearTimeout(this.reconnectId);
+            this.eventSource.onopen = (e) => {
+                this.connected = true;
                 this.reconnectAttempts = 0;
                 this.onopen(e);
             }
 
-            this.eventSource.onerror = e => {
+            this.eventSource.onerror = (e) => {
+                this.connected = false;
                 clearTimeout(this.reconnectId);
                 this.onerror(e);
                 if (this.reconnectAttempts < this.maxReconnectAttempts) {
                     this.reconnectAttempts++;
-                    this.reconnectId = setTimeout(() => {
-                        this.connect(topics)
-                    }, this.reconnectTimeout);
                 } else {
                     this.reconnectAttempts = 0;
                     this.ondisconnect();
                 }
             }
 
-            this.eventSource.onmessage = e => {
-                let data = JSON.parse(e.data);
+            this.eventSource.onmessage = (e) => {
+                this.connected = true;
+                let data;
+                try {
+                    data = JSON.parse(e.data);
+                } catch (ex) {
+                    data = null
+                }
                 this.onmessage(e, data);
             };
         },
@@ -293,67 +295,7 @@ var App = {
         onerror (e) {},
         onmessage (e, data) {},
         ondisconnect () {}
-    },
-    
-    Websocket: {
-        
-        timeout: 2000,
-        maxAttemps: 3,
-        
-        connect: function() {
-            if (!this.ws) {
-                this.create();
-            } else {
-                this.ws.open();
-            }
-        },
-        
-        create: function() {
-            this.ws = io(':2020', {
-                path: '/socket.io',
-                transports: ['websocket'],
-                secure: true,
-                timeout: App.Websocket.timeout,
-                reconnection: true,
-                reconnectionDelay: 1000,
-                reconnectionDelayMax: 5000,
-                reconnectionAttempts: App.Websocket.maxAttemps
-            });
-
-            this.ws.on('connect', function () {
-                console.log('[ws] connected!');
-            });
-            
-            this.ws.on('disconnect', function () {
-                console.log('[ws] disconnected!');
-            });
-            
-            this.ws.on('connect_error', function () {
-                console.log('[ws] connect error');
-            });
-            
-            this.ws.on('reconnect_failed', function () {
-                console.log('[ws] reached max attempts');
-            });
-            
-            this.on('error', function () {
-                console.log('[ws] error');
-            });
-        },
-        
-        on: function(evt, fn) {
-            if (this.ws) {
-                this.ws.on(evt, fn);
-            }
-        },
-        
-        emit: function(evt, fn) {
-            if (this.ws) {
-                this.ws.emit(evt, fn);
-            }
-        }
-        
-    }    
+    }
 };
 
 

@@ -11,7 +11,8 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\Atendimento;
 use Novosga\Entity\Servico;
 use Novosga\Entity\Unidade;
@@ -22,8 +23,13 @@ use Novosga\Repository\AtendimentoRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class AtendimentoRepository extends EntityRepository implements AtendimentoRepositoryInterface
+class AtendimentoRepository extends ServiceEntityRepository implements AtendimentoRepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Atendimento::class);
+    }
+
     /**
      * {@inheritdoc}
      */

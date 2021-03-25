@@ -11,7 +11,8 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\ServicoUnidade;
 use Novosga\Repository\ServicoUnidadeRepositoryInterface;
 
@@ -20,8 +21,13 @@ use Novosga\Repository\ServicoUnidadeRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class ServicoUnidadeRepository extends EntityRepository implements ServicoUnidadeRepositoryInterface
+class ServicoUnidadeRepository extends ServiceEntityRepository implements ServicoUnidadeRepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, ServicoUnidade::class);
+    }
+
     /**
      * {@inheritdoc}
      */

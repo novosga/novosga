@@ -11,7 +11,8 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
 use Novosga\Entity\Lotacao;
@@ -22,9 +23,14 @@ use Novosga\Repository\UnidadeRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class UnidadeRepository extends EntityRepository implements UnidadeRepositoryInterface
+class UnidadeRepository extends ServiceEntityRepository implements UnidadeRepositoryInterface
 {
     use SoftDeleteTrait;
+
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Unidade::class);
+    }
     
     /**
      * Retorna todas as unidades ordenadas por nome
@@ -44,8 +50,8 @@ class UnidadeRepository extends EntityRepository implements UnidadeRepositoryInt
     public function findByUsuario(Usuario $usuario)
     {
         $qb = $this
-                ->createQueryBuilder('e')
-                ->where('e.deletedAt IS NULL');
+            ->createQueryBuilder('e')
+            ->where('e.deletedAt IS NULL');
                 
         if (!$usuario->isAdmin()) {
             $qb
@@ -55,8 +61,8 @@ class UnidadeRepository extends EntityRepository implements UnidadeRepositoryInt
         }
                         
         $unidades = $qb
-                ->getQuery()
-                ->getResult();
+            ->getQuery()
+            ->getResult();
         
         return $unidades;
     }

@@ -6,3 +6,4 @@ twig:
         locale: "%locale%"
         version: "%version%"
         title: "%title%"
+        mercure_url: '%env(MERCURE_PUBLISH_URL)%'

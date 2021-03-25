@@ -9,13 +9,13 @@
         <title>{{- block('title') -}} | {{ title }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="shortcut icon" href="{{ asset("images/favicon.png") }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/bootstrap.min.css") }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/font-awesome.min.css") }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset("css/style.css") }}" />
+        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
         {% block stylesheets %}{% endblock %}
     </head>
-    <body>
+    <body data-mercure-url="{{ mercure_url }}">
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <a class="navbar-brand" href="{{ path('home') }}">
@@ -101,17 +101,16 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="{{ asset("js/jquery.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/popper.min.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/bootstrap.min.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/socket.io.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/vue.min.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/script.js") }}"></script>
-        <script type="text/javascript" src="{{ asset("js/moment-with-locales.min.js") }}"></script>
+        <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/vue.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/moment-with-locales.min.js') }}"></script>
         <script type="text/javascript">
             App.baseUrl = '{{ app.request.baseUrl() }}';
             App.version = '{{ version }}';
-            App.dateFormat = '{{ 'm/d/Y'|trans }}';
+            App.dateFormat = '{{ "m/d/Y"|trans }}';
         </script>
         {% block javascripts %}{% endblock %}
 

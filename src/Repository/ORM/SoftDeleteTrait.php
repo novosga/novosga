@@ -21,8 +21,8 @@ trait SoftDeleteTrait
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
         $qb = $this
-                ->createQueryBuilder('e')
-                ->where('e.deletedAt IS NULL');
+            ->createQueryBuilder('e')
+            ->where('e.deletedAt IS NULL');
         
         $params = [];
         

@@ -11,7 +11,8 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\Lotacao;
 use Novosga\Entity\Unidade;
 use Novosga\Entity\Usuario;
@@ -22,8 +23,12 @@ use Novosga\Repository\LotacaoRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInterface
+class LotacaoRepository extends ServiceEntityRepository implements LotacaoRepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Lotacao::class);
+    }
     
     /**
      * Retorna as lotações do usuário
@@ -33,18 +38,19 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
      */
     public function getLotacoes(Usuario $usuario)
     {
-        return $this->getEntityManager()
-                ->createQueryBuilder()
-                ->select([
-                    'e', 'c', 'u'
-                ])
-                ->from($this->getEntityName(), 'e')
-                ->join('e.perfil', 'c')
-                ->join('e.unidade', 'u')
-                ->where("e.usuario = :usuario")
-                ->setParameter('usuario', $usuario)
-                ->getQuery()
-                ->getResult()
+        return $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select([
+                'e', 'c', 'u'
+            ])
+            ->from($this->getEntityName(), 'e')
+            ->join('e.perfil', 'c')
+            ->join('e.unidade', 'u')
+            ->where("e.usuario = :usuario")
+            ->setParameter('usuario', $usuario)
+            ->getQuery()
+            ->getResult()
         ;
     }
     
@@ -56,18 +62,19 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
      */
     public function getLotacoesUnidade(Unidade $unidade)
     {
-        return $this->getEntityManager()
-                ->createQueryBuilder()
-                ->select([
-                    'e', 'c', 'u'
-                ])
-                ->from($this->getEntityName(), 'e')
-                ->join('e.perfil', 'c')
-                ->join('e.usuario', 'u')
-                ->where("e.unidade = :unidade")
-                ->setParameter('unidade', $unidade)
-                ->getQuery()
-                ->getResult()
+        return $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select([
+                'e', 'c', 'u'
+            ])
+            ->from($this->getEntityName(), 'e')
+            ->join('e.perfil', 'c')
+            ->join('e.usuario', 'u')
+            ->where("e.unidade = :unidade")
+            ->setParameter('unidade', $unidade)
+            ->getQuery()
+            ->getResult()
         ;
     }
     
@@ -80,20 +87,21 @@ class LotacaoRepository extends EntityRepository implements LotacaoRepositoryInt
      */
     public function getLotacao(Usuario $usuario, Unidade $unidade)
     {
-        return $this->getEntityManager()
-                ->createQueryBuilder()
-                ->select([
-                    'e', 'c', 'u'
-                ])
-                ->from($this->getEntityName(), 'e')
-                ->join('e.perfil', 'c')
-                ->join('e.unidade', 'u')
-                ->where("e.usuario = :usuario")
-                ->andWhere("e.unidade = :unidade")
-                ->setParameter('usuario', $usuario)
-                ->setParameter('unidade', $unidade)
-                ->getQuery()
-                ->getOneOrNullResult()
+        return $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select([
+                'e', 'c', 'u'
+            ])
+            ->from($this->getEntityName(), 'e')
+            ->join('e.perfil', 'c')
+            ->join('e.unidade', 'u')
+            ->where("e.usuario = :usuario")
+            ->andWhere("e.unidade = :unidade")
+            ->setParameter('usuario', $usuario)
+            ->setParameter('unidade', $unidade)
+            ->getQuery()
+            ->getOneOrNullResult()
         ;
     }
 }

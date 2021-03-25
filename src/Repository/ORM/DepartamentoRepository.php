@@ -11,7 +11,9 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Novosga\Entity\Departamento;
 use Novosga\Repository\DepartamentoRepositoryInterface;
 
 /**
@@ -19,6 +21,10 @@ use Novosga\Repository\DepartamentoRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class DepartamentoRepository extends EntityRepository implements DepartamentoRepositoryInterface
+class DepartamentoRepository extends ServiceEntityRepository implements DepartamentoRepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Departamento::class);
+    }
 }

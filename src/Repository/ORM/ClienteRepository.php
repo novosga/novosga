@@ -11,7 +11,8 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\Cliente;
 use Novosga\Repository\ClienteRepositoryInterface;
 
@@ -20,8 +21,12 @@ use Novosga\Repository\ClienteRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class ClienteRepository extends EntityRepository implements ClienteRepositoryInterface
+class ClienteRepository extends ServiceEntityRepository implements ClienteRepositoryInterface
 {
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Cliente::class);
+    }
     
     /**
      * Retorna todos os clientes ordenados pelo nome
@@ -36,10 +41,10 @@ class ClienteRepository extends EntityRepository implements ClienteRepositoryInt
     public function findByDocumento($documento)
     {
         return $this
-                ->createQueryBuilder('e')
-                ->where('e.documento LIKE :documento')
-                ->setParameter('documento', $documento)
-                ->getQuery()
-                ->getResult();
+            ->createQueryBuilder('e')
+            ->where('e.documento LIKE :documento')
+            ->setParameter('documento', $documento)
+            ->getQuery()
+            ->getResult();
     }
 }

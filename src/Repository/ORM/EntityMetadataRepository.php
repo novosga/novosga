@@ -44,7 +44,6 @@ class EntityMetadataRepository extends EntityRepository implements EntityMetadat
         
         if ($metada instanceof EntityMetadata) {
             $metada->setValue($value);
-            $em->merge($metada);
         } else {
             $class  = $this->getEntityName();
             $metada = new $class;
@@ -52,9 +51,9 @@ class EntityMetadataRepository extends EntityRepository implements EntityMetadat
             $metada->setNamespace($namespace);
             $metada->setName($name);
             $metada->setValue($value);
-            $em->persist($metada);
         }
         
+        $em->persist($metada);
         $em->flush();
         
         return $metada;
