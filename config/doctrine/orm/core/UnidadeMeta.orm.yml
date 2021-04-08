@@ -1,7 +1,7 @@
 Novosga\Entity\UnidadeMeta:
     type: entity
     table: unidades_metadata
-    repositoryClass: App\Repository\ORM\EntityMetadataRepository
+    repositoryClass: App\Repository\ORM\UnidadeMetadataRepository
     id:
         entity:
             associationKey: true

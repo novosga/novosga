@@ -70,3 +70,8 @@ body>.container-fluid>h1 {
 [v-cloak] {
   display: none;
 }
+
+input[type=color] {
+    height: 40px;
+    max-width: 80px;
+}

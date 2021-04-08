@@ -298,6 +298,28 @@ var App = {
     }
 };
 
+(() => {
+    'use strict'
+    
+    const pingInterval = 10 * 60 * 1000; // 10 minutes
+
+    const doPing = () => {
+        if (App.paused) {
+            return
+        } else {
+            App.ajax({
+                url: App.url('/ping'),
+                error() {
+                    window.location.reload()
+                }
+            })
+        }
+    }
+
+    setInterval(() => {
+        doPing()
+    }, pingInterval);
+})();
 
 $(function() {
     

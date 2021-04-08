@@ -2,8 +2,8 @@
 
 namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Schema\Schema;
 use App\Migrations\AbstractVersion;
+use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 final class Version1 extends AbstractVersion
@@ -17,5 +17,6 @@ final class Version1 extends AbstractVersion
 
     public function down(Schema $schema) : void
     {
+        // do nothing
     }
 }

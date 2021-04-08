@@ -34,6 +34,14 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/ping", name="ping")
+     */
+    public function ping(Request $request)
+    {
+        return $this->json(new Envelope());
+    }
+
+    /**
      * @Route("/about", name="about")
      */
     public function about(Request $request)

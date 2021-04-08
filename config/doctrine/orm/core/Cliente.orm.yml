@@ -2,6 +2,8 @@ Novosga\Entity\Cliente:
     type: entity
     table: clientes
     repositoryClass: App\Repository\ORM\ClienteRepository
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: documento
     id:
         id:
             type: integer
@@ -12,14 +14,30 @@ Novosga\Entity\Cliente:
             type: string
             length: 60
             nullable: false
-            column: nome
         documento:
             type: string
             length: 30
             nullable: false
-            column: documento
         email:
             type: string
             length: 80
             nullable: true
-            column: email
+        telefone:
+            type: string
+            length: 25
+            nullable: true
+        dataNascimento:
+            type: date
+            nullable: true
+            column: dt_nascimento
+        genero:
+            type: string
+            length: 1
+            nullable: true
+        observacao:
+            type: text
+            nullable: true
+    embedded:
+        endereco:
+            class: Novosga\Entity\Endereco
+            columnPrefix: end_

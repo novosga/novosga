@@ -706,6 +706,38 @@
                 <target>Error generating a new ticket number</target>
                 
             </trans-unit>
+            <trans-unit id="label.color">
+                <source>label.color</source>
+                <target>Color</target>
+            </trans-unit>
+            <trans-unit id="label.customer_id">
+                <source>label.customer_id</source>
+                <target>Customer ID</target>
+            </trans-unit>
+            <trans-unit id="label.phone">
+                <source>label.phone</source>
+                <target>Phone</target>
+            </trans-unit>
+            <trans-unit id="label.gender">
+                <source>label.gender</source>
+                <target>Gender</target>
+            </trans-unit>
+            <trans-unit id="label.gender.male">
+                <source>label.gender.male</source>
+                <target>Male</target>
+            </trans-unit>
+            <trans-unit id="label.gender.female">
+                <source>label.gender.female</source>
+                <target>Female</target>
+            </trans-unit>
+            <trans-unit id="label.gender.unknown">
+                <source>label.gender.unknown</source>
+                <target>Unknown</target>
+            </trans-unit>
+            <trans-unit id="label.notes">
+                <source>label.notes</source>
+                <target>Notes</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

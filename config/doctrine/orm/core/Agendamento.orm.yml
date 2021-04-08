@@ -1,6 +1,9 @@
 Novosga\Entity\Agendamento:
     type: entity
     table: agendamentos
+    indexes:
+        agendamento_oid_index:
+            columns: [ oid ]
     id:
         id:
             type: integer
@@ -19,6 +22,11 @@ Novosga\Entity\Agendamento:
             type: datetime
             nullable: true
             column: data_confirmacao
+        oid:
+            type: string
+            nullable: true
+            column: oid
+            length: 36
     manyToOne:
         cliente:
             targetEntity: Novosga\Entity\Cliente

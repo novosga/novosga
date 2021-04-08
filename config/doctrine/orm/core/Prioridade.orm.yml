@@ -24,6 +24,10 @@ Novosga\Entity\Prioridade:
             unique: false
             nullable: false
             precision: 0
+        cor:
+            type: string
+            scale: 20
+            nullable: true
         ativo:
             type: boolean
             nullable: false

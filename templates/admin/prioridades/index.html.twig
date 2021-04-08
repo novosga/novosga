@@ -39,6 +39,9 @@
                         {{ prioridade.id }}
                     </td>
                     <td>
+                        {% if prioridade.cor %}
+                            <span style="display: inline-block; height: 10px; width: 20px; background-color: {{ prioridade.cor }}"></span>
+                        {% endif %}
                         {{ prioridade.nome }}
                     </td>
                     <td>

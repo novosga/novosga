@@ -13,6 +13,7 @@ namespace App\Controller\Api;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * DefaultController
@@ -25,11 +26,12 @@ class DefaultController extends AbstractController
      * @Route("/api")
      * @Route("/api/")
      */
-    public function index()
+    public function index(ParameterBagInterface $params)
     {
         return $this->json([
             'status' => 'ok',
-            'time'   => time(),
+            'time' => time(),
+            'mercureUrl' => $params->get('mercure_url'),
         ]);
     }
 }

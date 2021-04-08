@@ -4,6 +4,7 @@ parameters:
     locale: '%env(APP_LANGUAGE)%'
     version: '2.1.0'
     title: 'Novo SGA CE'
+    mercure_url: '%env(MERCURE_PUBLISH_URL)%'
 
 services:
     # default configuration for services in *this* file

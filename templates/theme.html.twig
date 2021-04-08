@@ -1,0 +1,23 @@
+{% use 'bootstrap_4_layout.html.twig' %}
+
+
+{%- block color_widget -%}
+    <div class="input-group mb-3">
+        {%- set id = id ~ '_color' -%}
+        {%- set type = 'color' -%}
+        {{ block('form_widget_simple') }}
+        {%- set id = id ~ '_text' -%}
+        {%- set type = 'text' -%}
+        {{ block('form_widget_simple') }}
+        <script>
+            ;(() => {
+                const inputs = document.querySelectorAll('[name="{{ full_name }}"]')
+                inputs.forEach(input => {
+                    input.addEventListener('input', (e) => {
+                        inputs.forEach(i => i.value = e.target.value)
+                    }, false)
+                })
+            })()
+        </script>
+    </div>
+{%- endblock color_widget -%}

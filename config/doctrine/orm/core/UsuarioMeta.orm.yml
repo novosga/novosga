@@ -1,7 +1,7 @@
 Novosga\Entity\UsuarioMeta:
     type: entity
     table: usuarios_metadata
-    repositoryClass: App\Repository\ORM\EntityMetadataRepository
+    repositoryClass: App\Repository\ORM\UsuarioMetadataRepository
     id:
         entity:
             associationKey: true

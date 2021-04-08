@@ -41,7 +41,10 @@ class PrioridadesController extends AbstractController
             ->getDoctrine()
             ->getManager()
             ->getRepository(Entity::class)
-            ->findBy([], ['nome' => 'ASC']);
+            ->findBy([], [
+                'peso' => 'ASC',
+                'nome' => 'ASC',
+            ]);
 
         return $this->render('admin/prioridades/index.html.twig', [
             'tab'         => 'prioridades',
@@ -61,6 +64,7 @@ class PrioridadesController extends AbstractController
     {
         if (!$entity) {
             $entity = new Entity();
+            $entity->setCor('#0091da');
         }
 
         $form = $this->createForm(EntityType::class, $entity);

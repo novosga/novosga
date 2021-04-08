@@ -11,9 +11,10 @@
 
 namespace App\Form;
 
-use Novosga\Entity\Cliente;
+use Novosga\Entity\Endereco;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -22,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Length;
 
-class ClienteType extends AbstractType
+class EnderecoType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -31,47 +32,45 @@ class ClienteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nome', TextType::class, [
-                'label' => 'label.name',
-                'constraints' => [
-                    new NotNull(),
-                    new Length([ 'min' => 3 ]),
-                ],
+            ->add('pais', CountryType::class, [
+                'label' => 'label.endereco.pais',
             ])
-            ->add('documento', TextType::class, [
-                'label' => 'label.customer_id',
-                'constraints' => [
-                    new NotNull(),
-                    new Length([ 'min' => 3 ]),
-                ],
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'label.email',
-                'constraints' => [
-                    new Length([ 'max' => 80 ]),
-                ],
-            ])
-            ->add('telefone', TextType::class, [
-                'label' => 'label.phone',
+            ->add('cep', TextType::class, [
+                'label' => 'label.endereco.cep',
                 'constraints' => [
                     new Length([ 'max' => 25 ]),
                 ],
             ])
-            ->add('genero', ChoiceType::class, [
-                'label' => 'label.gender',
-                'placeholder' => '',
-                'choices' => [
-                    'label.gender.male' => 'M',
-                    'label.gender.female' => 'F',
-                    'label.gender.unknown' => 'O',
-                ]
+            ->add('estado', TextType::class, [
+                'label' => 'label.endereco.estado',
+                'constraints' => [
+                    new Length([ 'max' => 3 ]),
+                ],
             ])
-            ->add('observacao', TextareaType::class, [
-                'label' => 'label.notes',
-                'required' => false,
-                'attr' => [
-                    'rows' => 6,
-                ]
+            ->add('cidade', TextType::class, [
+                'label' => 'label.endereco.cidade',
+                'constraints' => [
+                    new Length([ 'max' => 30 ]),
+                ],
+            ])
+            ->add('logradouro', TextType::class, [
+                'label' => 'label.endereco.logradouro',
+                'constraints' => [
+                    new Length([ 'max' => 60 ]),
+                ],
+            ])
+            ->add('numero', TextType::class, [
+                'label' => 'label.endereco.numero',
+                'constraints' => [
+                    new Length([ 'max' => 10 ]),
+                ],
+            ])
+            ->add('complemento', TextType::class, [
+                'label' => 'label.endereco.complemento',
+                'constraints' => [
+                    new NotNull(),
+                    new Length([ 'max' => 15 ]),
+                ],
             ])
         ;
     }
@@ -82,7 +81,7 @@ class ClienteType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Cliente::class,
+            'data_class' => Endereco::class
         ));
     }
 }

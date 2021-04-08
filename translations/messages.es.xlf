@@ -706,6 +706,38 @@
                 <target>Error al intentar crear una nueva llamada</target>
                 
             </trans-unit>
+            <trans-unit id="label.color">
+                <source>label.color</source>
+                <target>Cor</target>
+            </trans-unit>
+            <trans-unit id="label.customer_id">
+                <source>label.customer_id</source>
+                <target>Documento</target>
+            </trans-unit>
+            <trans-unit id="label.phone">
+                <source>label.phone</source>
+                <target>Telefone</target>
+            </trans-unit>
+            <trans-unit id="label.gender">
+                <source>label.gender</source>
+                <target>Gênero</target>
+            </trans-unit>
+            <trans-unit id="label.gender.male">
+                <source>label.gender.male</source>
+                <target>Masculino</target>
+            </trans-unit>
+            <trans-unit id="label.gender.female">
+                <source>label.gender.female</source>
+                <target>Feminino</target>
+            </trans-unit>
+            <trans-unit id="label.gender.unknown">
+                <source>label.gender.unknown</source>
+                <target>Outro</target>
+            </trans-unit>
+            <trans-unit id="label.notes">
+                <source>label.notes</source>
+                <target>Observação</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

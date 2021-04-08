@@ -11,8 +11,10 @@
 
 namespace App\Repository\ORM;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\EntityMetadata;
+use Novosga\Entity\UnidadeMeta;
 use Novosga\Repository\EntityMetadataRepositoryInterface;
 
 /**
@@ -20,17 +22,28 @@ use Novosga\Repository\EntityMetadataRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class EntityMetadataRepository extends EntityRepository implements EntityMetadataRepositoryInterface
+abstract class EntityMetadataRepository extends ServiceEntityRepository implements EntityMetadataRepositoryInterface
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function findByNamespace($entity, string $namespace)
+    {
+        return $this->findBy([
+            'entity' => $entity,
+            'namespace' => $namespace,
+        ]);
+    }
+
     /**
      * {@inheritdoc}
      */
     public function get($entity, string $namespace, string $name)
     {
         return $this->findOneBy([
-            'entity'    => $entity,
+            'entity' => $entity,
             'namespace' => $namespace,
-            'name'      => $name
+            'name' => $name
         ]);
     }
     
@@ -39,17 +52,20 @@ class EntityMetadataRepository extends EntityRepository implements EntityMetadat
      */
     public function set($entity, string $namespace, string $name, $value)
     {
-        $em     = $this->getEntityManager();
+        $em = $this->getEntityManager();
         $metada = $this->get($entity, $namespace, $name);
         
         if ($metada instanceof EntityMetadata) {
             $metada->setValue($value);
         } else {
-            $class  = $this->getEntityName();
-            $metada = new $class;
-            $metada->setEntity($entity);
-            $metada->setNamespace($namespace);
-            $metada->setName($name);
+            $metada = $this->get($entity, $namespace, $name);
+            if (!$metada) {
+                $class = $this->getEntityName();
+                $metada = new $class;
+                $metada->setEntity($entity);
+                $metada->setNamespace($namespace);
+                $metada->setName($name);
+            }
             $metada->setValue($value);
         }
         

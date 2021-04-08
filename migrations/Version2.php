@@ -2,8 +2,8 @@
 
 namespace DoctrineMigrations;
 
-use Doctrine\DBAL\Schema\Schema;
 use App\Migrations\AbstractVersion;
+use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
 final class Version2 extends AbstractVersion

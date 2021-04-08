@@ -19,5 +19,6 @@ return [
     Novosga\SettingsBundle\NovosgaSettingsBundle::class => ['all' => true],
     Novosga\TriageBundle\NovosgaTriageBundle::class => ['all' => true],
     Novosga\UsersBundle\NovosgaUsersBundle::class => ['all' => true],
+    Novosga\SchedulingBundle\NovosgaSchedulingBundle::class => ['all' => true],
     FOS\OAuthServerBundle\FOSOAuthServerBundle::class => ['all' => true],
 ];

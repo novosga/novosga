@@ -60,6 +60,18 @@ abstract class AppListener
     }
     
     /**
+     * @param Request $request
+     * @return bool
+     */
+    protected function isPingRequest(Request $request): bool
+    {
+        $path  = $request->getPathInfo();
+        $match = $path === '/ping';
+        
+        return $match;
+    }
+    
+    /**
      * Returns the module name or false
      * @param Request $request
      * @return mixed

@@ -14,6 +14,7 @@ namespace App\Form;
 use Novosga\Entity\Prioridade;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -50,6 +51,10 @@ class PrioridadeType extends AbstractType
                 'constraints' => [
                     new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
                 ]
+            ])
+            ->add('cor', ColorType::class, [
+                'label' => 'label.color',
+                'required' => true,
             ])
         ;
     }
