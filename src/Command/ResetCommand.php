@@ -92,5 +92,7 @@ class ResetCommand extends Command
         
         $io = new SymfonyStyle($input, $output);
         $io->success('Senhas reiniciadas com sucesso');
+
+        return 0;
     }
 }

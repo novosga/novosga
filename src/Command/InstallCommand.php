@@ -208,6 +208,8 @@ class InstallCommand extends UpdateCommand
             
         $this->om->flush();
         $output->writeln('Data <info>Ok</info>.');
+
+        return 0;
     }
     
     private function checkEnv(OutputInterface $output): bool

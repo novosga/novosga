@@ -76,5 +76,7 @@ class UnidadesCommand extends Command
                 $output->writeln("Ativo:     {$ativo}");
             }
         }
+
+        return 0;
     }
 }

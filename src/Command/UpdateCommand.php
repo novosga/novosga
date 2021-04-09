@@ -54,6 +54,8 @@ class UpdateCommand extends Command
         $this->writef($output, $header, 'info');
         
         $this->updateSchema($output);
+
+        return 0;
     }
     
     protected function updateSchema(OutputInterface $output): bool
