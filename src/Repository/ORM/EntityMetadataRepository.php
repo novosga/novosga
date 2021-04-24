@@ -74,4 +74,17 @@ abstract class EntityMetadataRepository extends ServiceEntityRepository implemen
         
         return $metada;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove($entity, string $namespace, string $name)
+    {
+        $em = $this->getEntityManager();
+        $metada = $this->get($entity, $namespace, $name);
+        if ($metada) {
+            $em->remove($metada);
+            $em->flush();
+        }
+    }
 }

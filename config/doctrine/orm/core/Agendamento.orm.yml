@@ -27,6 +27,11 @@ Novosga\Entity\Agendamento:
             nullable: true
             column: oid
             length: 36
+        situacao:
+            type: string
+            nullable: false
+            column: situacao
+            length: 20
     manyToOne:
         cliente:
             targetEntity: Novosga\Entity\Cliente

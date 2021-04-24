@@ -137,8 +137,8 @@ abstract class RelationalStorage extends DoctrineStorage
         
         $conn->transactional(function ($conn) use ($self, $atendimento, $agendamento) {
             $contadorTable = $this->om->getClassMetadata(Contador::class)->getTableName();
-            $unidade       = $atendimento->getUnidade();
-            $servico       = $atendimento->getServico();
+            $unidade = $atendimento->getUnidade();
+            $servico = $atendimento->getServico();
             
             $su = $this
                 ->getRepository(ServicoUnidade::class)
@@ -175,7 +175,9 @@ abstract class RelationalStorage extends DoctrineStorage
             $atendimento->getSenha()->setNumero($numeroAtual);
 
             if ($agendamento) {
-                $agendamento->setDataConfirmacao(new DateTime());
+                $agendamento
+                    ->setSituacao(Agendamento::SITUACAO_CONFIRMADO)
+                    ->setDataConfirmacao(new DateTime());
             }
 
             $this->om->persist($atendimento);

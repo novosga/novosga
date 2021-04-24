@@ -26,8 +26,10 @@ final class Version20210326134543 extends AbstractMigration
         $this->addSql("ALTER TABLE servicos CHANGE descricao descricao VARCHAR(250) NOT NULL");
         $this->addSql("ALTER TABLE painel_senha CHANGE local local VARCHAR(20) NOT NULL");
         $this->addSql("ALTER TABLE agendamentos ADD oid VARCHAR(255) DEFAULT NULL");
+        $this->addSql("ALTER TABLE agendamentos ADD situacao VARCHAR(20) NOT NULL");
         $this->addSql("CREATE INDEX agendamento_oid_index ON agendamentos (oid)");
         
+        $this->addSql("UPDATE agendamentos SET situacao = 'agendado' WHERE situacao IS NULL OR situacao = ''");
         $this->addSql("UPDATE prioridades SET cor = '#0091da' WHERE cor IS NULL AND peso = 0");
         $this->addSql("UPDATE prioridades SET cor = '#de231b' WHERE cor IS NULL AND peso > 0");
     }
