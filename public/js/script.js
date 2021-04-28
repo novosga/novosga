@@ -254,7 +254,7 @@ var App = {
         maxReconnectAttempts: 5,
         
         connect (topics) {
-            this.url = new URL(document.body.dataset.mercureUrl);
+            this.url = new URL(document.body.dataset.mercureUrl, window.location.origin);
             for (let topic of topics) {
                 this.url.searchParams.append('topic', topic);
             }
