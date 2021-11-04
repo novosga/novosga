@@ -12,9 +12,7 @@
 namespace App\Repository\ORM;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\EntityMetadata;
-use Novosga\Entity\UnidadeMeta;
 use Novosga\Repository\EntityMetadataRepositoryInterface;
 
 /**
