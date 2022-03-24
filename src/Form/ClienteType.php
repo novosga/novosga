@@ -47,31 +47,34 @@ class ClienteType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'label.email',
+                'required' => false,
                 'constraints' => [
                     new Length([ 'max' => 80 ]),
                 ],
             ])
             ->add('telefone', TextType::class, [
                 'label' => 'label.phone',
+                'required' => false,
                 'constraints' => [
                     new Length([ 'max' => 25 ]),
                 ],
             ])
             ->add('genero', ChoiceType::class, [
                 'label' => 'label.gender',
+                'required' => false,
                 'placeholder' => '',
                 'choices' => [
                     'label.gender.male' => 'M',
                     'label.gender.female' => 'F',
                     'label.gender.unknown' => 'O',
-                ]
+                ],
             ])
             ->add('observacao', TextareaType::class, [
                 'label' => 'label.notes',
                 'required' => false,
                 'attr' => [
                     'rows' => 6,
-                ]
+                ],
             ])
         ;
     }
