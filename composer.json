@@ -26,15 +26,15 @@
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "jms/serializer": "^3.12",
-        "novosga/attendance-bundle": "2.1.x-dev",
-        "novosga/core": "2.1.x-dev",
-        "novosga/monitor-bundle": "2.1.x-dev",
-        "novosga/oauth-server-bundle": "2.0.x-dev",
-        "novosga/reports-bundle": "2.1.x-dev",
-        "novosga/scheduling-bundle": "2.1.x-dev",
-        "novosga/settings-bundle": "2.1.x-dev",
-        "novosga/triage-bundle": "2.1.x-dev",
-        "novosga/users-bundle": "2.1.x-dev",
+        "novosga/attendance-bundle": "^2.1",
+        "novosga/core": "^2.1",
+        "novosga/monitor-bundle": "^2.1",
+        "novosga/oauth-server-bundle": "^2.0",
+        "novosga/reports-bundle": "^2.1",
+        "novosga/scheduling-bundle": "^2.1",
+        "novosga/settings-bundle": "^2.1",
+        "novosga/triage-bundle": "^2.1",
+        "novosga/users-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^5.1",
         "symfony/asset": "5.2.*",
@@ -83,7 +83,13 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/flex": true
+        },
+        "platform": {
+            "php": "7.2.5"
+        }
     },
     "autoload": {
         "psr-4": {
