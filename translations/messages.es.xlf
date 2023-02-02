@@ -138,7 +138,7 @@
             </trans-unit>
             <trans-unit id="28">
                 <source>print.ticket.date</source>
-                <target>Hora de Llegada 1%time% (Hora Local)</target>
+                <target>Hora de Llegada %time% (Hora Local)</target>
                 
             </trans-unit>
             <trans-unit id="29">
