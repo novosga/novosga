@@ -5,6 +5,13 @@ Support queue management system.
 
 ## Installation
 
+### Via Shell Script
+Para instalar o sistema por meio do instalador automatico basta copiar o codigo abaixo
+e colar direto no terminal de seu servidor Ubuntu:
+
+```bash
+curl -sSL https://raw.githubusercontent.com/edupoli/novosga/master/install.sh | bash
+```
 ### Via Composer
 
 Create project:
