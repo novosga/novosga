@@ -10,7 +10,7 @@ Para instalar o sistema por meio do instalador automatico basta copiar o codigo 
 e colar direto no terminal de seu servidor Ubuntu:
 
 ```bash
-curl -sSL https://raw.githubusercontent.com/edupoli/novosga/master/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/novosga/novosga/master/install.sh | bash
 ```
 ### Via Composer
 
