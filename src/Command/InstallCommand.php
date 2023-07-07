@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
@@ -295,7 +295,7 @@ class InstallCommand extends UpdateCommand
         $user->setAdmin(true);
         $user->setAtivo(true);
 
-        $encoder = new BCryptPasswordEncoder(12);
+        $encoder = new NativePasswordEncoder(null, null, 12);
         $encoded = $encoder->encodePassword($password, $user->getSalt());
 
         $user->setSenha($encoded);
