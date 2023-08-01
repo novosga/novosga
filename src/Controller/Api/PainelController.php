@@ -38,7 +38,7 @@ class PainelController extends ApiControllerBase
             ->getDoctrine()
             ->getManager()
             ->createQueryBuilder()
-            ->select('e')
+            ->select(['e', 's'])
             ->from(PainelSenha::class, 'e')
             ->join('e.servico', 's')
             ->where('e.unidade = :unidade')
