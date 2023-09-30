@@ -210,9 +210,7 @@ abstract class RelationalStorage extends DoctrineStorage
             $atendimentoTable      = $this->om->getClassMetadata(Atendimento::class)->getTableName();
             $atendimentoCodifTable = $this->om->getClassMetadata(AtendimentoCodificado::class)->getTableName();
             $atendimentoMetaTable  = $this->om->getClassMetadata(AtendimentoMeta::class)->getTableName();
-            $contadorTable         = $this->om->getClassMetadata(Contador::class)->getTableName();
             $painelSenhaTable      = $this->om->getClassMetadata(PainelSenha::class)->getTableName();
-            $servicoUnidadeTable   = $this->om->getClassMetadata(ServicoUnidade::class)->getTableName();
             
             $helper = new \App\Helper\DoctrineHelper($this->om);
 
@@ -237,14 +235,14 @@ abstract class RelationalStorage extends DoctrineStorage
                     a.dt_cheg <= :data AND (a.unidade_id = :unidade OR :unidade = 0)
             ";
 
-            // atendimentos filhos (oriundos de redirecionamento)
-            $query = $conn->prepare("{$sql} AND a.atendimento_id IS NOT NULL");
+            // atendimentos pais (nao oriundos de redirecionamento)
+            $query = $conn->prepare("$sql AND a.atendimento_id IS NULL");
             $query->bindValue('data', $data, PDO::PARAM_STR);
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
 
-            // atendimentos pais (nao oriundos de redirecionamento)
-            $query = $conn->prepare("$sql AND a.atendimento_id IS NULL");
+            // atendimentos filhos (oriundos de redirecionamento)
+            $query = $conn->prepare("{$sql} AND a.atendimento_id IS NOT NULL");
             $query->bindValue('data', $data, PDO::PARAM_STR);
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
