@@ -103,9 +103,3 @@ Novosga\Entity\AbstractAtendimento:
             joinColumns:
                 usuario_tri_id:
                     referencedColumnName: id
-        pai:
-            targetEntity: Novosga\Entity\Atendimento
-            fetch: LAZY
-            joinColumns:
-                atendimento_id:
-                    referencedColumnName: id
