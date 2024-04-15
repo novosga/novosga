@@ -1,5 +1,5 @@
 mercure:
     hubs:
         default:
-            url: '%env(MERCURE_PUBLISH_URL)%'
+            url: '%env(MERCURE_PUBLIC_URL)%'
             jwt: '%env(MERCURE_JWT_TOKEN)%'

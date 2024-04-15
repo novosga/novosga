@@ -11,5 +11,5 @@ Novosga\Entity\EntityMetadata:
             id: true
     fields:
         value:
-            type: json_array
+            type: json
             nullable: false

@@ -133,9 +133,10 @@ abstract class RelationalStorage extends DoctrineStorage
     public function distribui(Atendimento $atendimento, Agendamento $agendamento = null)
     {
         $self = $this;
+        /** @var Connection */
         $conn = $this->om->getConnection();
         
-        $conn->transactional(function ($conn) use ($self, $atendimento, $agendamento) {
+        $conn->transactional(function (Connection $conn) use ($self, $atendimento, $agendamento) {
             $contadorTable = $this->om->getClassMetadata(Contador::class)->getTableName();
             $unidade = $atendimento->getUnidade();
             $servico = $atendimento->getServico();
@@ -152,23 +153,23 @@ abstract class RelationalStorage extends DoctrineStorage
                 $numeroSenha = $su->getNumeroInicial();
             }
 
-            $stmt = $conn->prepare("
+            $rs = $conn->executeQuery("
                 UPDATE {$contadorTable} 
                 SET numero = :numero
                 WHERE
                     unidade_id = :unidade AND
                     servico_id = :servico AND
                     numero = :numeroAtual
-            ");
-            $stmt->bindValue('numero', $numeroSenha);
-            $stmt->bindValue('unidade', $unidade->getId());
-            $stmt->bindValue('servico', $servico->getId());
-            $stmt->bindValue('numeroAtual', $numeroAtual);
-            $stmt->execute();
-            $success = $stmt->rowCount() === 1;
+            ", [
+                'numero' => $numeroSenha,
+                'unidade' => $unidade->getId(),
+                'servico' => $servico->getId(),
+                'numeroAtual' => $numeroAtual,
+            ]);
+            $success = $rs->rowCount() === 1;
 
             if (!$success) {
-                throw new Exception();
+                throw new Exception('Error updating ticket counter');
             }
 
             $atendimento->setDataChegada(new DateTime());
@@ -193,7 +194,7 @@ abstract class RelationalStorage extends DoctrineStorage
         $self = $this;
         $conn = $this->om->getConnection();
         
-        $conn->transactional(function ($conn) use ($self, $unidade, $ctx) {
+        $conn->transactional(function (Connection $conn) use ($self, $unidade, $ctx) {
             $data      = new DateTime();
             $unidadeId = $unidade ? $unidade->getId() : 0;
 
@@ -351,9 +352,8 @@ abstract class RelationalStorage extends DoctrineStorage
             $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
             $query->execute();
 
-            $query = $conn->prepare("SELECT COUNT(*) FROM {$atendimentoTable}");
-            $query->execute();
-            $total = (int) $query->fetchColumn();
+            $rs = $conn->executeQuery("SELECT COUNT(*) FROM {$atendimentoTable}");
+            $total = (int) $rs->fetchOne();
 
             // reinicia o contador das senhas
             if ($total === 0) {
