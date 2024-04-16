@@ -2017,16 +2017,16 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "0a857c0f2885d82a0d6437578b308224f08a3ff0"
+                "reference": "96efa7abd434dea555d95551ecaac7ceeda5a5d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/0a857c0f2885d82a0d6437578b308224f08a3ff0",
-                "reference": "0a857c0f2885d82a0d6437578b308224f08a3ff0",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/96efa7abd434dea555d95551ecaac7ceeda5a5d1",
+                "reference": "96efa7abd434dea555d95551ecaac7ceeda5a5d1",
                 "shasum": ""
             },
             "require": {
@@ -2050,9 +2050,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
-                "source": "https://github.com/novosga/attendance-bundle/tree/v2.1.0"
+                "source": "https://github.com/novosga/attendance-bundle/tree/v2.1.1"
             },
-            "time": "2021-04-24T15:39:27+00:00"
+            "time": "2023-09-30T23:48:51+00:00"
         },
         {
             "name": "novosga/core",
@@ -2260,16 +2260,16 @@
         },
         {
             "name": "novosga/scheduling-bundle",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/scheduling-bundle.git",
-                "reference": "f56aab87c83a7d0819607bc27d276cff289d1ed4"
+                "reference": "12628b3a9f00e0e74b0e376c3d5d1ebd146b2226"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/f56aab87c83a7d0819607bc27d276cff289d1ed4",
-                "reference": "f56aab87c83a7d0819607bc27d276cff289d1ed4",
+                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/12628b3a9f00e0e74b0e376c3d5d1ebd146b2226",
+                "reference": "12628b3a9f00e0e74b0e376c3d5d1ebd146b2226",
                 "shasum": ""
             },
             "require": {
@@ -2294,9 +2294,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/scheduling-bundle/issues",
-                "source": "https://github.com/novosga/scheduling-bundle/tree/v2.1.0"
+                "source": "https://github.com/novosga/scheduling-bundle/tree/v2.1.1"
             },
-            "time": "2022-03-24T00:21:13+00:00"
+            "time": "2024-04-15T20:49:53+00:00"
         },
         {
             "name": "novosga/settings-bundle",
