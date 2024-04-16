@@ -76,7 +76,7 @@ class UnidadesController extends AbstractController
             $em->persist($entity);
             $em->flush();
             
-            $this->addFlash('success', $translator->trans('Serviço salvo com sucesso!'));
+            $this->addFlash('success', $translator->trans('Unidade salva com sucesso!'));
             
             return $this->redirectToRoute('admin_unidades_edit', [ 'id' => $entity->getId() ]);
         }

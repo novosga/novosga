@@ -71,7 +71,7 @@ class PrioridadesController extends AbstractController
             $em->persist($entity);
             $em->flush();
 
-            $this->addFlash('success', $translator->trans('Local salvo com sucesso!'));
+            $this->addFlash('success', $translator->trans('Prioridade salva com sucesso!'));
 
             return $this->redirectToRoute('admin_prioridades_edit', [ 'id' => $entity->getId() ]);
         }
