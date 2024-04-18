@@ -21,7 +21,7 @@
         "ext-iconv": "*",
         "composer/package-versions-deprecated": "1.11.99.1",
         "doctrine/annotations": "^1.0",
-        "doctrine/doctrine-bundle": "^2.3",
+        "doctrine/doctrine-bundle": "2.6.*",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.8",
         "jms/serializer": "^3.12",
