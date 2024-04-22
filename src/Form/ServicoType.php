@@ -63,7 +63,8 @@ class ServicoType extends AbstractType
                 'query_builder' => function (EntityRepository $er) use ($entity) {
                     $qb = $er
                         ->createQueryBuilder('e')
-                        ->where('e.mestre IS NULL');
+                        ->where('e.mestre IS NULL')
+                        ->andWhere('e.deletedAt IS NULL');
 
                     if ($entity->getId()) {
                         $qb
