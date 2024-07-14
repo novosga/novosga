@@ -29,20 +29,20 @@ class PostgreSQLStorage extends RelationalStorage
     protected function numeroAtual(Connection $conn, Unidade $unidade, Servico $servico): int
     {
         $contadorTable = $this->om->getClassMetadata(Contador::class)->getTableName();
-     
-        $stmt = $conn->prepare("
+
+        $stmt = $conn->executeQuery("
             SELECT numero 
             FROM {$contadorTable} 
             WHERE
                 unidade_id = :unidade AND
                 servico_id = :servico
             FOR UPDATE
-        ");
+        ", [
+            'unidade' => $unidade->getId(),
+            'servico' => $servico->getId(),
+        ]);
 
-        $stmt->bindValue('unidade', $unidade->getId());
-        $stmt->bindValue('servico', $servico->getId());
-        $stmt->execute();
-        $numeroAtual = (int) $stmt->fetchColumn();
+        $numeroAtual = (int) $stmt->fetchOne();
         
         return $numeroAtual;
     }

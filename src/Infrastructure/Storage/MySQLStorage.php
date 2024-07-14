@@ -30,19 +30,19 @@ class MySQLStorage extends RelationalStorage
     {
         $contadorTable = $this->om->getClassMetadata(Contador::class)->getTableName();
      
-        $stmt = $conn->prepare("
+        $rs = $conn->executeQuery("
             SELECT numero 
             FROM {$contadorTable} 
             WHERE
                 unidade_id = :unidade AND
                 servico_id = :servico
             FOR UPDATE
-        ");
+        ", [
+            'unidade' => $unidade->getId(),
+            'servico' => $servico->getId(),
+        ]);
 
-        $stmt->bindValue('unidade', $unidade->getId());
-        $stmt->bindValue('servico', $servico->getId());
-        $stmt->execute();
-        $numeroAtual = (int) $stmt->fetchColumn();
+        $numeroAtual = (int) $rs->fetchOne();
         
         return $numeroAtual;
     }

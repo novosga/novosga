@@ -38,7 +38,7 @@
         <!-- ###- doctrine/doctrine-bundle ### -->
 
         <!-- ###+ symfony/mercure-bundle ### -->
-        <env name="MERCURE_PUBLISH_URL" value="https://demo.mercure.rocks/hub"/>
+        <env name="MERCURE_PUBLIC_URL" value="https://demo.mercure.rocks/hub"/>
         <env name="MERCURE_JWT_SECRET" value="#see https://mercure.rocks"/>
         <!-- ###- symfony/mercure-bundle ### -->
 

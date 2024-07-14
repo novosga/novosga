@@ -52,6 +52,20 @@ class ServicoListener
             throw new Exception('Não é possível remover o serviço porque está habilitado em uma unidade.');
         }
         
+        $total = (int) $em
+            ->createQueryBuilder()
+            ->select('COUNT(1)')
+            ->from(Servico::class, 'e')
+            ->where('e.mestre = :servico')
+            ->andWhere('e.deletedAt IS NULL')
+            ->setParameter('servico', $servico)
+            ->getQuery()
+            ->getSingleScalarResult();
+        
+        if ($total > 0) {
+            throw new Exception('Não é possível remover o serviço porque possui subserviços vinculados.');
+        }
+
         $em
             ->createQueryBuilder()
             ->delete(ServicoUnidade::class, 'e')
