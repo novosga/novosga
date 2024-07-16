@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,41 +13,40 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Agendamento;
+use App\Form\Api\AgendamentoType;
+use App\Service\AtendimentoService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * AgendamentosController
+ * @extends ApiCrudController<Agendamento>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- *
- * @Route("/api/agendamentos")
  */
+#[Route("/api/agendamentos")]
 class AgendamentosController extends ApiCrudController
 {
     use Actions\GetTrait,
         Actions\FindTrait;
     
-    public function getEntityName()
+    public function getEntityName(): string
     {
-        return \Novosga\Entity\Agendamento::class;
+        return Agendamento::class;
     }
-    
-    /**
-     * @Route("", methods={"POST"})
-     */
+
+    #[Route("", methods: ["POST"])]
     public function post(
         Request $request,
-        \Novosga\Service\AtendimentoService $atendimentoService
+        AtendimentoService $atendimentoService,
     ) {
         $json = $request->getContent();
         $object = json_decode($json, true);
-        $agendamento = new \Novosga\Entity\Agendamento();
-        
-        $form = $this->createForm(\App\Form\Api\AgendamentoType::class, $agendamento, [
+        $agendamento = new \App\Entity\Agendamento();
 
-        ]);
-        $form->submit($object);
+        $form = $this
+            ->createForm(AgendamentoType::class, $agendamento)
+            ->submit($object);
 
         if (!$form->isSubmitted() || !$form->isValid()) {
             $message = 'Formulário inválido';
@@ -54,23 +55,23 @@ class AgendamentosController extends ApiCrudController
                 $message . ': ' . $error->getMessage();
                 break;
             }
-            
+
             throw new \Exception($message);
         }
-        
+
         $clienteValido = $atendimentoService->getClienteValido($agendamento->getCliente());
-        
+
         if (!$clienteValido) {
             throw new \Exception('Favor preencher os dados do cliente.');
         }
-        
+
         $agendamento->setCliente($clienteValido);
-        
+
         $atendimentoService->checkServicoUnidade($agendamento->getUnidade(), $agendamento->getServico());
-        
-        $om = $this->getDoctrine()->getManager();
-        $om->persist($agendamento);
-        $om->flush();
+
+        $em = $this->getManager();
+        $em->persist($agendamento);
+        $em->flush();
         
         return $this->json($agendamento);
     }

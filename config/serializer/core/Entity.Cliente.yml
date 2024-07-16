@@ -1,4 +1,4 @@
-Novosga\Entity\Cliente:
+App\Entity\Cliente:
     properties:
         id:
             read_only: true

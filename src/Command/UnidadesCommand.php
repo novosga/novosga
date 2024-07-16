@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -12,6 +14,7 @@
 namespace App\Command;
 
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,10 +24,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsCommand(name: 'novosga:unidades')]
 class UnidadesCommand extends Command
 {
-    protected static $defaultName = 'novosga:unidades';
-
     /**
      * @var ObjectManager
      */
@@ -36,18 +38,18 @@ class UnidadesCommand extends Command
         $this->om = $om;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Lista as unidades do sistema e seus respectivos ids.')
             ->addOption('json', null, null, 'Retorna as unidades no formato JSON');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $unidades = $this
             ->om
-            ->getRepository(\Novosga\Entity\Unidade::class)
+            ->getRepository(\App\Entity\Unidade::class)
             ->findBy([], ['id' => 'ASC']);
         
         $json = $input->getOption('json');

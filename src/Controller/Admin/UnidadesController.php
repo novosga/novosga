@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -12,8 +14,10 @@
 namespace App\Controller\Admin;
 
 use Exception;
-use Novosga\Entity\Unidade as Entity;
+use App\Entity\Unidade as Entity;
 use App\Form\UnidadeType as EntityType;
+use App\Repository\UnidadeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,24 +28,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * UnidadesController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- *
- * @Route("/admin/unidades")
  */
+#[Route("/admin/unidades", name: "admin_unidades_")]
 class UnidadesController extends AbstractController
 {
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/", name="admin_unidades_index")
-     */
-    public function index(Request $request)
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly UnidadeRepository $repository,
+    ) {
+    }
+
+    #[Route("/", name: "index")]
+    public function index(Request $request): Response
     {
         $unidades = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Entity::class)
+            ->repository
             ->findBy([], ['nome' => 'ASC']);
         
         return $this->render('admin/unidades/index.html.twig', [
@@ -49,22 +50,18 @@ class UnidadesController extends AbstractController
             'unidades' => $unidades,
         ]);
     }
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/new", name="admin_unidades_new", methods={"GET", "POST"})
-     * @Route("/{id}", name="admin_unidades_edit", methods={"GET", "POST"})
-     */
-    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null)
+
+    #[Route("/new", name: "new", methods: ["GET", "POST"])]
+    #[Route("/{id}", name: "edit", methods: ["GET", "POST"])]
+    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null): Response
     {
         if (!$entity) {
             $entity = new Entity();
         }
         
-        $form = $this->createForm(EntityType::class, $entity);
-        $form->handleRequest($request);
+        $form = $this
+            ->createForm(EntityType::class, $entity)
+            ->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$entity->getId()) {
@@ -72,35 +69,27 @@ class UnidadesController extends AbstractController
                 $entity->getImpressao()->setRodape('========');
             }
             
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-            
+            $this->em->persist($entity);
+            $this->em->flush();
+
             $this->addFlash('success', $translator->trans('Serviço salvo com sucesso!'));
-            
+
             return $this->redirectToRoute('admin_unidades_edit', [ 'id' => $entity->getId() ]);
         }
-        
+
         return $this->render('admin/unidades/form.html.twig', [
             'tab'    => 'unidades',
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form'   => $form,
         ]);
     }
-    
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/{id}", name="admin_unidades_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, TranslatorInterface $translator, Entity $unidade)
+
+    #[Route("/{id}", name: "delete", methods: ["DELETE"])]
+    public function delete(Request $request, TranslatorInterface $translator, Entity $unidade): Response
     {
         try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($unidade);
-            $em->flush();
+            $this->em->remove($unidade);
+            $this->em->flush();
         
             $this->addFlash('success', $translator->trans('Unidade removida com sucesso!'));
             

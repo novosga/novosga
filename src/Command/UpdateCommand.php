@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,6 +13,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,11 +25,10 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsCommand(name: 'novosga:update')]
 class UpdateCommand extends Command
 {
     use FormattedOutputTrait;
-
-    protected static $defaultName = 'novosga:update';
 
     protected $params;
 
@@ -36,13 +38,13 @@ class UpdateCommand extends Command
         $this->params = $params;
     }
     
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Update command runned after composer update.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $version = $this->params->get('version');
         $header = [

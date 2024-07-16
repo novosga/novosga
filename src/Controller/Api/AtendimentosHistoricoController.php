@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,22 +13,22 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\AtendimentoHistorico;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * AtendimentosHistoricoController
+ * @extends ApiCrudController<AtendimentoHistorico>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- *
- * @Route("/api/atendimentoshistorico")
  */
+#[Route("/api/atendimentoshistorico")]
 class AtendimentosHistoricoController extends ApiCrudController
 {
     use Actions\GetTrait,
         Actions\FindTrait;
     
-    public function getEntityName()
+    public function getEntityName(): string
     {
-        return \Novosga\Entity\AtendimentoHistorico::class;
+        return AtendimentoHistorico::class;
     }
 }

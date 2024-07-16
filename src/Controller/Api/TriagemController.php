@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,10 +13,10 @@
 
 namespace App\Controller\Api;
 
-use App\Entity\NovaSenha;
+use App\Dto\NovaSenha;
 use App\Service\TicketService;
-use Novosga\Entity\Atendimento;
-use Novosga\Service\AtendimentoService;
+use App\Entity\Atendimento;
+use App\Service\AtendimentoService;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -26,22 +28,19 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * TriagemController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- *
- * @Route("/api")
  */
+#[Route("/api")]
 class TriagemController extends ApiControllerBase
 {
-    /**
-     * @Route("/print/{id}", methods={"GET"})
-     */
+    #[Route("/print/{id}", methods: ["GET"])]
     public function imprimir(
         Request $request,
         Atendimento $atendimento,
         TranslatorInterface $translator,
-        TicketService $service
+        TicketService $service,
     ) {
         $hash = $request->headers->get('X-HASH') ?? $request->get('hash');
-        
+
         if ($hash !== $atendimento->hash()) {
             $error = $translator->trans('api.triage.invalid_hash');
             throw new Exception($error);
@@ -51,10 +50,8 @@ class TriagemController extends ApiControllerBase
 
         return new Response($html);
     }
-    
-    /**
-     * @Route("/distribui", methods={"POST"})
-     */
+
+    #[Route("/distribui", methods: ["POST"])]
     public function distribui(Request $request, AtendimentoService $service, LoggerInterface $logger)
     {
         try {

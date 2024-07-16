@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,7 +13,6 @@
 
 namespace App\Loader;
 
-use RuntimeException;
 use Novosga\Module\ModuleInterface;
 use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -22,35 +23,19 @@ use Symfony\Component\Routing\RouteCollection;
  */
 class RouterLoader extends Loader
 {
-    /**
-     * @var bool
-     */
-    private $loaded = false;
+    private bool $loaded = false;
 
-    /**
-     * @var KernelInterface
-     */
-    private $kernel;
-
-    /**
-     * @param KernelInterface $kernel
-     */
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
+    public function __construct(
+        private readonly KernelInterface $kernel,
+    ) {
     }
 
-    /**
-     * Loads a resource.
-     *
-     * @param mixed  $resource The resource
-     * @param string $type     The resource type
-     *
-     * @return RouteCollection
-     *
-     * @throws RuntimeException Loader is added twice
-     */
-    public function load($resource, $type = null)
+    public function supports(mixed $resource, ?string $type = null): bool
+    {
+        return 'novosga.modules' === $type;
+    }
+
+    public function load(mixed $resource, ?string $type = null): mixed
     {
         if ($this->loaded) {
             throw new \RuntimeException('Do not add this loader twice');
@@ -63,19 +48,14 @@ class RouterLoader extends Loader
         return $routes;
     }
 
-    /**
-     * Return route collection for injected plugins
-     *
-     * @return RouteCollection Collection generated
-     */
-    protected function createRoutesCollection()
+    private function createRoutesCollection(): RouteCollection
     {
         $routes = new RouteCollection();
         
         foreach ($this->kernel->getBundles() as $bundle) {
             if ($bundle instanceof ModuleInterface) {
                 $routes->addCollection(
-                    $this->getModuleRouteCollection($bundle->getKeyName(), $bundle->getName(), $bundle->getPath())
+                    $this->getModuleRouteCollection($bundle)
                 );
             }
         }
@@ -83,32 +63,14 @@ class RouterLoader extends Loader
         return $routes;
     }
 
-    /**
-     * @return RouteCollection
-     */
-    protected function getModuleRouteCollection($keyName, $name, $path)
+    protected function getModuleRouteCollection(ModuleInterface $bundle): RouteCollection
     {
-        $routingFilePath = '/Resources/config/routing.yml';
-        $resourcePath = $path . $routingFilePath;
+        $type = 'attribute';
+        $resource = "@{$bundle->getName()}/Controller/";
 
-        // check yaml
-        if (file_exists($resourcePath)) {
-            $type = 'yaml';
-            $resource = "@{$name}{$routingFilePath}";
-        } else {
-            // annotation
-            $type = 'annotation';
-            $resource = "@{$name}/Controller/";
-        }
-        
         $routes = $this->import($resource, $type);
-        $routes->addPrefix("/{$keyName}");
-        
-        return $routes;
-    }
+        $routes->addPrefix("/{$bundle->getKeyName()}");
 
-    public function supports($resource, $type = null)
-    {
-        return 'novosga.modules' === $type;
+        return $routes;
     }
 }

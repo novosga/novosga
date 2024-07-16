@@ -2,14 +2,11 @@
 
 namespace DoctrineMigrations;
 
-use App\Migrations\AbstractVersion;
 use Doctrine\DBAL\Schema\Schema;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Doctrine\Migrations\AbstractMigration;
 
-final class Version1 extends AbstractVersion
-{
-    use ContainerAwareTrait;
-    
+final class Version1 extends AbstractMigration
+{   
     public function up(Schema $schema) : void
     {
         $this->updateViews();

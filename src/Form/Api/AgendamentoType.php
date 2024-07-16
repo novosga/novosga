@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,10 +13,10 @@
 
 namespace App\Form\Api;
 
-use App\Form\ClienteType;
-use Novosga\Entity\Agendamento;
-use Novosga\Entity\Servico;
-use Novosga\Entity\Unidade;
+use App\Entity\Agendamento;
+use App\Entity\Servico;
+use App\Entity\Unidade;
+use Novosga\Form\ClienteType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -66,7 +68,7 @@ class AgendamentoType extends AbstractType
             ])
         ;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -76,7 +78,7 @@ class AgendamentoType extends AbstractType
             'data_class' => Agendamento::class
         ));
     }
-    
+
     public function getBlockPrefix()
     {
         return null;

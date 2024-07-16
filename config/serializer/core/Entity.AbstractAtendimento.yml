@@ -1,4 +1,4 @@
-Novosga\Entity\AbstractAtendimento:
+App\Entity\AbstractAtendimento:
     exclusion_policy: ALL
     virtual_properties:
         tempoEspera:
@@ -42,28 +42,28 @@ Novosga\Entity\AbstractAtendimento:
         cliente:
             expose: true
         unidade:
-            type: Novosga\Entity\Unidade
+            type: App\Entity\Unidade
             expose: true
             max_depth: 1
         servico:
-            type: Novosga\Entity\Servico
+            type: App\Entity\Servico
             expose: true
             max_depth: 1
         prioridade:
-            type: Novosga\Entity\Prioridade
+            type: App\Entity\Prioridade
             expose: true
             max_depth: 1
         usuario:
-            type: Novosga\Entity\Usuario
+            type: App\Entity\Usuario
             expose: true
             max_depth: 1
         usuarioTriagem:
-            type: Novosga\Entity\Usuario
+            type: App\Entity\Usuario
             expose: true
             max_depth: 1
             serialized_name: usuarioTriagem
         pai:
-            type: Novosga\Entity\Atendimento
+            type: App\Entity\Atendimento
             expose: true
             max_depth: 1
     

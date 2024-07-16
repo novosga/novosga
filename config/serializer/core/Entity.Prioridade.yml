@@ -1,4 +1,4 @@
-Novosga\Entity\Prioridade:
+App\Entity\Prioridade:
     exclusion_policy: ALL
     properties:
         id:

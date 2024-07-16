@@ -1,4 +1,4 @@
-Novosga\Entity\Lotacao:
+App\Entity\Lotacao:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: 
             fields: 

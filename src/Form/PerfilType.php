@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,7 +13,8 @@
 
 namespace App\Form;
 
-use Novosga\Entity\Perfil;
+use App\Entity\Perfil;
+use Novosga\Module\ModuleInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -23,14 +26,9 @@ use function ksort;
 
 class PerfilType extends AbstractType
 {
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
+    public function __construct(
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /**
@@ -42,7 +40,7 @@ class PerfilType extends AbstractType
         $modulos = [];
         
         foreach ($options['modulos'] as $modulo) {
-            if ($modulo instanceof \Novosga\Module\ModuleInterface) {
+            if ($modulo instanceof ModuleInterface) {
                 $key    = $modulo->getKeyName();
                 $name   = $this
                     ->translator

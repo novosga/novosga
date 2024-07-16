@@ -1,30 +1,34 @@
 {% set unidade = app.user.lotacao ? app.user.lotacao.unidade : null %}
 
-<ul class="navbar-nav mr-auto">
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
     {% if unidade %}
         <li class="nav-item dropdown">
-            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ unidade.nome }} <b class="caret"></b></a>
-            <div class="dropdown-menu">
+            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">{{ unidade.nome }} <b class="caret"></b></a>
+            <ul class="dropdown-menu">
                 {% for module in modules %}
                     {% if app.user.admin or is_granted(module.roleName) %}
-                        <a href="{{ path(module.homeRoute) }}" class="dropdown-item">
-                            <i class="fa fa-{{ module.iconName }} fa-fw"></i>
-                            {{ module.displayName }}
-                        </a>
+                        <li>
+                            <a href="{{ path(module.homeRoute) }}" class="dropdown-item">
+                                <i class="fa fa-{{ module.iconName }} fa-fw"></i>
+                                {{ module.displayName }}
+                            </a>
+                        </li>
                     {% endif %}
                 {% endfor %}
                 {% if modules|length %}
-                    <div class="dropdown-divider"></div>
+                    <li><hr class="dropdown-divider"></li>
                 {% endif %}
-                <a href="#dialog-unidade" data-toggle="modal" class="dropdown-item">
-                    <i class="fa fa-exchange"></i> &nbsp;
-                    {{ 'menu.change_unity'|trans }}
-                </a>
-            </div>
+                <li>
+                    <a href="#dialog-unidade" data-bs-toggle="modal" class="dropdown-item">
+                        <i class="fa fa-exchange"></i> &nbsp;
+                        {{ 'menu.change_unity'|trans }}
+                    </a>
+                </li>
+            </ul>
         </li>
     {% else %}
         <li>
-            <a href="#dialog-unidade" data-toggle="modal">
+            <a href="#dialog-unidade" data-bs-toggle="modal">
                 {{ 'menu.choose_unity'|trans }}
             </a>
         </li>

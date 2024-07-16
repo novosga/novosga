@@ -1,4 +1,4 @@
-Novosga\Entity\Agendamento:
+App\Entity\Agendamento:
     exclusion_policy: ALL
     properties:
         id:
@@ -13,11 +13,11 @@ Novosga\Entity\Agendamento:
         cliente:
             expose: true
         unidade:
-            type: Novosga\Entity\Unidade
+            type: App\Entity\Unidade
             expose: true
             max_depth: 1
         servico:
-            type: Novosga\Entity\Servico
+            type: App\Entity\Servico
             expose: true
             max_depth: 1
         dataConfirmacao:

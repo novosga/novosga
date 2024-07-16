@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -15,18 +17,18 @@ use DateTime;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\LockMode;
 use Exception;
-use Novosga\Entity\Agendamento;
-use Novosga\Entity\Atendimento;
-use Novosga\Entity\AtendimentoCodificado;
-use Novosga\Entity\AtendimentoCodificadoHistorico;
-use Novosga\Entity\AtendimentoHistorico;
-use Novosga\Entity\AtendimentoHistoricoMeta;
-use Novosga\Entity\AtendimentoMeta;
-use Novosga\Entity\Contador;
-use Novosga\Entity\PainelSenha;
-use Novosga\Entity\Servico;
-use Novosga\Entity\ServicoUnidade;
-use Novosga\Entity\Unidade;
+use App\Entity\Agendamento;
+use App\Entity\Atendimento;
+use App\Entity\AtendimentoCodificado;
+use App\Entity\AtendimentoCodificadoHistorico;
+use App\Entity\AtendimentoHistorico;
+use App\Entity\AtendimentoHistoricoMeta;
+use App\Entity\AtendimentoMeta;
+use App\Entity\Contador;
+use App\Entity\PainelSenha;
+use App\Entity\Servico;
+use App\Entity\ServicoUnidade;
+use App\Entity\Unidade;
 use PDO;
 
 /**
@@ -63,8 +65,8 @@ abstract class RelationalStorage extends DoctrineStorage
      */
     protected function reiniciarContadores(Connection $conn, int $unidadeId)
     {
-        $contadorTable       = $this->om->getClassMetadata(Contador::class)->getTableName();
-        $servicoUnidadeTable = $this->om->getClassMetadata(ServicoUnidade::class)->getTableName();
+        $contadorTable       = $this->em->getClassMetadata(Contador::class)->getTableName();
+        $servicoUnidadeTable = $this->em->getClassMetadata(ServicoUnidade::class)->getTableName();
         
         $query = $conn->prepare("
             UPDATE {$contadorTable}
@@ -84,17 +86,17 @@ abstract class RelationalStorage extends DoctrineStorage
     /**
      * {@inheritdoc}
      */
-    public function chamar(Atendimento $atendimento)
+    public function chamar(Atendimento $atendimento): void
     {
-        $this->om->getConnection()->beginTransaction();
+        $this->em->getConnection()->beginTransaction();
 
         try {
-            $this->om->lock($atendimento, LockMode::PESSIMISTIC_WRITE);
-            $this->om->merge($atendimento);
-            $this->om->getConnection()->commit();
-            $this->om->flush();
+            $this->em->lock($atendimento, LockMode::PESSIMISTIC_WRITE);
+            $this->em->persist($atendimento);
+            $this->em->getConnection()->commit();
+            $this->em->flush();
         } catch (Exception $e) {
-            $this->om->getConnection()->rollback();
+            $this->em->getConnection()->rollback();
             throw $e;
         }
     }
@@ -102,25 +104,25 @@ abstract class RelationalStorage extends DoctrineStorage
     /**
      * {@inheritdoc}
      */
-    public function encerrar(Atendimento $atendimento, array $codificados, Atendimento $novoAtendimento = null)
+    public function encerrar(Atendimento $atendimento, array $codificados, Atendimento $novoAtendimento = null): void
     {
-        $this->om->beginTransaction();
+        $this->em->beginTransaction();
         
         try {
             foreach ($codificados as $codificado) {
-                $this->om->persist($codificado);
+                $this->em->persist($codificado);
             }
             
             if ($novoAtendimento) {
-                $this->om->persist($novoAtendimento);
+                $this->em->persist($novoAtendimento);
             }
-            
-            $this->om->merge($atendimento);
-            $this->om->commit();
-            $this->om->flush();
+
+            $this->em->persist($atendimento);
+            $this->em->commit();
+            $this->em->flush();
         } catch (Exception $e) {
             try {
-                $this->om->rollback();
+                $this->em->rollback();
             } catch (Exception $ex) {
             }
             throw new $e;
@@ -130,14 +132,14 @@ abstract class RelationalStorage extends DoctrineStorage
     /**
      * {@inheritdoc}
      */
-    public function distribui(Atendimento $atendimento, Agendamento $agendamento = null)
+    public function distribui(Atendimento $atendimento, Agendamento $agendamento = null): void
     {
         $self = $this;
         /** @var Connection */
-        $conn = $this->om->getConnection();
+        $conn = $this->em->getConnection();
         
         $conn->transactional(function (Connection $conn) use ($self, $atendimento, $agendamento) {
-            $contadorTable = $this->om->getClassMetadata(Contador::class)->getTableName();
+            $contadorTable = $this->em->getClassMetadata(Contador::class)->getTableName();
             $unidade = $atendimento->getUnidade();
             $servico = $atendimento->getServico();
             
@@ -181,8 +183,8 @@ abstract class RelationalStorage extends DoctrineStorage
                     ->setDataConfirmacao(new DateTime());
             }
 
-            $this->om->persist($atendimento);
-            $this->om->flush();
+            $this->em->persist($atendimento);
+            $this->em->flush();
         });
     }
     
@@ -192,7 +194,7 @@ abstract class RelationalStorage extends DoctrineStorage
     public function acumularAtendimentos(?Unidade $unidade, array $ctx = [])
     {
         $self = $this;
-        $conn = $this->om->getConnection();
+        $conn = $this->em->getConnection();
         
         $conn->transactional(function (Connection $conn) use ($self, $unidade, $ctx) {
             $data      = new DateTime();
@@ -205,15 +207,15 @@ abstract class RelationalStorage extends DoctrineStorage
             $data = $data->format('Y-m-d H:i:s');
 
             // tables name
-            $historicoTable        = $this->om->getClassMetadata(AtendimentoHistorico::class)->getTableName();
-            $historicoCodifTable   = $this->om->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
-            $historicoMetaTable    = $this->om->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
-            $atendimentoTable      = $this->om->getClassMetadata(Atendimento::class)->getTableName();
-            $atendimentoCodifTable = $this->om->getClassMetadata(AtendimentoCodificado::class)->getTableName();
-            $atendimentoMetaTable  = $this->om->getClassMetadata(AtendimentoMeta::class)->getTableName();
-            $painelSenhaTable      = $this->om->getClassMetadata(PainelSenha::class)->getTableName();
+            $historicoTable        = $this->em->getClassMetadata(AtendimentoHistorico::class)->getTableName();
+            $historicoCodifTable   = $this->em->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
+            $historicoMetaTable    = $this->em->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
+            $atendimentoTable      = $this->em->getClassMetadata(Atendimento::class)->getTableName();
+            $atendimentoCodifTable = $this->em->getClassMetadata(AtendimentoCodificado::class)->getTableName();
+            $atendimentoMetaTable  = $this->em->getClassMetadata(AtendimentoMeta::class)->getTableName();
+            $painelSenhaTable      = $this->em->getClassMetadata(PainelSenha::class)->getTableName();
             
-            $helper = new \App\Helper\DoctrineHelper($this->om);
+            $helper = new \App\Helper\DoctrineHelper($this->em);
 
             // columns
             $historicoColumns       = $helper->getEntityColumns(AtendimentoHistorico::class);
@@ -368,16 +370,16 @@ abstract class RelationalStorage extends DoctrineStorage
     public function apagarDadosAtendimento(?Unidade $unidade, array $ctx = [])
     {
         $self = $this;
-        $conn = $this->om->getConnection();
+        $conn = $this->em->getConnection();
         
         $conn->transactional(function ($conn) use ($self, $unidade) {
             // tables name
-            $historicoTable        = $this->om->getClassMetadata(AtendimentoHistorico::class)->getTableName();
-            $historicoCodifTable   = $this->om->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
-            $historicoMetaTable    = $this->om->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
-            $atendimentoTable      = $this->om->getClassMetadata(Atendimento::class)->getTableName();
-            $atendimentoCodifTable = $this->om->getClassMetadata(AtendimentoCodificado::class)->getTableName();
-            $atendimentoMetaTable  = $this->om->getClassMetadata(AtendimentoMeta::class)->getTableName();
+            $historicoTable        = $this->em->getClassMetadata(AtendimentoHistorico::class)->getTableName();
+            $historicoCodifTable   = $this->em->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
+            $historicoMetaTable    = $this->em->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
+            $atendimentoTable      = $this->em->getClassMetadata(Atendimento::class)->getTableName();
+            $atendimentoCodifTable = $this->em->getClassMetadata(AtendimentoCodificado::class)->getTableName();
+            $atendimentoMetaTable  = $this->em->getClassMetadata(AtendimentoMeta::class)->getTableName();
 
             $unidadeId = $unidade ? $unidade->getId() : 0;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,12 +13,11 @@
 
 namespace App\Service;
 
-use DateTime;
-use Exception;
-use Novosga\Entity\Atendimento;
-use Novosga\Entity\ServicoUnidade;
-use Novosga\Infrastructure\StorageInterface;
-use Novosga\Service\StorageAwareService;
+use App\Infrastructure\StorageInterface;
+use App\Repository\ServicoUnidadeRepository;
+use Novosga\Entity\AtendimentoInterface;
+use Novosga\Service\TicketServiceInterface;
+use Psr\Clock\ClockInterface;
 use Twig\Environment;
 
 /**
@@ -24,58 +25,34 @@ use Twig\Environment;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class TicketService extends StorageAwareService
+class TicketService implements TicketServiceInterface
 {
-    /**
-     * @var Environment
-     */
-    private $twig;
-    
-    public function __construct(StorageInterface $storage, Environment $twig)
-    {
-        parent::__construct($storage);
-        $this->twig = $twig;
+    private const DEFAULT_TEMPLATE = 'print.html.twig';
+
+    public function __construct(
+        private readonly ClockInterface $clock,
+        private readonly StorageInterface $storage,
+        private readonly ServicoUnidadeRepository $servicoUnidadeRepository,
+        private readonly Environment $twig,
+    ) {
     }
 
     /**
      * Imprime a senha informada pelo atendimento.
-     *
-     * @param Atendimento $atendimento
-     *
-     * @throws Exception
-     *
-     * @return string
      */
-    public function printTicket(Atendimento $atendimento)
+    public function printTicket(AtendimentoInterface $atendimento): string
     {
-        // custom view parameters
-        $params = [];
-        
         $unidade = $atendimento->getUnidade();
         $servico = $atendimento->getServico();
-        
-        $su = $this->storage
-            ->getRepository(ServicoUnidade::class)
-            ->get($unidade, $servico);
-        
+
+        $su = $this->servicoUnidadeRepository->get($unidade, $servico);
+
         $viewParams = [
             'atendimento' => $atendimento,
             'servicoUnidade' => $su,
-            'now' => new DateTime()
+            'now' => $this->clock->now(),
         ];
-        
-        if (is_array($params)) {
-            foreach ($params as $k => $v) {
-                $viewParams[$k] = $v;
-            }
-        }
-        
-        // custom print template
-        $template = null;
-        if (empty($template)) {
-            $template = 'print.html.twig';
-        }
-        
-        return $this->twig->render($template, $viewParams);
+
+        return $this->twig->render(self::DEFAULT_TEMPLATE, $viewParams);
     }
 }

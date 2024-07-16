@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure;
 
 use Exception;
 use App\Infrastructure\Storage\MySQLStorage;
 use App\Infrastructure\Storage\PostgreSQLStorage;
 use Doctrine\Persistence\ObjectManager;
-use Novosga\Infrastructure\StorageInterface;
+use App\Infrastructure\StorageInterface;
 
 /**
  * StorageFactory

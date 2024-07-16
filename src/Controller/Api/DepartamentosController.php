@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,16 +13,15 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Departamento;
 use Symfony\Component\Routing\Annotation\Route;
-use Novosga\Entity\Departamento;
 
 /**
- * DepartamentosController
+ * @extends ApiCrudController<Departamento>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- *
- * @Route("/api/departamentos")
  */
+#[Route("/api/departamentos")]
 class DepartamentosController extends ApiCrudController
 {
     use Actions\GetTrait,
@@ -29,7 +30,7 @@ class DepartamentosController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
 
-    public function getEntityName()
+    public function getEntityName(): string
     {
         return Departamento::class;
     }

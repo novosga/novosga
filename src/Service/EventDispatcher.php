@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,16 +13,16 @@
 
 namespace App\Service;
 
-use Novosga\Event\AdvancedEvent;
-use Novosga\Event\Event;
-use Novosga\Event\EventInterface;
-use Novosga\Event\EventDispatcherInterface;
-use Novosga\Event\LoggerAwareEventInterface;
-use Novosga\Event\StorageAwareEventInterface;
-use Novosga\Event\UserAwareEventInterface;
-use Novosga\Infrastructure\StorageInterface;
+use App\Event\AdvancedEvent;
+use App\Event\Event;
+use App\Event\EventInterface;
+use App\Event\EventDispatcherInterface;
+use App\Event\LoggerAwareEventInterface;
+use App\Event\StorageAwareEventInterface;
+use App\Event\UserAwareEventInterface;
+use App\Infrastructure\StorageInterface;
 use Psr\Log\LoggerInterface;
-use Novosga\Service\Configuration;
+use App\Service\Configuration;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 

@@ -1,20 +1,18 @@
 security:
-    encoders:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
         bcrypt:
             algorithm: bcrypt
             cost: 12
-
         md5:
             algorithm: md5
             encode_as_base64: false
             iterations: 1
-
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         novosga_provider:
-            entity:
-                class: Novosga\Entity\Usuario
-                property: login
-
+            id: App\Security\UserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -26,26 +24,40 @@ security:
             
         api:
            pattern:    ^/(api|\w+\.\w+/api)
-           fos_oauth:  true
+        #    fos_oauth:  true
            stateless:  true
-           anonymous:  false
 
         main:
-            anonymous: true
+            lazy: true
             pattern: ^/
-            guard:
-                authenticators:
-                    - App\Security\LoginAuthenticator
+            provider: novosga_provider
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#the-firewall
+
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
             logout:
                 path:   /logout
                 target: /
 
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/(api|\w+\.\w+/api), roles: [ IS_AUTHENTICATED_FULLY ] }
-        - { path: ^/login, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
+        - { path: ^/login, roles: [ PUBLIC_ACCESS ] }
         - { path: ^/admin, roles: [ ROLE_ADMIN ] }
-        - { path: ^/,      roles: [ ROLE_USER ] }
+        - { path: ^/,      roles: [ IS_AUTHENTICATED_REMEMBERED ] }
 
-
-    access_decision_manager:
-        strategy: affirmative
+when@test:
+    security:
+        password_hashers:
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

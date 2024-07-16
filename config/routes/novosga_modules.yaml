@@ -1,0 +1,3 @@
+novosga_modules:
+    resource: .
+    type: novosga.modules

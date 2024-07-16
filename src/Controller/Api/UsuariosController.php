@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,22 +13,22 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Usuario;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * UsuariosController
+ * @extends ApiCrudController<Usuario>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- *
- * @Route("/api/usuarios")
  */
+#[Route("/api/usuarios")]
 class UsuariosController extends ApiCrudController
 {
     use Actions\GetTrait,
         Actions\FindTrait;
     
-    public function getEntityName()
+    public function getEntityName(): string
     {
-        return \Novosga\Entity\Usuario::class;
+        return Usuario::class;
     }
 }

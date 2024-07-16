@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,18 +13,17 @@
 
 namespace App\Controller\Api;
 
-use Novosga\Entity\Unidade;
-use Novosga\Entity\Atendimento;
-use Novosga\Service\ServicoService;
+use App\Entity\Unidade;
+use App\Entity\Atendimento;
+use App\Service\ServicoService;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * UnidadesController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- *
- * @Route("/api/unidades")
  */
+#[Route("/api/unidades")]
 class UnidadesController extends ApiCrudController
 {
     use Actions\GetTrait,
@@ -31,14 +32,12 @@ class UnidadesController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
 
-    public function getEntityName()
+    public function getEntityName(): string
     {
         return Unidade::class;
     }
 
-    /**
-     * @Route("/{id}/servicos", methods={"GET"})
-     */
+    #[Route("/{id}/servicos", methods: ["GET"])]
     public function servicos(Unidade $unidade, ServicoService $service)
     {
         $servicos = $service->servicosUnidade($unidade, ['ativo' => true]);
@@ -46,13 +45,10 @@ class UnidadesController extends ApiCrudController
         return $this->json($servicos);
     }
 
-    /**
-     * @Route("/{id}/atendimentos", methods={"GET"})
-     */
+    #[Route("/{id}/atendimentos", methods: ["GET"])]
     public function atendimentos(Unidade $unidade)
     {
         $atendimentos = $this
-            ->getDoctrine()
             ->getManager()
             ->createQueryBuilder()
             ->select([
@@ -64,9 +60,7 @@ class UnidadesController extends ApiCrudController
             ->leftJoin('e.usuario', 'u')
             ->where('e.unidade = :unidade')
             ->orderBy('e.id', 'ASC')
-            ->setParameters([
-                'unidade' => $unidade,
-            ])
+            ->setParameter('unidade', $unidade)
             ->getQuery()
             ->getResult();
 

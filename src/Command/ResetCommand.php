@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -13,8 +15,9 @@ namespace App\Command;
 
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Novosga\Entity\Unidade;
-use Novosga\Service\AtendimentoService;
+use App\Entity\Unidade;
+use App\Service\AtendimentoService;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -27,6 +30,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsCommand(name: 'novosga:reset')]
 class ResetCommand extends Command
 {
     protected static $defaultName = 'novosga:reset';
@@ -48,7 +52,7 @@ class ResetCommand extends Command
         $this->atendimentoService = $atendimentoService;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Reinicia a numeração das senhas de todas ou uma única unidade.')
@@ -65,7 +69,7 @@ class ResetCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $id      = (int) $input->getArgument('unidade');
         $seguro  = $input->getOption('seguro');

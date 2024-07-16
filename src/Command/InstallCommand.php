@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -13,10 +15,10 @@ namespace App\Command;
 
 use Doctrine\Persistence\ObjectManager;
 use Exception;
-use Novosga\Entity\Prioridade;
-use Novosga\Entity\Unidade;
-use Novosga\Entity\Usuario;
-use Symfony\Component\Console\Helper\QuestionHelper;
+use App\Entity\Prioridade;
+use App\Entity\Unidade;
+use App\Entity\Usuario;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -29,10 +31,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsCommand(name: 'novosga:install')]
 class InstallCommand extends UpdateCommand
 {
-    protected static $defaultName = 'novosga:install';
-
     /**
      * @var ObjectManager
      */
@@ -44,13 +45,13 @@ class InstallCommand extends UpdateCommand
         $this->om = $om;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Install command runned after composer install.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $version = $this->params->get('version');
         $header  = [
@@ -193,7 +194,7 @@ class InstallCommand extends UpdateCommand
         }
 
         // attendance place
-        if (!$this->existsData(\Novosga\Entity\Local::class)) {
+        if (!$this->existsData(\App\Entity\Local::class)) {
             $placeName = $this->read(
                 $input,
                 $output,
@@ -324,9 +325,9 @@ class InstallCommand extends UpdateCommand
         return $prioridade;
     }
     
-    private function createPlace(string $name): \Novosga\Entity\Local
+    private function createPlace(string $name): \App\Entity\Local
     {
-        $local = new \Novosga\Entity\Local();
+        $local = new \App\Entity\Local();
         $local->setNome($name);
         
         return $local;

@@ -1,4 +1,4 @@
-Novosga\Entity\Departamento:
+App\Entity\Departamento:
     exclusion_policy: ALL
     properties:
         id:

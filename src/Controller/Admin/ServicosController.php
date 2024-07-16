@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -12,7 +14,9 @@
 namespace App\Controller\Admin;
 
 use App\Form\ServicoType as EntityType;
-use Novosga\Entity\Servico as Entity;
+use App\Entity\Servico as Entity;
+use App\Repository\ServicoRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,23 +27,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * ServicosController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- *
- * @Route("/admin/servicos")
  */
+#[Route("/admin/servicos", name: 'admin_servicos_')]
 class ServicosController extends AbstractController
 {
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/", name="admin_servicos_index", methods={"GET"})
-     */
-    public function index(Request $request)
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly ServicoRepository $repository,
+    ) {
+    }
+
+    #[Route("/", name: "index", methods: ["GET"])]
+    public function index(Request $request): Response
     {
         $servicos = $this
-            ->getDoctrine()
-            ->getManager()
+            ->em
             ->createQueryBuilder()
             ->select('e')
             ->from(Entity::class, 'e')
@@ -53,57 +55,44 @@ class ServicosController extends AbstractController
             'servicos' => $servicos,
         ]);
     }
-    
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/new", name="admin_servicos_new", methods={"GET", "POST"})
-     * @Route("/{id}", name="admin_servicos_edit", methods={"GET", "POST"})
-     */
-    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null)
+
+    #[Route("/new", name: "new", methods: ["GET", "POST"])]
+    #[Route("/{id}", name: "edit", methods: ["GET", "POST"])]
+    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null): Response
     {
         if (!$entity) {
             $entity = new Entity();
         }
-        
-        $form = $this->createForm(EntityType::class, $entity);
-        $form->handleRequest($request);
-        
+
+        $form = $this
+            ->createForm(EntityType::class, $entity)
+            ->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-            
+            $this->em->persist($entity);
+            $this->em->flush();
+
             $this->addFlash('success', $translator->trans('Serviço salvo com sucesso!'));
-            
+
             return $this->redirectToRoute('admin_servicos_edit', [ 'id' => $entity->getId() ]);
         }
-        
+
         return $this->render('admin/servicos/form.html.twig', [
             'tab'    => 'servicos',
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form'   => $form,
         ]);
     }
-    
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/{id}", name="admin_servicos_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, TranslatorInterface $translator, Entity $servico)
+
+    #[Route("/{id}", name: "delete", methods: ["DELETE"])]
+    public function delete(Request $request, TranslatorInterface $translator, Entity $servico): Response
     {
         try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($servico);
-            $em->flush();
-        
+            $this->em->remove($servico);
+            $this->em->flush();
+
             $this->addFlash('success', $translator->trans('Serviço removido com sucesso!'));
-            
+
             return $this->redirectToRoute('admin_servicos_index');
         } catch (\Exception $e) {
             if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
@@ -111,9 +100,9 @@ class ServicosController extends AbstractController
             } else {
                 $message = $e->getMessage();
             }
-            
+
             $this->addFlash('error', $translator->trans($message));
-            
+
             return $this->redirect($request->headers->get('REFERER'));
         }
     }

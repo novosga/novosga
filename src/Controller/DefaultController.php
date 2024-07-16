@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,49 +13,45 @@
 
 namespace App\Controller;
 
-use App\Repository\ORM\UnidadeRepository;
-use App\Repository\ORM\UsuarioRepository;
-use Novosga\Entity\Unidade;
+use App\Repository\UnidadeRepository;
+use App\Entity\Unidade;
+use Novosga\Entity\UsuarioInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Novosga\Http\Envelope;
+use Novosga\Module\ModuleInterface;
+use Novosga\Service\UsuarioServiceInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 use function usort;
 
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("/", name="home")
-     */
-    public function index(Request $request)
+    #[Route("/", name: "home", methods: ['GET'])]
+    public function index(): Response
     {
         return $this->render('default/index.html.twig');
     }
 
-    /**
-     * @Route("/ping", name="ping")
-     */
-    public function ping(Request $request)
+    #[Route("/ping", name: "ping", methods: ['GET'])]
+    public function ping(): Response
     {
         return $this->json(new Envelope());
     }
 
-    /**
-     * @Route("/about", name="about")
-     */
-    public function about(Request $request)
+    #[Route("/about", name: "about", methods: ['GET'])]
+    public function about(): Response
     {
         return $this->render('default/about.html.twig');
     }
 
-    /**
-     * @Route("/unidades", name="app_default_unidades", methods={"GET"})
-     */
-    public function unidades(Request $request, UnidadeRepository $unidade)
+    #[Route("/unidades", name: "app_default_unidades", methods: ['GET'])]
+    public function unidades(UnidadeRepository $unidade): Response
     {
+        /** @var UsuarioInterface */
         $usuario = $this->getUser();
         $unidades = $unidade->findByUsuario($usuario);
 
@@ -62,47 +60,44 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/set_unidade/{id}", name="app_default_setunidade", methods={"POST"})
-     */
-    public function setUnidade(Request $request, Unidade $unidade, UsuarioRepository $repository)
+    #[Route("/set_unidade/{id}", name: "app_default_setunidade", methods: ['POST'])]
+    public function setUnidade(Unidade $unidade, UsuarioServiceInterface $usuarioService): Response
     {
+        /** @var UsuarioInterface */
         $usuario = $this->getUser();
-        $repository->updateUnidade($usuario, $unidade);
-        
+        $usuarioService->meta(
+            $usuario,
+            UsuarioServiceInterface::ATTR_SESSION_UNIDADE,
+            $unidade->getId(),
+        );
+
         return $this->json(new Envelope());
     }
 
-    /**
-     * @Route("/menu", name="app_default_menu", methods={"GET"})
-     */
-    public function menu(Request $request, KernelInterface $kernel, TranslatorInterface $translator)
+    #[Route("/menu", name: "app_default_menu", methods: ['GET'])]
+    public function menu(KernelInterface $kernel, TranslatorInterface $translator): Response
     {
-        $modules = [];
-        
-        foreach ($kernel->getBundles() as $bundle) {
-            if ($bundle instanceof \Novosga\Module\ModuleInterface) {
-                $displayName = $translator->trans(
-                    $bundle->getDisplayName(),
-                    [],
-                    $bundle->getName()
-                );
-
-                $modules[] = [
-                    'keyName'     => $bundle->getKeyName(),
-                    'roleName'    => $bundle->getRoleName(),
-                    'iconName'    => $bundle->getIconName(),
-                    'displayName' => $displayName,
-                    'name'        => $bundle->getName(),
-                    'homeRoute'   => $bundle->getHomeRoute(),
-                ];
-            }
-        }
+        $bundles = array_filter(
+            $kernel->getBundles(),
+            fn (BundleInterface $bundle) => $bundle instanceof ModuleInterface
+        );
+        $modules = array_map(fn (ModuleInterface $module) => [
+            'displayName' => $translator->trans(
+                $module->getDisplayName(),
+                [],
+                $module->getName(),
+            ),
+            'keyName' => $module->getKeyName(),
+            'roleName' => $module->getRoleName(),
+            'iconName' => $module->getIconName(),
+            'name' => $module->getName(),
+            'homeRoute' => $module->getHomeRoute(),
+        ], $bundles);
 
         usort($modules, function ($a, $b) {
             return strcasecmp($a['displayName'], $b['displayName']);
         });
-        
+
         return $this->render('default/include/menu.html.twig', [
             'modules' => $modules,
         ]);

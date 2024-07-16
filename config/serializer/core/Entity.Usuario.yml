@@ -1,4 +1,4 @@
-Novosga\Entity\Usuario:
+App\Entity\Usuario:
     exclusion_policy: ALL
     properties:
         id:
@@ -23,7 +23,7 @@ Novosga\Entity\Usuario:
             type: int
             expose: true
         lotacoes:
-            type: array<Novosga\Entity\Lotacao>
+            type: array<App\Entity\Lotacao>
             expose: true
             skip_when_empty: true
         admin:

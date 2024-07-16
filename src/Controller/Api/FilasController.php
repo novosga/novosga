@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,11 +13,11 @@
 
 namespace App\Controller\Api;
 
-use Novosga\Entity\Unidade;
-use Novosga\Service\AtendimentoService;
-use Novosga\Service\FilaService;
-use Novosga\Service\UsuarioService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use App\Entity\Unidade;
+use App\Service\AtendimentoService;
+use App\Service\FilaService;
+use App\Service\UsuarioService;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,40 +26,37 @@ use Symfony\Component\HttpFoundation\Request;
  * FilasController
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- * @Route("/api/filas")
  */
+#[Route("/api/filas")]
 class FilasController extends AbstractController
 {
     /**
      * Retorna a lista de atendimentos do usuário atual na unidade informada.
-     *
-     * @Route("/{unidadeId}", methods={"GET"})
-     * @ParamConverter("unidade", class="Novosga\Entity\Unidade", options={"id" = "unidadeId"})
      */
+    #[Route("/{unidadeId}", methods: ["GET"])]
     public function atendimentosUsuario(
         FilaService $filaService,
         UsuarioService $usuarioService,
-        Unidade $unidade
+        #[MapEntity(mapping: ['unidadeId' => 'id'])] Unidade $unidade,
     ) {
         $usuario      = $this->getUser();
         $servicos     = $usuarioService->servicos($usuario, $unidade);
-        $atendimentos = $filaService->filaAtendimento($unidade, $servicos);
-        
+        $atendimentos = $filaService->filaAtendimento($unidade, $usuario, $servicos);
+
         return $this->json($atendimentos);
     }
-    
+
     /**
      * Atualiza o statuso do atendimento atual do usuário para o novo status
      * informado.
-     *
-     * @Route("", methods={"PUT"})
      */
+    #[Route("", methods: ["PUT"])]
     public function alteraStatus(AtendimentoService $atendimentoService, Request $request)
     {
         $novoStatus  = $request->get('novoStatus');
         $usuario     = $this->getUser();
         $atendimento = $atendimentoService->alteraStatusAtendimentoUsuario($usuario, $novoStatus);
-        
+
         return $this->json($atendimento);
     }
 }

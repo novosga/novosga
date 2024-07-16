@@ -1,5 +1,5 @@
 twig:
-    default_path: '%kernel.project_dir%/templates'
+    file_name_pattern: '*.twig'
     form_themes:
         - theme.html.twig
     globals:
@@ -7,3 +7,7 @@ twig:
         version: "%version%"
         title: "%title%"
         mercure_url: '%mercure_url%'
+
+when@test:
+    twig:
+        strict_variables: true

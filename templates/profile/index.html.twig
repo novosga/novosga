@@ -26,7 +26,7 @@
                     
                     <p class="text-secondary">{{ 'profile.general.description'|trans }}</p>
                     
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label>{{ 'profile.field.username'|trans }}</label>
                         <input type="text" class="form-control" value="{{user.login}}" readonly>
                     </div>
@@ -82,7 +82,7 @@
             {{ 'button.update'|trans }}
         </button>
         
-        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#dialog-senha">
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-target="#dialog-senha">
             <i class="fa fa-lock"></i>
             {{ 'profile.button.change_password'|trans }}
         </button>
@@ -95,18 +95,18 @@
                 <form id="form-senha">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ 'profile.change_password'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="senha_atual">{{ 'profile.field.current_password'|trans }}</label>
                             <input id="senha_atual" type="password" class="form-control" required>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="senha_senha">{{ 'profile.field.new_password'|trans }}</label>
                             <input id="senha_senha" type="password" class="form-control" required>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="senha_confirmacao">{{ 'profile.field.password_confirm'|trans }}</label>
                             <input id="senha_confirmacao" type="password" class="form-control" required>
                         </div>

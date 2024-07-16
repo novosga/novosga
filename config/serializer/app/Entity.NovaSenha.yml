@@ -8,6 +8,6 @@ App\Entity\NovaSenha:
         servico:
             type: integer
         cliente:
-            type: Novosga\Entity\Cliente
+            type: App\Entity\Cliente
         metadata:
             type: array

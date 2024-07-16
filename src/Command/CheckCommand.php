@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,6 +13,7 @@
 
 namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,10 +24,9 @@ use Symfony\Component\Console\Input\InputOption;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsCommand(name: 'novosga:check')]
 class CheckCommand extends Command
 {
-    protected static $defaultName = 'novosga:check';
-
     use FormattedOutputTrait;
 
     protected function configure()
@@ -34,7 +36,7 @@ class CheckCommand extends Command
             ->addOption('no-header', '', InputOption::VALUE_NONE, 'Disable comment header');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $showHeader = !$input->getOption('no-header');
 

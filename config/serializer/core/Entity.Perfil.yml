@@ -1,4 +1,4 @@
-Novosga\Entity\Perfil:
+App\Entity\Perfil:
     exclusion_policy: ALL
     properties:
         id:

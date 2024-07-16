@@ -3,10 +3,10 @@
 {% set logo = "images/novosga-navbar.png" %}
 
 <!DOCTYPE html>
-<html lang="{{ locale }}">
+<html>
     <head>
         <meta charset="utf-8">
-        <title>{{- block('title') -}} | {{ title }}</title>
+        <title>{{ block('title') }} | {{ title }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
@@ -17,56 +17,57 @@
     </head>
     <body data-mercure-url="{{ mercure_url }}">
         <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="{{ path('home') }}">
-                    <img src="{{ asset(logo) }}" alt="{{ title }}" title="{{ title }}">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".novosga-navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{{ path('home') }}">
+                        <img src="{{ asset(logo) }}" alt="{{ title }}" title="{{ title }}">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#novosga-navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="novosga-navbar" class="collapse navbar-collapse novosga-navbar">
+                        {% if app.user and (app.user.admin or app.user.lotacao) %}
+                            {{ render(controller('App\\Controller\\DefaultController::menu')) }}
+                        {% endif %}
 
-                <div class="collapse navbar-collapse novosga-navbar">
-                    {% if app.user and (app.user.admin or app.user.lotacao) %}
-                        {{ render(controller('App\\Controller\\DefaultController::menu')) }}
-                    {% endif %}
-
-                    {% if app.user %}
-                        <ul class="navbar-nav ml-auto mr-sm-2">
-                            {% if is_granted('ROLE_USER') %}
-                                <li class="nav-item">
-                                    <a href="{{ path('about') }}" title="{{ 'menu.about'|trans }}" class="nav-link">
-                                        <i class="fa fa-question-circle fa-fw"></i>
-                                    </a>
-                                </li>
-                            {% endif %}
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <li class="nav-item">
-                                    <a href="{{ path('admin_index') }}" title="{{ 'menu.admin'|trans }}" class="nav-link">
-                                        <i class="fa fa-cog fa-fw"></i>
-                                    </a>
-                                </li>
-                            {% endif %}
-                            <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-user fa-fw"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">
-                                        {{app.user}}
-                                    </a>
-                                    <div class="dropdown-divider"></div>
-                                    <a href="{{ app.request.baseUrl() }}/profile" title="" class="dropdown-item">
+                        {% if app.user %}
+                            <ul class="navbar-nav ml-auto mr-sm-2">
+                                {% if is_granted('ROLE_USER') %}
+                                    <li class="nav-item">
+                                        <a href="{{ path('about') }}" title="{{ 'menu.about'|trans }}" class="nav-link">
+                                            <i class="fa fa-question-circle fa-fw"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li class="nav-item">
+                                        <a href="{{ path('admin_index') }}" title="{{ 'menu.admin'|trans }}" class="nav-link">
+                                            <i class="fa fa-cog fa-fw"></i>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                                         <i class="fa fa-user fa-fw"></i>
-                                        {{ 'menu.user.profile'|trans }}
                                     </a>
-                                    <a href="{{ app.request.baseUrl() }}/logout" class="dropdown-item">
-                                        <i class="fa fa-sign-out fa-fw"></i>
-                                        {{ 'menu.user.logout'|trans }}
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    {% endif %}
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item disabled" href="#" tabindex="-1" aria-disabled="true">
+                                            {{ app.user }}
+                                        </a>
+                                        <div class="dropdown-divider"></div>
+                                        <a href="{{ path('profile_index') }}" title="" class="dropdown-item">
+                                            <i class="fa fa-user fa-fw"></i>
+                                            {{ 'menu.user.profile'|trans }}
+                                        </a>
+                                        <a href="{{ path('_logout_main') }}" class="dropdown-item">
+                                            <i class="fa fa-sign-out fa-fw"></i>
+                                            {{ 'menu.user.logout'|trans }}
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
                 </div>
             </nav>
         </header>
@@ -85,15 +86,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">{{ 'modal.error.title'|trans }}</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'button.close'|trans }}">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <p></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             {{ 'button.close'|trans }}
                         </button>
                     </div>
@@ -101,9 +100,13 @@
             </div>
         </div>
 
-        <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+        {% if app.user and app.user.lotacao %}
+            {{ render(controller('App\\Controller\\DefaultController::unidades')) }}
+        {% endif %}
+        <span id="ajax-loading" class="mini-loading" style="display:none"></span>
+
         <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/vue.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/moment-with-locales.min.js') }}"></script>
@@ -113,11 +116,5 @@
             App.dateFormat = '{{ "m/d/Y"|trans }}';
         </script>
         {% block javascripts %}{% endblock %}
-
-        {% if app.user and app.user.lotacao %}
-            {{ render(controller('App\\Controller\\DefaultController::unidades')) }}
-        {% endif %}
-
-        <span id="ajax-loading" class="mini-loading" style="display:none"></span>
     </body>
 </html>

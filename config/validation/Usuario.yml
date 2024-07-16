@@ -1,4 +1,4 @@
-Novosga\Entity\Usuario:
+App\Entity\Usuario:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: login
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: email

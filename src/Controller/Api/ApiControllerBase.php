@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,12 +13,8 @@
 
 namespace App\Controller\Api;
 
-use Doctrine\Persistence\ObjectManager;
-use JMS\Serializer\Expression\ExpressionEvaluator;
-use JMS\Serializer\SerializerBuilder;
-use JMS\Serializer\SerializerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -26,64 +24,23 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 abstract class ApiControllerBase extends AbstractController
 {
-    /**
-     * @var string
-     */
-    private $rootDir;
-    
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    
-    public function __construct(TranslatorInterface $translator, $rootDir)
-    {
-        $this->rootDir    = $rootDir;
-        $this->translator = $translator;
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
-    
-    /**
-     * @return ObjectManager
-     */
-    protected function getManager()
+
+    protected function getManager(): EntityManagerInterface
     {
-        $manager = $this
-            ->getDoctrine()
-            ->getManager();
-        
-        return $manager;
+        return $this->em;
     }
-    
-    /**
-     * @return SerializerInterface
-     */
-    protected function getSerializer()
-    {
-        $serializer =
-            SerializerBuilder::create()
-                ->addDefaultHandlers()
-                ->setExpressionEvaluator(new ExpressionEvaluator(new ExpressionLanguage()))
-                ->addMetadataDir("{$this->rootDir}/config/serializer/app", 'App')
-                ->addMetadataDir("{$this->rootDir}/config/serializer/core", 'Novosga')
-                ->build();
-        
-        return $serializer;
-    }
-    
-    /**
-     * @return TranslatorInterface
-     */
-    protected function getTranslator()
+
+    protected function getTranslator(): TranslatorInterface
     {
         return $this->translator;
     }
-    
-    /**
-     *
-     * @param string $msg
-     * @return string
-     */
-    protected function translate($id, array $params = [])
+
+    protected function translate(string $id, array $params = []): string
     {
         $translated = $this->getTranslator()->trans($id, $params);
         

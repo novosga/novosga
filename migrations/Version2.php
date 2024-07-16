@@ -2,14 +2,11 @@
 
 namespace DoctrineMigrations;
 
-use App\Migrations\AbstractVersion;
 use Doctrine\DBAL\Schema\Schema;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Doctrine\Migrations\AbstractMigration;
 
-final class Version2 extends AbstractVersion
+final class Version2 extends AbstractMigration
 {
-    use ContainerAwareTrait;
-
     public function up(Schema $schema) : void
     {
         if (!$this->existsColumn('atendimentos', 'local_id')) {

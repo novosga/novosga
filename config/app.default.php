@@ -9,11 +9,11 @@ return [
     'queue' => [
         /**
          * Queue ordering
-         * @param \Novosga\Entity\Unidade $unidade
-         * @param \Novosga\Entity\Usuario $usuario (optional)
+         * @param \App\Entity\Unidade $unidade
+         * @param \App\Entity\Usuario $usuario (optional)
          * @return array
          */
-        'ordering' =>  function (\Novosga\Configuration\OrderingParameter $param) {
+        'ordering' =>  function (\App\Configuration\OrderingParameter $param) {
             $ordering = [
                 [
                     'exp' => 'atendimento.dataAgendamento',

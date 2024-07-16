@@ -1,4 +1,4 @@
-Novosga\Entity\Unidade:
+App\Entity\Unidade:
     exclusion_policy: ALL
     properties:
         id:

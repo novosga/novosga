@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -21,10 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 trait FindTrait
 {
-    
-    /**
-     * @Route("", methods={"GET"})
-     */
+    #[Route("", methods: ["GET"])]
     public function doFind(Request $request)
     {
         return $this->search($request);

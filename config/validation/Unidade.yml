@@ -1,4 +1,4 @@
-Novosga\Entity\Unidade:
+App\Entity\Unidade:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: nome

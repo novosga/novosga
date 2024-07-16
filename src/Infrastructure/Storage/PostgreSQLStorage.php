@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -12,9 +14,9 @@
 namespace App\Infrastructure\Storage;
 
 use Doctrine\DBAL\Connection;
-use Novosga\Entity\Contador;
-use Novosga\Entity\Servico;
-use Novosga\Entity\Unidade;
+use App\Entity\Contador;
+use App\Entity\Servico;
+use App\Entity\Unidade;
 
 /**
  * PostgreSQL Storage
@@ -28,7 +30,7 @@ class PostgreSQLStorage extends RelationalStorage
      */
     protected function numeroAtual(Connection $conn, Unidade $unidade, Servico $servico): int
     {
-        $contadorTable = $this->om->getClassMetadata(Contador::class)->getTableName();
+        $contadorTable = $this->em->getClassMetadata(Contador::class)->getTableName();
 
         $stmt = $conn->executeQuery("
             SELECT numero 
@@ -43,17 +45,17 @@ class PostgreSQLStorage extends RelationalStorage
         ]);
 
         $numeroAtual = (int) $stmt->fetchOne();
-        
+
         return $numeroAtual;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     protected function preAcumularAtendimentos(Connection $conn, Unidade $unidade = null)
     {
     }
-    
+
     /**
      * {@inheritdoc}
      */

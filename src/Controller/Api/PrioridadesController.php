@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,15 +13,16 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Prioridade;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * PrioridadesController
+ * @extends ApiCrudController<Prioridade>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  *
- * @Route("/api/prioridades")
  */
+#[Route("/api/prioridades")]
 class PrioridadesController extends ApiCrudController
 {
     use Actions\GetTrait,
@@ -28,8 +31,8 @@ class PrioridadesController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
     
-    public function getEntityName()
+    public function getEntityName(): string
     {
-        return \Novosga\Entity\Prioridade::class;
+        return Prioridade::class;
     }
 }

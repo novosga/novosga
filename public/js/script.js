@@ -2,22 +2,23 @@
  * Novo SGA - Main script
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+
+const errorModal = new bootstrap.Modal('#error-modal');
+
 var App = {
-    
     version: 0,
     module: '',
     paused: false,
     updateInterval: 6000,
     dateFormat: '',
     baseUrl: '/',
-    
+
     dialogs: {
         opened: 0
     },
-    
+
     Storage: {
-        
-        set: function(name, value) {
+        set(name, value) {
             if (localStorage) {
                 localStorage.setItem(name, value);
             } else {
@@ -27,7 +28,7 @@ var App = {
             }
         },
                 
-        get: function(name) {
+        get(name) {
             if (localStorage) {
                 return localStorage.getItem(name);
             } else {
@@ -48,81 +49,67 @@ var App = {
         }
     },
     
-    url: function(url) {    
+    url(url) {    
         return App.baseUrl + url;
     },
         
-    reload: function() {
+    reload() {
         window.location = window.location;
     },
     
-    showErrorDialog: function (response) {
-        $('#error-modal')
-            .data('sessionStatus', response.sessionStatus)
-            .modal('show')
-            .find('.modal-body>p')
-                .text(response.message);
+    showErrorDialog(response) {
+        errorModal.show();
+            // .data('sessionStatus', response.sessionStatus)
+            // .modal('show')
+            // .find('.modal-body>p')
+            //     .text(response.message);
     },
-    
-    /* jQuery ajax wrapper */
-    ajax: function(arg) {
-        $('#ajax-loading').show();
-        var data = arg.data || {},
-            method = arg.type || 'get';
-        
-        if (method != 'get') {
-            data = JSON.stringify(data);
+
+    async ajax(arg) {
+        const loading = document.getElementById('ajax-loading');
+        loading.style.display = 'inline-block';
+
+        let body = null;
+        if (arg.type !== 'get') {
+            body = JSON.stringify(arg.data);
         }
-        
-        return $.ajax({
-            url: arg.url,
-            data: data,
-            type: method,
-            dataType: arg.dataType || 'json',
-            contentType: "application/json",
-            cache: false,
-            success: function(response) {
-                if (response && response.success) {
-                    var fn = arg.success;
-                    if (fn && typeof(fn) === 'function') {
-                        fn(response);
-                    }
-                } else {
-                    App.showErrorDialog(response);
-                }
-                if (response.time) {
-                    App.Clock.update(response.time);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                var fn = arg.error, json;
-                
-                try {
-                    json = jqXHR.responseJSON || JSON.parse(jqXHR.responseText);
-                } catch (e) {
-                    json = {
-                        message: 'Invalid AJAX response'
-                    };
-                }
-                
-                App.showErrorDialog(json);
-                
-                if (fn && typeof(fn) === 'function') {
-                    fn(jqXHR, textStatus, errorThrown);
-                }
-            },
-            complete: function(jqXHR, textStatus) {
-                $('#ajax-loading').hide();
-                var fn = arg.complete;
-                if (fn && typeof(fn) === 'function') {
-                    fn(jqXHR, textStatus);
-                }
+        // arg.data
+        try {
+            const resp = await fetch(arg.url, {
+                body,
+                method: arg.type || 'get',
+            });
+            if (!resp.ok) {
+                App.showErrorDialog(resp);
+                return;
             }
-        });
+            const json = await resp.json();
+            if (json.success) {
+                if (arg.success && typeof(arg.success) === 'function') {
+                    arg.success(json, resp);
+                }
+            } else {
+                App.showErrorDialog(resp);
+            }
+            if (json.time) {
+                App.Clock.update(json.time);
+            }
+        } catch (error) {
+            const json = await error.json();
+            App.showErrorDialog(json);
+
+            if (arg.error && typeof(arg.error) === 'function') {
+                arg.error(json);
+            }
+        }
+
+        loading.style.display = 'none';
+        if (arg.complete && typeof(arg.complete) === 'function') {
+            arg.complete();
+        }
     },
     
     Unidades: {
-    
         show: function() {
             $('#dialog-unidade').modal('show');
         },
@@ -143,7 +130,6 @@ var App = {
     },
     
     Clock: {
-        
         date: null,
         target: null,
         dateChilds: ['day', 'mon', 'year'],
@@ -151,27 +137,29 @@ var App = {
         
         init: function(targetId, milis) {
             // evitando o parser do jquery para pegar por id
-            App.Clock.target = $(document.getElementById(targetId));
-            if (App.Clock.target.length > 0) {
-                App.Clock.createNodes(App.Clock.target);
+            App.Clock.target = document.getElementById(targetId);
+            if (App.Clock.target) {
+                App.Clock.createNodes();
                 App.Clock.date = new Date(milis);
                 App.Clock.update();
                 setInterval(App.Clock.update, 1000);
-                var separators = App.Clock.target.find('.time .sep');
+                const separators = [...App.Clock.target.querySelectorAll('.time .sep')];
                 setInterval(function() {
-                    separators.each(function(i, v) {
-                        var node = $(v);
-                        var b = node.data('blink') || ' ';
-                        node.data('blink', node.text());
-                        node.text(b);
+                    separators.forEach((elem) => {
+                        var b = elem.dataset.blink || ' ';
+                        elem.dataset.blink = elem.innerText;
+                        elem.innerText = b;
                     });
                 }, 500);
             }
         },
         
         createNodes: function() {
-            var time = $('<div class="time"></div>');
-            var date = $('<div class="date"></div>');
+            const time = document.createElement('div');
+            time.classList.add('time');
+            const date = document.createElement('div');
+            date.classList.add('date');
+
             App.Clock._createNodes(time, App.Clock.timeChilds, ':');
             // i18n
             if (App.dateFormat[0] === 'm') {
@@ -181,16 +169,25 @@ var App = {
                 App.Clock.dateChilds[1] = a;
             }
             App.Clock._createNodes(date, App.Clock.dateChilds, '/');
-            App.Clock.target.append(time).append(date);
+            App.Clock.target.appendChild(time)
+            App.Clock.target.appendChild(date);
         },
         
         _createNodes: function(target, childs, sepChar) {
             for (var i = 0; i < childs.length; i++) {
                 var c = childs[i];
-                App.Clock[c] = $('<span class="dt ' + c + '"></span>');
-                target.append(App.Clock[c]);
+
+                const dt = document.createElement('span');
+                dt.classList.add('dt');
+                dt.classList.add(c);
+
+                App.Clock[c] = dt;
+                target.appendChild(App.Clock[c]);
                 if (i < childs.length - 1) {
-                    target.append('<span class="sep" data-blink="">' + sepChar + '</span>');
+                    const sep = document.createElement('span');
+                    sep.classList.add('sep');
+                    sep.innerText = sepChar;
+                    target.appendChild(sep);
                 }
             }
         },
@@ -201,12 +198,12 @@ var App = {
                 if (milis) {
                     c.date = new Date(milis);
                 }
-                c.hours.text(App.Clock.zeroFill(c.date.getHours()));
-                c.mins.text(App.Clock.zeroFill(c.date.getMinutes()));
-                c.secs.text(App.Clock.zeroFill(c.date.getSeconds()));
-                c.day.text(App.Clock.zeroFill(c.date.getDate()));
-                c.mon.text(App.Clock.zeroFill(c.date.getMonth() + 1));
-                c.year.text(c.date.getFullYear());
+                c.hours.innerText = App.Clock.zeroFill(c.date.getHours());
+                c.mins.innerText = App.Clock.zeroFill(c.date.getMinutes());
+                c.secs.innerText = App.Clock.zeroFill(c.date.getSeconds());
+                c.day.innerText = App.Clock.zeroFill(c.date.getDate());
+                c.mon.innerText = App.Clock.zeroFill(c.date.getMonth() + 1);
+                c.year.innerText = c.date.getFullYear();
                 // incrementa em 1 segundo
                 c.date.setSeconds(c.date.getSeconds() + 1);
             }
@@ -219,18 +216,19 @@ var App = {
     },
             
     Notification: {
-        
-        request: function(btn) {
+        request(btn) {
             if (Notification) {
                 Notification.requestPermission(function(permission) {
                     if (!('permission' in Notification)) {
                         Notification.permission = permission;
                     }
-                    $(btn).hide();
+                    if (btn?.style) {
+                        btn.style.display = 'none';
+                    }
                 });
             }
         },
-        
+
         allowed: function() {
             if (window.webkitNotifications) {
                 return window.webkitNotifications.checkPermission() === 0;
@@ -320,25 +318,3 @@ var App = {
         doPing()
     }, pingInterval);
 })();
-
-$(function() {
-    
-    $('div.modal')
-    .on('shown.bs.modal', function() {
-        App.paused = true;
-        App.dialogs.opened++;
-    })
-    .on('hidden.bs.modal', function() {
-        App.dialogs.opened--;
-        if (App.dialogs.opened <= 0) {
-            App.paused = false;
-            App.dialogs.opened = 0;
-        }
-    })
-    .on('hide.bs.modal', function() {
-        if ($(this).data('sessionStatus') === 'inactive') {
-            window.location.href = App.baseUrl;
-        }
-    });
-    
-});

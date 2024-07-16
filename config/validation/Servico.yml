@@ -1,4 +1,4 @@
-Novosga\Entity\Servico:
+App\Entity\Servico:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
             fields: [nome, deletedAt]

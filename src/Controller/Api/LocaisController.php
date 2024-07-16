@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,15 +13,15 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Local;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * LocaisController
+ * @extends ApiCrudController<Local>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- *
- * @Route("/api/locais")
  */
+#[Route("/api/locais")]
 class LocaisController extends ApiCrudController
 {
     use Actions\GetTrait,
@@ -28,8 +30,8 @@ class LocaisController extends ApiCrudController
         Actions\PutTrait,
         Actions\DeleteTrait;
     
-    public function getEntityName()
+    public function getEntityName(): string
     {
-        return \Novosga\Entity\Local::class;
+        return Local::class;
     }
 }

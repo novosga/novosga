@@ -1,4 +1,4 @@
-Novosga\Entity\Perfil:
+App\Entity\Perfil:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: nome
     properties:

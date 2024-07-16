@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,15 +13,15 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Servico;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * ServicosController
+ * @extends ApiCrudController<Servico>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
- *
- * @Route("/api/servicos")
  */
+#[Route("/api/servicos")]
 class ServicosController extends ApiCrudController
 {
     use Actions\GetTrait,
@@ -27,9 +29,9 @@ class ServicosController extends ApiCrudController
         Actions\PostTrait,
         Actions\PutTrait,
         Actions\DeleteTrait;
-    
-    public function getEntityName()
+
+    public function getEntityName(): string
     {
-        return \Novosga\Entity\Servico::class;
+        return \App\Entity\Servico::class;
     }
 }

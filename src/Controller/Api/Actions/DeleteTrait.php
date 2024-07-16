@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -20,10 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 trait DeleteTrait
 {
-    
-    /**
-     * @Route("/{id}", methods={"DELETE"})
-     */
+    #[Route("/{id{", methods: ["DELETE"])]
     public function doDelete($id)
     {
         $object = $this->getRepository()->find($id);

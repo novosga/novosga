@@ -1,18 +1,19 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
 # Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    locale: '%env(LANGUAGE)%'
-    version: '2.1.2'
+    locale: '%env(APP_LANGUAGE)%'
+    version: '2.2-dev'
     title: 'Novo SGA CE'
-    mercure_url: '%env(MERCURE_CONSUMER_URL)%'
+    mercure_url: '%env(MERCURE_PUBLIC_URL)%'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        bind:
-            $rootDir: '%kernel.project_dir%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -22,31 +23,27 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/Tests/'
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller/'
-        tags: ['controller.service_arguments']
-        
-    App\Listener\SessionListener:
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    App\EventListener\SessionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 6 }
         
-    App\Listener\AccessListener:
+    App\EventListener\AccessListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 7 }
 
-    App\Listener\CorsListener:
+    App\EventListener\CorsListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 700 }
 
-    App\Listener\JsonExceptionListener:
+    App\EventListener\JsonExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
 
-    App\Listener\ORM\DoctrineListener:
+    App\EventListener\ORM\DoctrineListener:
         tags:
             - { name: doctrine.event_subscriber }
 
@@ -54,31 +51,45 @@ services:
         public: true
 
     App\Loader\RouterLoader:
-        tags:
-            - { name: routing.loader }
+        tags: [routing.loader]
 
-    App\Extensions\Doctrine\TablePrefix:
-        arguments: [""]
-        tags:
-            - { name: doctrine.event_listener, event: loadClassMetadata, connection: default }
-
-    App\Extensions\Doctrine\SchemaViewIgnorer:
-        tags:
-            - { name: doctrine.event_listener, event: postGenerateSchema, connection: default }
-
-    
     Doctrine\Persistence\ObjectManager: '@Doctrine\ORM\EntityManagerInterface'
-    
-    # novosga core services
-    Novosga\Service\:
-        resource: '../vendor/novosga/core/Service'
-        public: true
-        
-    Novosga\Event\EventDispatcherInterface: '@App\Service\EventDispatcher'
-    
-    Novosga\Infrastructure\StorageInterface:
+
+    App\Event\EventDispatcherInterface: '@App\Service\EventDispatcher'
+
+    App\Infrastructure\StorageInterface:
         factory: ['App\Infrastructure\StorageFactory', 'createStorage']
         arguments: ['@Doctrine\Persistence\ObjectManager']
 
-    Novosga\Service\Configuration:
+    App\Service\Configuration:
         $rootDir: '%kernel.project_dir%'
+
+    # shared repositories
+    Novosga\Repository\AgendamentoRepositoryInterface: '@App\Repository\AgendamentoRepository'
+    Novosga\Repository\AtendimentoRepositoryInterface: '@App\Repository\AtendimentoRepository'
+    Novosga\Repository\ClienteRepositoryInterface: '@App\Repository\ClienteRepository'
+    Novosga\Repository\ContadorRepositoryInterface: '@App\Repository\ContadorRepository'
+    Novosga\Repository\DepartamentoRepositoryInterface: '@App\Repository\DepartamentoRepository'
+    Novosga\Repository\EntityMetadataRepositoryInterface: '@App\Repository\EntityMetadataRepository'
+    Novosga\Repository\LocalRepositoryInterface: '@App\Repository\LocalRepository'
+    Novosga\Repository\LotacaoRepositoryInterface: '@App\Repository\LotacaoRepository'
+    Novosga\Repository\MetadataRepositoryInterface: '@App\Repository\MetadataRepository'
+    Novosga\Repository\PerfilRepositoryInterface: '@App\Repository\PerfilRepository'
+    Novosga\Repository\PrioridadeRepositoryInterface: '@App\Repository\PrioridadeRepository'
+    Novosga\Repository\ServicoRepositoryInterface: '@App\Repository\ServicoRepository'
+    Novosga\Repository\ServicoUnidadeRepositoryInterface: '@App\Repository\ServicoUnidadeRepository'
+    Novosga\Repository\ServicoUsuarioRepositoryInterface: '@App\Repository\ServicoUsuarioRepository'
+    Novosga\Repository\UnidadeRepositoryInterface: '@App\Repository\UnidadeRepository'
+    Novosga\Repository\UsuarioRepositoryInterface: '@App\Repository\UsuarioRepository'
+    Novosga\Repository\ViewAtendimentoRepositoryInterface: '@App\Repository\ViewAtendimentoRepository'
+    Novosga\Repository\ViewAtendimentoCodificadoRepositoryInterface: '@App\Repository\ViewAtendimentoCodificadoRepository'
+
+    # shared services
+    Novosga\Service\AgendamentoServiceInterface: '@App\Service\AgendamentoService'
+    Novosga\Service\AtendimentoServiceInterface: '@App\Service\AtendimentoService'
+    Novosga\Service\ClienteServiceInterface: '@App\Service\ClienteService'
+    Novosga\Service\FilaServiceInterface: '@App\Service\FilaService'
+    Novosga\Service\LotacaoServiceInterface: '@App\Service\LotacaoService'
+    Novosga\Service\ServicoServiceInterface: '@App\Service\ServicoService'
+    Novosga\Service\UsuarioServiceInterface: '@App\Service\UsuarioService'
+    Novosga\Service\TicketServiceInterface: '@App\Service\TicketService'

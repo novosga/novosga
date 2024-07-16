@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -16,6 +18,7 @@ use App\Service\ModuleService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -23,23 +26,16 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  *
- * @Route("/admin/modulos")
  */
+#[Route("/admin/modulos", name: 'admin_modulos_')]
 class ModulosController extends AbstractController
 {
-
-    /**
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/", name="admin_modulos_index")
-     */
+    #[Route("/", name: "index")]
     public function index(
         Kernel $kernel,
         ModuleService $service,
-        TranslatorInterface $translator
-    ) {
+        TranslatorInterface $translator,
+    ): Response {
         $modules = array_map(function ($module) use ($translator) {
             $name = $translator->trans($module->getDisplayName(), [], $module->getName());
             return [
@@ -51,26 +47,7 @@ class ModulosController extends AbstractController
         
         return $this->render('admin/modulos/index.html.twig', [
             'tab' => 'modulos',
-            'modules' => $modules
-        ]);
-    }
-
-    /**
-     *
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @Route("/update", name="admin_modulos_update")
-     */
-    public function update(Request $request, ModuleService $service)
-    {
-        $key = $request->get('key');
-        $active = $request->get('active');
-        
-        $service->update($key, $active);
-        
-        return $this->json([
-            'ok'
+            'modules' => $modules,
         ]);
     }
 }

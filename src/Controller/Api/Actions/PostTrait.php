@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -21,10 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 trait PostTrait
 {
-    
-    /**
-     * @Route("", methods={"POST"})
-     */
+    #[Route("", methods: ["POST"])]
     public function doPost(Request $request)
     {
         $json = $request->getContent();

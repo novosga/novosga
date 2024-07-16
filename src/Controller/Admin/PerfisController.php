@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -12,34 +14,32 @@
 namespace App\Controller\Admin;
 
 use App\Form\PerfilType as EntityType;
-use Novosga\Entity\Perfil as Entity;
+use App\Entity\Perfil as Entity;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * PerfisController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- *
- * @Route("/admin/perfis")
  */
-class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\AbstractController
+#[Route("/admin/perfis", name: "admin_perfis_")]
+class PerfisController extends AbstractController
 {
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/", name="admin_perfis_index")
-     */
-    public function index(Request $request)
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+    ) {
+    }
+
+    #[Route("/", name: "index")]
+    public function index(Request $request): Response
     {
         $perfis = $this
-            ->getDoctrine()
-            ->getManager()
+            ->em
             ->createQueryBuilder()
             ->select('e')
             ->from(Entity::class, 'e')
@@ -52,37 +52,29 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         ]);
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/new", name="admin_perfis_new", methods={"GET", "POST"})
-     * @Route("/{id}", name="admin_perfis_edit", methods={"GET", "POST"})
-     */
+    #[Route("/new", name: "new", methods: ["GET", "POST"])]
+    #[Route("/{id}", name: "edit", methods: ["GET", "POST"])]
     public function form(
         Request $request,
-        KernelInterface $kernel,
         TranslatorInterface $translator,
         Entity $entity = null
-    ) {
+    ): Response {
         if (!$entity) {
             $entity = new Entity;
         }
 
-        $modulos = array_filter($kernel->getBundles(), function ($module) {
-            return ($module instanceof \Novosga\Module\ModuleInterface);
-        });
+        // TODO
+        $modulos = [];
 
-        $form = $this->createForm(EntityType::class, $entity, [
-            'modulos' => $modulos,
-        ]);
-        $form->handleRequest($request);
+        $form = $this
+            ->createForm(EntityType::class, $entity, [
+                'modulos' => $modulos,
+            ])
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->em->persist($entity);
+            $this->em->flush();
 
             $this->addFlash('success', $translator->trans('Perfil salvo com sucesso!'));
 
@@ -92,23 +84,16 @@ class PerfisController extends \Symfony\Bundle\FrameworkBundle\Controller\Abstra
         return $this->render('admin/perfis/form.html.twig', [
             'tab'    => 'perfis',
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form'   => $form,
         ]);
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/{id}", name="admin_perfis_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, TranslatorInterface $translator, Entity $perfil)
+    #[Route("/{id}", name: "delete", methods: ["DELETE"])]
+    public function delete(Request $request, TranslatorInterface $translator, Entity $perfil): Response
     {
         try {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($perfil);
-            $em->flush();
+            $this->em->remove($perfil);
+            $this->em->flush();
 
             $this->addFlash('success', $translator->trans('Perfil removido com sucesso!'));
 

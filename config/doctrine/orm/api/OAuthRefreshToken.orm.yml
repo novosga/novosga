@@ -13,7 +13,7 @@ App\Entity\OAuthRefreshToken:
                 client_id:
                     referencedColumnName: id
         user:
-            targetEntity: Novosga\Entity\Usuario
+            targetEntity: App\Entity\Usuario
             joinColumns:
                 user_id:
                     referencedColumnName: id

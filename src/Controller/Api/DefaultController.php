@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -14,6 +16,7 @@ namespace App\Controller\Api;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * DefaultController
@@ -22,11 +25,8 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
  */
 class DefaultController extends AbstractController
 {
-    /**
-     * @Route("/api")
-     * @Route("/api/")
-     */
-    public function index(ParameterBagInterface $params)
+    #[Route("/api")]
+    public function index(ParameterBagInterface $params): Response
     {
         return $this->json([
             'status' => 'ok',

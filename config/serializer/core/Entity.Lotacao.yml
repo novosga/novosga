@@ -1,9 +1,9 @@
-Novosga\Entity\Lotacao:
+App\Entity\Lotacao:
     exclusion_policy: ALL
     properties:
         unidade:
-            type: Novosga\Entity\Unidade
+            type: App\Entity\Unidade
             expose: true
         perfil:
-            type: Novosga\Entity\Perfil
+            type: App\Entity\Perfil
             expose: true

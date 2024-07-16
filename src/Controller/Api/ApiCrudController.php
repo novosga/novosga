@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,29 +13,30 @@
 
 namespace App\Controller\Api;
 
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * ApiControllerBase
+ * @template T
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 abstract class ApiCrudController extends ApiControllerBase
 {
-    abstract public function getEntityName();
+    /** @return class-string<T> */
+    abstract public function getEntityName(): string;
 
+    /** @return T */
     public function find($id)
     {
-        $object = $this->getRepository()->find($id);
-        
-        if (!$object) {
+        $entity = $this->getRepository()->find($id);
+
+        if (!$entity) {
             throw new NotFoundHttpException;
         }
-        
-        $json = $this->serialize($object);
-        
-        return new \Symfony\Component\HttpFoundation\Response($json, 200, [ 'Content-type' => 'application/json' ]);
+
+        return $this->json($entity);
     }
 
     public function search(Request $request)
@@ -47,14 +50,14 @@ abstract class ApiCrudController extends ApiControllerBase
         if (!in_array($order, ['asc', 'desc'])) {
             $order = 'asc';
         }
-        
+
         $orderBy  = [];
         $criteria = [];
-        
+
         if (strlen($sort)) {
             $orderBy[$sort] = $order;
         }
-        
+
         foreach ($q as $i) {
             if (!empty($i)) {
                 $param = explode(':', $i);
@@ -63,9 +66,9 @@ abstract class ApiCrudController extends ApiControllerBase
                 }
             }
         }
-        
+
         $result = $this->getRepository()->findBy($criteria, $orderBy, $limit, $offset);
-        
+
         return $this->json($result);
     }
     
@@ -79,7 +82,7 @@ abstract class ApiCrudController extends ApiControllerBase
                 'error' => $e->getMessage()
             ];
         }
-        
+
         return $this->json($object);
     }
 
@@ -93,59 +96,31 @@ abstract class ApiCrudController extends ApiControllerBase
                 'error' => $e->getMessage()
             ];
         }
-        
-        
+
         return $this->json($object);
     }
 
     public function update($object)
     {
         try {
-            $this->getManager()->merge($object);
+            $this->getManager()->persist($object);
             $this->getManager()->flush();
         } catch (\Exception $e) {
             $object = [
                 'error' => $e->getMessage()
             ];
         }
-        
+
         return $this->json($object);
     }
     
-    /**
-     * @return \Doctrine\Persistence\ObjectRepository
-     */
+    /** @return ServiceEntityRepository<T> */
     protected function getRepository()
     {
         $repository = $this
             ->getManager()
             ->getRepository($this->getEntityName());
-        
+
         return $repository;
-    }
-    
-    protected function serialize($object)
-    {
-        $ctx = \JMS\Serializer\SerializationContext::create()
-                ->enableMaxDepthChecks();
-        
-        $serializer = $this->getSerializer();
-        $data       = $serializer->serialize($object, 'json', $ctx);
-        return $data;
-    }
-
-
-    /**
-     *
-     * @param string $json
-     * @param array  $args
-     * @return object
-     */
-    protected function deserialize($json)
-    {
-        $serializer = $this->getSerializer();
-        $object     = $serializer->deserialize($json, $this->getEntityName(), 'json');
-        
-        return $object;
     }
 }

@@ -1,4 +1,4 @@
-Novosga\Entity\Local:
+App\Entity\Local:
     exclusion_policy: ALL
     properties:
         id:

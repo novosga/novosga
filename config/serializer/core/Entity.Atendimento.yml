@@ -1,6 +1,6 @@
-Novosga\Entity\Atendimento:
+App\Entity\Atendimento:
     exclusion_policy: ALL
     properties:
         codificados:
-            type: array<Novosga\Entity\AtendimentoCodificadoHistorico>
+            type: array<App\Entity\AtendimentoCodificadoHistorico>
             expose: true

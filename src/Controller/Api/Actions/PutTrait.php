@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -21,10 +23,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 trait PutTrait
 {
-    
-    /**
-     * @Route("/{id}", methods={"PUT"})
-     */
+    #[Route("/{id}", methods: ["PUT"])]
     public function doPut(Request $request, $id)
     {
         $object = $this->getRepository()->find($id);

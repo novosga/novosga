@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -11,9 +13,9 @@
 
 namespace App\Infrastructure\Storage;
 
-use Doctrine\Persistence\ObjectManager;
-use Doctrine\Persistence\ObjectRepository;
-use Novosga\Infrastructure\StorageInterface;
+use App\Infrastructure\StorageInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Doctrine Storage
@@ -22,23 +24,18 @@ use Novosga\Infrastructure\StorageInterface;
  */
 abstract class DoctrineStorage implements StorageInterface
 {
-    /**
-     * @var ObjectManager
-     */
-    protected $om;
-    
-    public function __construct(ObjectManager $om)
-    {
-        $this->om = $om;
+    public function __construct(
+        protected readonly EntityManagerInterface $em,
+    ) {
     }
-    
-    public function getManager(): ObjectManager
+   
+    public function getManager(): EntityManagerInterface
     {
-        return $this->om;
+        return $this->em;
     }
 
-    public function getRepository(string $className): ObjectRepository
+    public function getRepository(string $className): EntityRepository
     {
-        return $this->om->getRepository($className);
+        return $this->em->getRepository($className);
     }
 }

@@ -1,4 +1,4 @@
-Novosga\Entity\Servico:
+App\Entity\Servico:
     exclusion_policy: ALL
     properties:
         id:
@@ -17,7 +17,7 @@ Novosga\Entity\Servico:
             type: int
             expose: true
         subServicos:
-            type: array<Novosga\Entity\Servico>
+            type: array<App\Entity\Servico>
             serialized_name: subServicos
             skip_when_empty: true
             expose: true

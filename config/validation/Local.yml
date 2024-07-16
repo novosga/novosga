@@ -1,4 +1,4 @@
-Novosga\Entity\Local:
+App\Entity\Local:
     properties:
         nome:
             - NotBlank: ~

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of the Novo SGA project.
  *
@@ -12,7 +14,10 @@
 namespace App\Controller\Admin;
 
 use App\Form\DepartamentoType as EntityType;
-use Novosga\Entity\Departamento as Entity;
+use App\Entity\Departamento as Entity;
+use App\Repository\DepartamentoRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,24 +28,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * DepartamentoController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- *
- * @Route("/admin/departamentos")
  */
+#[Route("/admin/departamentos", name: 'admin_departamentos_')]
 class DepartamentoController extends AbstractController
 {
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/", name="admin_departamentos_index")
-     */
-    public function index(Request $request)
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly DepartamentoRepository $repository,
+    ) {
+    }
+
+    #[Route("/", name: "index")]
+    public function index(Request $request): Response
     {
         $departamentos = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(Entity::class)
+            ->repository
             ->findBy([], ['nome' => 'ASC']);
 
         return $this->render('admin/departamentos/index.html.twig', [
@@ -49,27 +51,21 @@ class DepartamentoController extends AbstractController
         ]);
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/new", name="admin_departamentos_new", methods={"GET", "POST"})
-     * @Route("/{id}", name="admin_departamentos_edit", methods={"GET", "POST"})
-     */
-    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null)
+    #[Route("/new", name: "new", methods: ["GET", "POST"])]
+    #[Route("/{id}", name: "edit", methods: ["GET", "POST"])]
+    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null): Response
     {
         if (!$entity) {
             $entity = new Entity();
         }
 
-        $form = $this->createForm(EntityType::class, $entity);
-        $form->handleRequest($request);
+        $form = $this
+            ->createForm(EntityType::class, $entity)
+            ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $this->em->persist($entity);
+            $this->em->flush();
 
             $this->addFlash('success', $translator->trans('Departamento salvo com sucesso!'));
 
@@ -79,29 +75,22 @@ class DepartamentoController extends AbstractController
         return $this->render('admin/departamentos/form.html.twig', [
             'tab'    => 'departamentos',
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form'   => $form,
         ]);
     }
 
-    /**
-     *
-     * @param Request $request
-     * @return Response
-     *
-     * @Route("/{id}", name="admin_departamentos_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, TranslatorInterface $translator, Entity $departamento)
+    #[Route("/{id}", name: "delete", methods: ["DELETE"])]
+    public function delete(Request $request, TranslatorInterface $translator, Entity $departamento): Response
     {
         try {
-            $em  = $this->getDoctrine()->getManager();
-            $em->remove($departamento);
-            $em->flush();
+            $this->em->remove($departamento);
+            $this->em->flush();
 
             $this->addFlash('success', $translator->trans('Departamento removido com sucesso!'));
 
             return $this->redirectToRoute('admin_departamentos_index');
         } catch (\Exception $e) {
-            if ($e instanceof \Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException) {
+            if ($e instanceof ForeignKeyConstraintViolationException) {
                 $message = 'O departamento não pode ser removido porque está sendo utilizado.';
             } else {
                 $message = $e->getMessage();

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
-use App\Migrations\AbstractVersion;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20210326134543 extends AbstractVersion
+final class Version20210326134543 extends AbstractMigration
 {
     public function getDescription() : string
     {
