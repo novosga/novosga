@@ -29,18 +29,24 @@
                     <tr v-for="client in clients">
                         <td>
                             {% verbatim %}
-                                {{ client.description }}
+                                {{ client.name }}
                             {% endverbatim %}
                         </td>
                         <td>
-                            {% verbatim %}
-                                {{ client.publicId }}
-                            {% endverbatim %}
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="****" readonly>
+                                <button class="btn btn-outline-secondary" title="{{ 'label.view'|trans }}" v-on:click.prevent="showSecret(client.identifier, $event)">
+                                    <span class="fa fa-eye"></span>
+                                </span>
+                            </div>
                         </td>
                         <td>
-                            <a href="#" title="{{ 'label.view'|trans }}" v-on:click.prevent="showSecret(client, $event)">
-                                ******
-                            </a>
+                            <div class="input-group">
+                                <input type="text" class="form-control" value="****" readonly>
+                                <button class="btn btn-outline-secondary" title="{{ 'label.view'|trans }}" v-on:click.prevent="showSecret(client.secret, $event)">
+                                    <span class="fa fa-eye"></span>
+                                </span>
+                            </div>
                         </td>
                         <td class="text-center">
                             <button type="button" class="btn btn-danger" title="{{ 'button.remove'|trans }}"
@@ -66,20 +72,18 @@
             </table>
         </fieldset>
 
-        <div id="dialog-api-client" class="modal fade" tabindex="-1" role="dialog">
+        <div ref="modalElem" class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form v-on:submit.prevent="addClient">
+                    <form action="" method="post" v-on:submit.prevent="addClient">
                         <div class="modal-header">
                             <h5 class="modal-title">{{ 'admin.webapi.clients.modal'|trans }}</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label>{{ 'admin.webapi.clients.description'|trans }}</label>
-                                <input type="text" class="form-control" v-model="client.description" name="description" maxlength="30">
+                                <input type="text" class="form-control" v-model="client.description" name="description" maxlength="30" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -102,15 +106,16 @@
     <script>
         (function () {
             'strinct'
-            
+
             var app = new Vue({
                 el: '#admin',
                 data: {
                     client: {},
-                    clients: []
+                    clients: [],
+                    modal: null,
                 },
                 methods: {
-                    load: function() {
+                    load() {
                         var self = this;
                         App.ajax({
                             url: '{{ path('admin_api_clients') }}',
@@ -119,40 +124,51 @@
                             }
                         });
                     },
-                    newClient: function() {
+                    newClient() {
                         this.client = {};
-                        $('#dialog-api-client').modal('show');
+                        this.modal.show();
                     },
-                    addClient: function() {
+                    addClient() {
                         var self = this;
                         App.ajax({
                             url: '{{ path('admin_api_newclient') }}',
                             type: 'POST',
                             data: self.client,
-                            success: function() {
+                            success() {
                                 self.load();
-                                $('#dialog-api-client').modal('hide');
+                                self.modal.hide();
                             }
                         });
                     },
-                    showSecret: function (client, evt) {
-                        evt.target.parentNode.innerHTML = client.secret;
+                    showSecret(secret, evt) {
+                        const parent = evt.currentTarget.parentNode;
+                        const input = parent.querySelector('input');
+                        const icon = parent.querySelector('span.fa');
+                        if (parent.classList.toggle('show')) {
+                            input.value = secret;
+                            icon.classList.replace('fa-eye', 'fa-eye-slash');
+                        } else {
+                            input.value = '******';
+                            icon.classList.replace('fa-eye-slash', 'fa-eye');
+                        }
                     },
-                    removeClient: function (client) {
+                    removeClient(client) {
                         var self = this;
                         if (confirm('{{ 'admin.webapi.clients.remove_alert'|trans }}')) {
                             App.ajax({
-                                url: '{{ path('admin_api_clients') }}/' + client.id,
+                                url: '{{ path('admin_api_clients') }}/' + client.identifier,
                                 type: 'DELETE',
-                                success: function() {
+                                success() {
                                     self.load();
                                 }
                             });
                         }
                     }
+                },
+                mounted() {
+                    this.modal = new bootstrap.Modal(this.$refs.modalElem);
                 }
             });
-            
             app.load();
         })();
     </script>

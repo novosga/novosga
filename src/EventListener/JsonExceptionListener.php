@@ -16,9 +16,9 @@ namespace App\EventListener;
 use Novosga\Http\Envelope;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -55,30 +55,25 @@ class JsonExceptionListener extends AppListener
         $request   = $event->getRequest();
         $debug     = $this->kernel->getEnvironment() === 'dev';
         
+        $error = $exception->getMessage();
+        $detail = null;
+        $statusCode = match (true) {
+            $exception instanceof HttpException => $exception->getStatusCode(),
+            $exception instanceof AuthenticationException => 401,
+            $exception instanceof AccessDeniedException => 403,
+            default => 500,
+        };
+        
+        if ($debug) {
+            $json['detail'] = $exception->getTraceAsString();
+        }
+
         if ($this->isApiRequest($request)) {
-            if ($exception instanceof NotFoundHttpException) {
-                $json = [
-                    'code' => 404,
-                    'error' => 'Not found',
-                ];
-            } else if ($exception instanceof AuthenticationCredentialsNotFoundException) {
-                $json = [
-                    'code' => 403,
-                    'error' => 'Not authenticated',
-                ];
-            } else {
-                $json = [
-                    'code' => 400,
-                    'error' => $exception->getMessage(),
-                ];
-            }
-            
-            if ($debug) {
-                $json['detail'] = $exception->getTraceAsString();
-            }
-            
-            $response = new JsonResponse($json);
-            $event->setResponse($response);
+            $event->setResponse(new JsonResponse([
+                'code' => $statusCode,
+                'error' => $error,
+                'detail' => $detail,
+            ], $statusCode));
         } else if ($request->isXmlHttpRequest()) {
             $envelope = new Envelope();
             $envelope->exception($exception, $debug);
@@ -89,7 +84,7 @@ class JsonExceptionListener extends AppListener
                 $envelope->setMessage($error);
             }
             
-            $response = new JsonResponse($envelope);
+            $response = new JsonResponse($envelope, $statusCode);
             $event->setResponse($response);
         }
     }

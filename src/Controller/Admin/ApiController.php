@@ -18,6 +18,9 @@ use App\Entity\OAuthClient;
 use App\Entity\OAuthRefreshToken;
 use Novosga\Http\Envelope;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Model\Client;
+use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,14 +42,12 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route("/oauth-clients", name: "oauth-clients", methods: ["GET"])]
-    public function oauthClients(EntityManagerInterface $em): Response
+    #[Route("/oauth-clients", name: "clients", methods: ["GET"])]
+    public function oauthClients(EntityManagerInterface $em, ClientManagerInterface $clientManager): Response
     {
         $envelope = new Envelope();
 
-        $clients = $em
-            ->getRepository(OAuthClient::class)
-            ->findAll();
+        $clients = $clientManager->list(null);
 
         $envelope->setData($clients);
 
@@ -54,7 +55,7 @@ class ApiController extends AbstractController
     }
 
     #[Route("/oauth-clients", name: "newclient", methods: ["POST"])]
-    public function newOauthClient(Request $request, /*ClientManagerInterface $clientManager*/): Response
+    public function newOauthClient(Request $request, ClientManagerInterface $clientManager): Response
     {
         $envelope = new Envelope();
 
@@ -65,41 +66,30 @@ class ApiController extends AbstractController
             $description = substr($description, 0, 30);
         }
         
-        $client = $clientManager->createClient();
-        $client->setDescription($description);
-        $client->setAllowedGrantTypes(['token', 'password', 'refresh_token']);
-        $clientManager->updateClient($client);
+        $client = new Client(
+            name: $description,
+            identifier: hash('md5', random_bytes(16)),
+            secret: hash('sha512', random_bytes(32)),
+        );
+        $client->setGrants(new Grant('token'), new Grant('password'), new Grant('refresh_token'));
+
+        $clientManager->save($client);
 
         $envelope->setData($client);
 
         return $this->json($envelope);
     }
 
-    #[Route("/oauth-clients/{id}", name: "removeclient", methods: ["DELETE"])]
-    public function removeOauthClient(Request $request, EntityManagerInterface $em, /*OAuthClient $client*/): Response
+    #[Route("/oauth-clients/{identifier}", name: "removeclient", methods: ["DELETE"])]
+    public function removeOauthClient(ClientManagerInterface $clientManager, string $identifier): Response
     {
         $envelope = new Envelope();
 
-        $em->beginTransaction();
-        $em
-            ->createQueryBuilder()
-            ->delete(OAuthRefreshToken::class, 'e')
-            ->where('e.client = :client')
-            ->getQuery()
-            ->execute([ 'client' => $client ]);
-
-        $em
-            ->createQueryBuilder()
-            ->delete(OAuthAccessToken::class, 'e')
-            ->where('e.client = :client')
-            ->getQuery()
-            ->execute([ 'client' => $client ]);
-
-        $em->remove($client);
-        $em->commit();
-        $em->flush();
-
-        $envelope->setData($client);
+        $client = $clientManager->find($identifier);
+        if ($client !== null) {
+            $clientManager->remove($client);
+            $envelope->setData($client);
+        }
 
         return $this->json($envelope);
     }

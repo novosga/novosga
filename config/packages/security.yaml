@@ -17,19 +17,16 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         oauth_token:
-           pattern:    ^/api/token
-           security:   false
-            
+            pattern: ^/api/token$
+            security: false
         api:
-           pattern:    ^/(api|\w+\.\w+/api)
-        #    fos_oauth:  true
-           stateless:  true
-
+            pattern: ^/(api|\w+\.\w+/api)
+            security: true
+            stateless: true
+            oauth2: true
         main:
             lazy: true
-            pattern: ^/
             provider: novosga_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
             # activate different ways to authenticate
@@ -44,10 +41,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/api/token$, roles: [ PUBLIC_ACCESS ] }
         - { path: ^/(api|\w+\.\w+/api), roles: [ IS_AUTHENTICATED_FULLY ] }
         - { path: ^/login, roles: [ PUBLIC_ACCESS ] }
         - { path: ^/admin, roles: [ ROLE_ADMIN ] }
-        - { path: ^/,      roles: [ IS_AUTHENTICATED_REMEMBERED ] }
+        - { path: ^/, roles: [ IS_AUTHENTICATED_REMEMBERED ] }
 
 when@test:
     security:

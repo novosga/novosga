@@ -118,9 +118,12 @@ class UserProvider extends EntityUserProvider
 
     public function loadUnidade(Usuario $usuario)
     {
-        $meta = $this
-            ->usuarioService
-            ->meta($usuario, UsuarioService::ATTR_SESSION_UNIDADE);
+        // TODO: temporarily disabling loadUnidade
+
+        // $meta = $this
+        //     ->usuarioService
+        //     ->meta($usuario, UsuarioService::ATTR_SESSION_UNIDADE);
+        $meta = null;
         $unidade = null;
 
         if ($meta) {
