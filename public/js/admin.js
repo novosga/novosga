@@ -174,9 +174,8 @@ App.Admin = {
     }
 };
 
-
-$(function () {
-    $('[type=submit][value=DELETE]').on('click', function (e) {
+[...document.querySelectorAll('[type=submit][value=DELETE]')].forEach((e) => {
+    e.addEventListener('click', () => {
         return confirm('Você realmente deseja remover?');
-    });
+    })
 });

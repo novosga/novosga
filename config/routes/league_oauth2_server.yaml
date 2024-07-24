@@ -1,0 +1,10 @@
+oauth2_server:
+    resource: '@LeagueOAuth2ServerBundle/Resources/config/routes.php'
+    type: php
+    prefix: '/oauth2'
+
+# Deprecated route, please update your client to use /oauth2/token instead
+deprecated_token_route:
+    path: /api/token
+    controller: 'league.oauth2_server.controller.token::indexAction'
+    methods: 'POST'
