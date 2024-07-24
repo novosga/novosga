@@ -20,17 +20,7 @@ namespace App\Event;
  */
 interface EventInterface
 {
-    /**
-     * Returns event name
-     * 
-     * @return string
-     */
     public function getName(): string;
-    
-    /**
-     * Returns event data
-     * 
-     * @return mixed
-     */
-    public function getData();
+
+    public function getData(): mixed;
 }

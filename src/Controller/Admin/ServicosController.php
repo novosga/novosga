@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Form\ServicoType as EntityType;
-use App\Entity\Servico as Entity;
+use App\Form\ServicoType;
+use App\Entity\Servico;
 use App\Repository\ServicoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,7 +28,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-#[Route("/admin/servicos", name: 'admin_servicos_')]
+#[Route('/admin/servicos', name: 'admin_servicos_')]
 class ServicosController extends AbstractController
 {
     public function __construct(
@@ -37,35 +37,33 @@ class ServicosController extends AbstractController
     ) {
     }
 
-    #[Route("/", name: "index", methods: ["GET"])]
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(Request $request): Response
     {
         $servicos = $this
-            ->em
-            ->createQueryBuilder()
-            ->select('e')
-            ->from(Entity::class, 'e')
+            ->repository
+            ->createQueryBuilder('e')
             ->where('e.deletedAt IS NULL')
             ->andWhere('e.mestre IS NULL')
             ->getQuery()
             ->getResult();
-        
+
         return $this->render('admin/servicos/index.html.twig', [
-            'tab'      => 'servicos',
+            'tab' => 'servicos',
             'servicos' => $servicos,
         ]);
     }
 
-    #[Route("/new", name: "new", methods: ["GET", "POST"])]
-    #[Route("/{id}", name: "edit", methods: ["GET", "POST"])]
-    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null): Response
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'edit', methods: ['GET', 'POST'])]
+    public function form(Request $request, TranslatorInterface $translator, Servico $entity = null): Response
     {
         if (!$entity) {
-            $entity = new Entity();
+            $entity = new Servico();
         }
 
         $form = $this
-            ->createForm(EntityType::class, $entity)
+            ->createForm(ServicoType::class, $entity)
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,8 +82,8 @@ class ServicosController extends AbstractController
         ]);
     }
 
-    #[Route("/{id}", name: "delete", methods: ["DELETE"])]
-    public function delete(Request $request, TranslatorInterface $translator, Entity $servico): Response
+    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    public function delete(Request $request, TranslatorInterface $translator, Servico $servico): Response
     {
         try {
             $this->em->remove($servico);

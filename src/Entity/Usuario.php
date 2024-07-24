@@ -24,7 +24,6 @@ use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use Novosga\Entity\LotacaoInterface;
 use Novosga\Entity\UsuarioInterface;
-use Serializable;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherAwareInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -44,7 +43,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class Usuario implements
     UsuarioInterface,
     TimestampableEntityInterface,
-    Serializable,
+    SoftDeletableEntityInterface,
     JsonSerializable,
     EquatableInterface,
     UserInterface,
@@ -87,7 +86,7 @@ class Usuario implements
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $sessionId = null;
 
-    /** @var Collection<int,Lotacao> */
+    /** @var Collection<int,LotacaoInterface> */
     #[ORM\OneToMany(targetEntity: Lotacao::class, mappedBy: 'usuario')]
     private Collection $lotacoes;
 
@@ -101,10 +100,11 @@ class Usuario implements
     private ?string $salt = null;
 
     // transient
+    /** @var string[] */
     private array $roles = [];
 
     // transient
-    private ?Lotacao $lotacao = null;
+    private ?LotacaoInterface $lotacao = null;
 
     public function __construct()
     {
@@ -178,7 +178,7 @@ class Usuario implements
     public function setEmail(?string $email): static
     {
         $this->email = $email;
-        
+
         return $this;
     }
 
@@ -230,6 +230,7 @@ class Usuario implements
         return $this->salt;
     }
 
+    /** @param Collection<int,LotacaoInterface> $lotacoes */
     public function setLotacoes(Collection $lotacoes): static
     {
         $this->lotacoes = $lotacoes;
@@ -358,7 +359,8 @@ class Usuario implements
         return $user instanceof Usuario && $user->getId() === $this->getId();
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id'        => $this->getId(),
@@ -372,9 +374,9 @@ class Usuario implements
         ];
     }
 
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize([
+        return [
             $this->id,
             $this->login,
             $this->nome,
@@ -382,10 +384,11 @@ class Usuario implements
             $this->senha,
             $this->salt,
             $this->ativo,
-        ]);
+        ];
     }
 
-    public function unserialize($serialized)
+    /** @param array<mixed> $serialized */
+    public function __unserialize(array $serialized)
     {
         list (
             $this->id,
@@ -395,7 +398,7 @@ class Usuario implements
             $this->senha,
             $this->salt,
             $this->ativo,
-        ) = unserialize($serialized);
+        ) = $serialized;
     }
 
     public function __tostring()

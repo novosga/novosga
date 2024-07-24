@@ -29,14 +29,14 @@ use Novosga\Entity\UnidadeInterface;
 class Contador implements ContadorInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Unidade::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Unidade $unidade;
+    private ?UnidadeInterface $unidade;
 
     #[ORM\Id]
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Servico::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Servico $servico;
+    private ?ServicoInterface $servico;
 
     #[ORM\Column(nullable: true)]
     private ?int $numero;
@@ -77,7 +77,8 @@ class Contador implements ContadorInterface
         return $this;
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'numero'  => $this->getNumero(),

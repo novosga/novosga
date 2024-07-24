@@ -105,7 +105,8 @@ class Departamento implements TimestampableEntityInterface, DepartamentoInterfac
         return $this->getNome();
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id'        => $this->getId(),

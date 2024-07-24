@@ -46,6 +46,7 @@ class Perfil implements TimestampableEntityInterface, PerfilInterface
     #[ORM\Column(length: 150)]
     private ?string $descricao;
 
+    /** @var string[] */
     #[ORM\Column(type: Types::JSON, nullable: true)]
     private array $modulos = [];
 
@@ -107,7 +108,8 @@ class Perfil implements TimestampableEntityInterface, PerfilInterface
         return $this->nome;
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id'        => $this->getId(),

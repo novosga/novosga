@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\ServicoInterface;
+use Novosga\Entity\ServicoUnidadeInterface;
 
 /**
  * Servico
@@ -33,7 +34,7 @@ use Novosga\Entity\ServicoInterface;
     ServicoListener::class,
 ])]
 #[ORM\Table(name: 'servicos')]
-class Servico implements TimestampableEntityInterface, ServicoInterface
+class Servico implements TimestampableEntityInterface, SoftDeletableEntityInterface, ServicoInterface
 {
     use TimestampableEntityTrait;
     use SoftDeletableEntityTrait;
@@ -43,7 +44,7 @@ class Servico implements TimestampableEntityInterface, ServicoInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\SequenceGenerator(sequenceName: "servicos_id_seq", allocationSize: 1, initialValue: 1)]
     protected ?int $id = null;
-    
+
     #[ORM\Column(length: 50)]
     private ?string $nome = null;
 
@@ -56,15 +57,15 @@ class Servico implements TimestampableEntityInterface, ServicoInterface
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $peso = null;
 
-    #[ORM\ManyToOne(inversedBy: 'subServicos')]
+    #[ORM\ManyToOne(targetEntity: Servico::class, inversedBy: 'subServicos')]
     #[ORM\JoinColumn(name: 'macro_id')]
-    private ?Servico $mestre = null;
+    private ?ServicoInterface $mestre = null;
 
-    /** @var Collection<int,Servico> */
+    /** @var Collection<int,ServicoInterface> */
     #[ORM\OneToMany(targetEntity: Servico::class, mappedBy: 'mestre')]
     private Collection $subServicos;
 
-    /** @var Collection<int,ServicoUnidade> */
+    /** @var Collection<int,ServicoUnidadeInterface> */
     #[ORM\OneToMany(targetEntity: ServicoUnidade::class, mappedBy: 'servico')]
     private Collection $servicosUnidade;
 
@@ -73,7 +74,7 @@ class Servico implements TimestampableEntityInterface, ServicoInterface
         $this->subServicos = new ArrayCollection();
         $this->servicosUnidade = new ArrayCollection();
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -82,7 +83,7 @@ class Servico implements TimestampableEntityInterface, ServicoInterface
     public function setId(?int $id): static
     {
         $this->id = $id;
-        
+
         return $this;
     }
 
@@ -180,7 +181,8 @@ class Servico implements TimestampableEntityInterface, ServicoInterface
         return $this->nome;
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id'        => $this->getId(),

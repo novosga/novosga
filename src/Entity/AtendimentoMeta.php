@@ -15,12 +15,13 @@ namespace App\Entity;
 
 use App\Repository\AtendimentoMetadataRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Novosga\Entity\AtendimentoInterface;
 use Novosga\Entity\EntityMetadataInterface;
 
 /**
  * AtendimentoMeta.
  *
- * @implements EntityMetadataInterface<Atendimento>
+ * @implements EntityMetadataInterface<AtendimentoInterface>
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
@@ -29,8 +30,9 @@ use Novosga\Entity\EntityMetadataInterface;
 class AtendimentoMeta extends AbstractMetadata implements EntityMetadataInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne]
-    protected ?Atendimento $entity = null;
+    #[ORM\ManyToOne(targetEntity: Atendimento::class)]
+    #[ORM\JoinColumn(name: 'atendimento_id', nullable: false)]
+    protected ?AtendimentoInterface $entity = null;
 
     public function setEntity($entity): static
     {

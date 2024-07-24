@@ -25,10 +25,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PrioridadeType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $data = $options['data'];
@@ -61,9 +57,7 @@ class PrioridadeType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

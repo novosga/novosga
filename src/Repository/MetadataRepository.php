@@ -46,26 +46,26 @@ class MetadataRepository extends ServiceEntityRepository implements MetadataRepo
             'name'      => $name
         ]);
     }
-    
+
     /** @return T */
-    public function set(string $namespace, string $name, mixed $value): MetadataInterface
+    public function set(string $namespace, string $name, mixed $value = null): MetadataInterface
     {
         $em = $this->getEntityManager();
         $metada = $this->get($namespace, $name);
-        
+
         if ($metada instanceof Metadata) {
             $metada->setValue($value);
         } else {
             $class  = $this->getEntityName();
-            $metada = new $class;
+            $metada = new $class();
             $metada->setNamespace($namespace);
             $metada->setName($name);
             $metada->setValue($value);
         }
-        
+
         $em->persist($metada);
         $em->flush();
-        
+
         return $metada;
     }
 }

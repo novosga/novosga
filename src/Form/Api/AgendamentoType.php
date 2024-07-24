@@ -28,10 +28,6 @@ use Symfony\Component\Validator\Constraints\Valid;
 
 class AgendamentoType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -69,9 +65,7 @@ class AgendamentoType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
@@ -81,6 +75,6 @@ class AgendamentoType extends AbstractType
 
     public function getBlockPrefix()
     {
-        return null;
+        return '';
     }
 }

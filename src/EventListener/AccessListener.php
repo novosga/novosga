@@ -26,25 +26,22 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class AccessListener extends AppListener
 {
-    private $authChecker;
-    
-    public function __construct(AuthorizationCheckerInterface $authChecker)
-    {
-        $this->authChecker = $authChecker;
+    public function __construct(
+        private readonly AuthorizationCheckerInterface $authChecker,
+    ) {
     }
-    
-    public function onKernelRequest(RequestEvent $event)
+
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
             return;
         }
-        
-        $request  = $event->getRequest();
-        $isApi    = $this->isApiRequest($request);
-        $isAdmin  = $this->isAdminRequest($request);
+
+        $request = $event->getRequest();
+        $isApi = $this->isApiRequest($request);
+        $isAdmin = $this->isAdminRequest($request);
         $isModule = $this->isModuleRequest($request);
-        
-        
+
         if ($isApi) {
             return;
         }

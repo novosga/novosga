@@ -16,11 +16,12 @@ namespace App\Entity;
 use App\Repository\ClienteMetadataRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\EntityMetadataInterface;
+use Novosga\Entity\ClienteInterface;
 
 /**
  * ClienteMeta
  *
- * @implements EntityMetadataInterface<Cliente>
+ * @implements EntityMetadataInterface<ClienteInterface>
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
@@ -29,17 +30,17 @@ use Novosga\Entity\EntityMetadataInterface;
 class ClienteMeta extends AbstractMetadata implements EntityMetadataInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Cliente::class)]
     #[ORM\JoinColumn(name: 'cliente_id', nullable: false)]
-    protected ?Cliente $entity = null;
-    
+    protected ?ClienteInterface $entity = null;
+
     public function setEntity($entity): static
     {
         $this->entity = $entity;
-        
+
         return $this;
     }
-    
+
     public function getEntity()
     {
         return $this->entity;

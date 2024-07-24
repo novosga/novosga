@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Infrastructure\StorageInterface;
+use Novosga\Infrastructure\StorageInterface;
 
 /**
  * StorageAwareTrait
@@ -22,24 +22,16 @@ use App\Infrastructure\StorageInterface;
  */
 trait StorageAwareTrait
 {
-    /**
-     * @var StorageInterface
-     */
-    private $storage;
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function setStorage(StorageInterface $storage)
+    private ?StorageInterface $storage = null;
+
+    public function setStorage(?StorageInterface $storage): static
     {
         $this->storage = $storage;
+
         return $this;
     }
-        
-    /**
-     * {@inheritdoc}
-     */
-    public function getStorage(): StorageInterface
+
+    public function getStorage(): ?StorageInterface
     {
         return $this->storage;
     }

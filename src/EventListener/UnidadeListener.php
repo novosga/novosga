@@ -27,8 +27,8 @@ use Doctrine\ORM\Event\PreRemoveEventArgs;
  */
 #[AsEntityListener]
 class UnidadeListener
-{   
-    public function preRemove(Unidade $unidade, PreRemoveEventArgs $args)
+{
+    public function preRemove(Unidade $unidade, PreRemoveEventArgs $args): void
     {
         /** @var EntityManagerInterface */
         $em = $args->getObjectManager();

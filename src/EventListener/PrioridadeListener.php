@@ -25,8 +25,8 @@ use Doctrine\ORM\Event\PreRemoveEventArgs;
  */
 #[AsEntityListener]
 class PrioridadeListener
-{   
-    public function preRemove(Prioridade $prioridade, PreRemoveEventArgs $args)
+{
+    public function preRemove(Prioridade $prioridade, PreRemoveEventArgs $args): void
     {
         if ($prioridade->getId() === 1) {
             throw new Exception('Não pode remover a prioridade inicial');

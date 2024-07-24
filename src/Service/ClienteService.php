@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Cliente;
+use App\Repository\ClienteMetadataRepository;
 use App\Repository\ClienteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Novosga\Entity\ClienteInterface;
+use Novosga\Entity\EntityMetadataInterface;
 use Novosga\Service\ClienteServiceInterface;
 
 class ClienteService implements ClienteServiceInterface
@@ -24,6 +26,7 @@ class ClienteService implements ClienteServiceInterface
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly ClienteRepository $clienteRepository,
+        private readonly ClienteMetadataRepository $clienteMetadataRepository,
     ) {
     }
 
@@ -43,5 +46,17 @@ class ClienteService implements ClienteServiceInterface
         $this->em->flush();
 
         return $cliente;
+    }
+
+    /** {@inheritDoc} */
+    public function meta(ClienteInterface $cliente, string $name, mixed $value = null): ?EntityMetadataInterface
+    {
+        if ($value === null) {
+            $metadata = $this->clienteMetadataRepository->get($cliente, self::ATTR_NAMESPACE, $name);
+        } else {
+            $metadata = $this->clienteMetadataRepository->set($cliente, self::ATTR_NAMESPACE, $name, $value);
+        }
+
+        return $metadata;
     }
 }

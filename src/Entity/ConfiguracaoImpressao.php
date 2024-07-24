@@ -39,7 +39,7 @@ class ConfiguracaoImpressao implements ConfiguracaoImpressaoInterface
 
     #[ORM\Column]
     private ?bool $exibirPrioridade = null;
-    
+
     public function __construct()
     {
         $this->cabecalho  = 'Novo SGA';
@@ -131,11 +131,12 @@ class ConfiguracaoImpressao implements ConfiguracaoImpressaoInterface
     public function setExibirPrioridade(?bool $exibirPrioridade): static
     {
         $this->exibirPrioridade = $exibirPrioridade;
-        
+
         return $this;
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'cabecalho'             => $this->getCabecalho(),

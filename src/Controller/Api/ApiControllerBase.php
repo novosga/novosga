@@ -40,10 +40,11 @@ abstract class ApiControllerBase extends AbstractController
         return $this->translator;
     }
 
+    /** @param array<string,mixed> $params */
     protected function translate(string $id, array $params = []): string
     {
         $translated = $this->getTranslator()->trans($id, $params);
-        
+
         return $translated;
     }
 }

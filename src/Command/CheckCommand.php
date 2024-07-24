@@ -29,7 +29,7 @@ class CheckCommand extends Command
 {
     use FormattedOutputTrait;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Check NovoSGA installation.')
@@ -42,11 +42,11 @@ class CheckCommand extends Command
 
         if ($showHeader) {
             $header = [
-                "*******************\n",
-                "Checking NovoSGA installation\n",
+                "*******************",
+                "Checking NovoSGA installation",
                 "*******************",
             ];
-            $this->writef($output, $header, 'info');
+            $this->writef($output, join('\n', $header), 'info');
         }
 
         $vars = [
@@ -60,10 +60,10 @@ class CheckCommand extends Command
             }
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 
-    private function checkEnvVar(OutputInterface $output, $varname): bool
+    private function checkEnvVar(OutputInterface $output, string $varname): bool
     {
         $var = getenv($varname);
 
@@ -75,7 +75,7 @@ class CheckCommand extends Command
             ];
 
             $this->writef($output, $error, 'error');
-            $this->writef($output, $instruction, 'comment');
+            $this->writef($output, join('\n', $instruction), 'comment');
 
             return false;
         }

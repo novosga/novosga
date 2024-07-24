@@ -31,7 +31,7 @@ use Novosga\Entity\PrioridadeInterface;
     TimestampableEntityListener::class,
     PrioridadeListener::class,
 ])]
-class Prioridade implements TimestampableEntityInterface, PrioridadeInterface
+class Prioridade implements TimestampableEntityInterface, SoftDeletableEntityInterface, PrioridadeInterface
 {
     use TimestampableEntityTrait;
     use SoftDeletableEntityTrait;
@@ -56,7 +56,7 @@ class Prioridade implements TimestampableEntityInterface, PrioridadeInterface
 
     #[ORM\Column]
     private bool $ativo = true;
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -134,7 +134,8 @@ class Prioridade implements TimestampableEntityInterface, PrioridadeInterface
         return $this->getNome();
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id'        => $this->getId(),

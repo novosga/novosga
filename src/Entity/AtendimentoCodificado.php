@@ -27,25 +27,8 @@ use Novosga\Entity\AtendimentoInterface;
 class AtendimentoCodificado extends AbstractAtendimentoCodificado
 {
     #[ORM\Id]
-    #[ORM\Column]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    #[ORM\SequenceGenerator(sequenceName: "atendimentos_id_seq", allocationSize: 1, initialValue: 1)]
-    protected ?int $id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'codificados')]
-    private ?Atendimento $atendimento = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId(?int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
+    #[ORM\ManyToOne(targetEntity: Atendimento::class, inversedBy: 'codificados')]
+    private ?AtendimentoInterface $atendimento = null;
 
     public function getAtendimento(): ?AtendimentoInterface
     {

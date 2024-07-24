@@ -17,7 +17,6 @@ use App\Kernel;
 use App\Service\ModuleService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -25,12 +24,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * ModulosController
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
- *
  */
-#[Route("/admin/modulos", name: 'admin_modulos_')]
+#[Route('/admin/modulos', name: 'admin_modulos_')]
 class ModulosController extends AbstractController
 {
-    #[Route("/", name: "index")]
+    #[Route('/', name: 'index')]
     public function index(
         Kernel $kernel,
         ModuleService $service,
@@ -44,7 +42,7 @@ class ModulosController extends AbstractController
                 'name' => $name,
             ];
         }, $service->filterModules($kernel->getBundles()));
-        
+
         return $this->render('admin/modulos/index.html.twig', [
             'tab' => 'modulos',
             'modules' => $modules,

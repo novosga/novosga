@@ -17,6 +17,7 @@ use App\Repository\AtendimentoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Novosga\Entity\AtendimentoCodificadoInterface;
 use Novosga\Entity\AtendimentoInterface;
 
 /**
@@ -35,11 +36,11 @@ class Atendimento extends AbstractAtendimento
     #[ORM\SequenceGenerator(sequenceName: "atendimentos_id_seq", allocationSize: 1, initialValue: 1)]
     protected ?int $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Atendimento::class)]
     #[ORM\JoinColumn(name: 'atendimento_id')]
-    protected ?Atendimento $pai = null;
+    protected ?AtendimentoInterface $pai = null;
 
-    /** @var Collection<int,AtendimentoCodificado> */
+    /** @var Collection<int,AtendimentoCodificadoInterface> */
     #[ORM\OneToMany(targetEntity: AtendimentoCodificado::class, mappedBy: 'atendimento')]
     private Collection $codificados;
 
@@ -90,11 +91,11 @@ class Atendimento extends AbstractAtendimento
         return sha1("{$this->getId()}:{$this->getDataChegada()->getTimestamp()}");
     }
 
-    public function jsonSerialize($minimal = false)
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
-        $arr = parent::jsonSerialize($minimal);
-        $arr['hash'] = $this->hash();
-
-        return $arr;
+        return array_merge(parent::jsonSerialize(), [
+            'hash' => $this->hash(),
+        ]);
     }
 }

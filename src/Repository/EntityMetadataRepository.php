@@ -14,12 +14,11 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use App\Entity\EntityMetadata;
 use Novosga\Entity\EntityMetadataInterface;
 use Novosga\Repository\EntityMetadataRepositoryInterface;
 
 /**
- * @template T of EntityMetadata
+ * @template T of EntityMetadataInterface
  * @template E
  * @extends ServiceEntityRepository<T>
  * @implements EntityMetadataRepositoryInterface<T,E>
@@ -40,7 +39,7 @@ abstract class EntityMetadataRepository extends ServiceEntityRepository implemen
         ]);
     }
 
-    /** 
+    /**
      * @param E $entity
      * @return ?T
      */
@@ -49,36 +48,36 @@ abstract class EntityMetadataRepository extends ServiceEntityRepository implemen
         return $this->findOneBy([
             'entity' => $entity,
             'namespace' => $namespace,
-            'name' => $name
+            'name' => $name,
         ]);
     }
-    
+
     /**
      * @param E $entity
      * @return T
      */
-    public function set($entity, string $namespace, string $name, mixed $value)
+    public function set($entity, string $namespace, string $name, mixed $value = null)
     {
         $em = $this->getEntityManager();
         $metada = $this->get($entity, $namespace, $name);
-        
+
         if ($metada instanceof EntityMetadataInterface) {
             $metada->setValue($value);
         } else {
             $metada = $this->get($entity, $namespace, $name);
             if (!$metada) {
                 $class = $this->getEntityName();
-                $metada = new $class;
+                $metada = new $class();
                 $metada->setEntity($entity);
                 $metada->setNamespace($namespace);
                 $metada->setName($name);
             }
             $metada->setValue($value);
         }
-        
+
         $em->persist($metada);
         $em->flush();
-        
+
         return $metada;
     }
 

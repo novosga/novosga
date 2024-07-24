@@ -13,13 +13,15 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Form\PerfilType as EntityType;
-use App\Entity\Perfil as Entity;
+use App\Entity\Perfil;
+use App\Form\PerfilType;
 use Doctrine\ORM\EntityManagerInterface;
+use Novosga\Module\ModuleInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -27,7 +29,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-#[Route("/admin/perfis", name: "admin_perfis_")]
+#[Route('/admin/perfis', name: 'admin_perfis_')]
 class PerfisController extends AbstractController
 {
     public function __construct(
@@ -35,14 +37,14 @@ class PerfisController extends AbstractController
     ) {
     }
 
-    #[Route("/", name: "index")]
+    #[Route('/', name: 'index')]
     public function index(Request $request): Response
     {
         $perfis = $this
             ->em
             ->createQueryBuilder()
             ->select('e')
-            ->from(Entity::class, 'e')
+            ->from(Perfil::class, 'e')
             ->getQuery()
             ->getResult();
 
@@ -52,22 +54,24 @@ class PerfisController extends AbstractController
         ]);
     }
 
-    #[Route("/new", name: "new", methods: ["GET", "POST"])]
-    #[Route("/{id}", name: "edit", methods: ["GET", "POST"])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function form(
         Request $request,
         TranslatorInterface $translator,
-        Entity $entity = null
+        Perfil $entity = null,
+        KernelInterface $kernel,
     ): Response {
         if (!$entity) {
-            $entity = new Entity;
+            $entity = new Perfil();
         }
 
-        // TODO
-        $modulos = [];
+        $modulos = array_filter($kernel->getBundles(), function ($module) {
+            return ($module instanceof ModuleInterface);
+        });
 
         $form = $this
-            ->createForm(EntityType::class, $entity, [
+            ->createForm(PerfilType::class, $entity, [
                 'modulos' => $modulos,
             ])
             ->handleRequest($request);
@@ -88,8 +92,8 @@ class PerfisController extends AbstractController
         ]);
     }
 
-    #[Route("/{id}", name: "delete", methods: ["DELETE"])]
-    public function delete(Request $request, TranslatorInterface $translator, Entity $perfil): Response
+    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
+    public function delete(Request $request, TranslatorInterface $translator, Perfil $perfil): Response
     {
         try {
             $this->em->remove($perfil);

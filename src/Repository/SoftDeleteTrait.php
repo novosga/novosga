@@ -20,8 +20,12 @@ namespace App\Repository;
  */
 trait SoftDeleteTrait
 {
-    /** @return T[] */
-    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    /**
+     * @param array<string,mixed> $criteria
+     * @param array<string,string> $orderBy
+     * @return T[]
+     */
+    public function findBy(array $criteria, array $orderBy = null, int $limit = null, int $offset = null): array
     {
         $qb = $this
             ->createQueryBuilder('e')
@@ -42,7 +46,7 @@ trait SoftDeleteTrait
         }
 
         $query = $qb->getQuery();
-        
+
         if ($limit !== null) {
             $query->setMaxResults($limit);
         }

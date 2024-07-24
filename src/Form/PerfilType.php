@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
+
 use function ksort;
 
 class PerfilType extends AbstractType
@@ -31,17 +32,12 @@ class PerfilType extends AbstractType
     ) {
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $modulos = [];
-        
         foreach ($options['modulos'] as $modulo) {
             if ($modulo instanceof ModuleInterface) {
-                $key    = $modulo->getKeyName();
+                $key = $modulo->getKeyName();
                 $name   = $this
                     ->translator
                     ->trans(
@@ -57,7 +53,7 @@ class PerfilType extends AbstractType
         }
 
         ksort($modulos);
-        
+
         $builder
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
@@ -77,9 +73,7 @@ class PerfilType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver

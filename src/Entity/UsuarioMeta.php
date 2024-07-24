@@ -16,11 +16,13 @@ namespace App\Entity;
 use App\Repository\UsuarioMetadataRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\EntityMetadataInterface;
+use Novosga\Entity\UsuarioInterface;
 
 /**
  * Usuario metadata.
  *
- * @implements EntityMetadataInterface<Usuario>
+ * @implements EntityMetadataInterface<UsuarioInterface>
+ *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 #[ORM\Entity(repositoryClass: UsuarioMetadataRepository::class)]
@@ -28,17 +30,17 @@ use Novosga\Entity\EntityMetadataInterface;
 class UsuarioMeta extends AbstractMetadata implements EntityMetadataInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Usuario::class)]
     #[ORM\JoinColumn(name: 'usuario_id', nullable: false)]
-    protected ?Usuario $entity = null;
-    
+    protected ?UsuarioInterface $entity = null;
+
     public function setEntity($entity): static
     {
         $this->entity = $entity;
-        
+
         return $this;
     }
-    
+
     public function getEntity()
     {
         return $this->entity;

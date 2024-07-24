@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class DefaultController extends AbstractController
 {
-    #[Route("/api")]
+    #[Route('/api')]
     public function index(ParameterBagInterface $params): Response
     {
         return $this->json([

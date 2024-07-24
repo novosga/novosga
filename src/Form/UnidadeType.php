@@ -23,10 +23,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UnidadeType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -46,9 +42,7 @@ class UnidadeType extends AbstractType
         ;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(

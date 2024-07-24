@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace App\Configuration;
 
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\Unidade;
-use App\Entity\Usuario;
 use Doctrine\ORM\EntityManagerInterface;
+use Novosga\Entity\UnidadeInterface;
+use Novosga\Entity\UsuarioInterface;
 
 /**
  * OrderingParameter
@@ -25,17 +25,17 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class OrderingParameter implements ParameterInterface
 {
-    private ?Unidade $unidade = null;
-    private ?Usuario $usuario = null;
+    private ?UnidadeInterface $unidade = null;
+    private ?UsuarioInterface $usuario = null;
     private ?EntityManagerInterface $em = null;
     private ?QueryBuilder $queryBuilder = null;
-    
-    public function getUnidade(): Unidade
+
+    public function getUnidade(): UnidadeInterface
     {
         return $this->unidade;
     }
 
-    public function getUsuario(): ?Usuario
+    public function getUsuario(): ?UsuarioInterface
     {
         return $this->usuario;
     }
@@ -50,14 +50,14 @@ class OrderingParameter implements ParameterInterface
         return $this->queryBuilder;
     }
 
-    public function setUnidade(Unidade $unidade): static
+    public function setUnidade(UnidadeInterface $unidade): static
     {
         $this->unidade = $unidade;
 
         return $this;
     }
 
-    public function setUsuario(?Usuario $usuario): static
+    public function setUsuario(?UsuarioInterface $usuario): static
     {
         $this->usuario = $usuario;
 

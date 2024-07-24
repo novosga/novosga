@@ -29,32 +29,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class JsonExceptionListener extends AppListener
 {
-    /**
-     * @var KernelInterface
-     */
-    private $kernel;
-    
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    
-    public function __construct(KernelInterface $kernel, TranslatorInterface $translator)
-    {
-        $this->kernel     = $kernel;
-        $this->translator = $translator;
+    public function __construct(
+        private readonly KernelInterface $kernel,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
-    
-    public function onKernelException(ExceptionEvent $event)
+
+    public function onKernelException(ExceptionEvent $event): void
     {
         if (KernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
             return;
         }
-        
+
         $exception = $event->getThrowable();
-        $request   = $event->getRequest();
-        $debug     = $this->kernel->getEnvironment() === 'dev';
-        
+        $request = $event->getRequest();
+        $debug = $this->kernel->getEnvironment() === 'dev';
+
         $error = $exception->getMessage();
         $detail = null;
         $statusCode = match (true) {
@@ -63,7 +53,7 @@ class JsonExceptionListener extends AppListener
             $exception instanceof AccessDeniedException => 403,
             default => 500,
         };
-        
+
         if ($debug) {
             $json['detail'] = $exception->getTraceAsString();
         }
@@ -74,16 +64,16 @@ class JsonExceptionListener extends AppListener
                 'error' => $error,
                 'detail' => $detail,
             ], $statusCode));
-        } else if ($request->isXmlHttpRequest()) {
+        } elseif ($request->isXmlHttpRequest()) {
             $envelope = new Envelope();
             $envelope->exception($exception, $debug);
-            
+
             if ($exception instanceof AuthenticationException) {
                 $error = $this->translator->trans('session.invalid');
                 $envelope->setSessionStatus('inactive');
                 $envelope->setMessage($error);
             }
-            
+
             $response = new JsonResponse($envelope, $statusCode);
             $event->setResponse($response);
         }

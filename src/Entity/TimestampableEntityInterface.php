@@ -7,7 +7,7 @@ namespace App\Entity;
 use DateTimeImmutable;
 
 interface TimestampableEntityInterface
-{   
+{
     public function getCreatedAt(): ?DateTimeImmutable;
     public function setCreatedAt(?DateTimeImmutable $createdAt): static;
 

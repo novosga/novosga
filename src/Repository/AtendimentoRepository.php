@@ -22,7 +22,7 @@ use Novosga\Entity\UnidadeInterface;
 use Novosga\Repository\AtendimentoRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Atendimento>
+ * @extends ServiceEntityRepository<AtendimentoInterface>
  *
  * @method Atendimento|null find($id, $lockMode = null, $lockVersion = null)
  * @method Atendimento|null findOneBy(array $criteria, array $orderBy = null)
@@ -38,10 +38,8 @@ class AtendimentoRepository extends ServiceEntityRepository implements Atendimen
         parent::__construct($registry, Atendimento::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function countByServicos(UnidadeInterface $unidade, array $servicos, $status = null): array
+    /** {@inheritdoc} */
+    public function countByServicos(UnidadeInterface $unidade, array $servicos, ?string $status = null): array
     {
         $qb = $this
             ->getEntityManager()
@@ -52,29 +50,27 @@ class AtendimentoRepository extends ServiceEntityRepository implements Atendimen
             ->where('e.unidade = :unidade')
             ->groupBy('s.id')
             ->setParameter('unidade', $unidade);
-        
+
         if (count($servicos)) {
             $qb
                 ->andWhere('e.servico IN (:servicos)')
                 ->setParameter('servicos', $servicos);
         }
-        
+
         if ($status) {
             $qb
                 ->andWhere('e.status = :status')
                 ->setParameter('status', $status);
         }
-        
+
         $rs = $qb
             ->getQuery()
             ->getArrayResult();
-        
+
         return $rs;
     }
-    
-    /**
-     * {@inheritdoc}
-     */
+
+    /** {@inheritdoc} */
     public function getUltimo(UnidadeInterface $unidade, ServicoInterface $servico = null): ?AtendimentoInterface
     {
         $qb = $this
@@ -85,18 +81,18 @@ class AtendimentoRepository extends ServiceEntityRepository implements Atendimen
             ->where('e.unidade = :unidade')
             ->orderBy('e.id', 'DESC')
             ->setParameter('unidade', $unidade->getId());
-        
+
         if ($servico) {
             $qb
                 ->andWhere('e.servico = :servico')
                 ->setParameter('servico', $servico->getId());
         }
-        
+
         $atendimento = $qb
             ->getQuery()
             ->setMaxResults(1)
             ->getOneOrNullResult();
-        
+
         return $atendimento;
     }
 }

@@ -31,8 +31,8 @@ class ViewAtendimentoCodificado extends AbstractAtendimentoCodificado
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'codificados')]
-    private ?ViewAtendimento $atendimento = null;
+    #[ORM\ManyToOne(targetEntity: ViewAtendimento::class, inversedBy: 'codificados')]
+    private ?AtendimentoInterface $atendimento = null;
 
     public function getId(): ?int
     {

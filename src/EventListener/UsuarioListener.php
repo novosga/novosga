@@ -25,8 +25,8 @@ use Doctrine\ORM\Event\PreRemoveEventArgs;
  */
 #[AsEntityListener]
 class UsuarioListener
-{   
-    public function preRemove(Usuario $usuario, PreRemoveEventArgs $args)
+{
+    public function preRemove(Usuario $usuario, PreRemoveEventArgs $args): void
     {
         if ($usuario->isAdmin()) {
             throw new Exception('Não pode remover um usuário administrador.');

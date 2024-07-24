@@ -27,23 +27,8 @@ use Novosga\Entity\AtendimentoInterface;
 class AtendimentoCodificadoHistorico extends AbstractAtendimentoCodificado
 {
     #[ORM\Id]
-    #[ORM\Column]
-    protected ?int $id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'codificados')]
-    private ?AtendimentoHistorico $atendimento;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId(?int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
+    #[ORM\ManyToOne(targetEntity: AtendimentoHistorico::class, inversedBy: 'codificados')]
+    private ?AtendimentoInterface $atendimento;
 
     public function getAtendimento(): ?AtendimentoInterface
     {

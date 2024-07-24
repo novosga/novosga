@@ -26,7 +26,7 @@ class Endereco implements EnderecoInterface
 {
     #[ORM\Column(length: 2, nullable: true)]
     private ?string $pais = null;
- 
+
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $cidade = null;
 
@@ -129,7 +129,8 @@ class Endereco implements EnderecoInterface
         return $this;
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'pais' => $this->getPais(),

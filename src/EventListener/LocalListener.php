@@ -27,8 +27,8 @@ use Doctrine\ORM\Event\PreRemoveEventArgs;
  */
 #[AsEntityListener]
 class LocalListener
-{    
-    public function preRemove(Local $local, PreRemoveEventArgs $args)
+{
+    public function preRemove(Local $local, PreRemoveEventArgs $args): void
     {
         /** @var EntityManagerInterface */
         $em = $args->getObjectManager();
@@ -41,7 +41,7 @@ class LocalListener
             ->setParameter('local', $local)
             ->getQuery()
             ->getSingleScalarResult();
-        
+
         if ($total > 0) {
             throw new Exception('Não é possível remover o local porque possui serviços habilitados.');
         }

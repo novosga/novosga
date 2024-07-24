@@ -16,10 +16,11 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Departamento;
+use Novosga\Entity\DepartamentoInterface;
 use Novosga\Repository\DepartamentoRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Departamento>
+ * @extends ServiceEntityRepository<DepartamentoInterface>
  *
  * @method Departamento|null find($id, $lockMode = null, $lockVersion = null)
  * @method Departamento|null findOneBy(array $criteria, array $orderBy = null)

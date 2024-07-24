@@ -29,56 +29,43 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class SessionListener extends AppListener
 {
-    /**
-     * @var TokenStorageInterface
-     */
-    private $tokenStorage;
-    
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-    
-    public function __construct(TokenStorageInterface $tokenStorage, TranslatorInterface $translator)
-    {
-        $this->tokenStorage = $tokenStorage;
-        $this->translator   = $translator;
+    public function __construct(
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
             return;
         }
 
-        $token   = $this->tokenStorage->getToken();
+        $token = $this->tokenStorage->getToken();
         $request = $event->getRequest();
-        $session = $request->getSession();
 
-        if (!$this->isApiRequest($request) && $token) {
-            $user      = $token->getUser();
-            $sessionId = $session ? $session->getId() : '-';
+        if ($this->isApiRequest($request) || $this->isLoginRequest($request) || !$token) {
+            return;
+        }
 
-            if ($user instanceof Usuario && $user->getSessionId() !== $sessionId) {
-                $request = $event->getRequest();
+        $user = $token->getUser();
+        $sessionId = $request->getSession()->getId();
 
-                // TODO: after upgrading to SF7.1, session ID is being updated during login process
-                return;
+        if ($user instanceof Usuario && $user->getSessionId() !== $sessionId) {
+            $request = $event->getRequest();
+            if ($request->isXmlHttpRequest()) {
+                $error = $this->translator->trans('session.invalid');
+                $envelope = new Envelope();
+                $envelope->setSuccess(false);
+                $envelope->setSessionStatus('inactive');
+                $envelope->setMessage($error);
 
-                if ($request->isXmlHttpRequest()) {
-                    $error    = $this->translator->trans('session.invalid');
-                    $envelope = new Envelope();
-                    $envelope->setSuccess(false);
-                    $envelope->setSessionStatus('inactive');
-                    $envelope->setMessage($error);
-
-                    $response = new JsonResponse($envelope);
-                } else {
-                    $url = $request->getBaseUrl() . '/logout';
-                    $response = new RedirectResponse($url);
-                }
-                $event->setResponse($response);
+                $response = new JsonResponse($envelope);
+            } else {
+                $url = $request->getBaseUrl() . '/logout';
+                $response = new RedirectResponse($url);
             }
+            $event->setResponse($response);
         }
     }
 }

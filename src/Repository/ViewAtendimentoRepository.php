@@ -16,10 +16,11 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\ViewAtendimento;
+use Novosga\Entity\AtendimentoInterface;
 use Novosga\Repository\ViewAtendimentoRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<ViewAtendimento>
+ * @extends ServiceEntityRepository<AtendimentoInterface>
  *
  * @method ViewAtendimento|null find($id, $lockMode = null, $lockVersion = null)
  * @method ViewAtendimento|null findOneBy(array $criteria, array $orderBy = null)

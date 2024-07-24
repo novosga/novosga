@@ -16,7 +16,6 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\AtendimentoCodificadoInterface;
-use Novosga\Entity\AtendimentoInterface;
 use Novosga\Entity\ServicoInterface;
 
 /**
@@ -28,8 +27,9 @@ use Novosga\Entity\ServicoInterface;
 #[ORM\MappedSuperclass]
 abstract class AbstractAtendimentoCodificado implements AtendimentoCodificadoInterface
 {
-    #[ORM\ManyToOne]
-    protected ?Servico $servico = null;
+    #[ORM\Id]
+    #[ORM\ManyToOne(targetEntity: Servico::class)]
+    protected ?ServicoInterface $servico = null;
 
     #[ORM\Column(name: 'valor_peso', type: Types::SMALLINT)]
     protected ?int $peso;

@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Entity\OAuthAccessToken;
-use App\Entity\OAuthClient;
-use App\Entity\OAuthRefreshToken;
 use Novosga\Http\Envelope;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Manager\ClientManagerInterface;
@@ -31,10 +28,10 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-#[Route("/admin/api", name: "admin_api_")]
+#[Route('/admin/api', name: 'admin_api_')]
 class ApiController extends AbstractController
 {
-    #[Route("/", name: "index")]
+    #[Route('/', name: 'index')]
     public function index(): Response
     {
         return $this->render('admin/api/index.html.twig', [
@@ -42,7 +39,7 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route("/oauth-clients", name: "clients", methods: ["GET"])]
+    #[Route('/oauth-clients', name: 'oauth-clients', methods: ['GET'])]
     public function oauthClients(EntityManagerInterface $em, ClientManagerInterface $clientManager): Response
     {
         $envelope = new Envelope();
@@ -54,18 +51,18 @@ class ApiController extends AbstractController
         return $this->json($envelope);
     }
 
-    #[Route("/oauth-clients", name: "newclient", methods: ["POST"])]
+    #[Route('/oauth-clients', name: 'newclient', methods: ['POST'])]
     public function newOauthClient(Request $request, ClientManagerInterface $clientManager): Response
     {
         $envelope = new Envelope();
 
         $json = json_decode($request->getContent());
         $description = isset($json->description) ? trim($json->description) : '';
-        
+
         if (strlen($description) > 30) {
             $description = substr($description, 0, 30);
         }
-        
+
         $client = new Client(
             name: $description,
             identifier: hash('md5', random_bytes(16)),
@@ -80,7 +77,7 @@ class ApiController extends AbstractController
         return $this->json($envelope);
     }
 
-    #[Route("/oauth-clients/{identifier}", name: "removeclient", methods: ["DELETE"])]
+    #[Route('/oauth-clients/{id}', name: 'removeclient', methods: ['DELETE'])]
     public function removeOauthClient(ClientManagerInterface $clientManager, string $identifier): Response
     {
         $envelope = new Envelope();

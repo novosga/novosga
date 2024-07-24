@@ -15,6 +15,7 @@ namespace App\Controller\Api\Actions;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * FindTrait
@@ -23,8 +24,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 trait FindTrait
 {
-    #[Route("", methods: ["GET"])]
-    public function doFind(Request $request)
+    #[Route('', methods: ['GET'])]
+    public function doFind(Request $request): Response
     {
         return $this->search($request);
     }

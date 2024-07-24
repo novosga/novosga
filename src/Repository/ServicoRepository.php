@@ -20,7 +20,7 @@ use Novosga\Entity\ServicoInterface;
 use Novosga\Repository\ServicoRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Servico>
+ * @extends ServiceEntityRepository<ServicoInterface>
  *
  * @method Servico|null find($id, $lockMode = null, $lockVersion = null)
  * @method Servico|null findOneBy(array $criteria, array $orderBy = null)
@@ -36,9 +36,7 @@ class ServicoRepository extends ServiceEntityRepository implements ServicoReposi
         parent::__construct($registry, Servico::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function getSubservicos(ServicoInterface $servico): array
     {
         $subservicos = $this

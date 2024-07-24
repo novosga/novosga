@@ -36,27 +36,27 @@ use Novosga\Entity\UsuarioInterface;
 #[ORM\MappedSuperclass]
 abstract class AbstractAtendimento implements AtendimentoInterface
 {
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Unidade::class)]
     #[ORM\JoinColumn(nullable: false)]
-    protected ?Unidade $unidade = null;
+    protected ?UnidadeInterface $unidade = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Servico::class)]
     #[ORM\JoinColumn(nullable: false)]
-    protected ?Servico $servico = null;
+    protected ?ServicoInterface $servico = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Prioridade::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Prioridade $prioridade = null;
+    private ?PrioridadeInterface $prioridade = null;
 
-    #[ORM\ManyToOne]
-    protected ?Usuario $usuario = null;
+    #[ORM\ManyToOne(targetEntity: Usuario::class)]
+    protected ?UsuarioInterface $usuario = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Usuario::class)]
     #[ORM\JoinColumn(name: 'usuario_tri_id', nullable: false)]
-    protected ?Usuario $usuarioTriagem = null;
+    protected ?UsuarioInterface $usuarioTriagem = null;
 
-    #[ORM\ManyToOne]
-    protected ?Local $local = null;
+    #[ORM\ManyToOne(targetEntity: Local::class)]
+    protected ?LocalInterface $local = null;
 
     #[ORM\Column(name: 'num_local', nullable: true)]
     protected ?int $numeroLocal = null;
@@ -84,7 +84,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
 
     #[ORM\Column(nullable: true)]
     private ?int $tempoAtendimento = null;
-    
+
     #[ORM\Column(nullable: true)]
     private ?int $tempoDeslocamento = null;
 
@@ -93,21 +93,21 @@ abstract class AbstractAtendimento implements AtendimentoInterface
 
     #[ORM\Column(length: 25, nullable: true)]
     protected ?string $resolucao = null;
-    
-    #[ORM\ManyToOne(cascade: ['persist'])]
-    protected ?Cliente $cliente = null;
-    
-    #[ORM\Embedded(columnPrefix: 'senha_')]
-    protected Senha $senha;
-    
+
+    #[ORM\ManyToOne(targetEntity: Cliente::class, cascade: ['persist'])]
+    protected ?ClienteInterface $cliente = null;
+
+    #[ORM\Embedded(class: Senha::class, columnPrefix: 'senha_')]
+    protected SenhaInterface $senha;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     protected ?string $observacao = null;
-    
+
     public function __construct()
     {
         $this->senha = new Senha();
     }
-    
+
     public function getUnidade(): ?UnidadeInterface
     {
         return $this->unidade;
@@ -179,7 +179,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
 
         return $this;
     }
-    
+
     public function getDataAgendamento(): ?DateTime
     {
         return $this->dataAgendamento;
@@ -188,7 +188,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     public function setDataAgendamento(?DateTime $dataAgendamento): static
     {
         $this->dataAgendamento = $dataAgendamento;
-        
+
         return $this;
     }
 
@@ -244,14 +244,14 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     {
         return $this->status;
     }
-    
+
     public function setStatus(?string $status): static
     {
         $this->status = $status;
 
         return $this;
     }
-    
+
     public function getResolucao(): ?string
     {
         return $this->resolucao;
@@ -260,10 +260,10 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     public function setResolucao(?string $resolucao): static
     {
         $this->resolucao = $resolucao;
-        
+
         return $this;
     }
-        
+
     public function setCliente(ClienteInterface $cliente): static
     {
         $this->cliente = $cliente;
@@ -287,7 +287,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
         if ($this->tempoEspera) {
             return $this->secondsToDateInterval($this->tempoEspera);
         }
-        
+
         $now = new DateTime();
         $interval = $now->diff($this->getDataChegada());
 
@@ -300,7 +300,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
 
         return $this;
     }
-    
+
     /**
      * Retorna o tempo de permanência do cliente na unidade.
      * A diferença entre a data de chegada até a data de fim de atendimento.
@@ -310,7 +310,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
         if ($this->tempoPermanencia) {
             return $this->secondsToDateInterval($this->tempoPermanencia);
         }
-        
+
         $interval = new DateInterval('P0M');
         if ($this->getDataFim()) {
             $interval = $this->getDataFim()->diff($this->getDataChegada());
@@ -319,14 +319,10 @@ abstract class AbstractAtendimento implements AtendimentoInterface
         return $interval;
     }
 
-    public function setTempoAtendimento(DateInterval $tempoAtendimento): static
+    public function setTempoAtendimento(?DateInterval $tempoAtendimento): static
     {
-        if ($tempoAtendimento) {
-            $this->tempoAtendimento = $this->dateIntervalToSeconds($tempoAtendimento);
-        } else {
-            $this->tempoAtendimento = 0;
-        }
-        
+        $this->tempoAtendimento = $this->dateIntervalToSeconds($tempoAtendimento);
+
         return $this;
     }
 
@@ -339,7 +335,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
         if ($this->tempoAtendimento) {
             return $this->secondsToDateInterval($this->tempoAtendimento);
         }
-        
+
         $interval = new DateInterval('P0M');
         if ($this->getDataFim()) {
             $interval = $this->getDataFim()->diff($this->getDataInicio());
@@ -366,7 +362,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
         if ($this->tempoDeslocamento) {
             return $this->secondsToDateInterval($this->tempoDeslocamento);
         }
-        
+
         $interval = new \DateInterval('P0M');
         if ($this->getDataChamada()) {
             $interval = $this->getDataInicio()->diff($this->getDataChamada());
@@ -375,7 +371,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
         return $interval;
     }
 
-    public function getCliente(): ?Cliente
+    public function getCliente(): ?ClienteInterface
     {
         return $this->cliente;
     }
@@ -384,7 +380,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     {
         return $this->senha;
     }
-    
+
     public function getPrioridade(): ?PrioridadeInterface
     {
         return $this->prioridade;
@@ -396,7 +392,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
 
         return $this;
     }
-    
+
     public function getObservacao(): ?string
     {
         return $this->observacao;
@@ -408,47 +404,48 @@ abstract class AbstractAtendimento implements AtendimentoInterface
 
         return $this;
     }
-    
-    public function jsonSerialize()
+
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
-            'id'       => $this->getId(),
-            'senha'    => $this->getSenha(),
-            'servico'  => [
-                'id'   => $this->getServico()->getId(),
+            'id' => $this->getId(),
+            'senha' => $this->getSenha(),
+            'servico' => [
+                'id' => $this->getServico()->getId(),
                 'nome' => $this->getServico()->getNome(),
             ],
-            'observacao'      => $this->getObservacao(),
-            'dataChegada'     => $this->getDataChegada()->format('Y-m-d\TH:i:s'),
-            'dataChamada'     => $this->getDataChamada() ? $this->getDataChamada()->format('Y-m-d\TH:i:s') : null,
-            'dataInicio'      => $this->getDataInicio() ? $this->getDataInicio()->format('Y-m-d\TH:i:s') : null,
-            'dataFim'         => $this->getDataFim() ? $this->getDataFim()->format('Y-m-d\TH:i:s') : null,
-            'dataAgendamento' => $this->getDataAgendamento() ? $this->getDataAgendamento()->format('Y-m-d\TH:i:s') : null,
-            'tempoEspera'     => $this->getTempoEspera()->format('%H:%I:%S'),
-            'prioridade'      => $this->getPrioridade(),
-            'status'          => $this->getStatus(),
-            'resolucao'       => $this->getResolucao(),
-            'cliente'         => $this->getCliente(),
-            'triagem'         => $this->getUsuarioTriagem() ? $this->getUsuarioTriagem()->getLogin() : null,
-            'usuario'         => $this->getUsuario() ? $this->getUsuario()->getLogin() : null,
+            'observacao' => $this->getObservacao(),
+            'dataChegada' => $this->getDataChegada()->format('Y-m-d\TH:i:s'),
+            'dataChamada' => $this->getDataChamada()?->format('Y-m-d\TH:i:s'),
+            'dataInicio' => $this->getDataInicio()?->format('Y-m-d\TH:i:s'),
+            'dataFim' => $this->getDataFim()?->format('Y-m-d\TH:i:s'),
+            'dataAgendamento' => $this->getDataAgendamento()?->format('Y-m-d\TH:i:s'),
+            'tempoEspera' => $this->getTempoEspera()->format('%H:%I:%S'),
+            'prioridade' => $this->getPrioridade(),
+            'status' => $this->getStatus(),
+            'resolucao' => $this->getResolucao(),
+            'cliente' => $this->getCliente(),
+            'triagem' => $this->getUsuarioTriagem()?->getLogin(),
+            'usuario' => $this->getUsuario()?->getLogin(),
         ];
-    }
-
-    public function __toString()
-    {
-        return (string) $this->getSenha();
     }
 
     private function dateIntervalToSeconds(DateInterval $d): int
     {
         return $d->s + ($d->i * 60) + ($d->h * 3600) + ($d->d * 86400) + ($d->m * 2592000);
     }
-    
-    private function secondsToDateInterval(int $s)
+
+    private function secondsToDateInterval(int $s): DateInterval
     {
         $dt1 = new \DateTime("@0");
         $dt2 = new \DateTime("@{$s}");
 
         return $dt1->diff($dt2);
+    }
+
+    public function __toString()
+    {
+        return (string) $this->getSenha();
     }
 }

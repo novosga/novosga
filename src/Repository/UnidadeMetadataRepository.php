@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\UnidadeMeta;
-use App\Entity\Unidade;
+use Doctrine\Persistence\ManagerRegistry;
+use Novosga\Entity\UnidadeInterface;
 
 /**
- * @extends EntityMetadataRepository<UnidadeMeta,Unidade>
+ * @extends EntityMetadataRepository<UnidadeMeta,UnidadeInterface>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */

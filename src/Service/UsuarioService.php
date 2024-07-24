@@ -15,7 +15,6 @@ namespace App\Service;
 
 use App\Entity\ServicoUsuario;
 use App\Entity\Usuario;
-use App\Infrastructure\StorageInterface;
 use App\Repository\ServicoUsuarioRepository;
 use App\Repository\UsuarioMetadataRepository;
 use App\Repository\UsuarioRepository;
@@ -24,6 +23,7 @@ use Novosga\Entity\ServicoInterface;
 use Novosga\Entity\ServicoUsuarioInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
+use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\FilaServiceInterface;
 use Novosga\Service\UsuarioServiceInterface;
 use Symfony\Component\Mercure\HubInterface;
@@ -55,10 +55,8 @@ class UsuarioService implements UsuarioServiceInterface
         return new Usuario();
     }
 
-    /**
-     * Cria ou retorna um metadado do usuário caso o $value seja null (ou ocultado).
-     */
-    public function meta(UsuarioInterface $usuario, string $name, mixed $value = null): EntityMetadataInterface
+    /** {@inheritDoc} */
+    public function meta(UsuarioInterface $usuario, string $name, mixed $value = null): ?EntityMetadataInterface
     {
         if ($value === null) {
             $metadata = $this->usuarioMetadataRepository->get($usuario, self::ATTR_NAMESPACE, $name);
@@ -90,7 +88,7 @@ class UsuarioService implements UsuarioServiceInterface
             ->setParameter('unidade', $unidade)
             ->getQuery()
             ->getOneOrNullResult();
-        
+
         return $servico;
     }
 
@@ -112,11 +110,11 @@ class UsuarioService implements UsuarioServiceInterface
             ->setParameter('unidade', $unidade)
             ->getQuery()
             ->getResult();
-        
+
         return $servicos;
     }
 
-    public function isLocalLivre($unidade, $usuario, $numero)
+    public function isLocalLivre(UnidadeInterface|int $unidade, UsuarioInterface|int $usuario, string $numero): bool
     {
         $count = (int) $this->storage
             ->getManager()
@@ -146,8 +144,12 @@ class UsuarioService implements UsuarioServiceInterface
         return $count === 0;
     }
 
-    public function updateAtendente(UsuarioInterface $usuario, ?string $tipoAtendimento, ?int $local, ?int $numero): void
-    {
+    public function updateAtendente(
+        UsuarioInterface $usuario,
+        ?string $tipoAtendimento,
+        ?int $local,
+        ?int $numero
+    ): void {
         if ($tipoAtendimento && in_array($tipoAtendimento, FilaServiceInterface::TIPOS_ATENDIMENTO)) {
             $this->meta($usuario, UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipoAtendimento);
         }

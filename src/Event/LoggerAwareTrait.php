@@ -22,25 +22,17 @@ use Psr\Log\LoggerInterface;
  */
 trait LoggerAwareTrait
 {
-    /**
-     * @var LoggerInterface
-     */
-    private $storage;
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function setLogger(LoggerInterface $storage)
+    private ?LoggerInterface $logger = null;
+
+    public function setLogger(?LoggerInterface $logger): static
     {
-        $this->storage = $storage;
+        $this->logger = $logger;
+
         return $this;
     }
-        
-    /**
-     * {@inheritdoc}
-     */
-    public function getLogger(): LoggerInterface
+
+    public function getLogger(): ?LoggerInterface
     {
-        return $this->storage;
+        return $this->logger;
     }
 }

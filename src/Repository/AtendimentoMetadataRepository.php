@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\AtendimentoMeta;
-use App\Entity\Atendimento;
+use Doctrine\Persistence\ManagerRegistry;
+use Novosga\Entity\AtendimentoInterface;
 
 /**
- * @extends EntityMetadataRepository<AtendimentoMeta,Atendimento>
+ * @extends EntityMetadataRepository<AtendimentoMeta,AtendimentoInterface>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */

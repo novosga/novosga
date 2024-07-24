@@ -26,10 +26,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ServicoType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $entity = $options['data'];
@@ -80,9 +76,7 @@ class ServicoType extends AbstractType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

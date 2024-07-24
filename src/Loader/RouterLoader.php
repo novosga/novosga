@@ -42,7 +42,7 @@ class RouterLoader extends Loader
         }
 
         $routes = $this->createRoutesCollection();
-        
+
         $this->loaded = true;
 
         return $routes;
@@ -51,7 +51,7 @@ class RouterLoader extends Loader
     private function createRoutesCollection(): RouteCollection
     {
         $routes = new RouteCollection();
-        
+
         foreach ($this->kernel->getBundles() as $bundle) {
             if ($bundle instanceof ModuleInterface) {
                 $routes->addCollection(

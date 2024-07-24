@@ -35,7 +35,7 @@ abstract class AbstractMetadata implements MetadataInterface
 
     #[ORM\Column(type: Types::JSON)]
     protected mixed $value = null;
-    
+
     public function getNamespace(): ?string
     {
         return $this->namespace;
@@ -47,7 +47,7 @@ abstract class AbstractMetadata implements MetadataInterface
 
         return $this;
     }
-        
+
     public function getName(): ?string
     {
         return $this->name;
@@ -72,7 +72,8 @@ abstract class AbstractMetadata implements MetadataInterface
         return $this;
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'namespace' => $this->getName(),

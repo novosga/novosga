@@ -1,6 +1,0 @@
-App\Entity\AtendimentoHistorico:
-    exclusion_policy: ALL
-    properties:
-        codificados:
-            type: array<App\Entity\AtendimentoCodificadoHistorico>
-            expose: true

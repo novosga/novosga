@@ -16,11 +16,12 @@ namespace App\Entity;
 use App\Repository\UnidadeMetadataRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\EntityMetadataInterface;
+use Novosga\Entity\UnidadeInterface;
 
 /**
  * Unidade metadata.
  *
- * @implements EntityMetadataInterface<Unidade>
+ * @implements EntityMetadataInterface<UnidadeInterface>
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
@@ -29,17 +30,17 @@ use Novosga\Entity\EntityMetadataInterface;
 class UnidadeMeta extends AbstractMetadata implements EntityMetadataInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Unidade::class)]
     #[ORM\JoinColumn(name: 'unidade_id', nullable: false)]
-    protected ?Unidade $entity = null;
-    
+    protected ?UnidadeInterface $entity = null;
+
     public function setEntity($entity): static
     {
         $this->entity = $entity;
-        
+
         return $this;
     }
-    
+
     public function getEntity()
     {
         return $this->entity;

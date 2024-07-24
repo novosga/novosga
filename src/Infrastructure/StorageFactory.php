@@ -2,13 +2,24 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Novo SGA project.
+ *
+ * (c) Rogerio Lino <rogeriolino@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace App\Infrastructure;
 
 use Exception;
 use App\Infrastructure\Storage\MySQLStorage;
 use App\Infrastructure\Storage\PostgreSQLStorage;
-use Doctrine\Persistence\ObjectManager;
-use App\Infrastructure\StorageInterface;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
+use Doctrine\ORM\EntityManagerInterface;
+use Novosga\Infrastructure\StorageInterface;
 
 /**
  * StorageFactory
@@ -17,25 +28,19 @@ use App\Infrastructure\StorageInterface;
  */
 class StorageFactory
 {
-    public static function createStorage(ObjectManager $om): StorageInterface
+    public static function createStorage(EntityManagerInterface $em): StorageInterface
     {
-        if ($om instanceof \Doctrine\ORM\EntityManager) {
-            $conn     = $om->getConnection();
-            $platform = $conn->getSchemaManager()->getDatabasePlatform();
-            
-            if ($platform instanceof \Doctrine\DBAL\Platforms\MySqlPlatform) {
-                return new MySQLStorage($om);
-            }
-            
-            if ($platform instanceof \Doctrine\DBAL\Platforms\PostgreSQL94Platform) {
-                return new PostgreSQLStorage($om);
-            }
-            
-            if ($platform instanceof \Doctrine\DBAL\Platforms\SQLServer2012Platform) {
-                // TODO: implement SQLServerStorage
-            }
+        $conn = $em->getConnection();
+        $platform = $conn->getDatabasePlatform();
+
+        if ($platform instanceof MySQLPlatform) {
+            return new MySQLStorage($em);
         }
-        
+
+        if ($platform instanceof PostgreSQLPlatform) {
+            return new PostgreSQLStorage($em);
+        }
+
         throw new Exception('Novo SGA storage implemantation not found');
     }
 }
