@@ -13,8 +13,12 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use App\Entity\SoftDeletableEntityInterface;
 use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Events;
+use Psr\Clock\ClockInterface;
 
 /**
  * DoctrineListener
@@ -23,26 +27,32 @@ use Doctrine\ORM\Event\OnFlushEventArgs;
  */
 class DoctrineListener implements EventSubscriber
 {
+    public function __construct(
+        private readonly ClockInterface $clock,
+    ) {
+    }
 
-    public function getSubscribedEvents()
+    public function getSubscribedEvents(): array
     {
         return [
-            'onFlush',
+            Events::onFlush,
         ];
     }
-    
-    public function onFlush(OnFlushEventArgs $args)
+
+    public function onFlush(OnFlushEventArgs $args): void
     {
-        $em  = $args->getEntityManager();
+        $now = $this->clock->now();
+
+        /** @var EntityManagerInterface */
+        $em = $args->getObjectManager();
         $uow = $em->getUnitOfWork();
-        
+
         foreach ($uow->getScheduledEntityDeletions() as $entity) {
-            if (method_exists($entity, 'setDeletedAt')) {
-                $date = new \DateTime;
+            if ($entity instanceof SoftDeletableEntityInterface) {
                 $em->persist($entity);
-                $uow->propertyChanged($entity, 'deletedAt', null, $date);
+                $uow->propertyChanged($entity, 'deletedAt', null, $now);
                 $uow->scheduleExtraUpdate($entity, [
-                    'deletedAt' => [null, $date],
+                    'deletedAt' => [null, $now],
                 ]);
             }
         }

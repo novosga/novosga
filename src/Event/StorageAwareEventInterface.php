@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Infrastructure\StorageInterface;
+use Novosga\Infrastructure\StorageInterface;
 
 /**
  * StorageAwareEventInterface
@@ -22,13 +22,6 @@ use App\Infrastructure\StorageInterface;
  */
 interface StorageAwareEventInterface extends EventInterface
 {
-    /**
-     * @param StorageInterface $storage
-     */
-    public function setStorage(StorageInterface $storage);
-    
-    /**
-     * @return StorageInterface
-     */
-    public function getStorage(): StorageInterface;
+    public function setStorage(?StorageInterface $storage): static;
+    public function getStorage(): ?StorageInterface;
 }

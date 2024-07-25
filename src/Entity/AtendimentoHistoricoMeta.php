@@ -14,12 +14,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Novosga\Entity\AtendimentoInterface;
 use Novosga\Entity\EntityMetadataInterface;
 
 /**
  * AtendimentoMeta (Historico).
  *
- * @implements EntityMetadataInterface<AtendimentoHistorico>
+ * @implements EntityMetadataInterface<AtendimentoInterface>
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
@@ -28,16 +29,17 @@ use Novosga\Entity\EntityMetadataInterface;
 class AtendimentoHistoricoMeta extends AbstractMetadata implements EntityMetadataInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne]
-    protected ?AtendimentoHistorico $entity = null;
-    
+    #[ORM\ManyToOne(targetEntity: AtendimentoHistorico::class)]
+    #[ORM\JoinColumn(name: 'atendimento_id', nullable: false)]
+    protected ?AtendimentoInterface $entity = null;
+
     public function setEntity($entity): static
     {
         $this->entity = $entity;
-        
+
         return $this;
     }
-    
+
     public function getEntity()
     {
         return $this->entity;

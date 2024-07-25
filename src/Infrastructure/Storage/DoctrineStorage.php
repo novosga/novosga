@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Storage;
 
-use App\Infrastructure\StorageInterface;
+use Novosga\Infrastructure\StorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 
@@ -28,12 +28,17 @@ abstract class DoctrineStorage implements StorageInterface
         protected readonly EntityManagerInterface $em,
     ) {
     }
-   
+
     public function getManager(): EntityManagerInterface
     {
         return $this->em;
     }
 
+    /**
+     * @template T of object
+     * @param class-string<T> $className
+     * @return EntityRepository<T>
+     */
     public function getRepository(string $className): EntityRepository
     {
         return $this->em->getRepository($className);

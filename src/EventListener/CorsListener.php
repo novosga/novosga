@@ -27,32 +27,29 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
  */
 class CorsListener extends AppListener
 {
-    protected $dispatcher;
-    
-    
-    public function __construct(EventDispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
+    public function __construct(
+        private readonly EventDispatcherInterface $dispatcher,
+    ) {
     }
-    
-    public function onKernelRequest(RequestEvent $event)
+
+    public function onKernelRequest(RequestEvent $event): void
     {
         if (HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
             return;
         }
-        
+
         $request = $event->getRequest();
-        
+
         // skip if non api request
         if (!$this->isApiRequest($request)) {
             return;
         }
-        
+
         // skip if not a CORS request
         if (!$request->headers->has('Origin') || $request->headers->get('Origin') == $request->getSchemeAndHttpHost()) {
             return;
         }
-        
+
         // preflight response
         if ('OPTIONS' === $request->getMethod()) {
             $response = new Response();
@@ -62,19 +59,19 @@ class CorsListener extends AppListener
             $event->setResponse($response);
             return;
         }
-        
+
         $this->dispatcher->addListener('kernel.response', [ $this, 'onKernelResponse' ], 0);
     }
-    
-    public function onKernelResponse(ResponseEvent $event)
+
+    public function onKernelResponse(ResponseEvent $event): void
     {
         if (HttpKernelInterface::MAIN_REQUEST !== $event->getRequestType()) {
             return;
         }
-        
+
         $request  = $event->getRequest();
         $response = $event->getResponse();
-        
+
         // add CORS response headers
         $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
         $response->headers->set('Access-Control-Allow-Credentials', 'true');

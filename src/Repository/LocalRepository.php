@@ -16,10 +16,11 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Local;
+use Novosga\Entity\LocalInterface;
 use Novosga\Repository\LocalRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Local>
+ * @extends ServiceEntityRepository<LocalInterface>
  *
  * @method Local|null find($id, $lockMode = null, $lockVersion = null)
  * @method Local|null findOneBy(array $criteria, array $orderBy = null)

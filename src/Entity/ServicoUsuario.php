@@ -32,16 +32,16 @@ use Novosga\Entity\UsuarioInterface;
 class ServicoUsuario implements ServicoUsuarioInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne]
-    private ?Servico $servico = null;
+    #[ORM\ManyToOne(targetEntity: Servico::class)]
+    private ?ServicoInterface $servico = null;
 
     #[ORM\Id]
-    #[ORM\ManyToOne]
-    private ?Unidade $unidade = null;
+    #[ORM\ManyToOne(targetEntity: Unidade::class)]
+    private ?UnidadeInterface $unidade = null;
 
     #[ORM\Id]
-    #[ORM\ManyToOne]
-    private ?Usuario $usuario = null;
+    #[ORM\ManyToOne(targetEntity: Usuario::class)]
+    private ?UsuarioInterface $usuario = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $peso = null;
@@ -86,15 +86,16 @@ class ServicoUsuario implements ServicoUsuarioInterface
     {
         return $this->peso;
     }
-    
+
     public function setPeso(?int $peso): static
     {
         $this->peso = $peso;
 
         return $this;
     }
-    
-    public function jsonSerialize()
+
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'peso'    => $this->getPeso(),

@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Infrastructure\StorageInterface;
 use App\Repository\ServicoUnidadeRepository;
 use Novosga\Entity\AtendimentoInterface;
 use Novosga\Service\TicketServiceInterface;
@@ -31,7 +30,6 @@ class TicketService implements TicketServiceInterface
 
     public function __construct(
         private readonly ClockInterface $clock,
-        private readonly StorageInterface $storage,
         private readonly ServicoUnidadeRepository $servicoUnidadeRepository,
         private readonly Environment $twig,
     ) {

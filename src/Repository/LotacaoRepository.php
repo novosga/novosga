@@ -16,15 +16,13 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Lotacao;
-use App\Entity\Unidade;
-use App\Entity\Usuario;
 use Novosga\Entity\LotacaoInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
 use Novosga\Repository\LotacaoRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Lotacao>
+ * @extends ServiceEntityRepository<LotacaoInterface>
  *
  * @method Lotacao|null find($id, $lockMode = null, $lockVersion = null)
  * @method Lotacao|null findOneBy(array $criteria, array $orderBy = null)
@@ -39,7 +37,7 @@ class LotacaoRepository extends ServiceEntityRepository implements LotacaoReposi
     {
         parent::__construct($registry, Lotacao::class);
     }
-    
+
     /**
      * Retorna as lotações do usuário
      */
@@ -60,7 +58,7 @@ class LotacaoRepository extends ServiceEntityRepository implements LotacaoReposi
             ->getResult()
         ;
     }
-    
+
     /**
      * Retorna as lotações do usuário
      */
@@ -81,7 +79,7 @@ class LotacaoRepository extends ServiceEntityRepository implements LotacaoReposi
             ->getResult()
         ;
     }
-    
+
     /**
      * Retorna a lotação do usuário na unidade
      */

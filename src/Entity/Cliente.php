@@ -24,7 +24,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * Cliente
  *
- * @author rogerio
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 #[ORM\Entity(repositoryClass: ClienteRepository::class)]
 #[ORM\Table(name: 'clientes')]
@@ -36,28 +36,28 @@ class Cliente implements ClienteInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\SequenceGenerator(sequenceName: "clientes_id_seq", allocationSize: 1, initialValue: 1)]
     protected ?int $id = null;
-    
+
     #[ORM\Column(length: 60)]
     private ?string $nome = null;
 
     #[ORM\Column(length: 30, unique: true)]
     private ?string $documento = null;
-    
+
     #[ORM\Column(length: 80, nullable: true)]
     private ?string $email = null;
-    
+
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $telefone = null;
-    
+
     #[ORM\Column(name: 'dt_nascimento', type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTime $dataNascimento = null;
-    
+
     #[ORM\Column(length: 1, nullable: true)]
     private ?string $genero = null;
-    
-    #[ORM\Embedded(columnPrefix: 'end_')]
-    private Endereco $endereco;
-    
+
+    #[ORM\Embedded(class: Endereco::class, columnPrefix: 'end_')]
+    private EnderecoInterface $endereco;
+
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $observacao = null;
 
@@ -110,7 +110,7 @@ class Cliente implements ClienteInterface
     public function setEmail(?string $email): static
     {
         $this->email = $email;
-        
+
         return $this;
     }
 
@@ -173,24 +173,25 @@ class Cliente implements ClienteInterface
 
         return $this;
     }
-    
+
     public function __toString()
     {
         return $this->getNome();
     }
-    
-    public function jsonSerialize()
+
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
-            'id'        => $this->getId(),
-            'nome'      => $this->getNome(),
+            'id' => $this->getId(),
+            'nome' => $this->getNome(),
             'documento' => $this->getDocumento(),
-            'email'     => $this->getEmail(),
-            'telefone'  => $this->getTelefone(),
-            'genero'  => $this->getGenero(),
-            'observacao'  => $this->getObservacao(),
-            'dataNascimento'  => $this->getDataNascimento() ? $this->getDataNascimento()->format('Y-m-d') : '',
-            'endereco'  => $this->getEndereco(),
+            'email' => $this->getEmail(),
+            'telefone' => $this->getTelefone(),
+            'genero' => $this->getGenero(),
+            'observacao' => $this->getObservacao(),
+            'dataNascimento' => $this->getDataNascimento()?->format('Y-m-d'),
+            'endereco' => $this->getEndereco(),
         ];
     }
 }

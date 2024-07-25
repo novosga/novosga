@@ -15,38 +15,44 @@ namespace App\Controller\Api;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
- * @template T
+ * @template T of object
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 abstract class ApiCrudController extends ApiControllerBase
 {
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+    ) {
+    }
+
     /** @return class-string<T> */
     abstract public function getEntityName(): string;
 
-    /** @return T */
-    public function find($id)
+    public function find(int $id): Response
     {
         $entity = $this->getRepository()->find($id);
 
         if (!$entity) {
-            throw new NotFoundHttpException;
+            throw new NotFoundHttpException();
         }
 
         return $this->json($entity);
     }
 
-    public function search(Request $request)
+    public function search(Request $request): Response
     {
         $q      = explode(' ', $request->get('q'));
         $sort   = (string) $request->get('sort');
         $order  = strtolower((string) $request->get('order'));
         $limit  = $request->get('limit') ?? 25;
         $offset = $request->get('offset') ?? 0;
-        
+
         if (!in_array($order, ['asc', 'desc'])) {
             $order = 'asc';
         }
@@ -71,8 +77,9 @@ abstract class ApiCrudController extends ApiControllerBase
 
         return $this->json($result);
     }
-    
-    public function add($object)
+
+    /** @param T $object */
+    public function add(object $object): Response
     {
         try {
             $this->getManager()->persist($object);
@@ -86,7 +93,8 @@ abstract class ApiCrudController extends ApiControllerBase
         return $this->json($object);
     }
 
-    public function remove($object)
+    /** @param T $object */
+    public function remove(object $object): Response
     {
         try {
             $this->getManager()->remove($object);
@@ -100,7 +108,8 @@ abstract class ApiCrudController extends ApiControllerBase
         return $this->json($object);
     }
 
-    public function update($object)
+    /** @param T $object */
+    public function update(object $object): Response
     {
         try {
             $this->getManager()->persist($object);
@@ -113,7 +122,18 @@ abstract class ApiCrudController extends ApiControllerBase
 
         return $this->json($object);
     }
-    
+
+    /**
+     * @param array<string,mixed> $ctx
+     * @return T
+     */
+    protected function deserialize(string $json, array $ctx = []): object
+    {
+        $object = $this->serializer->deserialize($json, $this->getEntityName(), 'json', $ctx);
+
+        return $object;
+    }
+
     /** @return ServiceEntityRepository<T> */
     protected function getRepository()
     {

@@ -34,11 +34,11 @@ class PainelSenha implements PainelSenhaInterface
     #[ORM\SequenceGenerator(sequenceName: "painel_senha_id_seq", allocationSize: 1, initialValue: 1)]
     protected ?int $id = null;
 
-    #[ORM\ManyToOne]
-    private ?Servico $servico = null;
+    #[ORM\ManyToOne(targetEntity: Servico::class)]
+    private ?ServicoInterface $servico = null;
 
-    #[ORM\ManyToOne]
-    private ?Unidade $unidade = null;
+    #[ORM\ManyToOne(targetEntity: Unidade::class)]
+    private ?UnidadeInterface $unidade = null;
 
     #[ORM\Column(name: 'num_senha', length: 11)]
     private ?int $numeroSenha = null;
@@ -66,12 +66,12 @@ class PainelSenha implements PainelSenhaInterface
 
     #[ORM\Column(length: 30)]
     private ?string $documentoCliente = null;
-    
+
     public function getId(): ?int
     {
         return $this->id;
     }
-    
+
     public function setId(?int $id): static
     {
         $this->id = $id;
@@ -211,7 +211,8 @@ class PainelSenha implements PainelSenhaInterface
         return $this;
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         $senha = $this->getSiglaSenha() . str_pad((string) $this->getNumeroSenha(), 3, '0', STR_PAD_LEFT);
 

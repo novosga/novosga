@@ -202,7 +202,7 @@ class OAuthTokenTest extends WebTestCase
 
         $password = $passwordHasher->hashPassword($user, self::TEST_USER_PASSWORD);
         $user->setSenha($password);
-    
+
         $em->persist($user);
         $em->flush();
 

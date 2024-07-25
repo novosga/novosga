@@ -21,14 +21,14 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-#[Route("/api/departamentos")]
+#[Route('/api/departamentos')]
 class DepartamentosController extends ApiCrudController
 {
-    use Actions\GetTrait,
-        Actions\FindTrait,
-        Actions\PostTrait,
-        Actions\PutTrait,
-        Actions\DeleteTrait;
+    use Actions\GetTrait;
+    use Actions\FindTrait;
+    use Actions\PostTrait;
+    use Actions\PutTrait;
+    use Actions\DeleteTrait;
 
     public function getEntityName(): string
     {

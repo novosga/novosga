@@ -17,6 +17,7 @@ use App\EventListener\TimestampableEntityListener;
 use App\EventListener\UnidadeListener;
 use App\Repository\UnidadeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Novosga\Entity\ConfiguracaoImpressaoInterface;
 use Novosga\Entity\UnidadeInterface;
 
 /**
@@ -30,7 +31,7 @@ use Novosga\Entity\UnidadeInterface;
     UnidadeListener::class,
 ])]
 #[ORM\Table(name: 'unidades')]
-class Unidade implements TimestampableEntityInterface, UnidadeInterface
+class Unidade implements TimestampableEntityInterface, SoftDeletableEntityInterface, UnidadeInterface
 {
     use TimestampableEntityTrait;
     use SoftDeletableEntityTrait;
@@ -50,14 +51,14 @@ class Unidade implements TimestampableEntityInterface, UnidadeInterface
     #[ORM\Column]
     private bool $ativo = true;
 
-    #[ORM\Embedded]
-    private ConfiguracaoImpressao $impressao;
+    #[ORM\Embedded(class: ConfiguracaoImpressao::class)]
+    private ConfiguracaoImpressaoInterface $impressao;
 
     public function __construct()
     {
         $this->impressao = new ConfiguracaoImpressao();
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,7 +87,7 @@ class Unidade implements TimestampableEntityInterface, UnidadeInterface
     {
         return $this->nome;
     }
-    
+
     public function setNome(?string $nome): static
     {
         $this->nome = $nome;
@@ -106,17 +107,18 @@ class Unidade implements TimestampableEntityInterface, UnidadeInterface
         return $this;
     }
 
-    public function getImpressao()
+    public function getImpressao(): ConfiguracaoImpressaoInterface
     {
         return $this->impressao;
     }
-    
+
     public function __toString()
     {
         return $this->getNome();
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id'        => $this->getId(),

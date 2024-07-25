@@ -16,15 +16,10 @@ namespace App\Service;
 use App\Configuration\OrderingParameter;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Atendimento;
-use App\Entity\Servico;
 use App\Entity\ServicoUnidade;
 use App\Entity\ServicoUsuario;
-use App\Entity\Unidade;
-use App\Entity\Usuario;
 use Doctrine\ORM\EntityManagerInterface;
-use Novosga\Entity\AtendimentoInterface;
 use Novosga\Entity\ServicoInterface;
-use Novosga\Entity\ServicoUsuarioInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
 use Novosga\Service\FilaServiceInterface;
@@ -56,11 +51,11 @@ class FilaService implements FilaServiceInterface
                 $ids[]   = $servico->getServico()->getId();
             }
         }
-        
+
         if (empty($ids)) {
             return [];
         }
-        
+
         $builder = $this
             ->builder()
             ->join(
@@ -90,7 +85,7 @@ class FilaService implements FilaServiceInterface
                 $builder->andWhere("atendimento.dataAgendamento IS NOT NULL");
                 break;
         }
-        
+
         $query = $this
             ->applyOrders($builder, $unidade, $usuario)
             ->getQuery();
@@ -113,7 +108,7 @@ class FilaService implements FilaServiceInterface
             ->setParameter('status', AtendimentoService::SENHA_EMITIDA)
             ->setParameter('unidade', $unidade)
             ->setParameter('servico', $servico);
-        
+
         $rs = $this
             ->applyOrders($builder, $unidade)
             ->getQuery()
@@ -161,7 +156,7 @@ class FilaService implements FilaServiceInterface
                 'WITH',
                 'servicoUnidade.unidade = unidade AND servicoUnidade.servico = servico'
             );
-        
+
         return $qb;
     }
 
@@ -170,11 +165,11 @@ class FilaService implements FilaServiceInterface
      */
     private function applyOrders(
         QueryBuilder $builder,
-        Unidade $unidade,
-        Usuario $usuario = null
+        UnidadeInterface $unidade,
+        UsuarioInterface $usuario = null,
     ): QueryBuilder {
         $ordering = $this->config->get('queue.ordering');
-        
+
         if (is_callable($ordering)) {
             $param = (new OrderingParameter())
                 ->setUnidade($unidade)
@@ -184,7 +179,7 @@ class FilaService implements FilaServiceInterface
 
             $ordering = $ordering($param);
         }
-        
+
         if (is_array($ordering)) {
             foreach ($ordering as $item) {
                 if (!isset($item['exp'])) {

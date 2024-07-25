@@ -14,11 +14,13 @@ declare(strict_types=1);
 namespace App\Service;
 
 use Novosga\Module\ModuleInterface;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class ModuleService
 {
     /**
-     * @return array
+     * @param BundleInterface[] $bundles
+     * @return ModuleInterface[]
      */
     public function filterModules(array $bundles): array
     {

@@ -22,7 +22,7 @@ use Novosga\Entity\UnidadeInterface;
 use Novosga\Repository\ServicoUnidadeRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<ServicoUnidade>
+ * @extends ServiceEntityRepository<ServicoUnidadeInterface>
  *
  * @method ServicoUnidade|null find($id, $lockMode = null, $lockVersion = null)
  * @method ServicoUnidade|null findOneBy(array $criteria, array $orderBy = null)
@@ -38,9 +38,7 @@ class ServicoUnidadeRepository extends ServiceEntityRepository implements Servic
         parent::__construct($registry, ServicoUnidade::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function getAll(UnidadeInterface|int $unidade): array
     {
         return $this
@@ -56,9 +54,7 @@ class ServicoUnidadeRepository extends ServiceEntityRepository implements Servic
             ->getResult();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function get(UnidadeInterface|int $unidade, ServicoInterface|int $servico): ?ServicoUnidadeInterface
     {
         return $this

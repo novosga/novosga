@@ -21,12 +21,12 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-#[Route("/api/usuarios")]
+#[Route('/api/usuarios')]
 class UsuariosController extends ApiCrudController
 {
-    use Actions\GetTrait,
-        Actions\FindTrait;
-    
+    use Actions\GetTrait;
+    use Actions\FindTrait;
+
     public function getEntityName(): string
     {
         return Usuario::class;

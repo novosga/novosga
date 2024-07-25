@@ -15,10 +15,9 @@ namespace App\Service;
 
 use App\Entity\Contador;
 use App\Entity\ServicoUnidade;
-use App\Entity\Unidade;
-use App\Entity\UnidadeMeta;
-use App\Infrastructure\StorageInterface;
 use App\Repository\ContadorRepository;
+use App\Repository\UnidadeMetadataRepository;
+use App\Repository\UnidadeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Novosga\Entity\EntityMetadataInterface;
 use Novosga\Entity\ServicoInterface;
@@ -34,28 +33,35 @@ use Novosga\Service\UnidadeServiceInterface;
 class UnidadeService implements UnidadeServiceInterface
 {
     public function __construct(
-        private readonly StorageInterface $storage,
         private readonly EntityManagerInterface $em,
+        private readonly UnidadeRepository $unidadeRepository,
         private readonly ContadorRepository $contadorRepository,
+        private readonly UnidadeMetadataRepository $unidadeMetadataRepository,
     ) {
     }
 
-    /** {@inheritDoc} */
-    public function meta(UnidadeInterface $unidade, string $name, mixed $value = null): EntityMetadataInterface
+    public function getById(int $id): ?UnidadeInterface
     {
-        $repo = $this->storage->getRepository(UnidadeMeta::class);
+        return $this->unidadeRepository->find($id);
+    }
 
+    /** {@inheritDoc} */
+    public function meta(UnidadeInterface $unidade, string $name, mixed $value = null): ?EntityMetadataInterface
+    {
         if ($value === null) {
-            $metadata = $repo->get($unidade, $name);
+            $metadata = $this->unidadeMetadataRepository->get($unidade, self::ATTR_NAMESPACE, $name);
         } else {
-            $metadata = $repo->set($unidade, $name, $value);
+            $metadata = $this->unidadeMetadataRepository->set($unidade, self::ATTR_NAMESPACE, $name, $value);
         }
 
         return $metadata;
     }
 
-    public function addServicoUnidade(ServicoInterface $servico, UnidadeInterface $unidade, string $sigla): ServicoUnidadeInterface
-    {
+    public function addServicoUnidade(
+        ServicoInterface $servico,
+        UnidadeInterface $unidade,
+        string $sigla
+    ): ServicoUnidadeInterface {
         $su = new ServicoUnidade();
         $su
             ->setUnidade($unidade)

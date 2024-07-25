@@ -15,16 +15,16 @@ namespace App\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
-use App\Entity\Unidade;
 use App\Entity\Usuario;
-use App\Service\UsuarioService;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Novosga\Entity\ServicoUnidadeInterface;
 use Novosga\Entity\UnidadeInterface;
+use Novosga\Entity\UsuarioInterface;
 use Novosga\Repository\UsuarioRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Usuario>
+ * @extends ServiceEntityRepository<UsuarioInterface>
  *
  * @method Usuario|null find($id, $lockMode = null, $lockVersion = null)
  * @method Usuario|null findOneBy(array $criteria, array $orderBy = null)
@@ -40,19 +40,22 @@ class UsuarioRepository extends ServiceEntityRepository implements UsuarioReposi
         parent::__construct($registry, Usuario::class);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    public function findOneByLogin(string $login): ?Usuario
+    {
+        return $this->findOneBy(['login' => $login]);
+    }
+
+    /** {@inheritdoc} */
     public function findByUnidade(UnidadeInterface $unidade, Criteria $criteria = null): array
     {
         $usuarios = $this
             ->queryBuilderFindByUnidade($unidade, $criteria)
             ->getQuery()
             ->getResult();
-        
+
         return $usuarios;
     }
-    
+
     /** @return Usuario[] */
     public function findByServicoUnidade(ServicoUnidadeInterface $servicoUnidade, Criteria $criteria = null): array
     {
@@ -65,11 +68,11 @@ class UsuarioRepository extends ServiceEntityRepository implements UsuarioReposi
             ->setParameter('servico', $servico)
             ->getQuery()
             ->getResult();
-        
+
         return $usuarios;
     }
-    
-    private function queryBuilderFindByUnidade(Unidade $unidade, Criteria $criteria = null)
+
+    private function queryBuilderFindByUnidade(UnidadeInterface $unidade, ?Criteria $criteria = null): QueryBuilder
     {
         $qb = $this
             ->createQueryBuilder('e')
@@ -77,11 +80,11 @@ class UsuarioRepository extends ServiceEntityRepository implements UsuarioReposi
             ->where('e.admin = TRUE OR (e.admin = FALSE AND l.unidade = :unidade)')
             ->setParameter('unidade', $unidade)
             ->orderBy('e.nome');
-        
-        if ($criteria) {
+
+        if ($criteria !== null) {
             $qb->addCriteria($criteria);
         }
-        
+
         return $qb;
     }
 }

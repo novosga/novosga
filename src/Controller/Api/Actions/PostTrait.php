@@ -15,6 +15,7 @@ namespace App\Controller\Api\Actions;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * PostTrait
@@ -23,12 +24,12 @@ use Symfony\Component\HttpFoundation\Request;
  */
 trait PostTrait
 {
-    #[Route("", methods: ["POST"])]
-    public function doPost(Request $request)
+    #[Route('', methods: ['POST'])]
+    public function doPost(Request $request): Response
     {
         $json = $request->getContent();
         $object = $this->deserialize($json);
-        
+
         return $this->add($object);
     }
 }

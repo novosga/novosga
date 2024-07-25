@@ -16,10 +16,11 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\ViewAtendimentoCodificado;
+use Novosga\Entity\AtendimentoCodificadoInterface;
 use Novosga\Repository\ViewAtendimentoCodificadoRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<ViewAtendimentoCodificado>
+ * @extends ServiceEntityRepository<AtendimentoCodificadoInterface>
  *
  * @method ViewAtendimentoCodificado|null find($id, $lockMode = null, $lockVersion = null)
  * @method ViewAtendimentoCodificado|null findOneBy(array $criteria, array $orderBy = null)
@@ -28,7 +29,8 @@ use Novosga\Repository\ViewAtendimentoCodificadoRepositoryInterface;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-class ViewAtendimentoCodificadoRepository extends ServiceEntityRepository implements ViewAtendimentoCodificadoRepositoryInterface
+class ViewAtendimentoCodificadoRepository extends ServiceEntityRepository implements
+    ViewAtendimentoCodificadoRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

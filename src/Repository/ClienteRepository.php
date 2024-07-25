@@ -16,10 +16,11 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Cliente;
+use Novosga\Entity\ClienteInterface;
 use Novosga\Repository\ClienteRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Cliente>
+ * @extends ServiceEntityRepository<ClienteInterface>
  *
  * @method Cliente|null find($id, $lockMode = null, $lockVersion = null)
  * @method Cliente|null findOneBy(array $criteria, array $orderBy = null)
@@ -34,7 +35,7 @@ class ClienteRepository extends ServiceEntityRepository implements ClienteReposi
     {
         parent::__construct($registry, Cliente::class);
     }
-    
+
     /**
      * Retorna todos os clientes ordenados pelo nome
      * @return Cliente[]
@@ -43,7 +44,7 @@ class ClienteRepository extends ServiceEntityRepository implements ClienteReposi
     {
         return $this->findBy([], ['nome' => 'ASC']);
     }
-    
+
     /** @return Cliente[] */
     public function findByDocumento(string $documento): array
     {

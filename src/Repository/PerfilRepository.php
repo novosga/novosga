@@ -16,10 +16,11 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Perfil;
+use Novosga\Entity\PerfilInterface;
 use Novosga\Repository\PerfilRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Perfil>
+ * @extends ServiceEntityRepository<PerfilInterface>
  *
  * @method Perfil|null find($id, $lockMode = null, $lockVersion = null)
  * @method Perfil|null findOneBy(array $criteria, array $orderBy = null)

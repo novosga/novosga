@@ -25,8 +25,6 @@ use Novosga\Entity\SenhaInterface;
 #[ORM\Embeddable]
 class Senha implements SenhaInterface
 {
-    const LENGTH = 3;
-
     #[ORM\Column(length: 3)]
     private ?string $sigla = null;
 
@@ -72,8 +70,9 @@ class Senha implements SenhaInterface
     {
         return $this->getSigla() . $this->getNumeroZeros();
     }
-    
-    public function jsonSerialize()
+
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'sigla'  => $this->getSigla(),

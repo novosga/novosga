@@ -29,7 +29,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-#[Route("/admin/departamentos", name: 'admin_departamentos_')]
+#[Route('/admin/departamentos', name: 'admin_departamentos_')]
 class DepartamentoController extends AbstractController
 {
     public function __construct(
@@ -38,7 +38,7 @@ class DepartamentoController extends AbstractController
     ) {
     }
 
-    #[Route("/", name: "index")]
+    #[Route('/', name: 'index')]
     public function index(Request $request): Response
     {
         $departamentos = $this
@@ -51,8 +51,8 @@ class DepartamentoController extends AbstractController
         ]);
     }
 
-    #[Route("/new", name: "new", methods: ["GET", "POST"])]
-    #[Route("/{id}", name: "edit", methods: ["GET", "POST"])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'edit', methods: ['GET', 'POST'])]
     public function form(Request $request, TranslatorInterface $translator, Entity $entity = null): Response
     {
         if (!$entity) {
@@ -79,7 +79,7 @@ class DepartamentoController extends AbstractController
         ]);
     }
 
-    #[Route("/{id}", name: "delete", methods: ["DELETE"])]
+    #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(Request $request, TranslatorInterface $translator, Entity $departamento): Response
     {
         try {

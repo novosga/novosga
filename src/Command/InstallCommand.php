@@ -13,18 +13,21 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Doctrine\Persistence\ObjectManager;
-use Exception;
+use App\Entity\Local;
 use App\Entity\Prioridade;
 use App\Entity\Unidade;
 use App\Entity\Usuario;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Security\Core\Encoder\NativePasswordEncoder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * InstallCommand.
@@ -34,15 +37,12 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 #[AsCommand(name: 'novosga:install')]
 class InstallCommand extends UpdateCommand
 {
-    /**
-     * @var ObjectManager
-     */
-    private $om;
-    
-    public function __construct(ObjectManager $om, ParameterBagInterface $params)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly ParameterBagInterface $params,
+    ) {
         parent::__construct($params);
-        $this->om = $om;
     }
 
     protected function configure(): void
@@ -54,48 +54,48 @@ class InstallCommand extends UpdateCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $version = $this->params->get('version');
-        $header  = [
-            "*******************\n",
-            "Welcome to NovoSGA v{$version} installer\n",
+        $header = [
+            "*******************",
+            "Welcome to NovoSGA v{$version} installer",
             "*******************",
         ];
-        
-        $this->writef($output, $header, 'info');
-        
+
+        $this->writef($output, join('\n', $header), 'info');
+
         $output->writeln('> Checking environment...');
-        
+
         if (!$this->checkEnv($output)) {
             return 1;
         }
-        
+
         $output->writeln('Environment <info>Ok</info>!');
-        
+
         $output->writeln('> Creating database...');
-        
+
         if (!$this->createDatabase($output)) {
             return 1;
         }
-        
+
         $output->writeln('Database <info>Ok</info>!');
-        
+
         $output->writeln('> Updating database schema...');
-        
+
         if (!$this->updateSchema($output)) {
             return 1;
         }
-        
+
         $output->writeln('Schema <info>Ok</info>!');
-        
+
         $output->writeln('> Running database migrations...');
-        
+
         if (!$this->runMigrations($output)) {
             return 1;
         }
-        
+
         $output->writeln('Migrations <info>Ok</info>!');
-        
+
         $output->writeln('> Checking data...');
-        
+
         // user
         if (!$this->existsData(Usuario::class)) {
             $username = $this->read(
@@ -128,9 +128,9 @@ class InstallCommand extends UpdateCommand
                 '[Admin] Please enter the lastname of administrator user: ',
                 'Global'
             );
-            
+
             $admin = $this->createAdmin($firstname, $lastname, $username, $password);
-            $this->om->persist($admin);
+            $this->em->persist($admin);
         }
 
         // unity
@@ -149,11 +149,11 @@ class InstallCommand extends UpdateCommand
                 '[Unity] Unity description: ',
                 'UNI1'
             );
-            
+
             $unity = $this->createUnity($unityName, $unityDescription);
-            $this->om->persist($unity);
+            $this->em->persist($unity);
         }
-        
+
         // priority
         if (!$this->existsData(Prioridade::class)) {
             $p1Name = $this->read(
@@ -170,7 +170,7 @@ class InstallCommand extends UpdateCommand
                 '[No priority] No priority description: ',
                 'Sem prioridade'
             );
-            
+
             $p2Name = $this->read(
                 $input,
                 $output,
@@ -185,12 +185,12 @@ class InstallCommand extends UpdateCommand
                 '[Priority] Priority description: ',
                 'Atendimento prioritário'
             );
-            
+
             $noPriority = $this->createPriority($p1Name, $p1Description, 0);
             $priority   = $this->createPriority($p2Name, $p2Description, 1);
-            
-            $this->om->persist($noPriority);
-            $this->om->persist($priority);
+
+            $this->em->persist($noPriority);
+            $this->em->persist($priority);
         }
 
         // attendance place
@@ -202,17 +202,17 @@ class InstallCommand extends UpdateCommand
                 '[Place] Default attendance place name: ',
                 'Guichê'
             );
-            
+
             $place = $this->createPlace($placeName);
-            $this->om->persist($place);
+            $this->em->persist($place);
         }
-            
-        $this->om->flush();
+
+        $this->em->flush();
         $output->writeln('Data <info>Ok</info>.');
 
-        return 0;
+        return self::SUCCESS;
     }
-    
+
     private function checkEnv(OutputInterface $output): bool
     {
         $check = $this->getApplication()->find('novosga:check');
@@ -220,10 +220,10 @@ class InstallCommand extends UpdateCommand
             new ArrayInput([ '--no-header' => true ]),
             $output
         );
-        
+
         return $code === 0;
     }
-    
+
     private function createDatabase(OutputInterface $output): bool
     {
         $createDatabase = $this->getApplication()->find('doctrine:database:create');
@@ -231,89 +231,91 @@ class InstallCommand extends UpdateCommand
             new ArrayInput([ '--if-not-exists' => true ]),
             $output
         );
-        
+
         return $code === 0;
     }
-    
+
     private function runMigrations(OutputInterface $output): bool
     {
         $input = new ArrayInput([]);
         $input->setInteractive(false);
-        
+
         $migration = $this->getApplication()->find('doctrine:migrations:migrate');
         $code      = $migration->run($input, $output);
-        
+
         return $code === 0;
     }
-    
-    private function existsData($entityClass)
+
+    /**
+     * @template T of object
+     * @param class-string<T> $entityClass
+     */
+    private function existsData(string $entityClass): bool
     {
-        $entity = $this
-            ->om
-            ->getRepository($entityClass)
-            ->findOneBy([]);
-        
-        return !!$entity;
+        /** @var EntityRepository<T> */
+        $repo = $this->em->getRepository($entityClass);
+        $entity = $repo->findOneBy([]);
+
+        return $entity !== null;
     }
-    
+
     private function read(
         InputInterface $input,
         OutputInterface $output,
         string $envname,
         string $message,
-        $default = null
-    ) {
+        mixed $default = null,
+    ): mixed {
         $envvar = getenv($envname);
-        
+
         if ($envvar) {
             return $envvar;
         }
-        
+
         if ($default) {
             $message .= "[{$default}] ";
         }
-        
-        /* @var $helper QuestionHelper */
-        $helper    = $this->getHelper('question');
-        $question  = new Question($message, $default);
-        $value     = $helper->ask($input, $output, $question);
-        
+
+        /** @var QuestionHelper */
+        $helper = $this->getHelper('question');
+        $question = new Question($message, $default);
+        $value = $helper->ask($input, $output, $question);
+
         return $value;
     }
-    
+
     private function createAdmin(
         string $firstname,
         string $lastname,
         string $username,
         string $password
     ): Usuario {
-        $user = new Usuario();
-        $user->setNome($firstname);
-        $user->setSobrenome($lastname);
-        $user->setLogin($username);
-        $user->setAlgorithm('bcrypt');
-        $user->setSalt(null);
-        $user->setAdmin(true);
-        $user->setAtivo(true);
+        $user = (new Usuario())
+            ->setNome($firstname)
+            ->setSobrenome($lastname)
+            ->setLogin($username)
+            ->setAlgorithm('bcrypt')
+            ->setSalt(null)
+            ->setAdmin(true)
+            ->setAtivo(true);
 
-        $encoder = new NativePasswordEncoder(null, null, 12);
-        $encoded = $encoder->encodePassword($password, $user->getSalt());
+        $encoded = $this->passwordHasher->hashPassword($user, $password);
 
         $user->setSenha($encoded);
-        
+
         return $user;
     }
-    
+
     private function createUnity(string $name, string $description): Unidade
     {
         $unidade = new Unidade();
         $unidade->setNome($name);
         $unidade->setDescricao($description);
         $unidade->setAtivo(true);
-        
+
         return $unidade;
     }
-    
+
     private function createPriority(string $name, string $description, int $weight): Prioridade
     {
         $prioridade = new Prioridade();
@@ -321,15 +323,15 @@ class InstallCommand extends UpdateCommand
         $prioridade->setDescricao($description);
         $prioridade->setPeso($weight);
         $prioridade->setAtivo(true);
-        
+
         return $prioridade;
     }
-    
-    private function createPlace(string $name): \App\Entity\Local
+
+    private function createPlace(string $name): Local
     {
-        $local = new \App\Entity\Local();
+        $local = new Local();
         $local->setNome($name);
-        
+
         return $local;
     }
 }

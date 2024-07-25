@@ -16,7 +16,6 @@ namespace App\Controller\Admin;
 use Novosga\Http\Envelope;
 use App\Service\AtendimentoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -25,31 +24,31 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-#[Route("/admin")]
+#[Route('/admin', name: 'admin_')]
 class AdminController extends AbstractController
 {
-    #[Route("/", name: "admin_index")]
-    public function index(Request $request): Response
+    #[Route('/', name: 'index')]
+    public function index(): Response
     {
         return $this->render('admin/index.html.twig', [
             'tab' => 'index',
         ]);
     }
 
-    #[Route("/acumular_atendimentos", name: "admin_acumular_atendimentos", methods: ["POST"])]
-    public function acumularAtendimentos(Request $request, AtendimentoService $service): Response
+    #[Route('/acumular_atendimentos', name: 'acumular_atendimentos', methods: ['POST'])]
+    public function acumularAtendimentos(AtendimentoService $service): Response
     {
         $envelope = new Envelope();
-        $service->acumularAtendimentos(null);
+        $service->acumularAtendimentos(unidade: null);
 
         return $this->json($envelope);
     }
 
-    #[Route("/limpar_atendimentos", name: "admin_limpar_atendimentos", methods: ["POST"])]
-    public function limparAtendimentos(Request $request, AtendimentoService $service): Response
+    #[Route('/limpar_atendimentos', name: 'limpar_atendimentos', methods: ['POST'])]
+    public function limparAtendimentos(AtendimentoService $service): Response
     {
         $envelope = new Envelope();
-        $service->limparDados();
+        $service->limparDados(unidade: null);
 
         return $this->json($envelope);
     }

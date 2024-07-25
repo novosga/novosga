@@ -22,17 +22,21 @@ use App\Repository\UnidadeRepository;
 use App\Repository\UsuarioRepository;
 use App\Service\UsuarioService;
 use Exception;
+use Novosga\Entity\LotacaoInterface;
+use Novosga\Entity\UnidadeInterface;
+use Novosga\Entity\UsuarioInterface;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * UserProvider
  *
+ * @extends EntityUserProvider<Usuario>
+ *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class UserProvider extends EntityUserProvider
 {
-    
     public function __construct(
         ManagerRegistry $registry,
         private readonly UsuarioService $usuarioService,
@@ -43,7 +47,7 @@ class UserProvider extends EntityUserProvider
         parent::__construct($registry, Usuario::class);
     }
 
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return $class === Usuario::class;
     }
@@ -60,10 +64,11 @@ class UserProvider extends EntityUserProvider
         }
 
         $this->loadLotacao($usuario);
-        
+
         return $usuario;
     }
 
+    /** @param Usuario $user  */
     public function refreshUser(UserInterface $user): UserInterface
     {
         $usuario = $this->usuarioRepository->find($user->getId());
@@ -71,8 +76,8 @@ class UserProvider extends EntityUserProvider
 
         return $usuario;
     }
-    
-    public function loadLotacao(Usuario $usuario)
+
+    public function loadLotacao(Usuario $usuario): void
     {
         $lotacao = null;
         $unidade = $this->loadUnidade($usuario);
@@ -94,7 +99,7 @@ class UserProvider extends EntityUserProvider
         $usuario->setLotacao($lotacao);
     }
 
-    public function loadRoles(Usuario $usuario, Lotacao $lotacao = null)
+    public function loadRoles(UsuarioInterface $usuario, ?LotacaoInterface $lotacao = null): void
     {
         $usuario->addRole('ROLE_USER');
 
@@ -103,7 +108,7 @@ class UserProvider extends EntityUserProvider
         } else {
             $roles = $usuario->getRoles();
 
-            if ($lotacao) {
+            if ($lotacao !== null) {
                 $permissoes = $lotacao->getPerfil()->getModulos();
 
                 foreach ($permissoes as $modulo) {
@@ -116,15 +121,12 @@ class UserProvider extends EntityUserProvider
         }
     }
 
-    public function loadUnidade(Usuario $usuario)
+    public function loadUnidade(Usuario $usuario): ?UnidadeInterface
     {
-        // TODO: temporarily disabling loadUnidade
-
-        // $meta = $this
-        //     ->usuarioService
-        //     ->meta($usuario, UsuarioService::ATTR_SESSION_UNIDADE);
-        $meta = null;
         $unidade = null;
+        $meta = $this
+            ->usuarioService
+            ->meta($usuario, UsuarioService::ATTR_SESSION_UNIDADE);
 
         if ($meta) {
             $unidade = $this->unidadeRepository->find($meta->getValue());
@@ -135,17 +137,13 @@ class UserProvider extends EntityUserProvider
             }
         }
 
-        if (!$unidade) {
-//            throw new Exception('Nenhuma unidade definida para o usuário.');
-        }
-
         return $unidade;
     }
-    
+
     public static function roleName(string $module): string
     {
         $role = 'ROLE_' . strtoupper(str_replace('.', '_', $module));
-        
+
         return $role;
     }
 }

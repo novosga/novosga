@@ -35,17 +35,17 @@ class Lotacao implements LotacaoInterface
     #[ORM\SequenceGenerator(sequenceName: "lotacoes_id_seq", allocationSize: 1, initialValue: 1)]
     protected ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'lotacoes')]
+    #[ORM\ManyToOne(targetEntity: Usuario::class, inversedBy: 'lotacoes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Usuario $usuario = null;
+    private ?UsuarioInterface $usuario = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Unidade::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Unidade $unidade = null;
+    private ?UnidadeInterface $unidade = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Perfil::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Perfil $perfil = null;
+    private ?PerfilInterface $perfil = null;
 
     public function getId(): ?int
     {
@@ -95,7 +95,8 @@ class Lotacao implements LotacaoInterface
         return $this->perfil;
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id'      => $this->getId(),

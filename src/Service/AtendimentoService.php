@@ -17,18 +17,17 @@ use DateTime;
 use Exception;
 use App\Entity\Atendimento;
 use App\Entity\AtendimentoCodificado;
-use App\Entity\Cliente;
+use App\Entity\AtendimentoMeta;
 use App\Event\EventDispatcherInterface;
 use App\Entity\Lotacao;
 use App\Entity\PainelSenha;
 use App\Entity\Prioridade;
 use App\Entity\Servico;
-use App\Entity\ServicoUnidade;
 use App\Entity\Unidade;
 use App\Entity\Usuario;
-use App\Infrastructure\StorageInterface;
 use App\Repository\AtendimentoMetadataRepository;
 use App\Repository\AtendimentoRepository;
+use App\Repository\ClienteRepository;
 use App\Repository\ServicoUnidadeRepository;
 use Novosga\Entity\AgendamentoInterface;
 use Novosga\Entity\AtendimentoInterface;
@@ -37,8 +36,10 @@ use Novosga\Entity\EntityMetadataInterface;
 use Novosga\Entity\LocalInterface;
 use Novosga\Entity\PrioridadeInterface;
 use Novosga\Entity\ServicoInterface;
+use Novosga\Entity\ServicoUnidadeInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
+use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\AtendimentoServiceInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mercure\HubInterface;
@@ -51,7 +52,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 class AtendimentoService implements AtendimentoServiceInterface
-{   
+{
     public function __construct(
         private readonly StorageInterface $storage,
         private readonly EventDispatcherInterface $dispatcher,
@@ -62,6 +63,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         private readonly AtendimentoRepository $atendimentoRepository,
         private readonly AtendimentoMetadataRepository $atendimentoMetaRepository,
         private readonly ServicoUnidadeRepository $servicoUnidadeRepository,
+        private readonly ClienteRepository $clienteRepository,
     ) {
     }
 
@@ -100,17 +102,17 @@ class AtendimentoService implements AtendimentoServiceInterface
         return $arr[$status] ?? '';
     }
 
-    /** {@inheritDoc} */
-    public function meta(AtendimentoInterface $atendimento, string $namespace, string $name, ?string $value = null): EntityMetadataInterface
+    /** @return ?AtendimentoMeta */
+    public function meta(AtendimentoInterface $atendimento, string $name, mixed $value = null): ?EntityMetadataInterface
     {
         if ($value === null) {
             $metadata = $this
                 ->atendimentoMetaRepository
-                ->get($atendimento, $namespace, $name);
+                ->get($atendimento, self::ATTR_NAMESPACE, $name);
         } else {
             $metadata = $this
                 ->atendimentoMetaRepository
-                ->set($atendimento, $namespace, $name, $value);
+                ->set($atendimento, self::ATTR_NAMESPACE, $name, $value);
         }
 
         return $metadata;
@@ -192,7 +194,12 @@ class AtendimentoService implements AtendimentoServiceInterface
         LocalInterface $local,
         int $numeroLocal
     ): bool {
-        $this->dispatcher->createAndDispatch('attending.pre-call', [$atendimento, $usuario, $local, $numeroLocal], true);
+        $this->dispatcher->createAndDispatch('attending.pre-call', [
+            $atendimento,
+            $usuario,
+            $local,
+            $numeroLocal
+        ], true);
 
         $atendimento
             ->setUsuario($usuario)
@@ -228,7 +235,7 @@ class AtendimentoService implements AtendimentoServiceInterface
      * @param array<string,mixed> $ctx
      * @throws Exception
      */
-    public function acumularAtendimentos(UnidadeInterface $unidade, array $ctx = []): void
+    public function acumularAtendimentos(?UnidadeInterface $unidade, array $ctx = []): void
     {
         $this->dispatcher->createAndDispatch('attending.pre-reset', $unidade, true);
 
@@ -236,15 +243,14 @@ class AtendimentoService implements AtendimentoServiceInterface
 
         $this->dispatcher->createAndDispatch('attending.reset', $unidade, true);
 
-        if ($unidade) {
+        if ($unidade !== null) {
             $this->hub->publish(new Update([
                 "/unidades/{$unidade->getId()}/fila",
             ], json_encode([ 'id' => $unidade->getId() ])));
-        } else {
-            $this->hub->publish(new Update([
-                "/fila",
-            ], json_encode([])));
         }
+        $this->hub->publish(new Update([
+            "/fila",
+        ], json_encode([])));
     }
 
     /** {@inheritDoc} */
@@ -293,7 +299,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             ->orderBy('e.id', 'ASC')
             ->setParameter('numero', $numero)
             ->setParameter('unidade', $unidade->getId());
-        
+
         if (!empty($sigla)) {
             $qb
                 ->andWhere('e.senha.sigla = :sigla')
@@ -373,7 +379,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         AgendamentoInterface $agendamento = null,
     ): AtendimentoInterface {
         $om = $this->storage->getManager();
-        
+
         // verificando a unidade
         if (!($unidade instanceof Unidade)) {
             $unidade = $om->find(Unidade::class, $unidade);
@@ -406,7 +412,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $error = $this->translator->trans('error.invalid_priority');
             throw new Exception($error);
         }
-        
+
         if (!$usuario->isAdmin()) {
             $lotacao = $om
                 ->getRepository(Lotacao::class)
@@ -420,13 +426,13 @@ class AtendimentoService implements AtendimentoServiceInterface
                 throw new Exception($error);
             }
         }
-        
+
         $su = $this->checkServicoUnidade($unidade, $servico);
 
         if (
             ($su->getTipo() === 2 && $prioridade->getPeso() > 0) ||
             ($su->getTipo() === 3 && $prioridade->getPeso() === 0)
-         ) {
+        ) {
             $error = $this->translator->trans('error.invalid_attendance_priority');
             throw new Exception($error);
         }
@@ -442,7 +448,7 @@ class AtendimentoService implements AtendimentoServiceInterface
                 throw new Exception($error);
             }
         }
-        
+
         $atendimento = new Atendimento();
         $atendimento
             ->setServico($servico)
@@ -454,28 +460,28 @@ class AtendimentoService implements AtendimentoServiceInterface
             ->setNumeroLocal(null);
 
         $atendimento->getSenha()->setSigla($su->getSigla());
-        
+
         if ($agendamento) {
             $data = $agendamento->getData()->format('Y-m-d');
             $hora = $agendamento->getHora()->format('H:i');
             $dtAge = DateTime::createFromFormat('Y-m-d H:i', "{$data} {$hora}");
             $atendimento->setDataAgendamento($dtAge);
         }
-        
+
         $clienteValido = $this->getClienteValido($cliente);
         if ($clienteValido) {
             $atendimento->setCliente($clienteValido);
         }
 
         $this->dispatcher->createAndDispatch('attending.pre-create', [$atendimento], true);
-        
+
         try {
             $this->storage->distribui($atendimento, $agendamento);
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             throw $e;
         }
-        
+
         if (!$atendimento->getId()) {
             $error = $this->translator->trans('error.new_ticket');
             $this->logger->error($error);
@@ -486,7 +492,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             '/atendimentos',
             "/unidades/{$unidade->getId()}/fila",
         ], json_encode([ 'id' => $atendimento->getId() ])));
-        
+
         return $atendimento;
     }
 
@@ -494,16 +500,16 @@ class AtendimentoService implements AtendimentoServiceInterface
     public function iniciarAtendimento(AtendimentoInterface $atendimento, UsuarioInterface $usuario): void
     {
         $status = $atendimento->getStatus();
-        
+
         if (!in_array($status, [ self::CHAMADO_PELA_MESA ])) {
             throw new Exception('Não pode iniciar esse atendimento.');
         }
-        
+
         $atendimento
             ->setStatus(self::ATENDIMENTO_INICIADO)
             ->setDataInicio(new DateTime())
             ->setUsuario($usuario);
-    
+
         $tempoDeslocamento = $atendimento->getDataInicio()->diff($atendimento->getDataChamada());
 
         $atendimento->setTempoDeslocamento($tempoDeslocamento);
@@ -523,23 +529,23 @@ class AtendimentoService implements AtendimentoServiceInterface
     public function naoCompareceu(AtendimentoInterface $atendimento, UsuarioInterface $usuario): void
     {
         $status = $atendimento->getStatus();
-        
+
         if (!in_array($status, [ self::CHAMADO_PELA_MESA ])) {
             throw new Exception('Não pode iniciar esse atendimento.');
         }
-        
+
         $atendimento->setDataFim(new DateTime());
         $atendimento->setStatus(self::NAO_COMPARECEU);
         $atendimento->setUsuario($usuario);
-        
+
         $tempoPermanencia  = $atendimento->getDataFim()->diff($atendimento->getDataChegada());
         $tempoAtendimento  = new \DateInterval('P0M');
         $tempoDeslocamento = new \DateInterval('P0M');
-        
+
         $atendimento->setTempoPermanencia($tempoPermanencia);
         $atendimento->setTempoAtendimento($tempoAtendimento);
         $atendimento->setTempoDeslocamento($tempoDeslocamento);
-        
+
         $em = $this->storage->getManager();
         $em->persist($atendimento);
         $em->flush();
@@ -577,19 +583,24 @@ class AtendimentoService implements AtendimentoServiceInterface
                 ->getRepository(Usuario::class)
                 ->find($$novoAtendente);
         }
-        
-        $this->dispatcher->createAndDispatch('attending.pre-redirect', [$atendimento, $unidade, $servico, $usuario], true);
-        
+
+        $this->dispatcher->createAndDispatch('attending.pre-redirect', [
+            $atendimento,
+            $unidade,
+            $servico,
+            $novoAtendente
+        ], true);
+
         $atendimento->setStatus(self::ERRO_TRIAGEM);
         $atendimento->setDataFim(new DateTime());
-        
+
         $tempoPermanencia = $atendimento->getDataFim()->diff($atendimento->getDataChegada());
         $tempoAtendimento = new \DateInterval('P0M');
-        
+
         $atendimento->setTempoPermanencia($tempoPermanencia);
         $atendimento->setTempoAtendimento($tempoAtendimento);
-        
-        $novo = $this->copyToRedirect($atendimento, $unidade, $servico, $usuario);
+
+        $novo = $this->copyToRedirect($atendimento, $unidade, $servico, $novoAtendente);
 
         $em = $this->storage->getManager();
         $em->persist($atendimento);
@@ -614,7 +625,12 @@ class AtendimentoService implements AtendimentoServiceInterface
         ServicoInterface|int $novoServico,
         PrioridadeInterface|int $novaPrioridade
     ): bool {
-        $this->dispatcher->createAndDispatch('attending.pre-transfer', [ $atendimento, $unidade, $novoServico, $novaPrioridade ], true);
+        $this->dispatcher->createAndDispatch('attending.pre-transfer', [
+            $atendimento,
+            $unidade,
+            $novoServico,
+            $novaPrioridade
+        ], true);
 
         // transfere apenas se a data fim for nula (nao finalizados)
         $success = $this
@@ -654,27 +670,28 @@ class AtendimentoService implements AtendimentoServiceInterface
         if ($atendimento->getDataFim() !== null) {
             throw new Exception('Erro ao tentar cancelar um serviço já encerrado.');
         }
-        
+
         $this->dispatcher->createAndDispatch('attending.pre-cancel', $atendimento, true);
-        
+
         $now = new DateTime();
-        $atendimento->setDataFim($now);
-        
+        $atendimento
+            ->setDataFim($now)
+            ->setStatus(self::SENHA_CANCELADA);
+
+        $tempoPermanencia = null;
+        $tempoAtendimento = null;
+
         if ($atendimento->getDataChegada()) {
-            $tempoPermanencia = $atendimento->getDataFim()->diff($atendimento->getDataChegada());
-        } else {
-            $tempoPermanencia = $atendimento->getDataFim()->diff($now);
+            $tempoPermanencia = $now->diff($atendimento->getDataChegada());
         }
-        
+
         if ($atendimento->getDataInicio()) {
-            $tempoAtendimento = $atendimento->getDataFim()->diff($atendimento->getDataInicio());
-        } else {
-            $tempoAtendimento = null;
+            $tempoAtendimento = $now->diff($atendimento->getDataInicio());
         }
-        
-        $atendimento->setTempoPermanencia($tempoPermanencia);
-        $atendimento->setTempoAtendimento($tempoAtendimento);
-        $atendimento->setStatus(self::SENHA_CANCELADA);
+
+        $atendimento
+            ->setTempoPermanencia($tempoPermanencia)
+            ->setTempoAtendimento($tempoAtendimento);
 
         $em = $this->storage->getManager();
         $em->persist($atendimento);
@@ -727,7 +744,7 @@ class AtendimentoService implements AtendimentoServiceInterface
 
         return $success;
     }
-    
+
     /** {@inheritDoc} */
     public function encerrar(
         AtendimentoInterface $atendimento,
@@ -776,7 +793,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $novoAtendimento = $this->copyToRedirect($atendimento, $unidade, $servicoRedirecionado, $novoUsuario);
         }
 
-        $atendimento->setDataFim(new DateTime);
+        $atendimento->setDataFim(new DateTime());
         $atendimento->setStatus(AtendimentoService::ATENDIMENTO_ENCERRADO);
 
         $tempoPermanencia = $atendimento->getDataFim()->diff($atendimento->getDataChegada());
@@ -794,8 +811,8 @@ class AtendimentoService implements AtendimentoServiceInterface
 
         $this->dispatcher->createAndDispatch('attending.finish', $atendimento, true);
     }
-    
-    public function alteraStatusAtendimentoUsuario(Usuario $usuario, $novoStatus)
+
+    public function alteraStatusAtendimentoUsuario(UsuarioInterface $usuario, string $novoStatus): ?AtendimentoInterface
     {
         $atual = $this->getAtendimentoAndamento($usuario, null);
 
@@ -803,9 +820,9 @@ class AtendimentoService implements AtendimentoServiceInterface
             $error = $this->translator->trans('error.no_servicing_available');
             throw new Exception($error);
         }
-            
+
         $campoData = null;
-        
+
         switch ($novoStatus) {
             case AtendimentoService::ATENDIMENTO_INICIADO:
                 $statusAtual = [ AtendimentoService::CHAMADO_PELA_MESA ];
@@ -824,7 +841,7 @@ class AtendimentoService implements AtendimentoServiceInterface
                     AtendimentoService::ATENDIMENTO_INICIADO,
                     AtendimentoService::ATENDIMENTO_ENCERRADO,
                 ];
-                $campoData   = 'dataFim';
+                $campoData = 'dataFim';
                 break;
             default:
                 throw new Exception('Novo status inválido.');
@@ -869,67 +886,66 @@ class AtendimentoService implements AtendimentoServiceInterface
         return $atual;
     }
 
-    public function checkServicoUnidade(Unidade $unidade, Servico $servico): ServicoUnidade
+    public function checkServicoUnidade(UnidadeInterface $unidade, ServicoInterface $servico): ServicoUnidadeInterface
     {
         // verificando se o servico esta disponivel na unidade
-        $su = $this
-            ->storage
-            ->getRepository(ServicoUnidade::class)
-            ->get($unidade, $servico);
-        
+        $su = $this->servicoUnidadeRepository->get($unidade, $servico);
+
         if (!$su) {
             $error = $this->translator->trans('error.service_unity_invalid');
             throw new Exception($error);
         }
-        
+
         if (!$su->isAtivo()) {
             $error = $this->translator->trans('error.service_unity_inactive');
             throw new Exception($error);
         }
-        
+
         return $su;
     }
 
     public function getClienteValido(ClienteInterface $cliente): ?ClienteInterface
     {
         // verificando se o cliente ja existe
-        if ($cliente) {
-            $clienteExistente = null;
-            $clienteRepository = $this->storage->getRepository(Cliente::class);
+        $clienteExistente = null;
 
-            if ($cliente->getId()) {
-                $clienteExistente = $clienteRepository->find($cliente->getId());
-            }
-
-            if (!$clienteExistente && $cliente->getEmail()) {
-                $clienteExistente = $clienteRepository->findOneBy(['email' => $cliente->getEmail()]);
-            }
-
-            if (!$clienteExistente && $cliente->getDocumento()) {
-                $clienteExistente = $clienteRepository->findOneBy(['documento' => $cliente->getDocumento()]);
-            }
-
-            if ($clienteExistente) {
-                $cliente = $clienteExistente;
-            }
-
-            // evita gerar cliente sem nome e/ou documento
-            if (!$cliente->getDocumento() || !$cliente->getNome()) {
-                $cliente = null;
-            }
+        if ($cliente->getId()) {
+            $clienteExistente = $this->clienteRepository->find($cliente->getId());
         }
-        
+
+        if (!$clienteExistente && $cliente->getEmail()) {
+            $clienteExistente = $this->clienteRepository->findOneBy(['email' => $cliente->getEmail()]);
+        }
+
+        if (!$clienteExistente && $cliente->getDocumento()) {
+            $clienteExistente = $this->clienteRepository->findOneBy(['documento' => $cliente->getDocumento()]);
+        }
+
+        if ($clienteExistente) {
+            $cliente = $clienteExistente;
+        }
+
+        // evita gerar cliente sem nome e/ou documento
+        if (!$cliente->getDocumento() || !$cliente->getNome()) {
+            $cliente = null;
+        }
+
         return $cliente;
     }
-    
+
     /** {@inheritDoc} */
-    public function limparDados(UnidadeInterface $unidade): void
+    public function limparDados(?UnidadeInterface $unidade): void
     {
         $this->storage->apagarDadosAtendimento($unidade);
 
+        if ($unidade !== null) {
+            $this->hub->publish(new Update([
+                "/unidades/{$unidade->getId()}/fila",
+            ], json_encode([ 'id' => $unidade->getId() ])));
+        }
         $this->hub->publish(new Update([
-            "/unidades/{$unidade->getId()}/fila",
-        ], json_encode([ 'id' => $unidade->getId() ])));
+            "/fila",
+        ], json_encode([])));
     }
 
     private function copyToRedirect(

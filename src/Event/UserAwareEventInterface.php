@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Entity\Usuario;
+use Novosga\Entity\UsuarioInterface;
 
 /**
  * UserAwareEventInterface
@@ -22,13 +22,6 @@ use App\Entity\Usuario;
  */
 interface UserAwareEventInterface extends EventInterface
 {
-    /**
-     * @param Usuario $user
-     */
-    public function setUser(Usuario $user);
-    
-    /**
-     * @return Usuario
-     */
-    public function getUser(): Usuario;
+    public function setUser(?UsuarioInterface $user): static;
+    public function getUser(): ?UsuarioInterface;
 }

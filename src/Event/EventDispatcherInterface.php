@@ -25,9 +25,9 @@ interface EventDispatcherInterface
      * @return bool
      */
     public function dispatch(EventInterface $event): bool;
-    
+
     /**
-     * 
+     *
      * @param string $eventName
      * @param mixed  $eventData
      * @param bool   $advancedEvent

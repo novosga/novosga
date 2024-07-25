@@ -28,12 +28,12 @@ use Doctrine\ORM\Event\PreRemoveEventArgs;
  */
 #[AsEntityListener]
 class ServicoListener
-{   
-    public function preRemove(Servico $servico, PreRemoveEventArgs $args)
+{
+    public function preRemove(Servico $servico, PreRemoveEventArgs $args): void
     {
         /** @var EntityManagerInterface */
         $em = $args->getObjectManager();
-        
+
         $total = (int) $em
             ->createQueryBuilder()
             ->select('COUNT(1)')
@@ -43,11 +43,11 @@ class ServicoListener
             ->setParameter('servico', $servico)
             ->getQuery()
             ->getSingleScalarResult();
-        
+
         if ($total > 0) {
             throw new Exception('Não é possível remover o serviço porque está habilitado em uma unidade.');
         }
-        
+
         $total = (int) $em
             ->createQueryBuilder()
             ->select('COUNT(1)')
@@ -57,7 +57,7 @@ class ServicoListener
             ->setParameter('servico', $servico)
             ->getQuery()
             ->getSingleScalarResult();
-        
+
         if ($total > 0) {
             throw new Exception('Não é possível remover o serviço porque possui subserviços vinculados.');
         }
@@ -69,7 +69,7 @@ class ServicoListener
             ->setParameter('servico', $servico)
             ->getQuery()
             ->execute();
-        
+
         $em
             ->createQueryBuilder()
             ->delete(ServicoUsuario::class, 'e')

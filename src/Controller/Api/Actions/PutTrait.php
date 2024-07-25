@@ -15,6 +15,7 @@ namespace App\Controller\Api\Actions;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * PutTrait
@@ -23,14 +24,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 trait PutTrait
 {
-    #[Route("/{id}", methods: ["PUT"])]
-    public function doPut(Request $request, $id)
+    #[Route('/{id}', methods: ['PUT'])]
+    public function doPut(Request $request, int $id): Response
     {
         $object = $this->getRepository()->find($id);
-        
+
         $json = $request->getContent();
         $this->deserialize($json, ['object_to_populate' => $object]);
-        
+
         return $this->update($object);
     }
 }

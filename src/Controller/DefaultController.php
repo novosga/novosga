@@ -15,14 +15,15 @@ namespace App\Controller;
 
 use App\Repository\UnidadeRepository;
 use App\Entity\Unidade;
+use App\Service\UsuarioService;
 use Novosga\Entity\UsuarioInterface;
+use Novosga\Http\Envelope;
+use Novosga\Module\ModuleInterface;
+use Novosga\Service\UsuarioServiceInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Novosga\Http\Envelope;
-use Novosga\Module\ModuleInterface;
-use Novosga\Service\UsuarioServiceInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
@@ -30,25 +31,25 @@ use function usort;
 
 class DefaultController extends AbstractController
 {
-    #[Route("/", name: "home", methods: ['GET'])]
+    #[Route('/', name: 'home', methods: ['GET'])]
     public function index(): Response
     {
         return $this->render('default/index.html.twig');
     }
 
-    #[Route("/ping", name: "ping", methods: ['GET'])]
+    #[Route('/ping', name: 'ping', methods: ['GET'])]
     public function ping(): Response
     {
         return $this->json(new Envelope());
     }
 
-    #[Route("/about", name: "about", methods: ['GET'])]
+    #[Route('/about', name: 'about', methods: ['GET'])]
     public function about(): Response
     {
         return $this->render('default/about.html.twig');
     }
 
-    #[Route("/unidades", name: "app_default_unidades", methods: ['GET'])]
+    #[Route('/unidades', name: 'app_default_unidades', methods: ['GET'])]
     public function unidades(UnidadeRepository $unidade): Response
     {
         /** @var UsuarioInterface */
@@ -60,8 +61,8 @@ class DefaultController extends AbstractController
         ]);
     }
 
-    #[Route("/set_unidade/{id}", name: "app_default_setunidade", methods: ['POST'])]
-    public function setUnidade(Unidade $unidade, UsuarioServiceInterface $usuarioService): Response
+    #[Route('/set_unidade/{id}', name: 'app_default_setunidade', methods: ['POST'])]
+    public function setUnidade(Unidade $unidade, UsuarioService $usuarioService): Response
     {
         /** @var UsuarioInterface */
         $usuario = $this->getUser();
@@ -74,7 +75,7 @@ class DefaultController extends AbstractController
         return $this->json(new Envelope());
     }
 
-    #[Route("/menu", name: "app_default_menu", methods: ['GET'])]
+    #[Route('/menu', name: 'app_default_menu', methods: ['GET'])]
     public function menu(KernelInterface $kernel, TranslatorInterface $translator): Response
     {
         $bundles = array_filter(

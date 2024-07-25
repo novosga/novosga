@@ -23,7 +23,7 @@ class AdvancedEvent extends Event implements
     StorageAwareEventInterface,
     UserAwareEventInterface
 {
-    use LoggerAwareTrait,
-        StorageAwareTrait,
-        UserAwareTrait;
+    use LoggerAwareTrait;
+    use StorageAwareTrait;
+    use UserAwareTrait;
 }

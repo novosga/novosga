@@ -16,10 +16,11 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Contador;
+use Novosga\Entity\ContadorInterface;
 use Novosga\Repository\ContadorRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Contador>
+ * @extends ServiceEntityRepository<ContadorInterface>
  *
  * @method Contador|null find($id, $lockMode = null, $lockVersion = null)
  * @method Contador|null findOneBy(array $criteria, array $orderBy = null)

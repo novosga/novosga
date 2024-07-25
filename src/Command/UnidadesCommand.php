@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,15 +27,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'novosga:unidades')]
 class UnidadesCommand extends Command
 {
-    /**
-     * @var ObjectManager
-     */
-    private $om;
-
-    public function __construct(ObjectManager $om)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+    ) {
         parent::__construct();
-        $this->om = $om;
     }
 
     protected function configure(): void
@@ -48,12 +43,12 @@ class UnidadesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $unidades = $this
-            ->om
+            ->em
             ->getRepository(\App\Entity\Unidade::class)
             ->findBy([], ['id' => 'ASC']);
-        
+
         $json = $input->getOption('json');
-        
+
         if ($json) {
             $arr = [];
             foreach ($unidades as $unidade) {
@@ -79,6 +74,6 @@ class UnidadesCommand extends Command
             }
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }

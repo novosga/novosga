@@ -23,9 +23,9 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 trait FormattedOutputTrait
 {
-    protected function writef(OutputInterface $output, $message, $type)
+    protected function writef(OutputInterface $output, string $message, string $type): void
     {
-        /* @var $formatter FormatterHelper */
+        /** @var FormatterHelper */
         $formatter = $this->getHelper('formatter');
         $formattedBlock = $formatter->formatBlock($message, $type, true);
         $output->writeln($formattedBlock);

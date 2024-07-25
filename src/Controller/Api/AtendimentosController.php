@@ -22,12 +22,12 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Rogério Lino <rogeriolino@gmail.com>
  *
  */
-#[Route("/api/atendimentos")]
+#[Route('/api/atendimentos')]
 class AtendimentosController extends ApiCrudController
 {
-    use Actions\GetTrait,
-        Actions\FindTrait;
-    
+    use Actions\GetTrait;
+    use Actions\FindTrait;
+
     public function getEntityName(): string
     {
         return Atendimento::class;

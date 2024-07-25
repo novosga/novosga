@@ -30,14 +30,12 @@ class UpdateCommand extends Command
 {
     use FormattedOutputTrait;
 
-    protected $params;
-
-    public function __construct(ParameterBagInterface $params)
-    {
+    public function __construct(
+        private readonly ParameterBagInterface $params,
+    ) {
         parent::__construct();
-        $this->params = $params;
     }
-    
+
     protected function configure(): void
     {
         $this
@@ -48,18 +46,18 @@ class UpdateCommand extends Command
     {
         $version = $this->params->get('version');
         $header = [
-            "*******************\n",
-            "Updating NovoSGA v{$version} installation\n",
+            "*******************",
+            "Updating NovoSGA v{$version} installation",
             "*******************",
         ];
-        
-        $this->writef($output, $header, 'info');
-        
+
+        $this->writef($output, join('\n', $header), 'info');
+
         $this->updateSchema($output);
 
-        return 0;
+        return self::SUCCESS;
     }
-    
+
     protected function updateSchema(OutputInterface $output): bool
     {
         $updateDatabase = $this->getApplication()->find('doctrine:schema:update');
@@ -67,7 +65,7 @@ class UpdateCommand extends Command
             new ArrayInput([ '--force' => true ]),
             $output
         );
-        
+
         return $code === 0;
     }
 }

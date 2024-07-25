@@ -15,8 +15,8 @@ namespace App\Infrastructure\Storage;
 
 use Doctrine\DBAL\Connection;
 use App\Entity\Contador;
-use App\Entity\Servico;
-use App\Entity\Unidade;
+use Novosga\Entity\ServicoInterface;
+use Novosga\Entity\UnidadeInterface;
 
 /**
  * PostgreSQL Storage
@@ -25,16 +25,14 @@ use App\Entity\Unidade;
  */
 class PostgreSQLStorage extends RelationalStorage
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function numeroAtual(Connection $conn, Unidade $unidade, Servico $servico): int
+    /** {@inheritdoc} */
+    protected function numeroAtual(Connection $conn, UnidadeInterface $unidade, ServicoInterface $servico): int
     {
         $contadorTable = $this->em->getClassMetadata(Contador::class)->getTableName();
 
         $stmt = $conn->executeQuery("
-            SELECT numero 
-            FROM {$contadorTable} 
+            SELECT numero
+            FROM {$contadorTable}
             WHERE
                 unidade_id = :unidade AND
                 servico_id = :servico
@@ -49,17 +47,13 @@ class PostgreSQLStorage extends RelationalStorage
         return $numeroAtual;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function preAcumularAtendimentos(Connection $conn, Unidade $unidade = null)
+    /** {@inheritdoc} */
+    protected function preAcumularAtendimentos(Connection $conn, ?UnidadeInterface $unidade = null): void
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function preApagarDadosAtendimento(Connection $conn, Unidade $unidade = null)
+    /** {@inheritdoc} */
+    protected function preApagarDadosAtendimento(Connection $conn, ?UnidadeInterface $unidade = null): void
     {
     }
 }

@@ -16,10 +16,11 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Prioridade;
+use Novosga\Entity\PrioridadeInterface;
 use Novosga\Repository\PrioridadeRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<Prioridade>
+ * @extends ServiceEntityRepository<PrioridadeInterface>
  *
  * @method Prioridade|null find($id, $lockMode = null, $lockVersion = null)
  * @method Prioridade|null findOneBy(array $criteria, array $orderBy = null)
@@ -30,6 +31,7 @@ use Novosga\Repository\PrioridadeRepositoryInterface;
  */
 class PrioridadeRepository extends ServiceEntityRepository implements PrioridadeRepositoryInterface
 {
+    /** @use SoftDeleteTrait<Prioridade> */
     use SoftDeleteTrait;
 
     public function __construct(ManagerRegistry $registry)
@@ -37,6 +39,7 @@ class PrioridadeRepository extends ServiceEntityRepository implements Prioridade
         parent::__construct($registry, Prioridade::class);
     }
 
+    /** @return PrioridadeInterface[] */
     public function findAtivas(): array
     {
         return $this

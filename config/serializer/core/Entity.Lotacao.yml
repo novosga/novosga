@@ -1,9 +1,0 @@
-App\Entity\Lotacao:
-    exclusion_policy: ALL
-    properties:
-        unidade:
-            type: App\Entity\Unidade
-            expose: true
-        perfil:
-            type: App\Entity\Perfil
-            expose: true

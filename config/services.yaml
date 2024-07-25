@@ -57,10 +57,6 @@ services:
 
     App\Event\EventDispatcherInterface: '@App\Service\EventDispatcher'
 
-    App\Infrastructure\StorageInterface:
-        factory: ['App\Infrastructure\StorageFactory', 'createStorage']
-        arguments: ['@Doctrine\Persistence\ObjectManager']
-
     App\Service\Configuration:
         $rootDir: '%kernel.project_dir%'
 
@@ -93,3 +89,7 @@ services:
     Novosga\Service\ServicoServiceInterface: '@App\Service\ServicoService'
     Novosga\Service\UsuarioServiceInterface: '@App\Service\UsuarioService'
     Novosga\Service\TicketServiceInterface: '@App\Service\TicketService'
+
+    Novosga\Infrastructure\StorageInterface:
+        factory: ['App\Infrastructure\StorageFactory', 'createStorage']
+        arguments: ['@Doctrine\Persistence\ObjectManager']

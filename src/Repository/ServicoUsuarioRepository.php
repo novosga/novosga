@@ -23,7 +23,7 @@ use Novosga\Entity\UsuarioInterface;
 use Novosga\Repository\ServicoUsuarioRepositoryInterface;
 
 /**
- * @extends ServiceEntityRepository<ServicoUsuario>
+ * @extends ServiceEntityRepository<ServicoUsuarioInterface>
  *
  * @method ServicoUsuario|null find($id, $lockMode = null, $lockVersion = null)
  * @method ServicoUsuario|null findOneBy(array $criteria, array $orderBy = null)
@@ -38,10 +38,8 @@ class ServicoUsuarioRepository extends ServiceEntityRepository implements Servic
     {
         parent::__construct($registry, ServicoUsuario::class);
     }
-    
-    /**
-     * {@inheritdoc}
-     */
+
+    /** {@inheritdoc} */
     public function getAll(UsuarioInterface|int $usuario, UnidadeInterface|int $unidade): array
     {
         return $this
@@ -59,15 +57,12 @@ class ServicoUsuarioRepository extends ServiceEntityRepository implements Servic
             ->getResult();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function get(
         UsuarioInterface|int $usuario,
         UnidadeInterface|int $unidade,
         ServicoInterface|int $servico,
-    ): ?ServicoUsuarioInterface
-    {
+    ): ?ServicoUsuarioInterface {
         return $this
             ->getEntityManager()
             ->createQueryBuilder()

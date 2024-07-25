@@ -21,12 +21,12 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-#[Route("/api/atendimentoshistorico")]
+#[Route('/api/atendimentoshistorico')]
 class AtendimentosHistoricoController extends ApiCrudController
 {
-    use Actions\GetTrait,
-        Actions\FindTrait;
-    
+    use Actions\GetTrait;
+    use Actions\FindTrait;
+
     public function getEntityName(): string
     {
         return AtendimentoHistorico::class;

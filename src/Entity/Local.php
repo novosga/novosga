@@ -39,7 +39,7 @@ class Local implements TimestampableEntityInterface, LocalInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\SequenceGenerator(sequenceName: "locais_id_seq", allocationSize: 1, initialValue: 1)]
     protected ?int $id = null;
-    
+
     #[ORM\Column(length: 20, unique: true)]
     private ?string $nome = null;
 
@@ -54,7 +54,7 @@ class Local implements TimestampableEntityInterface, LocalInterface
 
         return $this;
     }
-    
+
     public function setNome(?string $nome): static
     {
         $this->nome = $nome;
@@ -72,7 +72,8 @@ class Local implements TimestampableEntityInterface, LocalInterface
         return $this->getNome();
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id'        => $this->getId(),

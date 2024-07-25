@@ -25,7 +25,7 @@ use Novosga\Entity\UnidadeInterface;
 /**
  * Agendamento.
  *
- * @author rogerio
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 #[ORM\Entity(repositoryClass: AgendamentoRepository::class)]
 #[ORM\Table(name: 'agendamentos')]
@@ -37,7 +37,7 @@ class Agendamento implements AgendamentoInterface
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\SequenceGenerator(sequenceName: "agendamentos_id_seq", allocationSize: 1, initialValue: 1)]
     protected ?int $id = null;
-    
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTime $data = null;
 
@@ -47,18 +47,18 @@ class Agendamento implements AgendamentoInterface
     #[ORM\Column(length: 20)]
     private ?string $situacao;
 
-    #[ORM\ManyToOne(cascade: ['persist'])]
-    private ?Cliente $cliente = null;
+    #[ORM\ManyToOne(targetEntity: Cliente::class, cascade: ['persist'])]
+    private ?ClienteInterface $cliente = null;
 
-    #[ORM\ManyToOne]
-    private ?Unidade $unidade = null;
+    #[ORM\ManyToOne(targetEntity: Unidade::class)]
+    private ?UnidadeInterface $unidade = null;
 
-    #[ORM\ManyToOne]
-    private ?Servico $servico = null;
+    #[ORM\ManyToOne(targetEntity: Servico::class)]
+    private ?ServicoInterface $servico = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?DateTime $dataConfirmacao = null;
-    
+
     #[ORM\Column(length: 36, nullable: true)]
     private ?string $oid = null;
 
@@ -155,7 +155,7 @@ class Agendamento implements AgendamentoInterface
     {
         return $this->dataConfirmacao;
     }
-    
+
     public function setDataConfirmacao(?DateTime $dataConfirmacao): static
     {
         $this->dataConfirmacao = $dataConfirmacao;
@@ -174,13 +174,14 @@ class Agendamento implements AgendamentoInterface
 
         return $this;
     }
-        
+
     public function __toString()
     {
-        return $this->getId();
+        return (string) $this->getId();
     }
-    
-    public function jsonSerialize()
+
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
             'id' => $this->getId(),

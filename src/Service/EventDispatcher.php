@@ -20,11 +20,11 @@ use App\Event\EventDispatcherInterface;
 use App\Event\LoggerAwareEventInterface;
 use App\Event\StorageAwareEventInterface;
 use App\Event\UserAwareEventInterface;
-use App\Infrastructure\StorageInterface;
-use Psr\Log\LoggerInterface;
 use App\Service\Configuration;
+use Novosga\Entity\UsuarioInterface;
+use Novosga\Infrastructure\StorageInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * EventDispatcher
@@ -33,57 +33,35 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class EventDispatcher implements EventDispatcherInterface
 {
-    /**
-     * @var Configuration
-     */
-    private $config;
-    
-    /**
-     * @var UserInterface
-     */
-    private $user;
-    
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-    
-    /**
-     * @var StorageInterface
-     */
-    private $storage;
-    
+    private ?UsuarioInterface $user = null;
+
     public function __construct(
-        Configuration $config,
-        LoggerInterface $logger,
+        private readonly Configuration $config,
+        private readonly LoggerInterface $logger,
+        private readonly StorageInterface $storage,
         TokenStorageInterface $token,
-        StorageInterface $storage
     ) {
-        $this->config  = $config;
-        $this->logger  = $logger;
-        $this->storage = $storage;
-        $this->user    = $token->getToken() ? $token->getToken()->getUser() : null;
+        $user = $token->getToken()?->getUser();
+        if ($user instanceof UsuarioInterface) {
+            $this->user = $user;
+        }
     }
-    
-    /**
-     * {@inheritdoc}
-     */
+
+    /** {@inheritdoc} */
     public function dispatch(EventInterface $event): bool
     {
         $eventName = $event->getName();
-        $hookKey   = "hooks.{$eventName}";
-        $callback  = $this->config->get($hookKey);
-        
+        $hookKey = "hooks.{$eventName}";
+        $callback = $this->config->get($hookKey);
+
         if (is_callable($callback)) {
             return !!$callback($event);
         }
-        
+
         return false;
     }
-    
-    /**
-     * {@inheritdoc}
-     */
+
+    /** {@inheritdoc} */
     public function createAndDispatch(string $eventName, $eventData, bool $advancedEvent = false): bool
     {
         if ($advancedEvent) {
@@ -91,19 +69,19 @@ class EventDispatcher implements EventDispatcherInterface
         } else {
             $event = new Event($eventName, $eventData);
         }
-        
+
         if ($event instanceof UserAwareEventInterface && $this->user !== null) {
             $event->setUser($this->user);
         }
-        
+
         if ($event instanceof LoggerAwareEventInterface && $this->logger !== null) {
             $event->setLogger($this->logger);
         }
-        
+
         if ($event instanceof StorageAwareEventInterface && $this->storage !== null) {
             $event->setStorage($this->storage);
         }
-        
+
         return $this->dispatch($event);
     }
 }

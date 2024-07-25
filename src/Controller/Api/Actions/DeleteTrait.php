@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Actions;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,11 +23,11 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 trait DeleteTrait
 {
-    #[Route("/{id{", methods: ["DELETE"])]
-    public function doDelete($id)
+    #[Route('/{id}', methods: ['DELETE'])]
+    public function doDelete(int $id): Response
     {
         $object = $this->getRepository()->find($id);
-        
+
         return $this->remove($object);
     }
 }

@@ -15,7 +15,7 @@ trait TimestampableEntityTrait
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeImmutable $updatedAt = null;
-    
+
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
@@ -31,7 +31,7 @@ trait TimestampableEntityTrait
     public function setUpdatedAt(?DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-        
+
         return $this;
     }
 

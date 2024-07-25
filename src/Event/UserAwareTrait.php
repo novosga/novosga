@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Event;
 
-use App\Entity\Usuario;
+use Novosga\Entity\UsuarioInterface;
 
 /**
  * UserAwareTrait
@@ -22,24 +22,16 @@ use App\Entity\Usuario;
  */
 trait UserAwareTrait
 {
-    /**
-     * @var Usuario
-     */
-    private $user;
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function setUser(Usuario $user)
+    private ?UsuarioInterface $user = null;
+
+    public function setUser(?UsuarioInterface $user): static
     {
         $this->user = $user;
+
         return $this;
     }
-        
-    /**
-     * {@inheritdoc}
-     */
-    public function getUser(): Usuario
+
+    public function getUser(): ?UsuarioInterface
     {
         return $this->user;
     }

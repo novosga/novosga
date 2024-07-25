@@ -25,3 +25,12 @@ nbproject/
 ###> league/oauth2-server-bundle ###
 /config/jwt/*.pem
 ###< league/oauth2-server-bundle ###
+
+###> squizlabs/php_codesniffer ###
+/.phpcs-cache
+/phpcs.xml
+###< squizlabs/php_codesniffer ###
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###

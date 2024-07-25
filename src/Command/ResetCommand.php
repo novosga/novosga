@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Doctrine\Persistence\ObjectManager;
-use Exception;
 use App\Entity\Unidade;
 use App\Service\AtendimentoService;
+use Exception;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -33,23 +33,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(name: 'novosga:reset')]
 class ResetCommand extends Command
 {
-    protected static $defaultName = 'novosga:reset';
-
-    /**
-     * @var ObjectManager
-     */
-    private $om;
-
-    /**
-     * @var AtendimentoService
-     */
-    private $atendimentoService;
-
-    public function __construct(ObjectManager $om, AtendimentoService $atendimentoService)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly AtendimentoService $atendimentoService,
+    ) {
         parent::__construct();
-        $this->om                 = $om;
-        $this->atendimentoService = $atendimentoService;
     }
 
     protected function configure(): void
@@ -71,13 +59,13 @@ class ResetCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $id      = (int) $input->getArgument('unidade');
-        $seguro  = $input->getOption('seguro');
+        $id = (int) $input->getArgument('unidade');
+        $seguro = $input->getOption('seguro');
         $unidade = null;
-        
+
         if ($id > 0) {
             // verificando unidade
-            $unidade = $this->om->find(Unidade::class, $id);
+            $unidade = $this->em->find(Unidade::class, $id);
             if (!$unidade) {
                 throw new Exception("Unidade inválida: $id");
             }
@@ -91,12 +79,12 @@ class ResetCommand extends Command
             $dt->setTime(23, 59, 59);
             $ctx['data'] = $dt;
         }
-        
+
         $this->atendimentoService->acumularAtendimentos($unidade, $ctx);
-        
+
         $io = new SymfonyStyle($input, $output);
         $io->success('Senhas reiniciadas com sucesso');
 
-        return 0;
+        return self::SUCCESS;
     }
 }

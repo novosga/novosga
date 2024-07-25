@@ -32,15 +32,15 @@ use Novosga\Entity\UnidadeInterface;
 class ServicoUnidade implements ServicoUnidadeInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne(inversedBy: 'servicosUnidade')]
-    private ?Servico $servico = null;
+    #[ORM\ManyToOne(targetEntity: Servico::class, inversedBy: 'servicosUnidade')]
+    private ?ServicoInterface $servico = null;
 
     #[ORM\Id]
-    #[ORM\ManyToOne]
-    private ?Unidade $unidade = null;
+    #[ORM\ManyToOne(targetEntity: Unidade::class)]
+    private ?UnidadeInterface $unidade = null;
 
-    #[ORM\ManyToOne]
-    private ?Departamento $departamento = null;
+    #[ORM\ManyToOne(targetEntity: Departamento::class)]
+    private ?DepartamentoInterface $departamento = null;
 
     #[ORM\Column(length: 3)]
     private ?string $sigla = null;
@@ -71,12 +71,12 @@ class ServicoUnidade implements ServicoUnidadeInterface
 
     public function __construct()
     {
-        $this->tipo          = self::ATENDIMENTO_TODOS;
+        $this->tipo = self::ATENDIMENTO_TODOS;
         $this->numeroInicial = 1;
-        $this->incremento    = 1;
-        $this->peso          = 1;
-        $this->sigla         = '';
-        $this->mensagem      = '';
+        $this->incremento = 1;
+        $this->peso = 1;
+        $this->sigla = '';
+        $this->mensagem = '';
     }
 
     public function getServico(): ?ServicoInterface
@@ -225,23 +225,24 @@ class ServicoUnidade implements ServicoUnidadeInterface
 
     public function __toString()
     {
-        return $this->sigla.' - '.$this->getServico()->getNome();
+        return sprintf('%s-%s', $this->sigla, $this->getServico()->getNome());
     }
 
-    public function jsonSerialize()
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): array
     {
         return [
-            'sigla'         => $this->getSigla(),
-            'peso'          => $this->getPeso(),
-            'servico'       => $this->getServico(),
-            'departamento'  => $this->getDepartamento(),
-            'ativo'         => $this->isAtivo(),
-            'tipo'          => $this->getTipo(),
-            'mensagem'      => $this->getMensagem(),
+            'sigla' => $this->getSigla(),
+            'peso' => $this->getPeso(),
+            'servico' => $this->getServico(),
+            'departamento' => $this->getDepartamento(),
+            'ativo' => $this->isAtivo(),
+            'tipo' => $this->getTipo(),
+            'mensagem' => $this->getMensagem(),
             'numeroInicial' => $this->getNumeroInicial(),
-            'numeroFinal'   => $this->getNumeroFinal(),
-            'incremento'    => $this->getIncremento(),
-            'maximo'        => $this->getMaximo(),
+            'numeroFinal' => $this->getNumeroFinal(),
+            'incremento' => $this->getIncremento(),
+            'maximo' => $this->getMaximo(),
         ];
     }
 }

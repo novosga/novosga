@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Helper;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 
 /**
@@ -13,32 +14,27 @@ use Doctrine\Persistence\ObjectManager;
  */
 class DoctrineHelper
 {
-    /**
-     * @var ObjectManager
-     */
-    protected $om;
-    
-    public function __construct(ObjectManager $om)
-    {
-        $this->om = $om;
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+    ) {
     }
-    
+
     public function getManager(): ObjectManager
     {
-        return $this->om;
+        return $this->em;
     }
-    
+
     /**
      * Returns all table columns
      * @param string $entity
-     * @return array
+     * @return array<mixed>
      */
     public function getEntityColumns(string $entity): array
     {
-        $classMetadata = $this->om->getClassMetadata($entity);
+        $classMetadata = $this->em->getClassMetadata($entity);
         $columns       = $classMetadata->getColumnNames();
         $assocs        = $classMetadata->getAssociationNames();
-        
+
         foreach ($assocs as $assoc) {
             $mapping = $classMetadata->getAssociationMapping($assoc);
             if (isset($mapping['joinColumns'])) {
@@ -50,9 +46,9 @@ class DoctrineHelper
                 }
             }
         }
-        
+
         foreach ($classMetadata->embeddedClasses as $field => $embeddedClass) {
-            $metadata = $this->om->getClassMetadata($embeddedClass['class']);
+            $metadata = $this->em->getClassMetadata($embeddedClass['class']);
             foreach ($metadata->getColumnNames() as $column) {
                 $column = $embeddedClass['columnPrefix'] . $column;
                 if (!in_array($column, $columns)) {
@@ -60,7 +56,7 @@ class DoctrineHelper
                 }
             }
         }
-        
+
         return $columns;
     }
 }

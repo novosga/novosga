@@ -22,7 +22,9 @@ use Novosga\Service\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    /** @var array<string,mixed> */
     private array $default = [];
+    /** @var array<string,mixed> */
     private array $custom = [];
 
     public function __construct(string $rootDir)
@@ -43,16 +45,17 @@ class Configuration implements ConfigurationInterface
         }
     }
 
+    /** @return array<string,mixed> */
     public function get(string $key): mixed
     {
-        $value  = null;
-        $obj    = $this->default;
+        $value = null;
+        $obj = $this->default;
         $tokens = explode('.', $key);
-        
+
         foreach ($tokens as $prop) {
             if (is_array($obj)) {
                 $value = $this->resolve($prop, $obj);
-                $obj   = $value;
+                $obj = $value;
             } else {
                 break;
             }
@@ -61,12 +64,17 @@ class Configuration implements ConfigurationInterface
         return $value;
     }
 
-    private function resolve($key, array $obj)
+    /** @param array<string,mixed> $obj */
+    private function resolve(string $key, array $obj): mixed
     {
         return $this->resolveValue($key, $this->custom, $obj);
     }
 
-    private function resolveValue($key, array $primary, array $secondary)
+    /**
+     * @param array<string,mixed> $primary
+     * @param array<string,mixed> $secondary
+     */
+    private function resolveValue(string $key, array $primary, array $secondary): mixed
     {
         if (isset($primary[$key])) {
             return $primary[$key];

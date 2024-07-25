@@ -25,10 +25,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-#[Route("/profile", name: 'profile_')]
+#[Route('/profile', name: 'profile_')]
 class ProfileController extends AbstractController
 {
-    #[Route("/", name: 'index', methods: ["GET", "POST"])]
+    #[Route('/', name: 'index', methods: ['GET', 'POST'])]
     public function index(
         Request $request,
         EntityManagerInterface $em,
@@ -54,14 +54,14 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route("/password", methods: ["POST"])]
+    #[Route('/password', methods: ['POST'])]
     public function password(
         Request $request,
         EntityManagerInterface $em,
         PasswordHasherFactoryInterface $factory,
     ): Response {
         $envelope = new Envelope();
-        
+
         $data = json_decode($request->getContent());
         $current = $data->atual;
         $password = $data->senha;

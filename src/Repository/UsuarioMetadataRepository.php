@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\UsuarioMeta;
-use App\Entity\Usuario;
+use Doctrine\Persistence\ManagerRegistry;
+use Novosga\Entity\UsuarioInterface;
 
 /**
- * @extends EntityMetadataRepository<UsuarioMeta,Usuario>
+ * @extends EntityMetadataRepository<UsuarioMeta,UsuarioInterface>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */

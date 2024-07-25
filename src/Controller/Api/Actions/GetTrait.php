@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Actions;
 
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,8 +23,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 trait GetTrait
 {
-    #[Route("/{id}", methods: ["GET"])]
-    public function doGet($id)
+    #[Route('/{id}', methods: ['GET'])]
+    public function doGet(int $id): Response
     {
         return $this->find($id);
     }

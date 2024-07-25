@@ -2,12 +2,22 @@
 
 declare(strict_types=1);
 
+/*
+ * This file is part of the Novo SGA project.
+ *
+ * (c) Rogerio Lino <rogeriolino@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Doctrine\Migrations\Exception\AbortMigration;
 
 final class Version20240723214655 extends AbstractMigration
 {
@@ -21,10 +31,12 @@ final class Version20240723214655 extends AbstractMigration
         if (!$schema->hasTable('oauth2_client')) {
             if ($this->platform instanceof MySQLPlatform) {
                 $this->upMysql();
-            }
-
-            if ($this->platform instanceof PostgreSQLPlatform) {
+            } elseif ($this->platform instanceof PostgreSQLPlatform) {
                 $this->upPostgres();
+            } else {
+                throw new AbortMigration(
+                    sprintf('Unsupported database platform: %s', get_class($this->platform))
+                );
             }
         }
 

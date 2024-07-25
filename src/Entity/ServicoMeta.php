@@ -15,11 +15,12 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\EntityMetadataInterface;
+use Novosga\Entity\ServicoInterface;
 
 /**
  * Servico metadata.
  *
- * @implements EntityMetadataInterface<Servico>
+ * @implements EntityMetadataInterface<ServicoInterface>
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
@@ -28,17 +29,17 @@ use Novosga\Entity\EntityMetadataInterface;
 class ServicoMeta extends AbstractMetadata implements EntityMetadataInterface
 {
     #[ORM\Id]
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: Servico::class)]
     #[ORM\JoinColumn(name: 'servico_id', nullable: false)]
-    protected ?Servico $entity = null;
-    
+    protected ?ServicoInterface $entity = null;
+
     public function setEntity($entity): static
     {
         $this->entity = $entity;
-        
+
         return $this;
     }
-    
+
     public function getEntity()
     {
         return $this->entity;

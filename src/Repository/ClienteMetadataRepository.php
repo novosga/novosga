@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\ClienteMeta;
-use App\Entity\Cliente;
+use Doctrine\Persistence\ManagerRegistry;
+use Novosga\Entity\ClienteInterface;
 
 /**
- * @extends EntityMetadataRepository<ClienteMeta,Cliente>
+ * @extends EntityMetadataRepository<ClienteMeta,ClienteInterface>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */

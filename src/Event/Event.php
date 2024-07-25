@@ -20,35 +20,21 @@ namespace App\Event;
  */
 class Event implements EventInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
-    
-    /**
-     * @var mixed
-     */
-    private $data;
-    
-    public function __construct(string $name, $data)
-    {
-        $this->name = $name;
-        $this->data = $data;
+    public function __construct(
+        private string $name,
+        private mixed $data,
+    ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
+    /** {@inheritdoc} */
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /** {@inheritdoc} */
+    public function getData(): mixed
+    {
+        return $this->data;
     }
 }

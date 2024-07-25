@@ -22,13 +22,6 @@ use Psr\Log\LoggerInterface;
  */
 interface LoggerAwareEventInterface extends EventInterface
 {
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger);
-    
-    /**
-     * @return LoggerInterface
-     */
-    public function getLogger(): LoggerInterface;
+    public function setLogger(?LoggerInterface $logger): static;
+    public function getLogger(): ?LoggerInterface;
 }

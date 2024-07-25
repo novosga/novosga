@@ -18,28 +18,29 @@ use App\Form\Api\AgendamentoType;
 use App\Service\AtendimentoService;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @extends ApiCrudController<Agendamento>
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
-#[Route("/api/agendamentos")]
+#[Route('/api/agendamentos')]
 class AgendamentosController extends ApiCrudController
 {
-    use Actions\GetTrait,
-        Actions\FindTrait;
-    
+    use Actions\GetTrait;
+    use Actions\FindTrait;
+
     public function getEntityName(): string
     {
         return Agendamento::class;
     }
 
-    #[Route("", methods: ["POST"])]
+    #[Route('', methods: ['POST'])]
     public function post(
         Request $request,
         AtendimentoService $atendimentoService,
-    ) {
+    ): Response {
         $json = $request->getContent();
         $object = json_decode($json, true);
         $agendamento = new \App\Entity\Agendamento();
@@ -50,7 +51,7 @@ class AgendamentosController extends ApiCrudController
 
         if (!$form->isSubmitted() || !$form->isValid()) {
             $message = 'Formulário inválido';
-            
+
             foreach ($form->getErrors(true) as $error) {
                 $message . ': ' . $error->getMessage();
                 break;
@@ -72,7 +73,7 @@ class AgendamentosController extends ApiCrudController
         $em = $this->getManager();
         $em->persist($agendamento);
         $em->flush();
-        
+
         return $this->json($agendamento);
     }
 }
