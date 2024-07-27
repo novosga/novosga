@@ -13,10 +13,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use DateTime;
 use DateInterval;
+use DateTimeInterface;
 use App\Entity\Cliente;
 use App\Entity\Senha;
+use DateTimeImmutable;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\AtendimentoInterface;
@@ -62,19 +63,19 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     protected ?int $numeroLocal = null;
 
     #[ORM\Column(name: 'dt_age', type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?DateTime $dataAgendamento = null;
+    protected ?DateTimeInterface $dataAgendamento = null;
 
     #[ORM\Column(name: 'dt_cheg', type: Types::DATETIME_MUTABLE)]
-    protected ?DateTime $dataChegada = null;
+    protected ?DateTimeInterface $dataChegada = null;
 
     #[ORM\Column(name: 'dt_cha', type: Types::DATETIME_MUTABLE, nullable: true)]
-    protected ?DateTime $dataChamada = null;
+    protected ?DateTimeInterface $dataChamada = null;
 
     #[ORM\Column(name: 'dt_ini', type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTime $dataInicio = null;
+    private ?DateTimeInterface $dataInicio = null;
 
     #[ORM\Column(name: 'dt_fim', type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTime $dataFim = null;
+    private ?DateTimeInterface $dataFim = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $tempoEspera = null;
@@ -180,60 +181,60 @@ abstract class AbstractAtendimento implements AtendimentoInterface
         return $this;
     }
 
-    public function getDataAgendamento(): ?DateTime
+    public function getDataAgendamento(): ?DateTimeInterface
     {
         return $this->dataAgendamento;
     }
 
-    public function setDataAgendamento(?DateTime $dataAgendamento): static
+    public function setDataAgendamento(?DateTimeInterface $dataAgendamento): static
     {
         $this->dataAgendamento = $dataAgendamento;
 
         return $this;
     }
 
-    public function getDataChegada(): ?DateTime
+    public function getDataChegada(): ?DateTimeInterface
     {
         return $this->dataChegada;
     }
 
-    public function setDataChegada(?DateTime $dataChegada): static
+    public function setDataChegada(?DateTimeInterface $dataChegada): static
     {
         $this->dataChegada = $dataChegada;
 
         return $this;
     }
 
-    public function getDataChamada(): ?DateTime
+    public function getDataChamada(): ?DateTimeInterface
     {
         return $this->dataChamada;
     }
 
-    public function setDataChamada(?DateTime $dataChamada): static
+    public function setDataChamada(?DateTimeInterface $dataChamada): static
     {
         $this->dataChamada = $dataChamada;
 
         return $this;
     }
 
-    public function getDataInicio(): ?DateTime
+    public function getDataInicio(): ?DateTimeInterface
     {
         return $this->dataInicio;
     }
 
-    public function setDataInicio(?DateTime $dataInicio): static
+    public function setDataInicio(?DateTimeInterface $dataInicio): static
     {
         $this->dataInicio = $dataInicio;
 
         return $this;
     }
 
-    public function getDataFim(): ?DateTime
+    public function getDataFim(): ?DateTimeInterface
     {
         return $this->dataFim;
     }
 
-    public function setDataFim(?DateTime $dataFim): static
+    public function setDataFim(?DateTimeInterface $dataFim): static
     {
         $this->dataFim = $dataFim;
 
@@ -264,7 +265,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
         return $this;
     }
 
-    public function setCliente(ClienteInterface $cliente): static
+    public function setCliente(?ClienteInterface $cliente): static
     {
         $this->cliente = $cliente;
 
@@ -288,7 +289,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
             return $this->secondsToDateInterval($this->tempoEspera);
         }
 
-        $now = new DateTime();
+        $now = new DateTimeImmutable();
         $interval = $now->diff($this->getDataChegada());
 
         return $interval;
@@ -354,16 +355,14 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     /**
      * Retorna o tempo de deslocamento do cliente.
      * A diferença entre a data de chamada até a data de início.
-     *
-     * @return \DateInterval
      */
-    public function getTempoDeslocamento()
+    public function getTempoDeslocamento(): DateInterval
     {
         if ($this->tempoDeslocamento) {
             return $this->secondsToDateInterval($this->tempoDeslocamento);
         }
 
-        $interval = new \DateInterval('P0M');
+        $interval = new DateInterval('P0M');
         if ($this->getDataChamada()) {
             $interval = $this->getDataInicio()->diff($this->getDataChamada());
         }
@@ -438,8 +437,8 @@ abstract class AbstractAtendimento implements AtendimentoInterface
 
     private function secondsToDateInterval(int $s): DateInterval
     {
-        $dt1 = new \DateTime("@0");
-        $dt2 = new \DateTime("@{$s}");
+        $dt1 = new DateTimeImmutable("@0");
+        $dt2 = new DateTimeImmutable("@{$s}");
 
         return $dt1->diff($dt2);
     }

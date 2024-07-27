@@ -15,10 +15,12 @@ namespace App\EventListener;
 
 use App\Entity\Usuario;
 use Novosga\Http\Envelope;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -27,6 +29,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsEventListener(event: KernelEvents::REQUEST, priority: 6)]
 class SessionListener extends AppListener
 {
     public function __construct(

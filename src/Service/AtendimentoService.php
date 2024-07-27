@@ -18,7 +18,6 @@ use Exception;
 use App\Entity\Atendimento;
 use App\Entity\AtendimentoCodificado;
 use App\Entity\AtendimentoMeta;
-use App\Event\EventDispatcherInterface;
 use App\Entity\Lotacao;
 use App\Entity\PainelSenha;
 use App\Entity\Prioridade;
@@ -29,6 +28,7 @@ use App\Repository\AtendimentoMetadataRepository;
 use App\Repository\AtendimentoRepository;
 use App\Repository\ClienteRepository;
 use App\Repository\ServicoUnidadeRepository;
+use DateTimeInterface;
 use Novosga\Entity\AgendamentoInterface;
 use Novosga\Entity\AtendimentoInterface;
 use Novosga\Entity\ClienteInterface;
@@ -39,11 +39,31 @@ use Novosga\Entity\ServicoInterface;
 use Novosga\Entity\ServicoUnidadeInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
+use Novosga\Event\PreTicketCallEvent;
+use Novosga\Event\PreTicketCancelEvent;
+use Novosga\Event\PreTicketCreateEvent;
+use Novosga\Event\PreTicketFinishEvent;
+use Novosga\Event\PreTicketFirstReplyEvent;
+use Novosga\Event\PreTicketReactiveEvent;
+use Novosga\Event\PreTicketRedirectEvent;
+use Novosga\Event\PreTicketsResetEvent;
+use Novosga\Event\PreTicketTransferEvent;
+use Novosga\Event\TicketCalledEvent;
+use Novosga\Event\TicketCanceledEvent;
+use Novosga\Event\TicketCreatedEvent;
+use Novosga\Event\TicketFinishedEvent;
+use Novosga\Event\TicketFirstReplyEvent;
+use Novosga\Event\TicketReactivedEvent;
+use Novosga\Event\TicketRedirectedEvent;
+use Novosga\Event\TicketsResetEvent;
+use Novosga\Event\TicketTransferedEvent;
 use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\AtendimentoServiceInterface;
+use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Update;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -54,6 +74,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class AtendimentoService implements AtendimentoServiceInterface
 {
     public function __construct(
+        private readonly ClockInterface $clock,
         private readonly StorageInterface $storage,
         private readonly EventDispatcherInterface $dispatcher,
         private readonly LoggerInterface $logger,
@@ -119,8 +140,9 @@ class AtendimentoService implements AtendimentoServiceInterface
     }
 
     /** {@inheritDoc} */
-    public function chamarSenha(UnidadeInterface $unidade, AtendimentoInterface $atendimento): void
+    public function chamarSenha(AtendimentoInterface $atendimento, UsuarioInterface $usuario): void
     {
+        $unidade = $atendimento->getUnidade();
         $servico = $atendimento->getServico();
         $su = $this->servicoUnidadeRepository->get($unidade, $servico);
 
@@ -142,13 +164,21 @@ class AtendimentoService implements AtendimentoServiceInterface
             $senha->setDocumentoCliente($atendimento->getCliente()->getDocumento());
         }
 
-        $this->dispatcher->createAndDispatch('panel.pre-call', [$atendimento, $senha], true);
+        $this->dispatcher->dispatch(new PreTicketCallEvent(
+            $atendimento,
+            $usuario,
+            $senha,
+        ));
 
         $em = $this->storage->getManager();
         $em->persist($senha);
         $em->flush();
 
-        $this->dispatcher->createAndDispatch('panel.call', [$atendimento, $senha], true);
+        $this->dispatcher->dispatch(new TicketCalledEvent(
+            $atendimento,
+            $usuario,
+            $senha,
+        ));
 
         $this->hub->publish(new Update([
             "/paineis",
@@ -194,19 +224,19 @@ class AtendimentoService implements AtendimentoServiceInterface
         LocalInterface $local,
         int $numeroLocal
     ): bool {
-        $this->dispatcher->createAndDispatch('attending.pre-call', [
+        $this->dispatcher->dispatch(new PreTicketFirstReplyEvent(
             $atendimento,
             $usuario,
             $local,
-            $numeroLocal
-        ], true);
+            $numeroLocal,
+        ));
 
         $atendimento
             ->setUsuario($usuario)
             ->setLocal($local)
             ->setNumeroLocal($numeroLocal)
             ->setStatus(self::CHAMADO_PELA_MESA)
-            ->setDataChamada(new DateTime());
+            ->setDataChamada($this->clock->now());
 
         $tempoEspera = $atendimento->getDataChamada()->diff($atendimento->getDataChegada());
         $atendimento->setTempoEspera($tempoEspera);
@@ -214,7 +244,12 @@ class AtendimentoService implements AtendimentoServiceInterface
         try {
             $this->storage->chamar($atendimento);
 
-            $this->dispatcher->createAndDispatch('attending.call', [$atendimento, $usuario], true);
+            $this->dispatcher->dispatch(new TicketFirstReplyEvent(
+                $atendimento,
+                $usuario,
+                $local,
+                $numeroLocal,
+            ));
         } catch (Exception $e) {
             return false;
         }
@@ -228,20 +263,25 @@ class AtendimentoService implements AtendimentoServiceInterface
         return true;
     }
 
-    /**
-     * Move os registros da tabela atendimento para a tabela de historico de atendimentos.
-     * Se a unidade não for informada, será acumulado serviços de todas as unidades.
-     *
-     * @param array<string,mixed> $ctx
-     * @throws Exception
-     */
-    public function acumularAtendimentos(?UnidadeInterface $unidade, array $ctx = []): void
-    {
-        $this->dispatcher->createAndDispatch('attending.pre-reset', $unidade, true);
+    /** {@inheritDoc} */
+    public function acumularAtendimentos(
+        ?UsuarioInterface $usuario,
+        ?UnidadeInterface $unidade,
+        DateTimeInterface $ateData,
+    ): void {
+        $this->dispatcher->dispatch(new PreTicketsResetEvent(
+            $unidade,
+            $usuario,
+            $this->clock->now(),
+        ));
 
-        $this->storage->acumularAtendimentos($unidade, $ctx);
+        $this->storage->acumularAtendimentos($usuario, $unidade, $ateData);
 
-        $this->dispatcher->createAndDispatch('attending.reset', $unidade, true);
+        $this->dispatcher->dispatch(new TicketsResetEvent(
+            $unidade,
+            $usuario,
+            $this->clock->now(),
+        ));
 
         if ($unidade !== null) {
             $this->hub->publish(new Update([
@@ -449,8 +489,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             }
         }
 
-        $atendimento = new Atendimento();
-        $atendimento
+        $atendimento = (new Atendimento())
             ->setServico($servico)
             ->setUnidade($unidade)
             ->setPrioridade($prioridade)
@@ -469,11 +508,12 @@ class AtendimentoService implements AtendimentoServiceInterface
         }
 
         $clienteValido = $this->getClienteValido($cliente);
-        if ($clienteValido) {
-            $atendimento->setCliente($clienteValido);
-        }
+        $atendimento->setCliente($clienteValido);
 
-        $this->dispatcher->createAndDispatch('attending.pre-create', [$atendimento], true);
+        $this->dispatcher->dispatch(new PreTicketCreateEvent(
+            $atendimento,
+            $usuario,
+        ));
 
         try {
             $this->storage->distribui($atendimento, $agendamento);
@@ -487,6 +527,11 @@ class AtendimentoService implements AtendimentoServiceInterface
             $this->logger->error($error);
             throw new Exception($error);
         }
+
+        $this->dispatcher->dispatch(new TicketCreatedEvent(
+            $atendimento,
+            $usuario,
+        ));
 
         $this->hub->publish(new Update([
             '/atendimentos',
@@ -534,17 +579,19 @@ class AtendimentoService implements AtendimentoServiceInterface
             throw new Exception('Não pode iniciar esse atendimento.');
         }
 
-        $atendimento->setDataFim(new DateTime());
-        $atendimento->setStatus(self::NAO_COMPARECEU);
-        $atendimento->setUsuario($usuario);
+        $atendimento
+            ->setDataFim(new DateTime())
+            ->setStatus(self::NAO_COMPARECEU)
+            ->setUsuario($usuario);
 
         $tempoPermanencia  = $atendimento->getDataFim()->diff($atendimento->getDataChegada());
         $tempoAtendimento  = new \DateInterval('P0M');
         $tempoDeslocamento = new \DateInterval('P0M');
 
-        $atendimento->setTempoPermanencia($tempoPermanencia);
-        $atendimento->setTempoAtendimento($tempoAtendimento);
-        $atendimento->setTempoDeslocamento($tempoDeslocamento);
+        $atendimento
+            ->setTempoPermanencia($tempoPermanencia)
+            ->setTempoAtendimento($tempoAtendimento)
+            ->setTempoDeslocamento($tempoDeslocamento);
 
         $em = $this->storage->getManager();
         $em->persist($atendimento);
@@ -560,21 +607,20 @@ class AtendimentoService implements AtendimentoServiceInterface
     /** {@inheritDoc} */
     public function redirecionar(
         AtendimentoInterface $atendimento,
-        UnidadeInterface $unidade,
-        ServicoInterface|int $servico,
+        UsuarioInterface $usuario,
+        ServicoInterface|int $novoServico,
         UsuarioInterface|int $novoAtendente = null,
     ): AtendimentoInterface {
         $status = $atendimento->getStatus();
-
         if (!in_array($status, [ self::ATENDIMENTO_INICIADO, self::ATENDIMENTO_ENCERRADO ])) {
             throw new Exception('Não pode redirecionar esse atendimento.');
         }
 
-        if (is_int($servico)) {
-            $servico = $this
+        if (is_int($novoServico)) {
+            $novoServico = $this
                 ->storage
                 ->getRepository(Servico::class)
-                ->find($servico);
+                ->find($novoServico);
         }
 
         if (is_int($novoAtendente)) {
@@ -584,12 +630,12 @@ class AtendimentoService implements AtendimentoServiceInterface
                 ->find($$novoAtendente);
         }
 
-        $this->dispatcher->createAndDispatch('attending.pre-redirect', [
+        $this->dispatcher->dispatch(new PreTicketRedirectEvent(
             $atendimento,
-            $unidade,
-            $servico,
-            $novoAtendente
-        ], true);
+            $usuario,
+            $novoServico,
+            $novoAtendente,
+        ));
 
         $atendimento->setStatus(self::ERRO_TRIAGEM);
         $atendimento->setDataFim(new DateTime());
@@ -600,19 +646,23 @@ class AtendimentoService implements AtendimentoServiceInterface
         $atendimento->setTempoPermanencia($tempoPermanencia);
         $atendimento->setTempoAtendimento($tempoAtendimento);
 
-        $novo = $this->copyToRedirect($atendimento, $unidade, $servico, $novoAtendente);
+        $novo = $this->copyToRedirect($atendimento, $novoServico, $novoAtendente);
 
         $em = $this->storage->getManager();
         $em->persist($atendimento);
         $em->persist($novo);
         $em->flush();
 
-        $this->dispatcher->createAndDispatch('attending.redirect', [$atendimento, $novo], true);
+        $this->dispatcher->dispatch(new TicketRedirectedEvent(
+            $atendimento,
+            $novo,
+            $usuario,
+        ));
 
         $this->hub->publish(new Update([
             "/atendimentos/{$atendimento->getId()}",
             "/atendimentos/{$novo->getId()}",
-            "/unidades/{$unidade->getId()}/fila",
+            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
         ], json_encode([ 'originalId' => $atendimento->getId(), 'novoId' => $novo->getId() ])));
 
         return $novo;
@@ -621,57 +671,58 @@ class AtendimentoService implements AtendimentoServiceInterface
     /** {@inheritDoc} */
     public function transferir(
         AtendimentoInterface $atendimento,
-        UnidadeInterface $unidade,
+        UsuarioInterface $usuario,
         ServicoInterface|int $novoServico,
         PrioridadeInterface|int $novaPrioridade
-    ): bool {
-        $this->dispatcher->createAndDispatch('attending.pre-transfer', [
+    ): void {
+        // transfere apenas se a data fim for nula (nao finalizado)
+        if ($atendimento->getDataFim() !== null) {
+            throw new Exception('Não pode transferir um atendimento já encerrado.');
+        }
+
+        $this->dispatcher->dispatch(new PreTicketTransferEvent(
             $atendimento,
-            $unidade,
+            $usuario,
             $novoServico,
             $novaPrioridade
-        ], true);
+        ));
 
-        // transfere apenas se a data fim for nula (nao finalizados)
-        $success = $this
-            ->atendimentoRepository
-            ->createQueryBuilder('e')
-            ->update()
-            ->set('e.servico', ':servico')
-            ->set('e.prioridade', ':prioridade')
-            ->where('e.id = :id')
-            ->andWhere('e.unidade = :unidade')
-            ->andWhere('e.dataFim IS NULL')
-            ->setParameter('servico', $novoServico)
-            ->setParameter('prioridade', $novaPrioridade)
-            ->setParameter('id', $atendimento)
-            ->setParameter('unidade', $unidade)
-            ->getQuery()
-            ->execute() > 0;
+        $servicoAnterior = $atendimento->getServico();
+        $prioridadeAnterior = $atendimento->getPrioridade();
 
-        if ($success) {
-            $em = $this->storage->getManager();
-            $em->refresh($atendimento);
+        $atendimento
+            ->setServico($novoServico)
+            ->setPrioridade($novaPrioridade);
 
-            $this->dispatcher->createAndDispatch('attending.transfer', [$atendimento], true);
-        }
+        $em = $this->storage->getManager();
+        $em->persist($atendimento);
+        $em->flush();
+
+        $this->dispatcher->dispatch(new TicketTransferedEvent(
+            $atendimento,
+            $usuario,
+            $servicoAnterior,
+            $prioridadeAnterior,
+        ));
 
         $this->hub->publish(new Update([
             "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$unidade->getId()}/fila",
+            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
         ], json_encode([ 'id' => $atendimento->getId() ])));
-
-        return $success;
     }
 
     /** {@inheritDoc} */
-    public function cancelar(AtendimentoInterface $atendimento): void
+    public function cancelar(AtendimentoInterface $atendimento, UsuarioInterface $usuario): void
     {
+        // cancela apenas se não estiver finalizado
         if ($atendimento->getDataFim() !== null) {
             throw new Exception('Erro ao tentar cancelar um serviço já encerrado.');
         }
 
-        $this->dispatcher->createAndDispatch('attending.pre-cancel', $atendimento, true);
+        $this->dispatcher->dispatch(new PreTicketCancelEvent(
+            $atendimento,
+            $usuario,
+        ));
 
         $now = new DateTime();
         $atendimento
@@ -697,7 +748,10 @@ class AtendimentoService implements AtendimentoServiceInterface
         $em->persist($atendimento);
         $em->flush();
 
-        $this->dispatcher->createAndDispatch('attending.cancel', $atendimento, true);
+        $this->dispatcher->dispatch(new TicketCanceledEvent(
+            $atendimento,
+            $usuario,
+        ));
 
         $this->hub->publish(new Update([
             "/atendimentos/{$atendimento->getId()}",
@@ -706,49 +760,45 @@ class AtendimentoService implements AtendimentoServiceInterface
     }
 
     /** {@inheritDoc} */
-    public function reativar(AtendimentoInterface $atendimento, UnidadeInterface $unidade): bool
+    public function reativar(AtendimentoInterface $atendimento, UsuarioInterface $usuario): void
     {
-        $this->dispatcher->createAndDispatch('attending.pre-reactivate', $atendimento, true);
-
-        // reativa apenas se estiver finalizada (data fim diferente de nulo)
-        $success = $this
-            ->atendimentoRepository
-            ->createQueryBuilder('e')
-            ->update()
-            ->set('e.status', ':status')
-            ->set('e.dataFim', ':data')
-            ->set('e.usuario', ':usuario')
-            ->where('e.id = :id')
-            ->andWhere('e.unidade = :unidade')
-            ->andWhere('e.status IN (:statuses)')
-            ->setParameter('status', self::SENHA_EMITIDA)
-            ->setParameter('data', null)
-            ->setParameter('usuario', null)
-            ->setParameter('id', $atendimento)
-            ->setParameter('unidade', $unidade)
-            ->setParameter('statuses', [self::SENHA_CANCELADA, self::NAO_COMPARECEU])
-            ->getQuery()
-            ->execute() > 0;
-
-        if ($success) {
-            $em = $this->storage->getManager();
-            $em->refresh($atendimento);
-
-            $this->dispatcher->createAndDispatch('attending.reactivate', $atendimento, true);
+        // reativa apenas se estiver finalizada
+        if ($atendimento->getDataFim() === null) {
+            throw new Exception('Não pode reativar um atendimento não encerrado.');
         }
+        if (!in_array($atendimento->getStatus(), [self::SENHA_CANCELADA, self::NAO_COMPARECEU])) {
+            throw new Exception('Só pode reativar um atendimento que foi cancelado ou não compareceu.');
+        }
+
+        $this->dispatcher->dispatch(new PreTicketReactiveEvent(
+            $atendimento,
+            $usuario,
+        ));
+
+        $atendimento
+            ->setStatus(self::SENHA_EMITIDA)
+            ->setDataFim(null)
+            ->setUsuario(null);
+
+        $em = $this->storage->getManager();
+        $em->persist($atendimento);
+        $em->flush();
+
+        $this->dispatcher->dispatch(new TicketReactivedEvent(
+            $atendimento,
+            $usuario,
+        ));
 
         $this->hub->publish(new Update([
             "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$unidade->getId()}/fila",
+            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
         ], json_encode([ 'id' => $atendimento->getId() ])));
-
-        return $success;
     }
 
     /** {@inheritDoc} */
     public function encerrar(
         AtendimentoInterface $atendimento,
-        UnidadeInterface $unidade,
+        UsuarioInterface $usuario,
         array $servicosRealizados,
         ServicoInterface|int $servicoRedirecionado = null,
         UsuarioInterface|int $novoUsuario = null,
@@ -761,8 +811,6 @@ class AtendimentoService implements AtendimentoServiceInterface
                 )
             );
         }
-
-        $this->dispatcher->createAndDispatch('attending.pre-finish', $atendimento, true);
 
         $executados = [];
         $servicoRepository = $this->storage->getRepository(Servico::class);
@@ -786,30 +834,48 @@ class AtendimentoService implements AtendimentoServiceInterface
             $executados[] = $executado;
         }
 
+        $this->dispatcher->dispatch(new PreTicketFinishEvent(
+            $atendimento,
+            $usuario,
+            $executados,
+            $servicoRedirecionado,
+        ));
+
         $novoAtendimento = null;
 
         // verifica se esta encerrando e redirecionando
         if ($servicoRedirecionado) {
-            $novoAtendimento = $this->copyToRedirect($atendimento, $unidade, $servicoRedirecionado, $novoUsuario);
+            $novoAtendimento = $this->copyToRedirect(
+                $atendimento,
+                $servicoRedirecionado,
+                $novoUsuario
+            );
         }
 
-        $atendimento->setDataFim(new DateTime());
-        $atendimento->setStatus(AtendimentoService::ATENDIMENTO_ENCERRADO);
+        $atendimento
+            ->setDataFim($this->clock->now())
+            ->setStatus(AtendimentoService::ATENDIMENTO_ENCERRADO);
 
         $tempoPermanencia = $atendimento->getDataFim()->diff($atendimento->getDataChegada());
         $tempoAtendimento = $atendimento->getDataFim()->diff($atendimento->getDataInicio());
 
-        $atendimento->setTempoPermanencia($tempoPermanencia);
-        $atendimento->setTempoAtendimento($tempoAtendimento);
+        $atendimento
+            ->setTempoPermanencia($tempoPermanencia)
+            ->setTempoAtendimento($tempoAtendimento);
 
         $this->storage->encerrar($atendimento, $executados, $novoAtendimento);
 
+        $this->dispatcher->dispatch(new TicketFinishedEvent(
+            $atendimento,
+            $usuario,
+            $executados,
+            $novoAtendimento,
+        ));
+
         $this->hub->publish(new Update([
             "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$unidade->getId()}/fila",
+            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
         ], json_encode([ 'id' => $atendimento->getId() ])));
-
-        $this->dispatcher->createAndDispatch('attending.finish', $atendimento, true);
     }
 
     public function alteraStatusAtendimentoUsuario(UsuarioInterface $usuario, string $novoStatus): ?AtendimentoInterface
@@ -904,8 +970,12 @@ class AtendimentoService implements AtendimentoServiceInterface
         return $su;
     }
 
-    public function getClienteValido(ClienteInterface $cliente): ?ClienteInterface
+    public function getClienteValido(?ClienteInterface $cliente): ?ClienteInterface
     {
+        if ($cliente === null || (!$cliente->getDocumento() && !$cliente->getNome())) {
+            return null;
+        }
+
         // verificando se o cliente ja existe
         $clienteExistente = null;
 
@@ -925,18 +995,13 @@ class AtendimentoService implements AtendimentoServiceInterface
             $cliente = $clienteExistente;
         }
 
-        // evita gerar cliente sem nome e/ou documento
-        if (!$cliente->getDocumento() || !$cliente->getNome()) {
-            $cliente = null;
-        }
-
         return $cliente;
     }
 
     /** {@inheritDoc} */
-    public function limparDados(?UnidadeInterface $unidade): void
+    public function limparDados(?UsuarioInterface $usuario, ?UnidadeInterface $unidade): void
     {
-        $this->storage->apagarDadosAtendimento($unidade);
+        $this->storage->apagarDadosAtendimento($usuario, $unidade);
 
         if ($unidade !== null) {
             $this->hub->publish(new Update([
@@ -950,17 +1015,16 @@ class AtendimentoService implements AtendimentoServiceInterface
 
     private function copyToRedirect(
         AtendimentoInterface $atendimento,
-        UnidadeInterface $unidade,
-        ServicoInterface $servico,
-        UsuarioInterface $novoAtendente = null,
+        ServicoInterface $novoServico,
+        ?UsuarioInterface $novoAtendente = null,
     ): AtendimentoInterface {
         // copiando a senha do atendimento atual
         $novo = new Atendimento();
         $novo
             ->setLocal(null)
             ->setNumeroLocal(null)
-            ->setServico($servico)
-            ->setUnidade($unidade)
+            ->setServico($novoServico)
+            ->setUnidade($atendimento->getUnidade())
             ->setPai($atendimento)
             ->setDataChegada(new DateTime())
             ->setStatus(self::SENHA_EMITIDA)

@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Security\UserProvider;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
@@ -24,6 +26,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsEventListener(event: KernelEvents::REQUEST, priority: 7)]
 class AccessListener extends AppListener
 {
     public function __construct(

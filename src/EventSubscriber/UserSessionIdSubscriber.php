@@ -19,6 +19,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 
+/**
+ * UserSessionIdSubscriber
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class UserSessionIdSubscriber implements EventSubscriberInterface
 {
     public function __construct(

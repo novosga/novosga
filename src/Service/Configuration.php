@@ -33,15 +33,7 @@ class Configuration implements ConfigurationInterface
 
         $customFile = "{$rootDir}/config/app.php";
         if (file_exists($customFile)) {
-            $this->custom  = require($customFile);
-        }
-
-        if (!$this->default) {
-            $this->default = [];
-        }
-
-        if (!$this->custom) {
-            $this->custom = [];
+            $this->custom = require($customFile);
         }
     }
 

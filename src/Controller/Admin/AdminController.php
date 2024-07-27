@@ -15,6 +15,8 @@ namespace App\Controller\Admin;
 
 use Novosga\Http\Envelope;
 use App\Service\AtendimentoService;
+use Novosga\Entity\UsuarioInterface;
+use Psr\Clock\ClockInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -36,10 +38,13 @@ class AdminController extends AbstractController
     }
 
     #[Route('/acumular_atendimentos', name: 'acumular_atendimentos', methods: ['POST'])]
-    public function acumularAtendimentos(AtendimentoService $service): Response
+    public function acumularAtendimentos(AtendimentoService $service, ClockInterface $clock): Response
     {
+        /** @var UsuarioInterface */
+        $usuario = $this->getUser();
+
         $envelope = new Envelope();
-        $service->acumularAtendimentos(unidade: null);
+        $service->acumularAtendimentos($usuario, null, $clock->now());
 
         return $this->json($envelope);
     }
@@ -47,8 +52,11 @@ class AdminController extends AbstractController
     #[Route('/limpar_atendimentos', name: 'limpar_atendimentos', methods: ['POST'])]
     public function limparAtendimentos(AtendimentoService $service): Response
     {
+        /** @var UsuarioInterface */
+        $usuario = $this->getUser();
+
         $envelope = new Envelope();
-        $service->limparDados(unidade: null);
+        $service->limparDados($usuario, null);
 
         return $this->json($envelope);
     }

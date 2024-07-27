@@ -15,12 +15,16 @@ namespace App\Loader;
 
 use Novosga\Module\ModuleInterface;
 use Symfony\Component\Config\Loader\Loader;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
  * Class RouterLoader
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AutoconfigureTag('routing.loader')]
 class RouterLoader extends Loader
 {
     private bool $loaded = false;

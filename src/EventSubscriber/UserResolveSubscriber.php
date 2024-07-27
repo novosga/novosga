@@ -21,11 +21,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
+/**
+ * UserResolveSubscriber
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class UserResolveSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly UserProvider $userProvider,
-        private readonly UserPasswordHasherInterface $userPasswordHasher
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
     ) {
     }
 

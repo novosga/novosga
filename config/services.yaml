@@ -27,35 +27,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\EventListener\SessionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 6 }
-        
-    App\EventListener\AccessListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 7 }
-
-    App\EventListener\CorsListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.request, priority: 700 }
-
-    App\EventListener\JsonExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception, priority: 1000 }
-
     App\EventListener\ORM\DoctrineListener:
         tags:
             - { name: doctrine.event_subscriber }
-
-    App\Service\TicketService:
-        public: true
-
-    App\Loader\RouterLoader:
-        tags: [routing.loader]
-
-    Doctrine\Persistence\ObjectManager: '@Doctrine\ORM\EntityManagerInterface'
-
-    App\Event\EventDispatcherInterface: '@App\Service\EventDispatcher'
 
     App\Service\Configuration:
         $rootDir: '%kernel.project_dir%'
@@ -92,4 +66,4 @@ services:
 
     Novosga\Infrastructure\StorageInterface:
         factory: ['App\Infrastructure\StorageFactory', 'createStorage']
-        arguments: ['@Doctrine\Persistence\ObjectManager']
+        arguments: ['@doctrine.orm.entity_manager']

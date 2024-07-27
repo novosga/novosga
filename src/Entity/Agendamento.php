@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\AgendamentoRepository;
-use DateTime;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\AgendamentoInterface;
@@ -39,10 +39,10 @@ class Agendamento implements AgendamentoInterface
     protected ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?DateTime $data = null;
+    private ?DateTimeInterface $data = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?DateTime $hora = null;
+    private ?DateTimeInterface $hora = null;
 
     #[ORM\Column(length: 20)]
     private ?string $situacao;
@@ -57,7 +57,7 @@ class Agendamento implements AgendamentoInterface
     private ?ServicoInterface $servico = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTime $dataConfirmacao = null;
+    private ?DateTimeInterface $dataConfirmacao = null;
 
     #[ORM\Column(length: 36, nullable: true)]
     private ?string $oid = null;
@@ -79,24 +79,24 @@ class Agendamento implements AgendamentoInterface
         return $this;
     }
 
-    public function getData(): ?DateTime
+    public function getData(): ?DateTimeInterface
     {
         return $this->data;
     }
 
-    public function setData(?DateTime $data): static
+    public function setData(?DateTimeInterface $data): static
     {
         $this->data = $data;
 
         return $this;
     }
 
-    public function getHora(): ?DateTime
+    public function getHora(): ?DateTimeInterface
     {
         return $this->hora;
     }
 
-    public function setHora(?DateTime $hora): static
+    public function setHora(?DateTimeInterface $hora): static
     {
         $this->hora = $hora;
 
@@ -151,12 +151,12 @@ class Agendamento implements AgendamentoInterface
         return $this;
     }
 
-    public function getDataConfirmacao(): ?DateTime
+    public function getDataConfirmacao(): ?DateTimeInterface
     {
         return $this->dataConfirmacao;
     }
 
-    public function setDataConfirmacao(?DateTime $dataConfirmacao): static
+    public function setDataConfirmacao(?DateTimeInterface $dataConfirmacao): static
     {
         $this->dataConfirmacao = $dataConfirmacao;
 

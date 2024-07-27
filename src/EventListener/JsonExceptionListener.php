@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use Novosga\Http\Envelope;
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -27,6 +29,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsEventListener(event: KernelEvents::EXCEPTION, priority: 1000)]
 class JsonExceptionListener extends AppListener
 {
     public function __construct(

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\ClienteRepository;
-use DateTime;
+use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\ClienteInterface;
@@ -50,7 +50,7 @@ class Cliente implements ClienteInterface
     private ?string $telefone = null;
 
     #[ORM\Column(name: 'dt_nascimento', type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTime $dataNascimento = null;
+    private ?DateTimeInterface $dataNascimento = null;
 
     #[ORM\Column(length: 1, nullable: true)]
     private ?string $genero = null;
@@ -126,12 +126,12 @@ class Cliente implements ClienteInterface
         return $this;
     }
 
-    public function getDataNascimento(): ?DateTime
+    public function getDataNascimento(): ?DateTimeInterface
     {
         return $this->dataNascimento;
     }
 
-    public function setDataNascimento(?DateTime $dataNascimento): static
+    public function setDataNascimento(?DateTimeInterface $dataNascimento): static
     {
         $this->dataNascimento = $dataNascimento;
 

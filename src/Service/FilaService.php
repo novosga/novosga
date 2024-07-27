@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Configuration\OrderingParameter;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Atendimento;
 use App\Entity\ServicoUnidade;
@@ -22,7 +21,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Novosga\Entity\ServicoInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
+use Novosga\Event\QueueOrderingEvent;
 use Novosga\Service\FilaServiceInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * FilaService
@@ -33,7 +34,7 @@ class FilaService implements FilaServiceInterface
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
-        private readonly Configuration $config,
+        private readonly EventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -160,36 +161,15 @@ class FilaService implements FilaServiceInterface
         return $qb;
     }
 
-    /**
-     * Aplica a ordenação na QueryBuilder.
-     */
+    /** Aplica a ordenação na QueryBuilder */
     private function applyOrders(
         QueryBuilder $builder,
         UnidadeInterface $unidade,
         UsuarioInterface $usuario = null,
     ): QueryBuilder {
-        $ordering = $this->config->get('queue.ordering');
-
-        if (is_callable($ordering)) {
-            $param = (new OrderingParameter())
-                ->setUnidade($unidade)
-                ->setUsuario($usuario)
-                ->setQueryBuilder($builder)
-                ->setEntityManager($this->em);
-
-            $ordering = $ordering($param);
-        }
-
-        if (is_array($ordering)) {
-            foreach ($ordering as $item) {
-                if (!isset($item['exp'])) {
-                    break;
-                }
-                $exp   = $item['exp'];
-                $order = isset($item['order']) ? $item['order'] : 'ASC';
-                $builder->addOrderBy($exp, $order);
-            }
-        }
+        $this
+            ->dispatcher
+            ->dispatch(new QueueOrderingEvent($unidade, $usuario, $builder));
 
         return $builder;
     }

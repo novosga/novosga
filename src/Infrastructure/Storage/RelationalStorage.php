@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Storage;
 
 use DateTime;
+use DateTimeInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\LockMode;
 use Exception;
@@ -27,11 +28,13 @@ use App\Entity\AtendimentoMeta;
 use App\Entity\Contador;
 use App\Entity\PainelSenha;
 use App\Entity\ServicoUnidade;
+use App\Helper\DoctrineHelper;
 use App\Repository\ServicoUnidadeRepository;
 use Novosga\Entity\AgendamentoInterface;
 use Novosga\Entity\AtendimentoInterface;
 use Novosga\Entity\ServicoInterface;
 use Novosga\Entity\UnidadeInterface;
+use Novosga\Entity\UsuarioInterface;
 use PDO;
 
 /**
@@ -176,37 +179,34 @@ abstract class RelationalStorage extends DoctrineStorage
         });
     }
 
-    /** {@inheritdoc} */
-    public function acumularAtendimentos(?UnidadeInterface $unidade, array $ctx = []): void
-    {
+    /** {@inheritDoc} */
+    public function acumularAtendimentos(
+        UsuarioInterface $usuario,
+        ?UnidadeInterface $unidade,
+        DateTimeInterface $ateData,
+    ): void {
         $self = $this;
         $conn = $this->em->getConnection();
 
-        $conn->transactional(function (Connection $conn) use ($self, $unidade, $ctx) {
-            $data      = new DateTime();
-            $unidadeId = $unidade ? $unidade->getId() : 0;
-
-            if (isset($ctx['data']) && $ctx['data'] instanceof DateTime) {
-                $data = $ctx['data'];
-            }
-
-            $data = $data->format('Y-m-d H:i:s');
+        $conn->transactional(function (Connection $conn) use ($self, $unidade, $ateData) {
+            $unidadeId = (int) $unidade?->getId();
+            $data = $ateData->format('Y-m-d H:i:s');
 
             // tables name
-            $historicoTable        = $this->em->getClassMetadata(AtendimentoHistorico::class)->getTableName();
-            $historicoCodifTable   = $this->em->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
-            $historicoMetaTable    = $this->em->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
-            $atendimentoTable      = $this->em->getClassMetadata(Atendimento::class)->getTableName();
+            $historicoTable = $this->em->getClassMetadata(AtendimentoHistorico::class)->getTableName();
+            $historicoCodifTable = $this->em->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
+            $historicoMetaTable = $this->em->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
+            $atendimentoTable = $this->em->getClassMetadata(Atendimento::class)->getTableName();
             $atendimentoCodifTable = $this->em->getClassMetadata(AtendimentoCodificado::class)->getTableName();
-            $atendimentoMetaTable  = $this->em->getClassMetadata(AtendimentoMeta::class)->getTableName();
-            $painelSenhaTable      = $this->em->getClassMetadata(PainelSenha::class)->getTableName();
+            $atendimentoMetaTable = $this->em->getClassMetadata(AtendimentoMeta::class)->getTableName();
+            $painelSenhaTable = $this->em->getClassMetadata(PainelSenha::class)->getTableName();
 
-            $helper = new \App\Helper\DoctrineHelper($this->em);
+            $helper = new DoctrineHelper($this->em);
 
             // columns
-            $historicoColumns       = $helper->getEntityColumns(AtendimentoHistorico::class);
-            $historicoMetaColumns   = $helper->getEntityColumns(AtendimentoHistoricoMeta::class);
-            $historicoCodifColumns  = $helper->getEntityColumns(AtendimentoCodificadoHistorico::class);
+            $historicoColumns = $helper->getEntityColumns(AtendimentoHistorico::class);
+            $historicoMetaColumns = $helper->getEntityColumns(AtendimentoHistoricoMeta::class);
+            $historicoCodifColumns = $helper->getEntityColumns(AtendimentoCodificadoHistorico::class);
 
             $self->preAcumularAtendimentos($conn, $unidade);
 
@@ -225,16 +225,16 @@ abstract class RelationalStorage extends DoctrineStorage
             ";
 
             // atendimentos pais (nao oriundos de redirecionamento)
-            $query = $conn->prepare("$sql AND a.atendimento_id IS NULL");
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            $conn->executeQuery("$sql AND a.atendimento_id IS NULL", [
+                'data' => $data,
+                'unidade' => $unidadeId,
+            ]);
 
             // atendimentos filhos (oriundos de redirecionamento)
-            $query = $conn->prepare("{$sql} AND a.atendimento_id IS NOT NULL");
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            $conn->executeQuery("{$sql} AND a.atendimento_id IS NOT NULL", [
+                'data' => $data,
+                'unidade' => $unidadeId,
+            ]);
 
             // copia os metadados
             $sql = "
@@ -255,13 +255,13 @@ abstract class RelationalStorage extends DoctrineStorage
                             (b.unidade_id = :unidade OR :unidade = 0)
                     )
             ";
-            $query = $conn->prepare($sql);
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            $conn->executeQuery($sql, [
+                'data' => $data,
+                'unidade' => $unidadeId,
+            ]);
 
             // copia os atendimentos codificados para o historico
-            $query = $conn->prepare("
+            $sql = "
                 INSERT INTO $historicoCodifTable
                 (
                     " . join(', ', $historicoCodifColumns) . "
@@ -274,13 +274,14 @@ abstract class RelationalStorage extends DoctrineStorage
                 WHERE
                     a.dt_cheg <= :data AND
                     (a.unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [
+                'data' => $data,
+                'unidade' => $unidadeId,
+            ]);
 
             // limpa atendimentos codificados
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$atendimentoCodifTable}
                 WHERE atendimento_id IN (
                     SELECT id
@@ -289,13 +290,14 @@ abstract class RelationalStorage extends DoctrineStorage
                         dt_cheg <= :data AND
                         (unidade_id = :unidade OR :unidade = 0)
                 )
-            ");
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [
+                'data' => $data,
+                'unidade' => $unidadeId,
+            ]);
 
             // limpa metadata
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$atendimentoMetaTable}
                 WHERE atendimento_id IN (
                     SELECT id
@@ -304,41 +306,45 @@ abstract class RelationalStorage extends DoctrineStorage
                         dt_cheg <= :data AND
                         (unidade_id = :unidade OR :unidade = 0)
                 )
-            ");
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [
+                'data' => $data,
+                'unidade' => $unidadeId,
+            ]);
 
             // limpa o auto-relacionamento para poder excluir os atendimento sem dar erro de constraint (#136)
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$atendimentoTable}
                 WHERE
                     atendimento_id IS NOT NULL AND
                     dt_cheg <= :data AND
                     (unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [
+                'data' => $data,
+                'unidade' => $unidadeId,
+            ]);
 
             // limpa atendimentos da unidade
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$atendimentoTable}
                 WHERE
                     dt_cheg <= :data AND
                     (unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('data', $data, PDO::PARAM_STR);
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [
+                'data' => $data,
+                'unidade' => $unidadeId,
+            ]);
 
             // limpa a tabela de senhas a serem exibidas no painel
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$painelSenhaTable}
                 WHERE (unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [
+                'unidade' => $unidadeId,
+            ]);
 
             $rs = $conn->executeQuery("SELECT COUNT(*) FROM {$atendimentoTable}");
             $total = (int) $rs->fetchOne();
@@ -351,65 +357,61 @@ abstract class RelationalStorage extends DoctrineStorage
     }
 
     /** {@inheritdoc} */
-    public function apagarDadosAtendimento(?UnidadeInterface $unidade, array $ctx = []): void
-    {
+    public function apagarDadosAtendimento(
+        UsuarioInterface $usuario,
+        ?UnidadeInterface $unidade,
+    ): void {
         $self = $this;
         $conn = $this->em->getConnection();
 
         $conn->transactional(function ($conn) use ($self, $unidade) {
             // tables name
-            $historicoTable        = $this->em->getClassMetadata(AtendimentoHistorico::class)->getTableName();
-            $historicoCodifTable   = $this->em->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
-            $historicoMetaTable    = $this->em->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
-            $atendimentoTable      = $this->em->getClassMetadata(Atendimento::class)->getTableName();
+            $historicoTable = $this->em->getClassMetadata(AtendimentoHistorico::class)->getTableName();
+            $historicoCodifTable = $this->em->getClassMetadata(AtendimentoCodificadoHistorico::class)->getTableName();
+            $historicoMetaTable = $this->em->getClassMetadata(AtendimentoHistoricoMeta::class)->getTableName();
+            $atendimentoTable = $this->em->getClassMetadata(Atendimento::class)->getTableName();
             $atendimentoCodifTable = $this->em->getClassMetadata(AtendimentoCodificado::class)->getTableName();
-            $atendimentoMetaTable  = $this->em->getClassMetadata(AtendimentoMeta::class)->getTableName();
+            $atendimentoMetaTable = $this->em->getClassMetadata(AtendimentoMeta::class)->getTableName();
 
-            $unidadeId = $unidade ? $unidade->getId() : 0;
+            $unidadeId = (int) $unidade?->getId();
 
             $self->preApagarDadosAtendimento($conn, $unidade);
 
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$historicoCodifTable}
                 WHERE atendimento_id IN (SELECT id FROM {$historicoTable} WHERE unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [ 'unidade' => $unidadeId ]);
 
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$historicoMetaTable}
                 WHERE atendimento_id IN (SELECT id FROM {$historicoTable} WHERE unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [ 'unidade' => $unidadeId ]);
 
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$historicoTable}
                 WHERE unidade_id = :unidade OR :unidade = 0
-            ");
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [ 'unidade' => $unidadeId ]);
 
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$atendimentoCodifTable}
                 WHERE atendimento_id IN (SELECT id FROM {$atendimentoTable} WHERE unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [ 'unidade' => $unidadeId ]);
 
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$atendimentoMetaTable}
                 WHERE atendimento_id IN (SELECT id FROM {$atendimentoTable} WHERE unidade_id = :unidade OR :unidade = 0)
-            ");
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [ 'unidade' => $unidadeId ]);
 
-            $query = $conn->prepare("
+            $sql = "
                 DELETE FROM {$atendimentoTable}
                 WHERE unidade_id = :unidade OR :unidade = 0
-            ");
-            $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-            $query->execute();
+            ";
+            $conn->executeQuery($sql, [ 'unidade' => $unidadeId ]);
 
             // reinicia o contador das senhas
             $this->reiniciarContadores($conn, $unidadeId);

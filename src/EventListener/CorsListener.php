@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace App\EventListener;
 
+use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * CorsListener
@@ -25,6 +27,7 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AsEventListener(event: KernelEvents::REQUEST, priority: 700)]
 class CorsListener extends AppListener
 {
     public function __construct(

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c541a8b09990fe4767d5a7bc3756ae32",
+    "content-hash": "180a9cb028deba47c3448e32ad6e5fc7",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1995,26 +1995,29 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "ebfc2621cae9d753ecdc6a7c4c0321c7225b5b13"
+                "reference": "e1a91863f81b56666a80a78d8c4f65a5e9c45ab1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/ebfc2621cae9d753ecdc6a7c4c0321c7225b5b13",
-                "reference": "ebfc2621cae9d753ecdc6a7c4c0321c7225b5b13",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/e1a91863f81b56666a80a78d8c4f65a5e9c45ab1",
+                "reference": "e1a91863f81b56666a80a78d8c4f65a5e9c45ab1",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
                 "novosga/core": "2.2.x-dev",
                 "php": ">=8.2",
-                "symfony/framework-bundle": "7.1.*"
+                "symfony/form": "^7.1",
+                "symfony/framework-bundle": "7.1.*",
+                "symfony/translation": "7.1.*"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
-            "type": "novosga-module",
+            "default-branch": true,
+            "type": "symfony-module",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
@@ -2033,7 +2036,7 @@
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
                 "source": "https://github.com/novosga/attendance-bundle/tree/v2.2"
             },
-            "time": "2024-07-22T13:54:30+00:00"
+            "time": "2024-07-26T19:25:44+00:00"
         },
         {
             "name": "novosga/core",
@@ -2041,24 +2044,29 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "8e9f990587a95ca2ebc2fc370fe7d75af53782cf"
+                "reference": "0e9bbca82e474135f737bbe359f559b9b3ff2221"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/8e9f990587a95ca2ebc2fc370fe7d75af53782cf",
-                "reference": "8e9f990587a95ca2ebc2fc370fe7d75af53782cf",
+                "url": "https://api.github.com/repos/novosga/core/zipball/0e9bbca82e474135f737bbe359f559b9b3ff2221",
+                "reference": "0e9bbca82e474135f737bbe359f559b9b3ff2221",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
                 "php": ">=8.2",
-                "symfony/http-kernel": "7.1.*"
+                "symfony/event-dispatcher-contracts": "^3.5",
+                "symfony/form": "7.1.*",
+                "symfony/http-kernel": "7.1.*",
+                "symfony/security-core": "7.1.*",
+                "symfony/validator": "7.1.*"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2078,7 +2086,7 @@
                 "issues": "https://github.com/novosga/core/issues",
                 "source": "https://github.com/novosga/core/tree/v2.2"
             },
-            "time": "2024-07-23T18:28:38+00:00"
+            "time": "2024-07-27T14:10:52+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -2086,12 +2094,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "2e9400ea49d4043cdbd040ab9266acf6e66165aa"
+                "reference": "34ad30bacf7cd9526bbc8591d0d10a6c16fbe1fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/2e9400ea49d4043cdbd040ab9266acf6e66165aa",
-                "reference": "2e9400ea49d4043cdbd040ab9266acf6e66165aa",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/34ad30bacf7cd9526bbc8591d0d10a6c16fbe1fd",
+                "reference": "34ad30bacf7cd9526bbc8591d0d10a6c16fbe1fd",
                 "shasum": ""
             },
             "require": {
@@ -2099,13 +2107,15 @@
                 "novosga/core": "2.2.x-dev",
                 "php": ">=8.2",
                 "symfony/form": "7.1.*",
-                "symfony/framework-bundle": "7.1.*"
+                "symfony/framework-bundle": "7.1.*",
+                "symfony/translation": "7.1.*"
             },
             "require-dev": {
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -2125,7 +2135,7 @@
                 "issues": "https://github.com/novosga/monitor-bundle/issues",
                 "source": "https://github.com/novosga/monitor-bundle/tree/v2.2"
             },
-            "time": "2024-07-22T13:55:24+00:00"
+            "time": "2024-07-26T18:09:36+00:00"
         },
         {
             "name": "novosga/reports-bundle",
@@ -2277,12 +2287,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "313427cd418877179b7333465a5056f93acf9ab9"
+                "reference": "da94e87244bfbac5402dffa774eb53e2844f99f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/313427cd418877179b7333465a5056f93acf9ab9",
-                "reference": "313427cd418877179b7333465a5056f93acf9ab9",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/da94e87244bfbac5402dffa774eb53e2844f99f6",
+                "reference": "da94e87244bfbac5402dffa774eb53e2844f99f6",
                 "shasum": ""
             },
             "require": {
@@ -2296,7 +2306,7 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
-            "type": "novosga-module",
+            "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
                     "dev-master": "2.2-dev"
@@ -2315,7 +2325,7 @@
                 "issues": "https://github.com/novosga/triage-bundle/issues",
                 "source": "https://github.com/novosga/triage-bundle/tree/v2.2"
             },
-            "time": "2024-07-22T13:42:54+00:00"
+            "time": "2024-07-26T16:13:31+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -9646,16 +9656,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.11.7",
+            "version": "1.11.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "52d2bbfdcae7f895915629e4694e9497d0f8e28d"
+                "reference": "6adbd118e6c0515dd2f36b06cde1d6da40f1b8ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/52d2bbfdcae7f895915629e4694e9497d0f8e28d",
-                "reference": "52d2bbfdcae7f895915629e4694e9497d0f8e28d",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/6adbd118e6c0515dd2f36b06cde1d6da40f1b8ec",
+                "reference": "6adbd118e6c0515dd2f36b06cde1d6da40f1b8ec",
                 "shasum": ""
             },
             "require": {
@@ -9700,7 +9710,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-06T11:17:41+00:00"
+            "time": "2024-07-24T07:01:22+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

@@ -58,11 +58,11 @@ var App = {
     },
     
     showErrorDialog(response) {
+        if (response.sessionStatus) {
+            errorModal._element.datalist.sessionStatus = response.sessionStatus;
+        }
+        errorModal._element.querySelector('.modal-body>p').innerText = response.message;
         errorModal.show();
-            // .data('sessionStatus', response.sessionStatus)
-            // .modal('show')
-            // .find('.modal-body>p')
-            //     .text(response.message);
     },
 
     async ajax(arg) {
@@ -70,36 +70,38 @@ var App = {
         loading.style.display = 'inline-block';
 
         let body = null;
-        if (arg.type !== 'get') {
+        let headers = {};
+        let url = arg.url || '';
+        let method = arg.type || arg.method || 'get';
+        if (method !== 'get') {
+            headers['content-type'] = 'application/json';
             body = JSON.stringify(arg.data);
+        } else if (arg.data) {
+            const search = new URLSearchParams(arg.data);
+            url += '?' + search.toString();
         }
-        // arg.data
+
         try {
-            const resp = await fetch(arg.url, {
+            const resp = await fetch(url, {
                 body,
-                method: arg.type || 'get',
+                method,
+                headers,
             });
-            if (!resp.ok) {
-                App.showErrorDialog(resp);
-                return;
-            }
             const json = await resp.json();
             if (json.success) {
                 if (arg.success && typeof(arg.success) === 'function') {
                     arg.success(json, resp);
                 }
             } else {
-                App.showErrorDialog(resp);
+                App.showErrorDialog(json, resp);
             }
             if (json.time) {
                 App.Clock.update(json.time);
             }
         } catch (error) {
-            const json = await error.json();
-            App.showErrorDialog(json);
-
+            App.showErrorDialog(error);
             if (arg.error && typeof(arg.error) === 'function') {
-                arg.error(json);
+                arg.error(error);
             }
         }
 
@@ -110,17 +112,17 @@ var App = {
     },
     
     Unidades: {
-        show: function() {
-            $('#dialog-unidade').modal('show');
+        show() {
+            new bootstrap.Modal('#dialog-unidade').show();
         },
         
-        set: function() {
-            var id = $('#unidade').val();
+        set() {
+            const id = document.getElementById('unidade').value;
             if (id > 0) {
                 App.ajax({
                     url: App.baseUrl + '/set_unidade/' + id,
                     type: 'post',
-                    success: function(response) {
+                    success() {
                         App.reload();
                     }
                 });
@@ -217,25 +219,22 @@ var App = {
             
     Notification: {
         request(btn) {
-            if (Notification) {
-                Notification.requestPermission(function(permission) {
-                    if (!('permission' in Notification)) {
-                        Notification.permission = permission;
-                    }
-                    if (btn?.style) {
+            if (window.Notification) {
+                Notification.requestPermission((permission) => {
+                    if (permission === 'granted') {
                         btn.style.display = 'none';
+                    } else if (permission === 'denied') {
+                        alert('Notificação negada');
                     }
                 });
             }
         },
-
         allowed: function() {
             if (window.webkitNotifications) {
                 return window.webkitNotifications.checkPermission() === 0;
             }
             return Notification && Notification.permission === "granted";
         },
-
         show: function(title, content) {
             if (this.allowed()) {
                 new Notification(title, { body: content, icon: App.baseUrl + '/images/favicon.png' });
@@ -243,7 +242,6 @@ var App = {
                 this.request();
             }
         }
-
     },
 
     SSE: {
@@ -293,6 +291,15 @@ var App = {
         onerror (e) {},
         onmessage (e, data) {},
         ondisconnect () {}
+    },
+
+    Modal: {
+        closeAll() {
+            [...document.querySelectorAll('.modal.show')].forEach(elem => {
+                const modal = bootstrap.Modal.getInstance(elem);
+                modal?.hide();
+            });
+        }
     }
 };
 

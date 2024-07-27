@@ -15,8 +15,10 @@ namespace App\Command;
 
 use App\Entity\Unidade;
 use App\Service\AtendimentoService;
+use DateInterval;
 use Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Clock\ClockInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,6 +36,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ResetCommand extends Command
 {
     public function __construct(
+        private readonly ClockInterface $clock,
         private readonly EntityManagerInterface $em,
         private readonly AtendimentoService $atendimentoService,
     ) {
@@ -60,7 +63,7 @@ class ResetCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $id = (int) $input->getArgument('unidade');
-        $seguro = $input->getOption('seguro');
+        $seguro = (bool) $input->getOption('seguro');
         $unidade = null;
 
         if ($id > 0) {
@@ -71,16 +74,15 @@ class ResetCommand extends Command
             }
         }
 
-        $ctx = [];
+        $ateData = $this->clock->now();
 
         if ($seguro) {
-            $dt = new \DateTime();
-            $dt->sub(new \DateInterval('P1D'));
-            $dt->setTime(23, 59, 59);
-            $ctx['data'] = $dt;
+            $ateData = $ateData
+                ->sub(new DateInterval('P1D'))
+                ->setTime(23, 59, 59);
         }
 
-        $this->atendimentoService->acumularAtendimentos($unidade, $ctx);
+        $this->atendimentoService->acumularAtendimentos(null, $unidade, $ateData);
 
         $io = new SymfonyStyle($input, $output);
         $io->success('Senhas reiniciadas com sucesso');

@@ -16,7 +16,7 @@ namespace App\Entity;
 use App\EventListener\TimestampableEntityListener;
 use App\EventListener\UsuarioListener;
 use App\Repository\UsuarioRepository;
-use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Types\Types;
@@ -78,7 +78,7 @@ class Usuario implements
     private bool $ativo = true;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
-    private ?DateTime $ultimoAcesso = null;
+    private ?DateTimeInterface $ultimoAcesso = null;
 
     #[ORM\Column(length: 15, nullable: true)]
     private ?string $ip = null;
@@ -258,12 +258,12 @@ class Usuario implements
         return (bool) $this->ativo;
     }
 
-    public function getUltimoAcesso(): ?DateTime
+    public function getUltimoAcesso(): ?DateTimeInterface
     {
         return $this->ultimoAcesso;
     }
 
-    public function setUltimoAcesso(?DateTime $ultimoAcesso): static
+    public function setUltimoAcesso(?DateTimeInterface $ultimoAcesso): static
     {
         $this->ultimoAcesso = $ultimoAcesso;
 
