@@ -72,7 +72,9 @@ class UserProvider extends EntityUserProvider
     public function refreshUser(UserInterface $user): UserInterface
     {
         $usuario = $this->usuarioRepository->find($user->getId());
-        $this->loadLotacao($usuario);
+        if (null === $usuario) {
+            throw new UserNotFoundException();
+        }
 
         return $usuario;
     }

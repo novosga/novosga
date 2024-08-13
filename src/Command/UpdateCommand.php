@@ -51,20 +51,20 @@ class UpdateCommand extends Command
             "*******************",
         ];
 
-        $this->writef($output, join('\n', $header), 'info');
+        $this->writef($output, $header, 'info');
 
-        $this->updateSchema($output);
+        $this->runMigrations($output);
 
         return self::SUCCESS;
     }
 
-    protected function updateSchema(OutputInterface $output): bool
+    private function runMigrations(OutputInterface $output): bool
     {
-        $updateDatabase = $this->getApplication()->find('doctrine:schema:update');
-        $code = $updateDatabase->run(
-            new ArrayInput([ '--force' => true ]),
-            $output
-        );
+        $input = new ArrayInput([]);
+        $input->setInteractive(false);
+
+        $migration = $this->getApplication()->find('doctrine:migrations:migrate');
+        $code = $migration->run($input, $output);
 
         return $code === 0;
     }

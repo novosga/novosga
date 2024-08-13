@@ -60,7 +60,7 @@ class InstallCommand extends UpdateCommand
             "*******************",
         ];
 
-        $this->writef($output, join('\n', $header), 'info');
+        $this->writef($output, $header, 'info');
 
         $output->writeln('> Checking environment...');
 
@@ -77,14 +77,6 @@ class InstallCommand extends UpdateCommand
         }
 
         $output->writeln('Database <info>Ok</info>!');
-
-        $output->writeln('> Updating database schema...');
-
-        if (!$this->updateSchema($output)) {
-            return 1;
-        }
-
-        $output->writeln('Schema <info>Ok</info>!');
 
         $output->writeln('> Running database migrations...');
 
@@ -109,7 +101,8 @@ class InstallCommand extends UpdateCommand
                 $input,
                 $output,
                 'NOVOSGA_ADMIN_PASSWORD',
-                '[Admin] Please enter the administrator password: '
+                '[Admin] Please enter the administrator password: ',
+                hidden: true,
             );
             if (strlen($password) < 6) {
                 throw new Exception('The admin password must contain at least 6 characters');
@@ -194,7 +187,7 @@ class InstallCommand extends UpdateCommand
         }
 
         // attendance place
-        if (!$this->existsData(\App\Entity\Local::class)) {
+        if (!$this->existsData(Local::class)) {
             $placeName = $this->read(
                 $input,
                 $output,
@@ -241,7 +234,7 @@ class InstallCommand extends UpdateCommand
         $input->setInteractive(false);
 
         $migration = $this->getApplication()->find('doctrine:migrations:migrate');
-        $code      = $migration->run($input, $output);
+        $code = $migration->run($input, $output);
 
         return $code === 0;
     }
@@ -265,9 +258,9 @@ class InstallCommand extends UpdateCommand
         string $envname,
         string $message,
         mixed $default = null,
+        bool $hidden = false,
     ): mixed {
-        $envvar = getenv($envname);
-
+        $envvar = $_ENV[$envname] ?? getenv($envname);
         if ($envvar) {
             return $envvar;
         }
@@ -279,6 +272,10 @@ class InstallCommand extends UpdateCommand
         /** @var QuestionHelper */
         $helper = $this->getHelper('question');
         $question = new Question($message, $default);
+        if ($hidden) {
+            $question->setHidden(true);
+            $question->setHiddenFallback(false);
+        }
         $value = $helper->ask($input, $output, $question);
 
         return $value;

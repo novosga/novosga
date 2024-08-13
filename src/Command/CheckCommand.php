@@ -18,6 +18,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * CheckCommand.
@@ -38,6 +39,7 @@ class CheckCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        (new Dotenv())->bootEnv(dirname(dirname(__DIR__)) . '/.env');
         $showHeader = !$input->getOption('no-header');
 
         if ($showHeader) {
@@ -46,28 +48,36 @@ class CheckCommand extends Command
                 "Checking NovoSGA installation",
                 "*******************",
             ];
-            $this->writef($output, join('\n', $header), 'info');
+            $this->writef($output, $header, 'info');
         }
 
         $vars = [
+            'APP_LANGUAGE',
             'DATABASE_URL',
+            'MERCURE_URL',
+            'MERCURE_PUBLIC_URL',
+            'MERCURE_JWT_SECRET',
+            'OAUTH_PRIVATE_KEY',
+            'OAUTH_PUBLIC_KEY',
+            'OAUTH_PASSPHRASE',
+            'OAUTH_ENCRYPTION_KEY',
         ];
 
         foreach ($vars as $var) {
-            $success = $this->checkEnvVar($output, $var);
-            if (!$success) {
-                return 1;
-            }
+            $this->checkEnvVar($output, $var);
         }
 
         return self::SUCCESS;
     }
 
-    private function checkEnvVar(OutputInterface $output, string $varname): bool
+    private function checkEnvVar(OutputInterface $output, string $varname): void
     {
-        $var = getenv($varname);
+        $output->write(sprintf('> Checking environment variable %s ...', $varname));
+        if ($this->hasVariable($varname)) {
+            $output->writeln(" [OK]");
+        } else {
+            $output->writeln(" [ERR]");
 
-        if (!$var) {
             $error = "Environment variable {$varname} not found.";
             $instruction = [
                 "Please fill the missing variable in the .env file for development installation",
@@ -75,11 +85,12 @@ class CheckCommand extends Command
             ];
 
             $this->writef($output, $error, 'error');
-            $this->writef($output, join('\n', $instruction), 'comment');
-
-            return false;
+            $this->writef($output, $instruction, 'comment');
         }
+    }
 
-        return true;
+    private function hasVariable(string $varname): bool
+    {
+        return isset($_ENV[$varname]) || !!getenv($varname);
     }
 }

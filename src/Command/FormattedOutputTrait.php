@@ -23,7 +23,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 trait FormattedOutputTrait
 {
-    protected function writef(OutputInterface $output, string $message, string $type): void
+    /** @param string|iterable<string> $message */
+    protected function writef(OutputInterface $output, string|iterable $message, string $type): void
     {
         /** @var FormatterHelper */
         $formatter = $this->getHelper('formatter');

@@ -32,7 +32,7 @@ class PerfilType extends AbstractType
     ) {
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $modulos = [];
         foreach ($options['modulos'] as $modulo) {
@@ -73,8 +73,7 @@ class PerfilType extends AbstractType
         ;
     }
 
-    /** {@inheritdoc} */
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver
             ->setDefaults([

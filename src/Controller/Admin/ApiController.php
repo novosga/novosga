@@ -39,7 +39,7 @@ class ApiController extends AbstractController
         ]);
     }
 
-    #[Route('/oauth-clients', name: 'oauth-clients', methods: ['GET'])]
+    #[Route('/oauth-clients', name: 'clients', methods: ['GET'])]
     public function oauthClients(EntityManagerInterface $em, ClientManagerInterface $clientManager): Response
     {
         $envelope = new Envelope();
@@ -77,7 +77,7 @@ class ApiController extends AbstractController
         return $this->json($envelope);
     }
 
-    #[Route('/oauth-clients/{id}', name: 'removeclient', methods: ['DELETE'])]
+    #[Route('/oauth-clients/{identifier}', name: 'removeclient', methods: ['DELETE'])]
     public function removeOauthClient(ClientManagerInterface $clientManager, string $identifier): Response
     {
         $envelope = new Envelope();
