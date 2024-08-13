@@ -65,7 +65,7 @@ class AdminController extends AbstractController
     public function limparAtendimentos(Request $request, AtendimentoService $service)
     {
         $envelope = new Envelope();
-        $service->limparDados();
+        $service->limparDados(null);
 
         return $this->json($envelope);
     }

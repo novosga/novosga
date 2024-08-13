@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e2e2545908e1400db9b5d36cf098a8e",
+    "content-hash": "a53f5bcc44d45641cc48803cd99a67fa",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2049,12 +2049,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "193098960b8c34932f183c6aafbb0a97e0d13ca2"
+                "reference": "5110c8f24378770e61496e34d78e7a2413a91db9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/193098960b8c34932f183c6aafbb0a97e0d13ca2",
-                "reference": "193098960b8c34932f183c6aafbb0a97e0d13ca2",
+                "url": "https://api.github.com/repos/novosga/core/zipball/5110c8f24378770e61496e34d78e7a2413a91db9",
+                "reference": "5110c8f24378770e61496e34d78e7a2413a91db9",
                 "shasum": ""
             },
             "require": {
