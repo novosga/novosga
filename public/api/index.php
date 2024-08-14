@@ -284,11 +284,25 @@ foreach ($config->routes() as $pattern => $callable) {
 
 // response
 
+// Handle CORS preflight requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // CORS headers for preflight requests
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
+    header("Access-Control-Allow-Credentials: true");
+    header("Access-Control-Max-Age: 1000");
+    header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    
+    // Send the proper response
+    http_response_code(200);
+    exit();
+}
+
+// CORS headers for actual requests
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
-header('Access-Control-Allow-Credentials: true');
-header("Access-Control-Max-Age: 1000");
-header("Access-Control-Allow-Headers: origin, x-requested-with, content-type");
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
 
 $app->contentType('application/json');
 $app->run();
