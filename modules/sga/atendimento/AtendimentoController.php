@@ -21,36 +21,42 @@ use Novosga\Config\AppConfig;
  * AtendimentoController.
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
+ * @modified Rarandrade <github.com/rarandrade>
+ * @reviwed lucasplcorrea <github.com/lucasplcorrea>
  */
-class AtendimentoController extends ModuleController
-{
+
+class AtendimentoController extends ModuleController {
+
     private $filaService;
     private $usuarioService;
     private $atendimentoService;
 
-    public function __construct(App $app, Modulo $modulo)
-    {
+    public function __construct(App $app, Modulo $modulo) {
         parent::__construct($app, $modulo);
         $this->filaService = new FilaService($this->em());
         $this->usuarioService = new UsuarioService($this->em());
         $this->atendimentoService = new AtendimentoService($this->em());
     }
 
-    public function index(Context $context)
-    {
+    public function index(Context $context) {
         $usuario = $context->getUser();
         $unidade = $context->getUnidade();
         if (!$usuario || !$unidade) {
             $this->app()->gotoHome();
         }
 
-        $localMeta = $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_LOCAL);
+        // Recebe 0 para abrir a janela de configuração do usuario
+        $localMeta = 0; //$this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_LOCAL);
         if ($localMeta) {
             $usuario->setLocal((int) $localMeta->getValue());
         }
         $tipoMeta = $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_TIPO);
         if ($tipoMeta) {
             $usuario->setTipoAtendimento((int) $tipoMeta->getValue());
+        }
+        $tipoServicoMeta = $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_SERVICO);
+        if ($tipoServicoMeta) {
+            $usuario->setTipoServico($tipoServicoMeta->getValue());
         }
 
         $this->app()->view()->set('time', time() * 1000);
@@ -68,25 +74,35 @@ class AtendimentoController extends ModuleController
         $this->app()->view()->set('tiposAtendimento', $tiposAtendimento);
         $this->app()->view()->set('local', $usuario->getLocal());
         $this->app()->view()->set('tipoAtendimento', $usuario->getTipoAtendimento());
+        $this->app()->view()->set('tipoServico', explode(",", $usuario->getTipoServico()));
+        $this->app()->view()->set('tipoServico2', $usuario->getTipoServico());
     }
 
-    public function set_local(Context $context)
-    {
+    public function set_local(Context $context) {
         $response = new JsonResponse();
         try {
             $unidade = $context->getUnidade();
             $usuario = $context->getUser();
             $numero = (int) $context->request()->post('local');
             $tipo = (int) $context->request()->post('tipo');
+            $servico = $context->request()->post('tipoServico');
+            if (!empty($servico)) {
+                $tipoServico = implode(",", $servico);
+            } else {
+                throw new Exception(_('Erro ao definir serviço do Usuário. Deve ser selecionado pelo menos um.'));
+            }
 
             AppConfig::getInstance()->hook('sga.atendimento.pre-setlocal', array($unidade, $usuario, $numero, $tipo));
-            
+
             $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_LOCAL, $numero);
             $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_TIPO, $tipo);
+            $this->usuarioService->meta($usuario->getWrapped(), UsuarioService::ATTR_ATENDIMENTO_SERVICO, $tipoServico);
             $usuario->setLocal($numero);
             $usuario->setTipoAtendimento($tipo);
-            $context->setUser($context->getUser());
-            
+            $usuario->setTipoServico($tipoServico);
+//            $context->setUser($context->getUser());
+            $context->setUser($usuario);
+
             AppConfig::getInstance()->hook('sga.atendimento.setlocal', array($unidade, $usuario, $numero, $tipo));
 
             $response->success = true;
@@ -98,8 +114,7 @@ class AtendimentoController extends ModuleController
         return $response;
     }
 
-    public function ajax_update(Context $context)
-    {
+    public function ajax_update(Context $context) {
         $response = new JsonResponse();
         $unidade = $context->getUnidade();
         $usuarioSessao = $context->getUser();
@@ -113,6 +128,7 @@ class AtendimentoController extends ModuleController
                 'usuario' => array(
                     'numeroLocal' => $usuarioSessao->getLocal(),
                     'tipoAtendimento' => $usuarioSessao->getTipoAtendimento(),
+                    'tipoServico' => $usuarioSessao->getTipoServico(),
                 ),
             );
             $response->success = true;
@@ -126,8 +142,7 @@ class AtendimentoController extends ModuleController
      *
      * @param Novosga\Context $context
      */
-    public function chamar(Context $context)
-    {
+    public function chamar(Context $context) {
         $response = new JsonResponse();
         try {
             if (!$context->request()->isPost()) {
@@ -141,6 +156,10 @@ class AtendimentoController extends ModuleController
             if (!$usuario) {
                 throw new Exception(_('Nenhum usuário na sessão'));
             }
+
+            // retorna configuracao do usuario para conferir possiveis alteracoes
+            $this->checkUserConfig($context, $usuario);
+
             // verifica se ja esta atendendo alguem
             $atual = $this->atendimentoService->atendimentoAndamento($usuario->getId());
             // se ja existe um atendimento em andamento (chamando senha novamente)
@@ -191,19 +210,25 @@ class AtendimentoController extends ModuleController
         return $response;
     }
 
-    private function checkUserConfig(Context $context, UsuarioSessao $usuario)
-    {
+    private function checkUserConfig(Context $context, UsuarioSessao $usuario) {
         $service = new UsuarioService($this->em());
         $numeroLocalMeta = $service->meta($usuario->getWrapped(), 'atendimento.local');
         $numero = $numeroLocalMeta ? (int) $numeroLocalMeta->getValue() : $usuario->getLocal();
         $tipoAtendimentoMeta = $service->meta($usuario->getWrapped(), 'atendimento.tipo');
         $tipoAtendimento = $tipoAtendimentoMeta ? (int) $tipoAtendimentoMeta->getValue() : $usuario->getTipoAtendimento();
 
+        $tipoServicoMeta = $service->meta($usuario->getWrapped(), 'atendimento.tipoServico');
+        $tipoServico = $tipoServicoMeta ? $tipoServicoMeta->getValue() : $usuario->getTipoServico();
+
         if ($numero != $usuario->getLocal()) {
             $usuario->setLocal($numero);
         }
         if ($tipoAtendimento != $usuario->getTipoAtendimento()) {
             $usuario->setTipoAtendimento($tipoAtendimento);
+        }
+
+        if ($tipoServico != $usuario->getTipoServico()) {
+            $usuario->setTipoServico($tipoServico);
         }
 
         $context->setUser($usuario);
@@ -218,8 +243,7 @@ class AtendimentoController extends ModuleController
      *
      * @return JsonResponse
      */
-    private function mudaStatusAtualResponse(Context $context, $statusAtual, $novoStatus, $campoData)
-    {
+    private function mudaStatusAtualResponse(Context $context, $statusAtual, $novoStatus, $campoData) {
         $usuario = $context->getUser();
         if (!$usuario) {
             $this->app()->gotoHome();
@@ -247,8 +271,7 @@ class AtendimentoController extends ModuleController
      *
      * @return bool
      */
-    private function mudaStatusAtendimento(Atendimento $atendimento, $statusAtual, $novoStatus, $campoData)
-    {
+    private function mudaStatusAtendimento(Atendimento $atendimento, $statusAtual, $novoStatus, $campoData) {
         $cond = '';
         if ($campoData !== null) {
             $cond = ", e.$campoData = :data";
@@ -281,8 +304,7 @@ class AtendimentoController extends ModuleController
      *
      * @param Novosga\Context $context
      */
-    public function iniciar(Context $context)
-    {
+    public function iniciar(Context $context) {
         return $this->mudaStatusAtualResponse($context, AtendimentoService::CHAMADO_PELA_MESA, AtendimentoService::ATENDIMENTO_INICIADO, 'dataInicio');
     }
 
@@ -291,8 +313,7 @@ class AtendimentoController extends ModuleController
      *
      * @param Novosga\Context $context
      */
-    public function nao_compareceu(Context $context)
-    {
+    public function nao_compareceu(Context $context) {
         return $this->mudaStatusAtualResponse($context, AtendimentoService::CHAMADO_PELA_MESA, AtendimentoService::NAO_COMPARECEU, 'dataFim');
     }
 
@@ -301,8 +322,7 @@ class AtendimentoController extends ModuleController
      *
      * @param Novosga\Context $context
      */
-    public function encerrar(Context $context)
-    {
+    public function encerrar(Context $context) {
         return $this->mudaStatusAtualResponse($context, AtendimentoService::ATENDIMENTO_INICIADO, AtendimentoService::ATENDIMENTO_ENCERRADO, null);
     }
 
@@ -311,8 +331,7 @@ class AtendimentoController extends ModuleController
      *
      * @param Novosga\Context $context
      */
-    public function codificar(Context $context)
-    {
+    public function codificar(Context $context) {
         $response = new JsonResponse(false);
         try {
             if (!$context->request()->isPost()) {
@@ -361,6 +380,7 @@ class AtendimentoController extends ModuleController
             try {
                 $this->em()->rollback();
             } catch (Exception $ex) {
+                
             }
             $response->message = $e->getMessage();
         }
@@ -374,8 +394,7 @@ class AtendimentoController extends ModuleController
      *
      * @param Novosga\Context $context
      */
-    public function redirecionar(Context $context)
-    {
+    public function redirecionar(Context $context) {
         $unidade = $context->getUnidade();
         $response = new JsonResponse(false);
         try {
@@ -406,8 +425,7 @@ class AtendimentoController extends ModuleController
         return $response;
     }
 
-    public function info_senha(Context $context)
-    {
+    public function info_senha(Context $context) {
         $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
@@ -429,8 +447,7 @@ class AtendimentoController extends ModuleController
      *
      * @param Novosga\Context $context
      */
-    public function consulta_senha(Context $context)
-    {
+    public function consulta_senha(Context $context) {
         $response = new JsonResponse();
         $unidade = $context->getUser()->getUnidade();
         if ($unidade) {
@@ -447,4 +464,5 @@ class AtendimentoController extends ModuleController
 
         return $response;
     }
+
 }

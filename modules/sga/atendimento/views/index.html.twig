@@ -1,5 +1,12 @@
+{# 
+* @author Rogerio Lino <rogeriolino@gmail.com>
+* @modified Rarandrade <github.com/rarandrade>
+* @reviwed  lucasplcorrea <github.com/lucasplcorrea> 
+#}
+
 {% extends "module.html.twig" %}
 {% block moduleContent %}
+
     <div id="dialog-local" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -21,15 +28,43 @@
                                     <label class="control-label" title="{% trans %}Tipo de Atendimento{% endtrans %}">{% trans %}Atendimento{% endtrans %}</label>
                                     <select id="tipo_atendimento" name="tipo" class="form-control config-tipo-atendimento">
                                         {% for v,l in tiposAtendimento %}
-                                        <option value="{{ v }}" {% if tipoAtendimento == v %}selected="selected"{% endif %}>{{ l }}</option>
+                                            <option value="{{ v }}" {% if tipoAtendimento == v %}selected="selected"{% endif %}>{{ l }}</option>
                                         {% endfor %}
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label" title="{% trans %}Tipo de Serviço{% endtrans %}">{% trans %}Serviço{% endtrans %}</label>
+                                    <br />
+                                    <script>
+                                        function marcardesmarcar() {
+                                            
+                                            $('.marcar').each(
+                                                    function () {
+                                                        if ($("#todos").prop("checked"))
+                                                            $(this).prop("checked", true);
+                                                        else
+                                                            $(this).prop("checked", false);
+                                                    }
+                                            );
+                                        }
+                                    </script>
+                                    <label><input type="checkbox" id='todos' onclick='marcardesmarcar()' /> Todos </label>
+                                        {% for su in servicos %}
+                                        <br />
+                                        <label><input type="checkbox" class="marcar" id="tipoServico" name="tipoServico[]" value="{{ su.servico.id }}" 
+                                                      {% for tpSu in tipoServico %}
+                                                          {% if tpSu == su.servico.id %}checked="checked"{% endif %} 
+                                                      {% endfor %}
+                                                      /> {{ su.servico.nome }}</label>
+                                        {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </form>
                     <script type="text/javascript">
-                        $('#local_form').on('submit', function() {
+                        $('#local_form').on('submit', function () {
                             var numero = parseInt($('#numero_local').val());
                             if (isNaN(numero) || numero <= 0) {
                                 $('#numero_local').val('');
@@ -38,7 +73,7 @@
                                     url: '{{ baseUrl() }}/modules/{{ module.chave }}/set_local',
                                     type: 'post',
                                     data: $(this).serialize(),
-                                    success: function(response) {
+                                    success: function (response) {
                                         window.location.reload();
                                     }
                                 });
@@ -48,7 +83,8 @@
                     </script>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="$('#local_form').submit(); return false">{% trans %}Salvar{% endtrans %}</button>
+                    <button type="button" class="btn btn-primary" onclick="$('#local_form').submit();
+                            return false">{% trans %}Salvar{% endtrans %}</button>
                 </div>
             </div>
         </div>
@@ -204,16 +240,16 @@
                                             {% else %}
                                                 {{ su.servico.nome }}
                                                 <ul>
-                                                {% for sub in su.servico.subServicos %}
-                                                    <li id="servico-{{ sub.id }}">
-                                                        <a href="javascript:void(0)"
-                                                           onclick="SGA.Atendimento.addServico(this)"
-                                                           data-id="{{ sub.id }}"
-                                                           title="{% trans %}Adicionar{% endtrans %}">
-                                                            {{ sub.nome }}
-                                                        </a>
-                                                    </li>
-                                                {% endfor %}
+                                                    {% for sub in su.servico.subServicos %}
+                                                        <li id="servico-{{ sub.id }}">
+                                                            <a href="javascript:void(0)"
+                                                               onclick="SGA.Atendimento.addServico(this)"
+                                                               data-id="{{ sub.id }}"
+                                                               title="{% trans %}Adicionar{% endtrans %}">
+                                                                {{ sub.nome }}
+                                                            </a>
+                                                        </li>
+                                                    {% endfor %}
                                                 </ul>
                                             {% endif %}
                                         </li>
@@ -225,7 +261,7 @@
                                 <ul id="servicos-realizados" class="items">
                                 </ul>
                                 <div class="redirecionar">
-                                    <input id="encerrar-redirecionar" type="checkbox" value="1" />
+                                    <input id="encerrar-redirecionar" type="checkbox" value="1" checked="checked"  />
                                     <label for="encerrar-redirecionar"
                                            title="{% trans %}Marque para codificar e redirecionar o atendimento atual{% endtrans %}">
                                         <span>{% trans %}Redirecionar atendimento ao encerrar {% endtrans %}</span>
@@ -271,16 +307,18 @@
                             <select id="redirecionar_servico" class="form-control">
                                 <option value="">{% trans %}Selecione{% endtrans %}</option>
                                 {% for su in servicosIndisponiveis %}
-                                <option value="{{ su.servico.id }}">{{ su.servico.nome }}</option>
+                                    <option value="{{ su.servico.id }}">{{ su.servico.nome }}</option>
                                 {% endfor %}
                             </select>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary btn-redirecionar" onclick="SGA.Atendimento.redirecionar(this); return false;">
+                        <button type="button" class="btn btn-primary btn-redirecionar" onclick="SGA.Atendimento.redirecionar(this);
+                                return false;">
                             {% trans %}Redirecionar{% endtrans %}
                         </button>
-                        <button type="button" class="btn btn-primary btn-codificar" onclick="SGA.Atendimento.codificar(this, true); return false;">
+                        <button type="button" class="btn btn-primary btn-codificar" onclick="SGA.Atendimento.codificar(this, true);
+                                return false;">
                             {% trans %}Codificar e redirecionar{% endtrans %}
                         </button>
                     </div>
@@ -369,13 +407,13 @@
 
         <script type="text/javascript">
             SGA.Clock.init("sga-clock", {{ time }});
-            SGA.Atendimento.filaVazia = '{% trans %}Fila vazia{% endtrans %}';
+                    SGA.Atendimento.filaVazia = '{% trans %}Fila vazia{% endtrans %}';
             SGA.Atendimento.remover = '{% trans %}Remover{% endtrans %}';
             SGA.Atendimento.marcarErroTriagem = '{% trans %}Realmente deseja marcar como erro de triagem?{% endtrans %}';
             SGA.Atendimento.marcarNaoCompareceu = '{% trans %}Realmente deseja marcar como não compareceu?{% endtrans %}';
             SGA.Atendimento.nenhumServicoSelecionado = '{% trans %}Nenhum serviço selecionado{% endtrans %}';
-            SGA.Atendimento.tiposAtendimento = {{ tiposAtendimento|json_encode()|raw }};
-            SGA.Atendimento.init({% if atendimento %}{{ atendimento.status }}{% else %}1{% endif %});
+                    SGA.Atendimento.tiposAtendimento = {{ tiposAtendimento|json_encode()|raw }};
+                    SGA.Atendimento.init({% if atendimento %}{{ atendimento.status }}{% else %}1{% endif %});
         </script>
     {% endif %}
 {% endblock %}
