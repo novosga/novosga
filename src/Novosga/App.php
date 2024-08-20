@@ -15,7 +15,7 @@ use Novosga\Service\AcessoService;
  */
 class App extends \Slim\Slim
 {
-    const VERSION = '1.5.0';
+    const VERSION = '1.6.0';
     const CHARSET = 'utf-8';
 
     private $context;
