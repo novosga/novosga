@@ -9,12 +9,14 @@ use Novosga\Model\Unidade;
 use Novosga\Model\Util\UsuarioSessao;
 
 /**
- * FilaService.
- *
- * @author Rogerio Lino <rogeriolino@gmail.com>
- */
-class FilaService extends ModelService
-{
+* FilaService.
+* @author Rogerio Lino <rogeriolino@gmail.com>
+* @modified Rarandrade <github.com/rarandrade>
+* @reviwed  lucasplcorrea <github.com/lucasplcorrea>
+*/
+
+class FilaService extends ModelService {
+
     // default queue ordering
     public static $ordering = array(
         // wait time
@@ -42,12 +44,19 @@ class FilaService extends ModelService
      *
      * @return array
      */
-    public function atendimentos(UsuarioSessao $usuario, $maxResults = 0)
-    {
+    public function atendimentos(UsuarioSessao $usuario, $maxResults = 0) {
         $ids = array(0);
-        $servicos = $usuario->getServicos();
-        foreach ($servicos as $s) {
-            $ids[] = $s->getServico()->getId();
+        $tipoServico = $usuario->getTipoServico();
+        if (empty($tipoServico)) {
+            $servicos = $usuario->getServicos();
+            foreach ($servicos as $s) {
+                $ids[] = $s->getServico()->getId();
+            }
+        } else {
+            $tipoServico = explode(",", $tipoServico);
+            foreach ($tipoServico as $s) {
+                $ids[] = $s;
+            }
         }
         $cond = '';
         // se nao atende todos, filtra pelo tipo de atendimento
@@ -71,8 +80,7 @@ class FilaService extends ModelService
         return $rs;
     }
 
-    private function atendimentosUsuario(UsuarioSessao $usuario, $servicos, $maxResults = 0, $where = '')
-    {
+    private function atendimentosUsuario(UsuarioSessao $usuario, $servicos, $maxResults = 0, $where = '') {
         $builder = $this->builder()
                 ->where('e.status = :status AND su.unidade = :unidade AND s.id IN (:servicos)')
         ;
@@ -103,8 +111,7 @@ class FilaService extends ModelService
      *
      * @return array
      */
-    public function filaServico($unidade, $servico)
-    {
+    public function filaServico($unidade, $servico) {
         if (!($unidade instanceof Unidade)) {
             $unidade = $this->em->find('Novosga\Model\Unidade', $unidade);
         }
@@ -129,17 +136,16 @@ class FilaService extends ModelService
     /**
      * @return QueryBuilder
      */
-    public function builder()
-    {
+    public function builder() {
         return $this->em
-            ->createQueryBuilder()
-            ->select('e')
-            ->from('Novosga\Model\Atendimento', 'e')
-            ->join('e.prioridade', 'p')
-            ->join('e.servicoUnidade', 'su')
-            ->join('su.servico', 's')
-            ->join('e.usuarioTriagem', 'ut')
-            ->leftJoin('e.usuario', 'u')
+                        ->createQueryBuilder()
+                        ->select('e')
+                        ->from('Novosga\Model\Atendimento', 'e')
+                        ->join('e.prioridade', 'p')
+                        ->join('e.servicoUnidade', 'su')
+                        ->join('su.servico', 's')
+                        ->join('e.usuarioTriagem', 'ut')
+                        ->leftJoin('e.usuario', 'u')
         ;
     }
 
@@ -148,8 +154,7 @@ class FilaService extends ModelService
      *
      * @param QueryBuilder $builder
      */
-    public function applyOrders(QueryBuilder $builder, Unidade $unidade)
-    {
+    public function applyOrders(QueryBuilder $builder, Unidade $unidade) {
         $ordering = AppConfig::getInstance()->get('queue.ordering');
         if (is_callable($ordering)) {
             $ordering = $ordering($unidade);
@@ -166,4 +171,5 @@ class FilaService extends ModelService
             $builder->addOrderBy($exp, $order);
         }
     }
+
 }

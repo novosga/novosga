@@ -9,13 +9,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * UsuarioService.
- *
- * @author Rogério Lino <rogeriolino@gmail.com>
- */
+* @author Rogerio Lino <rogeriolino@gmail.com>
+* @modified Rarandrade <github.com/rarandrade>
+* @reviwed  lucasplcorrea <github.com/lucasplcorrea>
+*/
+
 class UsuarioService extends MetaModelService
 {
     const ATTR_ATENDIMENTO_LOCAL = 'atendimento.local';
     const ATTR_ATENDIMENTO_TIPO = 'atendimento.tipo';
+    const ATTR_ATENDIMENTO_SERVICO = 'atendimento.tipoServico';
     const ATTR_UNIDADE = 'unidade';
 
     protected function getMetaClass()

@@ -11,9 +11,12 @@ use Novosga\Service\ServicoService;
 /**
  * Usuario utilizado para salvar na sessao. Assim evitar de salvar
  * as entidades do Doctrine.
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ * @modified Rarandrade <github.com/rarandrade>
+ * @reviwed  lucasplcorrea <github.com/lucasplcorrea>
  */
-class UsuarioSessao
-{
+class UsuarioSessao {
+
     // tipos de atendimentos
     const ATEND_TODOS = 1; // qualquer atendimento
     const ATEND_CONVENCIONAL = 2; // atendimento sem prioridade
@@ -29,6 +32,7 @@ class UsuarioSessao
     private $servicosIndisponiveis;
     private $permissoes;
     private $tipoAtendimento;
+    private $tipoServicos;
     private $sequenciaPrioridade;
     private $wrapped;
 
@@ -37,8 +41,7 @@ class UsuarioSessao
      */
     private $em;
 
-    public function __construct(Usuario $usuario)
-    {
+    public function __construct(Usuario $usuario) {
         $this->id = $usuario->getId();
         $this->ativo = true;
         $this->tipoAtendimento = self::ATEND_TODOS;
@@ -46,8 +49,7 @@ class UsuarioSessao
         $this->wrapped = $usuario;
     }
 
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -56,13 +58,11 @@ class UsuarioSessao
      *
      * @return int
      */
-    public function getLocal()
-    {
+    public function getLocal() {
         return $this->local;
     }
 
-    public function setLocal($local)
-    {
+    public function setLocal($local) {
         $local = (int) $local;
         if ($local > 0) {
             $this->local = $local;
@@ -71,21 +71,18 @@ class UsuarioSessao
         }
     }
 
-    public function isAtivo()
-    {
+    public function isAtivo() {
         return $this->ativo == true;
     }
 
-    public function setAtivo($ativo)
-    {
+    public function setAtivo($ativo) {
         $this->ativo = ($ativo == true);
     }
 
     /**
      * Retorna todas as permissoes do usuario.
      */
-    public function getPermissoes()
-    {
+    public function getPermissoes() {
         if (!$this->permissoes) {
             $this->permissoes = array();
             $query = $this->em->createQuery("
@@ -117,8 +114,7 @@ class UsuarioSessao
      *
      * @return bool
      */
-    public function hasPermissao($modulo, $cargo = null)
-    {
+    public function hasPermissao($modulo, $cargo = null) {
         $permissoes = $this->getPermissoes();
         // fazendo dois for para evitar de colocar outro if dentro do loop
         if ($cargo == null) {
@@ -143,8 +139,7 @@ class UsuarioSessao
      *
      * @return Novosga\Model\Lotacao
      */
-    public function getLotacao()
-    {
+    public function getLotacao() {
         if (!$this->lotacao) {
             // pegando a lotacao do usuario na unidade escolhida
             $query = $this->em->createQuery("SELECT e FROM Novosga\Model\Lotacao e JOIN e.grupo g WHERE e.usuario = :usuario ORDER BY g.left DESC");
@@ -173,8 +168,7 @@ class UsuarioSessao
      *
      * @return \Novosga\Model\ServicoUsuario[]|\Doctrine\Common\Collections\ArrayCollection
      */
-    public function getServicos()
-    {
+    public function getServicos() {
         if (!$this->servicos && $this->getUnidade()) {
             $service = new ServicoService($this->em);
             $this->servicos = $service->servicosUsuario($this->getUnidade(), $this->getId());
@@ -183,8 +177,7 @@ class UsuarioSessao
         return $this->servicos;
     }
 
-    public function setServicos($servicos)
-    {
+    public function setServicos($servicos) {
         $this->servicos = $servicos;
     }
 
@@ -193,21 +186,32 @@ class UsuarioSessao
      *
      * @return Locatacao
      */
-    public function getServicosIndisponiveis()
-    {
+    public function getServicosIndisponiveis() {
         if (!$this->servicosIndisponiveis && $this->getUnidade()) {
             $service = new ServicoService($this->em);
-            $this->servicosIndisponiveis = $service->servicosIndisponiveis($this->getUnidade(), $this->getId());
+            $this->servicosIndisponiveis = $service->servicosIndisponiveis($this->getUnidade(), $this->getId(), $this->getPermissoes());
         }
 
         return $this->servicosIndisponiveis;
     }
 
+    public function setTipoServico($servicos) {
+        $this->tipoServicos = $servicos;
+    }
+
+    /**
+     * Retorna os servicos que o usuario nao atende na unidade atual.
+     *
+     * @return Locatacao
+     */
+    public function getTipoServico() {
+        return $this->tipoServicos;
+    }
+
     /**
      * @return Novosga\Model\Unidade
      */
-    public function getUnidade()
-    {
+    public function getUnidade() {
         if (!$this->unidade) {
             if (!$this->unidadeId && $this->em) {
                 $meta = (new UsuarioService($this->em))->meta($this->wrapped, UsuarioService::ATTR_UNIDADE);
@@ -221,8 +225,7 @@ class UsuarioSessao
         return $this->unidade;
     }
 
-    public function setUnidade(Unidade $unidade)
-    {
+    public function setUnidade(Unidade $unidade) {
         $this->unidade = $unidade;
         $this->unidadeId = $unidade->getId();
         if ($this->em) {
@@ -230,51 +233,42 @@ class UsuarioSessao
         }
     }
 
-    public function getTipoAtendimento()
-    {
+    public function getTipoAtendimento() {
         return $this->tipoAtendimento;
     }
 
-    public function setTipoAtendimento($tipoAtendimento)
-    {
+    public function setTipoAtendimento($tipoAtendimento) {
         $this->tipoAtendimento = $tipoAtendimento;
     }
 
-    public function getSequenciaPrioridade()
-    {
+    public function getSequenciaPrioridade() {
         return $this->sequenciaPrioridade;
     }
 
-    public function setSequenciaPrioridade($sequenciaPrioridade)
-    {
+    public function setSequenciaPrioridade($sequenciaPrioridade) {
         $this->sequenciaPrioridade = $sequenciaPrioridade;
     }
 
-    public function getLogin()
-    {
+    public function getLogin() {
         return $this->getWrapped()->getLogin();
     }
 
-    public function getNome()
-    {
+    public function getNome() {
         return $this->getWrapped()->getNome();
     }
 
-    public function getSobrenome()
-    {
+    public function getSobrenome() {
         return $this->getWrapped()->getSobrenome();
     }
 
-    public function getSenha()
-    {
+    public function getSenha() {
         return $this->getWrapped()->getSenha();
     }
 
     /**
      * @return Novosga\Model\Usuario
      */
-    public function getWrapped()
-    {
+    public function getWrapped() {
         if (!$this->wrapped) {
             $this->wrapped = $this->em->find("Novosga\Model\Usuario", $this->id);
         }
@@ -282,18 +276,15 @@ class UsuarioSessao
         return $this->wrapped;
     }
 
-    public function getEm()
-    {
+    public function getEm() {
         return $this->em;
     }
 
-    public function setEm(EntityManager $em)
-    {
+    public function setEm(EntityManager $em) {
         $this->em = $em;
     }
 
-    public function __sleep()
-    {
+    public function __sleep() {
         return array('id', 'unidadeId', 'ativo', 'local', 'tipoAtendimento', 'permissoes', 'sequenciaPrioridade');
     }
 
@@ -303,15 +294,14 @@ class UsuarioSessao
      * @param type $name
      * @param type $arguments
      */
-    public function __call($name, $arguments)
-    {
+    public function __call($name, $arguments) {
         $method = new \ReflectionMethod($this->getWrapped(), $name);
 
         return $method->invokeArgs($this->getWrapped(), $arguments);
     }
 
-    public function __toString()
-    {
+    public function __toString() {
         return $this->getNome();
     }
+
 }
