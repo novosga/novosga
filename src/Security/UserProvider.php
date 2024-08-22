@@ -76,6 +76,8 @@ class UserProvider extends EntityUserProvider
             throw new UserNotFoundException();
         }
 
+        $this->loadLotacao($usuario);
+
         return $usuario;
     }
 

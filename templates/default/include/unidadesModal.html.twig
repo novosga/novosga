@@ -1,3 +1,5 @@
+{% set unidade = app.user.lotacao ? app.user.lotacao.unidade : null %}
+
 <div id="dialog-unidade" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -6,7 +8,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {% set unidade = app.user.lotacao.unidade %}
                 <div>
                     <label>{{ 'modal.unity.label'|trans }}</label>
                     <select id="unidade" class="form-control">
@@ -23,7 +24,7 @@
         </div>
     </div>
 </div>
-                
-{% if not app.user.lotacao.unidade %}
+      
+{% if not unidade %}
     <script type="text/javascript"> App.Unidades.show(); </script>
 {% endif %}

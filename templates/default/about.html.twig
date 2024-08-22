@@ -9,7 +9,7 @@
         <h1>{{ 'about.version.title'|trans({'%version%': version}) }}</h1>
         <p>{{ 'about.version.subtitle'|trans }}</p>
         <p>
-            <button id="btn-checkversion" class="btn btn-secondary btn-lg" role="button">
+            <button id="btn-checkversion" class="btn btn-secondary btn-lg" role="button" type="button">
                 <i class="fa fa-refresh"></i>
                 {{ 'about.version.check_new'|trans }}
             </button>
@@ -17,7 +17,7 @@
                 <i class="fa fa-download"></i>
                 {{ 'about.version.download'|trans }} <span class="version"></span>
             </a>
-            <span id="update-alert" class="label label-success" style="display:none">
+            <span id="update-alert" class="alert alert-success" style="display:none">
                 <i class="fa fa-check"></i>
                 {{ 'about.version.newest'|trans }}
             </span>
@@ -25,52 +25,46 @@
     </div>
     <h2>{{ 'about.community.title'|trans }}</h2>
     <p>{{ 'about.community.subtitle'|trans }}</p>
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'about.community.blog.title'|trans }}
-                </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card h-100">
                 <div class="card-body">
-                    <p>{{ 'about.community.blog.description'|trans }}</p>
-                    <p>
-                        <a href="https://medium.com/novosga" class="btn btn-primary" target="_blank">
-                            <i class="fa fa-eye"></i>&nbsp;
-                            {{ 'about.community.blog.button'|trans }}
-                        </a>
-                    </p>
+                    <h5 class="card-title">{{ 'about.community.website.title'|trans }}</h5>
+                    <p>{{ 'about.community.website.description'|trans }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://novosga.org/?utm_source=novosga-v{{ version }}&utm_medium=about" class="btn btn-primary" target="_blank">
+                        <i class="fa fa-eye"></i>&nbsp;
+                        {{ 'about.community.website.button'|trans }}
+                    </a>
                 </div>
            </div>
         </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'about.community.forum.title'|trans }}
-                </div>
+        <div class="col">
+            <div class="card h-100">
                 <div class="card-body">
+                    <h5 class="card-title">{{ 'about.community.forum.title'|trans }}</h5>
                     <p>{{ 'about.community.forum.description'|trans }}</p>
-                    <p>
-                        <a href="https://discuss.novosga.org" class="btn btn-primary" target="_blank">
-                            <i class="fa fa-eye"></i>&nbsp;
-                            {{ 'about.community.forum.button'|trans }}
-                        </a>
-                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://discuss.novosga.org/?utm_source=novosga-v{{ version }}&utm_medium=about" class="btn btn-primary" target="_blank">
+                        <i class="fa fa-eye"></i>&nbsp;
+                        {{ 'about.community.forum.button'|trans }}
+                    </a>
                 </div>
            </div>
         </div>
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    {{ 'about.community.github.title'|trans }}
-                </div>
+        <div class="col">
+            <div class="card h-100">
                 <div class="card-body">
+                    <h5 class="card-title">{{ 'about.community.github.title'|trans }}</h5>
                     <p>{{ 'about.community.github.description'|trans }}</p>
-                    <p>
-                        <a href="https://github.com/novosga" class="btn btn-primary" target="_blank">
-                            <i class="fa fa-eye"></i>&nbsp;
-                            {{ 'about.community.github.button'|trans }}
-                        </a>
-                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="https://github.com/novosga" class="btn btn-primary" target="_blank">
+                        <i class="fa fa-eye"></i>&nbsp;
+                        {{ 'about.community.github.button'|trans }}
+                    </a>
                 </div>
            </div>
         </div>
@@ -92,30 +86,28 @@
         (function () {
             'use strict'
             
-            $('#btn-checkversion').on('click', function () {
-                var $elem = $(this);
-                var icon = $elem.prop('disabled', true).find('span');
-                icon.addClass('fa-spin');
-                $.ajax({
-                    url: 'https://api.github.com/repos/novosga/novosga/tags',
-                    success: function(response) {
-                        $('#btn-checkversion').hide();
-                        var latest = response[0];
-                        if (App.version !== latest.name.replace('v', '')) {
-                            $('#btn-downloader')
-                                .show()
-                                .prop('href', 'https://github.com/novosga/novosga/releases/' + latest.name)
-                                .find('.version')
-                                .text(latest.name);
+            const btnCheckVersion = document.getElementById('btn-checkversion');
+            btnCheckVersion.addEventListener('click', (e) => {
+                const elem = e.currentTarget;
+                elem.setAttribute('disabled', true);
+                const icon = elem.querySelector('.fa');
+                icon.classList.add('fa-spin');
+                fetch('https://api.github.com/repos/novosga/novosga/tags')
+                    .then((resp) => resp.json())
+                    .then((json) => {
+                        btnCheckVersion.style.display = 'none';
+                        var latest = json[0];
+                        if (false && App.version !== latest.name.replace('v', '')) {
+                            const btnDownload = document.getElementById('btn-downloader');
+                            btnDownload.style.display = 'inline-block';
+                            btnDownload.href = `https://github.com/novosga/novosga/releases/${latest.name}`;
+                            const version = btnDownload.querySelector('.version')
+                            version.innerText = latest.name;
                         } else {
-                            $('#update-alert').show();
+                            document.getElementById('update-alert').style.display = 'inline-block';
                         }
-                    },
-                    complete: function () {
-                        icon.removeClass('fa-spin');
-                    }
-                });
-                return false;
+                        icon.classList.remove('fa-spin');
+                    }).catch(() => icon.classList.remove('fa-spin'));
             });
         })();
     </script>

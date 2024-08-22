@@ -217,17 +217,17 @@
                 
             </trans-unit>
             <trans-unit id="44">
-                <source>about.community.blog.title</source>
-                <target>Blog</target>
+                <source>about.community.website.title</source>
+                <target>Website</target>
                 
             </trans-unit>
             <trans-unit id="45">
-                <source>about.community.blog.description</source>
+                <source>about.community.website.description</source>
                 <target>Noticias relacionadas con los proyectos del Novo SGA y lanzamiento de nuevas versiones</target>
                 
             </trans-unit>
             <trans-unit id="46">
-                <source>about.community.blog.button</source>
+                <source>about.community.website.button</source>
                 <target>Acceder</target>
                 
             </trans-unit>

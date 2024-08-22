@@ -175,15 +175,15 @@
                 <target>Procurando ajuda? Acesse um dos canais do projeto através dos links abaixo</target>
             </trans-unit>
             <trans-unit id="44">
-                <source>about.community.blog.title</source>
-                <target>Blog</target>
+                <source>about.community.website.title</source>
+                <target>Website</target>
             </trans-unit>
             <trans-unit id="45">
-                <source>about.community.blog.description</source>
+                <source>about.community.website.description</source>
                 <target>Notícias relacionadas aos projetos do Novo SGA e lançamento de novas versões</target>
             </trans-unit>
             <trans-unit id="46">
-                <source>about.community.blog.button</source>
+                <source>about.community.website.button</source>
                 <target>Acessar</target>
             </trans-unit>
             <trans-unit id="47">
