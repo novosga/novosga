@@ -36,8 +36,20 @@ final class Version2 extends AbstractMigration
             $this->addSql('ALTER TABLE historico_atendimentos ADD local_id INT DEFAULT NULL');
         }
 
-        $this->addSql('DELETE FROM usuarios_metadata WHERE name = \'atendimento.num_local\'');
-        $this->addSql('UPDATE usuarios_metadata SET name = \'atendimento.num_local\' WHERE name = \'atendimento.local\'');
+        if (!$schema->getTable('servicos_unidades')->hasColumn('tipo')) {
+            $this->addSql('ALTER TABLE servicos_unidades ADD tipo SMALLINT DEFAULT NULL');
+        }
+
+        if (!$schema->getTable('servicos_unidades')->hasColumn('maximo')) {
+            $this->addSql('ALTER TABLE servicos_unidades ADD maximo INT DEFAULT NULL');
+        }
+
+        if ($schema->getTable('servicos_unidades')->hasColumn('prioridade')) {
+            $this->addSql('ALTER TABLE servicos_unidades DROP prioridade');
+        }
+
+        $this->addSql("DELETE FROM usuarios_metadata WHERE name = 'atendimento.num_local'");
+        $this->addSql("UPDATE usuarios_metadata SET name = 'atendimento.num_local' WHERE name = 'atendimento.local'");
 
         if ($this->platform instanceof MySQLPlatform) {
             $this->createViewsMysql();
