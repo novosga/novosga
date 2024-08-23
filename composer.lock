@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a53f5bcc44d45641cc48803cd99a67fa",
+    "content-hash": "7e2e2545908e1400db9b5d36cf098a8e",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -2010,16 +2010,16 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.1.1",
+            "version": "v2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "96efa7abd434dea555d95551ecaac7ceeda5a5d1"
+                "reference": "07c61ad1a3c2fba8f32c031e58d2aa372b2f53a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/96efa7abd434dea555d95551ecaac7ceeda5a5d1",
-                "reference": "96efa7abd434dea555d95551ecaac7ceeda5a5d1",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/07c61ad1a3c2fba8f32c031e58d2aa372b2f53a2",
+                "reference": "07c61ad1a3c2fba8f32c031e58d2aa372b2f53a2",
                 "shasum": ""
             },
             "require": {
@@ -2041,7 +2041,11 @@
             "license": [
                 "MIT"
             ],
-            "time": "2023-09-30T23:48:51+00:00"
+            "support": {
+                "issues": "https://github.com/novosga/attendance-bundle/issues",
+                "source": "https://github.com/novosga/attendance-bundle/tree/v2.1.2"
+            },
+            "time": "2024-08-23T19:26:24+00:00"
         },
         {
             "name": "novosga/core",
@@ -8840,5 +8844,5 @@
     "platform-overrides": {
         "php": "7.2.5"
     },
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.6.0"
 }
