@@ -100,6 +100,8 @@
             </div>
         </div>
 
+        <span id="ajax-loading" class="mini-loading" style="display:none"></span>
+
         <script type="text/javascript" src="{{ asset('js/popper.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/vue.min.js') }}"></script>
@@ -115,6 +117,5 @@
         {% if app.user and app.user.lotacao %}
             {{ render(controller('App\\Controller\\DefaultController::unidades')) }}
         {% endif %}
-        <span id="ajax-loading" class="mini-loading" style="display:none"></span>
     </body>
 </html>

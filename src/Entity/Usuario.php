@@ -87,7 +87,7 @@ class Usuario implements
     private ?string $sessionId = null;
 
     /** @var Collection<int,LotacaoInterface> */
-    #[ORM\OneToMany(targetEntity: Lotacao::class, mappedBy: 'usuario')]
+    #[ORM\OneToMany(targetEntity: Lotacao::class, mappedBy: 'usuario', cascade: ['persist'], orphanRemoval: true)]
     private Collection $lotacoes;
 
     #[ORM\Column]

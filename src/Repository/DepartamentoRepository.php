@@ -35,4 +35,10 @@ class DepartamentoRepository extends ServiceEntityRepository implements Departam
     {
         parent::__construct($registry, Departamento::class);
     }
+
+    /** @return Departamento[] */
+    public function findAll(): array
+    {
+        return $this->findBy([], ['nome' => 'ASC']);
+    }
 }

@@ -61,6 +61,7 @@ services:
     Novosga\Service\FilaServiceInterface: '@App\Service\FilaService'
     Novosga\Service\LotacaoServiceInterface: '@App\Service\LotacaoService'
     Novosga\Service\ServicoServiceInterface: '@App\Service\ServicoService'
+    Novosga\Service\UnidadeServiceInterface: '@App\Service\UnidadeService'
     Novosga\Service\UsuarioServiceInterface: '@App\Service\UsuarioService'
     Novosga\Service\TicketServiceInterface: '@App\Service\TicketService'
 
