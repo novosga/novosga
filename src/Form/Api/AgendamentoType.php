@@ -67,9 +67,9 @@ class AgendamentoType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Agendamento::class
-        ));
+        ]);
     }
 
     public function getBlockPrefix(): string

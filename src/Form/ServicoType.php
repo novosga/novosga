@@ -23,6 +23,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Range;
 
 class ServicoType extends AbstractType
 {
@@ -33,22 +35,28 @@ class ServicoType extends AbstractType
         $builder
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
+                'constraints' => [
+                    new Length(min: 1, max: 50),
+                ],
             ])
             ->add('descricao', TextareaType::class, [
                 'label' => 'label.description',
                 'attr' => [
-                    'rows' => 4
-                ]
+                    'rows' => 4,
+                ],
+                'constraints' => [
+                    new Length(min: 1, max: 250),
+                ],
             ])
             ->add('ativo', CheckboxType::class, [
                 'label' => 'label.enabled',
-                'required' => false
+                'required' => false,
             ])
             ->add('peso', IntegerType::class, [
                 'label' => 'label.weight',
                 'constraints' => [
-                    new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
-                ]
+                    new Range(min: 0),
+                ],
             ])
         ;
 

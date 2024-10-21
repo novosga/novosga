@@ -55,8 +55,8 @@ class ProfileType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Usuario::class
-        ));
+        ]);
     }
 }

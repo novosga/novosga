@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class UnidadeType extends AbstractType
 {
@@ -28,12 +29,18 @@ class UnidadeType extends AbstractType
         $builder
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
+                'constraints' => [
+                    new Length(min: 1, max: 50),
+                ],
             ])
             ->add('descricao', TextareaType::class, [
                 'label' => 'label.description',
                 'attr' => [
                     'rows' => 4
-                ]
+                ],
+                'constraints' => [
+                    new Length(min: 1, max: 250),
+                ],
             ])
             ->add('ativo', CheckboxType::class, [
                 'label' => 'label.enabled',
@@ -44,8 +51,8 @@ class UnidadeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'data_class' => Unidade::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Unidade::class,
+        ]);
     }
 }

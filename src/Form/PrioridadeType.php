@@ -59,8 +59,8 @@ class PrioridadeType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'data_class' => Prioridade::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Prioridade::class,
+        ]);
     }
 }

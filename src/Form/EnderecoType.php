@@ -29,6 +29,9 @@ class EnderecoType extends AbstractType
         $builder
             ->add('pais', CountryType::class, [
                 'label' => 'label.endereco.pais',
+                'constraints' => [
+                    new Length([ 'max' => 2 ]),
+                ],
             ])
             ->add('cep', TextType::class, [
                 'label' => 'label.endereco.cep',
@@ -45,26 +48,26 @@ class EnderecoType extends AbstractType
             ->add('cidade', TextType::class, [
                 'label' => 'label.endereco.cidade',
                 'constraints' => [
-                    new Length([ 'max' => 30 ]),
+                    new Length(max: 30),
                 ],
             ])
             ->add('logradouro', TextType::class, [
                 'label' => 'label.endereco.logradouro',
                 'constraints' => [
-                    new Length([ 'max' => 60 ]),
+                    new Length(max: 60),
                 ],
             ])
             ->add('numero', TextType::class, [
                 'label' => 'label.endereco.numero',
                 'constraints' => [
-                    new Length([ 'max' => 10 ]),
+                    new Length(max: 10),
                 ],
             ])
             ->add('complemento', TextType::class, [
                 'label' => 'label.endereco.complemento',
                 'constraints' => [
                     new NotNull(),
-                    new Length([ 'max' => 15 ]),
+                    new Length(max: 15),
                 ],
             ])
         ;
@@ -72,8 +75,8 @@ class EnderecoType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
-            'data_class' => Endereco::class
-        ));
+        $resolver->setDefaults([
+            'data_class' => Endereco::class,
+        ]);
     }
 }

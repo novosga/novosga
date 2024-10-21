@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 use function ksort;
@@ -38,16 +39,12 @@ class PerfilType extends AbstractType
         foreach ($options['modulos'] as $modulo) {
             if ($modulo instanceof ModuleInterface) {
                 $key = $modulo->getKeyName();
-                $name   = $this
-                    ->translator
-                    ->trans(
-                        $modulo->getDisplayName(),
-                        [],
-                        $modulo->getName()
-                    );
-
+                $name = $this->translator->trans(
+                    $modulo->getDisplayName(),
+                    [],
+                    $modulo->getName()
+                );
                 $name .= " ({$key})";
-
                 $modulos[$name] = $key;
             }
         }
@@ -57,12 +54,18 @@ class PerfilType extends AbstractType
         $builder
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
+                'constraints' => [
+                    new Length(min: 1, max: 50),
+                ],
             ])
             ->add('descricao', TextareaType::class, [
                 'label' => 'label.description',
                 'attr' => [
                     'rows' => 4
-                ]
+                ],
+                'constraints' => [
+                    new Length(min: 1, max: 150),
+                ],
             ])
             ->add('modulos', ChoiceType::class, [
                 'label' => 'admin.roles.field.modules',
