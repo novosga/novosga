@@ -13,11 +13,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Form\ApplicationSettingsFormType;
+use App\Service\ApplicationService;
 use Novosga\Http\Envelope;
 use App\Service\AtendimentoService;
 use Novosga\Entity\UsuarioInterface;
+use Novosga\Service\FileUploaderServiceInterface;
 use Psr\Clock\ClockInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -30,11 +35,55 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     #[Route('/', name: 'index')]
-    public function index(): Response
-    {
+    public function index(
+        Request $request,
+        ApplicationService $service,
+        FileUploaderServiceInterface $fileUploader,
+    ): Response {
+        $app = $service->loadSettings();
+        $form = $this
+            ->createForm(ApplicationSettingsFormType::class, $app)
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $logoNavbarFile = $form->get('appearance')->get('logoNavbar')->getData();
+            if ($logoNavbarFile instanceof UploadedFile) {
+                $app->appearance->logoNavbar = $fileUploader->upload($logoNavbarFile, 'logo-navbar');
+            }
+            $logoLoginFile = $form->get('appearance')->get('logoLogin')->getData();
+            if ($logoLoginFile instanceof UploadedFile) {
+                $app->appearance->logoLogin = $fileUploader->upload($logoLoginFile, 'logo-login');
+            }
+
+            $service->saveSettings($app);
+
+            return $this->redirectToRoute('admin_index');
+        }
+
         return $this->render('admin/index.html.twig', [
             'tab' => 'index',
+            'form' => $form,
         ]);
+    }
+
+    #[Route("/remove-settings-file", name: "remove_settings_file", methods: ['DELETE'])]
+    public function removeFile(Request $request, ApplicationService $service): Response
+    {
+        $key = $request->get('key');
+        switch ($key) {
+            case 'logoNavbar':
+            case 'logoLogin':
+                $app = $service->loadSettings();
+                if ($key === 'logoNavbar') {
+                    $app->appearance->logoNavbar = '';
+                } else {
+                    $app->appearance->logoLogin = '';
+                }
+                $service->saveSettings($app);
+                break;
+        }
+
+        return $this->json([ 'success' => true ]);
     }
 
     #[Route('/acumular_atendimentos', name: 'acumular_atendimentos', methods: ['POST'])]

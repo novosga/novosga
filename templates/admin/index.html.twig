@@ -1,7 +1,110 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    
+{{ form_start(form) }}
+    <div class="row row-cols-2">
+        <div class="col mb-3">
+            <div class="card h-100">
+                <div class="card-header">
+                    <i class="fa fa-paint-brush"></i> 
+                    {{ 'admin.system.appearance'|trans }}
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.appearance.theme) }}
+
+                    {{ form_row(form.appearance.navbarColor) }}
+
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    {{ form_label(form.appearance.logoNavbar) }}
+                                    {{ form_widget(form.appearance.logoNavbar) }}
+                                    <small class="form-text text-muted">Tamanho da imagem (100x38)</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            {% if form.vars.data.appearance.logoNavbar %}
+                                <div>
+                                    <img src="{{ form.vars.data.appearance.logoNavbar }}">
+                                    <button type="button" class="btn btn-danger" data-remove-file="logoNavbar">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="custom-file">
+                                {{ form_label(form.appearance.logoLogin) }}
+                                {{ form_widget(form.appearance.logoLogin) }}
+                                <small class="form-text text-muted">Tamanho da imagem (270x107)</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            {% if form.vars.data.appearance.logoLogin %}
+                                <div>
+                                    <img src="{{ form.vars.data.appearance.logoLogin }}">
+                                    <button type="button" class="btn btn-danger" data-remove-file="logoLogin">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        {{ 'button.save'|trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-3">
+            <div class="card h-100">
+                <div class="card-header">
+                    <i class="fa fa-cogs"></i> 
+                    {{ 'admin.system.queue_ordering'|trans }}
+                </div>
+                {{ form_row(form.queue.ordering, { label: false }) }}
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        {{ 'button.save'|trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-handshake-o"></i> 
+                    {{ 'admin.system.behavior'|trans }}
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.behavior.prioritySwap) }}
+
+                    {{ form_row(form.behavior.prioritySwapMethod) }}
+
+                    {{ form_row(form.behavior.prioritySwapCount) }}
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-save"></i>
+                        {{ 'button.save'|trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}
+
 <div class="card">
     <div class="card-header text-white bg-danger">
         <i class="fa fa-warning"></i> 
@@ -66,4 +169,26 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        (function () {
+            'use strict'
+            
+            const btns = [...document.querySelectorAll('[data-remove-file]')];
+            btns.forEach((elem) => {
+                elem.addEventListener('click', (e) => {
+                    if (confirm('Deseja realmente remover o arquivo?')) {
+                        fetch(`{{ path("admin_remove_settings_file") }}?key=${e.currentTarget.dataset.removeFile}`, {
+                            method: 'DELETE',
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                });
+            });
+        })();
+    </script>
 {% endblock %}

@@ -61,8 +61,6 @@ use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\AtendimentoServiceInterface;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Update;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -79,7 +77,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         private readonly EventDispatcherInterface $dispatcher,
         private readonly LoggerInterface $logger,
         private readonly TranslatorInterface $translator,
-        private readonly HubInterface $hub,
+        private readonly MercureService $mercureService,
         private readonly FilaService $filaService,
         private readonly AtendimentoRepository $atendimentoRepository,
         private readonly AtendimentoMetadataRepository $atendimentoMetaRepository,
@@ -97,13 +95,13 @@ class AtendimentoService implements AtendimentoServiceInterface
     public function getSituacoes(): array
     {
         return [
-            self::SENHA_EMITIDA          => $this->translator->trans('ticket.status.generated'),
-            self::CHAMADO_PELA_MESA      => $this->translator->trans('ticket.status.called'),
-            self::ATENDIMENTO_INICIADO   => $this->translator->trans('ticket.status.started'),
-            self::ATENDIMENTO_ENCERRADO  => $this->translator->trans('ticket.status.finished'),
-            self::NAO_COMPARECEU         => $this->translator->trans('ticket.status.no_show'),
-            self::SENHA_CANCELADA        => $this->translator->trans('ticket.status.cancelled'),
-            self::ERRO_TRIAGEM           => $this->translator->trans('ticket.status.error'),
+            self::SENHA_EMITIDA => $this->translator->trans('ticket.status.generated'),
+            self::CHAMADO_PELA_MESA => $this->translator->trans('ticket.status.called'),
+            self::ATENDIMENTO_INICIADO => $this->translator->trans('ticket.status.started'),
+            self::ATENDIMENTO_ENCERRADO => $this->translator->trans('ticket.status.finished'),
+            self::NAO_COMPARECEU => $this->translator->trans('ticket.status.no_show'),
+            self::SENHA_CANCELADA => $this->translator->trans('ticket.status.cancelled'),
+            self::ERRO_TRIAGEM => $this->translator->trans('ticket.status.error'),
         ];
     }
 
@@ -180,10 +178,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $senha,
         ));
 
-        $this->hub->publish(new Update([
-            "/paineis",
-            "/unidades/{$unidade->getId()}/painel",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaPainel($atendimento);
     }
 
     /** {@inheritDoc} */
@@ -222,7 +217,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         AtendimentoInterface $atendimento,
         UsuarioInterface $usuario,
         LocalInterface $local,
-        int $numeroLocal
+        int $numeroLocal,
     ): bool {
         $this->dispatcher->dispatch(new PreTicketFirstReplyEvent(
             $atendimento,
@@ -254,11 +249,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             return false;
         }
 
-        $this->hub->publish(new Update([
-            "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
-            "/usuarios/{$usuario->getId()}/fila",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento, $usuario);
 
         return true;
     }
@@ -283,14 +274,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $this->clock->now(),
         ));
 
-        if ($unidade !== null) {
-            $this->hub->publish(new Update([
-                "/unidades/{$unidade->getId()}/fila",
-            ], json_encode([ 'id' => $unidade->getId() ])));
-        }
-        $this->hub->publish(new Update([
-            "/fila",
-        ], json_encode([])));
+        $this->mercureService->notificaFilaUnidade($unidade);
     }
 
     /** {@inheritDoc} */
@@ -533,10 +517,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $usuario,
         ));
 
-        $this->hub->publish(new Update([
-            '/atendimentos',
-            "/unidades/{$unidade->getId()}/fila",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento);
 
         return $atendimento;
     }
@@ -563,11 +544,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         $em->persist($atendimento);
         $em->flush();
 
-        $this->hub->publish(new Update([
-            "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
-            "/usuarios/{$usuario->getId()}/fila",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento, $usuario);
     }
 
     /** {@inheritDoc} */
@@ -597,11 +574,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         $em->persist($atendimento);
         $em->flush();
 
-        $this->hub->publish(new Update([
-            "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
-            "/usuarios/{$usuario->getId()}/fila",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento, $usuario);
     }
 
     /** {@inheritDoc} */
@@ -659,11 +632,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $usuario,
         ));
 
-        $this->hub->publish(new Update([
-            "/atendimentos/{$atendimento->getId()}",
-            "/atendimentos/{$novo->getId()}",
-            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
-        ], json_encode([ 'originalId' => $atendimento->getId(), 'novoId' => $novo->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento, $usuario);
 
         return $novo;
     }
@@ -705,10 +674,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $prioridadeAnterior,
         ));
 
-        $this->hub->publish(new Update([
-            "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento);
     }
 
     /** {@inheritDoc} */
@@ -753,10 +719,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $usuario,
         ));
 
-        $this->hub->publish(new Update([
-            "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento);
     }
 
     /** {@inheritDoc} */
@@ -789,10 +752,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $usuario,
         ));
 
-        $this->hub->publish(new Update([
-            "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento);
     }
 
     /** {@inheritDoc} */
@@ -872,10 +832,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $novoAtendimento,
         ));
 
-        $this->hub->publish(new Update([
-            "/atendimentos/{$atendimento->getId()}",
-            "/unidades/{$atendimento->getUnidade()->getId()}/fila",
-        ], json_encode([ 'id' => $atendimento->getId() ])));
+        $this->mercureService->notificaAtendimento($atendimento);
     }
 
     public function alteraStatusAtendimentoUsuario(UsuarioInterface $usuario, string $novoStatus): ?AtendimentoInterface
@@ -1002,15 +959,7 @@ class AtendimentoService implements AtendimentoServiceInterface
     public function limparDados(?UsuarioInterface $usuario, ?UnidadeInterface $unidade): void
     {
         $this->storage->apagarDadosAtendimento($usuario, $unidade);
-
-        if ($unidade !== null) {
-            $this->hub->publish(new Update([
-                "/unidades/{$unidade->getId()}/fila",
-            ], json_encode([ 'id' => $unidade->getId() ])));
-        }
-        $this->hub->publish(new Update([
-            "/fila",
-        ], json_encode([])));
+        $this->mercureService->notificaFilaUnidade($unidade);
     }
 
     private function copyToRedirect(

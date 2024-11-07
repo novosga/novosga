@@ -1,0 +1,26 @@
+{%- set appearance = appService.loadAppearanceSettings() -%}
+
+{%- set themeName = appearance.theme|default('default') -%}
+{%- set navbarColor = appearance.navbarColor|default('bg-light') -%}
+{%- set logoNavbar = appearance.logoNavbar|default('images/novosga-navbar.png') -%}
+{%- set logoLogin =  appearance.logoLogin|default('images/novosga-login.png') -%}
+
+<!DOCTYPE html>
+<html lang="{{ locale }}">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{{ 'default.title'|trans }} {% endblock %} | {{ title }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/themes/' ~ themeName ~ '/bootstrap.min.css') }}" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body {% block body_attrs %}{% endblock %}>
+        {% block body_content %}{% endblock %}
+
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

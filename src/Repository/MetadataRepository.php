@@ -20,14 +20,12 @@ use Novosga\Entity\MetadataInterface;
 use Novosga\Repository\MetadataRepositoryInterface;
 
 /**
- * @template T of Metadata
- * @extends ServiceEntityRepository<T>
- * @implements MetadataRepositoryInterface<T>
+ * @extends ServiceEntityRepository<MetadataInterface>
  *
- * @method T|null find($id, $lockMode = null, $lockVersion = null)
- * @method T|null findOneBy(array $criteria, array $orderBy = null)
- * @method T[]    findAll()
- * @method T[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MetadataInterface|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MetadataInterface|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MetadataInterface[]    findAll()
+ * @method MetadataInterface[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
@@ -38,7 +36,7 @@ class MetadataRepository extends ServiceEntityRepository implements MetadataRepo
         parent::__construct($registry, Metadata::class);
     }
 
-    /** @return ?T */
+    /** @return ?MetadataInterface */
     public function get(string $namespace, string $name): ?MetadataInterface
     {
         return $this->findOneBy([
@@ -47,7 +45,7 @@ class MetadataRepository extends ServiceEntityRepository implements MetadataRepo
         ]);
     }
 
-    /** @return T */
+    /** @return MetadataInterface */
     public function set(string $namespace, string $name, mixed $value = null): MetadataInterface
     {
         $em = $this->getEntityManager();

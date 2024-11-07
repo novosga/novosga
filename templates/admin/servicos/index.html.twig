@@ -1,16 +1,12 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <div class="row">
-        <div class="col-8">
-            <h1>
-                {{ 'admin.services.title'|trans }}
-                <small>
-                    {{ 'admin.services.subtitle'|trans }}
-                </small>
-            </h1>
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.services.title'|trans }}</h1>
+            <p>{{ 'admin.services.subtitle'|trans }}</p>
         </div>
-        <div class="col-4 text-end">
+        <div class="ms-auto pt-3">
             <a href="{{ path('admin_servicos_new') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
                 {{ 'admin.services.button.new'|trans }}
@@ -18,13 +14,11 @@
         </div>
     </div>
 
-    <hr>
-
     {% include "flashMessages.html.twig" %}
 
-    <table class="table table-bordered">
-        <thead class="thead-light">
-            <tr>
+    <table class="table table-hover border">
+        <thead>
+            <tr class="table-primary">
                 <th>#</th>
                 <th>{{ 'label.name'|trans }}</th>
                 <th>{{ 'label.weight'|trans }}</th>
@@ -51,7 +45,7 @@
                             <span class="text-danger">{{ 'label.disabled'|trans }}</span>
                         {% endif %}
                     </td>
-                    <td class="text-center">
+                    <td class="text-end">
                         <a href="{{ path('admin_servicos_edit', { id: servico.id }) }}" class="btn btn-secondary">
                             <i class="fa fa-edit"></i>
                         </a>

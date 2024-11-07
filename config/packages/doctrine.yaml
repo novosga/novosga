@@ -24,6 +24,9 @@ doctrine:
                 alias: App
         controller_resolver:
             auto_mapping: false
+        dql:
+            datetime_functions:
+                unix_timestamp: App\Doctrine\Functions\UnixTimestampFunction
 
 when@test:
     doctrine:

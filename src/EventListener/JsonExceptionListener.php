@@ -67,7 +67,7 @@ class JsonExceptionListener extends AppListener
                 'error' => $error,
                 'detail' => $detail,
             ], $statusCode));
-        } elseif ($request->isXmlHttpRequest()) {
+        } elseif ($request->headers->get('content-type') === 'application/json') {
             $envelope = new Envelope();
             $envelope->exception($exception, $debug);
 

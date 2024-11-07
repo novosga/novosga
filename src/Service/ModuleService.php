@@ -13,16 +13,47 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use Novosga\Dto\InstalledModule;
+use Novosga\Service\ModuleServiceInterface;
 use Novosga\Module\ModuleInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ModuleService
+class ModuleService implements ModuleServiceInterface
 {
+    public function __construct(
+        private readonly KernelInterface $kernel,
+        private readonly TranslatorInterface $translator,
+    ) {
+    }
+
+    public function getInstalledModules(): array
+    {
+        $modules = array_map(function ($module) {
+            $name = $this->translator->trans($module->getDisplayName(), [], $module->getName());
+            return new InstalledModule(
+                active: true,
+                displayName: $name,
+                key: $module->getKeyName(),
+                iconName: $module->getIconName(),
+                homeRoute: $module->getHomeRoute(),
+            );
+        }, $this->filterModules($this->kernel->getBundles()));
+
+        usort(
+            $modules,
+            fn (InstalledModule $a, InstalledModule $b) => strcmp($a->displayName, $b->displayName),
+        );
+
+        return $modules;
+    }
+
     /**
      * @param BundleInterface[] $bundles
      * @return ModuleInterface[]
      */
-    public function filterModules(array $bundles): array
+    private function filterModules(array $bundles): array
     {
         $modules = [];
 

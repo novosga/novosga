@@ -31,9 +31,6 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-    App\Service\Configuration:
-        $rootDir: '%kernel.project_dir%'
-
     # shared repositories
     Novosga\Repository\AgendamentoRepositoryInterface: '@App\Repository\AgendamentoRepository'
     Novosga\Repository\AtendimentoRepositoryInterface: '@App\Repository\AtendimentoRepository'
@@ -64,7 +61,13 @@ services:
     Novosga\Service\UnidadeServiceInterface: '@App\Service\UnidadeService'
     Novosga\Service\UsuarioServiceInterface: '@App\Service\UsuarioService'
     Novosga\Service\TicketServiceInterface: '@App\Service\TicketService'
+    Novosga\Service\ModuleServiceInterface: '@App\Service\ModuleService'
+    Novosga\Service\FileUploaderServiceInterface: '@App\Service\FileUploaderService'
 
+    # default service implementation
+    Novosga\Service\QueueOrderingServiceInterface: '@App\Service\DefaultQueueOrderingService'
+
+    # storage factory
     Novosga\Infrastructure\StorageInterface:
         factory: ['App\Infrastructure\StorageFactory', 'createStorage']
         arguments: ['@doctrine.orm.entity_manager']

@@ -59,7 +59,7 @@ var App = {
     
     showErrorDialog(response) {
         if (response.sessionStatus) {
-            errorModal._element.datalist.sessionStatus = response.sessionStatus;
+            errorModal._element.dataset.sessionStatus = response.sessionStatus;
         }
         errorModal._element.querySelector('.modal-body>p').innerText = response.message;
         errorModal.show();

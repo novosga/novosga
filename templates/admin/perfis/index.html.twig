@@ -1,16 +1,12 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <div class="row">
-        <div class="col-8">
-            <h1>
-                {{ 'admin.roles.title'|trans }}
-                <small>
-                    {{ 'admin.roles.subtitle'|trans }}
-                </small>
-            </h1>
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.roles.title'|trans }}</h1>
+            <p>{{ 'admin.roles.subtitle'|trans }}</p>
         </div>
-        <div class="col-4 text-end">
+        <div class="ms-auto pt-3">
             <a href="{{ path('admin_perfis_new') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
                 {{ 'admin.roles.button.new'|trans }}
@@ -18,13 +14,11 @@
         </div>
     </div>
 
-    <hr>
-
     {% include "flashMessages.html.twig" %}
 
-    <table class="table table-bordered">
-        <thead class="thead-light">
-            <tr>
+    <table class="table table-hover border">
+        <thead>
+            <tr class="table-primary">
                 <th>#</th>
                 <th>{{ 'label.name'|trans }}</th>
                 <th></th>
@@ -39,7 +33,7 @@
                     <td>
                         {{ perfil.nome }}
                     </td>
-                    <td class="text-center">
+                    <td class="text-end">
                         <a href="{{ path('admin_perfis_edit', { id: perfil.id }) }}" class="btn btn-secondary">
                             <i class="fa fa-edit"></i>
                         </a>

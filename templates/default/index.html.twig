@@ -1,15 +1,91 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="jumbotron">
-        <div class="container">
-            <h1>{{ 'home.welcome.title'|trans({'%name%': app.user }) }}</h1>
-            <p>{{ 'home.welcome.subtitle'|trans }}</p>
-            <p>
-                <a class="btn btn-primary btn-lg" href="{{ path('about') }}" role="button">
-                    {{ 'home.welcome.button.read'|trans }} &raquo;
-                </a>
-            </p>
+    <div class="container-fluid">
+        <div class="h-100 px-5 py-4 bg-body-tertiary border rounded-3">
+            <div class="container">
+                <h1>{{ 'home.welcome.title'|trans({'%name%': app.user }) }}</h1>
+                <p>{{ 'home.welcome.subtitle'|trans }}</p>
+                <p>
+                    <a class="btn btn-primary btn-lg" href="{{ path('about') }}" role="button">
+                        {{ 'home.welcome.button.read'|trans }} &raquo;
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="quick-menu py-5">
+            <div class="row">
+                {% for module in modules %}
+                    {% if app.user.admin or is_granted(module.roleName) %}
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                            <div class="card mb-4">
+                                <div class="card-body text-center">
+                                    <a href="{{ path(module.homeRoute) }}">
+                                        <i class="fa fa-{{ module.iconName }} fa-fw mb-2"></i>
+                                        {{ module.displayName }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <h5>{{ 'admin.title'|trans }}</h5>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="card border-info mb-4">
+                            <div class="card-body text-center">
+                                <a href="{{ path('admin_index') }}" class="text-info font-weight-bold">
+                                    <i class="fa fa-cogs fa-fw mb-2"></i>
+                                    {{ 'admin.menu.system'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="card border-info mb-4">
+                            <div class="card-body text-center">
+                                <a href="{{ path('admin_servicos_index') }}" class="text-info font-weight-bold">
+                                    <i class="fa fa-pencil-square-o fa-fw mb-2"></i>
+                                    {{ 'admin.menu.services'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="card border-info mb-4">
+                            <div class="card-body text-center">
+                                <a href="{{ path('admin_perfis_index') }}" class="text-info font-weight-bold">
+                                    <i class="fa fa-id-card-o fa-fw mb-2"></i>
+                                    {{ 'admin.menu.roles'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="card border-info mb-4">
+                            <div class="card-body text-center">
+                                <a href="{{ path('admin_prioridades_index') }}" class="text-info font-weight-bold">
+                                    <i class="fa fa-sort fa-fw mb-2"></i>
+                                    {{ 'admin.menu.priorities'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
+                        <div class="card border-info mb-4">
+                            <div class="card-body text-center">
+                                <a href="{{ path('admin_locais_index') }}" class="text-info font-weight-bold">
+                                    <i class="fa fa-map-signs fa-fw mb-2"></i>
+                                    {{ 'admin.menu.places'|trans }}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
@@ -19,6 +95,22 @@
     <style>
         body>section {
             padding: 20px 0;
+        }
+
+        .quick-menu a {
+            color: #666666;
+            text-decoration: none;
+        }
+
+        .quick-menu a:hover {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .quick-menu a i {
+            font-size: 40pt;
+            margin: 0 auto;
+            display: block;
         }
     </style>
 {% endblock %}

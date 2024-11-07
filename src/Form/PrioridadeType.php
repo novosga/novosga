@@ -22,6 +22,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Range;
 
 class PrioridadeType extends AbstractType
 {
@@ -32,27 +35,36 @@ class PrioridadeType extends AbstractType
         $builder
             ->add('nome', TextType::class, [
                 'label' => 'label.name',
+                'constraints' => [
+                    new NotNull(),
+                    new Length(min: 1, max: 64),
+                ],
             ])
             ->add('descricao', TextareaType::class, [
                 'label' => 'label.description',
                 'attr' => [
                     'rows' => 4
-                ]
+                ],
+                'constraints' => [
+                    new NotNull(),
+                    new Length(min: 1, max: 100),
+                ],
             ])
             ->add('ativo', CheckboxType::class, [
                 'label' => 'label.enabled',
                 'required' => false
             ])
             ->add('peso', IntegerType::class, [
-                'label'       => 'label.weight',
-                'disabled'    => $data && $data->getId() === 1,
+                'label' => 'label.weight',
+                'disabled' => $data && $data->getId() === 1,
                 'constraints' => [
-                    new \Symfony\Component\Validator\Constraints\Range([ 'min' => 0 ]),
-                ]
+                    new NotNull(),
+                    new Range(min: 0),
+                ],
             ])
             ->add('cor', ColorType::class, [
                 'label' => 'label.color',
-                'required' => true,
+                'required' => false,
             ])
         ;
     }

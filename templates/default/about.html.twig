@@ -5,68 +5,95 @@
 {% endblock %}
 
 {% block body %}
-    <div class="jumbotron">
-        <h1>{{ 'about.version.title'|trans({'%version%': version}) }}</h1>
-        <p>{{ 'about.version.subtitle'|trans }}</p>
-        <p>
-            <button id="btn-checkversion" class="btn btn-secondary btn-lg" role="button" type="button">
-                <i class="fa fa-refresh"></i>
-                {{ 'about.version.check_new'|trans }}
-            </button>
-            <a id="btn-downloader" href="#" class="btn btn-success btn-lg" role="button" target="_blank" style="display:none">
-                <i class="fa fa-download"></i>
-                {{ 'about.version.download'|trans }} <span class="version"></span>
-            </a>
-            <span id="update-alert" class="alert alert-success" style="display:none">
-                <i class="fa fa-check"></i>
-                {{ 'about.version.newest'|trans }}
-            </span>
-        </p>
+    <div class="row">
+        <div class="col-12 col-lg-7 mb-4">
+            <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+                <h2>{{ 'about.version.title'|trans({'%version%': version}) }}</h2>
+                <p>{{ 'about.version.subtitle'|trans }}</p>
+                <p>
+                    <button id="btn-checkversion" class="btn btn-secondary btn-lg" role="button" type="button">
+                        <i class="fa fa-refresh"></i>
+                        {{ 'about.version.check_new'|trans }}
+                    </button>
+                    <a id="btn-downloader" href="#" class="btn btn-success btn-lg" role="button" target="_blank" style="display:none">
+                        <i class="fa fa-download"></i>
+                        {{ 'about.version.download'|trans }} <span class="version"></span>
+                    </a>
+                    <span id="update-alert" class="alert alert-success" style="display:none">
+                        <i class="fa fa-check"></i>
+                        {{ 'about.version.latest'|trans }}
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="col-12 col-lg-5 mb-4">
+            <div class="h-100 p-5 text-white text-center border rounded-3" style="background: rgb(170, 212, 0);">
+                <svg height="80" viewBox="0 0 96.279118 32.583638" version="1.1" id="svg1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"><defs   id="defs1" /><g   id="layer1"   transform="translate(-56.860437,-53.288529)"><g  id="g45"  transform="translate(12.973059,-104.78435)"  style="fill:#ffffff"><text    xml:space="preserve"    style="font-weight:bold;font-size:22.9618px;font-family:'Noto Sans Adlam';-inkscape-font-specification:'Noto Sans Adlam Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.871375"    x="40.115623"    y="87.743195"    id="text40"    transform="matrix(1.0471937,0,0,0.95493319,0,101.60001)"><tspan   id="tspan40"   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.871375"   x="40.115623"   y="87.743195">manga</tspan></text><text    xml:space="preserve"    style="font-weight:bold;font-size:22.9618px;font-family:'Noto Sans Adlam';-inkscape-font-specification:'Noto Sans Adlam Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.871375"    x="118.51188"    y="87.78537"    id="text41"    transform="matrix(1.0471937,0,0,0.95493319,0,101.60001)"><tspan   id="tspan41"   style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';fill:#ffffff;fill-opacity:1;stroke-width:0.871375"   x="118.51188"   y="87.78537">ti</tspan></text><g    id="g44"    transform="translate(8.4648372,146.09552)"    style="fill:#ffffff"><g   id="g43"   transform="translate(6.680461,-41.011141)"   style="fill:#ffffff;fill-opacity:1"><g     id="g42"     style="fill:#ffffff"><path    id="path41"    style="fill:#ffffff;fill-opacity:1;stroke-width:1.071"    d="m 89.284989,52.988497 c 0,0 -5.70713,2.667401 -6.067329,7.260022 -0.55157,4.862773 1.688785,6.236312 1.688785,6.236312 0.58533,0 3.590525,-0.472835 3.905705,-4.19871 1e-5,-4.547595 0.472839,-9.297624 0.472839,-9.297624 z m -1.755965,2.654618 c -0.132579,0.132977 -0.258072,0.265949 -0.379822,0.399459 -3.08509,3.54286 -2.074292,10.361641 -2.074292,10.361641 0,0 -0.214666,-0.06616 -0.315226,-0.168465 -0.396241,-3.647437 -0.523999,-6.998222 2.389518,-10.193176 0.120395,-0.138259 0.246646,-0.271779 0.379822,-0.399459 z" /><path    id="path42"    style="fill:#ffffff;fill-opacity:1;stroke-width:1.071"    d="m 94.699129,58.309619 c -1.228357,-0.0053 -2.464723,0.267294 -3.579109,1.00459 -3.106777,2.521437 -2.386418,6.573759 -2.386418,6.573759 0,0 1.560093,1.421079 3.90002,0.595829 2.369978,-0.864385 2.358586,-2.013729 4.902543,-4.332552 2.161228,-1.440821 4.457095,-1.305863 4.457095,-1.305863 0,0 -3.609061,-2.519933 -7.294131,-2.535763 z m 0.644922,1.515153 c 0.899696,-0.0078 1.941958,0.105863 3.162081,0.3545 -7.024003,-1.103129 -8.393231,3.206602 -9.47384,5.750554 L 88.828687,65.63527 c 1.396702,-3.465301 2.616681,-5.776776 6.515364,-5.810498 z" /></g></g></g></g></g></svg>
+                <p>{{ 'about.sponsor.description'|trans|raw }}</p>
+                <a href="https://mangati.com?utm_source=novosga&utm_medium=novosga&utm_campaign=novosga&utm_content=about" target="_blank" class="fw-bold text-white text-decoration-none">https://mangati.com</a>
+            </div>
+        </div>
     </div>
-    <h2>{{ 'about.community.title'|trans }}</h2>
-    <p>{{ 'about.community.subtitle'|trans }}</p>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ 'about.community.website.title'|trans }}</h5>
-                    <p>{{ 'about.community.website.description'|trans }}</p>
-                </div>
-                <div class="card-footer">
-                    <a href="https://novosga.org/?utm_source=novosga-v{{ version }}&utm_medium=about" class="btn btn-primary" target="_blank">
-                        <i class="fa fa-eye"></i>&nbsp;
-                        {{ 'about.community.website.button'|trans }}
-                    </a>
-                </div>
-           </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ 'about.community.forum.title'|trans }}</h5>
-                    <p>{{ 'about.community.forum.description'|trans }}</p>
-                </div>
-                <div class="card-footer">
-                    <a href="https://discuss.novosga.org/?utm_source=novosga-v{{ version }}&utm_medium=about" class="btn btn-primary" target="_blank">
-                        <i class="fa fa-eye"></i>&nbsp;
-                        {{ 'about.community.forum.button'|trans }}
-                    </a>
-                </div>
-           </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">{{ 'about.community.github.title'|trans }}</h5>
-                    <p>{{ 'about.community.github.description'|trans }}</p>
-                </div>
-                <div class="card-footer">
-                    <a href="https://github.com/novosga" class="btn btn-primary" target="_blank">
-                        <i class="fa fa-eye"></i>&nbsp;
-                        {{ 'about.community.github.button'|trans }}
-                    </a>
-                </div>
-           </div>
+    <div>
+        <h2>{{ 'about.community.title'|trans }}</h2>
+        <p>{{ 'about.community.subtitle'|trans }}</p>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ 'about.community.website.title'|trans }}</h5>
+                        <p>{{ 'about.community.website.description'|trans }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://novosga.org/?utm_source=novosga-v{{ version }}&utm_medium=about" class="btn btn-primary" target="_blank">
+                            <i class="fa fa-eye"></i>&nbsp;
+                            {{ 'about.community.website.button'|trans }}
+                        </a>
+                    </div>
+            </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ 'about.community.forum.title'|trans }}</h5>
+                        <p>{{ 'about.community.forum.description'|trans }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://discuss.novosga.org/?utm_source=novosga-v{{ version }}&utm_medium=about" class="btn btn-primary" target="_blank">
+                            <i class="fa fa-eye"></i>&nbsp;
+                            {{ 'about.community.forum.button'|trans }}
+                        </a>
+                    </div>
+            </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ 'about.community.github.title'|trans }}</h5>
+                        <p>{{ 'about.community.github.description'|trans }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://github.com/novosga/novosga" class="btn btn-primary" target="_blank">
+                            <i class="fa fa-eye"></i>&nbsp;
+                            {{ 'about.community.github.button'|trans }}
+                        </a>
+                    </div>
+            </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ 'about.community.telegram.title'|trans }}</h5>
+                        <p>{{ 'about.community.telegram.description'|trans }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://t.me/novosga" class="btn btn-primary" target="_blank">
+                            <i class="fa fa-eye"></i>&nbsp;
+                            {{ 'about.community.telegram.button'|trans }}
+                        </a>
+                    </div>
+            </div>
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -97,7 +124,7 @@
                     .then((json) => {
                         btnCheckVersion.style.display = 'none';
                         var latest = json[0];
-                        if (false && App.version !== latest.name.replace('v', '')) {
+                        if (App.version !== latest.name.replace('v', '')) {
                             const btnDownload = document.getElementById('btn-downloader');
                             btnDownload.style.display = 'inline-block';
                             btnDownload.href = `https://github.com/novosga/novosga/releases/${latest.name}`;

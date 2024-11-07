@@ -1,18 +1,16 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <h1>
-        {{ 'admin.modules.title'|trans }}
-        <small>
-            {{ 'admin.modules.subtitle'|trans }}
-        </small>
-    </h1>
-    
-    <hr>
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.modules.title'|trans }}</h1>
+            <p>{{ 'admin.modules.subtitle'|trans }}</p>
+        </div>
+    </div>
         
-    <table class="table table-bordered">
-        <thead class="thead-light">
-            <tr>
+    <table class="table table-hover border">
+        <thead>
+            <tr class="table-primary">
                 <th>{{ 'label.module'|trans }}</th>
                 <th>{{ 'label.enabled'|trans }}</th>
             </tr>
@@ -20,7 +18,7 @@
         <tbody>
             {% for module in modules %}
                 <tr>
-                    <td>{{module.name}}</td>
+                    <td>{{ module.displayName }}</td>
                     <td>
                         <input type="checkbox" value="1" disabled {% if module.active %}checked{% endif %} class="module-status" data-key="{{ module.key }}">
                     </td>

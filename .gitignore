@@ -1,6 +1,6 @@
-config/app.php
-nbproject/
 .vscode
+/public/uploads/*
+!/public/uploads/.gitkeep
 
 ###> symfony/framework-bundle ###
 /.env.local

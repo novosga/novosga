@@ -28,23 +28,8 @@ use Novosga\Entity\AtendimentoInterface;
 class ViewAtendimentoCodificado extends AbstractAtendimentoCodificado
 {
     #[ORM\Id]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\ManyToOne(targetEntity: ViewAtendimento::class, inversedBy: 'codificados')]
     private ?AtendimentoInterface $atendimento = null;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId(?int $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
 
     public function getAtendimento(): ?AtendimentoInterface
     {

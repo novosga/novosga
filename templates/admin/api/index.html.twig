@@ -1,14 +1,12 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <h1>
-        {{ 'admin.webapi.title'|trans }}
-        <small>
-            {{ 'admin.webapi.subtitle'|trans }}
-        </small>
-    </h1>
-    
-    <hr>
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.webapi.title'|trans }}</h1>
+            <p>{{ 'admin.webapi.subtitle'|trans }}</p>
+        </div>
+    </div>
     
     <div id="admin">
         <fieldset>
@@ -16,9 +14,9 @@
             
             <p>{{ 'admin.webapi.clients.subtitle'|trans }}</p>
             
-            <table class="table table-bordered">
-                <thead class="thead-light">
-                    <tr>
+            <table class="table table-hover border">
+                <thead>
+                    <tr class="table-primary">
                         <th>{{ 'admin.webapi.clients.description'|trans }}</th>
                         <th>{{ 'admin.webapi.clients.public_id'|trans }}</th>
                         <th>{{ 'admin.webapi.clients.public_secret'|trans }}</th>
@@ -48,7 +46,7 @@
                                 </span>
                             </div>
                         </td>
-                        <td class="text-center">
+                        <td class="text-end">
                             <button type="button" class="btn btn-danger" title="{{ 'button.remove'|trans }}"
                                     v-on:click.prevent="removeClient(client)">
                                 <span class="fa fa-trash"></span>
@@ -61,7 +59,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="text-center">
+                        <td class="text-end">
                             <button type="button" class="btn btn-secondary" v-on:click.prevent="newClient">
                                 <i class="fa fa-plus"></i>
                                 {{ 'button.add'|trans }}

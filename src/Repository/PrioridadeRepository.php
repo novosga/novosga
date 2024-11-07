@@ -46,7 +46,6 @@ class PrioridadeRepository extends ServiceEntityRepository implements Prioridade
             ->createQueryBuilder('e')
             ->where('e.deletedAt IS NULL')
             ->andWhere('e.ativo = TRUE')
-            ->andWhere('e.peso > 0')
             ->orderBy('e.nome', 'ASC')
             ->getQuery()
             ->getResult();

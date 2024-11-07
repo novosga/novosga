@@ -49,6 +49,8 @@ class CheckCommand extends Command
                 "*******************",
             ];
             $this->writef($output, $header, 'info');
+
+            $output->writeln('Checking environment variables ...');
         }
 
         $vars = [
@@ -72,11 +74,11 @@ class CheckCommand extends Command
 
     private function checkEnvVar(OutputInterface $output, string $varname): void
     {
-        $output->write(sprintf('> Checking environment variable %s ...', $varname));
+        $output->write(sprintf('- %s...', $varname));
         if ($this->hasVariable($varname)) {
-            $output->writeln(" [OK]");
+            $output->writeln(" <info>[OK]</info>");
         } else {
-            $output->writeln(" [ERR]");
+            $output->writeln(" <error>[ERR]</error>");
 
             $error = "Environment variable {$varname} not found.";
             $instruction = [

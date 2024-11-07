@@ -1,33 +1,28 @@
-{% set logo = "images/novosga-login.png" %}
+{%- extends 'skeleton.html.twig' -%}
 
-<!DOCTYPE html>
-<html lang="{{ locale }}">
-    <head>
-        <meta charset="utf-8" />
-        <title>{{ 'login.title'|trans }}</title>
-        <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}" />
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}" />
-    </head>
-    <body>
-        <div class="container">
-            <form id="login-form" action="{{ path('app_login') }}" method="post" class="form-signin">
-                <h2 id="logo" class="form-signin-heading">
-                    <img alt="Novo SGA" src="{{ asset(logo) }}">
-                </h2>
-                {% if error %}
-                    <div class="alert alert-danger">
-                        {{ error.messageKey|trans(error.messageData, 'security')|raw }}
-                    </div>
-                {% endif %}
-                <div id="login" class="d-grid">
-                    <input type="text" name="username" class="form-control" placeholder="{{ 'label.username'|trans }}" autofocus value="{{ last_username }}">
-                    <input type="password" name="password" class="form-control" placeholder="{{ 'label.password'|trans }}">
-                    <button class="btn btn-lg btn-primary" type="submit">{{ 'login.button.submit'|trans }}</button>
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}" />
+{% endblock %}
+
+{% block body_content %}
+    <div class="container">
+        <form id="login-form" action="{{ path('app_login') }}" method="post" class="form-signin">
+            <h2 id="logo" class="form-signin-heading">
+                <img alt="Novo SGA" src="{{ asset(logoLogin) }}" height="107">
+            </h2>
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error.messageKey|trans(error.messageData, 'security')|raw }}
                 </div>
+            {% endif %}
+            <div id="login" class="d-grid">
+                <input type="text" name="username" class="form-control" placeholder="{{ 'label.username'|trans }}" autofocus value="{{ last_username }}">
+                <input type="password" name="password" class="form-control" placeholder="{{ 'label.password'|trans }}">
+                <button class="btn btn-lg btn-primary" type="submit">{{ 'login.button.submit'|trans }}</button>
+            </div>
 
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-            </form>
-        </div>
-    </body>
-</html>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        </form>
+    </div>
+{% endblock %}

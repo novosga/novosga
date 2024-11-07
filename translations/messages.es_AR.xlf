@@ -1,710 +1,642 @@
-<?xml version="1.0" ?><xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+<?xml version="1.0" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 http://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
     <file datatype="plaintext" original="messages.pt_BR.xlf" source-language="pt-BR" target-language="es-AR">
         <body>
-            <trans-unit id="1">
+            <trans-unit id="default.title">
                 <source>default.title</source>
                 <target>Bienvenido</target>
-                
             </trans-unit>
-            <trans-unit id="2">
+            <trans-unit id="modal.error.title">
                 <source>modal.error.title</source>
                 <target>Error</target>
-                
             </trans-unit>
-            <trans-unit id="3">
+            <trans-unit id="modal.unity.label">
                 <source>modal.unity.label</source>
                 <target>Por favor escoger la unidad</target>
-                
             </trans-unit>
-            <trans-unit id="4">
+            <trans-unit id="modal.unity.submit">
                 <source>modal.unity.submit</source>
                 <target>Enviar</target>
-                
             </trans-unit>
-            <trans-unit id="5">
+            <trans-unit id="label.unity">
                 <source>label.unity</source>
                 <target>Unidad</target>
-                
             </trans-unit>
-            <trans-unit id="6">
+            <trans-unit id="label.role">
                 <source>label.role</source>
                 <target>Perfil</target>
-                
             </trans-unit>
-            <trans-unit id="7">
+            <trans-unit id="label.module">
                 <source>label.module</source>
                 <target>Módulo</target>
-                
             </trans-unit>
-            <trans-unit id="8">
+            <trans-unit id="label.success">
                 <source>label.success</source>
                 <target>Evento</target>
-                
             </trans-unit>
-            <trans-unit id="9">
+            <trans-unit id="label.status">
                 <source>label.status</source>
                 <target>Situación</target>
-                
             </trans-unit>
-            <trans-unit id="10">
+            <trans-unit id="label.enabled">
                 <source>label.enabled</source>
                 <target>Activo</target>
-                
             </trans-unit>
-            <trans-unit id="11">
+            <trans-unit id="label.disabled">
                 <source>label.disabled</source>
                 <target>Inactivo</target>
-                
             </trans-unit>
-            <trans-unit id="12">
+            <trans-unit id="label.view">
                 <source>label.view</source>
                 <target>Ver</target>
-                
             </trans-unit>
-            <trans-unit id="13">
+            <trans-unit id="label.choose">
                 <source>label.choose</source>
                 <target>Seleccione</target>
-                
             </trans-unit>
-            <trans-unit id="14">
+            <trans-unit id="label.property">
+                <source>label.property</source>
+                <target>Propriedade</target>
+            </trans-unit>
+            <trans-unit id="label.order">
+                <source>label.order</source>
+                <target>Ordem</target>
+            </trans-unit>
+            <trans-unit id="label.theme">
+                <source>label.theme</source>
+                <target>Tema</target>
+            </trans-unit>
+            <trans-unit id="label.navbar">
+                <source>label.navbar</source>
+                <target>Barra de navegação</target>
+            </trans-unit>
+            <trans-unit id="label.logo_navbar">
+                <source>label.logo_navbar</source>
+                <target>Logo da barra de navegação</target>
+            </trans-unit>
+            <trans-unit id="label.logo_login">
+                <source>label.logo_login</source>
+                <target>Logo do Login</target>
+            </trans-unit>
+            <trans-unit id="label.priority_swap">
+                <source>label.priority_swap</source>
+                <target>Intercalar prioridade e normal</target>
+            </trans-unit>
+            <trans-unit id="label.priority_swap_method">
+                <source>label.priority_swap_method</source>
+                <target>Intercalar por</target>
+            </trans-unit>
+            <trans-unit id="label.priority_swap_method_user">
+                <source>label.priority_swap_method_user</source>
+                <target>Por usuário</target>
+            </trans-unit>
+            <trans-unit id="label.priority_swap_method_unity">
+                <source>label.priority_swap_method_unity</source>
+                <target>Por unidade</target>
+            </trans-unit>
+            <trans-unit id="label.priority_swap_count">
+                <source>label.priority_swap_count</source>
+                <target>Sequência máxima de prioridades</target>
+            </trans-unit>
+            <trans-unit id="button.save">
                 <source>button.save</source>
                 <target>Guardar</target>
-                
             </trans-unit>
-            <trans-unit id="15">
+            <trans-unit id="button.remove">
                 <source>button.remove</source>
                 <target>Excluir</target>
-                
             </trans-unit>
-            <trans-unit id="16">
+            <trans-unit id="button.back">
                 <source>button.back</source>
                 <target>Volver</target>
-                
             </trans-unit>
-            <trans-unit id="17">
+            <trans-unit id="button.update">
                 <source>button.update</source>
                 <target>Actualizar</target>
-                
             </trans-unit>
-            <trans-unit id="18">
+            <trans-unit id="button.add">
                 <source>button.add</source>
                 <target>Agregar</target>
-                
             </trans-unit>
-            <trans-unit id="19">
+            <trans-unit id="button.close">
                 <source>button.close</source>
                 <target>Cerrar</target>
-                
             </trans-unit>
-            <trans-unit id="20">
+            <trans-unit id="button.reset">
                 <source>button.reset</source>
                 <target>Reiniciar</target>
-                
             </trans-unit>
-            <trans-unit id="21">
+            <trans-unit id="m/d/Y">
                 <source>m/d/Y</source>
                 <target>d/m/Y</target>
-                
             </trans-unit>
-            <trans-unit id="22">
+            <trans-unit id="menu.change_unity">
                 <source>menu.change_unity</source>
                 <target>Cambiar de unidad</target>
-                
             </trans-unit>
-            <trans-unit id="23">
+            <trans-unit id="menu.choose_unity">
                 <source>menu.choose_unity</source>
                 <target>Escoger unidad</target>
-                
             </trans-unit>
-            <trans-unit id="24">
+            <trans-unit id="menu.user.profile">
                 <source>menu.user.profile</source>
                 <target>Perfil</target>
-                
             </trans-unit>
-            <trans-unit id="25">
+            <trans-unit id="menu.user.logout">
                 <source>menu.user.logout</source>
                 <target>Salir</target>
-                
             </trans-unit>
-            <trans-unit id="26">
+            <trans-unit id="menu.about">
                 <source>menu.about</source>
                 <target>Sobre</target>
-                
             </trans-unit>
-            <trans-unit id="27">
+            <trans-unit id="menu.admin">
                 <source>menu.admin</source>
                 <target>Administración</target>
-                
             </trans-unit>
-            <trans-unit id="28">
+            <trans-unit id="print.ticket.date">
                 <source>print.ticket.date</source>
                 <target>Hora de llegada %time% ( horario local )</target>
-                
             </trans-unit>
-            <trans-unit id="29">
+            <trans-unit id="login.title">
                 <source>login.title</source>
                 <target>Ingreso | Novo SGA</target>
-                
             </trans-unit>
-            <trans-unit id="30">
+            <trans-unit id="label.username">
                 <source>label.username</source>
                 <target>Usuario</target>
-                
             </trans-unit>
-            <trans-unit id="31">
+            <trans-unit id="label.password">
                 <source>label.password</source>
                 <target>Turno</target>
-                
             </trans-unit>
-            <trans-unit id="32">
+            <trans-unit id="login.button.submit">
                 <source>login.button.submit</source>
                 <target>Entrar</target>
-                
             </trans-unit>
-            <trans-unit id="33">
+            <trans-unit id="home.welcome.title">
                 <source>home.welcome.title</source>
                 <target>Bienvenido, %name%</target>
-                
             </trans-unit>
-            <trans-unit id="34">
+            <trans-unit id="home.welcome.subtitle">
                 <source>home.welcome.subtitle</source>
                 <target>Novo SGA - Sistema de Gestión de la Atención</target>
-                
             </trans-unit>
-            <trans-unit id="35">
+            <trans-unit id="home.welcome.button.read">
                 <source>home.welcome.button.read</source>
                 <target>Lea más sobre</target>
-                
             </trans-unit>
-            <trans-unit id="36">
+            <trans-unit id="about.title">
                 <source>about.title</source>
                 <target>Sobre</target>
-                
             </trans-unit>
-            <trans-unit id="37">
+            <trans-unit id="about.version.title">
                 <source>about.version.title</source>
                 <target>Novo SGA v%version%</target>
-                
             </trans-unit>
-            <trans-unit id="38">
+            <trans-unit id="about.version.subtitle">
                 <source>about.version.subtitle</source>
                 <target>Sistema de Gestión de la Atención</target>
-                
             </trans-unit>
-            <trans-unit id="39">
+            <trans-unit id="about.version.check_new">
                 <source>about.version.check_new</source>
                 <target>Verificar nueva versión</target>
-                
             </trans-unit>
-            <trans-unit id="40">
+            <trans-unit id="about.version.download">
                 <source>about.version.download</source>
                 <target>Descargar</target>
-                
             </trans-unit>
-            <trans-unit id="41">
-                <source>about.version.newest</source>
+            <trans-unit id="about.version.latest">
+                <source>about.version.latest</source>
                 <target>Felicidades, usted tiene la versión más reciente.</target>
-                
             </trans-unit>
-            <trans-unit id="42">
+            <trans-unit id="about.sponsor.description">
+                <source>about.sponsor.description</source>
+                <target><![CDATA[O projeto Novo SGA é desenvolvido e mantido por <b>Mangati</b> e membros da comunidade <b>Novo SGA</b>.]]></target>
+            </trans-unit>
+            <trans-unit id="about.community.title">
                 <source>about.community.title</source>
                 <target>Comunidad</target>
-                
             </trans-unit>
-            <trans-unit id="43">
+            <trans-unit id="about.community.subtitle">
                 <source>about.community.subtitle</source>
                 <target>Necesita ayuda? Ingrese a alguno de los canales del proyecto, en los siguientes enlaces</target>
-                
             </trans-unit>
-            <trans-unit id="44">
+            <trans-unit id="about.community.website.title">
                 <source>about.community.website.title</source>
                 <target>Website</target>
-                
             </trans-unit>
-            <trans-unit id="45">
+            <trans-unit id="about.community.website.description">
                 <source>about.community.website.description</source>
                 <target>Noticias relacionadas a los proyectos de Novo SGA y al lanzamiento de nuevas versiones</target>
-                
             </trans-unit>
-            <trans-unit id="46">
+            <trans-unit id="about.community.website.button">
                 <source>about.community.website.button</source>
                 <target>Acceder</target>
-                
             </trans-unit>
-            <trans-unit id="47">
+            <trans-unit id="about.community.forum.title">
                 <source>about.community.forum.title</source>
                 <target>Forum</target>
-                
             </trans-unit>
-            <trans-unit id="48">
+            <trans-unit id="about.community.forum.description">
                 <source>about.community.forum.description</source>
                 <target>Canal para consultas sobre el uso o la instalación de los proyectos.</target>
-                
             </trans-unit>
-            <trans-unit id="49">
+            <trans-unit id="about.community.forum.button">
                 <source>about.community.forum.button</source>
                 <target>Acceder</target>
-                
             </trans-unit>
-            <trans-unit id="50">
+            <trans-unit id="about.community.github.title">
                 <source>about.community.github.title</source>
                 <target>Github</target>
-                
             </trans-unit>
-            <trans-unit id="51">
+            <trans-unit id="about.community.github.description">
                 <source>about.community.github.description</source>
                 <target>Participe directamente del desarrollo informando sus problemas (issues).</target>
-                
             </trans-unit>
-            <trans-unit id="52">
+            <trans-unit id="about.community.github.button">
                 <source>about.community.github.button</source>
                 <target>Acceder</target>
-                
             </trans-unit>
-            <trans-unit id="53">
+            <trans-unit id="about.community.telegram.title">
+                <source>about.community.telegram.title</source>
+                <target>Telegram</target>
+            </trans-unit>
+            <trans-unit id="about.community.telegram.description">
+                <source>about.community.telegram.description</source>
+                <target>Official Telegram Channel.</target>
+            </trans-unit>
+            <trans-unit id="about.community.telegram.button">
+                <source>about.community.telegram.button</source>
+                <target>Ingresar</target>
+            </trans-unit>
+            <trans-unit id="profile.title">
                 <source>profile.title</source>
                 <target>Perfil</target>
-                
             </trans-unit>
-            <trans-unit id="54">
+            <trans-unit id="profile.subtitle">
                 <source>profile.subtitle</source>
                 <target>Datos personales del usuario</target>
-                
             </trans-unit>
-            <trans-unit id="55">
+            <trans-unit id="profile.general">
                 <source>profile.general</source>
                 <target>General</target>
-                
             </trans-unit>
-            <trans-unit id="56">
+            <trans-unit id="profile.general.description">
                 <source>profile.general.description</source>
                 <target>Datos básicos del usuario.</target>
-                
             </trans-unit>
-            <trans-unit id="57">
+            <trans-unit id="profile.field.username">
                 <source>profile.field.username</source>
                 <target>Ingreso</target>
-                
             </trans-unit>
-            <trans-unit id="58">
+            <trans-unit id="label.firstname">
                 <source>label.firstname</source>
                 <target>Nombre</target>
-                
             </trans-unit>
-            <trans-unit id="59">
+            <trans-unit id="label.lastname">
                 <source>label.lastname</source>
                 <target>Apellido</target>
-                
             </trans-unit>
-            <trans-unit id="60">
+            <trans-unit id="label.email">
                 <source>label.email</source>
                 <target>E-mail</target>
-                
             </trans-unit>
-            <trans-unit id="61">
+            <trans-unit id="profile.lotation">
                 <source>profile.lotation</source>
                 <target>Dotación</target>
-                
             </trans-unit>
-            <trans-unit id="62">
+            <trans-unit id="profile.lotation.description">
                 <source>profile.lotation.description</source>
                 <target>La dotación es utilizada para definir el perfil de acceso del usuario a las unidades.</target>
-                
             </trans-unit>
-            <trans-unit id="63">
+            <trans-unit id="profile.button.change_password">
                 <source>profile.button.change_password</source>
                 <target>Modificar contraseña</target>
-                
             </trans-unit>
-            <trans-unit id="64">
+            <trans-unit id="profile.change_password">
                 <source>profile.change_password</source>
                 <target>Modificar contraseña</target>
-                
             </trans-unit>
-            <trans-unit id="65">
+            <trans-unit id="profile.field.current_password">
                 <source>profile.field.current_password</source>
                 <target>Contraseña actual</target>
-                
             </trans-unit>
-            <trans-unit id="66">
+            <trans-unit id="profile.field.new_password">
                 <source>profile.field.new_password</source>
                 <target>Nueva contraseña</target>
-                
             </trans-unit>
-            <trans-unit id="67">
+            <trans-unit id="profile.field.password_confirm">
                 <source>profile.field.password_confirm</source>
                 <target>Confirmar nueva contraseña</target>
-                
             </trans-unit>
-            <trans-unit id="68">
+            <trans-unit id="profile.message.success">
                 <source>profile.message.success</source>
                 <target>Perfil actualizado exitosamente</target>
-                
             </trans-unit>
-            <trans-unit id="69">
+            <trans-unit id="admin.title">
                 <source>admin.title</source>
                 <target>Administración</target>
-                
             </trans-unit>
-            <trans-unit id="70">
+            <trans-unit id="admin.menu.system">
                 <source>admin.menu.system</source>
                 <target>Sistema</target>
-                
             </trans-unit>
-            <trans-unit id="71">
+            <trans-unit id="admin.menu.unities">
                 <source>admin.menu.unities</source>
                 <target>Unidades</target>
-                
             </trans-unit>
-            <trans-unit id="71-1">
+            <trans-unit id="admin.menu.departments">
                 <source>admin.menu.departments</source>
                 <target>Departamentos</target>
-                
             </trans-unit>
-            <trans-unit id="72">
+            <trans-unit id="admin.menu.services">
                 <source>admin.menu.services</source>
                 <target>Servicios</target>
-                
             </trans-unit>
-            <trans-unit id="73">
+            <trans-unit id="admin.menu.roles">
                 <source>admin.menu.roles</source>
                 <target>Perfiles</target>
-                
             </trans-unit>
-            <trans-unit id="74">
+            <trans-unit id="admin.menu.priorities">
                 <source>admin.menu.priorities</source>
                 <target>Prioridades</target>
-                
             </trans-unit>
-            <trans-unit id="75">
+            <trans-unit id="admin.menu.places">
                 <source>admin.menu.places</source>
                 <target>Locales</target>
-                
             </trans-unit>
-            <trans-unit id="76">
+            <trans-unit id="admin.menu.modules">
                 <source>admin.menu.modules</source>
                 <target>Módulos</target>
-                
             </trans-unit>
-            <trans-unit id="77">
+            <trans-unit id="admin.menu.webapi">
                 <source>admin.menu.webapi</source>
                 <target>Web API</target>
-                
             </trans-unit>
-            <trans-unit id="78">
+            <trans-unit id="admin.system.queue_ordering">
+                <source>admin.system.queue_ordering</source>
+                <target>Ordenação da fila</target>
+            </trans-unit>
+            <trans-unit id="admin.system.appearance">
+                <source>admin.system.appearance</source>
+                <target>Aparência</target>
+            </trans-unit>
+            <trans-unit id="admin.system.behavior">
+                <source>admin.system.behavior</source>
+                <target>Comportamento</target>
+            </trans-unit>
+            <trans-unit id="admin.system.danger_zone">
                 <source>admin.system.danger_zone</source>
                 <target>Zona de peligro</target>
-                
             </trans-unit>
-            <trans-unit id="79">
+            <trans-unit id="admin.system.reset_tickets">
                 <source>admin.system.reset_tickets</source>
                 <target>Reiniciar Llamadas</target>
-                
             </trans-unit>
-            <trans-unit id="80">
+            <trans-unit id="admin.system.reset_tickets.alert">
                 <source>admin.system.reset_tickets.alert</source>
                 <target>Desea reiniciar las llamadas de todas las unidades?</target>
-                
             </trans-unit>
-            <trans-unit id="81">
+            <trans-unit id="admin.system.reset_tickets.success">
                 <source>admin.system.reset_tickets.success</source>
                 <target>Llamadas reiniciadas exitosamente</target>
-                
             </trans-unit>
-            <trans-unit id="79-1">
+            <trans-unit id="admin.system.clear_tickets">
                 <source>admin.system.clear_tickets</source>
                 <target>Borrar atenciones</target>
-                
             </trans-unit>
-            <trans-unit id="80-1">
+            <trans-unit id="admin.system.clear_tickets.alert">
                 <source>admin.system.clear_tickets.alert</source>
                 <target>Desea realmente borrar el historial de atención de todas las unidades?</target>
-                
             </trans-unit>
-            <trans-unit id="81-1">
+            <trans-unit id="admin.system.clear_tickets.success">
                 <source>admin.system.clear_tickets.success</source>
                 <target>Atenciones borradas con éxito</target>
-                
             </trans-unit>
-            <trans-unit id="82">
+            <trans-unit id="admin.modules.title">
                 <source>admin.modules.title</source>
                 <target>Módulos</target>
-                
             </trans-unit>
-            <trans-unit id="83">
+            <trans-unit id="admin.modules.subtitle">
                 <source>admin.modules.subtitle</source>
-                <target>Administración de los módulos de Novo SGA</target>
-                
+                <target>Módulos Novo SGA instalados</target>
             </trans-unit>
-            <trans-unit id="84">
+            <trans-unit id="admin.places.title">
                 <source>admin.places.title</source>
                 <target>Locales</target>
-                
             </trans-unit>
-            <trans-unit id="85">
+            <trans-unit id="admin.places.subtitle">
                 <source>admin.places.subtitle</source>
                 <target>Registro de locales de atención</target>
-                
             </trans-unit>
-            <trans-unit id="86">
+            <trans-unit id="admin.places.button.new">
                 <source>admin.places.button.new</source>
                 <target>Nuevo local</target>
-                
             </trans-unit>
-            <trans-unit id="87">
+            <trans-unit id="label.name">
                 <source>label.name</source>
                 <target>Nombre</target>
-                
             </trans-unit>
-            <trans-unit id="88">
+            <trans-unit id="admin.roles.title">
                 <source>admin.roles.title</source>
                 <target>Perfiles</target>
-                
             </trans-unit>
-            <trans-unit id="89">
+            <trans-unit id="admin.roles.subtitle">
                 <source>admin.roles.subtitle</source>
                 <target>Registro de perfiles de acceso</target>
-                
             </trans-unit>
-            <trans-unit id="90">
+            <trans-unit id="admin.roles.button.new">
                 <source>admin.roles.button.new</source>
                 <target>Nuevo perfil</target>
-                
             </trans-unit>
-            <trans-unit id="92">
+            <trans-unit id="label.description">
                 <source>label.description</source>
                 <target>Descripción</target>
-                
             </trans-unit>
-            <trans-unit id="92-1">
+            <trans-unit id="label.department">
                 <source>label.department</source>
                 <target>Departamento</target>
-                
             </trans-unit>
-            <trans-unit id="93">
+            <trans-unit id="admin.roles.field.modules">
                 <source>admin.roles.field.modules</source>
                 <target>Permisos</target>
-                
             </trans-unit>
-            <trans-unit id="94">
+            <trans-unit id="admin.priorities.title">
                 <source>admin.priorities.title</source>
                 <target>Prioridades</target>
-                
             </trans-unit>
-            <trans-unit id="95">
+            <trans-unit id="admin.priorities.subtitle">
                 <source>admin.priorities.subtitle</source>
                 <target>Registro de prioridades de atención</target>
-                
             </trans-unit>
-            <trans-unit id="96">
+            <trans-unit id="admin.priorities.button.new">
                 <source>admin.priorities.button.new</source>
                 <target>Nueva prioridad</target>
-                
             </trans-unit>
-            <trans-unit id="100">
+            <trans-unit id="label.weight">
                 <source>label.weight</source>
                 <target>Peso</target>
-                
             </trans-unit>
-            <trans-unit id="101">
+            <trans-unit id="admin.services.title">
                 <source>admin.services.title</source>
                 <target>Servicios</target>
-                
             </trans-unit>
-            <trans-unit id="102">
+            <trans-unit id="admin.services.subtitle">
                 <source>admin.services.subtitle</source>
                 <target>Registro de servicios para atención</target>
-                
             </trans-unit>
-            <trans-unit id="103">
+            <trans-unit id="admin.services.button.new">
                 <source>admin.services.button.new</source>
                 <target>Nuevo servicio</target>
-                
             </trans-unit>
-            <trans-unit id="104">
+            <trans-unit id="admin.services.childs">
                 <source>admin.services.childs</source>
                 <target>Subservicios</target>
-                
             </trans-unit>
-            <trans-unit id="109">
+            <trans-unit id="admin.services.field.parent">
                 <source>admin.services.field.parent</source>
                 <target>Servicio superior</target>
-                
             </trans-unit>
-            <trans-unit id="110">
+            <trans-unit id="admin.unities.title">
                 <source>admin.unities.title</source>
                 <target>Unidades</target>
-                
             </trans-unit>
-            <trans-unit id="111">
+            <trans-unit id="admin.unities.subtitle">
                 <source>admin.unities.subtitle</source>
                 <target>Registro de unidades de atención</target>
-                
             </trans-unit>
-            <trans-unit id="112">
+            <trans-unit id="admin.unities.button.new">
                 <source>admin.unities.button.new</source>
                 <target>Nueva atención</target>
-                
             </trans-unit>
-            <trans-unit id="110-1">
+            <trans-unit id="admin.departments.title">
                 <source>admin.departments.title</source>
                 <target>Departamentos</target>
-                
             </trans-unit>
-            <trans-unit id="111-1">
+            <trans-unit id="admin.departments.subtitle">
                 <source>admin.departments.subtitle</source>
                 <target>Registro de Departamento</target>
-                
             </trans-unit>
-            <trans-unit id="112-1">
+            <trans-unit id="admin.departments.button.new">
                 <source>admin.departments.button.new</source>
                 <target>Nuevo Departamento</target>
-                
             </trans-unit>
-            <trans-unit id="113">
+            <trans-unit id="label.code">
                 <source>label.code</source>
                 <target>Código</target>
-                
             </trans-unit>
-            <trans-unit id="116">
+            <trans-unit id="admin.webapi.title">
                 <source>admin.webapi.title</source>
                 <target>Web API</target>
-                
             </trans-unit>
-            <trans-unit id="117">
+            <trans-unit id="admin.webapi.subtitle">
                 <source>admin.webapi.subtitle</source>
                 <target>API Web para integración con otros sistemas</target>
-                
             </trans-unit>
-            <trans-unit id="118">
+            <trans-unit id="admin.webapi.clients.title">
                 <source>admin.webapi.clients.title</source>
                 <target>Clientes</target>
-                
             </trans-unit>
-            <trans-unit id="119">
+            <trans-unit id="admin.webapi.clients.subtitle">
                 <source>admin.webapi.clients.subtitle</source>
                 <target>Para acceder a algunas URLs es necesario poseer un token de acceso, y para ésto debe antes registrar la aplicación cliente.</target>
-                
             </trans-unit>
-            <trans-unit id="120">
+            <trans-unit id="admin.webapi.clients.public_id">
                 <source>admin.webapi.clients.public_id</source>
                 <target>Id pública</target>
-                
             </trans-unit>
-            <trans-unit id="121">
+            <trans-unit id="admin.webapi.clients.public_secret">
                 <source>admin.webapi.clients.public_secret</source>
                 <target>Contraseña Cliente</target>
-                
             </trans-unit>
-            <trans-unit id="122">
+            <trans-unit id="admin.webapi.clients.description">
                 <source>admin.webapi.clients.description</source>
                 <target>Descripción</target>
-                
             </trans-unit>
-            <trans-unit id="123">
+            <trans-unit id="admin.webapi.clients.remove_alert">
                 <source>admin.webapi.clients.remove_alert</source>
                 <target>Desea realmente eliminar el cliente?</target>
-                
             </trans-unit>
-            <trans-unit id="124">
+            <trans-unit id="admin.webapi.clients.modal">
                 <source>admin.webapi.clients.modal</source>
                 <target>Cliente API</target>
-                
             </trans-unit>
-            <trans-unit id="125">
+            <trans-unit id="api.triage.invalid_hash">
                 <source>api.triage.invalid_hash</source>
                 <target>Llave de seguridad de atención no válida.</target>
-                
             </trans-unit>
-            <trans-unit id="126">
+            <trans-unit id="session.invalid">
                 <source>session.invalid</source>
                 <target>Sesión no válida</target>
-                
             </trans-unit>
-            <trans-unit id="127">
+            <trans-unit id="ticket.status.generated">
                 <source>ticket.status.generated</source>
                 <target>Numero emitido</target>
-                
             </trans-unit>
-            <trans-unit id="128">
+            <trans-unit id="ticket.status.called">
                 <source>ticket.status.called</source>
                 <target>Llamado por la mesa</target>
-                
             </trans-unit>
-            <trans-unit id="129">
+            <trans-unit id="ticket.status.started">
                 <source>ticket.status.started</source>
                 <target>Atención iniciada</target>
-                
             </trans-unit>
-            <trans-unit id="130">
+            <trans-unit id="ticket.status.finished">
                 <source>ticket.status.finished</source>
                 <target>Atención cerrada</target>
-                
             </trans-unit>
-            <trans-unit id="131">
+            <trans-unit id="ticket.status.no_show">
                 <source>ticket.status.no_show</source>
                 <target>No se presentó</target>
-                
             </trans-unit>
-            <trans-unit id="132">
+            <trans-unit id="ticket.status.cancelled">
                 <source>ticket.status.cancelled</source>
                 <target>Numero cancelado</target>
-                
             </trans-unit>
-            <trans-unit id="133">
+            <trans-unit id="ticket.status.error">
                 <source>ticket.status.error</source>
                 <target>Error de selección</target>
-                
             </trans-unit>
-            <trans-unit id="134">
+            <trans-unit id="error.invalid_unity">
                 <source>error.invalid_unity</source>
                 <target>Unidad no válida</target>
-                
             </trans-unit>
-            <trans-unit id="135">
+            <trans-unit id="error.invalid_user">
                 <source>error.invalid_user</source>
                 <target>Usuario inválido</target>
-                
             </trans-unit>
-            <trans-unit id="136">
+            <trans-unit id="error.invalid_service">
                 <source>error.invalid_service</source>
                 <target>Servicio inválido</target>
-                
             </trans-unit>
-            <trans-unit id="137">
+            <trans-unit id="error.invalid_priority">
                 <source>error.invalid_priority</source>
                 <target>Prioridad inválida</target>
-                
             </trans-unit>
-            <trans-unit id="138">
+            <trans-unit id="error.user_unity_ticket_permission">
                 <source>error.user_unity_ticket_permission</source>
                 <target>El usuario que está intentando distribuir número de atención no está asignado en la unidad elegida.</target>
-                
             </trans-unit>
-            <trans-unit id="139">
+            <trans-unit id="error.no_servicing_available">
                 <source>error.no_servicing_available</source>
                 <target>Ninguna atención disponible</target>
-                
             </trans-unit>
-            <trans-unit id="140">
+            <trans-unit id="error.change_status">
                 <source>error.change_status</source>
                 <target>Error al cambiar el estado de atención</target>
-                
             </trans-unit>
-            <trans-unit id="141">
+            <trans-unit id="error.service_unity_invalid">
                 <source>error.service_unity_invalid</source>
                 <target>Servicio no disponible para la unidad actual</target>
-                
             </trans-unit>
-            <trans-unit id="142">
+            <trans-unit id="error.service_unity_inactive">
                 <source>error.service_unity_inactive</source>
                 <target>El Servicio elegido no está activo en la Unidad deseada</target>
-                
             </trans-unit>
-            <trans-unit id="143">
+            <trans-unit id="error.new_ticket">
                 <source>error.new_ticket</source>
                 <target>Error al intentar crear una nueva llamada</target>
-                
             </trans-unit>
             <trans-unit id="label.color">
                 <source>label.color</source>

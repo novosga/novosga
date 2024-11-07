@@ -17,6 +17,7 @@ use App\Entity\Local;
 use App\Entity\Prioridade;
 use App\Entity\Unidade;
 use App\Entity\Usuario;
+use Doctrine\DBAL\Exception\DriverException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Exception;
@@ -24,6 +25,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -62,34 +64,34 @@ class InstallCommand extends UpdateCommand
 
         $this->writef($output, $header, 'info');
 
-        $output->writeln('> Checking environment...');
-
+        $output->writeln('> Checking environment variables...');
         if (!$this->checkEnv($output)) {
-            return 1;
+            return self::FAILURE;
         }
+        $output->writeln('');
 
-        $output->writeln('Environment <info>Ok</info>!');
-
-        $output->writeln('> Creating database...');
-
-        if (!$this->createDatabase($output)) {
-            return 1;
+        $output->write('> Checking database... ');
+        if (!$this->databaseExists()) {
+            $output->writeln('<error>[ERR]</error>');
+            $output->writeln('Unable to connect to database. Please check the DATABASE_URL env var.');
+            return self::FAILURE;
         }
+        $output->writeln('<info>[OK]</info>');
+        $output->writeln('');
 
-        $output->writeln('Database <info>Ok</info>!');
-
-        $output->writeln('> Running database migrations...');
-
-        if (!$this->runMigrations($output)) {
-            return 1;
+        $output->write('> Running database migrations... ');
+        if (!$this->runMigrations()) {
+            $output->writeln('<error>[ERR]</error>');
+            return self::FAILURE;
         }
+        $output->writeln('<info>[OK]</info>');
+        $output->writeln('');
 
-        $output->writeln('Migrations <info>Ok</info>!');
-
-        $output->writeln('> Checking data...');
-
+        $output->writeln('> Checking data... ');
         // user
+        $output->write('- Admin user... ');
         if (!$this->existsData(Usuario::class)) {
+            $output->writeln('');
             $username = $this->read(
                 $input,
                 $output,
@@ -124,9 +126,13 @@ class InstallCommand extends UpdateCommand
 
             $admin = $this->createAdmin($firstname, $lastname, $username, $password);
             $this->em->persist($admin);
+            $this->em->flush();
+        } else {
+            $output->writeln('<info>[OK]</info>');
         }
 
         // unity
+        $output->write('- Default unity...');
         if (!$this->existsData(Unidade::class)) {
             $unityName = $this->read(
                 $input,
@@ -145,9 +151,13 @@ class InstallCommand extends UpdateCommand
 
             $unity = $this->createUnity($unityName, $unityDescription);
             $this->em->persist($unity);
+            $this->em->flush();
+        } else {
+            $output->writeln('<info>[OK]</info>');
         }
 
         // priority
+        $output->write('- Priorities ...');
         if (!$this->existsData(Prioridade::class)) {
             $p1Name = $this->read(
                 $input,
@@ -184,9 +194,13 @@ class InstallCommand extends UpdateCommand
 
             $this->em->persist($noPriority);
             $this->em->persist($priority);
+            $this->em->flush();
+        } else {
+            $output->writeln('<info>[OK]</info>');
         }
 
         // attendance place
+        $output->write('- Places ...');
         if (!$this->existsData(Local::class)) {
             $placeName = $this->read(
                 $input,
@@ -198,10 +212,13 @@ class InstallCommand extends UpdateCommand
 
             $place = $this->createPlace($placeName);
             $this->em->persist($place);
+            $this->em->flush();
+        } else {
+            $output->writeln('<info>[OK]</info>');
         }
 
-        $this->em->flush();
-        $output->writeln('Data <info>Ok</info>.');
+        $output->writeln('');
+        $output->writeln('NovoSGA has been installed successfully.');
 
         return self::SUCCESS;
     }
@@ -214,29 +231,36 @@ class InstallCommand extends UpdateCommand
             $output
         );
 
-        return $code === 0;
+        return $code === self::SUCCESS;
     }
 
-    private function createDatabase(OutputInterface $output): bool
+    private function databaseExists(): bool
     {
-        $createDatabase = $this->getApplication()->find('doctrine:database:create');
-        $code = $createDatabase->run(
-            new ArrayInput([ '--if-not-exists' => true ]),
-            $output
-        );
+        try {
+            $dbalRunSql = $this->getApplication()->find('dbal:run-sql');
+            $code = $dbalRunSql->run(
+                new ArrayInput([
+                    '--quiet' => true,
+                    'sql' => 'SELECT 1',
+                ]),
+                new NullOutput(),
+            );
 
-        return $code === 0;
+            return $code === self::SUCCESS;
+        } catch (DriverException $ex) {
+            return false;
+        }
     }
 
-    private function runMigrations(OutputInterface $output): bool
+    private function runMigrations(): bool
     {
         $input = new ArrayInput([]);
         $input->setInteractive(false);
 
         $migration = $this->getApplication()->find('doctrine:migrations:migrate');
-        $code = $migration->run($input, $output);
+        $code = $migration->run($input, new NullOutput());
 
-        return $code === 0;
+        return $code === self::SUCCESS;
     }
 
     /**

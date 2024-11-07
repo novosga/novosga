@@ -1,24 +1,20 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <h1>
-        {{ 'admin.services.title'|trans }}
-        <small>
-            {{ 'admin.services.subtitle'|trans }}
-        </small>
-    </h1>
-
-    <hr>
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.services.title'|trans }}</h1>
+            <p>{{ 'admin.services.subtitle'|trans }}</p>
+        </div>
+    </div>
 
     {{ form_start(form) }}
 
         {% include 'flashMessages.html.twig' %}
 
         <div class="row">
-            <div class="col-md-12">
-                {{ form_row(form.ativo) }}
-            </div>
             <div class="col-md-6">
+                {{ form_row(form.ativo) }}
 
                 {{ form_row(form.nome) }}
 
@@ -34,7 +30,7 @@
                 {% if entity.subServicos|length %}
                     <fieldset>
                         <legend>{{ 'admin.services.childs'|trans }}</legend>
-                        <table class="table table-bordered">
+                        <table class="table">
                             <thead class="thead-light">
                                 <tr>
                                     <th>{{ 'label.name'|trans }}</th>
@@ -71,20 +67,22 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">
-            <i class="fa fa-check"></i>
-            {{ 'button.save'|trans }}
-        </button>
-        <a href="{{ path('admin_servicos_index') }}" class="btn btn-secondary">
-            <i class="fa fa-chevron-left"></i>
-            {{ 'button.back'|trans }}
-        </a>
-        {% if entity.id %}
-            <button type="submit" class="btn btn-danger pull-right" name="_method" value="DELETE">
-                <i class="fa fa-trash"></i>
-                {{ 'button.remove'|trans }}
+        <div class="d-flex">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-check"></i>
+                {{ 'button.save'|trans }}
             </button>
-        {% endif %}
+            <a href="{{ path('admin_servicos_index') }}" class="btn btn-link text-decoration-none ms-2">
+                <i class="fa fa-chevron-left"></i>
+                {{ 'button.back'|trans }}
+            </a>
+            {% if entity.id %}
+                <button type="submit" class="btn btn-danger ms-auto" name="_method" value="DELETE">
+                    <i class="fa fa-trash"></i>
+                    {{ 'button.remove'|trans }}
+                </button>
+            {% endif %}
+        </div>
 
     {{ form_end(form) }}
 {% endblock %}

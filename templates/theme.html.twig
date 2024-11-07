@@ -21,3 +21,42 @@
         </script>
     </div>
 {%- endblock color_widget -%}
+
+{% block _app_queue_ordering_row -%}
+    {% set seq_ordering = 0 %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    {{ 'label.property'|trans }}
+                </th>
+                <th>
+                    {{ 'label.order'|trans }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for child in form %}
+                {% set seq_ordering = seq_ordering + 1 %}
+                <tr>
+                    <td>
+                        {{- seq_ordering -}}
+                    </td>
+                    {{- form_widget(child) -}}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{%- endblock %}
+
+{% block _app_queue_ordering_entry_widget -%}
+    <td>
+        {{- form_row(form.field, { label: false }) -}}
+    </td>
+    <td>
+        {{- form_row(form.order, { label: false }) -}}
+    </td>
+{%- endblock %} 

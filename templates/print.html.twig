@@ -4,66 +4,71 @@
     <meta charset="utf-8">
     <title>{{ atendimento.senha }}</title>
     <style>
-       #senha {
-           width: 300px;
-           min-height: 150px;
-           margin: auto;
-       }
+        @page {
+            size: 80mm 110mm;
+            margin: 10mm;
+        }
 
-       #senha * {
-           font-family: monospace;
-           font-size: 12pt;
-           text-align: center;
-           line-height: 1;
-       }
+        #senha {
+            text-align: center;
+            margin: auto;
+        }
 
-       #senha header {
-           font-size: 10pt;
-           padding: 10px 0;
-       }
+        #senha * {
+            font-family: monospace;
+            font-size: 12pt;
+            text-align: center;
+            line-height: 1;
+        }
 
-       #senha header p {
-           margin: 0;
-       }
+        #senha header {
+            font-size: 10pt;
+            padding: 5pt 0;
+        }
 
-       #senha header .unidade {
-           font-size: 14pt;
-           font-weight: bold;
-       }
+        #senha header p {
+            margin: 0;
+        }
 
-       #senha section {
-           font-size: 10pt;
-           padding: 10px 0;
-       }
+        #senha header .unidade {
+            font-size: 14pt;
+            font-weight: bold;
+            padding-bottom: 4pt;
+        }
 
-       #senha section p {
-           margin: 5px 0;
-       }
+        #senha section {
+            font-size: 10pt;
+            padding: 10pt 0;
+        }
 
-       #senha section .prioridade {
-           font-weight: bold;
-       }
+        #senha section p {
+            margin: 5px 0;
+        }
 
-       #senha section .senha {
-           font-size: 35pt;
-           line-height: 50pt;
-           font-weight: bold;
-       }
+        #senha section .prioridade {
+            font-weight: bold;
+        }
 
-       #senha section .data-hora {
-           padding: 10pt 0;
-       }
+        #senha section .senha {
+            font-size: 35pt;
+            line-height: 50pt;
+            font-weight: bold;
+        }
 
-       #senha footer {
-           font-size: 8pt;
-           padding: 10px 0;
-       }
+        #senha section .data-hora {
+            padding: 5pt 0;
+        }
 
-       #senha footer p {
-           margin: 0;
-       }
+        #senha footer {
+            font-size: 8pt;
+            padding: 5pt 0;
+        }
+
+        #senha footer p {
+            margin: 0;
+        }
     </style>
-    <link rel="shortcut icon" href="images/favicon.png" />
+    <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
 </head>
 <body>
     <div id="senha">

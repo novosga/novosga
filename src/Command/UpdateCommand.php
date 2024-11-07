@@ -66,6 +66,6 @@ class UpdateCommand extends Command
         $migration = $this->getApplication()->find('doctrine:migrations:migrate');
         $code = $migration->run($input, $output);
 
-        return $code === 0;
+        return $code === self::SUCCESS;
     }
 }

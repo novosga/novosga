@@ -1,69 +1,53 @@
+
+![Novo SGA](doc/images/github-banner.png)
+
 # Novo SGA
 
-Support queue management system.
+![stars](https://img.shields.io/github/stars/novosga/novosga)
+![forks](https://img.shields.io/github/forks/novosga/novosga)
+![contributors](https://img.shields.io/github/contributors/novosga/novosga)
+![ci](https://img.shields.io/github/actions/workflow/status/novosga/novosga/ci.yaml)
+![license](https://img.shields.io/github/license/novosga/novosga)
+![sponsors](https://img.shields.io/github/sponsors/novosga)
 
 
-## Installation
-
-### Via Composer
-
-Create project:
-
-    composer create-project "novosga/novosga:^2.1" novosga2
-
-Run app installation command and follow instructions:
-
-    export APP_ENV=prod
-    export LANGUAGE=pt_BR
-    export DATABASE_URL="mysql://user:pass@localhost:5432/novosgadb"
-    
-    bin/console novosga:install
+Sistema de gerenciamento de senha de atendimento desenvolvido pelos [colabores](https://github.com/novosga/novosga/graphs/contributors) da comunidade Novo SGA e mantido por [Mangati](https://mangati.com).
 
 
-### Via Docker
+## Sobre
 
-Documentation in the Novo SGA official [docker repository](https://github.com/novosga/docker/tree/master/novosga-2.1).
+A primeira versão do Novo SGA surgiu em 2012, criado por [Rogério Lino](https://github.com/rogeriolino), como uma alternativa mais moderna ao sistema [SGA Livre](https://softwarepublico.gov.br/social/sga-livre) desenvolvido pela DATAPREV.
 
-
-### Via Git
-
-Clone repository:
-
-    git clone https://github.com/novosga/novosga.git novosga2
-
-Then follow Composer install instruction.
+Com traduções para Inglês, Espanhol e Português, o Novo SGA está presente em vários países ao redor do mundo e por ser gratuito é amplamente difundido entre órgãos públicos, estatais e empresas de diversos tamanhos.
 
 
-### Automated installation
+## Primeiros passos
 
-To automated installation you need to set up the following environment variables before run `novosga:install` command:
+Para ajuda na instalação e utilização é possível consultar a documentação oficial: https://novosga.org/docs/.
 
-**Database**
+Demais dúvidas podem ser enviadas para o fórum do projeto (https://discuss.novosga.org/) ou no grupo oficial do Telegram (https://t.me/novosga).
 
-- DATABASE_URL
 
-**Default administrator user**
+## Licença
 
-- NOVOSGA_ADMIN_USERNAME
-- NOVOSGA_ADMIN_PASSWORD
-- NOVOSGA_ADMIN_FIRSTNAME
-- NOVOSGA_ADMIN_LASTNAME
+```
+Copyright (c) 2012-present Rogerio Lino
 
-**Default unity**
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished
+to do so, subject to the following conditions:
 
-- NOVOSGA_UNITY_NAME
-- NOVOSGA_UNITY_CODE
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-**Default priority 0**
-
-- NOVOSGA_NOPRIORITY_NAME
-- NOVOSGA_NOPRIORITY_DESCRIPTION
-
-**Default priority 1**
-
-- NOVOSGA_PRIORITY_NAME
-- NOVOSGA_PRIORITY_DESCRIPTION
-
-**Default attendance place**
-
-- NOVOSGA_PLACE_NAME
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+```

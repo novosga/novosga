@@ -59,7 +59,6 @@ class PrioridadesController extends AbstractController
     {
         if (!$entity) {
             $entity = new Entity();
-            $entity->setCor('#0091da');
         }
 
         $form = $this

@@ -1,16 +1,12 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
-    <div class="row">
-        <div class="col-8">
-            <h1>
-                {{ 'admin.priorities.title'|trans }}
-                <small>
-                    {{ 'admin.priorities.subtitle'|trans }}
-                </small>
-            </h1>
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.priorities.title'|trans }}</h1>
+            <p>{{ 'admin.priorities.subtitle'|trans }}</p>
         </div>
-        <div class="col-4 text-end">
+        <div class="ms-auto pt-3">
             <a href="{{ path('admin_prioridades_new') }}" class="btn btn-primary">
                 <i class="fa fa-plus"></i>
                 {{ 'admin.priorities.button.new'|trans }}
@@ -18,15 +14,14 @@
         </div>
     </div>
 
-    <hr>
-
     {% include "flashMessages.html.twig" %}
 
-    <table class="table table-bordered">
-        <thead class="thead-light">
-            <tr>
+    <table class="table table-hover border">
+        <thead>
+            <tr class="table-primary">
                 <th>#</th>
                 <th>{{ 'label.name'|trans }}</th>
+                <th>{{ 'label.color'|trans }}</th>
                 <th>{{ 'label.weight'|trans }}</th>
                 <th>{{ 'label.status'|trans }}</th>
                 <th></th>
@@ -39,10 +34,12 @@
                         {{ prioridade.id }}
                     </td>
                     <td>
+                        {{ prioridade.nome }}
+                    </td>
+                    <td>
                         {% if prioridade.cor %}
                             <span style="display: inline-block; height: 10px; width: 20px; background-color: {{ prioridade.cor }}"></span>
                         {% endif %}
-                        {{ prioridade.nome }}
                     </td>
                     <td>
                         {{ prioridade.peso }}
@@ -54,7 +51,7 @@
                             <span class="text-danger">{{ 'label.disabled'|trans }}</span>
                         {% endif %}
                     </td>
-                    <td class="text-center">
+                    <td class="text-end">
                         <a href="{{ path('admin_prioridades_edit', { id: prioridade.id }) }}" class="btn btn-secondary">
                             <i class="fa fa-edit"></i>
                         </a>

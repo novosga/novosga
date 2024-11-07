@@ -26,8 +26,6 @@ use Novosga\Entity\UsuarioInterface;
 use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\FilaServiceInterface;
 use Novosga\Service\UsuarioServiceInterface;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Update;
 
 /**
  * UsuarioService.
@@ -41,7 +39,7 @@ class UsuarioService implements UsuarioServiceInterface
         private readonly UsuarioRepository $usuarioRepository,
         private readonly ServicoUsuarioRepository $servicoUsuarioRepository,
         private readonly UsuarioMetadataRepository $usuarioMetadataRepository,
-        private readonly HubInterface $hub,
+        private readonly MercureService $mercureService,
     ) {
     }
 
@@ -162,9 +160,7 @@ class UsuarioService implements UsuarioServiceInterface
             $this->meta($usuario, UsuarioServiceInterface::ATTR_ATENDIMENTO_NUM_LOCAL, $numero);
         }
 
-        $this->hub->publish(new Update([
-            "/usuarios/{$usuario->getId()}/fila",
-        ], json_encode([ 'id' => $usuario->getId() ])));
+        $this->mercureService->notificaFilaUsuario($usuario);
     }
 
     public function addServicoUsuario(
@@ -183,9 +179,7 @@ class UsuarioService implements UsuarioServiceInterface
         $em->persist($servicoUsuario);
         $em->flush();
 
-        $this->hub->publish(new Update([
-            "/usuarios/{$usuario->getId()}/fila",
-        ], json_encode([ 'id' => $usuario->getId() ])));
+        $this->mercureService->notificaFilaUsuario($usuario);
 
         return $servicoUsuario;
     }
@@ -207,9 +201,7 @@ class UsuarioService implements UsuarioServiceInterface
             $em->flush();
         }
 
-        $this->hub->publish(new Update([
-            "/usuarios/{$usuario->getId()}/fila",
-        ], json_encode([ 'id' => $usuario->getId() ])));
+        $this->mercureService->notificaFilaUsuario($usuario);
 
         return $servicoUsuario;
     }
@@ -233,9 +225,7 @@ class UsuarioService implements UsuarioServiceInterface
             $em->flush();
         }
 
-        $this->hub->publish(new Update([
-            "/usuarios/{$usuario->getId()}/fila",
-        ], json_encode([ 'id' => $usuario->getId() ])));
+        $this->mercureService->notificaFilaUsuario($usuario);
 
         return $servicoUsuario;
     }

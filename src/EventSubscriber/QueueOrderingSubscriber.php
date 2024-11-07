@@ -13,10 +13,9 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use App\Service\Configuration;
 use Novosga\Event\QueueOrderingEvent;
+use Novosga\Service\QueueOrderingServiceInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * QueueOrderingSubscriber
@@ -26,17 +25,17 @@ use Symfony\Component\HttpKernel\KernelInterface;
 class QueueOrderingSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly Configuration $config,
-        private readonly KernelInterface $kernel,
+        private readonly QueueOrderingServiceInterface $service,
     ) {
     }
 
     public function onQueueOrdering(QueueOrderingEvent $event): void
     {
-        $ordering = $this->config->get('queue.ordering');
-        if (is_callable($ordering)) {
-            $ordering($event, $this->kernel->getContainer());
-        }
+        $this->service->applyOrder(
+            $event->queryBuilder,
+            $event->unidade,
+            $event->usuario,
+        );
     }
 
     public static function getSubscribedEvents(): array
