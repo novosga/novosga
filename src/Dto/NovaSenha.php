@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace App\Dto;
 
 use App\Entity\Cliente;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Range;
 
 /**
  * NovaSenha
@@ -23,8 +25,14 @@ use App\Entity\Cliente;
 final readonly class NovaSenha
 {
     public function __construct(
+        #[NotNull]
+        #[Range(min: 1)]
         public ?int $unidade = null,
+        #[NotNull]
+        #[Range(min: 1)]
         public ?int $prioridade = null,
+        #[NotNull]
+        #[Range(min: 1)]
         public ?int $servico = null,
         public ?Cliente $cliente = null,
         public mixed $metadata = null,

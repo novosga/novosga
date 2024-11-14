@@ -68,6 +68,9 @@ jobs:
       - name: Doctrine Migrations
         run: bin/console doctrine:migrations:migrate --no-interaction
 
+      - name: Doctrine Fixtures
+        run: bin/console doctrine:fixture:load --no-interaction --purge-exclusions view_atendimentos --purge-exclusions view_atendimentos_codificados
+
       - name: PHP Unit Tests
         run: vendor/bin/phpunit
 

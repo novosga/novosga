@@ -211,20 +211,30 @@ class PainelSenha implements PainelSenhaInterface
         return $this;
     }
 
-    /** @return array<string,mixed> */
-    public function jsonSerialize(): array
+    public function getSenhaFormatada(): string
     {
-        $senha = $this->getSiglaSenha() . str_pad((string) $this->getNumeroSenha(), 3, '0', STR_PAD_LEFT);
+        $numbers = str_pad((string) $this->getNumeroSenha(), 3, '0', STR_PAD_LEFT);
+        return sprintf('%s%s', $this->getSiglaSenha(), $numbers);
+    }
 
+    /** @return array<string,mixed> */
+    public function jsonSerialize(): mixed
+    {
         return [
-           'id'               => $this->getId(),
-           'senha'            => $senha,
-           'local'            => $this->getLocal(),
-           'numeroLocal'      => $this->getNumeroLocal(),
-           'peso'             => $this->getPeso(),
-           'prioridade'       => $this->getPrioridade(),
-           'nomeCliente'      => $this->getNomeCliente(),
+           'id' => $this->getId(),
+           'senha' => $this->getSenhaFormatada(),
+           'siglaSenha' => $this->getSiglaSenha(),
+           'numeroSenha' => $this->getNumeroSenha(),
+           'local' => $this->getLocal(),
+           'numeroLocal' => $this->getNumeroLocal(),
+           'peso' => $this->getPeso(),
+           'prioridade' => $this->getPrioridade(),
+           'nomeCliente' => $this->getNomeCliente(),
            'documentoCliente' => $this->getDocumentoCliente(),
+           'servico' => [
+                'id' => $this->getServico()->getId(),
+                'nome' => $this->getServico()->getNome(),
+           ],
         ];
     }
 }

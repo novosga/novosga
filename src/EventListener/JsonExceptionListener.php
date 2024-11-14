@@ -22,6 +22,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -49,6 +50,9 @@ class JsonExceptionListener extends AppListener
         $debug = $this->kernel->getEnvironment() === 'dev';
 
         $error = $exception->getMessage();
+        if ($exception->getPrevious() instanceof ValidationFailedException) {
+            $error = $this->formatValidationFailedException($exception->getPrevious());
+        }
         $detail = null;
         $statusCode = match (true) {
             $exception instanceof HttpException => $exception->getStatusCode(),
@@ -80,5 +84,16 @@ class JsonExceptionListener extends AppListener
             $response = new JsonResponse($envelope, $statusCode);
             $event->setResponse($response);
         }
+    }
+
+    /** @return array<string,string> */
+    private function formatValidationFailedException(ValidationFailedException $exception): array
+    {
+        $error = [];
+        foreach ($exception->getViolations() as $violation) {
+            $error[$violation->getPropertyPath()] = $violation->getMessage();
+        }
+
+        return $error;
     }
 }

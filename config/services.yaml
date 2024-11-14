@@ -71,3 +71,9 @@ services:
     Novosga\Infrastructure\StorageInterface:
         factory: ['App\Infrastructure\StorageFactory', 'createStorage']
         arguments: ['@doctrine.orm.entity_manager']
+
+
+when@test:
+    parameters:
+        private_key: '%env(resolve:OAUTH_PRIVATE_KEY)%'
+        passphrase: '%env(OAUTH_PASSPHRASE)%'

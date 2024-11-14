@@ -33,7 +33,7 @@ class PainelController extends ApiControllerBase
     #[Route('/unidades/{id}/painel', methods: ['GET'])]
     public function painel(Request $request, Unidade $unidade): Response
     {
-        $servicos = explode(',', $request->get('servicos'));
+        $servicos = explode(',', $request->get('servicos', ''));
 
         $senhas = $this
             ->getManager()
@@ -48,7 +48,7 @@ class PainelController extends ApiControllerBase
             ->setParameter('servicos', $servicos)
             ->setMaxResults(10)
             ->getQuery()
-            ->getArrayResult();
+            ->getResult();
 
         return $this->json($senhas);
     }
