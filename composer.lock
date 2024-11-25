@@ -2098,12 +2098,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "762451013eca4f33fbe6fefc9eaa3756998f48d3"
+                "reference": "b8ffbf9f8c65202841295f2d53a55089cc5c7782"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/762451013eca4f33fbe6fefc9eaa3756998f48d3",
-                "reference": "762451013eca4f33fbe6fefc9eaa3756998f48d3",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/b8ffbf9f8c65202841295f2d53a55089cc5c7782",
+                "reference": "b8ffbf9f8c65202841295f2d53a55089cc5c7782",
                 "shasum": ""
             },
             "require": {
@@ -2139,7 +2139,7 @@
                 "issues": "https://github.com/novosga/monitor-bundle/issues",
                 "source": "https://github.com/novosga/monitor-bundle/tree/v2.2"
             },
-            "time": "2024-11-08T12:57:51+00:00"
+            "time": "2024-11-25T19:19:19+00:00"
         },
         {
             "name": "novosga/reports-bundle",
