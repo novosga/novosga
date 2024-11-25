@@ -2083,16 +2083,16 @@
         },
         {
             "name": "novosga/monitor-bundle",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "eaea4021d68bf712b6c140dad2fb231132ffd0ae"
+                "reference": "a15bdf702d1deb869dbacb9334a6de06b9f46108"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/eaea4021d68bf712b6c140dad2fb231132ffd0ae",
-                "reference": "eaea4021d68bf712b6c140dad2fb231132ffd0ae",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/a15bdf702d1deb869dbacb9334a6de06b9f46108",
+                "reference": "a15bdf702d1deb869dbacb9334a6de06b9f46108",
                 "shasum": ""
             },
             "require": {
@@ -2114,7 +2114,11 @@
             "license": [
                 "MIT"
             ],
-            "time": "2021-04-08T13:32:20+00:00"
+            "support": {
+                "issues": "https://github.com/novosga/monitor-bundle/issues",
+                "source": "https://github.com/novosga/monitor-bundle/tree/v2.1.1"
+            },
+            "time": "2024-11-25T18:46:55+00:00"
         },
         {
             "name": "novosga/oauth-server-bundle",
