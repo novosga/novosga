@@ -447,4 +447,11 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     {
         return (string) $this->getSenha();
     }
+
+    public function setSenha(Senha $senha): static
+    {
+        $this->senha = $senha;
+
+        return $this;
+    }
 }

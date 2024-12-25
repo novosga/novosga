@@ -44,18 +44,22 @@ use Novosga\Event\PreTicketCancelEvent;
 use Novosga\Event\PreTicketCreateEvent;
 use Novosga\Event\PreTicketFinishEvent;
 use Novosga\Event\PreTicketFirstReplyEvent;
+use Novosga\Event\PreTicketNoShowEvent;
 use Novosga\Event\PreTicketReactiveEvent;
 use Novosga\Event\PreTicketRedirectEvent;
 use Novosga\Event\PreTicketsResetEvent;
+use Novosga\Event\PreTicketStartEvent;
 use Novosga\Event\PreTicketTransferEvent;
 use Novosga\Event\TicketCalledEvent;
 use Novosga\Event\TicketCanceledEvent;
 use Novosga\Event\TicketCreatedEvent;
 use Novosga\Event\TicketFinishedEvent;
 use Novosga\Event\TicketFirstReplyEvent;
+use Novosga\Event\TicketNoShowEvent;
 use Novosga\Event\TicketReactivedEvent;
 use Novosga\Event\TicketRedirectedEvent;
 use Novosga\Event\TicketsResetEvent;
+use Novosga\Event\TicketStartEvent;
 use Novosga\Event\TicketTransferedEvent;
 use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\AtendimentoServiceInterface;
@@ -540,9 +544,19 @@ class AtendimentoService implements AtendimentoServiceInterface
 
         $atendimento->setTempoDeslocamento($tempoDeslocamento);
 
+        $this->dispatcher->dispatch(new PreTicketStartEvent(
+            $atendimento,
+            $usuario,
+        ));
+
         $em = $this->storage->getManager();
         $em->persist($atendimento);
         $em->flush();
+
+        $this->dispatcher->dispatch(new TicketStartEvent(
+            $atendimento,
+            $usuario,
+        ));
 
         $this->mercureService->notificaAtendimento($atendimento, $usuario);
     }
@@ -570,9 +584,19 @@ class AtendimentoService implements AtendimentoServiceInterface
             ->setTempoAtendimento($tempoAtendimento)
             ->setTempoDeslocamento($tempoDeslocamento);
 
+        $this->dispatcher->dispatch(new PreTicketNoShowEvent(
+            $atendimento,
+            $usuario,
+        ));
+
         $em = $this->storage->getManager();
         $em->persist($atendimento);
         $em->flush();
+
+        $this->dispatcher->dispatch(new TicketNoShowEvent(
+            $atendimento,
+            $usuario,
+        ));
 
         $this->mercureService->notificaAtendimento($atendimento, $usuario);
     }

@@ -1,0 +1,118 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.webhook.title'|trans }}</h1>
+            <p>{{ 'admin.webhook.subtitle'|trans }}</p>
+        </div>
+    </div>
+
+    {{ form_start(form) }}
+    
+        {% include 'flashMessages.html.twig' %}
+        
+        {{ form_row(form.enabled) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.url) }}
+        <div id="webhook-headers" data-headers="{{ entity.headers|json_encode }}">
+            {{ form_label(form.headers) }}
+            {{ form_widget(form.headers, { attr: { ':value': 'encodedHeaders' } }) }}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>{{ 'label.key'|trans }}</th>
+                        <th>{{ 'label.value'|trans }}</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(header, index) in headers" :key="index">
+                        <td>
+                            <input type="text" class="form-control" v-model="header.key">
+                        </td>
+                        <td>
+                            <input type="text" class="form-control" v-model="header.value">
+                        </td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-danger" @click="removeHeader(index)">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="text-end">
+                            <button type="button" class="btn btn-primary" @click="addHeader">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        {{ form_row(form.events) }}
+        
+        <div class="d-flex">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-check"></i> 
+                {{ 'button.save'|trans }}
+            </button>
+            <a href="{{ path('admin_webhooks_index') }}" class="btn btn-link text-decoration-none ms-2">
+                <i class="fa fa-chevron-left"></i>
+                {{ 'button.back'|trans }}
+            </a>
+            {% if entity.id %}
+                <button type="submit" class="btn btn-danger ms-auto" name="_method" value="DELETE">
+                    <i class="fa fa-trash"></i> 
+                    {{ 'button.remove'|trans }}
+                </button>
+            {% endif %}
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        new Vue({
+            el: '#webhook-headers',
+            data: {
+                headers: [],
+            },
+            computed: {
+                encodedHeaders() {
+                    const headers = this.headers.reduce((acc, header) => {
+                        acc[header.key] = header.value;
+                        return acc;
+                    }, {});
+                    return JSON.stringify(headers);
+                },
+            },
+            methods: {
+                removeHeader(index) {
+                    this.headers.splice(index, 1);
+                },
+                addHeader() {
+                    this.headers.push({ key: '', value: '' });
+                },
+            },
+            mounted() {
+                let entityHeaders;
+                try {
+                    entityHeaders = JSON.parse(this.$el.dataset.headers);
+                } catch (e) {
+                    entityHeaders = {};
+                }
+                this.headers = Object
+                    .entries(entityHeaders)
+                    .map(entry => ({ key: entry[0], value: entry[1] }));
+            },
+        });
+    </script>
+{% endblock %}

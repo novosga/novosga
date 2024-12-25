@@ -9,6 +9,11 @@ use Novosga\Infrastructure\StorageInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * ServicoServiceTest
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class ServicoServiceTest extends TestCase
 {
     private StorageInterface&MockObject $storage;

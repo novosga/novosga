@@ -1,0 +1,53 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.webhook.title'|trans }}</h1>
+            <p>{{ 'admin.webhook.subtitle'|trans }}</p>
+        </div>
+        <div class="ms-auto pt-3">
+            <a href="{{ path('admin_webhooks_new') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i>
+                {{ 'admin.webhook.button.new'|trans }}
+            </a>
+        </div>
+    </div>
+
+    {% include "flashMessages.html.twig" %}
+
+    <table class="table table-hover border">
+        <thead>
+            <tr class="table-primary">
+                <th>#</th>
+                <th>{{ 'label.name'|trans }}</th>
+                <th>{{ 'label.status'|trans }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for webhook in webhooks %}
+                <tr>
+                    <td>
+                        {{ webhook.id }}
+                    </td>
+                    <td>
+                        {{ webhook.name }}
+                    </td>
+                    <td>
+                        {% if webhook.enabled %}
+                            <span class="text-success">{{ 'label.enabled'|trans }}</span>
+                        {% else %}
+                            <span class="text-danger">{{ 'label.disabled'|trans }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ path('admin_webhooks_edit', { id: webhook.id }) }}" class="btn btn-secondary">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -16,6 +16,11 @@ namespace App\Tests\Controller\Api;
 use App\DataFixtures\AppFixtures;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * OAuthTokenTest
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class OAuthTokenTest extends WebTestCase
 {
     public function testAccessTokenEndpointWithGet(): void

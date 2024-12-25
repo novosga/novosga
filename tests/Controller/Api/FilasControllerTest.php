@@ -25,6 +25,11 @@ use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * FilasControllerTest
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class FilasControllerTest extends WebTestCase
 {
     private const TEST_SIGLA = 'ABC';

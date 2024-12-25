@@ -18,6 +18,11 @@ use App\Tests\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * TriageControllerTest
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class TriagemControllerTest extends WebTestCase
 {
     private ?EntityManagerInterface $em = null;

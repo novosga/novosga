@@ -17,6 +17,11 @@ use App\Tests\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * UnidadesControllerTest
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class UnidadesControllerTest extends WebTestCase
 {
     private ?EntityManagerInterface $em = null;

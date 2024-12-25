@@ -44,6 +44,10 @@
                     <a href="{{ path('admin_api_index') }}" class="list-group-item {% if tab == 'api' %}active{% endif %}">
                         {{ 'admin.menu.webapi'|trans }}
                     </a>
+
+                    <a href="{{ path('admin_webhooks_index') }}" class="list-group-item {% if tab == 'webhook' %}active{% endif %}">
+                        {{ 'admin.menu.webhook'|trans }}
+                    </a>
                 </div>
             </aside>
         </div>

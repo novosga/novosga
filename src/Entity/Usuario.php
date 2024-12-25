@@ -405,4 +405,26 @@ class Usuario implements
     {
         return (string) $this->getLogin();
     }
+
+    public function addLotaco(Lotacao $lotaco): static
+    {
+        if (!$this->lotacoes->contains($lotaco)) {
+            $this->lotacoes->add($lotaco);
+            $lotaco->setUsuario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLotaco(Lotacao $lotaco): static
+    {
+        if ($this->lotacoes->removeElement($lotaco)) {
+            // set the owning side to null (unless already changed)
+            if ($lotaco->getUsuario() === $this) {
+                $lotaco->setUsuario(null);
+            }
+        }
+
+        return $this;
+    }
 }

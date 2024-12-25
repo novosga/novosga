@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\DataFixtures\AppFixtures;
 use App\Entity\Contador;
+use App\Entity\Local;
 use App\Entity\Lotacao;
 use App\Entity\Perfil;
 use App\Entity\Prioridade;
@@ -19,6 +20,7 @@ use League\Bundle\OAuth2ServerBundle\Entity\Client as ClientEntity;
 use League\Bundle\OAuth2ServerBundle\Entity\Scope as ScopeEntity;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
 use League\OAuth2\Server\CryptKey;
+use Novosga\Entity\LocalInterface;
 use Novosga\Entity\LotacaoInterface;
 use Novosga\Entity\PerfilInterface;
 use Novosga\Entity\PrioridadeInterface;
@@ -30,6 +32,11 @@ use Novosga\Entity\UsuarioInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+/**
+ * TestHelper
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 final class TestHelper
 {
     private function __construct()
@@ -44,10 +51,12 @@ final class TestHelper
         $em->getConnection()->executeQuery('DELETE FROM servicos_usuarios');
         $em->getConnection()->executeQuery('DELETE FROM lotacoes');
         $em->getConnection()->executeQuery('DELETE FROM perfis');
+        $em->getConnection()->executeQuery('DELETE FROM atendimentos_codificados');
         $em->getConnection()->executeQuery('DELETE FROM atendimentos');
         $em->getConnection()->executeQuery('DELETE FROM prioridades');
         $em->getConnection()->executeQuery('DELETE FROM servicos');
         $em->getConnection()->executeQuery('DELETE FROM unidades');
+        $em->getConnection()->executeQuery('DELETE FROM locais');
     }
 
     public static function getUser(EntityManagerInterface $em): UsuarioInterface
@@ -113,6 +122,18 @@ final class TestHelper
         $em->flush();
 
         return $perfil;
+    }
+
+    public static function createLocal(
+        EntityManagerInterface $em,
+        string $name = 'Test',
+    ): LocalInterface {
+        $local = (new Local())->setNome($name);
+
+        $em->persist($local);
+        $em->flush();
+
+        return $local;
     }
 
     public static function generateJwtToken(ContainerInterface $container): string

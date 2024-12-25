@@ -46,7 +46,7 @@ class Prioridade implements TimestampableEntityInterface, SoftDeletableEntityInt
     private ?string $nome = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $descricao;
+    private ?string $descricao = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $peso = null;

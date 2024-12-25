@@ -20,6 +20,11 @@ use Novosga\Entity\ServicoInterface;
 use Novosga\Entity\UnidadeInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * PainelControllerTest
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class PainelControllerTest extends WebTestCase
 {
     private const TEST_LOCAL = 'guiche';

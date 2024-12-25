@@ -98,6 +98,26 @@
                 <source>label.priority_swap_count</source>
                 <target>Sequência máxima de prioridades</target>
             </trans-unit>
+            <trans-unit id="label.url">
+                <source>label.url</source>
+                <target>URL</target>
+            </trans-unit>
+            <trans-unit id="label.http_headers">
+                <source>label.http_headers</source>
+                <target>HTTP Headers</target>
+            </trans-unit>
+            <trans-unit id="label.key">
+                <source>label.key</source>
+                <target>Key</target>
+            </trans-unit>
+            <trans-unit id="label.value">
+                <source>label.value</source>
+                <target>Value</target>
+            </trans-unit>
+            <trans-unit id="label.events">
+                <source>label.events</source>
+                <target>Events</target>
+            </trans-unit>
             <trans-unit id="button.save">
                 <source>button.save</source>
                 <target>Guardar</target>
@@ -374,6 +394,10 @@
                 <source>admin.menu.webapi</source>
                 <target>Web API</target>
             </trans-unit>
+            <trans-unit id="admin.menu.webhook">
+                <source>admin.menu.webhook</source>
+                <target>Webhooks</target>
+            </trans-unit>
             <trans-unit id="admin.system.queue_ordering">
                 <source>admin.system.queue_ordering</source>
                 <target>Ordenação da fila</target>
@@ -533,6 +557,18 @@
             <trans-unit id="admin.webapi.subtitle">
                 <source>admin.webapi.subtitle</source>
                 <target>API Web para integración con otros sistemas</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.title">
+                <source>admin.webhook.title</source>
+                <target>Webhooks</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.subtitle">
+                <source>admin.webhook.subtitle</source>
+                <target>Webhook para integración con otros sistemas</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.button.new">
+                <source>admin.webhook.button.new</source>
+                <target>Nuevo webhook</target>
             </trans-unit>
             <trans-unit id="admin.webapi.clients.title">
                 <source>admin.webapi.clients.title</source>

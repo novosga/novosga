@@ -148,4 +148,29 @@ class ConfiguracaoImpressao implements ConfiguracaoImpressaoInterface
             'exibirMensagemServico' => $this->getExibirMensagemServico(),
         ];
     }
+
+    public function isExibirNomeServico(): ?bool
+    {
+        return $this->exibirNomeServico;
+    }
+
+    public function isExibirNomeUnidade(): ?bool
+    {
+        return $this->exibirNomeUnidade;
+    }
+
+    public function isExibirMensagemServico(): ?bool
+    {
+        return $this->exibirMensagemServico;
+    }
+
+    public function isExibirData(): ?bool
+    {
+        return $this->exibirData;
+    }
+
+    public function isExibirPrioridade(): ?bool
+    {
+        return $this->exibirPrioridade;
+    }
 }
