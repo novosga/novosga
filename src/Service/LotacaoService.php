@@ -19,6 +19,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Novosga\Entity\LotacaoInterface;
 use Novosga\Service\LotacaoServiceInterface;
 
+/**
+ * LotacaoService
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class LotacaoService implements LotacaoServiceInterface
 {
     public function __construct(

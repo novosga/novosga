@@ -81,26 +81,4 @@ class AtendimentoHistorico extends AbstractAtendimento
 
         return $this;
     }
-
-    public function addCodificado(AtendimentoCodificadoHistorico $codificado): static
-    {
-        if (!$this->codificados->contains($codificado)) {
-            $this->codificados->add($codificado);
-            $codificado->setAtendimento($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCodificado(AtendimentoCodificadoHistorico $codificado): static
-    {
-        if ($this->codificados->removeElement($codificado)) {
-            // set the owning side to null (unless already changed)
-            if ($codificado->getAtendimento() === $this) {
-                $codificado->setAtendimento(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -20,6 +20,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Novosga\Entity\AgendamentoInterface;
 use Novosga\Service\AgendamentoServiceInterface;
 
+/**
+ * AgendamentoService
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class AgendamentoService implements AgendamentoServiceInterface
 {
     public function __construct(

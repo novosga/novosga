@@ -30,6 +30,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\Exception\TransportException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
+/**
+ * WebhookSubscriber
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class WebhookSubscriber implements EventSubscriberInterface
 {
     public function __construct(

@@ -18,7 +18,7 @@
         <div id="webhook-headers" data-headers="{{ entity.headers|json_encode }}">
             {{ form_label(form.headers) }}
             {{ form_widget(form.headers, { attr: { ':value': 'encodedHeaders' } }) }}
-            <table class="table">
+                <table class="table">
                 <thead>
                     <tr>
                         <th>{{ 'label.key'|trans }}</th>
@@ -29,10 +29,15 @@
                 <tbody>
                     <tr v-for="(header, index) in headers" :key="index">
                         <td>
-                            <input type="text" class="form-control" v-model="header.key">
+                            <input type="text" class="form-control" v-model="header.key" placeholder="{{ 'label.key'|trans }}">
                         </td>
                         <td>
-                            <input type="text" class="form-control" v-model="header.value">
+                            <div class="input-group">
+                                <input :type="headerValueType(header)" class="form-control" v-model="header.value" placeholder="{{ 'label.value'|trans }}">
+                                <button class="btn btn-outline-secondary" title="{{ 'label.view'|trans }}" @click.prevent="toggleHeaderValue(header)">
+                                    <span class="fa fa-eye"></span>
+                                </span>
+                            </div>
                         </td>
                         <td class="text-end">
                             <button type="button" class="btn btn-danger" @click="removeHeader(index)">
@@ -84,6 +89,7 @@
             el: '#webhook-headers',
             data: {
                 headers: [],
+                headerValueTypes: {}
             },
             computed: {
                 encodedHeaders() {
@@ -95,6 +101,17 @@
                 },
             },
             methods: {
+                headerValueType(header) {
+                    return this.headerValueTypes[header.key] || 'password';
+                },
+                toggleHeaderValue(header) {
+                    if (this.headerValueTypes[header.key] === 'text') {
+                        type = 'password';
+                    } else {
+                        type = 'text';
+                    }
+                    Vue.set(this.headerValueTypes, header.key, type);
+                },
                 removeHeader(index) {
                     this.headers.splice(index, 1);
                 },

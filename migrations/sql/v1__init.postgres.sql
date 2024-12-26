@@ -8,10 +8,7 @@ CREATE TABLE agendamentos (
     servico_id INT,
     data DATE NOT NULL,
     hora TIME NOT NULL,
-    data_confirmacao TIMESTAMP,
-    CONSTRAINT fk_agendamentos_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-    CONSTRAINT fk_agendamentos_unidade FOREIGN KEY (unidade_id) REFERENCES unidades(id),
-    CONSTRAINT fk_agendamentos_servico FOREIGN KEY (servico_id) REFERENCES servicos(id)
+    data_confirmacao TIMESTAMP
 );
 
 CREATE TABLE atendimentos (
@@ -37,23 +34,14 @@ CREATE TABLE atendimentos (
     resolucao VARCHAR(25),
     observacao TEXT,
     senha_sigla VARCHAR(3) NOT NULL,
-    senha_numero INT NOT NULL,
-    CONSTRAINT fk_atendimentos_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-    CONSTRAINT fk_atendimentos_unidade FOREIGN KEY (unidade_id) REFERENCES unidades(id),
-    CONSTRAINT fk_atendimentos_servico FOREIGN KEY (servico_id) REFERENCES servicos(id),
-    CONSTRAINT fk_atendimentos_prioridade FOREIGN KEY (prioridade_id) REFERENCES prioridades(id),
-    CONSTRAINT fk_atendimentos_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    CONSTRAINT fk_atendimentos_usuario_tri FOREIGN KEY (usuario_tri_id) REFERENCES usuarios(id),
-    CONSTRAINT fk_atendimentos_atendimento FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id)
+    senha_numero INT NOT NULL
 );
 
 CREATE TABLE atendimentos_codificados (
     servico_id INT NOT NULL,
     atendimento_id INT NOT NULL,
     valor_peso SMALLINT NOT NULL,
-    PRIMARY KEY (servico_id, atendimento_id),
-    CONSTRAINT fk_atendimentos_codificados_servico FOREIGN KEY (servico_id) REFERENCES servicos(id),
-    CONSTRAINT fk_atendimentos_codificados_atendimento FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id)
+    PRIMARY KEY (servico_id, atendimento_id)
 );
 
 CREATE TABLE atendimentos_metadata (
@@ -61,8 +49,7 @@ CREATE TABLE atendimentos_metadata (
     name VARCHAR(30) NOT NULL,
     atendimento_id INTEGER NOT NULL,
     value JSON NOT NULL,
-    PRIMARY KEY (namespace, name, atendimento_id),
-    CONSTRAINT idx_atendimentos_metadata_atendimento_id FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id)
+    PRIMARY KEY (namespace, name, atendimento_id)
 );
 
 CREATE TABLE clientes (
@@ -76,7 +63,7 @@ CREATE TABLE clientes_metadata (
     namespace VARCHAR(30) NOT NULL,
     name VARCHAR(30) NOT NULL,
     cliente_id INTEGER NOT NULL,
-    value JSONB NOT NULL,
+    value JSON NOT NULL,
     PRIMARY KEY (namespace, name, cliente_id),
     FOREIGN KEY (cliente_id) REFERENCES clientes(id)
 );
@@ -120,32 +107,22 @@ CREATE TABLE historico_atendimentos (
     resolucao VARCHAR(25),
     observacao TEXT,
     senha_sigla VARCHAR(3) NOT NULL,
-    senha_numero INTEGER NOT NULL,
-    FOREIGN KEY (cliente_id) REFERENCES clientes(id),
-    FOREIGN KEY (unidade_id) REFERENCES contador(unidade_id),
-    FOREIGN KEY (servico_id) REFERENCES contador(servico_id),
-    FOREIGN KEY (prioridade_id) REFERENCES prioridades(id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (usuario_tri_id) REFERENCES usuarios(id),
-    FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id)
+    senha_numero INTEGER NOT NULL
 );
 
 CREATE TABLE historico_atendimentos_codificados (
     servico_id INTEGER NOT NULL,
     atendimento_id INTEGER NOT NULL,
     valor_peso SMALLINT NOT NULL,
-    PRIMARY KEY (servico_id, atendimento_id),
-    FOREIGN KEY (servico_id) REFERENCES servicos(id),
-    FOREIGN KEY (atendimento_id) REFERENCES atendimentos(id)
+    PRIMARY KEY (servico_id, atendimento_id)
 );
 
 CREATE TABLE historico_atendimentos_metadata (
     namespace VARCHAR(30) NOT NULL,
     name VARCHAR(30) NOT NULL,
     atendimento_id INTEGER NOT NULL,
-    value JSONB NOT NULL,
-    PRIMARY KEY (namespace, name, atendimento_id),
-    FOREIGN KEY (atendimento_id) REFERENCES historico_atendimentos(id)
+    value JSON NOT NULL,
+    PRIMARY KEY (namespace, name, atendimento_id)
 );
 
 CREATE TABLE locais (
@@ -161,16 +138,13 @@ CREATE TABLE lotacoes (
     usuario_id INTEGER,
     unidade_id INTEGER,
     perfil_id INTEGER,
-    UNIQUE (usuario_id, unidade_id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
-    FOREIGN KEY (unidade_id) REFERENCES unidades(id),
-    FOREIGN KEY (perfil_id) REFERENCES perfis(id)
+    UNIQUE (usuario_id, unidade_id)
 );
 
 CREATE TABLE metadata (
     namespace VARCHAR(30) NOT NULL,
     name VARCHAR(30) NOT NULL,
-    value JSONB NOT NULL,
+    value JSON NOT NULL,
     PRIMARY KEY (namespace, name)
 );
 
@@ -181,17 +155,15 @@ CREATE TABLE oauth_access_tokens (
     token VARCHAR(255) NOT NULL,
     expires_at INTEGER,
     scope VARCHAR(255),
-    UNIQUE (token),
-    FOREIGN KEY (client_id) REFERENCES oauth_clients(id),
-    FOREIGN KEY (user_id) REFERENCES usuarios(id)
+    UNIQUE (token)
 );
 
 CREATE TABLE oauth_clients (
     id SERIAL PRIMARY KEY,
     random_id VARCHAR(255) NOT NULL,
-    redirect_uris TEXT[] NOT NULL,
+    redirect_uris TEXT NOT NULL,
     secret VARCHAR(255) NOT NULL,
-    allowed_grant_types TEXT[] NOT NULL,
+    allowed_grant_types TEXT NOT NULL,
     description VARCHAR(30) NOT NULL
 );
 
@@ -202,26 +174,20 @@ CREATE TABLE oauth_refresh_tokens (
     token VARCHAR(255) NOT NULL,
     expires_at INTEGER,
     scope VARCHAR(255),
-    UNIQUE (token),
-    FOREIGN KEY (client_id) REFERENCES oauth_clients(id),
-    FOREIGN KEY (user_id) REFERENCES usuarios(id)
+    UNIQUE (token)
 );
 
 CREATE TABLE paineis (
     host INTEGER PRIMARY KEY,
     unidade_id INTEGER,
-    senha VARCHAR(128),
-    FOREIGN KEY (unidade_id) REFERENCES unidades(id)
+    senha VARCHAR(128)
 );
 
 CREATE TABLE paineis_servicos (
     host INTEGER NOT NULL,
     servico_id INTEGER NOT NULL,
     unidade_id INTEGER,
-    PRIMARY KEY (host, servico_id),
-    FOREIGN KEY (host) REFERENCES paineis(host),
-    FOREIGN KEY (servico_id) REFERENCES servicos(id),
-    FOREIGN KEY (unidade_id) REFERENCES unidades(id)
+    PRIMARY KEY (host, servico_id)
 );
 
 CREATE TABLE painel_senha (
@@ -236,19 +202,19 @@ CREATE TABLE painel_senha (
     peso SMALLINT NOT NULL,
     prioridade VARCHAR(100),
     nome_cliente VARCHAR(100),
-    documento_cliente VARCHAR(30),
-    FOREIGN KEY (servico_id) REFERENCES servicos(id),
-    FOREIGN KEY (unidade_id) REFERENCES unidades(id)
+    documento_cliente VARCHAR(30)
 );
 
 CREATE TABLE perfis (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(50) NOT NULL,
     descricao VARCHAR(150) NOT NULL,
-    modulos TEXT[] COMMENT '(DC2Type:simple_array)',
+    modulos TEXT,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT NULL
 );
+
+COMMENT ON COLUMN perfis.modulos IS '(DC2Type:simple_array)';
 
 CREATE TABLE prioridades (
     id SERIAL PRIMARY KEY,
@@ -270,15 +236,14 @@ CREATE TABLE servicos (
     peso SMALLINT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT NULL,
-    deleted_at TIMESTAMP DEFAULT NULL,
-    FOREIGN KEY (macro_id) REFERENCES servicos(id)
+    deleted_at TIMESTAMP DEFAULT NULL
 );
 
 CREATE TABLE servicos_metadata (
     namespace VARCHAR(30) NOT NULL,
     name VARCHAR(30) NOT NULL,
     servico_id INTEGER NOT NULL,
-    value JSONB NOT NULL,
+    value JSON NOT NULL,
     PRIMARY KEY (namespace, name, servico_id),
     FOREIGN KEY (servico_id) REFERENCES servicos(id)
 );
@@ -296,11 +261,7 @@ CREATE TABLE servicos_unidades (
     numero_final INTEGER,
     incremento INTEGER NOT NULL,
     mensagem VARCHAR(255),
-    PRIMARY KEY (servico_id, unidade_id),
-    FOREIGN KEY (servico_id) REFERENCES servicos(id),
-    FOREIGN KEY (unidade_id) REFERENCES unidades(id),
-    FOREIGN KEY (local_id) REFERENCES locais(id),
-    FOREIGN KEY (departamento_id) REFERENCES departamentos(id)
+    PRIMARY KEY (servico_id, unidade_id)
 );
 
 CREATE TABLE servicos_usuarios (
@@ -308,10 +269,7 @@ CREATE TABLE servicos_usuarios (
     unidade_id INTEGER NOT NULL,
     usuario_id INTEGER NOT NULL,
     peso SMALLINT NOT NULL,
-    PRIMARY KEY (servico_id, unidade_id, usuario_id),
-    FOREIGN KEY (servico_id) REFERENCES servicos(id),
-    FOREIGN KEY (unidade_id) REFERENCES unidades(id),
-    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    PRIMARY KEY (servico_id, unidade_id, usuario_id)
 );
 
 CREATE TABLE unidades (
@@ -335,7 +293,7 @@ CREATE TABLE unidades_metadata (
     namespace VARCHAR(30) NOT NULL,
     name VARCHAR(30) NOT NULL,
     unidade_id INTEGER NOT NULL,
-    value JSONB NOT NULL,
+    value JSON NOT NULL,
     PRIMARY KEY (namespace, name, unidade_id),
     FOREIGN KEY (unidade_id) REFERENCES unidades(id)
 );
@@ -363,7 +321,7 @@ CREATE TABLE usuarios_metadata (
     namespace VARCHAR(30) NOT NULL,
     name VARCHAR(30) NOT NULL,
     usuario_id INTEGER NOT NULL,
-    value JSONB NOT NULL,
+    value JSON NOT NULL,
     PRIMARY KEY (namespace, name, usuario_id),
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
@@ -419,7 +377,7 @@ ALTER TABLE paineis_servicos ADD CONSTRAINT FK_D98415D382E14982 FOREIGN KEY (ser
 ALTER TABLE paineis_servicos ADD CONSTRAINT FK_D98415D3CF2713FD FOREIGN KEY (host) REFERENCES paineis(host);
 ALTER TABLE paineis_servicos ADD CONSTRAINT FK_D98415D3EDF4B99B FOREIGN KEY (unidade_id) REFERENCES unidades(id);
 
-ALTER TABLE painel_senha ADD CONSTRAINT FK_390182E6EDF4B99B FOREIGN KEY (unidade_id) REFERENCES unidades(id),
+ALTER TABLE painel_senha ADD CONSTRAINT FK_390182E6EDF4B99B FOREIGN KEY (unidade_id) REFERENCES unidades(id);
 ALTER TABLE painel_senha ADD CONSTRAINT FK_390182E682E14982 FOREIGN KEY (servico_id) REFERENCES servicos(id);
 
 ALTER TABLE servicos ADD CONSTRAINT FK_89DD09E3F43A187E FOREIGN KEY (macro_id) REFERENCES servicos(id);

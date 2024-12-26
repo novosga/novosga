@@ -64,6 +64,14 @@ class WebhooksController extends AbstractController
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // ignore empty headers
+            $headers = array_filter(
+                $entity->getHeaders(),
+                fn ($value, $key) => !empty($key) && !empty($value),
+                ARRAY_FILTER_USE_BOTH
+            );
+            $entity->setHeaders($headers);
+
             $this->em->persist($entity);
             $this->em->flush();
 

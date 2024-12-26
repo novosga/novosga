@@ -47,7 +47,7 @@ class Perfil implements TimestampableEntityInterface, PerfilInterface
     private ?string $descricao;
 
     /** @var string[] */
-    #[ORM\Column(type: Types::JSON, nullable: true)]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private array $modulos = [];
 
     public function __construct()

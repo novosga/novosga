@@ -18,6 +18,11 @@ use App\Repository\WebhookRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * Webhook
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 #[ORM\Entity(repositoryClass: WebhookRepository::class)]
 #[ORM\EntityListeners([
     TimestampableEntityListener::class,

@@ -13,8 +13,11 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Doctrine\Migrations\Exception\AbortMigration;
 
 final class Version20210326134543 extends AbstractMigration
 {
@@ -25,11 +28,19 @@ final class Version20210326134543 extends AbstractMigration
 
     public function up(Schema $schema) : void
     {
+        $isMySQL = $this->platform instanceof MySQLPlatform;
+        $isPostgres = $this->platform instanceof PostgreSQLPlatform;
+        if (!$isMySQL && !$isPostgres) {
+            throw new AbortMigration(
+                sprintf('Unsupported database platform: %s', get_class($this->platform))
+            );
+        }
+
         if (!$schema->getTable('clientes')->hasColumn('telefone')) {
             $this->addSql("ALTER TABLE clientes ADD telefone VARCHAR(25) DEFAULT NULL");
             $this->addSql("ALTER TABLE clientes ADD dt_nascimento DATE DEFAULT NULL");
             $this->addSql("ALTER TABLE clientes ADD genero VARCHAR(1) DEFAULT NULL");
-            $this->addSql("ALTER TABLE clientes ADD observacao LONGTEXT DEFAULT NULL");
+            $this->addSql("ALTER TABLE clientes ADD observacao TEXT DEFAULT NULL");
             $this->addSql("ALTER TABLE clientes ADD end_pais VARCHAR(2) DEFAULT NULL");
             $this->addSql("ALTER TABLE clientes ADD end_cep VARCHAR(25) DEFAULT NULL");
             $this->addSql("ALTER TABLE clientes ADD end_estado VARCHAR(3) DEFAULT NULL");
@@ -38,16 +49,26 @@ final class Version20210326134543 extends AbstractMigration
             $this->addSql("ALTER TABLE clientes ADD end_numero VARCHAR(10) DEFAULT NULL");
             $this->addSql("ALTER TABLE clientes ADD end_complemento VARCHAR(15) DEFAULT NULL");
         }
+
         if (!$schema->getTable('prioridades')->hasColumn('cor')) {
             $this->addSql("ALTER TABLE prioridades ADD cor VARCHAR(255) DEFAULT NULL");
             $this->addSql("UPDATE prioridades SET cor = '#0091da' WHERE cor IS NULL AND peso = 0");
             $this->addSql("UPDATE prioridades SET cor = '#de231b' WHERE cor IS NULL AND peso > 0");
         }
+
         if (!$schema->getTable('servicos')->hasColumn('descricao')) {
-            $this->addSql("ALTER TABLE servicos CHANGE descricao descricao VARCHAR(250) NOT NULL");
+            if ($isMySQL) {
+                $this->addSql("ALTER TABLE servicos CHANGE descricao descricao VARCHAR(250) NOT NULL");
+            } else {
+                $this->addSql("ALTER TABLE servicos ALTER COLUMN descricao SET NOT NULL");
+            }
         }
 
-        $this->addSql("ALTER TABLE painel_senha CHANGE local local VARCHAR(20) NOT NULL");
+        if ($isMySQL) {
+            $this->addSql("ALTER TABLE painel_senha CHANGE local local VARCHAR(20) NOT NULL");
+        } else {
+            $this->addSql("ALTER TABLE painel_senha ALTER COLUMN local SET NOT NULL");
+        }
 
         if (!$schema->getTable('agendamentos')->hasColumn('oid')) {
             $this->addSql("ALTER TABLE agendamentos ADD oid VARCHAR(255) DEFAULT NULL");

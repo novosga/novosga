@@ -196,48 +196,4 @@ class Servico implements TimestampableEntityInterface, SoftDeletableEntityInterf
             'deletedAt' => $this->getDeletedAt() ? $this->getDeletedAt()->format('Y-m-d\TH:i:s') : null,
         ];
     }
-
-    public function addSubServico(Servico $subServico): static
-    {
-        if (!$this->subServicos->contains($subServico)) {
-            $this->subServicos->add($subServico);
-            $subServico->setMestre($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSubServico(Servico $subServico): static
-    {
-        if ($this->subServicos->removeElement($subServico)) {
-            // set the owning side to null (unless already changed)
-            if ($subServico->getMestre() === $this) {
-                $subServico->setMestre(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function addServicosUnidade(ServicoUnidade $servicosUnidade): static
-    {
-        if (!$this->servicosUnidade->contains($servicosUnidade)) {
-            $this->servicosUnidade->add($servicosUnidade);
-            $servicosUnidade->setServico($this);
-        }
-
-        return $this;
-    }
-
-    public function removeServicosUnidade(ServicoUnidade $servicosUnidade): static
-    {
-        if ($this->servicosUnidade->removeElement($servicosUnidade)) {
-            // set the owning side to null (unless already changed)
-            if ($servicosUnidade->getServico() === $this) {
-                $servicosUnidade->setServico(null);
-            }
-        }
-
-        return $this;
-    }
 }

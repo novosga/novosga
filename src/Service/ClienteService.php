@@ -21,6 +21,11 @@ use Novosga\Entity\ClienteInterface;
 use Novosga\Entity\EntityMetadataInterface;
 use Novosga\Service\ClienteServiceInterface;
 
+/**
+ * ClienteService
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class ClienteService implements ClienteServiceInterface
 {
     public function __construct(

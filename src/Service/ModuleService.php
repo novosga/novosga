@@ -20,6 +20,11 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * ModuleService
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class ModuleService implements ModuleServiceInterface
 {
     public function __construct(

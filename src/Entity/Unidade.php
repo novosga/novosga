@@ -131,11 +131,4 @@ class Unidade implements TimestampableEntityInterface, SoftDeletableEntityInterf
             'deletedAt' => $this->getDeletedAt() ? $this->getDeletedAt()->format('Y-m-d\TH:i:s') : null,
         ];
     }
-
-    public function setImpressao(ConfiguracaoImpressao $impressao): static
-    {
-        $this->impressao = $impressao;
-
-        return $this;
-    }
 }

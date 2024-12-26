@@ -22,6 +22,11 @@ use Novosga\Repository\MetadataRepositoryInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+/**
+ * ApplicationService
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class ApplicationService
 {
     private const APP_NAMESPACE = 'novosga.settings';

@@ -17,6 +17,11 @@ use Novosga\Service\FileUploaderServiceInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+/**
+ * FileUploaderService
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class FileUploaderService implements FileUploaderServiceInterface
 {
     private const UPLOADS_DIR = 'public/uploads';

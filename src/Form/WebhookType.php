@@ -26,6 +26,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 
+/**
+ * WebhookType
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class WebhookType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

@@ -11,7 +11,6 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-
 namespace App\Service;
 
 use App\Dto\Settings\BehaviorSettings;
@@ -21,6 +20,11 @@ use Novosga\Entity\EntityMetadataInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
 
+/**
+ * TicketPrioritySwapService
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
 class TicketPrioritySwapService
 {
     private const NAMESPACE = 'novosga.swap';

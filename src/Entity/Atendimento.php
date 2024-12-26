@@ -98,26 +98,4 @@ class Atendimento extends AbstractAtendimento
             'hash' => $this->hash(),
         ]);
     }
-
-    public function addCodificado(AtendimentoCodificado $codificado): static
-    {
-        if (!$this->codificados->contains($codificado)) {
-            $this->codificados->add($codificado);
-            $codificado->setAtendimento($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCodificado(AtendimentoCodificado $codificado): static
-    {
-        if ($this->codificados->removeElement($codificado)) {
-            // set the owning side to null (unless already changed)
-            if ($codificado->getAtendimento() === $this) {
-                $codificado->setAtendimento(null);
-            }
-        }
-
-        return $this;
-    }
 }
