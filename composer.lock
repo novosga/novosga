@@ -2049,16 +2049,16 @@
         },
         {
             "name": "novosga/core",
-            "version": "v2.1.1",
+            "version": "v2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "5110c8f24378770e61496e34d78e7a2413a91db9"
+                "reference": "aa661e942ee5e9456b7da9e0858ed964c3eb655d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/5110c8f24378770e61496e34d78e7a2413a91db9",
-                "reference": "5110c8f24378770e61496e34d78e7a2413a91db9",
+                "url": "https://api.github.com/repos/novosga/core/zipball/aa661e942ee5e9456b7da9e0858ed964c3eb655d",
+                "reference": "aa661e942ee5e9456b7da9e0858ed964c3eb655d",
                 "shasum": ""
             },
             "require": {
@@ -2081,9 +2081,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/core/issues",
-                "source": "https://github.com/novosga/core/tree/v2.1.1"
+                "source": "https://github.com/novosga/core/tree/v2.1.2"
             },
-            "time": "2024-08-13T12:12:29+00:00"
+            "time": "2025-01-02T21:52:26+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
