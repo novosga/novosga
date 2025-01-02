@@ -153,7 +153,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         $senha->setServico($servico);
         $senha->setNumeroSenha($atendimento->getSenha()->getNumero());
         $senha->setSiglaSenha($atendimento->getSenha()->getSigla());
-        $senha->setMensagem($su->getMensagem() . '');
+        $senha->setMensagem($su?->getMensagem() ?? '');
         // local
         $senha->setLocal($atendimento->getLocal()->getNome());
         $senha->setNumeroLocal($atendimento->getNumeroLocal());
@@ -492,11 +492,13 @@ class AtendimentoService implements AtendimentoServiceInterface
             $data = $agendamento->getData()->format('Y-m-d');
             $hora = $agendamento->getHora()->format('H:i');
             $dtAge = DateTime::createFromFormat('Y-m-d H:i', "{$data} {$hora}");
-            $atendimento->setDataAgendamento($dtAge);
+            $atendimento
+                ->setDataAgendamento($dtAge)
+                ->setCliente($agendamento->getCliente());
+        } else {
+            $clienteValido = $this->getClienteValido($cliente);
+            $atendimento->setCliente($clienteValido);
         }
-
-        $clienteValido = $this->getClienteValido($cliente);
-        $atendimento->setCliente($clienteValido);
 
         $this->dispatcher->dispatch(new PreTicketCreateEvent(
             $atendimento,
