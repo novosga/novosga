@@ -75,6 +75,7 @@ jobs:
         run: vendor/bin/phpunit
 
       - name: Log in to the Container registry
+        if: ${{ github.ref_type == 'tag' }}
         uses: docker/login-action@v2.1.0
         with:
           registry: ${{ env.REGISTRY }}
@@ -82,12 +83,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker
+        if: ${{ github.ref_type == 'tag' }}
         id: meta
         uses: docker/metadata-action@v4.3.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker image
+        if: ${{ github.ref_type == 'tag' }}
         uses: docker/build-push-action@v4.0.0
         with:
           context: .
