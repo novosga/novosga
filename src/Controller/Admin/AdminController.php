@@ -13,17 +13,17 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Dto\Settings\AppearanceSettings;
-use App\Dto\Settings\BehaviorSettings;
-use App\Dto\Settings\QueueSettings;
 use App\Form\Settings\AppearanceSettingsFormType;
 use App\Form\Settings\BehaviorSettingsFormType;
 use App\Form\Settings\QueueSettingsFormType;
-use App\Service\ApplicationService;
-use Novosga\Http\Envelope;
+use App\Service\ApplicationSettingsService;
 use App\Service\AtendimentoService;
+use Novosga\Http\Envelope;
 use Novosga\Entity\UsuarioInterface;
 use Novosga\Service\FileUploaderServiceInterface;
+use Novosga\Settings\AppearanceSettings;
+use Novosga\Settings\BehaviorSettings;
+use Novosga\Settings\QueueSettings;
 use Psr\Clock\ClockInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
@@ -43,7 +43,7 @@ class AdminController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(
         Request $request,
-        ApplicationService $service,
+        ApplicationSettingsService $service,
         FileUploaderServiceInterface $fileUploader,
     ): Response {
         $app = $service->loadSettings();
@@ -93,7 +93,7 @@ class AdminController extends AbstractController
     }
 
     #[Route("/remove-settings-file", name: "remove_settings_file", methods: ['DELETE'])]
-    public function removeFile(Request $request, ApplicationService $service): Response
+    public function removeFile(Request $request, ApplicationSettingsService $service): Response
     {
         $key = $request->get('key');
         switch ($key) {

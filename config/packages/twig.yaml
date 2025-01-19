@@ -7,7 +7,7 @@ twig:
         version: "%version%"
         title: "%title%"
         mercure_url: '%mercure_url%'
-        appService: '@App\Service\ApplicationService'
+        appService: '@App\Service\ApplicationSettingsService'
 
 when@test:
     twig:

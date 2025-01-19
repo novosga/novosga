@@ -2016,12 +2016,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "7c5eb24ce343f5fa60f4336429fc90264feb0897"
+                "reference": "dc6640d824cb124e41dcf848cc32b6f63b456ae8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/7c5eb24ce343f5fa60f4336429fc90264feb0897",
-                "reference": "7c5eb24ce343f5fa60f4336429fc90264feb0897",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/dc6640d824cb124e41dcf848cc32b6f63b456ae8",
+                "reference": "dc6640d824cb124e41dcf848cc32b6f63b456ae8",
                 "shasum": ""
             },
             "require": {
@@ -2057,7 +2057,7 @@
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
                 "source": "https://github.com/novosga/attendance-bundle/tree/v2.2"
             },
-            "time": "2025-01-16T13:26:46+00:00"
+            "time": "2025-01-19T01:00:37+00:00"
         },
         {
             "name": "novosga/core",
@@ -2065,12 +2065,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "3fc06704f15f922fa563c8b7e3ac2d81f1afbb53"
+                "reference": "4b00d86fc9acb6528d7e2bbf420b751732c00bf6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/3fc06704f15f922fa563c8b7e3ac2d81f1afbb53",
-                "reference": "3fc06704f15f922fa563c8b7e3ac2d81f1afbb53",
+                "url": "https://api.github.com/repos/novosga/core/zipball/4b00d86fc9acb6528d7e2bbf420b751732c00bf6",
+                "reference": "4b00d86fc9acb6528d7e2bbf420b751732c00bf6",
                 "shasum": ""
             },
             "require": {
@@ -2107,7 +2107,7 @@
                 "issues": "https://github.com/novosga/core/issues",
                 "source": "https://github.com/novosga/core/tree/v2.2"
             },
-            "time": "2025-01-14T21:17:27+00:00"
+            "time": "2025-01-19T00:55:48+00:00"
         },
         {
             "name": "novosga/customers-bundle",

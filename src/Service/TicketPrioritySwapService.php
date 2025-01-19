@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Dto\Settings\BehaviorSettings;
 use App\Repository\UnidadeMetadataRepository;
 use App\Repository\UsuarioMetadataRepository;
 use Novosga\Entity\EntityMetadataInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
+use Novosga\Settings\BehaviorSettings;
 
 /**
  * TicketPrioritySwapService
@@ -33,7 +33,7 @@ class TicketPrioritySwapService
     private ?BehaviorSettings $settings;
 
     public function __construct(
-        private readonly ApplicationService $applicationService,
+        private readonly ApplicationSettingsService $applicationService,
         private readonly UsuarioMetadataRepository $usuarioMetadataRepository,
         private readonly UnidadeMetadataRepository $unidadeMetadataRepository,
     ) {

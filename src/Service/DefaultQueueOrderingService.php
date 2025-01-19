@@ -28,7 +28,7 @@ class DefaultQueueOrderingService implements QueueOrderingServiceInterface
 {
     public function __construct(
         private readonly ClockInterface $clock,
-        private readonly ApplicationService $service,
+        private readonly ApplicationSettingsService $service,
         private readonly TicketPrioritySwapService $prioritySwapService,
     ) {
     }

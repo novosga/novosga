@@ -13,21 +13,22 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Dto\ApplicationSettings;
-use App\Dto\Settings\AppearanceSettings;
-use App\Dto\Settings\BehaviorSettings;
-use App\Dto\Settings\QueueSettings;
 use App\Entity\Metadata;
 use Novosga\Repository\MetadataRepositoryInterface;
+use Novosga\Service\ApplicationSettingsServiceInterface;
+use Novosga\Settings\AppearanceSettings;
+use Novosga\Settings\ApplicationSettings;
+use Novosga\Settings\BehaviorSettings;
+use Novosga\Settings\QueueSettings;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * ApplicationService
+ * ApplicationSettingsService
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class ApplicationService
+class ApplicationSettingsService implements ApplicationSettingsServiceInterface
 {
     private const APP_NAMESPACE = 'novosga.settings';
     private const APP_APPEARANCE = 'appearance';

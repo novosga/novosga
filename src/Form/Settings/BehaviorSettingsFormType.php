@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Form\Settings;
 
-use App\Dto\Settings\BehaviorSettings;
+use Novosga\Settings\BehaviorSettings;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -37,7 +37,6 @@ class BehaviorSettingsFormType extends AbstractType
             ])
             ->add('prioritySwapMethod', ChoiceType::class, [
                 'label' => 'label.priority_swap_method',
-                'required' => true,
                 'choices' => [
                     'label.priority_swap_method_user' => 'user',
                     'label.priority_swap_method_unity' => 'unity',
@@ -48,10 +47,23 @@ class BehaviorSettingsFormType extends AbstractType
             ])
             ->add('prioritySwapCount', IntegerType::class, [
                 'label' => 'label.priority_swap_count',
-                'required' => true,
                 'constraints' => [
                     new NotNull(),
                     new Range(min: 1, max: 10),
+                ],
+            ])
+            ->add('callTicketByService', CheckboxType::class, [
+                'label' => 'label.call_ticket_by_service',
+                'required' => false,
+                'constraints' => [
+                    new NotNull(),
+                ],
+            ])
+            ->add('callTicketOutOfOrder', CheckboxType::class, [
+                'label' => 'label.call_ticket_out_of_order',
+                'required' => false,
+                'constraints' => [
+                    new NotNull(),
                 ],
             ])
         ;

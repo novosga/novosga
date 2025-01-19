@@ -56,6 +56,7 @@ services:
     Novosga\Repository\ViewAtendimentoCodificadoRepositoryInterface: '@App\Repository\ViewAtendimentoCodificadoRepository'
 
     # shared services
+    Novosga\Service\ApplicationSettingsServiceInterface: '@App\Service\ApplicationSettingsService'
     Novosga\Service\AgendamentoServiceInterface: '@App\Service\AgendamentoService'
     Novosga\Service\AtendimentoServiceInterface: '@App\Service\AtendimentoService'
     Novosga\Service\ClienteServiceInterface: '@App\Service\ClienteService'

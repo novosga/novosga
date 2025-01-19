@@ -94,11 +94,17 @@
                         {{ 'admin.system.behavior'|trans }}
                     </div>
                     <div class="card-body">
-                        {{ form_row(behaviorForm.prioritySwap) }}
-
-                        {{ form_row(behaviorForm.prioritySwapMethod) }}
-
-                        {{ form_row(behaviorForm.prioritySwapCount) }}
+                        <div class="row">
+                            <div class="col">
+                                {{ form_row(behaviorForm.prioritySwap) }}
+                                {{ form_row(behaviorForm.prioritySwapMethod) }}
+                                {{ form_row(behaviorForm.prioritySwapCount) }}
+                            </div>
+                            <div class="col">
+                                {{ form_row(behaviorForm.callTicketByService) }}
+                                {{ form_row(behaviorForm.callTicketOutOfOrder) }}
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary">

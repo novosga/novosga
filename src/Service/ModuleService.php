@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Novosga\Dto\InstalledModule;
 use Novosga\Service\ModuleServiceInterface;
 use Novosga\Module\ModuleInterface;
+use Novosga\Settings\InstalledModule;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;

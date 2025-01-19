@@ -98,6 +98,14 @@
                 <source>label.priority_swap_count</source>
                 <target>Sequência máxima de prioridades</target>
             </trans-unit>
+            <trans-unit id="label.call_ticket_by_service">
+                <source>label.call_ticket_by_service</source>
+                <target>Permitir chamar atendimento por serviço</target>
+            </trans-unit>
+            <trans-unit id="label.call_ticket_out_of_order">
+                <source>label.call_ticket_out_of_order</source>
+                <target>Permitir chamar atendimento fora de ordem</target>
+            </trans-unit>
             <trans-unit id="label.url">
                 <source>label.url</source>
                 <target>URL</target>

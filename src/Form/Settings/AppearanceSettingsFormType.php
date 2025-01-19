@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace App\Form\Settings;
 
-use App\Dto\Settings\AppearanceSettings;
+use Novosga\Settings\AppearanceSettings;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;

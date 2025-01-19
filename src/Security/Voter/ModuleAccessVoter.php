@@ -15,7 +15,7 @@ namespace App\Security\Voter;
 
 use App\Entity\Usuario;
 use App\Security\UserProvider;
-use Novosga\Dto\InstalledModule;
+use Novosga\Settings\InstalledModule;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
