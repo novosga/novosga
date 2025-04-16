@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace App\Tests\Controller\Api;
 
 use App\DataFixtures\AppFixtures;
+use App\Entity\Usuario;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
@@ -143,5 +145,40 @@ class OAuthTokenTest extends WebTestCase
         $this->assertSame('ok', $data['status']);
         $this->assertArrayHasKey('time', $data);
         $this->assertArrayHasKey('mercureUrl', $data);
+    }
+
+    public function testUserSessionId(): void
+    {
+        $client = static::createClient();
+
+        /** @var EntityManagerInterface */
+        $em = $client->getContainer()->get(EntityManagerInterface::class);
+        $expectedSessionId = 'session_id';
+        $em->getConnection()->executeStatement('UPDATE usuarios SET session_id = :sessionId', [
+            'sessionId' => $expectedSessionId,
+        ]);
+
+        $client->request('POST', '/api/token', [
+            'grant_type' => 'password',
+            'client_id' => AppFixtures::OAUTH2_CLIENT_ID,
+            'client_secret' => AppFixtures::OAUTH2_CLIENT_SECRET,
+            'username' => AppFixtures::USER_USERNAME,
+            'password' => AppFixtures::USER_PASSWORD,
+        ]);
+
+        $this->assertResponseIsSuccessful();
+        $data = json_decode($client->getResponse()->getContent(), true);
+
+        // when accessing any protected endpoint, it will call UserSessionIdSubscriber::onLoginSuccess
+        $client->request('GET', '/api', server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $data['access_token']),
+        ]);
+        $this->assertResponseIsSuccessful();
+
+        $user = $em->getRepository(Usuario::class)->findOneBy([
+            'login' => AppFixtures::USER_USERNAME,
+        ]);
+        $this->assertNotNull($user);
+        $this->assertSame($expectedSessionId, $user->getSessionId());
     }
 }

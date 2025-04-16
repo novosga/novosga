@@ -15,6 +15,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\Usuario;
 use Doctrine\ORM\EntityManagerInterface;
+use League\Bundle\OAuth2ServerBundle\Security\Authentication\Token\OAuth2Token;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
@@ -34,6 +35,11 @@ class UserSessionIdSubscriber implements EventSubscriberInterface
 
     public function onLoginSuccess(LoginSuccessEvent $event): void
     {
+        if ($event->getAuthenticatedToken() instanceof OAuth2Token) {
+            // do not set session id for OAuth2 tokens
+            return;
+        }
+
         /** @var Usuario */
         $user = $event->getUser();
         $sessionId = $this->requestStack->getSession()->getId();
