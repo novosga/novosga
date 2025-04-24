@@ -28,6 +28,7 @@ security:
         main:
             lazy: true
             provider: novosga_provider
+            user_checker: App\Security\UserChecker
             custom_authenticator: App\Security\LoginFormAuthenticator
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

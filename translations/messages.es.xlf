@@ -188,7 +188,7 @@
             </trans-unit>
             <trans-unit id="login.title">
                 <source>login.title</source>
-                <target>Inicio  | Novo SGA</target>
+                <target>Inicio</target>
             </trans-unit>
             <trans-unit id="label.username">
                 <source>label.username</source>

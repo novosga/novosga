@@ -19,6 +19,8 @@ class AppFixtures extends Fixture
 {
     public const USER_USERNAME = 'test';
     public const USER_PASSWORD = '123456';
+    public const DISABLED_USER_USERNAME = 'test_disabled';
+    public const DISABLED_USER_PASSWORD = '654321';
     public const OAUTH2_CLIENT_NAME = 'test_oauth2_client_name';
     public const OAUTH2_CLIENT_ID = 'test_oauth2_client_id';
     public const OAUTH2_CLIENT_SECRET = 'test_oauth2_client_secret';
@@ -34,16 +36,8 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $user = (new Usuario())
-            ->setNome('test')
-            ->setSobrenome('test')
-            ->setLogin(self::USER_USERNAME);
-
-        $password = $this->passwordHasher->hashPassword($user, self::USER_PASSWORD);
-        $user->setSenha($password);
-
-        $manager->persist($user);
-        $manager->flush();
+        $this->createUser($manager, self::USER_USERNAME, self::USER_PASSWORD, true);
+        $this->createUser($manager, self::DISABLED_USER_USERNAME, self::DISABLED_USER_PASSWORD, false);
 
         // OAuth2
         $client = new Client(
@@ -64,5 +58,20 @@ class AppFixtures extends Fixture
         );
 
         $this->oauthTokenManager->save($token);
+    }
+
+    private function createUser(ObjectManager $manager, string $username, string $password, bool $enabled): void
+    {
+        $user = (new Usuario())
+            ->setNome($username)
+            ->setSobrenome($username)
+            ->setLogin($username)
+            ->setAtivo($enabled);
+
+        $password = $this->passwordHasher->hashPassword($user, $password);
+        $user->setSenha($password);
+
+        $manager->persist($user);
+        $manager->flush();
     }
 }

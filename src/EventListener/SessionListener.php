@@ -65,6 +65,7 @@ class SessionListener extends AppListener
 
                 $response = new JsonResponse($envelope);
             } else {
+                dd('listener->sessionId:', $sessionId);
                 $url = $request->getBaseUrl() . '/logout';
                 $response = new RedirectResponse($url);
             }
