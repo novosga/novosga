@@ -1,9 +1,7 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - v2.2
+  push: '*'
 
 env:
   DATABASE_URL: "mysql://root:dbpass@127.0.0.1:3306/novosga?serverVersion=5.7.40&charset=utf8"
@@ -11,7 +9,7 @@ env:
   APP_ENV: "test"
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
     services:
       mysql:
