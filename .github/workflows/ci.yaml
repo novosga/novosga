@@ -1,7 +1,6 @@
 name: CI
 
-on:
-  push: '*'
+on: [push]
 
 env:
   DATABASE_URL: "mysql://root:dbpass@127.0.0.1:3306/novosga?serverVersion=5.7.40&charset=utf8"
