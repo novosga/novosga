@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LoginFormTest extends WebTestCase
 {
-    public function testSecuredIndexWithoutCredentials()
+    public function testSecuredIndexWithoutCredentials(): void
     {
         static::createClient()->request('GET', '/');
 
@@ -16,7 +16,7 @@ class LoginFormTest extends WebTestCase
         $this->assertResponseHeaderSame('Location', '/login');
     }
 
-    public function testSecuredIndexWhileLoggedIn()
+    public function testSecuredIndexWhileLoggedIn(): void
     {
         $client = static::createClient();
 
@@ -33,7 +33,7 @@ class LoginFormTest extends WebTestCase
         $this->assertPageTitleContains('Bem-vindo');
     }
 
-    public function testSecuredIndexWithWrongCredentials()
+    public function testSecuredIndexWithWrongCredentials(): void
     {
         $client = static::createClient();
 
@@ -44,13 +44,13 @@ class LoginFormTest extends WebTestCase
         ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertResponseHeaderSame('Location', '/login');
-        
+
         $client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('div.alert-danger', 'Credenciais inválidas.');
     }
 
-    public function testSecuredIndexWithDisabledUser()
+    public function testSecuredIndexWithDisabledUser(): void
     {
         $client = static::createClient();
 
@@ -61,7 +61,7 @@ class LoginFormTest extends WebTestCase
         ]);
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertResponseHeaderSame('Location', '/login');
-        
+
         $client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('div.alert-danger', 'Conta desativada.');
