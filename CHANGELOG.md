@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.4](https://github.com/novosga/novosga/compare/v2.2.3...v2.2.4) (2025-04-25)
+
+
+### Bug Fixes
+
+* Generating certificate on Dockerfile ([3665091](https://github.com/novosga/novosga/commit/3665091db96e76129892f5d3facda5458b9b855f))
+
 ## [2.2.3](https://github.com/novosga/novosga/compare/v2.2.2...v2.2.3) (2025-04-24)
 
 
