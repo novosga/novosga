@@ -1,10 +1,10 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    branches: '**'
 
 env:
-  DATABASE_URL: "mysql://root:dbpass@127.0.0.1:3306/novosga?serverVersion=5.7.40&charset=utf8"
-  # DATABASE_URL: "postgresql://postgres:dbpass@127.0.0.1:5432/novosga?serverVersion=15&charset=utf8"
   APP_ENV: "test"
 
 jobs:
@@ -23,19 +23,25 @@ jobs:
           --health-retries 5
         ports:
           - 3306:3306
-      # postgres:
-      #   image: postgres:15
-      #   env:
-      #     POSTGRES_USER: postgres
-      #     POSTGRES_PASSWORD: dbpass
-      #     POSTGRES_DB: novosga_test
-      #   options: >-
-      #     --health-cmd pg_isready
-      #     --health-interval 10s
-      #     --health-timeout 5s
-      #     --health-retries 5
-      #   ports:
-      #     - 5432:5432
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: dbpass
+          POSTGRES_DB: novosga_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    strategy:
+      matrix:
+        dsn:
+          - "mysql://root:dbpass@127.0.0.1:3306/novosga?serverVersion=5.7.40&charset=utf8"
+          - "postgresql://postgres:dbpass@127.0.0.1:5432/novosga?serverVersion=15&charset=utf8"
 
     steps:
       - uses: actions/checkout@v3
@@ -65,9 +71,15 @@ jobs:
 
       - name: Doctrine Migrations
         run: bin/console doctrine:migrations:migrate --no-interaction
+        env:
+          DATABASE_URL: ${{ matrix.dsn }}
 
       - name: Doctrine Fixtures
         run: bin/console doctrine:fixture:load --no-interaction --purge-exclusions view_atendimentos --purge-exclusions view_atendimentos_codificados
+        env:
+          DATABASE_URL: ${{ matrix.dsn }}
 
       - name: PHP Unit Tests
         run: vendor/bin/phpunit
+        env:
+          DATABASE_URL: ${{ matrix.dsn }}

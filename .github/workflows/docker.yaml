@@ -27,7 +27,6 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            type=raw,value=2.2-dev,enable=${{ github.ref == format('refs/heads/{0}', 'v2.2') }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0
