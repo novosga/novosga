@@ -2,7 +2,6 @@
     "name": "novosga/novosga",
     "description": "Customer queue management system",
     "type": "project",
-    "version": "2.2.3",
     "homepage": "http://novosga.org",
     "license": "MIT",
     "authors": [
