@@ -52,6 +52,10 @@ class DefaultQueueOrderingService implements QueueOrderingServiceInterface
                         $queryBuilder->addOrderBy('prioridade.peso', $sort);
                     }
                     break;
+                case 'servico':
+                    // peso servico
+                    $queryBuilder->addOrderBy('servico.peso', $sort);
+                    break;
                 case 'servicoUsuario':
                     if ($usuario) {
                         // peso servico x usuario

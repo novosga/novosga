@@ -30,17 +30,18 @@ class QueueOrderingFormType extends AbstractType
                     'Data de agendamento' => 'dataAgendamento',
                     'Data de chegada' => 'dataChegada',
                     'Peso prioridade' => 'prioridade',
+                    'Peso serviço' => 'servico',
                     'Peso serviço usuário' => 'servicoUsuario',
                     'Peso serviço unidade' => 'servicoUnidade',
                     'Balanceamento prioridade vs data chegada' => 'balanceamento',
-                ]
+                ],
             ])
             ->add('order', ChoiceType::class, [
                 'label'   => 'label.order',
                 'choices' => [
                     'Asc'  => 'ASC',
                     'Desc' => 'DESC',
-                ]
+                ],
             ])
         ;
     }
