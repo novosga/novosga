@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.5](https://github.com/novosga/novosga/compare/v2.2.4...v2.2.5) (2025-04-28)
+
+
+### Bug Fixes
+
+* Adding support for servidor.peso ordering ([#437](https://github.com/novosga/novosga/issues/437)) ([212ee67](https://github.com/novosga/novosga/commit/212ee6773c3ff61eb578b10a7cdd445ebb85bcc5))
+
 ## [2.2.4](https://github.com/novosga/novosga/compare/v2.2.3...v2.2.4) (2025-04-25)
 
 
