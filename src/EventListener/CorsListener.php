@@ -17,6 +17,7 @@ use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -56,9 +57,7 @@ class CorsListener extends AppListener
         // preflight response
         if ('OPTIONS' === $request->getMethod()) {
             $response = new Response();
-            $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
-            $response->headers->set('Access-Control-Allow-Credentials', 'true');
-            $response->headers->set('Access-Control-Allow-Headers', 'Authorization, Content-type, X-Hash');
+            $this->addCorsHeaders($request, $response);
             $event->setResponse($response);
             return;
         }
@@ -76,8 +75,13 @@ class CorsListener extends AppListener
         $response = $event->getResponse();
 
         // add CORS response headers
+        $this->addCorsHeaders($request, $response);
+    }
+
+    private function addCorsHeaders(Request $request, Response $response): void
+    {
         $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
         $response->headers->set('Access-Control-Allow-Credentials', 'true');
-        $response->headers->set('Access-Control-Allow-Headers', 'Authorization');
+        $response->headers->set('Access-Control-Allow-Headers', 'Authorization, Content-type, X-Hash');
     }
 }
