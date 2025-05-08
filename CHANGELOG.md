@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.6](https://github.com/novosga/novosga/compare/v2.2.5...v2.2.6) (2025-05-08)
+
+
+### Bug Fixes
+
+* Change servico usuario ([#441](https://github.com/novosga/novosga/issues/441)) ([ec46b43](https://github.com/novosga/novosga/commit/ec46b438e7ed1c2a37f4441890084137481bc8a6))
+* Fixing Access-Control-Allow-Headers header on kernel.response ([#439](https://github.com/novosga/novosga/issues/439)) ([5985447](https://github.com/novosga/novosga/commit/59854478e2d819fd6d21eb67ac42080e8ef48c94))
+
 ## [2.2.5](https://github.com/novosga/novosga/compare/v2.2.4...v2.2.5) (2025-04-28)
 
 
