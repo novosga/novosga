@@ -48,14 +48,14 @@ class MySQLStorage extends RelationalStorage
     }
 
     /** {@inheritdoc} */
-    protected function preAcumularAtendimentos(Connection $conn, UnidadeInterface $unidade = null): void
+    protected function preAcumularAtendimentos(Connection $conn, ?UnidadeInterface $unidade = null): void
     {
-        $conn->exec('SET foreign_key_checks = 0');
+        $conn->executeStatement('SET foreign_key_checks = 0');
     }
 
     /** {@inheritdoc} */
-    protected function preApagarDadosAtendimento(Connection $conn, UnidadeInterface $unidade = null): void
+    protected function preApagarDadosAtendimento(Connection $conn, ?UnidadeInterface $unidade = null): void
     {
-        $conn->exec('SET foreign_key_checks = 0');
+        $conn->executeStatement('SET foreign_key_checks = 0');
     }
 }
