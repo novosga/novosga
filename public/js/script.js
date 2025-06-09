@@ -224,7 +224,7 @@ const App = {
                     if (permission === 'granted') {
                         btn.style.display = 'none';
                     } else if (permission === 'denied') {
-                        alert('Notificação negada');
+                        console.error('Notificação negada');
                     }
                 });
             }
