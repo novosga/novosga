@@ -35,7 +35,6 @@ use Novosga\Entity\AtendimentoInterface;
 use Novosga\Entity\ServicoInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
-use PDO;
 
 /**
  * ORM Storage
@@ -62,7 +61,7 @@ abstract class RelationalStorage extends DoctrineStorage
         $contadorTable = $this->em->getClassMetadata(Contador::class)->getTableName();
         $servicoUnidadeTable = $this->em->getClassMetadata(ServicoUnidade::class)->getTableName();
 
-        $query = $conn->prepare("
+        $conn->executeStatement("
             UPDATE {$contadorTable}
             SET numero = (
                 SELECT su.numero_inicial
@@ -72,9 +71,9 @@ abstract class RelationalStorage extends DoctrineStorage
                     su.servico_id = {$contadorTable}.servico_id
             )
             WHERE (unidade_id = :unidade OR :unidade = 0)
-        ");
-        $query->bindValue('unidade', $unidadeId, PDO::PARAM_INT);
-        $query->execute();
+        ", [
+            'unidade' => $unidadeId,
+        ]);
     }
 
     /** {@inheritdoc} */
@@ -97,7 +96,7 @@ abstract class RelationalStorage extends DoctrineStorage
     public function encerrar(
         AtendimentoInterface $atendimento,
         array $codificados,
-        AtendimentoInterface $novoAtendimento = null
+        ?AtendimentoInterface $novoAtendimento = null
     ): void {
         $this->em->beginTransaction();
 
