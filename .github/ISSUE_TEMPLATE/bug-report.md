@@ -35,7 +35,7 @@ If applicable, add screenshots to help explain your problem.
 <!--
  - OS *(Sistema operacional)*: [e.g. Debian 12, Windows 11]
  - Version PHP: [e.g. 7.4, 8.2]
- - Version Novo SGA: [e.g. 22]
+ - Version NovoSGA: [e.g. 22]
 -->
 
 **Additional context** *(Contexto adicional)*

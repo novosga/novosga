@@ -208,7 +208,7 @@
             </trans-unit>
             <trans-unit id="home.welcome.subtitle">
                 <source>home.welcome.subtitle</source>
-                <target>Novo SGA - Sistema de Gerenciamento de Atendimento</target>
+                <target>NovoSGA - Sistema de Gerenciamento de Atendimento</target>
             </trans-unit>
             <trans-unit id="home.welcome.button.read">
                 <source>home.welcome.button.read</source>
@@ -220,7 +220,7 @@
             </trans-unit>
             <trans-unit id="about.version.title">
                 <source>about.version.title</source>
-                <target>Novo SGA v%version%</target>
+                <target>NovoSGA v%version%</target>
             </trans-unit>
             <trans-unit id="about.version.subtitle">
                 <source>about.version.subtitle</source>
@@ -240,7 +240,7 @@
             </trans-unit>
             <trans-unit id="about.sponsor.description">
                 <source>about.sponsor.description</source>
-                <target><![CDATA[O projeto Novo SGA é desenvolvido e mantido por <b>Mangati</b> e membros da comunidade <b>Novo SGA</b>.]]></target>
+                <target><![CDATA[O projeto NovoSGA é desenvolvido e mantido por <b>Mangati</b> e membros da comunidade <b>NovoSGA</b>.]]></target>
             </trans-unit>
             <trans-unit id="about.community.title">
                 <source>about.community.title</source>
@@ -256,7 +256,7 @@
             </trans-unit>
             <trans-unit id="about.community.website.description">
                 <source>about.community.website.description</source>
-                <target>Notícias relacionadas aos projetos do Novo SGA e lançamento de novas versões</target>
+                <target>Notícias relacionadas aos projetos do NovoSGA e lançamento de novas versões</target>
             </trans-unit>
             <trans-unit id="about.community.blog.button">
                 <source>about.community.blog.button</source>
@@ -452,7 +452,7 @@
             </trans-unit>
             <trans-unit id="admin.modules.subtitle">
                 <source>admin.modules.subtitle</source>
-                <target>Módulos Novo SGA instalados</target>
+                <target>Módulos NovoSGA instalados</target>
             </trans-unit>
             <trans-unit id="admin.places.title">
                 <source>admin.places.title</source>

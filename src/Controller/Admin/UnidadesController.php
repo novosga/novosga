@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /*
- * This file is part of the Novo SGA project.
+ * This file is part of the NovoSGA project.
  *
  * (c) Rogerio Lino <rogeriolino@gmail.com>
  *
@@ -65,7 +65,7 @@ class UnidadesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if (!$entity->getId()) {
-                $entity->getImpressao()->setCabecalho('Novo SGA');
+                $entity->getImpressao()->setCabecalho('NovoSGA');
                 $entity->getImpressao()->setRodape('========');
             }
 

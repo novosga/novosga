@@ -1,7 +1,7 @@
 
-![Novo SGA](doc/images/github-banner.png)
+![NovoSGA](doc/images/github-banner.png)
 
-# Novo SGA
+# NovoSGA
 
 ![stars](https://img.shields.io/github/stars/novosga/novosga)
 ![forks](https://img.shields.io/github/forks/novosga/novosga)
@@ -11,14 +11,14 @@
 ![sponsors](https://img.shields.io/github/sponsors/novosga)
 
 
-Sistema de gerenciamento de senha de atendimento desenvolvido pelos [colabores](https://github.com/novosga/novosga/graphs/contributors) da comunidade Novo SGA e mantido por [Mangati](https://mangati.com).
+Sistema de gerenciamento de senha de atendimento desenvolvido pelos [colabores](https://github.com/novosga/novosga/graphs/contributors) da comunidade NovoSGA e mantido por [Mangati](https://mangati.com).
 
 
 ## Sobre
 
-A primeira versão do Novo SGA surgiu em 2012, criado por [Rogério Lino](https://github.com/rogeriolino), como uma alternativa mais moderna ao sistema [SGA Livre](https://softwarepublico.gov.br/social/sga-livre) desenvolvido pela DATAPREV.
+A primeira versão do NovoSGA surgiu em 2012, criado por [Rogério Lino](https://github.com/rogeriolino), como uma alternativa mais moderna ao sistema [SGA Livre](https://softwarepublico.gov.br/social/sga-livre) desenvolvido pela DATAPREV.
 
-Com traduções para Inglês, Espanhol e Português, o Novo SGA está presente em vários países ao redor do mundo e por ser gratuito é amplamente difundido entre órgãos públicos, estatais e empresas de diversos tamanhos.
+Com traduções para Inglês, Espanhol e Português, o NovoSGA está presente em vários países ao redor do mundo e por ser gratuito é amplamente difundido entre órgãos públicos, estatais e empresas de diversos tamanhos.
 
 
 ## Primeiros passos
@@ -30,14 +30,14 @@ Demais dúvidas podem ser enviadas para o fórum do projeto (https://discuss.nov
 
 ## Contribuindo
 
-Muito obrigado por considerar contribuir para o projeto. O guia de contribução pode ser encontrado na [documentação do Novo SGA](https://novosga.org/docs/#/2.1/contributing).
+Muito obrigado por considerar contribuir para o projeto. O guia de contribução pode ser encontrado na [documentação do NovoSGA](https://novosga.org/docs/#/2.1/contributing).
 
 
 ## Doações
 
-Você aprecia o Novo SGA ou já o utiliza em sua empresa ou em projetos com clientes? Considere se tornar patrocinador e ganhar visibilidade ao ter sua marca nas páginas oficiais do projeto, além de contribuir para a sustentabilidade de uma ferramenta open-source que beneficia milhares de usuários.
+Você aprecia o NovoSGA ou já o utiliza em sua empresa ou em projetos com clientes? Considere se tornar patrocinador e ganhar visibilidade ao ter sua marca nas páginas oficiais do projeto, além de contribuir para a sustentabilidade de uma ferramenta open-source que beneficia milhares de usuários.
 
-Doações pontuais também são muito bem-vindas! Qualquer quantia ajuda a manter o Novo SGA gratuito e acessível para todos.
+Doações pontuais também são muito bem-vindas! Qualquer quantia ajuda a manter o NovoSGA gratuito e acessível para todos.
 
 Apoie este projeto visitando: https://github.com/sponsors/novosga e faça sua contribuição.
 

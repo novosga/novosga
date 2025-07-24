@@ -240,7 +240,7 @@
             </trans-unit>
             <trans-unit id="about.sponsor.description">
                 <source>about.sponsor.description</source>
-                <target><![CDATA[O projeto Novo SGA é desenvolvido e mantido por <b>Mangati</b> e membros da comunidade <b>Novo SGA</b>.]]></target>
+                <target><![CDATA[O projeto NovoSGA é desenvolvido e mantido por <b>Mangati</b> e membros da comunidade <b>NovoSGA</b>.]]></target>
             </trans-unit>
             <trans-unit id="about.community.title">
                 <source>about.community.title</source>
@@ -452,7 +452,7 @@
             </trans-unit>
             <trans-unit id="admin.modules.subtitle">
                 <source>admin.modules.subtitle</source>
-                <target>Novo SGA modules installed</target>
+                <target>NovoSGA modules installed</target>
             </trans-unit>
             <trans-unit id="admin.places.title">
                 <source>admin.places.title</source>

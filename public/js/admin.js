@@ -1,5 +1,5 @@
 /**
- * Novo SGA - Admin
+ * NovoSGA - Admin
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 App.Admin = {

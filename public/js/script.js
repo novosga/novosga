@@ -1,5 +1,5 @@
 /**
- * Novo SGA - Main script
+ * NovoSGA - Main script
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 
