@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.7](https://github.com/novosga/novosga/compare/v2.2.6...v2.2.7) (2025-08-05)
+
+
+### Bug Fixes
+
+* Applying module fixes ([#448](https://github.com/novosga/novosga/issues/448)) ([29153bf](https://github.com/novosga/novosga/commit/29153bf0dea05944c60f9af040e60fcbde12126f))
+* place info in the json ([#446](https://github.com/novosga/novosga/issues/446)) ([8ba7013](https://github.com/novosga/novosga/commit/8ba70133018b35f3e77a957e97087dc383db4d58))
+
 ## [2.2.6](https://github.com/novosga/novosga/compare/v2.2.5...v2.2.6) (2025-05-08)
 
 
