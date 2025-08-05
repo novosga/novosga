@@ -76,10 +76,10 @@ class Local implements TimestampableEntityInterface, LocalInterface
     public function jsonSerialize(): array
     {
         return [
-            'id'        => $this->getId(),
-            'nome'      => $this->getNome(),
-            'createdAt' => $this->getCreatedAt() ? $this->getCreatedAt()->format('Y-m-d\TH:i:s') : null,
-            'updatedAt' => $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d\TH:i:s') : null,
+            'id' => $this->getId(),
+            'nome' => $this->getNome(),
+            'createdAt' => $this->getCreatedAt()?->format('Y-m-d\TH:i:s'),
+            'updatedAt' => $this->getUpdatedAt()?->format('Y-m-d\TH:i:s'),
         ];
     }
 }

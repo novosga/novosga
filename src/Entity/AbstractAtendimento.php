@@ -441,6 +441,8 @@ abstract class AbstractAtendimento implements AtendimentoInterface
             'dataAgendamento' => $this->getDataAgendamento()?->format('Y-m-d\TH:i:s'),
             'tempoEspera' => $this->getTempoEspera()->format('%H:%I:%S'),
             'prioridade' => $this->getPrioridade()?->jsonSerialize(),
+            'local' => $this->getLocal()?->jsonSerialize(),
+            'numeroLocal' => $this->getNumeroLocal(),
             'status' => $this->getStatus(),
             'resolucao' => $this->getResolucao(),
             'cliente' => $this->getCliente()?->jsonSerialize(),
