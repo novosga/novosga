@@ -2060,16 +2060,16 @@
         },
         {
             "name": "novosga/core",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "4b00d86fc9acb6528d7e2bbf420b751732c00bf6"
+                "reference": "50561cef980a0225e80b059d345efa42b7e413e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/4b00d86fc9acb6528d7e2bbf420b751732c00bf6",
-                "reference": "4b00d86fc9acb6528d7e2bbf420b751732c00bf6",
+                "url": "https://api.github.com/repos/novosga/core/zipball/50561cef980a0225e80b059d345efa42b7e413e5",
+                "reference": "50561cef980a0225e80b059d345efa42b7e413e5",
                 "shasum": ""
             },
             "require": {
@@ -2103,9 +2103,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/core/issues",
-                "source": "https://github.com/novosga/core/tree/v2.2.0"
+                "source": "https://github.com/novosga/core/tree/v2.2.1"
             },
-            "time": "2025-01-19T00:55:48+00:00"
+            "time": "2025-07-23T14:24:51+00:00"
         },
         {
             "name": "novosga/customers-bundle",
@@ -2206,16 +2206,16 @@
         },
         {
             "name": "novosga/reports-bundle",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "52571174c4cd323a84c2f41ff3a514873c8c4b57"
+                "reference": "ceef688125e5862bae10cc7ec49cf993ba7b3a47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/52571174c4cd323a84c2f41ff3a514873c8c4b57",
-                "reference": "52571174c4cd323a84c2f41ff3a514873c8c4b57",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/ceef688125e5862bae10cc7ec49cf993ba7b3a47",
+                "reference": "ceef688125e5862bae10cc7ec49cf993ba7b3a47",
                 "shasum": ""
             },
             "require": {
@@ -2249,9 +2249,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/reports-bundle/issues",
-                "source": "https://github.com/novosga/reports-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/reports-bundle/tree/v2.2.1"
             },
-            "time": "2025-04-09T13:52:07+00:00"
+            "time": "2025-07-23T14:10:43+00:00"
         },
         {
             "name": "novosga/scheduling-bundle",
@@ -2402,16 +2402,16 @@
         },
         {
             "name": "novosga/users-bundle",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "979cd3c5317d9badfad736a507f3066fbffbf383"
+                "reference": "57d294b659a3fc7ba383af9027205cc25a8fd10c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/979cd3c5317d9badfad736a507f3066fbffbf383",
-                "reference": "979cd3c5317d9badfad736a507f3066fbffbf383",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/57d294b659a3fc7ba383af9027205cc25a8fd10c",
+                "reference": "57d294b659a3fc7ba383af9027205cc25a8fd10c",
                 "shasum": ""
             },
             "require": {
@@ -2446,9 +2446,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/users-bundle/issues",
-                "source": "https://github.com/novosga/users-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/users-bundle/tree/v2.2.1"
             },
-            "time": "2025-04-09T13:59:00+00:00"
+            "time": "2025-07-23T14:43:35+00:00"
         },
         {
             "name": "nyholm/psr7",
