@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Dto\MercureEvent;
 use Novosga\Entity\AtendimentoInterface;
 use Novosga\Entity\UnidadeInterface;
 use Novosga\Entity\UsuarioInterface;
@@ -39,17 +40,19 @@ class MercureService
         if ($unidade !== null) {
             $this->publish(
                 [ "/unidades/{$unidade->getId()}/fila" ],
-                [ 'id' => $unidade->getId() ]
+                'queue.unity',
+                [ 'id' => $unidade->getId() ],
             );
         }
 
-        $this->publish([ "/fila" ], []);
+        $this->publish([ "/fila" ], 'queue.global', []);
     }
 
     public function notificaFilaUsuario(UsuarioInterface $usuario): void
     {
         $this->publish(
             [ "/usuarios/{$usuario->getId()}/fila" ],
+            'queue.user',
             [ 'id' => $usuario->getId() ],
         );
     }
@@ -61,6 +64,7 @@ class MercureService
                 '/paineis',
                 "/unidades/{$atendimento->getUnidade()->getId()}/painel",
             ],
+            'panel.ticket',
             [
                 'id' => $atendimento->getId(),
             ],
@@ -78,17 +82,18 @@ class MercureService
             $topics[] = "/usuarios/{$usuario->getId()}/fila";
         }
 
-        $this->publish($topics, [ 'id' => $atendimento->getId() ]);
+        $this->publish($topics, 'ticket', [ 'id' => $atendimento->getId() ]);
     }
 
     /**
      * @param string[] $topics
-     * @param array<string,mixed> $params
+     * @param array<string,mixed> $payload
      */
-    private function publish(array $topics, array $params): void
+    private function publish(array $topics, string $type, array $payload): void
     {
         try {
-            $this->hub->publish(new Update($topics, json_encode($params)));
+            $event = new MercureEvent($type, $payload);
+            $this->hub->publish(new Update($topics, json_encode($event)));
         } catch (RuntimeException $ex) {
             $this->logger->error($ex->getMessage());
         }
