@@ -88,9 +88,44 @@ class MercureService
     private function publish(array $topics, array $params): void
     {
         try {
-            $this->hub->publish(new Update($topics, json_encode($params)));
+            // Add @type field based on the primary topic for client identification
+            $messageData = $params;
+            if (!empty($topics)) {
+                $messageData['@type'] = $this->extractMessageType($topics[0]);
+            }
+            
+            $this->hub->publish(new Update($topics, json_encode($messageData)));
         } catch (RuntimeException $ex) {
             $this->logger->error($ex->getMessage());
         }
+    }
+
+    /**
+     * Extract message type from topic pattern for client identification
+     */
+    private function extractMessageType(string $topic): string
+    {
+        // Extract type from topic patterns
+        if ($topic === '/fila') {
+            return 'queue.general';
+        }
+        if (preg_match('/^\/unidades\/\d+\/fila$/', $topic)) {
+            return 'queue.unit';
+        }
+        if (preg_match('/^\/usuarios\/\d+\/fila$/', $topic)) {
+            return 'queue.user';
+        }
+        if ($topic === '/paineis') {
+            return 'panel.general';
+        }
+        if (preg_match('/^\/unidades\/\d+\/painel$/', $topic)) {
+            return 'panel.unit';
+        }
+        if (preg_match('/^\/atendimentos\/\d+$/', $topic)) {
+            return 'attendance';
+        }
+        
+        // Fallback for unknown patterns
+        return 'unknown';
     }
 }
