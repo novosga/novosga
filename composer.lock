@@ -2012,16 +2012,16 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "0af848e4e5adc59fd01a417a30d7bd357f3ffe92"
+                "reference": "375cb82b170afcf701694be5981327095e03c6b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/0af848e4e5adc59fd01a417a30d7bd357f3ffe92",
-                "reference": "0af848e4e5adc59fd01a417a30d7bd357f3ffe92",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/375cb82b170afcf701694be5981327095e03c6b8",
+                "reference": "375cb82b170afcf701694be5981327095e03c6b8",
                 "shasum": ""
             },
             "require": {
@@ -2054,9 +2054,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
-                "source": "https://github.com/novosga/attendance-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/attendance-bundle/tree/v2.2.1"
             },
-            "time": "2025-04-09T13:49:35+00:00"
+            "time": "2025-09-05T21:44:53+00:00"
         },
         {
             "name": "novosga/core",
