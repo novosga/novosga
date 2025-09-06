@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.8](https://github.com/novosga/novosga/compare/v2.2.7...v2.2.8) (2025-09-06)
+
+
+### Bug Fixes
+
+* attendance bundle page title ([#463](https://github.com/novosga/novosga/issues/463)) ([b6c2a4d](https://github.com/novosga/novosga/commit/b6c2a4d81ec452df6228b16f67e2c1dff86dee49))
+* Webhooks removal ([#465](https://github.com/novosga/novosga/issues/465)) ([3e1f2c7](https://github.com/novosga/novosga/commit/3e1f2c7c8ff1e233a665a534ef50070c6cb591d2))
+
 ## [2.2.7](https://github.com/novosga/novosga/compare/v2.2.6...v2.2.7) (2025-08-05)
 
 
