@@ -2355,16 +2355,16 @@
         },
         {
             "name": "novosga/triage-bundle",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "0b12276e385212d86c634d643d9730fa837f6db2"
+                "reference": "d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/0b12276e385212d86c634d643d9730fa837f6db2",
-                "reference": "0b12276e385212d86c634d643d9730fa837f6db2",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8",
+                "reference": "d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8",
                 "shasum": ""
             },
             "require": {
@@ -2396,9 +2396,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/triage-bundle/issues",
-                "source": "https://github.com/novosga/triage-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/triage-bundle/tree/v2.2.1"
             },
-            "time": "2025-04-09T13:58:01+00:00"
+            "time": "2025-09-09T15:56:43+00:00"
         },
         {
             "name": "novosga/users-bundle",
