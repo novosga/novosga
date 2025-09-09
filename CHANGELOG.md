@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.9](https://github.com/novosga/novosga/compare/v2.2.8...v2.2.9) (2025-09-09)
+
+
+### Bug Fixes
+
+* installer priority color ([#466](https://github.com/novosga/novosga/issues/466)) ([db077e9](https://github.com/novosga/novosga/commit/db077e94006f86494692d1ecf03ec920ebd96086))
+* triage fixes ([#468](https://github.com/novosga/novosga/issues/468)) ([bfd6888](https://github.com/novosga/novosga/commit/bfd6888994e481ae01e6dd793ba5baadbaeb5202))
+
 ## [2.2.8](https://github.com/novosga/novosga/compare/v2.2.7...v2.2.8) (2025-09-06)
 
 
