@@ -15,6 +15,7 @@ namespace App\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 use Novosga\Entity\AtendimentoCodificadoInterface;
 use Novosga\Entity\ServicoInterface;
 
@@ -25,7 +26,7 @@ use Novosga\Entity\ServicoInterface;
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
 #[ORM\MappedSuperclass]
-abstract class AbstractAtendimentoCodificado implements AtendimentoCodificadoInterface
+abstract class AbstractAtendimentoCodificado implements AtendimentoCodificadoInterface, JsonSerializable
 {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Servico::class)]
@@ -56,5 +57,16 @@ abstract class AbstractAtendimentoCodificado implements AtendimentoCodificadoInt
         $this->peso = $peso;
 
         return $this;
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'servico' => [
+                'id' => $this->servico->getId(),
+                'nome' => $this->servico->getNome(),
+            ],
+            'peso' => $this->peso,
+        ];
     }
 }
