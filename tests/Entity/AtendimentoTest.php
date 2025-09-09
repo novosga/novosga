@@ -171,6 +171,7 @@ class AtendimentoTest extends TestCase
                 'login' => 'triagem',
             ],
             'usuario' => null,
+            'codificados' => [],
             'hash' => '7d299d6e52b432321bfc425f9b4ab12e3255958a',
         ];
     }
