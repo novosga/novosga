@@ -343,6 +343,7 @@ class InstallCommand extends UpdateCommand
         $prioridade->setNome($name);
         $prioridade->setDescricao($description);
         $prioridade->setPeso($weight);
+        $prioridade->setCor($weight === 0 ? '#0000FF' : '#FF0000');
         $prioridade->setAtivo(true);
 
         return $prioridade;
