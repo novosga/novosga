@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.10](https://github.com/novosga/novosga/compare/v2.2.9...v2.2.10) (2025-09-10)
+
+
+### Bug Fixes
+
+* Exposing codificados field to json ([#469](https://github.com/novosga/novosga/issues/469)) ([bd4d0c2](https://github.com/novosga/novosga/commit/bd4d0c26b5542418beb7564f9b8b72714a329631))
+* report page title ([#471](https://github.com/novosga/novosga/issues/471)) ([1897381](https://github.com/novosga/novosga/commit/1897381320222d9b8bea82eba3c1a4fc644b1158))
+
 ## [2.2.9](https://github.com/novosga/novosga/compare/v2.2.8...v2.2.9) (2025-09-09)
 
 
