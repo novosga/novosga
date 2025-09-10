@@ -66,6 +66,7 @@ abstract class AbstractAtendimentoCodificado implements AtendimentoCodificadoInt
             'servico' => [
                 'id' => $this->servico->getId(),
                 'nome' => $this->servico->getNome(),
+                'mestreId' => $this->servico->getMestre()?->getId(),
             ],
             'peso' => $this->peso,
         ];
