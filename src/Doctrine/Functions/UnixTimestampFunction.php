@@ -25,7 +25,7 @@ class UnixTimestampFunction extends FunctionNode
             return 'UNIX_TIMESTAMP(' . $this->date->dispatch($sqlWalker) . ')';
         }
         if ($platform instanceof PostgreSQLPlatform) {
-            return 'EXTRACT(epoch FROM ' . $this->date->dispatch($sqlWalker) . ')';
+            return 'EXTRACT(EPOCH FROM ' . $this->date->dispatch($sqlWalker) . '::timestamp)';
         }
 
         throw Exception::notSupported(self::NAME);
