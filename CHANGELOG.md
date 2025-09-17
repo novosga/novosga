@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.11](https://github.com/novosga/novosga/compare/v2.2.10...v2.2.11) (2025-09-17)
+
+
+### Bug Fixes
+
+* Balanceamento no PostgreSQL ([#473](https://github.com/novosga/novosga/issues/473)) ([d013805](https://github.com/novosga/novosga/commit/d013805196fa72b839631953f678ff95ec53c814))
+
 ## [2.2.10](https://github.com/novosga/novosga/compare/v2.2.9...v2.2.10) (2025-09-10)
 
 
