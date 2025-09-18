@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.12](https://github.com/novosga/novosga/compare/v2.2.11...v2.2.12) (2025-09-18)
+
+
+### Bug Fixes
+
+* nao existe lotacao para usuario atual ([#476](https://github.com/novosga/novosga/issues/476)) ([28c494e](https://github.com/novosga/novosga/commit/28c494e011a979712f16754d2ba68bcda5d66456))
+
 ## [2.2.11](https://github.com/novosga/novosga/compare/v2.2.10...v2.2.11) (2025-09-17)
 
 

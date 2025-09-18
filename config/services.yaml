@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     locale: '%env(APP_LANGUAGE)%'
-    version: '2.2.11' # x-release-please-version
+    version: '2.2.12' # x-release-please-version
     title: 'NovoSGA CE'
     mercure_url: '%env(MERCURE_PUBLIC_URL)%'
     app.build_number: '%env(default::APP_BUILD_NUMBER)%'
