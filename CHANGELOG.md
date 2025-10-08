@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.13](https://github.com/novosga/novosga/compare/v2.2.12...v2.2.13) (2025-10-08)
+
+
+### Bug Fixes
+
+* report avg times ([#480](https://github.com/novosga/novosga/issues/480)) ([9781982](https://github.com/novosga/novosga/commit/978198288b615179d55b07bd4dab44117a9640d6))
+* restricting image types of upload ([#482](https://github.com/novosga/novosga/issues/482)) ([424957a](https://github.com/novosga/novosga/commit/424957aeeaa3b24880d081ff699f5d677c57e235))
+
 ## [2.2.12](https://github.com/novosga/novosga/compare/v2.2.11...v2.2.12) (2025-09-18)
 
 
