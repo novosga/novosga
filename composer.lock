@@ -2206,16 +2206,16 @@
         },
         {
             "name": "novosga/reports-bundle",
-            "version": "v2.2.2",
+            "version": "v2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "34cba9a8072099b87fa532b2527cf7bf558aef73"
+                "reference": "35d86639b044b8454c174358f6a8954c23b98c98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/34cba9a8072099b87fa532b2527cf7bf558aef73",
-                "reference": "34cba9a8072099b87fa532b2527cf7bf558aef73",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/35d86639b044b8454c174358f6a8954c23b98c98",
+                "reference": "35d86639b044b8454c174358f6a8954c23b98c98",
                 "shasum": ""
             },
             "require": {
@@ -2249,9 +2249,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/reports-bundle/issues",
-                "source": "https://github.com/novosga/reports-bundle/tree/v2.2.2"
+                "source": "https://github.com/novosga/reports-bundle/tree/v2.2.3"
             },
-            "time": "2025-09-10T21:47:51+00:00"
+            "time": "2025-10-08T13:16:26+00:00"
         },
         {
             "name": "novosga/scheduling-bundle",
