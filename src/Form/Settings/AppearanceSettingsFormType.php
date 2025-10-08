@@ -71,7 +71,10 @@ class AppearanceSettingsFormType extends AbstractType
                 'required' => false,
                 'mapped'   => false,
                 'constraints' => [
-                    new Image(),
+                    new Image(
+                        maxSize: '1M',
+                        mimeTypes: ['image/jpeg', 'image/png', 'image/gif'],
+                    ),
                 ],
                 'attr' => [
                     'accept' => 'image/*',
@@ -82,10 +85,13 @@ class AppearanceSettingsFormType extends AbstractType
                 'required' => false,
                 'mapped'   => false,
                 'constraints' => [
-                    new Image(),
+                    new Image(
+                        maxSize: '1M',
+                        mimeTypes: ['image/jpeg', 'image/png', 'image/gif'],
+                    ),
                 ],
                 'attr' => [
-                    'accept' => 'image/*',
+                    'accept' => 'image/png, image/jpeg, image/gif',
                 ],
             ])
         ;
