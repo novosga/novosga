@@ -1,0 +1,93 @@
+name: Copilot Setup Steps
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: novosga_test
+          MYSQL_ROOT_PASSWORD: dbpass
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 3306:3306
+      
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: dbpass
+          POSTGRES_DB: novosga_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    env:
+      APP_ENV: test
+      DATABASE_URL: "mysql://root:dbpass@127.0.0.1:3306/novosga_test?serverVersion=5.7.40&charset=utf8"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.28.0
+        with:
+          php-version: 8.2
+          extensions: ctype, iconv, pdo, pdo_mysql, pdo_pgsql
+          coverage: none
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+
+      - name: Generate JWT certificates
+        run: |
+          mkdir -p config/jwt
+          openssl genrsa -out config/jwt/private.pem 2048
+          openssl rsa -in config/jwt/private.pem -pubout -out config/jwt/public.pem
+          chmod 600 config/jwt/private.pem
+          chmod 644 config/jwt/public.pem
+
+      - name: Create test environment file
+        run: |
+          if [ ! -f .env.test.local ]; then
+            echo "DATABASE_URL=${DATABASE_URL}" > .env.test.local
+          fi
+
+      - name: Run database migrations
+        run: bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Load database fixtures
+        run: bin/console doctrine:fixtures:load --no-interaction --purge-exclusions view_atendimentos --purge-exclusions view_atendimentos_codificados --env=test
+
+      - name: Verify setup
+        run: |
+          echo "✓ PHP $(php -r 'echo PHP_VERSION;') installed"
+          echo "✓ Composer dependencies installed"
+          echo "✓ Database migrations completed"
+          echo "✓ Fixtures loaded"
+          echo "✓ Environment ready for development"
