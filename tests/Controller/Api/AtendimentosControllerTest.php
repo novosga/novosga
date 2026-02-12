@@ -203,18 +203,18 @@ class AtendimentosControllerTest extends WebTestCase
         // Link ServicoUnidade
         TestHelper::linkServicoUnidade($this->em, $servico, $unidade, 'A', 0);
 
-        $senha = new Senha();
-        $senha->setSigla('A');
-        $senha->setNumero(1);
+        $senha = (new Senha())
+            ->setSigla('A')
+            ->setNumero(1);
 
-        $atendimento = new Atendimento();
-        $atendimento->setUnidade($unidade);
-        $atendimento->setServico($servico);
-        $atendimento->setPrioridade($prioridade);
-        $atendimento->setSenha($senha);
-        $atendimento->setUsuarioTriagem($usuario);
-        $atendimento->setStatus(AtendimentoService::SENHA_EMITIDA);
-        $atendimento->setDataChegada(new DateTimeImmutable());
+        $atendimento = (new Atendimento())
+            ->setUnidade($unidade)
+            ->setServico($servico)
+            ->setPrioridade($prioridade)
+            ->setSenha($senha)
+            ->setUsuarioTriagem($usuario)
+            ->setStatus(AtendimentoService::SENHA_EMITIDA)
+            ->setDataChegada(new DateTimeImmutable());
 
         $this->em->persist($atendimento);
         $this->em->flush();
