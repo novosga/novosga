@@ -113,8 +113,8 @@ class AtendimentosControllerTest extends WebTestCase
         $result = json_decode($response->getContent(), true);
 
         $this->assertIsArray($result);
-        $this->assertArrayHasKey('message', $result);
-        $this->assertSame('Local não encontrado', $result['message']);
+        $this->assertArrayHasKey('error', $result);
+        $this->assertSame('Local inválido', $result['error']);
     }
     public function testIniciarAtendimentoWithoutAccessToken(): void
     {

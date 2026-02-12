@@ -27,7 +27,6 @@ final readonly class EncerrarAtendimento
      * @param array<int> $servicosRealizados
      */
     public function __construct(
-        #[NotNull]
         #[Count(min: 1)]
         public array $servicosRealizados = [],
         public ?int $servicoRedirecionado = null,
