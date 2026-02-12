@@ -145,7 +145,7 @@ final class TestHelper
         string $documento = null,
     ): ClienteInterface {
         if ($documento === null) {
-            $documento = sprintf('%s', time());
+            $documento = (string) time();
         }
 
         $cliente = (new Cliente())
