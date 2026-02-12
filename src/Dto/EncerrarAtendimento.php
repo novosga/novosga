@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\NotNull;
 
 /**
@@ -27,6 +28,7 @@ final readonly class EncerrarAtendimento
      */
     public function __construct(
         #[NotNull]
+        #[Count(min: 1)]
         public array $servicosRealizados = [],
         public ?int $servicoRedirecionado = null,
         public ?int $novoUsuario = null,
