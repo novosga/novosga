@@ -145,7 +145,7 @@ final class TestHelper
         string $documento = null,
     ): ClienteInterface {
         if ($documento === null) {
-            $documento = (string) time();
+            $documento = uniqid();
         }
 
         $cliente = (new Cliente())
