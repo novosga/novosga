@@ -95,6 +95,7 @@ class Atendimento extends AbstractAtendimento
     public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
+            'codificados' => $this->codificados->toArray(),
             'hash' => $this->hash(),
         ]);
     }

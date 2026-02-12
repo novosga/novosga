@@ -2012,16 +2012,16 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "0af848e4e5adc59fd01a417a30d7bd357f3ffe92"
+                "reference": "375cb82b170afcf701694be5981327095e03c6b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/0af848e4e5adc59fd01a417a30d7bd357f3ffe92",
-                "reference": "0af848e4e5adc59fd01a417a30d7bd357f3ffe92",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/375cb82b170afcf701694be5981327095e03c6b8",
+                "reference": "375cb82b170afcf701694be5981327095e03c6b8",
                 "shasum": ""
             },
             "require": {
@@ -2054,9 +2054,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
-                "source": "https://github.com/novosga/attendance-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/attendance-bundle/tree/v2.2.1"
             },
-            "time": "2025-04-09T13:49:35+00:00"
+            "time": "2025-09-05T21:44:53+00:00"
         },
         {
             "name": "novosga/core",
@@ -2206,16 +2206,16 @@
         },
         {
             "name": "novosga/reports-bundle",
-            "version": "v2.2.1",
+            "version": "v2.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "ceef688125e5862bae10cc7ec49cf993ba7b3a47"
+                "reference": "35d86639b044b8454c174358f6a8954c23b98c98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/ceef688125e5862bae10cc7ec49cf993ba7b3a47",
-                "reference": "ceef688125e5862bae10cc7ec49cf993ba7b3a47",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/35d86639b044b8454c174358f6a8954c23b98c98",
+                "reference": "35d86639b044b8454c174358f6a8954c23b98c98",
                 "shasum": ""
             },
             "require": {
@@ -2249,9 +2249,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/reports-bundle/issues",
-                "source": "https://github.com/novosga/reports-bundle/tree/v2.2.1"
+                "source": "https://github.com/novosga/reports-bundle/tree/v2.2.3"
             },
-            "time": "2025-07-23T14:10:43+00:00"
+            "time": "2025-10-08T13:16:26+00:00"
         },
         {
             "name": "novosga/scheduling-bundle",
@@ -2355,16 +2355,16 @@
         },
         {
             "name": "novosga/triage-bundle",
-            "version": "v2.2.0",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "0b12276e385212d86c634d643d9730fa837f6db2"
+                "reference": "d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/0b12276e385212d86c634d643d9730fa837f6db2",
-                "reference": "0b12276e385212d86c634d643d9730fa837f6db2",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8",
+                "reference": "d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8",
                 "shasum": ""
             },
             "require": {
@@ -2396,9 +2396,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/triage-bundle/issues",
-                "source": "https://github.com/novosga/triage-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/triage-bundle/tree/v2.2.1"
             },
-            "time": "2025-04-09T13:58:01+00:00"
+            "time": "2025-09-09T15:56:43+00:00"
         },
         {
             "name": "novosga/users-bundle",

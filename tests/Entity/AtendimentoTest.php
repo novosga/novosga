@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Tests\Entity;
 
 use App\Entity\Atendimento;
+use App\Entity\AtendimentoCodificado;
 use App\Entity\Local;
 use App\Entity\Prioridade;
 use App\Entity\Senha;
@@ -23,6 +24,9 @@ use App\Entity\Usuario;
 use App\Service\AtendimentoService;
 use DateInterval;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Novosga\Entity\AtendimentoCodificadoInterface;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -50,8 +54,8 @@ class AtendimentoTest extends TestCase
                 (new Local())
                     ->setId(1)
                     ->setNome('Guichê')
-                    ->setCreatedAt((new DateTimeImmutable('2025-08-01 10:00:00')))
-                    ->setUpdatedAt((new DateTimeImmutable('2025-08-02 12:00:00')))
+                    ->setCreatedAt(new DateTimeImmutable('2025-08-01 10:00:00'))
+                    ->setUpdatedAt(new DateTimeImmutable('2025-08-02 12:00:00'))
             )
             ->setNumeroLocal(3)
             ->setUsuario(
@@ -81,6 +85,88 @@ class AtendimentoTest extends TestCase
         );
     }
 
+    public function testJsonSerializFinishedTicket(): void
+    {
+        /** @var Collection<int,AtendimentoCodificadoInterface> */
+        $codificados = new ArrayCollection([
+            (new AtendimentoCodificado())
+                ->setPeso(1)
+                ->setServico(
+                    (new Servico())
+                        ->setId(1)
+                        ->setNome('Atendimento Geral')
+                ),
+            (new AtendimentoCodificado())
+                ->setPeso(1)
+                ->setServico(
+                    (new Servico())
+                        ->setId(2)
+                        ->setNome('Informações')
+                        ->setMestre(
+                            (new Servico())
+                                ->setId(3)
+                                ->setNome('Serviço Mestre')
+                        )
+                ),
+            ]);
+
+        $atendimento = $this
+            ->buildAtendimento()
+            ->setStatus(AtendimentoService::ATENDIMENTO_ENCERRADO)
+            ->setLocal(
+                (new Local())
+                    ->setId(1)
+                    ->setNome('Guichê')
+                    ->setCreatedAt(new DateTimeImmutable('2025-08-01 10:00:00'))
+                    ->setUpdatedAt(new DateTimeImmutable('2025-08-02 12:00:00'))
+            )
+            ->setNumeroLocal(3)
+            ->setUsuario(
+                (new Usuario())
+                    ->setId(2)
+                    ->setNome('Atendente')
+                    ->setLogin('atendente')
+            )
+            ->setCodificados($codificados);
+        $expected = array_merge($this->buildArray(), [
+            'status' => AtendimentoService::ATENDIMENTO_ENCERRADO,
+            'local' => [
+                'id' => 1,
+                'nome' => 'Guichê',
+                'createdAt' => '2025-08-01T10:00:00',
+                'updatedAt' => '2025-08-02T12:00:00',
+            ],
+            'numeroLocal' => 3,
+            'usuario' => [
+                'id' => 2,
+                'login' => 'atendente',
+            ],
+            'codificados' => [
+                [
+                    'servico' => [
+                        'id' => 1,
+                        'nome' => 'Atendimento Geral',
+                        'mestreId' => null,
+                    ],
+                    'peso' => 1,
+                ],
+                [
+                    'servico' => [
+                        'id' => 2,
+                        'nome' => 'Informações',
+                        'mestreId' => 3,
+                    ],
+                    'peso' => 1,
+                ],
+            ],
+        ]);
+
+        $this->assertJsonStringEqualsJsonString(
+            json_encode($expected),
+            json_encode($atendimento->jsonSerialize()),
+        );
+    }
+
     private function buildAtendimento(): Atendimento
     {
         return (new Atendimento())
@@ -97,31 +183,31 @@ class AtendimentoTest extends TestCase
                 (new Unidade())
                     ->setId(1)
                     ->setNome('Unidade 1')
-                    ->setCreatedAt((new DateTimeImmutable('2025-08-01 10:00:00')))
-                    ->setUpdatedAt((new DateTimeImmutable('2025-08-02 12:00:00')))
+                    ->setCreatedAt(new DateTimeImmutable('2025-08-01 10:00:00'))
+                    ->setUpdatedAt(new DateTimeImmutable('2025-08-02 12:00:00'))
             )
             ->setServico(
                 (new Servico())
                     ->setId(1)
                     ->setNome('Atendimento Geral')
-                    ->setCreatedAt((new DateTimeImmutable('2025-08-01 10:00:00')))
-                    ->setUpdatedAt((new DateTimeImmutable('2025-08-02 12:00:00')))
+                    ->setCreatedAt(new DateTimeImmutable('2025-08-01 10:00:00'))
+                    ->setUpdatedAt(new DateTimeImmutable('2025-08-02 12:00:00'))
             )
             ->setPrioridade(
                 (new Prioridade())
                     ->setId(1)
                     ->setNome('Normal')
                     ->setPeso(0)
-                    ->setCreatedAt((new DateTimeImmutable('2025-08-01 10:00:00')))
-                    ->setUpdatedAt((new DateTimeImmutable('2025-08-02 12:00:00')))
+                    ->setCreatedAt(new DateTimeImmutable('2025-08-01 10:00:00'))
+                    ->setUpdatedAt(new DateTimeImmutable('2025-08-02 12:00:00'))
             )
             ->setUsuarioTriagem(
                 (new Usuario())
                     ->setId(1)
                     ->setNome('Triagem')
                     ->setLogin('triagem')
-                    ->setCreatedAt((new DateTimeImmutable('2025-08-01 10:00:00')))
-                    ->setUpdatedAt((new DateTimeImmutable('2025-08-02 12:00:00')))
+                    ->setCreatedAt(new DateTimeImmutable('2025-08-01 10:00:00'))
+                    ->setUpdatedAt(new DateTimeImmutable('2025-08-02 12:00:00'))
             );
     }
 
@@ -171,6 +257,7 @@ class AtendimentoTest extends TestCase
                 'login' => 'triagem',
             ],
             'usuario' => null,
+            'codificados' => [],
             'hash' => '7d299d6e52b432321bfc425f9b4ab12e3255958a',
         ];
     }
