@@ -91,6 +91,31 @@ class AtendimentosControllerTest extends WebTestCase
         $this->assertEquals(AtendimentoService::CHAMADO_PELA_MESA, $result['status']);
     }
 
+    public function testChamarAtendimentoWithWrongLocalId(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+        $atendimento = $this->createAtendimento();
+
+        // Use an invalid/non-existent local ID
+        $data = [
+            'local' => 999999,
+            'numeroLocal' => 1,
+        ];
+
+        $url = sprintf('/api/atendimentos/%s/chamar', $atendimento->getId());
+        $client->jsonRequest('POST', $url, parameters: $data, server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('message', $result);
+        $this->assertSame('Local não encontrado', $result['message']);
+    }
     public function testIniciarAtendimentoWithoutAccessToken(): void
     {
         $client = static::getClient();
