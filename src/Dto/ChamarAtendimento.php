@@ -1,0 +1,35 @@
+<?php
+
+declare(strict_types=1);
+
+/*
+ * This file is part of the NovoSGA project.
+ *
+ * (c) Rogerio Lino <rogeriolino@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace App\Dto;
+
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Range;
+
+/**
+ * ChamarAtendimento
+ *
+ * @author Rogerio Lino <rogeriolino@gmail.com>
+ */
+final readonly class ChamarAtendimento
+{
+    public function __construct(
+        #[NotNull]
+        #[Range(min: 1)]
+        public ?int $local = null,
+        #[NotNull]
+        #[Range(min: 1)]
+        public ?int $numeroLocal = null,
+    ) {
+    }
+}
