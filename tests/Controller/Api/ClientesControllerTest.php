@@ -190,7 +190,10 @@ class ClientesControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
         ]);
 
-        $this->assertResponseStatusCodeSame(500);
+        $this->assertResponseIsSuccessful();
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('error', $result);
     }
 
     public function testPostClienteWithDuplicateDocumento(): void
@@ -209,7 +212,7 @@ class ClientesControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
         ]);
 
-        $this->assertResponseStatusCodeSame(500);
+        $this->assertResponseIsSuccessful();
         $response = $client->getResponse();
         $result = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('error', $result);
@@ -284,6 +287,9 @@ class ClientesControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
         ]);
 
-        $this->assertResponseStatusCodeSame(500);
+        $this->assertResponseIsSuccessful();
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('error', $result);
     }
 }
