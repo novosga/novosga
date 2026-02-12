@@ -19,11 +19,6 @@ use App\Service\AtendimentoService;
 use App\Tests\TestHelper;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Novosga\Entity\LocalInterface;
-use Novosga\Entity\PrioridadeInterface;
-use Novosga\Entity\ServicoInterface;
-use Novosga\Entity\UnidadeInterface;
-use Novosga\Entity\UsuarioInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**

@@ -55,7 +55,7 @@ class AtendimentosController extends ApiCrudController
         try {
             /** @var UsuarioInterface */
             $usuario = $this->getUser();
-            
+
             $local = $this->getManager()->getRepository(Local::class)->find($dto->local);
             if (!$local) {
                 $error = $this->translate('error.invalid_local');
