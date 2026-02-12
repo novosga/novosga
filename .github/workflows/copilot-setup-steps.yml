@@ -67,7 +67,7 @@ jobs:
       - name: Install Composer dependencies
         run: >-
           composer install --prefer-dist --no-progress
-          --no-suggest --no-interaction
+          --no-interaction
 
       - name: Generate JWT certificates
         run: |
