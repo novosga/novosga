@@ -155,6 +155,19 @@ class AtendimentosControllerTest extends WebTestCase
         $this->assertEquals(AtendimentoService::ATENDIMENTO_INICIADO, $result['status']);
     }
 
+    public function testIniciarAtendimentoSemChamadaRetorna422(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+        $atendimento = $this->createAtendimento();
+
+        $url = sprintf('/api/atendimentos/%s/iniciar', $atendimento->getId());
+        $client->jsonRequest('POST', $url, server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(422);
+    }
     public function testEncerrarAtendimentoWithoutAccessToken(): void
     {
         $client = static::getClient();
