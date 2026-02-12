@@ -122,4 +122,168 @@ class ClientesControllerTest extends WebTestCase
         $this->assertSame($cliente->getEmail(), $result['email']);
         $this->assertSame($cliente->getTelefone(), $result['telefone']);
     }
+
+    public function testPostClienteWithoutAccessToken(): void
+    {
+        $client = static::getClient();
+
+        $client->jsonRequest('POST', '/api/clientes', parameters: [
+            'nome' => 'Test Cliente',
+            'documento' => '12345678900',
+        ]);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testPostClienteWithValidAccessToken(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $clienteData = [
+            'nome' => 'João Silva',
+            'documento' => '12345678900',
+            'email' => 'joao.silva@example.com',
+            'telefone' => '11987654321',
+            'genero' => 'M',
+            'observacao' => 'Cliente VIP',
+            'endereco' => [
+                'logradouro' => 'Rua Teste',
+                'numero' => '123',
+                'complemento' => 'Apto 45',
+                'cidade' => 'São Paulo',
+                'estado' => 'SP',
+                'cep' => '01234-567',
+                'pais' => 'BR',
+            ],
+        ];
+
+        $client->jsonRequest('POST', '/api/clientes', parameters: $clienteData, server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+
+        $this->assertArrayHasKey('id', $result);
+        $this->assertSame($clienteData['nome'], $result['nome']);
+        $this->assertSame($clienteData['documento'], $result['documento']);
+        $this->assertSame($clienteData['email'], $result['email']);
+        $this->assertSame($clienteData['telefone'], $result['telefone']);
+        $this->assertSame($clienteData['genero'], $result['genero']);
+        $this->assertSame($clienteData['observacao'], $result['observacao']);
+        $this->assertSame($clienteData['endereco']['logradouro'], $result['endereco']['logradouro']);
+        $this->assertSame($clienteData['endereco']['numero'], $result['endereco']['numero']);
+        $this->assertSame($clienteData['endereco']['cidade'], $result['endereco']['cidade']);
+    }
+
+    public function testPostClienteWithMissingRequiredFields(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $client->jsonRequest('POST', '/api/clientes', parameters: [
+            'email' => 'test@example.com',
+        ], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(500);
+    }
+
+    public function testPostClienteWithDuplicateDocumento(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        // Create first cliente
+        TestHelper::createCliente($this->em, 'Existing Cliente', '11111111111');
+
+        // Try to create another with same documento
+        $client->jsonRequest('POST', '/api/clientes', parameters: [
+            'nome' => 'New Cliente',
+            'documento' => '11111111111',
+        ], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(500);
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('error', $result);
+    }
+
+    public function testPutClienteWithoutAccessToken(): void
+    {
+        $client = static::getClient();
+        $cliente = TestHelper::createCliente($this->em, 'Test Cliente', '12345678900');
+
+        $client->jsonRequest('PUT', sprintf('/api/clientes/%s', $cliente->getId()), parameters: [
+            'nome' => 'Updated Name',
+        ]);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testPutClienteWithValidAccessToken(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $cliente = TestHelper::createCliente($this->em, 'Original Name', '12345678900');
+
+        $updatedData = [
+            'nome' => 'Updated Name',
+            'documento' => '12345678900',
+            'email' => 'updated@example.com',
+            'telefone' => '11999887766',
+            'genero' => 'F',
+            'observacao' => 'Updated observation',
+            'endereco' => [
+                'logradouro' => 'Avenida Atualizada',
+                'numero' => '456',
+                'complemento' => 'Sala 10',
+                'cidade' => 'Rio de Janeiro',
+                'estado' => 'RJ',
+                'cep' => '20000-000',
+                'pais' => 'BR',
+            ],
+        ];
+
+        $client->jsonRequest('PUT', sprintf('/api/clientes/%s', $cliente->getId()), parameters: $updatedData, server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+
+        $this->assertSame($cliente->getId(), $result['id']);
+        $this->assertSame($updatedData['nome'], $result['nome']);
+        $this->assertSame($updatedData['email'], $result['email']);
+        $this->assertSame($updatedData['telefone'], $result['telefone']);
+        $this->assertSame($updatedData['genero'], $result['genero']);
+        $this->assertSame($updatedData['observacao'], $result['observacao']);
+        $this->assertSame($updatedData['endereco']['logradouro'], $result['endereco']['logradouro']);
+        $this->assertSame($updatedData['endereco']['cidade'], $result['endereco']['cidade']);
+        $this->assertSame($updatedData['endereco']['estado'], $result['endereco']['estado']);
+    }
+
+    public function testPutClienteWithInvalidId(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $client->jsonRequest('PUT', '/api/clientes/999', parameters: [
+            'nome' => 'Updated Name',
+            'documento' => '12345678900',
+        ], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(500);
+    }
 }
