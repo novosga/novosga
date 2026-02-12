@@ -6,7 +6,7 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
-    
+
     services:
       mysql:
         image: mysql:5.7
@@ -20,7 +20,7 @@ jobs:
           --health-retries 5
         ports:
           - 3306:3306
-      
+
       postgres:
         image: postgres:15
         env:
@@ -37,7 +37,9 @@ jobs:
 
     env:
       APP_ENV: test
-      DATABASE_URL: "mysql://root:dbpass@127.0.0.1:3306/novosga_test?serverVersion=5.7.40&charset=utf8"
+      DATABASE_URL: >-
+        mysql://root:dbpass@127.0.0.1:3306/novosga_test?
+        serverVersion=5.7.40&charset=utf8
 
     steps:
       - name: Checkout code
@@ -58,17 +60,21 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: >-
+            ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --no-interaction
+        run: >-
+          composer install --prefer-dist --no-progress
+          --no-suggest --no-interaction
 
       - name: Generate JWT certificates
         run: |
           mkdir -p config/jwt
           openssl genrsa -out config/jwt/private.pem 2048
-          openssl rsa -in config/jwt/private.pem -pubout -out config/jwt/public.pem
+          openssl rsa -in config/jwt/private.pem \
+            -pubout -out config/jwt/public.pem
           chmod 600 config/jwt/private.pem
           chmod 644 config/jwt/public.pem
 
@@ -79,10 +85,16 @@ jobs:
           fi
 
       - name: Run database migrations
-        run: bin/console doctrine:migrations:migrate --no-interaction --env=test
+        run: >-
+          bin/console doctrine:migrations:migrate
+          --no-interaction --env=test
 
       - name: Load database fixtures
-        run: bin/console doctrine:fixtures:load --no-interaction --purge-exclusions view_atendimentos --purge-exclusions view_atendimentos_codificados --env=test
+        run: >-
+          bin/console doctrine:fixtures:load --no-interaction
+          --purge-exclusions view_atendimentos
+          --purge-exclusions view_atendimentos_codificados
+          --env=test
 
       - name: Verify setup
         run: |
