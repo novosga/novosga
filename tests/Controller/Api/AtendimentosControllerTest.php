@@ -226,6 +226,31 @@ class AtendimentosControllerTest extends WebTestCase
         $this->assertEquals(AtendimentoService::ATENDIMENTO_ENCERRADO, $result['status']);
     }
 
+    public function testEncerrarAtendimentoSemIniciarRetorna422(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+        $atendimento = $this->createAtendimento();
+        $local = TestHelper::createLocal($this->em, 'Guichê 1');
+        $usuario = TestHelper::getUser($this->em);
+
+        // Call the ticket but don't start it
+        $container = static::getContainer();
+        $service = $container->get(AtendimentoService::class);
+        $service->chamarAtendimento($atendimento, $usuario, $local, 1);
+
+        $data = [
+            'servicosRealizados' => [$atendimento->getServico()->getId()],
+        ];
+
+        $url = sprintf('/api/atendimentos/%s/encerrar', $atendimento->getId());
+        $client->jsonRequest('POST', $url, parameters: $data, server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(422);
+    }
+
     private function createAtendimento(): Atendimento
     {
         $unidade = TestHelper::createUnidade($this->em);
