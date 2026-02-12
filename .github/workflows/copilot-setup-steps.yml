@@ -46,7 +46,7 @@ jobs:
 
     env:
       APP_ENV: test
-      DATABASE_URL: mysql://root:dbpass@127.0.0.1:3306/novosga_test?serverVersion=5.7.40&charset=utf8
+      DATABASE_URL: mysql://root:dbpass@127.0.0.1:3306/novosga?serverVersion=5.7.40&charset=utf8
 
     steps:
       - name: Checkout code
