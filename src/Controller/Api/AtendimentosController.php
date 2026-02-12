@@ -58,7 +58,7 @@ class AtendimentosController extends ApiCrudController
 
             $local = $this->getManager()->getRepository(Local::class)->find($dto->local);
             if (!$local) {
-                $error = $this->translate('error.invalid_local');
+                $error = $this->translate('error.invalid_location');
                 throw new Exception($error);
             }
 
@@ -70,7 +70,7 @@ class AtendimentosController extends ApiCrudController
             );
 
             if (!$success) {
-                $error = $this->translate('error.ticket_call_failed');
+                $error = $this->translate('error.api.ticket_call_failed');
                 throw new Exception($error);
             }
 
