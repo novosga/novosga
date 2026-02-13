@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\DataFixtures\AppFixtures;
+use App\Entity\Cliente;
 use App\Entity\Contador;
 use App\Entity\Local;
 use App\Entity\Lotacao;
@@ -20,6 +21,7 @@ use League\Bundle\OAuth2ServerBundle\Entity\Client as ClientEntity;
 use League\Bundle\OAuth2ServerBundle\Entity\Scope as ScopeEntity;
 use League\Bundle\OAuth2ServerBundle\Manager\AccessTokenManagerInterface;
 use League\OAuth2\Server\CryptKey;
+use Novosga\Entity\ClienteInterface;
 use Novosga\Entity\LocalInterface;
 use Novosga\Entity\LotacaoInterface;
 use Novosga\Entity\PerfilInterface;
@@ -57,6 +59,7 @@ final class TestHelper
         $em->getConnection()->executeQuery('DELETE FROM servicos');
         $em->getConnection()->executeQuery('DELETE FROM unidades');
         $em->getConnection()->executeQuery('DELETE FROM locais');
+        $em->getConnection()->executeQuery('DELETE FROM clientes');
     }
 
     public static function getUser(EntityManagerInterface $em): UsuarioInterface
@@ -134,6 +137,27 @@ final class TestHelper
         $em->flush();
 
         return $local;
+    }
+
+    public static function createCliente(
+        EntityManagerInterface $em,
+        string $name = 'Test',
+        ?string $documento = null,
+    ): ClienteInterface {
+        if ($documento === null) {
+            $documento = uniqid();
+        }
+
+        $cliente = (new Cliente())
+            ->setNome($name)
+            ->setDocumento($documento)
+            ->setEmail(sprintf('%s@test.com', strtolower($name)))
+            ->setTelefone('1234567890');
+
+        $em->persist($cliente);
+        $em->flush();
+
+        return $cliente;
     }
 
     public static function generateJwtToken(ContainerInterface $container): string
