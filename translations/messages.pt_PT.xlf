@@ -46,6 +46,10 @@
                 <source>label.disabled</source>
                 <target>Inativo</target>
             </trans-unit>
+            <trans-unit id="label.timezone">
+                <source>label.timezone</source>
+                <target>Fuso horário</target>
+            </trans-unit>
             <trans-unit id="label.view">
                 <source>label.view</source>
                 <target>Visualizar</target>

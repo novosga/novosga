@@ -72,7 +72,8 @@ final class TestHelper
         $unidade = (new Unidade())
             ->setNome(sprintf('%s %s ', $name, time()))
             ->setDescricao('test')
-            ->setAtivo(true);
+            ->setAtivo(true)
+            ->setTimezone('UTC');
 
         $em->persist($unidade);
         $em->flush();

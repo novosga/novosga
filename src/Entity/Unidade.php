@@ -51,6 +51,9 @@ class Unidade implements TimestampableEntityInterface, SoftDeletableEntityInterf
     #[ORM\Column]
     private bool $ativo = true;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $timezone = null;
+
     #[ORM\Embedded(class: ConfiguracaoImpressao::class)]
     private ConfiguracaoImpressaoInterface $impressao;
 
@@ -107,6 +110,18 @@ class Unidade implements TimestampableEntityInterface, SoftDeletableEntityInterf
         return $this;
     }
 
+    public function getTimezone(): ?string
+    {
+        return $this->timezone;
+    }
+
+    public function setTimezone(?string $timezone): static
+    {
+        $this->timezone = $timezone;
+
+        return $this;
+    }
+
     public function getImpressao(): ConfiguracaoImpressaoInterface
     {
         return $this->impressao;
@@ -114,7 +129,7 @@ class Unidade implements TimestampableEntityInterface, SoftDeletableEntityInterf
 
     public function __toString()
     {
-        return $this->getNome();
+        return (string) $this->getNome();
     }
 
     /** @return array<string,mixed> */
@@ -125,6 +140,7 @@ class Unidade implements TimestampableEntityInterface, SoftDeletableEntityInterf
             'nome'      => $this->getNome(),
             'descricao' => $this->getDescricao(),
             'ativo'     => $this->isAtivo(),
+            'timezone'  => $this->getTimezone(),
             'impressao' => $this->getImpressao(),
             'createdAt' => $this->getCreatedAt() ? $this->getCreatedAt()->format('Y-m-d\TH:i:s') : null,
             'updatedAt' => $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d\TH:i:s') : null,
