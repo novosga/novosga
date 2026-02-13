@@ -1,0 +1,316 @@
+{% extends 'skeleton.html.twig' %}
+
+{% block title %}{{ 'Painel de Senhas'|trans }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        #painel-display {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .playlist-container {
+            position: relative;
+            width: 90%;
+            max-width: 1200px;
+            height: 80vh;
+            overflow: hidden;
+        }
+
+        .playlist-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .playlist-item.active {
+            opacity: 1;
+        }
+
+        /* Slide Left Animation */
+        .playlist-container.slide-left .playlist-item {
+            transform: translateX(0);
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        .playlist-container.slide-left .playlist-item.exit {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        .playlist-container.slide-left .playlist-item.enter {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .playlist-container.slide-left .playlist-item.active {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .senha-display {
+            font-size: 10rem;
+            font-weight: bold;
+            margin: 2rem 0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .servico-name {
+            font-size: 3rem;
+            margin: 1rem 0;
+        }
+
+        .local-display {
+            font-size: 4rem;
+            color: #ffc107;
+            margin: 1rem 0;
+        }
+
+        .priority-badge {
+            font-size: 2rem;
+            padding: 0.5rem 2rem;
+            border-radius: 1rem;
+            margin: 1rem 0;
+        }
+
+        .priority-normal {
+            background-color: #28a745;
+        }
+
+        .priority-high {
+            background-color: #dc3545;
+        }
+
+        .clock-display {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            font-size: 2rem;
+        }
+
+        .empty-message {
+            font-size: 3rem;
+            text-align: center;
+            color: #666;
+        }
+
+        .unit-name {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            font-size: 1.5rem;
+            color: #888;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div id="painel-display">
+        <div class="clock-display" id="clock"></div>
+        <div class="unit-name">{{ unidade.nome }}</div>
+        
+        <div class="playlist-container" :class="transitionClass">
+            <div v-if="senhas.length === 0" class="empty-message">
+                {{ 'Aguardando chamadas...'|trans }}
+            </div>
+            
+            <div 
+                v-for="(senha, index) in senhas" 
+                :key="senha.id"
+                class="playlist-item"
+                :class="{
+                    'active': currentIndex === index,
+                    'exit': exitIndex === index,
+                    'enter': enterIndex === index
+                }">
+                <div class="senha-display">
+                    {% verbatim %}{{ senha.siglaSenha }}{{ senha.numeroSenha }}{% endverbatim %}
+                </div>
+                <div class="servico-name">
+                    {% verbatim %}{{ senha.servico?.nome || '' }}{% endverbatim %}
+                </div>
+                <div class="local-display" v-if="senha.local">
+                    {% verbatim %}{{ senha.local }} {{ senha.numeroLocal }}{% endverbatim %}
+                </div>
+                <div 
+                    class="priority-badge"
+                    :class="senha.peso > 0 ? 'priority-high' : 'priority-normal'">
+                    {% verbatim %}{{ senha.prioridade }}{% endverbatim %}
+                </div>
+                <div v-if="senha.nomeCliente" style="font-size: 2rem; margin-top: 1rem;">
+                    {% verbatim %}{{ senha.nomeCliente }}{% endverbatim %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        const unidadeId = {{ unidade.id }};
+        const servicosParam = '{{ servicos }}';
+        const transitionType = '{{ transition }}';
+        const intervalMs = {{ interval }};
+    </script>
+    <script type="text/javascript">
+        (function () {
+            'use strict'
+            
+            new Vue({
+                el: '#painel-display',
+                data: {
+                    senhas: [],
+                    currentIndex: 0,
+                    exitIndex: -1,
+                    enterIndex: -1,
+                    transition: transitionType,
+                    updateTimer: null,
+                    playlistTimer: null,
+                },
+                computed: {
+                    transitionClass() {
+                        return this.transition === 'slide-left' ? 'slide-left' : '';
+                    }
+                },
+                methods: {
+                    async fetchSenhas() {
+                        try {
+                            const url = `/api/unidades/${unidadeId}/painel?servicos=${servicosParam}`;
+                            const response = await fetch(url);
+                            const data = await response.json();
+                            
+                            if (Array.isArray(data) && data.length > 0) {
+                                // Update senhas list, preserving current position if possible
+                                const currentId = this.senhas[this.currentIndex]?.id;
+                                this.senhas = data.reverse(); // Reverse to show oldest first
+                                
+                                // Try to maintain current position
+                                if (currentId) {
+                                    const newIndex = this.senhas.findIndex(s => s.id === currentId);
+                                    if (newIndex >= 0) {
+                                        this.currentIndex = newIndex;
+                                    } else if (this.currentIndex >= this.senhas.length) {
+                                        this.currentIndex = 0;
+                                    }
+                                } else if (this.currentIndex >= this.senhas.length) {
+                                    this.currentIndex = 0;
+                                }
+                            } else if (data.length === 0) {
+                                this.senhas = [];
+                                this.currentIndex = 0;
+                            }
+                        } catch (error) {
+                            console.error('Error fetching senhas:', error);
+                        }
+                    },
+
+                    nextSenha() {
+                        if (this.senhas.length <= 1) {
+                            return;
+                        }
+
+                        if (this.transition === 'slide-left') {
+                            this.exitIndex = this.currentIndex;
+                            this.currentIndex = (this.currentIndex + 1) % this.senhas.length;
+                            this.enterIndex = this.currentIndex;
+
+                            // Reset animation classes after transition
+                            setTimeout(() => {
+                                this.exitIndex = -1;
+                                this.enterIndex = -1;
+                            }, 800); // Match transition duration
+                        } else {
+                            // Default: simple fade
+                            this.currentIndex = (this.currentIndex + 1) % this.senhas.length;
+                        }
+                    },
+
+                    startPlaylist() {
+                        this.stopPlaylist();
+                        if (this.senhas.length > 1) {
+                            this.playlistTimer = setInterval(() => {
+                                this.nextSenha();
+                            }, intervalMs);
+                        }
+                    },
+
+                    stopPlaylist() {
+                        if (this.playlistTimer) {
+                            clearInterval(this.playlistTimer);
+                            this.playlistTimer = null;
+                        }
+                    },
+
+                    updateClock() {
+                        const now = new Date();
+                        const hours = String(now.getHours()).padStart(2, '0');
+                        const minutes = String(now.getMinutes()).padStart(2, '0');
+                        const seconds = String(now.getSeconds()).padStart(2, '0');
+                        document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+                    }
+                },
+                watch: {
+                    senhas(newVal, oldVal) {
+                        // Restart playlist when senhas change
+                        this.startPlaylist();
+                    }
+                },
+                mounted() {
+                    // Initial fetch
+                    this.fetchSenhas();
+
+                    // Set up periodic updates (every 5 seconds)
+                    this.updateTimer = setInterval(() => {
+                        this.fetchSenhas();
+                    }, 5000);
+
+                    // Set up clock
+                    this.updateClock();
+                    setInterval(() => {
+                        this.updateClock();
+                    }, 1000);
+
+                    // Start playlist
+                    this.startPlaylist();
+
+                    // SSE connection for real-time updates
+                    if (document.body.dataset.mercureUrl) {
+                        App.SSE.connect([`/unidades/${unidadeId}/painel`]);
+                        App.SSE.onmessage = (e, data) => {
+                            this.fetchSenhas();
+                        };
+                    }
+                },
+                beforeUnmount() {
+                    this.stopPlaylist();
+                    if (this.updateTimer) {
+                        clearInterval(this.updateTimer);
+                    }
+                }
+            });
+        })();
+    </script>
+{% endblock %}
