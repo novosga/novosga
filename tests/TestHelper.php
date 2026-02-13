@@ -142,7 +142,7 @@ final class TestHelper
     public static function createCliente(
         EntityManagerInterface $em,
         string $name = 'Test',
-        string $documento = null,
+        ?string $documento = null,
     ): ClienteInterface {
         if ($documento === null) {
             $documento = uniqid();

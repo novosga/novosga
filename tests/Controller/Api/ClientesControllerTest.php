@@ -296,4 +296,41 @@ class ClientesControllerTest extends WebTestCase
         // When entity is not found, find() returns null causing a TypeError (500)
         $this->assertResponseStatusCodeSame(500);
     }
+
+    public function testDeleteClienteWithoutAccessToken(): void
+    {
+        $client = static::getClient();
+        $cliente = TestHelper::createCliente($this->em, 'Cliente To Delete', '98765432100');
+
+        $client->jsonRequest('DELETE', sprintf('/api/clientes/%s', $cliente->getId()));
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteClienteWithValidAccessToken(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $cliente = TestHelper::createCliente($this->em, 'Cliente To Delete', '98765432100');
+
+        $client->jsonRequest('DELETE', sprintf('/api/clientes/%s', $cliente->getId()), server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testDeleteClienteWithInvalidId(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $client->jsonRequest('DELETE', '/api/clientes/999', server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        // When entity is not found, find() returns null causing a TypeError (500)
+        $this->assertResponseStatusCodeSame(500);
+    }
 }
