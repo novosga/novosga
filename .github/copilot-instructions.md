@@ -72,7 +72,7 @@ openssl rsa -in config/jwt/private.pem -pubout -out config/jwt/public.pem
 bin/console doctrine:migrations:migrate --no-interaction
 
 # Load fixtures (development/test only)
-bin/console doctrine:fixtures:load --no-interaction
+bin/console doctrine:fixtures:load --no-interaction --purge-exclusions=view_atendimentos --purge-exclusions=view_atendimentos_codificados
 ```
 
 ### Testing

@@ -642,6 +642,10 @@
                 <source>ticket.status.error</source>
                 <target>Triage error</target>
             </trans-unit>
+            <trans-unit id="error.api.ticket_call_failed">
+                <source>error.api.ticket_call_failed</source>
+                <target>API ticket call failed</target>
+            </trans-unit>
             <trans-unit id="error.invalid_unity">
                 <source>error.invalid_unity</source>
                 <target>Invalid drive</target>
@@ -657,6 +661,10 @@
             <trans-unit id="error.invalid_priority">
                 <source>error.invalid_priority</source>
                 <target>Invalid property</target>
+            </trans-unit>
+            <trans-unit id="error.invalid_location">
+                <source>error.invalid_location</source>
+                <target>Invalid location</target>
             </trans-unit>
             <trans-unit id="error.user_unity_ticket_permission">
                 <source>error.user_unity_ticket_permission</source>
