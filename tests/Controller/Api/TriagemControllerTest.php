@@ -262,4 +262,71 @@ class TriagemControllerTest extends WebTestCase
         $this->assertSame($result['servico']['id'], $servico->getId());
         $this->assertSame($result['prioridade']['id'], $prioridade->getId());
     }
+
+    public function testDistribuiSenhaWithDifferentTimezones(): void
+    {
+        $client = static::getClient();
+        $usuario = TestHelper::getUser($this->em);
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+        $perfil = TestHelper::createPerfil($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $prioridade = TestHelper::createPrioridade($this->em);
+
+        // unidade with UTC timezone
+        $unidadeUtc = TestHelper::createUnidade($this->em, 'UTC Unit', 'UTC');
+        TestHelper::linkUnidadeUsuario($this->em, $unidadeUtc, $usuario, $perfil);
+        TestHelper::linkServicoUnidade($this->em, $servico, $unidadeUtc);
+
+        // unidade with America/Sao_Paulo timezone
+        $unidadeSp = TestHelper::createUnidade($this->em, 'SP Unit', 'America/Sao_Paulo');
+        TestHelper::linkUnidadeUsuario($this->em, $unidadeSp, $usuario, $perfil);
+        TestHelper::linkServicoUnidade($this->em, $servico, $unidadeSp);
+
+        // distribui senha for UTC unidade
+        $client->jsonRequest('POST', '/api/distribui', parameters: [
+            'unidade' => $unidadeUtc->getId(),
+            'servico' => $servico->getId(),
+            'prioridade' => $prioridade->getId(),
+        ], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $resultUtc = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertIsArray($resultUtc);
+        $this->assertArrayHasKey('dataChegada', $resultUtc);
+        $this->assertMatchesRegularExpression(
+            '/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+00:00$/',
+            $resultUtc['dataChegada'],
+            'UTC unidade dataChegada should have +00:00 offset',
+        );
+
+        // distribui senha for Sao Paulo unidade
+        $client->jsonRequest('POST', '/api/distribui', parameters: [
+            'unidade' => $unidadeSp->getId(),
+            'servico' => $servico->getId(),
+            'prioridade' => $prioridade->getId(),
+        ], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $resultSp = json_decode($client->getResponse()->getContent(), true);
+
+        $this->assertIsArray($resultSp);
+        $this->assertArrayHasKey('dataChegada', $resultSp);
+        $this->assertMatchesRegularExpression(
+            '/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00$/',
+            $resultSp['dataChegada'],
+            'Sao Paulo unidade dataChegada should have -03:00 offset',
+        );
+
+        // verify the offsets are different
+        $dtUtc = new \DateTimeImmutable($resultUtc['dataChegada']);
+        $dtSp = new \DateTimeImmutable($resultSp['dataChegada']);
+
+        $this->assertSame('+00:00', $dtUtc->format('P'));
+        $this->assertSame('-03:00', $dtSp->format('P'));
+    }
 }

@@ -16,6 +16,7 @@ namespace App\Entity;
 use App\EventListener\TimestampableEntityListener;
 use App\EventListener\UnidadeListener;
 use App\Repository\UnidadeRepository;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\ConfiguracaoImpressaoInterface;
 use Novosga\Entity\UnidadeInterface;
@@ -120,6 +121,11 @@ class Unidade implements TimestampableEntityInterface, SoftDeletableEntityInterf
         $this->timezone = $timezone;
 
         return $this;
+    }
+
+    public function getDateTimeZone(): DateTimeZone
+    {
+        return new DateTimeZone($this->timezone ?? date_default_timezone_get());
     }
 
     public function getImpressao(): ConfiguracaoImpressaoInterface

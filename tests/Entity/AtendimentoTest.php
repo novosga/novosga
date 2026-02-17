@@ -231,7 +231,7 @@ class AtendimentoTest extends TestCase
             ],
             'status' => AtendimentoService::SENHA_EMITIDA,
             'observacao' => null,
-            'dataChegada' => '2025-08-04T10:00:00',
+            'dataChegada' => '2025-08-04T10:00:00+00:00',
             'dataChamada' => null,
             'dataInicio' => null,
             'dataFim' => null,

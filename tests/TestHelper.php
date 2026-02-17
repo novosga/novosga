@@ -67,13 +67,16 @@ final class TestHelper
         return $em->getRepository(Usuario::class)->findOneBy(['login' => AppFixtures::USER_USERNAME]);
     }
 
-    public static function createUnidade(EntityManagerInterface $em, string $name = 'Test'): UnidadeInterface
-    {
+    public static function createUnidade(
+        EntityManagerInterface $em,
+        string $name = 'Test',
+        string $timezone = 'UTC',
+    ): UnidadeInterface {
         $unidade = (new Unidade())
             ->setNome(sprintf('%s %s ', $name, time()))
             ->setDescricao('test')
             ->setAtivo(true)
-            ->setTimezone('UTC');
+            ->setTimezone($timezone);
 
         $em->persist($unidade);
         $em->flush();

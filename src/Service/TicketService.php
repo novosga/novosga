@@ -48,7 +48,7 @@ class TicketService implements TicketServiceInterface
         $viewParams = [
             'atendimento' => $atendimento,
             'servicoUnidade' => $su,
-            'now' => $this->clock->now(),
+            'now' => $this->clock->now()->setTimezone($unidade->getDateTimeZone()),
         ];
 
         return $this->twig->render(self::DEFAULT_TEMPLATE, $viewParams);

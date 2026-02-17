@@ -78,7 +78,7 @@ services:
     # storage factory
     Novosga\Infrastructure\StorageInterface:
         factory: ['App\Infrastructure\StorageFactory', 'createStorage']
-        arguments: ['@doctrine.orm.entity_manager']
+        arguments: ['@doctrine.orm.entity_manager', '@Psr\Clock\ClockInterface']
 
 
 when@test:

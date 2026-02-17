@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Storage;
 
-use DateTime;
 use DateTimeInterface;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\LockMode;
@@ -164,13 +163,13 @@ abstract class RelationalStorage extends DoctrineStorage
                 throw new Exception('Error updating ticket counter');
             }
 
-            $atendimento->setDataChegada(new DateTime());
+            $atendimento->setDataChegada($this->clock->now()->setTimezone($unidade->getDateTimeZone()));
             $atendimento->getSenha()->setNumero($numeroAtual);
 
             if ($agendamento) {
                 $agendamento
                     ->setSituacao(Agendamento::SITUACAO_CONFIRMADO)
-                    ->setDataConfirmacao(new DateTime());
+                    ->setDataConfirmacao($this->clock->now()->setTimezone($unidade->getDateTimeZone()));
             }
 
             $this->em->persist($atendimento);

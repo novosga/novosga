@@ -234,7 +234,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             ->setLocal($local)
             ->setNumeroLocal($numeroLocal)
             ->setStatus(self::CHAMADO_PELA_MESA)
-            ->setDataChamada($this->clock->now());
+            ->setDataChamada($this->clock->now()->setTimezone($atendimento->getUnidade()->getDateTimeZone()));
 
         $tempoEspera = $atendimento->getDataChamada()->diff($atendimento->getDataChegada());
         $atendimento->setTempoEspera($tempoEspera);
@@ -538,7 +538,7 @@ class AtendimentoService implements AtendimentoServiceInterface
 
         $atendimento
             ->setStatus(self::ATENDIMENTO_INICIADO)
-            ->setDataInicio(new DateTime())
+            ->setDataInicio($this->clock->now()->setTimezone($atendimento->getUnidade()->getDateTimeZone()))
             ->setUsuario($usuario);
 
         $tempoDeslocamento = $atendimento->getDataInicio()->diff($atendimento->getDataChamada());
@@ -572,7 +572,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         }
 
         $atendimento
-            ->setDataFim(new DateTime())
+            ->setDataFim($this->clock->now()->setTimezone($atendimento->getUnidade()->getDateTimeZone()))
             ->setStatus(self::NAO_COMPARECEU)
             ->setUsuario($usuario);
 
@@ -636,7 +636,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         ));
 
         $atendimento->setStatus(self::ERRO_TRIAGEM);
-        $atendimento->setDataFim(new DateTime());
+        $atendimento->setDataFim($this->clock->now()->setTimezone($atendimento->getUnidade()->getDateTimeZone()));
 
         $tempoPermanencia = $atendimento->getDataFim()->diff($atendimento->getDataChegada());
         $tempoAtendimento = new \DateInterval('P0M');
@@ -715,7 +715,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $usuario,
         ));
 
-        $now = new DateTime();
+        $now = $this->clock->now()->setTimezone($atendimento->getUnidade()->getDateTimeZone());
         $atendimento
             ->setDataFim($now)
             ->setStatus(self::SENHA_CANCELADA);
@@ -838,7 +838,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         }
 
         $atendimento
-            ->setDataFim($this->clock->now())
+            ->setDataFim($this->clock->now()->setTimezone($atendimento->getUnidade()->getDateTimeZone()))
             ->setStatus(AtendimentoService::ATENDIMENTO_ENCERRADO);
 
         $tempoPermanencia = $atendimento->getDataFim()->diff($atendimento->getDataChegada());
@@ -899,7 +899,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             $statusAtual = [$statusAtual];
         }
 
-        $data = (new DateTime())->format('Y-m-d H:i:s');
+        $data = $this->clock->now()->setTimezone($atual->getUnidade()->getDateTimeZone())->format('Y-m-d H:i:s');
 
         $qb = $this
             ->atendimentoRepository
@@ -1000,7 +1000,7 @@ class AtendimentoService implements AtendimentoServiceInterface
             ->setServico($novoServico)
             ->setUnidade($atendimento->getUnidade())
             ->setPai($atendimento)
-            ->setDataChegada(new DateTime())
+            ->setDataChegada($this->clock->now()->setTimezone($atendimento->getUnidade()->getDateTimeZone()))
             ->setStatus(self::SENHA_EMITIDA)
             ->setUsuario($novoAtendente)
             ->setUsuarioTriagem($atendimento->getUsuario())
