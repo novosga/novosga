@@ -96,7 +96,7 @@ const App = {
                 App.showErrorDialog(json, resp);
             }
             if (json.time) {
-                App.Clock.update(json.time);
+                App.Clock.update(json.time, json.tz);
             }
         } catch (error) {
             App.showErrorDialog(error);
@@ -134,13 +134,15 @@ const App = {
     Clock: {
         date: null,
         target: null,
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         dateChilds: ['day', 'mon', 'year'],
         timeChilds: ['hours', 'mins', 'secs'],
-        
-        init: function(targetId, milis) {
+
+        init: function(targetId, milis, timezone) {
             // evitando o parser do jquery para pegar por id
             App.Clock.target = document.getElementById(targetId);
             if (App.Clock.target) {
+                App.Clock.timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
                 App.Clock.createNodes();
                 App.Clock.date = new Date(milis);
                 App.Clock.update();
@@ -157,6 +159,10 @@ const App = {
         },
         
         createNodes: function() {
+            const tz = document.createElement('div');
+            tz.classList.add('tz');
+            App.Clock.tzNode = tz;
+
             const time = document.createElement('div');
             time.classList.add('time');
             const date = document.createElement('div');
@@ -171,7 +177,8 @@ const App = {
                 App.Clock.dateChilds[1] = a;
             }
             App.Clock._createNodes(date, App.Clock.dateChilds, '/');
-            App.Clock.target.appendChild(time)
+            App.Clock.target.appendChild(tz);
+            App.Clock.target.appendChild(time);
             App.Clock.target.appendChild(date);
         },
         
@@ -194,18 +201,29 @@ const App = {
             }
         },
         
-        update: function(milis) {
+        update: function(milis, tz) {
             var c = App.Clock;
             if (c.target) {
                 if (milis) {
                     c.date = new Date(milis);
                 }
-                c.hours.innerText = App.Clock.zeroFill(c.date.getHours());
-                c.mins.innerText = App.Clock.zeroFill(c.date.getMinutes());
-                c.secs.innerText = App.Clock.zeroFill(c.date.getSeconds());
-                c.day.innerText = App.Clock.zeroFill(c.date.getDate());
-                c.mon.innerText = App.Clock.zeroFill(c.date.getMonth() + 1);
-                c.year.innerText = c.date.getFullYear();
+                if (tz) {
+                    c.timezone = tz;
+                }
+                const parts = new Intl.DateTimeFormat('en', {
+                    timeZone: c.timezone,
+                    hour: '2-digit', minute: '2-digit', second: '2-digit',
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour12: false,
+                }).formatToParts(c.date);
+                const get = (type) => parts.find(p => p.type === type)?.value;
+                c.tzNode.innerText = c.timezone;
+                c.hours.innerText = get('hour');
+                c.mins.innerText = get('minute');
+                c.secs.innerText = get('second');
+                c.day.innerText = get('day');
+                c.mon.innerText = get('month');
+                c.year.innerText = get('year');
                 // incrementa em 1 segundo
                 c.date.setSeconds(c.date.getSeconds() + 1);
             }

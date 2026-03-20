@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Storage;
 
+use DateTimeImmutable;
 use DateTimeInterface;
+use DateTimeZone;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\LockMode;
 use Exception;
@@ -163,13 +165,13 @@ abstract class RelationalStorage extends DoctrineStorage
                 throw new Exception('Error updating ticket counter');
             }
 
-            $atendimento->setDataChegada($this->clock->now()->setTimezone($unidade->getDateTimeZone()));
+            $atendimento->setDataChegada($this->clock->now());
             $atendimento->getSenha()->setNumero($numeroAtual);
 
             if ($agendamento) {
                 $agendamento
                     ->setSituacao(Agendamento::SITUACAO_CONFIRMADO)
-                    ->setDataConfirmacao($this->clock->now()->setTimezone($unidade->getDateTimeZone()));
+                    ->setDataConfirmacao($this->clock->now());
             }
 
             $this->em->persist($atendimento);
@@ -188,7 +190,9 @@ abstract class RelationalStorage extends DoctrineStorage
 
         $conn->transactional(function (Connection $conn) use ($self, $unidade, $ateData) {
             $unidadeId = (int) $unidade?->getId();
-            $data = $ateData->format('Y-m-d H:i:s');
+            $data = DateTimeImmutable::createFromInterface($ateData)
+                ->setTimezone(new DateTimeZone('UTC'))
+                ->format('Y-m-d H:i:s');
 
             // tables name
             $historicoTable = $this->em->getClassMetadata(AtendimentoHistorico::class)->getTableName();

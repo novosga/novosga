@@ -38,6 +38,7 @@ body>footer p {
 
 /* internal clock */
 .clock {
+    text-align: center;
     bottom: 15px;
     right: 15px;
     padding: 10px 15px;    
@@ -53,6 +54,12 @@ body>footer p {
 }
 
 .clock span.sep { width: 15px; }
+
+.clock .tz {
+    color: #fff;
+    font-size: 13px;
+    font-weight: lighter;
+}
 
 .clock .time span {
     color: #fff;

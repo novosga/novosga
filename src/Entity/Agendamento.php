@@ -38,9 +38,11 @@ class Agendamento implements AgendamentoInterface
     #[ORM\SequenceGenerator(sequenceName: "agendamentos_id_seq", allocationSize: 1, initialValue: 1)]
     protected ?int $id = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    /** Local date (unit timezone) */
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?DateTimeInterface $data = null;
 
+    /** Local time (unit timezone) */
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?DateTimeInterface $hora = null;
 

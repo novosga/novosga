@@ -16,7 +16,9 @@ namespace App\Tests\Controller\Api;
 use App\Service\AtendimentoService;
 use App\Tests\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Clock\ClockInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Clock\MockClock;
 
 /**
  * TriageControllerTest
@@ -31,7 +33,13 @@ class TriagemControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
+
+        $clock = new MockClock('2026-03-29 15:20:00');
+        $container->set(ClockInterface::class, $clock);
+
         $this->em = $container->get(EntityManagerInterface::class);
+
+        $client->disableReboot();
 
         TestHelper::removeTestData($this->em);
     }
@@ -294,14 +302,6 @@ class TriagemControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(201);
         $resultUtc = json_decode($client->getResponse()->getContent(), true);
 
-        $this->assertIsArray($resultUtc);
-        $this->assertArrayHasKey('dataChegada', $resultUtc);
-        $this->assertMatchesRegularExpression(
-            '/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+00:00$/',
-            $resultUtc['dataChegada'],
-            'UTC unidade dataChegada should have +00:00 offset',
-        );
-
         // distribui senha for Sao Paulo unidade
         $client->jsonRequest('POST', '/api/distribui', parameters: [
             'unidade' => $unidadeSp->getId(),
@@ -314,19 +314,11 @@ class TriagemControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(201);
         $resultSp = json_decode($client->getResponse()->getContent(), true);
 
-        $this->assertIsArray($resultSp);
-        $this->assertArrayHasKey('dataChegada', $resultSp);
-        $this->assertMatchesRegularExpression(
-            '/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-03:00$/',
-            $resultSp['dataChegada'],
-            'Sao Paulo unidade dataChegada should have -03:00 offset',
-        );
-
         // verify the offsets are different
         $dtUtc = new \DateTimeImmutable($resultUtc['dataChegada']);
         $dtSp = new \DateTimeImmutable($resultSp['dataChegada']);
 
-        $this->assertSame('+00:00', $dtUtc->format('P'));
-        $this->assertSame('-03:00', $dtSp->format('P'));
+        $this->assertSame('2026-03-29 15:20', $dtUtc->format('Y-m-d H:i'));
+        $this->assertSame('2026-03-29 12:20', $dtSp->format('Y-m-d H:i'));
     }
 }
