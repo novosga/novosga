@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1bb74d3b78ee91a2bf5e82869940199d",
+    "content-hash": "bee0e0a001c469adc38717de519b91da",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -2012,21 +2012,21 @@
         },
         {
             "name": "novosga/attendance-bundle",
-            "version": "v2.2.1",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "375cb82b170afcf701694be5981327095e03c6b8"
+                "reference": "e77f30ca21256d4aee3d6e094e0fcbcb95550a89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/375cb82b170afcf701694be5981327095e03c6b8",
-                "reference": "375cb82b170afcf701694be5981327095e03c6b8",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/e77f30ca21256d4aee3d6e094e0fcbcb95550a89",
+                "reference": "e77f30ca21256d4aee3d6e094e0fcbcb95550a89",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
-                "novosga/core": "^2.2",
+                "novosga/core": "2.3.x-dev",
                 "php": ">=8.2",
                 "symfony/form": "^7.1",
                 "symfony/framework-bundle": "7.1.*",
@@ -2040,7 +2040,7 @@
             "type": "symfony-module",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2054,22 +2054,22 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
-                "source": "https://github.com/novosga/attendance-bundle/tree/v2.2.1"
+                "source": "https://github.com/novosga/attendance-bundle/tree/v2.3"
             },
-            "time": "2025-09-05T21:44:53+00:00"
+            "time": "2026-03-17T00:53:18+00:00"
         },
         {
             "name": "novosga/core",
-            "version": "v2.2.1",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "50561cef980a0225e80b059d345efa42b7e413e5"
+                "reference": "f9e3e0c8fa01bdfd90e152e9a9f9a426de3aec63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/50561cef980a0225e80b059d345efa42b7e413e5",
-                "reference": "50561cef980a0225e80b059d345efa42b7e413e5",
+                "url": "https://api.github.com/repos/novosga/core/zipball/f9e3e0c8fa01bdfd90e152e9a9f9a426de3aec63",
+                "reference": "f9e3e0c8fa01bdfd90e152e9a9f9a426de3aec63",
                 "shasum": ""
             },
             "require": {
@@ -2086,10 +2086,11 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2103,27 +2104,27 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/core/issues",
-                "source": "https://github.com/novosga/core/tree/v2.2.1"
+                "source": "https://github.com/novosga/core/tree/v2.3"
             },
-            "time": "2025-07-23T14:24:51+00:00"
+            "time": "2026-03-16T15:21:04+00:00"
         },
         {
             "name": "novosga/customers-bundle",
-            "version": "v2.2.0",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/customers-bundle.git",
-                "reference": "5c964aab265058362a47d50078196c60ff964d31"
+                "reference": "aad14a3f8ce08b4c9fcc49f1665e54aecb565279"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/customers-bundle/zipball/5c964aab265058362a47d50078196c60ff964d31",
-                "reference": "5c964aab265058362a47d50078196c60ff964d31",
+                "url": "https://api.github.com/repos/novosga/customers-bundle/zipball/aad14a3f8ce08b4c9fcc49f1665e54aecb565279",
+                "reference": "aad14a3f8ce08b4c9fcc49f1665e54aecb565279",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
-                "novosga/core": "^2.2",
+                "novosga/core": "2.3.x-dev",
                 "pagerfanta/doctrine-orm-adapter": "*",
                 "pagerfanta/pagerfanta": "^4.6",
                 "php": ">=8.2",
@@ -2135,10 +2136,11 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "symfony-module",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2152,27 +2154,27 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/customers-bundle/issues",
-                "source": "https://github.com/novosga/customers-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/customers-bundle/tree/v2.3"
             },
-            "time": "2025-04-09T14:00:59+00:00"
+            "time": "2026-03-16T15:26:52+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
-            "version": "v2.2.0",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "ec9166cb3a47352b61f030d265e857f3d1f23992"
+                "reference": "f611a7a85a8793766a4eeefdb5347f2022d2591e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/ec9166cb3a47352b61f030d265e857f3d1f23992",
-                "reference": "ec9166cb3a47352b61f030d265e857f3d1f23992",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/f611a7a85a8793766a4eeefdb5347f2022d2591e",
+                "reference": "f611a7a85a8793766a4eeefdb5347f2022d2591e",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
-                "novosga/core": "^2.2",
+                "novosga/core": "2.3.x-dev",
                 "php": ">=8.2",
                 "symfony/form": "7.1.*",
                 "symfony/framework-bundle": "7.1.*",
@@ -2186,7 +2188,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2200,27 +2202,27 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/monitor-bundle/issues",
-                "source": "https://github.com/novosga/monitor-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/monitor-bundle/tree/v2.3"
             },
-            "time": "2025-04-09T13:50:59+00:00"
+            "time": "2026-03-16T15:28:08+00:00"
         },
         {
             "name": "novosga/reports-bundle",
-            "version": "v2.2.3",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "35d86639b044b8454c174358f6a8954c23b98c98"
+                "reference": "2119c6e64b1bbfac4a3050a957e17ed49467f99e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/35d86639b044b8454c174358f6a8954c23b98c98",
-                "reference": "35d86639b044b8454c174358f6a8954c23b98c98",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/2119c6e64b1bbfac4a3050a957e17ed49467f99e",
+                "reference": "2119c6e64b1bbfac4a3050a957e17ed49467f99e",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
-                "novosga/core": "^2.2",
+                "novosga/core": "2.3.x-dev",
                 "php": ">=8.2",
                 "symfony/form": "7.1.*",
                 "symfony/framework-bundle": "7.1.*",
@@ -2235,7 +2237,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2249,27 +2251,27 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/reports-bundle/issues",
-                "source": "https://github.com/novosga/reports-bundle/tree/v2.2.3"
+                "source": "https://github.com/novosga/reports-bundle/tree/v2.3"
             },
-            "time": "2025-10-08T13:16:26+00:00"
+            "time": "2026-03-17T00:56:18+00:00"
         },
         {
             "name": "novosga/scheduling-bundle",
-            "version": "v2.2.0",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/scheduling-bundle.git",
-                "reference": "689818d1c47f0584ca89da285c442966bafc3382"
+                "reference": "e71005de4f98ab08b34d6f317db64f964f374c28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/689818d1c47f0584ca89da285c442966bafc3382",
-                "reference": "689818d1c47f0584ca89da285c442966bafc3382",
+                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/e71005de4f98ab08b34d6f317db64f964f374c28",
+                "reference": "e71005de4f98ab08b34d6f317db64f964f374c28",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
-                "novosga/core": "^2.2",
+                "novosga/core": "2.3.x-dev",
                 "pagerfanta/doctrine-orm-adapter": "*",
                 "pagerfanta/pagerfanta": "^4.6",
                 "php": ">=8.2",
@@ -2288,7 +2290,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2302,27 +2304,27 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/scheduling-bundle/issues",
-                "source": "https://github.com/novosga/scheduling-bundle/tree/v2.2.0"
+                "source": "https://github.com/novosga/scheduling-bundle/tree/v2.3"
             },
-            "time": "2025-04-09T13:53:13+00:00"
+            "time": "2026-03-17T00:58:25+00:00"
         },
         {
             "name": "novosga/settings-bundle",
-            "version": "v2.2.2",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "bdf98ca8f5b570d626adc0982da42acfbc3da310"
+                "reference": "2c63ef76e7f0f326d0d07d660936f6fec226e80d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/bdf98ca8f5b570d626adc0982da42acfbc3da310",
-                "reference": "bdf98ca8f5b570d626adc0982da42acfbc3da310",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/2c63ef76e7f0f326d0d07d660936f6fec226e80d",
+                "reference": "2c63ef76e7f0f326d0d07d660936f6fec226e80d",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
-                "novosga/core": "^2.2",
+                "novosga/core": "2.3.x-dev",
                 "php": ">=8.2",
                 "symfony/form": "7.1.*",
                 "symfony/framework-bundle": "7.1.*"
@@ -2332,10 +2334,11 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "novosga-module",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2349,27 +2352,27 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/settings-bundle/issues",
-                "source": "https://github.com/novosga/settings-bundle/tree/v2.2.2"
+                "source": "https://github.com/novosga/settings-bundle/tree/v2.3"
             },
-            "time": "2025-05-08T13:33:55+00:00"
+            "time": "2026-03-17T01:00:52+00:00"
         },
         {
             "name": "novosga/triage-bundle",
-            "version": "v2.2.1",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8"
+                "reference": "5a66bb4ceaaec239855fb1b53a39d1205574bcfb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8",
-                "reference": "d886ca5aa498b4975ce2ffa65b4b2f48b173d1b8",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/5a66bb4ceaaec239855fb1b53a39d1205574bcfb",
+                "reference": "5a66bb4ceaaec239855fb1b53a39d1205574bcfb",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
-                "novosga/core": "^2.2",
+                "novosga/core": "2.3.x-dev",
                 "php": ">=8.2",
                 "psr/clock": "^1.0",
                 "symfony/framework-bundle": "7.1.*"
@@ -2379,10 +2382,11 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2396,27 +2400,27 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/triage-bundle/issues",
-                "source": "https://github.com/novosga/triage-bundle/tree/v2.2.1"
+                "source": "https://github.com/novosga/triage-bundle/tree/v2.3"
             },
-            "time": "2025-09-09T15:56:43+00:00"
+            "time": "2026-03-17T01:03:55+00:00"
         },
         {
             "name": "novosga/users-bundle",
-            "version": "v2.2.1",
+            "version": "v2.3.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "57d294b659a3fc7ba383af9027205cc25a8fd10c"
+                "reference": "0ce408acf57546c5d369fe20741d7941a49e44ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/57d294b659a3fc7ba383af9027205cc25a8fd10c",
-                "reference": "57d294b659a3fc7ba383af9027205cc25a8fd10c",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/0ce408acf57546c5d369fe20741d7941a49e44ee",
+                "reference": "0ce408acf57546c5d369fe20741d7941a49e44ee",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
-                "novosga/core": "^2.2",
+                "novosga/core": "2.3.x-dev",
                 "pagerfanta/doctrine-orm-adapter": "*",
                 "pagerfanta/pagerfanta": "^4.6",
                 "php": ">=8.2",
@@ -2432,7 +2436,7 @@
             "type": "novosga-module",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -2446,9 +2450,9 @@
             ],
             "support": {
                 "issues": "https://github.com/novosga/users-bundle/issues",
-                "source": "https://github.com/novosga/users-bundle/tree/v2.2.1"
+                "source": "https://github.com/novosga/users-bundle/tree/v2.3"
             },
-            "time": "2025-07-23T14:43:35+00:00"
+            "time": "2026-03-17T01:03:27+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -12020,7 +12024,17 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "novosga/attendance-bundle": 20,
+        "novosga/core": 20,
+        "novosga/customers-bundle": 20,
+        "novosga/monitor-bundle": 20,
+        "novosga/reports-bundle": 20,
+        "novosga/scheduling-bundle": 20,
+        "novosga/settings-bundle": 20,
+        "novosga/triage-bundle": 20,
+        "novosga/users-bundle": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -12028,6 +12042,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.9.0"
 }

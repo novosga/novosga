@@ -667,6 +667,120 @@ class AtendimentoServiceTest extends TestCase
         $this->assertSame($agendamento->getCliente(), $atendimento->getCliente());
     }
 
+    /**
+     * @dataProvider timezoneProvider
+     */
+    public function testDistribuiSenhaWithTimezone(string $timezone, string $expectedTzName): void
+    {
+        $unidade = (new Unidade())->setTimezone($timezone);
+        $usuario = (new Usuario())->setAdmin(true);
+        $servico = new Servico();
+        $prioridade = new Prioridade();
+        $servicoUnidade = new ServicoUnidade();
+
+        $this
+            ->servicoUnidadeRepository
+            ->expects($this->once())
+            ->method('get')
+            ->with($unidade, $servico)
+            ->willReturn($servicoUnidade);
+
+        $this
+            ->storage
+            ->expects($this->once())
+            ->method('distribui')
+            ->with(
+                $this->isInstanceOf(Atendimento::class),
+                $this->isNull(),
+            )
+            ->willReturnCallback(function (Atendimento $atendimento) use ($expectedTzName) {
+                $tz = $atendimento->getUnidade()->getDateTimeZone();
+                $now = $this->clock->now()->setTimezone($tz);
+
+                $atendimento->setId(1);
+                $atendimento->setDataChegada($now);
+
+                $this->assertSame($expectedTzName, $now->getTimezone()->getName());
+                $this->assertSame(
+                    $expectedTzName,
+                    $atendimento->getDataChegada()->getTimezone()->getName(),
+                );
+            });
+
+        $atendimento = $this->service->distribuiSenha(
+            $unidade,
+            $usuario,
+            $servico,
+            $prioridade,
+        );
+
+        $this->assertNotNull($atendimento->getId());
+        $this->assertSame($timezone, $atendimento->getUnidade()->getTimezone());
+        $this->assertSame(
+            $expectedTzName,
+            $atendimento->getDataChegada()->getTimezone()->getName(),
+        );
+    }
+
+    /** @return array<string, array{string, string}> */
+    public static function timezoneProvider(): array
+    {
+        return [
+            'Sao Paulo'  => ['America/Sao_Paulo', 'America/Sao_Paulo'],
+            'New York'   => ['America/New_York', 'America/New_York'],
+            'Tokyo'      => ['Asia/Tokyo', 'Asia/Tokyo'],
+            'London'     => ['Europe/London', 'Europe/London'],
+            'UTC'        => ['UTC', 'UTC'],
+        ];
+    }
+
+    public function testDistribuiSenhaWithNullTimezoneUsesDefault(): void
+    {
+        $unidade = new Unidade(); // timezone is null
+        $usuario = (new Usuario())->setAdmin(true);
+        $servico = new Servico();
+        $prioridade = new Prioridade();
+        $servicoUnidade = new ServicoUnidade();
+
+        $this
+            ->servicoUnidadeRepository
+            ->expects($this->once())
+            ->method('get')
+            ->with($unidade, $servico)
+            ->willReturn($servicoUnidade);
+
+        $this
+            ->storage
+            ->expects($this->once())
+            ->method('distribui')
+            ->willReturnCallback(function (Atendimento $atendimento) {
+                $tz = $atendimento->getUnidade()->getDateTimeZone();
+                $now = $this->clock->now()->setTimezone($tz);
+
+                $atendimento->setId(1);
+                $atendimento->setDataChegada($now);
+
+                $this->assertSame(
+                    date_default_timezone_get(),
+                    $tz->getName(),
+                );
+            });
+
+        $atendimento = $this->service->distribuiSenha(
+            $unidade,
+            $usuario,
+            $servico,
+            $prioridade,
+        );
+
+        $this->assertNotNull($atendimento->getId());
+        $this->assertNull($atendimento->getUnidade()->getTimezone());
+        $this->assertSame(
+            date_default_timezone_get(),
+            $atendimento->getDataChegada()->getTimezone()->getName(),
+        );
+    }
+
     private function buildAtendimento(): Atendimento
     {
         $servico = (new Servico())->setNome('Service 1');

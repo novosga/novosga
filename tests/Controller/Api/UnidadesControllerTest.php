@@ -84,6 +84,7 @@ class UnidadesControllerTest extends WebTestCase
             $this->assertSame($fromDb->getNome(), $fromApi['nome']);
             $this->assertSame($fromDb->getDescricao(), $fromApi['descricao']);
             $this->assertSame($fromDb->isAtivo(), $fromApi['ativo']);
+            $this->assertSame($fromDb->getTimezone(), $fromApi['timezone']);
         }
     }
 
@@ -119,6 +120,7 @@ class UnidadesControllerTest extends WebTestCase
         $this->assertSame($unidade->getNome(), $result['nome']);
         $this->assertSame($unidade->getDescricao(), $result['descricao']);
         $this->assertSame($unidade->isAtivo(), $result['ativo']);
+        $this->assertSame($unidade->getTimezone(), $result['timezone']);
     }
 
     public function testGetServicosUnidade(): void

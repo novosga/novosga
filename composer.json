@@ -24,15 +24,15 @@
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.2",
         "league/oauth2-server-bundle": "^0.9.0",
-        "novosga/attendance-bundle": "^2.2",
-        "novosga/core": "^2.2",
-        "novosga/customers-bundle": "^2.2",
-        "novosga/monitor-bundle": "^2.2",
-        "novosga/reports-bundle": "^2.2",
-        "novosga/scheduling-bundle": "^2.2",
-        "novosga/settings-bundle": "^2.2",
-        "novosga/triage-bundle": "^2.2",
-        "novosga/users-bundle": "^2.2",
+        "novosga/attendance-bundle": "2.3.x-dev",
+        "novosga/core": "2.3.x-dev",
+        "novosga/customers-bundle": "2.3.x-dev",
+        "novosga/monitor-bundle": "2.3.x-dev",
+        "novosga/reports-bundle": "2.3.x-dev",
+        "novosga/scheduling-bundle": "2.3.x-dev",
+        "novosga/settings-bundle": "2.3.x-dev",
+        "novosga/triage-bundle": "2.3.x-dev",
+        "novosga/users-bundle": "2.3.x-dev",
         "pagerfanta/doctrine-orm-adapter": "*",
         "pagerfanta/pagerfanta": "^4.6",
         "phpdocumentor/reflection-docblock": "^5.4",
@@ -121,7 +121,7 @@
             "require": "7.1.*"
         },
         "branch-alias": {
-            "dev-master": "2.2.x-dev"
+            "dev-master": "2.3.x-dev"
         }
     },
     "require-dev": {

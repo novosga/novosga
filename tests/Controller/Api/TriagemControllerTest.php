@@ -16,7 +16,9 @@ namespace App\Tests\Controller\Api;
 use App\Service\AtendimentoService;
 use App\Tests\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Clock\ClockInterface;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Clock\MockClock;
 
 /**
  * TriageControllerTest
@@ -31,7 +33,13 @@ class TriagemControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $container = $client->getContainer();
+
+        $clock = new MockClock('2026-03-29 15:20:00');
+        $container->set(ClockInterface::class, $clock);
+
         $this->em = $container->get(EntityManagerInterface::class);
+
+        $client->disableReboot();
 
         TestHelper::removeTestData($this->em);
     }
@@ -261,5 +269,56 @@ class TriagemControllerTest extends WebTestCase
         $this->assertSame($result['senha']['sigla'], $servicoUnidade->getSigla());
         $this->assertSame($result['servico']['id'], $servico->getId());
         $this->assertSame($result['prioridade']['id'], $prioridade->getId());
+    }
+
+    public function testDistribuiSenhaWithDifferentTimezones(): void
+    {
+        $client = static::getClient();
+        $usuario = TestHelper::getUser($this->em);
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+        $perfil = TestHelper::createPerfil($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $prioridade = TestHelper::createPrioridade($this->em);
+
+        // unidade with UTC timezone
+        $unidadeUtc = TestHelper::createUnidade($this->em, 'UTC Unit', 'UTC');
+        TestHelper::linkUnidadeUsuario($this->em, $unidadeUtc, $usuario, $perfil);
+        TestHelper::linkServicoUnidade($this->em, $servico, $unidadeUtc);
+
+        // unidade with America/Sao_Paulo timezone
+        $unidadeSp = TestHelper::createUnidade($this->em, 'SP Unit', 'America/Sao_Paulo');
+        TestHelper::linkUnidadeUsuario($this->em, $unidadeSp, $usuario, $perfil);
+        TestHelper::linkServicoUnidade($this->em, $servico, $unidadeSp);
+
+        // distribui senha for UTC unidade
+        $client->jsonRequest('POST', '/api/distribui', parameters: [
+            'unidade' => $unidadeUtc->getId(),
+            'servico' => $servico->getId(),
+            'prioridade' => $prioridade->getId(),
+        ], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $resultUtc = json_decode($client->getResponse()->getContent(), true);
+
+        // distribui senha for Sao Paulo unidade
+        $client->jsonRequest('POST', '/api/distribui', parameters: [
+            'unidade' => $unidadeSp->getId(),
+            'servico' => $servico->getId(),
+            'prioridade' => $prioridade->getId(),
+        ], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $resultSp = json_decode($client->getResponse()->getContent(), true);
+
+        // verify the offsets are different
+        $dtUtc = new \DateTimeImmutable($resultUtc['dataChegada']);
+        $dtSp = new \DateTimeImmutable($resultSp['dataChegada']);
+
+        $this->assertSame('2026-03-29 15:20', $dtUtc->format('Y-m-d H:i'));
+        $this->assertSame('2026-03-29 12:20', $dtSp->format('Y-m-d H:i'));
     }
 }

@@ -16,6 +16,7 @@ namespace App\Infrastructure\Storage;
 use Novosga\Infrastructure\StorageInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
+use Psr\Clock\ClockInterface;
 
 /**
  * Doctrine Storage
@@ -26,6 +27,7 @@ abstract class DoctrineStorage implements StorageInterface
 {
     public function __construct(
         protected readonly EntityManagerInterface $em,
+        protected readonly ClockInterface $clock,
     ) {
     }
 

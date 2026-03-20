@@ -46,6 +46,7 @@ class TicketService implements TicketServiceInterface
         $su = $this->servicoUnidadeRepository->get($unidade, $servico);
 
         $viewParams = [
+            'unidade' => $unidade,
             'atendimento' => $atendimento,
             'servicoUnidade' => $su,
             'now' => $this->clock->now(),

@@ -20,6 +20,7 @@ use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\ORM\EntityManagerInterface;
 use Novosga\Infrastructure\StorageInterface;
+use Psr\Clock\ClockInterface;
 
 /**
  * StorageFactory
@@ -28,17 +29,17 @@ use Novosga\Infrastructure\StorageInterface;
  */
 class StorageFactory
 {
-    public static function createStorage(EntityManagerInterface $em): StorageInterface
+    public static function createStorage(EntityManagerInterface $em, ClockInterface $clock): StorageInterface
     {
         $conn = $em->getConnection();
         $platform = $conn->getDatabasePlatform();
 
         if ($platform instanceof MySQLPlatform) {
-            return new MySQLStorage($em);
+            return new MySQLStorage($em, $clock);
         }
 
         if ($platform instanceof PostgreSQLPlatform) {
-            return new PostgreSQLStorage($em);
+            return new PostgreSQLStorage($em, $clock);
         }
 
         throw new Exception('NovoSGA storage implemantation not found');

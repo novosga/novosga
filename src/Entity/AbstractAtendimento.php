@@ -18,6 +18,7 @@ use DateTimeInterface;
 use App\Entity\Cliente;
 use App\Entity\Senha;
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Novosga\Entity\AtendimentoInterface;
@@ -62,19 +63,19 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     #[ORM\Column(name: 'num_local', nullable: true)]
     protected ?int $numeroLocal = null;
 
-    #[ORM\Column(name: 'dt_age', type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(name: 'dt_age', type: Types::DATETIME_IMMUTABLE, nullable: true)]
     protected ?DateTimeInterface $dataAgendamento = null;
 
-    #[ORM\Column(name: 'dt_cheg', type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(name: 'dt_cheg', type: Types::DATETIME_IMMUTABLE)]
     protected ?DateTimeInterface $dataChegada = null;
 
-    #[ORM\Column(name: 'dt_cha', type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(name: 'dt_cha', type: Types::DATETIME_IMMUTABLE, nullable: true)]
     protected ?DateTimeInterface $dataChamada = null;
 
-    #[ORM\Column(name: 'dt_ini', type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(name: 'dt_ini', type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeInterface $dataInicio = null;
 
-    #[ORM\Column(name: 'dt_fim', type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(name: 'dt_fim', type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeInterface $dataFim = null;
 
     #[ORM\Column(nullable: true)]
@@ -407,6 +408,7 @@ abstract class AbstractAtendimento implements AtendimentoInterface
     /** @return array<string,mixed> */
     public function jsonSerialize(): array
     {
+        $tz = $this->getUnidade()->getDateTimeZone();
         $usuario = null;
         if ($this->getUsuario()) {
             $usuario = [
@@ -434,11 +436,11 @@ abstract class AbstractAtendimento implements AtendimentoInterface
                 'nome' => $this->getUnidade()->getNome(),
             ],
             'observacao' => $this->getObservacao(),
-            'dataChegada' => $this->getDataChegada()->format('Y-m-d\TH:i:s'),
-            'dataChamada' => $this->getDataChamada()?->format('Y-m-d\TH:i:s'),
-            'dataInicio' => $this->getDataInicio()?->format('Y-m-d\TH:i:s'),
-            'dataFim' => $this->getDataFim()?->format('Y-m-d\TH:i:s'),
-            'dataAgendamento' => $this->getDataAgendamento()?->format('Y-m-d\TH:i:s'),
+            'dataChegada' => $this->dateTimeWithTz($this->getDataChegada(), $tz)?->format('Y-m-d\TH:i:s'),
+            'dataChamada' => $this->dateTimeWithTz($this->getDataChamada(), $tz)?->format('Y-m-d\TH:i:s'),
+            'dataInicio' => $this->dateTimeWithTz($this->getDataInicio(), $tz)?->format('Y-m-d\TH:i:s'),
+            'dataFim' => $this->dateTimeWithTz($this->getDataFim(), $tz)?->format('Y-m-d\TH:i:s'),
+            'dataAgendamento' => $this->dateTimeWithTz($this->getDataAgendamento(), $tz)?->format('Y-m-d\TH:i:s'),
             'tempoEspera' => $this->getTempoEspera()->format('%H:%I:%S'),
             'prioridade' => $this->getPrioridade()?->jsonSerialize(),
             'local' => $this->getLocal()?->jsonSerialize(),
@@ -449,6 +451,19 @@ abstract class AbstractAtendimento implements AtendimentoInterface
             'triagem' => $triagem,
             'usuario' => $usuario,
         ];
+    }
+
+    private function dateTimeWithTz(?DateTimeInterface $datetime, DateTimeZone $timezone): ?DateTimeImmutable
+    {
+        if (!$datetime) {
+            return null;
+        }
+        if ($datetime instanceof DateTimeImmutable) {
+            $newDatetime = $datetime;
+        } else {
+            $newDatetime = DateTimeImmutable::createFromInterface($datetime);
+        }
+        return $newDatetime->setTimezone($timezone);
     }
 
     private function dateIntervalToSeconds(?DateInterval $d): int

@@ -46,6 +46,10 @@
                 <source>label.disabled</source>
                 <target>Inactive</target>
             </trans-unit>
+            <trans-unit id="label.timezone">
+                <source>label.timezone</source>
+                <target>Timezone</target>
+            </trans-unit>
             <trans-unit id="label.view">
                 <source>label.view</source>
                 <target>To view</target>

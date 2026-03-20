@@ -8,6 +8,10 @@ doctrine:
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
+
+        types:
+            datetime: App\Doctrine\Types\UTCDateTimeType
+            datetime_immutable: App\Doctrine\Types\UTCDateTimeImmutableType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
