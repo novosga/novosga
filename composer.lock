@@ -2016,12 +2016,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "e77f30ca21256d4aee3d6e094e0fcbcb95550a89"
+                "reference": "331eff5a0a0e1888ce5324038dd0f310b27f9458"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/e77f30ca21256d4aee3d6e094e0fcbcb95550a89",
-                "reference": "e77f30ca21256d4aee3d6e094e0fcbcb95550a89",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/331eff5a0a0e1888ce5324038dd0f310b27f9458",
+                "reference": "331eff5a0a0e1888ce5324038dd0f310b27f9458",
                 "shasum": ""
             },
             "require": {
@@ -2037,6 +2037,7 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "symfony-module",
             "extra": {
                 "branch-alias": {
@@ -2056,7 +2057,7 @@
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
                 "source": "https://github.com/novosga/attendance-bundle/tree/v2.3"
             },
-            "time": "2026-03-17T00:53:18+00:00"
+            "time": "2026-03-20T15:23:56+00:00"
         },
         {
             "name": "novosga/core",
@@ -2064,12 +2065,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "f9e3e0c8fa01bdfd90e152e9a9f9a426de3aec63"
+                "reference": "c1e4148f3df3ead4ebab5c57e34bd0d391a44828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/f9e3e0c8fa01bdfd90e152e9a9f9a426de3aec63",
-                "reference": "f9e3e0c8fa01bdfd90e152e9a9f9a426de3aec63",
+                "url": "https://api.github.com/repos/novosga/core/zipball/c1e4148f3df3ead4ebab5c57e34bd0d391a44828",
+                "reference": "c1e4148f3df3ead4ebab5c57e34bd0d391a44828",
                 "shasum": ""
             },
             "require": {
@@ -2106,7 +2107,7 @@
                 "issues": "https://github.com/novosga/core/issues",
                 "source": "https://github.com/novosga/core/tree/v2.3"
             },
-            "time": "2026-03-16T15:21:04+00:00"
+            "time": "2026-03-20T14:33:24+00:00"
         },
         {
             "name": "novosga/customers-bundle",
@@ -2114,12 +2115,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/customers-bundle.git",
-                "reference": "aad14a3f8ce08b4c9fcc49f1665e54aecb565279"
+                "reference": "c4f8a466b56c55bf717ac6024e3f4e6ea7c987e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/customers-bundle/zipball/aad14a3f8ce08b4c9fcc49f1665e54aecb565279",
-                "reference": "aad14a3f8ce08b4c9fcc49f1665e54aecb565279",
+                "url": "https://api.github.com/repos/novosga/customers-bundle/zipball/c4f8a466b56c55bf717ac6024e3f4e6ea7c987e3",
+                "reference": "c4f8a466b56c55bf717ac6024e3f4e6ea7c987e3",
                 "shasum": ""
             },
             "require": {
@@ -2156,7 +2157,7 @@
                 "issues": "https://github.com/novosga/customers-bundle/issues",
                 "source": "https://github.com/novosga/customers-bundle/tree/v2.3"
             },
-            "time": "2026-03-16T15:26:52+00:00"
+            "time": "2026-03-18T13:46:24+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -2164,12 +2165,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "f611a7a85a8793766a4eeefdb5347f2022d2591e"
+                "reference": "93edd2111b6330edc6f13a938d0a4084b89b07fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/f611a7a85a8793766a4eeefdb5347f2022d2591e",
-                "reference": "f611a7a85a8793766a4eeefdb5347f2022d2591e",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/93edd2111b6330edc6f13a938d0a4084b89b07fd",
+                "reference": "93edd2111b6330edc6f13a938d0a4084b89b07fd",
                 "shasum": ""
             },
             "require": {
@@ -2185,6 +2186,7 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -2204,7 +2206,7 @@
                 "issues": "https://github.com/novosga/monitor-bundle/issues",
                 "source": "https://github.com/novosga/monitor-bundle/tree/v2.3"
             },
-            "time": "2026-03-16T15:28:08+00:00"
+            "time": "2026-03-19T13:56:36+00:00"
         },
         {
             "name": "novosga/reports-bundle",
@@ -2212,12 +2214,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "2119c6e64b1bbfac4a3050a957e17ed49467f99e"
+                "reference": "10702e640326df506bac5c3a9a2d5f43983869b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/2119c6e64b1bbfac4a3050a957e17ed49467f99e",
-                "reference": "2119c6e64b1bbfac4a3050a957e17ed49467f99e",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/10702e640326df506bac5c3a9a2d5f43983869b5",
+                "reference": "10702e640326df506bac5c3a9a2d5f43983869b5",
                 "shasum": ""
             },
             "require": {
@@ -2234,6 +2236,7 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -2253,7 +2256,7 @@
                 "issues": "https://github.com/novosga/reports-bundle/issues",
                 "source": "https://github.com/novosga/reports-bundle/tree/v2.3"
             },
-            "time": "2026-03-17T00:56:18+00:00"
+            "time": "2026-03-19T13:36:13+00:00"
         },
         {
             "name": "novosga/scheduling-bundle",
@@ -2261,12 +2264,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/scheduling-bundle.git",
-                "reference": "e71005de4f98ab08b34d6f317db64f964f374c28"
+                "reference": "aa4d3db332a55d602b119f23e5386629f7b18135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/e71005de4f98ab08b34d6f317db64f964f374c28",
-                "reference": "e71005de4f98ab08b34d6f317db64f964f374c28",
+                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/aa4d3db332a55d602b119f23e5386629f7b18135",
+                "reference": "aa4d3db332a55d602b119f23e5386629f7b18135",
                 "shasum": ""
             },
             "require": {
@@ -2287,6 +2290,7 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -2306,7 +2310,7 @@
                 "issues": "https://github.com/novosga/scheduling-bundle/issues",
                 "source": "https://github.com/novosga/scheduling-bundle/tree/v2.3"
             },
-            "time": "2026-03-17T00:58:25+00:00"
+            "time": "2026-03-20T00:52:44+00:00"
         },
         {
             "name": "novosga/settings-bundle",
@@ -2314,18 +2318,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "2c63ef76e7f0f326d0d07d660936f6fec226e80d"
+                "reference": "52f7e6e3c4211c4d69c660b971f82d69992ed1c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/2c63ef76e7f0f326d0d07d660936f6fec226e80d",
-                "reference": "2c63ef76e7f0f326d0d07d660936f6fec226e80d",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/52f7e6e3c4211c4d69c660b971f82d69992ed1c4",
+                "reference": "52f7e6e3c4211c4d69c660b971f82d69992ed1c4",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
                 "novosga/core": "2.3.x-dev",
                 "php": ">=8.2",
+                "symfony/clock": "7.1.*",
                 "symfony/form": "7.1.*",
                 "symfony/framework-bundle": "7.1.*"
             },
@@ -2354,7 +2359,7 @@
                 "issues": "https://github.com/novosga/settings-bundle/issues",
                 "source": "https://github.com/novosga/settings-bundle/tree/v2.3"
             },
-            "time": "2026-03-17T01:00:52+00:00"
+            "time": "2026-03-21T14:40:02+00:00"
         },
         {
             "name": "novosga/triage-bundle",
@@ -2362,12 +2367,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "5a66bb4ceaaec239855fb1b53a39d1205574bcfb"
+                "reference": "56bcf8f508dfcff6827f0cd405d0137fcb501f36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/5a66bb4ceaaec239855fb1b53a39d1205574bcfb",
-                "reference": "5a66bb4ceaaec239855fb1b53a39d1205574bcfb",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/56bcf8f508dfcff6827f0cd405d0137fcb501f36",
+                "reference": "56bcf8f508dfcff6827f0cd405d0137fcb501f36",
                 "shasum": ""
             },
             "require": {
@@ -2402,7 +2407,7 @@
                 "issues": "https://github.com/novosga/triage-bundle/issues",
                 "source": "https://github.com/novosga/triage-bundle/tree/v2.3"
             },
-            "time": "2026-03-17T01:03:55+00:00"
+            "time": "2026-03-19T14:07:59+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -2433,6 +2438,7 @@
                 "phpunit/phpunit": "^9.5",
                 "slevomat/coding-standard": "~8.0"
             },
+            "default-branch": true,
             "type": "novosga-module",
             "extra": {
                 "branch-alias": {
