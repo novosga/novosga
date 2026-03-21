@@ -14,12 +14,15 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Metadata;
+use Novosga\Entity\UsuarioInterface;
 use Novosga\Repository\MetadataRepositoryInterface;
+use Novosga\Repository\UsuarioMetadataRepositoryInterface;
 use Novosga\Service\ApplicationSettingsServiceInterface;
 use Novosga\Settings\AppearanceSettings;
 use Novosga\Settings\ApplicationSettings;
 use Novosga\Settings\BehaviorSettings;
 use Novosga\Settings\QueueSettings;
+use Novosga\Settings\UserBehaviorSettings;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -41,6 +44,7 @@ class ApplicationSettingsService implements ApplicationSettingsServiceInterface
         private readonly NormalizerInterface $normalizer,
         private readonly DenormalizerInterface $denormalizer,
         private readonly MetadataRepositoryInterface $metadataRepository,
+        private readonly UsuarioMetadataRepositoryInterface $usuarioMetadataRepository,
     ) {
     }
 
@@ -84,6 +88,33 @@ class ApplicationSettingsService implements ApplicationSettingsServiceInterface
     public function saveQueueSettings(QueueSettings $settings): void
     {
         $this->setMetadataValue(self::APP_QUEUE, $settings);
+    }
+
+    public function loadUserBehaviorSettings(
+        UsuarioInterface $usuario,
+        ?bool $resolveGlobal = true,
+    ): UserBehaviorSettings {
+        $global = $resolveGlobal ? $this->loadBehaviorSettings() : null;
+        $meta = $this->usuarioMetadataRepository->get($usuario, self::APP_NAMESPACE, self::APP_BEHAVIOR);
+        $value = $meta ? $meta->getValue() : [];
+
+        return new UserBehaviorSettings(
+            callTicketByService: $value['callTicketByService'] ?? $global?->callTicketByService,
+            callTicketOutOfOrder: $value['callTicketOutOfOrder'] ?? $global?->callTicketOutOfOrder,
+        );
+    }
+
+    public function saveUserBehaviorSettings(UsuarioInterface $usuario, UserBehaviorSettings $settings): void
+    {
+        $this->usuarioMetadataRepository->set(
+            $usuario,
+            self::APP_NAMESPACE,
+            self::APP_BEHAVIOR,
+            [
+                'callTicketByService' => $settings->callTicketByService,
+                'callTicketOutOfOrder' => $settings->callTicketOutOfOrder,
+            ],
+        );
     }
 
     private function doLoadSettings(): ApplicationSettings
