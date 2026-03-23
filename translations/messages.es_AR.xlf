@@ -110,6 +110,10 @@
                 <source>label.call_ticket_out_of_order</source>
                 <target>Permitir chamar atendimento fora de ordem</target>
             </trans-unit>
+            <trans-unit id="label.change_ticket_type">
+                <source>label.change_ticket_type</source>
+                <target>Cambiar tipo de atención</target>
+            </trans-unit>
             <trans-unit id="label.url">
                 <source>label.url</source>
                 <target>URL</target>

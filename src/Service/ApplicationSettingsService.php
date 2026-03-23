@@ -101,6 +101,7 @@ class ApplicationSettingsService implements ApplicationSettingsServiceInterface
         return new UserBehaviorSettings(
             callTicketByService: $value['callTicketByService'] ?? $global?->callTicketByService,
             callTicketOutOfOrder: $value['callTicketOutOfOrder'] ?? $global?->callTicketOutOfOrder,
+            changeTicketType: $value['changeTicketType'] ?? $global?->changeTicketType,
         );
     }
 
@@ -113,6 +114,7 @@ class ApplicationSettingsService implements ApplicationSettingsServiceInterface
             [
                 'callTicketByService' => $settings->callTicketByService,
                 'callTicketOutOfOrder' => $settings->callTicketOutOfOrder,
+                'changeTicketType' => $settings->changeTicketType,
             ],
         );
     }

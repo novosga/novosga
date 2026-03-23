@@ -66,6 +66,11 @@ class BehaviorSettingsFormType extends AbstractType
                     new NotNull(),
                 ],
             ])
+            ->add('changeTicketType', CheckboxType::class, [
+                'label' => 'label.change_ticket_type',
+                'required' => false,
+                'constraints' => [new NotNull()],
+            ])
         ;
     }
 
