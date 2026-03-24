@@ -112,7 +112,7 @@
             </trans-unit>
             <trans-unit id="label.change_ticket_type">
                 <source>label.change_ticket_type</source>
-                <target>Alterar tipo de atendimento</target>
+                <target>Permitir alterar tipo de atendimento</target>
             </trans-unit>
             <trans-unit id="label.url">
                 <source>label.url</source>
