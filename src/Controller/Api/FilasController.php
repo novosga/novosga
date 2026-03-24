@@ -59,7 +59,7 @@ class FilasController extends AbstractController
     {
         /** @var Usuario */
         $usuario = $this->getUser();
-        $novoStatus = $request->get('novoStatus', '');
+        $novoStatus = $request->request->get('novoStatus', '');
         $atendimento = $atendimentoService->alteraStatusAtendimentoUsuario($usuario, $novoStatus);
 
         return $this->json($atendimento);

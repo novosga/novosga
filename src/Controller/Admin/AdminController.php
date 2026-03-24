@@ -95,7 +95,7 @@ class AdminController extends AbstractController
     #[Route("/remove-settings-file", name: "remove_settings_file", methods: ['DELETE'])]
     public function removeFile(Request $request, ApplicationSettingsService $service): Response
     {
-        $key = $request->get('key');
+        $key = $request->request->get('key');
         switch ($key) {
             case 'logoNavbar':
             case 'logoLogin':

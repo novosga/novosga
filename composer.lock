@@ -1911,12 +1911,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "db3a1b02a0a1a2c0ee078fc497138025f11d8370"
+                "reference": "b6d939ced4a8db1fb4574d3ae324db87c6e1c886"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/db3a1b02a0a1a2c0ee078fc497138025f11d8370",
-                "reference": "db3a1b02a0a1a2c0ee078fc497138025f11d8370",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/b6d939ced4a8db1fb4574d3ae324db87c6e1c886",
+                "reference": "b6d939ced4a8db1fb4574d3ae324db87c6e1c886",
                 "shasum": ""
             },
             "require": {
@@ -1954,7 +1954,7 @@
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
                 "source": "https://github.com/novosga/attendance-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T13:09:39+00:00"
+            "time": "2026-03-24T14:28:09+00:00"
         },
         {
             "name": "novosga/core",
@@ -2014,12 +2014,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/customers-bundle.git",
-                "reference": "df3310bf56e9665920853cd8543823be7d514ed9"
+                "reference": "89f22bfbaf733d1baa15d6694edd747368365c80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/customers-bundle/zipball/df3310bf56e9665920853cd8543823be7d514ed9",
-                "reference": "df3310bf56e9665920853cd8543823be7d514ed9",
+                "url": "https://api.github.com/repos/novosga/customers-bundle/zipball/89f22bfbaf733d1baa15d6694edd747368365c80",
+                "reference": "89f22bfbaf733d1baa15d6694edd747368365c80",
                 "shasum": ""
             },
             "require": {
@@ -2058,7 +2058,7 @@
                 "issues": "https://github.com/novosga/customers-bundle/issues",
                 "source": "https://github.com/novosga/customers-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T13:10:43+00:00"
+            "time": "2026-03-24T14:28:31+00:00"
         },
         {
             "name": "novosga/monitor-bundle",
@@ -2066,12 +2066,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/monitor-bundle.git",
-                "reference": "1b9a6a3291ba2ceb08e3c50c29de4a4f0dc3aaeb"
+                "reference": "7e68264e418f91f83267f2559bb5877edc9e135a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/1b9a6a3291ba2ceb08e3c50c29de4a4f0dc3aaeb",
-                "reference": "1b9a6a3291ba2ceb08e3c50c29de4a4f0dc3aaeb",
+                "url": "https://api.github.com/repos/novosga/monitor-bundle/zipball/7e68264e418f91f83267f2559bb5877edc9e135a",
+                "reference": "7e68264e418f91f83267f2559bb5877edc9e135a",
                 "shasum": ""
             },
             "require": {
@@ -2109,7 +2109,7 @@
                 "issues": "https://github.com/novosga/monitor-bundle/issues",
                 "source": "https://github.com/novosga/monitor-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T13:11:58+00:00"
+            "time": "2026-03-24T14:28:43+00:00"
         },
         {
             "name": "novosga/reports-bundle",
@@ -2169,12 +2169,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/scheduling-bundle.git",
-                "reference": "d60c396cdd1df4faa666534cbbb34e0de9bc1fdb"
+                "reference": "d87b19419ee38b8651c5ded670c3ead93ce51fe0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/d60c396cdd1df4faa666534cbbb34e0de9bc1fdb",
-                "reference": "d60c396cdd1df4faa666534cbbb34e0de9bc1fdb",
+                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/d87b19419ee38b8651c5ded670c3ead93ce51fe0",
+                "reference": "d87b19419ee38b8651c5ded670c3ead93ce51fe0",
                 "shasum": ""
             },
             "require": {
@@ -2217,7 +2217,7 @@
                 "issues": "https://github.com/novosga/scheduling-bundle/issues",
                 "source": "https://github.com/novosga/scheduling-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T13:20:34+00:00"
+            "time": "2026-03-24T14:27:53+00:00"
         },
         {
             "name": "novosga/settings-bundle",
@@ -2225,12 +2225,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/settings-bundle.git",
-                "reference": "5917c34f8ab75d83305d391eadb4ae1d6c11fd81"
+                "reference": "c5ff7fc8dab95b0a078110001405fc514c359fbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/5917c34f8ab75d83305d391eadb4ae1d6c11fd81",
-                "reference": "5917c34f8ab75d83305d391eadb4ae1d6c11fd81",
+                "url": "https://api.github.com/repos/novosga/settings-bundle/zipball/c5ff7fc8dab95b0a078110001405fc514c359fbf",
+                "reference": "c5ff7fc8dab95b0a078110001405fc514c359fbf",
                 "shasum": ""
             },
             "require": {
@@ -2268,7 +2268,7 @@
                 "issues": "https://github.com/novosga/settings-bundle/issues",
                 "source": "https://github.com/novosga/settings-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T13:32:26+00:00"
+            "time": "2026-03-24T14:27:27+00:00"
         },
         {
             "name": "novosga/triage-bundle",
@@ -2276,12 +2276,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "42f9f66cac81b313d5b2552cbc968af3410e3a3c"
+                "reference": "e860f4dec458b8c563abe9fcafe5ad568e02ce89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/42f9f66cac81b313d5b2552cbc968af3410e3a3c",
-                "reference": "42f9f66cac81b313d5b2552cbc968af3410e3a3c",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/e860f4dec458b8c563abe9fcafe5ad568e02ce89",
+                "reference": "e860f4dec458b8c563abe9fcafe5ad568e02ce89",
                 "shasum": ""
             },
             "require": {
@@ -2318,7 +2318,7 @@
                 "issues": "https://github.com/novosga/triage-bundle/issues",
                 "source": "https://github.com/novosga/triage-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T13:34:05+00:00"
+            "time": "2026-03-24T14:26:41+00:00"
         },
         {
             "name": "novosga/users-bundle",
@@ -2326,12 +2326,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "7d3e07db71b037dc264fe838ab7fa0a706db8060"
+                "reference": "84dd632a556cfd070c40ac015b4e296222d7cad9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/7d3e07db71b037dc264fe838ab7fa0a706db8060",
-                "reference": "7d3e07db71b037dc264fe838ab7fa0a706db8060",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/84dd632a556cfd070c40ac015b4e296222d7cad9",
+                "reference": "84dd632a556cfd070c40ac015b4e296222d7cad9",
                 "shasum": ""
             },
             "require": {
@@ -2371,7 +2371,7 @@
                 "issues": "https://github.com/novosga/users-bundle/issues",
                 "source": "https://github.com/novosga/users-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T13:35:14+00:00"
+            "time": "2026-03-24T14:23:48+00:00"
         },
         {
             "name": "nyholm/psr7",

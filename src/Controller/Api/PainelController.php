@@ -33,7 +33,7 @@ class PainelController extends ApiControllerBase
     #[Route('/unidades/{id}/painel', methods: ['GET'])]
     public function painel(Request $request, Unidade $unidade): Response
     {
-        $servicos = explode(',', $request->get('servicos', ''));
+        $servicos = explode(',', $request->query->get('servicos', ''));
 
         $senhas = $this
             ->getManager()
