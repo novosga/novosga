@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Service\ModuleService;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 

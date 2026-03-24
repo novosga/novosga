@@ -31,7 +31,7 @@ class UsuarioMeta extends AbstractMetadata implements EntityMetadataInterface
 {
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Usuario::class)]
-    #[ORM\JoinColumn(name: 'usuario_id', nullable: false)]
+    #[ORM\JoinColumn(name: 'usuario_id')]
     protected ?UsuarioInterface $entity = null;
 
     public function setEntity($entity): static

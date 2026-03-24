@@ -38,7 +38,7 @@ final class ModuleAccessVoter extends Voter
     {
         $user = $token->getUser();
 
-        if (!$user instanceof Usuario || !$subject instanceof InstalledModule) {
+        if (!$user instanceof Usuario) {
             return false;
         }
 

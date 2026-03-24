@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use App\Entity\SoftDeletableEntityInterface;
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
@@ -25,18 +25,12 @@ use Psr\Clock\ClockInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
-class DoctrineListener implements EventSubscriber
+#[AsDoctrineListener(event: Events::onFlush, priority: 0, connection: 'default')]
+class DoctrineListener
 {
     public function __construct(
         private readonly ClockInterface $clock,
     ) {
-    }
-
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::onFlush,
-        ];
     }
 
     public function onFlush(OnFlushEventArgs $args): void

@@ -175,6 +175,7 @@ class OAuthTokenTest extends WebTestCase
         ]);
         $this->assertResponseIsSuccessful();
 
+        /** @var Usuario|null */
         $user = $em->getRepository(Usuario::class)->findOneBy([
             'login' => AppFixtures::USER_USERNAME,
         ]);

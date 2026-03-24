@@ -16,11 +16,11 @@ namespace App\Controller;
 use App\Repository\UnidadeRepository;
 use App\Entity\Unidade;
 use App\Service\UsuarioService;
-use Novosga\Entity\UsuarioInterface;
+use App\Entity\Usuario;
 use Novosga\Http\Envelope;
 use Novosga\Service\ModuleServiceInterface;
 use Novosga\Service\UsuarioServiceInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -51,7 +51,7 @@ class DefaultController extends AbstractController
     #[Route('/unidades', name: 'app_default_unidades', methods: ['GET'])]
     public function unidades(UnidadeRepository $unidade): Response
     {
-        /** @var UsuarioInterface */
+        /** @var Usuario */
         $usuario = $this->getUser();
         $unidades = $unidade->findByUsuario($usuario);
 
@@ -63,7 +63,7 @@ class DefaultController extends AbstractController
     #[Route('/set_unidade/{id}', name: 'app_default_setunidade', methods: ['POST'])]
     public function setUnidade(Unidade $unidade, UsuarioService $usuarioService): Response
     {
-        /** @var UsuarioInterface */
+        /** @var Usuario */
         $usuario = $this->getUser();
         $usuarioService->meta(
             $usuario,

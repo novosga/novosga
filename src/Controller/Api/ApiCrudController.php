@@ -52,11 +52,11 @@ abstract class ApiCrudController extends ApiControllerBase
 
     public function search(Request $request): Response
     {
-        $q = explode(' ', $request->get('q', ''));
-        $sort = (string) $request->get('sort', '');
-        $order = strtolower((string) $request->get('order', ''));
-        $limit = (int) $request->get('limit', 25);
-        $offset = (int) $request->get('offset', 0);
+        $q = explode(' ', $request->query->get('q', ''));
+        $sort = (string) $request->query->get('sort', '');
+        $order = strtolower((string) $request->query->get('order', ''));
+        $limit = (int) $request->query->get('limit', 25);
+        $offset = (int) $request->query->get('offset', 0);
 
         if (!in_array($order, ['asc', 'desc'])) {
             $order = 'asc';

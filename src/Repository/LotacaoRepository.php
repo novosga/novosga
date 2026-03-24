@@ -24,11 +24,6 @@ use Novosga\Repository\LotacaoRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<LotacaoInterface>
  *
- * @method Lotacao|null find($id, $lockMode = null, $lockVersion = null)
- * @method Lotacao|null findOneBy(array $criteria, array $orderBy = null)
- * @method Lotacao[]    findAll()
- * @method Lotacao[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class LotacaoRepository extends ServiceEntityRepository implements LotacaoRepositoryInterface

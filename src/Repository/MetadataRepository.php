@@ -22,11 +22,6 @@ use Novosga\Repository\MetadataRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<MetadataInterface>
  *
- * @method MetadataInterface|null find($id, $lockMode = null, $lockVersion = null)
- * @method MetadataInterface|null findOneBy(array $criteria, array $orderBy = null)
- * @method MetadataInterface[]    findAll()
- * @method MetadataInterface[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class MetadataRepository extends ServiceEntityRepository implements MetadataRepositoryInterface

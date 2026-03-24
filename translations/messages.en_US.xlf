@@ -112,7 +112,7 @@
             </trans-unit>
             <trans-unit id="label.change_ticket_type">
                 <source>label.change_ticket_type</source>
-                <target>Change ticket type</target>
+                <target>Allow change of ticket type</target>
             </trans-unit>
             <trans-unit id="label.url">
                 <source>label.url</source>

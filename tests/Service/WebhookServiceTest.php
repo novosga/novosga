@@ -56,23 +56,32 @@ class WebhookServiceTest extends TestCase
             ->with($event)
             ->willReturn([$webhook1, $webhook2]);
 
+        $expectedCalls = [
+            ['https://novosga.org/webhook1', ['Content-Type' => 'application/json']],
+            ['https://novosga.org/webhook2', ['Another' => 'header']],
+        ];
+        $matcher = $this->exactly(2);
         $this->dispatcher
-            ->expects($this->exactly(2))
+            ->expects($matcher)
             ->method('dispatch')
-            ->withConsecutive(
-                [
-                    $event,
-                    'https://novosga.org/webhook1',
-                    ['Content-Type' => 'application/json'],
-                    $payload,
-                ],
-                [
-                    $event,
-                    'https://novosga.org/webhook2',
-                    ['Another' => 'header'],
-                    $payload,
-                ]
-            );
+            ->willReturnCallback(function (
+                mixed $dispatchedEvent,
+                string $url,
+                array $headers,
+                array $dispatchedPayload,
+            ) use (
+                $matcher,
+                $event,
+                $payload,
+                $expectedCalls,
+            ): bool {
+                $i = $matcher->numberOfInvocations() - 1;
+                $this->assertSame($event, $dispatchedEvent);
+                $this->assertSame($payload, $dispatchedPayload);
+                $this->assertEquals($expectedCalls[$i][0], $url);
+                $this->assertEquals($expectedCalls[$i][1], $headers);
+                return true;
+            });
 
         $this->service->sendWebhook($event, $payload);
     }

@@ -17,6 +17,11 @@
         </properties>
     </rule>
 
+    <exclude-pattern>config/reference.php</exclude-pattern>
+
+    <file>bin/</file>
+    <file>config/</file>
+    <file>public/</file>
     <file>src/</file>
     <file>tests/</file>
 

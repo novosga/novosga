@@ -18,9 +18,9 @@ use App\Service\TicketService;
 use App\Entity\Atendimento;
 use App\Service\AtendimentoService;
 use Exception;
-use Novosga\Entity\UsuarioInterface;
+use App\Entity\Usuario;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
@@ -41,7 +41,7 @@ class TriagemController extends ApiControllerBase
         TranslatorInterface $translator,
         TicketService $service,
     ): Response {
-        $hash = $request->headers->get('X-HASH') ?? $request->get('hash');
+        $hash = $request->headers->get('X-HASH') ?? $request->query->get('hash');
 
         if ($hash !== $atendimento->hash()) {
             $error = $translator->trans('api.triage.invalid_hash');
@@ -65,7 +65,7 @@ class TriagemController extends ApiControllerBase
 
             $logger->info('[/api/distribui] ' . $json);
 
-            /** @var UsuarioInterface */
+            /** @var Usuario */
             $usuario = $this->getUser();
             $unidade = (int) $novaSenha->unidade;
             $servico = (int) $novaSenha->servico;

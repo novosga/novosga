@@ -16,7 +16,7 @@ namespace App\Controller\Api;
 use App\Entity\Agendamento;
 use App\Form\Api\AgendamentoType;
 use App\Service\AtendimentoService;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

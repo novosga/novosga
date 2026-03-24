@@ -22,11 +22,6 @@ use Novosga\Repository\ViewAtendimentoRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<AtendimentoInterface>
  *
- * @method ViewAtendimento|null find($id, $lockMode = null, $lockVersion = null)
- * @method ViewAtendimento|null findOneBy(array $criteria, array $orderBy = null)
- * @method ViewAtendimento[]    findAll()
- * @method ViewAtendimento[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class ViewAtendimentoRepository extends ServiceEntityRepository implements ViewAtendimentoRepositoryInterface
