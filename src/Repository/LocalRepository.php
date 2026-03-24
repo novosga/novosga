@@ -22,11 +22,6 @@ use Novosga\Repository\LocalRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<LocalInterface>
  *
- * @method Local|null find($id, $lockMode = null, $lockVersion = null)
- * @method Local|null findOneBy(array $criteria, array $orderBy = null)
- * @method Local[]    findAll()
- * @method Local[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class LocalRepository extends ServiceEntityRepository implements LocalRepositoryInterface

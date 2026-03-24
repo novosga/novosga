@@ -901,10 +901,6 @@ class AtendimentoService implements AtendimentoServiceInterface
                 throw new Exception('Novo status inválido.');
         }
 
-        if (!is_array($statusAtual)) {
-            $statusAtual = [$statusAtual];
-        }
-
         $data = $this->clock->now();
 
         $qb = $this
@@ -913,11 +909,9 @@ class AtendimentoService implements AtendimentoServiceInterface
             ->update()
             ->set('e.status', ':novoStatus');
 
-        if ($campoData !== null) {
-            $qb
-                ->set("e.{$campoData}", ':data')
-                ->setParameter('data', $data);
-        }
+        $qb
+            ->set("e.{$campoData}", ':data')
+            ->setParameter('data', $data);
 
         $qb
             ->where('e.id = :id')

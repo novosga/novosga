@@ -19,7 +19,6 @@ use League\Bundle\OAuth2ServerBundle\OAuth2Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * UserResolveSubscriber
@@ -39,10 +38,6 @@ class UserResolveSubscriber implements EventSubscriberInterface
         try {
             $user = $this->userProvider->loadUserByIdentifier($event->getUsername());
         } catch (AuthenticationException $e) {
-            return;
-        }
-
-        if (!($user instanceof PasswordAuthenticatedUserInterface)) {
             return;
         }
 

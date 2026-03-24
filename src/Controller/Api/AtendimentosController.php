@@ -19,11 +19,11 @@ use App\Entity\Atendimento;
 use App\Entity\Local;
 use App\Service\AtendimentoService;
 use Exception;
-use Novosga\Entity\UsuarioInterface;
+use App\Entity\Usuario;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @extends ApiCrudController<Atendimento>
@@ -53,7 +53,7 @@ class AtendimentosController extends ApiCrudController
         LoggerInterface $logger,
     ): Response {
         try {
-            /** @var UsuarioInterface */
+            /** @var Usuario */
             $usuario = $this->getUser();
 
             $local = $this->getManager()->getRepository(Local::class)->find($dto->local);
@@ -98,7 +98,7 @@ class AtendimentosController extends ApiCrudController
         LoggerInterface $logger,
     ): Response {
         try {
-            /** @var UsuarioInterface */
+            /** @var Usuario */
             $usuario = $this->getUser();
 
             $service->iniciarAtendimento($atendimento, $usuario);
@@ -128,7 +128,7 @@ class AtendimentosController extends ApiCrudController
         LoggerInterface $logger,
     ): Response {
         try {
-            /** @var UsuarioInterface */
+            /** @var Usuario */
             $usuario = $this->getUser();
 
             $service->encerrar(

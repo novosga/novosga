@@ -25,11 +25,6 @@ use Novosga\Repository\AgendamentoRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<AgendamentoInterface>
  *
- * @method Agendamento|null find($id, $lockMode = null, $lockVersion = null)
- * @method Agendamento|null findOneBy(array $criteria, array $orderBy = null)
- * @method Agendamento[]    findAll()
- * @method Agendamento[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class AgendamentoRepository extends ServiceEntityRepository implements AgendamentoRepositoryInterface

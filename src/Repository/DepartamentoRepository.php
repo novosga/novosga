@@ -22,11 +22,6 @@ use Novosga\Repository\DepartamentoRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<DepartamentoInterface>
  *
- * @method Departamento|null find($id, $lockMode = null, $lockVersion = null)
- * @method Departamento|null findOneBy(array $criteria, array $orderBy = null)
- * @method Departamento[]    findAll()
- * @method Departamento[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class DepartamentoRepository extends ServiceEntityRepository implements DepartamentoRepositoryInterface
@@ -36,7 +31,7 @@ class DepartamentoRepository extends ServiceEntityRepository implements Departam
         parent::__construct($registry, Departamento::class);
     }
 
-    /** @return Departamento[] */
+    /** @return DepartamentoInterface[] */
     public function findAll(): array
     {
         return $this->findBy([], ['nome' => 'ASC']);

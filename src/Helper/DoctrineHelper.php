@@ -26,7 +26,7 @@ class DoctrineHelper
 
     /**
      * Returns all table columns
-     * @param string $entity
+     * @param class-string $entity
      * @return array<mixed>
      */
     public function getEntityColumns(string $entity): array
@@ -48,7 +48,11 @@ class DoctrineHelper
         }
 
         foreach ($classMetadata->embeddedClasses as $field => $embeddedClass) {
-            $metadata = $this->em->getClassMetadata($embeddedClass['class']);
+            $embeddedClassName = $embeddedClass['class'];
+            if (!class_exists($embeddedClassName)) {
+                continue;
+            }
+            $metadata = $this->em->getClassMetadata($embeddedClassName);
             foreach ($metadata->getColumnNames() as $column) {
                 $column = $embeddedClass['columnPrefix'] . $column;
                 if (!in_array($column, $columns)) {

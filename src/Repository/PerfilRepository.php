@@ -22,11 +22,6 @@ use Novosga\Repository\PerfilRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<PerfilInterface>
  *
- * @method Perfil|null find($id, $lockMode = null, $lockVersion = null)
- * @method Perfil|null findOneBy(array $criteria, array $orderBy = null)
- * @method Perfil[]    findAll()
- * @method Perfil[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class PerfilRepository extends ServiceEntityRepository implements PerfilRepositoryInterface
@@ -38,7 +33,7 @@ class PerfilRepository extends ServiceEntityRepository implements PerfilReposito
 
     /**
      * Retorna todos os perfis ordenados pelo nível e pelo nome
-     * @return Perfil[]
+     * @return PerfilInterface[]
      */
     public function findAll(): array
     {

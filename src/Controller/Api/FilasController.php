@@ -17,8 +17,8 @@ use App\Service\AtendimentoService;
 use App\Service\FilaService;
 use App\Service\UnidadeService;
 use App\Service\UsuarioService;
-use Novosga\Entity\UsuarioInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Usuario;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +41,7 @@ class FilasController extends AbstractController
         UnidadeService $unidadeService,
         int $unidadeId,
     ): Response {
-        /** @var UsuarioInterface */
+        /** @var Usuario */
         $usuario = $this->getUser();
         $unidade = $unidadeService->getById($unidadeId);
         $servicos = $usuarioService->getServicosUnidade($usuario, $unidade);
@@ -57,7 +57,7 @@ class FilasController extends AbstractController
     #[Route('', methods: ['PUT'])]
     public function alteraStatus(Request $request, AtendimentoService $atendimentoService): Response
     {
-        /** @var UsuarioInterface */
+        /** @var Usuario */
         $usuario = $this->getUser();
         $novoStatus = $request->get('novoStatus', '');
         $atendimento = $atendimentoService->alteraStatusAtendimentoUsuario($usuario, $novoStatus);

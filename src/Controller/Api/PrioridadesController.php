@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Prioridade;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @extends ApiCrudController<Prioridade>

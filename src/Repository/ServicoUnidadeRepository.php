@@ -24,11 +24,6 @@ use Novosga\Repository\ServicoUnidadeRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<ServicoUnidadeInterface>
  *
- * @method ServicoUnidade|null find($id, $lockMode = null, $lockVersion = null)
- * @method ServicoUnidade|null findOneBy(array $criteria, array $orderBy = null)
- * @method ServicoUnidade[]    findAll()
- * @method ServicoUnidade[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class ServicoUnidadeRepository extends ServiceEntityRepository implements ServicoUnidadeRepositoryInterface

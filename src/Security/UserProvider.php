@@ -56,7 +56,7 @@ class UserProvider extends EntityUserProvider
     {
         $usuario = $this->usuarioRepository->findOneByLogin($identifier);
 
-        if (null === $usuario) {
+        if (!($usuario instanceof Usuario)) {
             $e = new UserNotFoundException(sprintf('User "%s" not found.', $identifier));
             $e->setUserIdentifier($identifier);
 
@@ -72,7 +72,7 @@ class UserProvider extends EntityUserProvider
     public function refreshUser(UserInterface $user): UserInterface
     {
         $usuario = $this->usuarioRepository->find($user->getId());
-        if (null === $usuario) {
+        if (!($usuario instanceof Usuario)) {
             throw new UserNotFoundException();
         }
 

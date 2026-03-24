@@ -22,11 +22,6 @@ use Novosga\Repository\ClienteRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<ClienteInterface>
  *
- * @method Cliente|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cliente|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cliente[]    findAll()
- * @method Cliente[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class ClienteRepository extends ServiceEntityRepository implements ClienteRepositoryInterface
@@ -38,14 +33,14 @@ class ClienteRepository extends ServiceEntityRepository implements ClienteReposi
 
     /**
      * Retorna todos os clientes ordenados pelo nome
-     * @return Cliente[]
+     * @return ClienteInterface[]
      */
     public function findAll(): array
     {
         return $this->findBy([], ['nome' => 'ASC']);
     }
 
-    /** @return Cliente[] */
+    /** @return ClienteInterface[] */
     public function findByDocumento(string $documento): array
     {
         return $this

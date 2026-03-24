@@ -18,7 +18,7 @@ use App\Entity\Webhook as Entity;
 use App\Form\WebhookType as EntityType;
 use App\Repository\WebhookRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

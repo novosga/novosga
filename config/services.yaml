@@ -30,10 +30,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\EventListener\ORM\DoctrineListener:
-        tags:
-            - { name: doctrine.event_subscriber }
-
     # shared repositories
     Novosga\Repository\AgendamentoRepositoryInterface: '@App\Repository\AgendamentoRepository'
     Novosga\Repository\AtendimentoRepositoryInterface: '@App\Repository\AtendimentoRepository'

@@ -22,11 +22,6 @@ use Novosga\Repository\ViewAtendimentoCodificadoRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<AtendimentoCodificadoInterface>
  *
- * @method ViewAtendimentoCodificado|null find($id, $lockMode = null, $lockVersion = null)
- * @method ViewAtendimentoCodificado|null findOneBy(array $criteria, array $orderBy = null)
- * @method ViewAtendimentoCodificado[]    findAll()
- * @method ViewAtendimentoCodificado[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class ViewAtendimentoCodificadoRepository extends ServiceEntityRepository implements

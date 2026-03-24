@@ -140,14 +140,19 @@ class AtendimentoServiceTest extends TestCase
                 $this->assertEquals($servicoUnidade->getMensagem(), $painelSenha->getMensagem());
             });
 
+        $matcher = $this->exactly(2);
         $this
             ->dispatcher
-            ->expects($this->exactly(2))
+            ->expects($matcher)
             ->method('dispatch')
-            ->withConsecutive(
-                [ $this->isInstanceOf(PreTicketCallEvent::class) ],
-                [ $this->isInstanceOf(TicketCalledEvent::class) ],
-            );
+            ->willReturnCallback(function (object $event) use ($matcher): object {
+                match ($matcher->numberOfInvocations()) {
+                    1 => $this->assertInstanceOf(PreTicketCallEvent::class, $event),
+                    2 => $this->assertInstanceOf(TicketCalledEvent::class, $event),
+                    default => $this->fail('Unexpected dispatch call'),
+                };
+                return $event;
+            });
 
         $this
             ->mercureService
@@ -536,14 +541,19 @@ class AtendimentoServiceTest extends TestCase
             ->with($unidade, $servico)
             ->willReturn($servicoUnidade);
 
+        $matcher2 = $this->exactly(2);
         $this
             ->dispatcher
-            ->expects($this->exactly(2))
+            ->expects($matcher2)
             ->method('dispatch')
-            ->withConsecutive(
-                [ $this->isInstanceOf(PreTicketCreateEvent::class) ],
-                [ $this->isInstanceOf(TicketCreatedEvent::class) ],
-            );
+            ->willReturnCallback(function (object $event) use ($matcher2): object {
+                match ($matcher2->numberOfInvocations()) {
+                    1 => $this->assertInstanceOf(PreTicketCreateEvent::class, $event),
+                    2 => $this->assertInstanceOf(TicketCreatedEvent::class, $event),
+                    default => $this->fail('Unexpected dispatch call'),
+                };
+                return $event;
+            });
 
         $this
             ->storage

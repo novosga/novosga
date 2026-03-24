@@ -37,7 +37,7 @@ class WebhookDispatcher
      * Dispatch a webhook to its target URL.
      *
      * @param array<string,string> $headers Headers as key-value pairs
-     * @param array<string,string> $payload The payload to send in the request.
+     * @param array<string,mixed> $payload The payload to send in the request.
      * @return bool Returns true on success, false on failure.
      */
     public function dispatch(WebhookEvent $event, string $url, array $headers, array $payload): bool

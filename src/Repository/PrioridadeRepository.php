@@ -22,11 +22,6 @@ use Novosga\Repository\PrioridadeRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<PrioridadeInterface>
  *
- * @method Prioridade|null find($id, $lockMode = null, $lockVersion = null)
- * @method Prioridade|null findOneBy(array $criteria, array $orderBy = null)
- * @method Prioridade[]    findAll()
- * @method Prioridade[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class PrioridadeRepository extends ServiceEntityRepository implements PrioridadeRepositoryInterface

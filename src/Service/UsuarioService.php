@@ -167,7 +167,7 @@ class UsuarioService implements UsuarioServiceInterface
         UsuarioInterface $usuario,
         ServicoInterface $servico,
         UnidadeInterface $unidade
-    ): ServicoUsuario {
+    ): ServicoUsuarioInterface {
         $em = $this->storage->getManager();
 
         $servicoUsuario = new ServicoUsuario();
@@ -188,7 +188,7 @@ class UsuarioService implements UsuarioServiceInterface
         UsuarioInterface $usuario,
         ServicoInterface $servico,
         UnidadeInterface $unidade
-    ): ?ServicoUsuario {
+    ): ?ServicoUsuarioInterface {
         $em = $this->storage->getManager();
         $servicoUsuario = $this->servicoUsuarioRepository->findOneBy([
             'usuario' => $usuario,
@@ -211,7 +211,7 @@ class UsuarioService implements UsuarioServiceInterface
         ServicoInterface $servico,
         UnidadeInterface $unidade,
         int $peso,
-    ): ?ServicoUsuario {
+    ): ?ServicoUsuarioInterface {
         $em = $this->storage->getManager();
         $servicoUsuario = $this->servicoUsuarioRepository->findOneBy([
             'usuario' => $usuario,

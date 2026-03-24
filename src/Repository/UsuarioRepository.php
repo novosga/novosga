@@ -26,11 +26,6 @@ use Novosga\Repository\UsuarioRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<UsuarioInterface>
  *
- * @method Usuario|null find($id, $lockMode = null, $lockVersion = null)
- * @method Usuario|null findOneBy(array $criteria, array $orderBy = null)
- * @method Usuario[]    findAll()
- * @method Usuario[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class UsuarioRepository extends ServiceEntityRepository implements UsuarioRepositoryInterface
@@ -40,13 +35,13 @@ class UsuarioRepository extends ServiceEntityRepository implements UsuarioReposi
         parent::__construct($registry, Usuario::class);
     }
 
-    public function findOneByLogin(string $login): ?Usuario
+    public function findOneByLogin(string $login): ?UsuarioInterface
     {
         return $this->findOneBy(['login' => $login]);
     }
 
     /** {@inheritdoc} */
-    public function findByUnidade(UnidadeInterface $unidade, Criteria $criteria = null): array
+    public function findByUnidade(UnidadeInterface $unidade, ?Criteria $criteria = null): array
     {
         $usuarios = $this
             ->queryBuilderFindByUnidade($unidade, $criteria)
@@ -57,7 +52,7 @@ class UsuarioRepository extends ServiceEntityRepository implements UsuarioReposi
     }
 
     /** @return Usuario[] */
-    public function findByServicoUnidade(ServicoUnidadeInterface $servicoUnidade, Criteria $criteria = null): array
+    public function findByServicoUnidade(ServicoUnidadeInterface $servicoUnidade, ?Criteria $criteria = null): array
     {
         $unidade  = $servicoUnidade->getUnidade();
         $servico  = $servicoUnidade->getServico();

@@ -18,7 +18,7 @@ use App\Entity\Unidade as Entity;
 use App\Form\UnidadeType as EntityType;
 use App\Repository\UnidadeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

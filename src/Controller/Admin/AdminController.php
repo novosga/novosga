@@ -19,7 +19,7 @@ use App\Form\Settings\QueueSettingsFormType;
 use App\Service\ApplicationSettingsService;
 use App\Service\AtendimentoService;
 use Novosga\Http\Envelope;
-use Novosga\Entity\UsuarioInterface;
+use App\Entity\Usuario;
 use Novosga\Service\FileUploaderServiceInterface;
 use Novosga\Settings\AppearanceSettings;
 use Novosga\Settings\BehaviorSettings;
@@ -30,7 +30,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * AdminController
@@ -115,7 +115,7 @@ class AdminController extends AbstractController
     #[Route('/acumular_atendimentos', name: 'acumular_atendimentos', methods: ['POST'])]
     public function acumularAtendimentos(AtendimentoService $service, ClockInterface $clock): Response
     {
-        /** @var UsuarioInterface */
+        /** @var Usuario */
         $usuario = $this->getUser();
 
         $envelope = new Envelope();
@@ -127,7 +127,7 @@ class AdminController extends AbstractController
     #[Route('/limpar_atendimentos', name: 'limpar_atendimentos', methods: ['POST'])]
     public function limparAtendimentos(AtendimentoService $service): Response
     {
-        /** @var UsuarioInterface */
+        /** @var Usuario */
         $usuario = $this->getUser();
 
         $envelope = new Envelope();

@@ -17,7 +17,7 @@ use App\Entity\Unidade;
 use App\Entity\Atendimento;
 use App\Service\ServicoService;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * UnidadesController

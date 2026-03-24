@@ -24,11 +24,6 @@ use Novosga\Repository\AtendimentoRepositoryInterface;
 /**
  * @extends ServiceEntityRepository<AtendimentoInterface>
  *
- * @method Atendimento|null find($id, $lockMode = null, $lockVersion = null)
- * @method Atendimento|null findOneBy(array $criteria, array $orderBy = null)
- * @method Atendimento[]    findAll()
- * @method Atendimento[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- *
  * @author Rogério Lino <rogeriolino@gmail.com>
  */
 class AtendimentoRepository extends ServiceEntityRepository implements AtendimentoRepositoryInterface

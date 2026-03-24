@@ -14,8 +14,8 @@ namespace App\Doctrine\Types;
 use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeImmutableType;
+use Doctrine\DBAL\Types\Exception\InvalidFormat;
 
 /**
  * https://www.doctrine-project.org/projects/doctrine-orm/en/3.6/cookbook/working-with-datetime.html
@@ -44,9 +44,9 @@ class UTCDateTimeImmutableType extends DateTimeImmutableType
             self::getUtc()
         );
         if (! $converted) {
-            throw ConversionException::conversionFailedFormat(
-                $value,
-                $this->getName(),
+            throw InvalidFormat::new(
+                (string) $value,
+                DateTimeImmutable::class,
                 $platform->getDateTimeFormatString()
             );
         }

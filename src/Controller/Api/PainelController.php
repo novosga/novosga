@@ -15,7 +15,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Unidade;
 use App\Entity\PainelSenha;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
