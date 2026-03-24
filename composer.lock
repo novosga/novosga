@@ -1911,12 +1911,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "b6d939ced4a8db1fb4574d3ae324db87c6e1c886"
+                "reference": "68a368f5e295342977bb9c76f41f0897c1a759e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/b6d939ced4a8db1fb4574d3ae324db87c6e1c886",
-                "reference": "b6d939ced4a8db1fb4574d3ae324db87c6e1c886",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/68a368f5e295342977bb9c76f41f0897c1a759e8",
+                "reference": "68a368f5e295342977bb9c76f41f0897c1a759e8",
                 "shasum": ""
             },
             "require": {
@@ -1954,7 +1954,7 @@
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
                 "source": "https://github.com/novosga/attendance-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T14:28:09+00:00"
+            "time": "2026-03-24T14:36:04+00:00"
         },
         {
             "name": "novosga/core",
@@ -2326,12 +2326,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/users-bundle.git",
-                "reference": "84dd632a556cfd070c40ac015b4e296222d7cad9"
+                "reference": "54cb0ca1d3283c0204eeeeb72c600bda826be144"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/84dd632a556cfd070c40ac015b4e296222d7cad9",
-                "reference": "84dd632a556cfd070c40ac015b4e296222d7cad9",
+                "url": "https://api.github.com/repos/novosga/users-bundle/zipball/54cb0ca1d3283c0204eeeeb72c600bda826be144",
+                "reference": "54cb0ca1d3283c0204eeeeb72c600bda826be144",
                 "shasum": ""
             },
             "require": {
@@ -2371,7 +2371,7 @@
                 "issues": "https://github.com/novosga/users-bundle/issues",
                 "source": "https://github.com/novosga/users-bundle/tree/v2.3"
             },
-            "time": "2026-03-24T14:23:48+00:00"
+            "time": "2026-03-24T15:26:16+00:00"
         },
         {
             "name": "nyholm/psr7",
