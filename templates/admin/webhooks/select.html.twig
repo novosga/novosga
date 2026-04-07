@@ -1,0 +1,47 @@
+{% extends "admin.html.twig" %}
+
+{% block adminContent %}
+    <div class="d-flex">
+        <div>
+            <h1>{{ 'admin.webhook.title'|trans }}</h1>
+            <p>{{ 'admin.webhook.select.subtitle'|trans }}</p>
+        </div>
+    </div>
+
+    {% include "flashMessages.html.twig" %}
+
+    <div class="row g-3 mb-4">
+        {% for definition in predefined %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body d-flex flex-column">
+                        {% if definition.logo %}
+                            <img src="{{ asset(definition.logo) }}" alt="{{ definition.name }}" class="mb-3" style="width: 48px; height: 48px; object-fit: contain;">
+                        {% endif %}
+                        <h5 class="card-title">{{ definition.name }}</h5>
+                        <p class="card-text text-body-secondary flex-grow-1">{{ definition.description|trans }}</p>
+                        <a href="{{ path('admin_webhooks_new_predefined', { key: definition.key }) }}" class="btn btn-primary mt-3">
+                            {{ 'admin.webhook.select.configure'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 border-secondary">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ 'admin.webhook.select.manual'|trans }}</h5>
+                    <p class="card-text text-body-secondary flex-grow-1">{{ 'admin.webhook.select.manual.description'|trans }}</p>
+                    <a href="{{ path('admin_webhooks_new_manual') }}" class="btn btn-outline-secondary mt-3">
+                        {{ 'admin.webhook.select.configure'|trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{{ path('admin_webhooks_index') }}" class="btn btn-link text-decoration-none ps-0">
+        <i class="fa fa-chevron-left me-1"></i>
+        {{ 'button.back'|trans }}
+    </a>
+{% endblock %}

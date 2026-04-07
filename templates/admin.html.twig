@@ -8,11 +8,29 @@
     <div class="row">
         <div class="col-md-2 col-lg-3">
             <aside class="mb-3">
-                <div class="list-group">
-                    <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
+                <div class="list-group mb-4">
+                    <li class="list-group-item disabled text-body-tertiary" aria-disabled="true">
+                        <i class="fa fa-cogs me-2"></i>
                         {{ 'admin.menu.system'|trans }}
+                    </li>
+                    <a href="{{ path('admin_index') }}" class="list-group-item {% if tab == 'index' %}active{% endif %}">
+                        {{ 'admin.menu.general'|trans }}
                     </a>
 
+                    <a href="{{ path('admin_dados') }}" class="list-group-item {% if tab == 'dados' %}active{% endif %}">
+                        {{ 'admin.menu.data'|trans }}
+                    </a>
+
+                    <a href="{{ path('admin_modulos_index') }}" class="list-group-item {% if tab == 'modulos' %}active{% endif %}">
+                        {{ 'admin.menu.modules'|trans }}
+                    </a>
+                </div>
+
+                <div class="list-group mb-4">
+                    <li class="list-group-item disabled text-body-tertiary" aria-disabled="true">
+                        <i class="fa fa-database me-2"></i>
+                        {{ 'admin.menu.master_data'|trans }}
+                    </li>
                     <a href="{{ path('admin_unidades_index') }}" class="list-group-item {% if tab == 'unidades' %}active{% endif %}">
                         {{ 'admin.menu.unities'|trans }}
                     </a>
@@ -36,10 +54,12 @@
                     <a href="{{ path('admin_locais_index') }}" class="list-group-item {% if tab == 'locais' %}active{% endif %}">
                         {{ 'admin.menu.places'|trans }}
                     </a>
-
-                    <a href="{{ path('admin_modulos_index') }}" class="list-group-item {% if tab == 'modulos' %}active{% endif %}">
-                        {{ 'admin.menu.modules'|trans }}
-                    </a>
+                </div>
+                <div class="list-group mb-4">
+                    <li class="list-group-item disabled text-body-tertiary" aria-disabled="true">
+                        <i class="fa fa-plug me-2"></i>
+                        {{ 'admin.menu.integrations'|trans }}
+                    </li>
 
                     <a href="{{ path('admin_api_index') }}" class="list-group-item {% if tab == 'api' %}active{% endif %}">
                         {{ 'admin.menu.webapi'|trans }}

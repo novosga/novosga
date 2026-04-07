@@ -16,8 +16,10 @@ namespace App\Controller\Admin;
 use Exception;
 use App\Entity\Webhook as Entity;
 use App\Form\WebhookType as EntityType;
-use App\Repository\WebhookRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\WebhookService;
+use App\Webhook\PredefinedWebhookDefinition;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,17 +35,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class WebhooksController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly WebhookRepository $repository,
+        private readonly WebhookService $service,
     ) {
     }
 
     #[Route('/', name: 'index')]
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        $webhooks = $this
-            ->repository
-            ->findBy([], ['name' => 'ASC']);
+        $webhooks = $this->service->findAll();
 
         return $this->render('admin/webhooks/index.html.twig', [
             'tab' => 'webhook',
@@ -51,20 +50,78 @@ class WebhooksController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null): Response
+    #[Route('/new', name: 'new', methods: ['GET'])]
+    public function select(): Response
     {
-        if (!$entity) {
-            $entity = new Entity();
+        return $this->render('admin/webhooks/select.html.twig', [
+            'tab' => 'webhooks',
+            'predefined' => PredefinedWebhookDefinition::all(),
+        ]);
+    }
+
+    #[Route('/new/manual', name: 'new_manual', methods: ['GET', 'POST'])]
+    public function newManual(Request $request, TranslatorInterface $translator): Response
+    {
+        $entity = new Entity();
+
+        return $this->handleWebhookForm($request, $translator, $entity, 'admin_webhooks_new');
+    }
+
+    #[Route('/new/predefined/{key}', name: 'new_predefined', methods: ['GET', 'POST'])]
+    public function newPredefined(Request $request, TranslatorInterface $translator, string $key): Response
+    {
+        $definition = PredefinedWebhookDefinition::find($key);
+        if (!$definition) {
+            throw $this->createNotFoundException();
         }
 
+        $form = $this->createFormBuilder(['name' => $definition->name, 'accessToken' => '', 'enabled' => true])
+            ->add('name', TextType::class, ['label' => 'label.name'])
+            ->add('accessToken', TextType::class, ['label' => 'label.access_token'])
+            ->add('enabled', CheckboxType::class, ['label' => 'label.enabled', 'required' => false])
+            ->getForm()
+            ->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $entity = (new Entity())
+                ->setName($data['name'])
+                ->setUrl($definition->url)
+                ->setHeaders(['Authorization' => 'Bearer ' . $data['accessToken']])
+                ->setEvents($definition->events)
+                ->setEnabled($data['enabled']);
+
+            $this->service->save($entity);
+
+            $this->addFlash('success', $translator->trans('Webhook salvo com sucesso!'));
+
+            return $this->redirectToRoute('admin_webhooks_edit', ['id' => $entity->getId()]);
+        }
+
+        return $this->render('admin/webhooks/predefined_form.html.twig', [
+            'tab' => 'webhooks',
+            'definition' => $definition,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, TranslatorInterface $translator, Entity $entity): Response
+    {
+        return $this->handleWebhookForm($request, $translator, $entity, 'admin_webhooks_index');
+    }
+
+    private function handleWebhookForm(
+        Request $request,
+        TranslatorInterface $translator,
+        Entity $entity,
+        string $backRoute,
+    ): Response {
         $form = $this
             ->createForm(EntityType::class, $entity)
             ->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // ignore empty headers
             $headers = array_filter(
                 $entity->getHeaders(),
                 fn ($value, $key) => !empty($key) && !empty($value),
@@ -72,18 +129,18 @@ class WebhooksController extends AbstractController
             );
             $entity->setHeaders($headers);
 
-            $this->em->persist($entity);
-            $this->em->flush();
+            $this->service->save($entity);
 
             $this->addFlash('success', $translator->trans('Webhook salvo com sucesso!'));
 
-            return $this->redirectToRoute('admin_webhooks_edit', [ 'id' => $entity->getId() ]);
+            return $this->redirectToRoute('admin_webhooks_edit', ['id' => $entity->getId()]);
         }
 
         return $this->render('admin/webhooks/form.html.twig', [
-            'tab'    => 'webhooks',
+            'tab' => 'webhooks',
             'entity' => $entity,
-            'form'   => $form,
+            'form' => $form,
+            'backRoute' => $backRoute,
         ]);
     }
 
@@ -91,8 +148,7 @@ class WebhooksController extends AbstractController
     public function delete(Request $request, TranslatorInterface $translator, Entity $webhook): Response
     {
         try {
-            $this->em->remove($webhook);
-            $this->em->flush();
+            $this->service->remove($webhook);
 
             $this->addFlash('success', $translator->trans('Webhook removido com sucesso!'));
 

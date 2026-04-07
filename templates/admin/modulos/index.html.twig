@@ -12,15 +12,27 @@
         <thead>
             <tr class="table-primary">
                 <th>{{ 'label.module'|trans }}</th>
-                <th>{{ 'label.enabled'|trans }}</th>
+                <th>{{ 'label.author'|trans }}</th>
             </tr>
         </thead>
         <tbody>
             {% for module in modules %}
                 <tr>
-                    <td>{{ module.displayName }}</td>
                     <td>
-                        <input type="checkbox" value="1" disabled {% if module.active %}checked{% endif %} class="module-status" data-key="{{ module.key }}">
+                        <h5>
+                            <i class="fa fa-{{ module.iconName }} me-1"></i>
+                            {{ module.displayName }}
+                        </h5>
+                        <p class="m-0">{{ module.description }}</p>
+                    </td>
+                    <td>
+                        {% if module.website and module.author %}
+                            <a href="{{ module.website }}" target="_blank" noreferer>
+                                {{ module.author }}
+                            </a>
+                        {% else %}
+                            {{ module.author|default('-') }}
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

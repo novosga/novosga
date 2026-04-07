@@ -30,6 +30,18 @@ class WebhookRepository extends ServiceEntityRepository
         parent::__construct($registry, Webhook::class);
     }
 
+    public function save(Webhook $webhook): void
+    {
+        $this->getEntityManager()->persist($webhook);
+        $this->getEntityManager()->flush();
+    }
+
+    public function remove(Webhook $webhook): void
+    {
+        $this->getEntityManager()->remove($webhook);
+        $this->getEntityManager()->flush();
+    }
+
     /** @return Webhook[] */
     public function findEnabledByEvent(WebhookEvent $event): array
     {

@@ -92,6 +92,15 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/dados', name: 'dados')]
+    public function dados(
+        Request $request,
+    ): Response {
+        return $this->render('admin/dados/index.html.twig', [
+            'tab' => 'dados',
+        ]);
+    }
+
     #[Route("/remove-settings-file", name: "remove_settings_file", methods: ['DELETE'])]
     public function removeFile(Request $request, ApplicationSettingsService $service): Response
     {

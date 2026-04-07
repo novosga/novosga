@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\Webhook;
 use App\Repository\WebhookRepository;
 use App\Types\WebhookEvent;
 
@@ -27,6 +28,24 @@ class WebhookService
         private readonly WebhookDispatcher $dispatcher,
         private readonly WebhookRepository $repository,
     ) {
+    }
+
+    /** @return Webhook[] */
+    public function findAll(): array
+    {
+        return $this
+            ->repository
+            ->findBy([], ['name' => 'ASC']);
+    }
+
+    public function save(Webhook $webhook): void
+    {
+        $this->repository->save($webhook);
+    }
+
+    public function remove(Webhook $webhook): void
+    {
+        $this->repository->remove($webhook);
     }
 
     /** @param array<string,mixed> $payload */

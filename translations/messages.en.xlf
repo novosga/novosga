@@ -378,6 +378,30 @@
                 <source>admin.menu.system</source>
                 <target>System</target>
             </trans-unit>
+            <trans-unit id="admin.menu.master_data">
+                <source>admin.menu.master_data</source>
+                <target>Master Data</target>
+            </trans-unit>
+            <trans-unit id="admin.menu.integrations">
+                <source>admin.menu.integrations</source>
+                <target>Integrations</target>
+            </trans-unit>
+            <trans-unit id="admin.menu.general">
+                <source>admin.menu.general</source>
+                <target>General</target>
+            </trans-unit>
+            <trans-unit id="admin.menu.data">
+                <source>admin.menu.data</source>
+                <target>Data</target>
+            </trans-unit>
+            <trans-unit id="admin.data.title">
+                <source>admin.data.title</source>
+                <target>Data</target>
+            </trans-unit>
+            <trans-unit id="admin.data.subtitle">
+                <source>admin.data.subtitle</source>
+                <target>Manage service attendance data</target>
+            </trans-unit>
             <trans-unit id="admin.menu.unities">
                 <source>admin.menu.unities</source>
                 <target>Unities</target>
@@ -442,6 +466,10 @@
                 <source>admin.system.reset_tickets.success</source>
                 <target>Ticket number queues successfully reset  </target>
             </trans-unit>
+            <trans-unit id="admin.system.reset_tickets.description">
+                <source>admin.system.reset_tickets.description</source>
+                <target>Moves all tickets to history. No data is deleted.</target>
+            </trans-unit>
             <trans-unit id="admin.system.clear_tickets">
                 <source>admin.system.clear_tickets</source>
                 <target>Clear calls</target>
@@ -453,6 +481,10 @@
             <trans-unit id="admin.system.clear_tickets.success">
                 <source>admin.system.clear_tickets.success</source>
                 <target>Received calls successfully removed</target>
+            </trans-unit>
+            <trans-unit id="admin.system.clear_tickets.description">
+                <source>admin.system.clear_tickets.description</source>
+                <target>&lt;b&gt;Warning:&lt;/b&gt; Deletes all attendance data including history.</target>
             </trans-unit>
             <trans-unit id="admin.modules.title">
                 <source>admin.modules.title</source>
@@ -585,6 +617,42 @@
             <trans-unit id="admin.webhook.button.new">
                 <source>admin.webhook.button.new</source>
                 <target>New webhook</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.select.subtitle">
+                <source>admin.webhook.select.subtitle</source>
+                <target>Choose a predefined integration or configure manually.</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.select.configure">
+                <source>admin.webhook.select.configure</source>
+                <target>Configure</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.select.manual">
+                <source>admin.webhook.select.manual</source>
+                <target>Manual configuration</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.select.manual.description">
+                <source>admin.webhook.select.manual.description</source>
+                <target>Configure the URL, headers, and events manually.</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.predefined.mangati_monitor.description">
+                <source>admin.webhook.predefined.mangati_monitor.description</source>
+                <target>Real-time service monitoring. Track queues, tickets, and indicators with full visibility.</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.predefined.mangati_avaliacao.description">
+                <source>admin.webhook.predefined.mangati_avaliacao.description</source>
+                <target>Customer satisfaction surveys triggered at ticket completion.</target>
+            </trans-unit>
+            <trans-unit id="label.access_token">
+                <source>label.access_token</source>
+                <target>Access Token</target>
+            </trans-unit>
+            <trans-unit id="label.author">
+                <source>label.author</source>
+                <target>Author</target>
+            </trans-unit>
+            <trans-unit id="admin.webhook.predefined.homepage">
+                <source>admin.webhook.predefined.homepage</source>
+                <target>Visit the project homepage</target>
             </trans-unit>
             <trans-unit id="admin.webapi.clients.title">
                 <source>admin.webapi.clients.title</source>

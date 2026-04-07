@@ -1,6 +1,11 @@
 {% extends "admin.html.twig" %}
 
 {% block adminContent %}
+    <div>
+        <h1>Geral</h1>
+        <p>Configurações gerais</p>
+    </div>
+
     {% include 'flashMessages.html.twig' %}
 
     <div class="row row-cols-2">
@@ -115,71 +120,6 @@
                     </div>
                 </div>
             {{ form_end(behaviorForm) }}
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="card-header text-white bg-danger">
-            <i class="fa fa-warning"></i> 
-            {{ 'admin.system.danger_zone'|trans }}
-        </div>
-        <table class="table">
-            <tbody>
-                <tr>
-                    <td>
-                        {{ 'admin.system.reset_tickets'|trans }}
-                    </td>
-                    <td class="text-end">
-                        <button class="btn btn-danger"
-                                onclick="return App.Admin.reiniciarSenhas('{{ 'admin.system.reset_tickets.alert'|trans }}')">
-                            <i class="fa fa-refresh"></i>
-                            {{ 'button.reset'|trans }}
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        {{ 'admin.system.clear_tickets'|trans }}
-                    </td>
-                    <td class="text-end">
-                        <button class="btn btn-danger"
-                                onclick="return App.Admin.limparSenhas('{{ 'admin.system.clear_tickets.alert'|trans }}')">
-                            <i class="fa fa-refresh"></i>
-                            {{ 'button.reset'|trans }}
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    {# reiniciar #}
-    <div id="dialog-reiniciar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ 'label.success'|trans }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>{{ 'admin.system.reset_tickets.success'|trans }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {# limpar #}
-    <div id="dialog-limpar" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">{{ 'label.success'|trans }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>{{ 'admin.system.clear_tickets.success'|trans }}</p>
-                </div>
-            </div>
         </div>
     </div>
 {% endblock %}
