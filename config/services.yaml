@@ -41,6 +41,8 @@ services:
     Novosga\Repository\LocalRepositoryInterface: '@App\Repository\LocalRepository'
     Novosga\Repository\LotacaoRepositoryInterface: '@App\Repository\LotacaoRepository'
     Novosga\Repository\MetadataRepositoryInterface: '@App\Repository\MetadataRepository'
+    Novosga\Repository\PainelRepositoryInterface: '@App\Repository\PainelRepository'
+    Novosga\Repository\PainelServicoRepositoryInterface: '@App\Repository\PainelServicoRepository'
     Novosga\Repository\PerfilRepositoryInterface: '@App\Repository\PerfilRepository'
     Novosga\Repository\PrioridadeRepositoryInterface: '@App\Repository\PrioridadeRepository'
     Novosga\Repository\ServicoRepositoryInterface: '@App\Repository\ServicoRepository'
@@ -61,11 +63,12 @@ services:
     Novosga\Service\ClienteServiceInterface: '@App\Service\ClienteService'
     Novosga\Service\FilaServiceInterface: '@App\Service\FilaService'
     Novosga\Service\LotacaoServiceInterface: '@App\Service\LotacaoService'
+    Novosga\Service\ModuleServiceInterface: '@App\Service\ModuleService'
+    Novosga\Service\PainelServiceInterface: '@App\Service\PainelService'
     Novosga\Service\ServicoServiceInterface: '@App\Service\ServicoService'
     Novosga\Service\UnidadeServiceInterface: '@App\Service\UnidadeService'
     Novosga\Service\UsuarioServiceInterface: '@App\Service\UsuarioService'
     Novosga\Service\TicketServiceInterface: '@App\Service\TicketService'
-    Novosga\Service\ModuleServiceInterface: '@App\Service\ModuleService'
     Novosga\Service\FileUploaderServiceInterface: '@App\Service\FileUploaderService'
 
     # default service implementation

@@ -17,6 +17,7 @@ return [
     Novosga\AttendanceBundle\NovosgaAttendanceBundle::class => ['all' => true],
     Novosga\CustomersBundle\NovosgaCustomersBundle::class => ['all' => true],
     Novosga\MonitorBundle\NovosgaMonitorBundle::class => ['all' => true],
+    Novosga\PanelBundle\NovosgaPanelBundle::class => ['all' => true],
     Novosga\ReportsBundle\NovosgaReportsBundle::class => ['all' => true],
     Novosga\SchedulingBundle\NovosgaSchedulingBundle::class => ['all' => true],
     Novosga\SettingsBundle\NovosgaSettingsBundle::class => ['all' => true],
