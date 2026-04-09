@@ -1911,12 +1911,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "4ff68801a115779a398cb11df29037c03594bac4"
+                "reference": "113b69597f879002403884672c1d73889a73f13b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/4ff68801a115779a398cb11df29037c03594bac4",
-                "reference": "4ff68801a115779a398cb11df29037c03594bac4",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/113b69597f879002403884672c1d73889a73f13b",
+                "reference": "113b69597f879002403884672c1d73889a73f13b",
                 "shasum": ""
             },
             "require": {
@@ -1954,7 +1954,7 @@
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
                 "source": "https://github.com/novosga/attendance-bundle/tree/v2.3"
             },
-            "time": "2026-04-08T21:49:09+00:00"
+            "time": "2026-04-09T22:03:36+00:00"
         },
         {
             "name": "novosga/core",
@@ -2222,12 +2222,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/scheduling-bundle.git",
-                "reference": "961156f468adb9a62615e56bb9ed17dad555f2ca"
+                "reference": "18df1fcfddd35a32ca706eaf1a1bd1568d55424f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/961156f468adb9a62615e56bb9ed17dad555f2ca",
-                "reference": "961156f468adb9a62615e56bb9ed17dad555f2ca",
+                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/18df1fcfddd35a32ca706eaf1a1bd1568d55424f",
+                "reference": "18df1fcfddd35a32ca706eaf1a1bd1568d55424f",
                 "shasum": ""
             },
             "require": {
@@ -2270,7 +2270,7 @@
                 "issues": "https://github.com/novosga/scheduling-bundle/issues",
                 "source": "https://github.com/novosga/scheduling-bundle/tree/v2.3"
             },
-            "time": "2026-04-07T13:29:40+00:00"
+            "time": "2026-04-09T12:21:08+00:00"
         },
         {
             "name": "novosga/settings-bundle",
