@@ -23,3 +23,14 @@ CREATE INDEX IDX_C253D2A282E14982 ON painel_servicos (servico_id);
 ALTER TABLE paineis ADD CONSTRAINT FK_465B1EADEDF4B99B FOREIGN KEY (unidade_id) REFERENCES unidades (id) ON DELETE CASCADE;
 ALTER TABLE painel_servicos ADD CONSTRAINT FK_C253D2A29F19BCE6 FOREIGN KEY (painel_id) REFERENCES paineis (id) ON DELETE CASCADE;
 ALTER TABLE painel_servicos ADD CONSTRAINT FK_C253D2A282E14982 FOREIGN KEY (servico_id) REFERENCES servicos (id) ON DELETE CASCADE;
+
+CREATE TABLE `paineis_metadata` (
+    `namespace` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `painel_id` int NOT NULL,
+    `value` json NOT NULL COMMENT '(DC2Type:json)',
+    PRIMARY KEY (`namespace`, `name`, `painel_id`),
+    KEY `IDX_paineis_metadata_painel_id` (`painel_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `paineis_metadata` ADD CONSTRAINT `FK_paineis_metadata_painel_id` FOREIGN KEY (`painel_id`) REFERENCES `paineis` (`id`) ON DELETE CASCADE;

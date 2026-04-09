@@ -1962,12 +1962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "b744e483b2f918cd65e52783ec65697665007dab"
+                "reference": "ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/b744e483b2f918cd65e52783ec65697665007dab",
-                "reference": "b744e483b2f918cd65e52783ec65697665007dab",
+                "url": "https://api.github.com/repos/novosga/core/zipball/ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c",
+                "reference": "ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c",
                 "shasum": ""
             },
             "require": {
@@ -2006,7 +2006,7 @@
                 "issues": "https://github.com/novosga/core/issues",
                 "source": "https://github.com/novosga/core/tree/v2.3"
             },
-            "time": "2026-04-08T21:35:51+00:00"
+            "time": "2026-04-09T10:43:22+00:00"
         },
         {
             "name": "novosga/customers-bundle",
