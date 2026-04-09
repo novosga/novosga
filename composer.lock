@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "596dee019cd259132217a0f3d76b3d13",
+    "content-hash": "ca474c8c053baef5b5a0f7f4bedd3ba5",
     "packages": [
         {
             "name": "defuse/php-encryption",
@@ -1911,12 +1911,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/attendance-bundle.git",
-                "reference": "7b8d48c0123870cbe2f06ea4b2b4edcaeaf3509f"
+                "reference": "4ff68801a115779a398cb11df29037c03594bac4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/7b8d48c0123870cbe2f06ea4b2b4edcaeaf3509f",
-                "reference": "7b8d48c0123870cbe2f06ea4b2b4edcaeaf3509f",
+                "url": "https://api.github.com/repos/novosga/attendance-bundle/zipball/4ff68801a115779a398cb11df29037c03594bac4",
+                "reference": "4ff68801a115779a398cb11df29037c03594bac4",
                 "shasum": ""
             },
             "require": {
@@ -1954,7 +1954,7 @@
                 "issues": "https://github.com/novosga/attendance-bundle/issues",
                 "source": "https://github.com/novosga/attendance-bundle/tree/v2.3"
             },
-            "time": "2026-04-07T13:31:48+00:00"
+            "time": "2026-04-08T21:49:09+00:00"
         },
         {
             "name": "novosga/core",
@@ -1962,12 +1962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "55b28120da36f11fd864e9c4ead9e81ed85881cd"
+                "reference": "ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/55b28120da36f11fd864e9c4ead9e81ed85881cd",
-                "reference": "55b28120da36f11fd864e9c4ead9e81ed85881cd",
+                "url": "https://api.github.com/repos/novosga/core/zipball/ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c",
+                "reference": "ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c",
                 "shasum": ""
             },
             "require": {
@@ -2006,7 +2006,7 @@
                 "issues": "https://github.com/novosga/core/issues",
                 "source": "https://github.com/novosga/core/tree/v2.3"
             },
-            "time": "2026-04-07T12:51:18+00:00"
+            "time": "2026-04-09T10:43:22+00:00"
         },
         {
             "name": "novosga/customers-bundle",
@@ -2110,6 +2110,59 @@
                 "source": "https://github.com/novosga/monitor-bundle/tree/v2.3"
             },
             "time": "2026-04-07T13:29:31+00:00"
+        },
+        {
+            "name": "novosga/panel-bundle",
+            "version": "v2.3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/novosga/panel-bundle.git",
+                "reference": "5d34fd6e16ebf2caef23c639708d822f96e7787a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/novosga/panel-bundle/zipball/5d34fd6e16ebf2caef23c639708d822f96e7787a",
+                "reference": "5d34fd6e16ebf2caef23c639708d822f96e7787a",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "^3.2",
+                "novosga/core": "2.3.x-dev",
+                "php": ">=8.2",
+                "symfony/form": "7.4.*",
+                "symfony/framework-bundle": "7.4.*",
+                "symfony/translation": "7.4.*",
+                "symfony/uid": "7.4.*",
+                "symfony/validator": "7.4.*"
+            },
+            "require-dev": {
+                "phpstan/phpdoc-parser": "^2.3.2",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.5.55",
+                "slevomat/coding-standard": "^8.28",
+                "squizlabs/php_codesniffer": "^4.0"
+            },
+            "default-branch": true,
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Novosga\\PanelBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "issues": "https://github.com/novosga/panel-bundle/issues",
+                "source": "https://github.com/novosga/panel-bundle/tree/v2.3"
+            },
+            "time": "2026-04-08T21:55:48+00:00"
         },
         {
             "name": "novosga/reports-bundle",
@@ -7079,6 +7132,89 @@
             "time": "2025-06-23T16:12:55+00:00"
         },
         {
+            "name": "symfony/polyfill-uuid",
+            "version": "v1.33.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-uuid.git",
+                "reference": "21533be36c24be3f4b1669c4725c7d1d2bab4ae2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-uuid/zipball/21533be36c24be3f4b1669c4725c7d1d2bab4ae2",
+                "reference": "21533be36c24be3f4b1669c4725c7d1d2bab4ae2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "provide": {
+                "ext-uuid": "*"
+            },
+            "suggest": {
+                "ext-uuid": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "thanks": {
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ],
+                "psr-4": {
+                    "Symfony\\Polyfill\\Uuid\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Pineau",
+                    "email": "lyrixx@lyrixx.info"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for uuid functions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "uuid"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-uuid/tree/v1.33.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2024-09-09T11:45:10+00:00"
+        },
+        {
             "name": "symfony/process",
             "version": "v7.4.5",
             "source": {
@@ -8829,6 +8965,84 @@
                 }
             ],
             "time": "2026-03-04T12:49:16+00:00"
+        },
+        {
+            "name": "symfony/uid",
+            "version": "v7.4.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/uid.git",
+                "reference": "6883ebdf7bf6a12b37519dbc0df62b0222401b56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/uid/zipball/6883ebdf7bf6a12b37519dbc0df62b0222401b56",
+                "reference": "6883ebdf7bf6a12b37519dbc0df62b0222401b56",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/polyfill-uuid": "^1.15"
+            },
+            "require-dev": {
+                "symfony/console": "^6.4|^7.0|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Uid\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Grégoire Pineau",
+                    "email": "lyrixx@lyrixx.info"
+                },
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides an object-oriented API to generate and represent UIDs",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "UID",
+                "ulid",
+                "uuid"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/uid/tree/v7.4.8"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nicolas-grekas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2026-03-24T13:12:05+00:00"
         },
         {
             "name": "symfony/ux-icons",
@@ -12625,6 +12839,7 @@
         "novosga/core": 20,
         "novosga/customers-bundle": 20,
         "novosga/monitor-bundle": 20,
+        "novosga/panel-bundle": 20,
         "novosga/reports-bundle": 20,
         "novosga/scheduling-bundle": 20,
         "novosga/settings-bundle": 20,

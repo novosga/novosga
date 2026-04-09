@@ -48,6 +48,7 @@ security:
         - { path: ^/api/token$, roles: [ PUBLIC_ACCESS ] }
         - { path: ^/(api|\w+\.\w+/api), roles: [ IS_AUTHENTICATED_FULLY ] }
         - { path: ^/login, roles: [ PUBLIC_ACCESS ] }
+        - { path: ^/painel, roles: [ PUBLIC_ACCESS ] }
         - { path: ^/admin, roles: [ ROLE_ADMIN ] }
         - { path: ^/, roles: [ IS_AUTHENTICATED_REMEMBERED ] }
 
