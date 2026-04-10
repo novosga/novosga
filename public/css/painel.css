@@ -98,7 +98,7 @@ body {
 
 #featured-title {
     font-family: var(--font-display);
-    font-size: 50vh;
+    font-size: 30vh;
     line-height: .9;
     color: var(--amber);
     text-shadow:

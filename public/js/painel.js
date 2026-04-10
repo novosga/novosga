@@ -55,10 +55,11 @@
                 });
             },
 
-            startPanel(baseUrl, publicId, unidadeId) {
+            startPanel({ baseUrl, publicId, unidadeId, mercureUrl }) {
                 this.baseUrl = baseUrl;
                 this.publicId = publicId;
                 this.unidadeId = unidadeId;
+                this.mercureUrl = mercureUrl;
                 this.connectSSE();
                 this.fetchData();
             },
@@ -272,11 +273,7 @@
             this.updateClock();
             setInterval(() => { this.updateClock(); }, 1000);
 
-            this.startPanel(
-                this.$el.dataset.baseUrl,
-                this.$el.dataset.publicId,
-                this.$el.dataset.unidadeId,
-            );
+            this.startPanel({...this.$el.dataset});
         },
 
         beforeDestroy() {

@@ -2117,12 +2117,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/panel-bundle.git",
-                "reference": "5d34fd6e16ebf2caef23c639708d822f96e7787a"
+                "reference": "bb1ea57879d8293f12094870976b54c612f7bff9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/panel-bundle/zipball/5d34fd6e16ebf2caef23c639708d822f96e7787a",
-                "reference": "5d34fd6e16ebf2caef23c639708d822f96e7787a",
+                "url": "https://api.github.com/repos/novosga/panel-bundle/zipball/bb1ea57879d8293f12094870976b54c612f7bff9",
+                "reference": "bb1ea57879d8293f12094870976b54c612f7bff9",
                 "shasum": ""
             },
             "require": {
@@ -2162,7 +2162,7 @@
                 "issues": "https://github.com/novosga/panel-bundle/issues",
                 "source": "https://github.com/novosga/panel-bundle/tree/v2.3"
             },
-            "time": "2026-04-08T21:55:48+00:00"
+            "time": "2026-04-10T11:02:06+00:00"
         },
         {
             "name": "novosga/reports-bundle",
