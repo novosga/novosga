@@ -3,6 +3,8 @@ name: Docker
 on:
   push:
     tags: '*'
+    branches:
+      - 'v2.3'
 
 env:
   IMAGE_NAME: ${{ github.repository }}
@@ -27,6 +29,7 @@ jobs:
           tags: |
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+            type=raw,value={{branch}}-dev,enable=${{ github.ref_type == 'branch' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0
