@@ -4,20 +4,15 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-    --bg:           #07090f;
-    --bg-panel:     #0c1120;
-    --bg-sidebar:   #0a0e1a;
-    --bg-card:      #0f1628;
+    --bg:           #ffffff;
+    --bg-panel:     #44A075;
+    --bg-sidebar:   #4FC08D;
+    --bg-card:      #44A075;
     --border:       #1a2540;
 
-    --amber:        #f0b429;
-    --amber-glow:   rgba(240, 180, 41, 0.35);
-    --amber-dim:    rgba(240, 180, 41, 0.08);
-    --priority:     #ff6b35;
+    --no-priority:  #000000;
+    --priority:     #FF0000;
     --priority-glow:rgba(255, 107, 53, 0.35);
-
-    --teal:         #00c9b1;
-    --teal-dim:     rgba(0, 201, 177, 0.5);
 
     --text:         #cdd5e0;
     --text-muted:   #4a5568;
@@ -58,7 +53,6 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to bottom, transparent 0%, var(--amber-dim) 50%, transparent 100%);
     transform: translateY(-100%);
     pointer-events: none;
 }
@@ -100,20 +94,13 @@ body {
     font-family: var(--font-display);
     font-size: 30vh;
     line-height: .9;
-    color: var(--amber);
-    text-shadow:
-        0 0 40px var(--amber-glow),
-        0 0 80px rgba(240, 180, 41, .15),
-        0 0 120px rgba(240, 180, 41, .05);
+    color: var(--no-priority);
     letter-spacing: .02em;
     transition: color .3s;
 }
 
 #featured-title.priority {
     color: var(--priority);
-    text-shadow:
-        0 0 40px var(--priority-glow),
-        0 0 80px rgba(255, 107, 53, .15);
 }
 
 #featured-subtitle {
@@ -121,7 +108,7 @@ body {
     font-size: 5vh;
     font-weight: 300;
     letter-spacing: .15em;
-    color: var(--teal-dim);
+    color: #000000;
     margin-top: .75rem;
     text-transform: uppercase;
 }
@@ -155,11 +142,16 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem;
-    border-top: 1px solid var(--border);
+    background-color: #F1F1F1;
 }
 
-#featured-footer img, #featured-footer svg {
+#featured-footer img {
     height: 100%;
+    width: auto;
+}
+
+#featured-footer svg {
+    height: 60%;
     width: auto;
 }
 
@@ -184,7 +176,6 @@ body {
     background: var(--bg-sidebar);
     display: flex;
     flex-direction: column;
-    border-left: 1px solid var(--border);
 }
 
 /* ── History ───────────────────────────────────────────────── */
@@ -198,20 +189,19 @@ body {
 
 #history-heading {
     font-family: var(--font-mono);
-    font-size: 3vh;
+    font-size: 2vh;
     letter-spacing: .3em;
     text-transform: uppercase;
     color: var(--text-muted);
-    margin-bottom: 1.25rem;
-    padding-bottom: .75rem;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: .5rem;
+    padding-bottom: .5rem;
 }
 
 .history-item {
     padding: .65rem .85rem;
     border-left: 2px solid var(--border);
     margin-bottom: .5rem;
-    background: var(--bg-card);
+    background: #d2ffea;
     border-radius: 0 3px 3px 0;
     opacity: .6;
     transition: opacity .3s;
@@ -226,20 +216,22 @@ body {
 }
 
 .history-item.priority { border-left-color: var(--priority); }
-.history-item:not(.priority) { border-left-color: var(--teal-dim); }
+.history-item:not(.priority) { border-left-color: #000000; }
 
 .hi-ticket {
     font-family: var(--font-display);
     font-size: 5vh;
     line-height: 1;
-    color: var(--text);
+    color: #000000;
     letter-spacing: .04em;
 }
+
+.history-item.priority .hi-ticket { color: #FF0000; }
 
 .hi-desk {
     font-family: var(--font-mono);
     font-size: 2.5vh;
-    color: var(--teal-dim);
+    color: #333333;
     margin-top: .2rem;
     letter-spacing: .08em;
 }
@@ -265,10 +257,12 @@ body {
 
 /* ── Clock ─────────────────────────────────────────────────── */
 #clock-box {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
     height: 10vh;
     padding: 1.25rem 1rem;
     text-align: center;
-    border-top: 1px solid var(--border);
     background: var(--bg-panel);
 }
 
@@ -276,7 +270,7 @@ body {
     font-family: var(--font-display);
     font-size: 3vh;
     letter-spacing: .08em;
-    color: var(--teal-dim);
+    color: #000000;
     line-height: 1;
 }
 

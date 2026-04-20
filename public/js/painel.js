@@ -30,7 +30,9 @@
                 return this.featured ? this.featured.senha : '---';
             },
             featuredSubtitle() {
-                if (!this.featured) return '';
+                if (!this.featured) {
+                    return '';
+                }
                 return this.featured.local + ' ' + this.padNum(this.featured.numeroLocal, 2);
             },
             featuredDescription() {
