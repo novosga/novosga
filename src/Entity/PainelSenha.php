@@ -61,6 +61,9 @@ class PainelSenha implements PainelSenhaInterface
     #[ORM\Column(length: 100)]
     private ?string $prioridade = null;
 
+    #[ORM\Column(name: 'cor_prioridade', length: 20, nullable: true)]
+    private ?string $corPrioridade = null;
+
     #[ORM\Column(length: 100)]
     private ?string $nomeCliente = null;
 
@@ -187,6 +190,18 @@ class PainelSenha implements PainelSenhaInterface
         return $this;
     }
 
+    public function getCorPrioridade(): ?string
+    {
+        return $this->corPrioridade;
+    }
+
+    public function setCorPrioridade(?string $corPrioridade): static
+    {
+        $this->corPrioridade = $corPrioridade;
+
+        return $this;
+    }
+
     public function getNomeCliente(): ?string
     {
         return $this->nomeCliente;
@@ -229,6 +244,7 @@ class PainelSenha implements PainelSenhaInterface
            'numeroLocal' => $this->getNumeroLocal(),
            'peso' => $this->getPeso(),
            'prioridade' => $this->getPrioridade(),
+           'corPrioridade' => $this->getCorPrioridade(),
            'nomeCliente' => $this->getNomeCliente(),
            'documentoCliente' => $this->getDocumentoCliente(),
            'servico' => [
