@@ -160,6 +160,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         // prioridade
         $senha->setPeso($atendimento->getPrioridade()->getPeso());
         $senha->setPrioridade($atendimento->getPrioridade()->getNome());
+        $senha->setCorPrioridade($atendimento->getPrioridade()->getCor());
         // cliente
         if ($atendimento->getCliente()) {
             $senha->setNomeCliente($atendimento->getCliente()->getNome());

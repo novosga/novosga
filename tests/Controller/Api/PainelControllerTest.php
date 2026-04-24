@@ -30,6 +30,7 @@ class PainelControllerTest extends WebTestCase
     private const TEST_LOCAL = 'guiche';
     private const TEST_NUMERO_LOCAL = 123;
     private const TEST_PRIORIDADE = 'normal';
+    private const TEST_COR_PRIORIDADE = '#0091da';
     private const TEST_MENSAGEM = 'message test';
     private const TEST_PESO = 0;
 
@@ -101,6 +102,7 @@ class PainelControllerTest extends WebTestCase
             $this->assertSame($fromDb->getNumeroLocal(), $fromApi['numeroLocal']);
             $this->assertSame($fromDb->getPeso(), $fromApi['peso']);
             $this->assertSame($fromDb->getPrioridade(), $fromApi['prioridade']);
+            $this->assertSame($fromDb->getCorPrioridade(), $fromApi['corPrioridade']);
             $this->assertSame($fromDb->getNomeCliente(), $fromApi['nomeCliente']);
             $this->assertSame($fromDb->getDocumentoCliente(), $fromApi['documentoCliente']);
             $this->assertSame($fromDb->getServico()->getId(), $fromApi['servico']['id']);
@@ -130,6 +132,7 @@ class PainelControllerTest extends WebTestCase
             ->setLocal(self::TEST_LOCAL)
             ->setNumeroLocal(self::TEST_NUMERO_LOCAL)
             ->setPrioridade(self::TEST_PRIORIDADE)
+            ->setCorPrioridade(self::TEST_COR_PRIORIDADE)
             ->setMensagem(self::TEST_MENSAGEM)
             ->setPeso(self::TEST_PESO);
 
