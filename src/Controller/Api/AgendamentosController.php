@@ -36,6 +36,23 @@ class AgendamentosController extends ApiCrudController
         return Agendamento::class;
     }
 
+    public function getSearchableFields(): array
+    {
+        return [
+            'id',
+            'data',
+            'hora',
+            'oid',
+            'cliente.nome',
+            'cliente.documento',
+            'cliente.email',
+            'cliente.telefone',
+            'cliente.dataNascimento',
+            'servico.id',
+            'unidade.id',
+        ];
+    }
+
     #[Route('', methods: ['POST'])]
     public function post(
         Request $request,

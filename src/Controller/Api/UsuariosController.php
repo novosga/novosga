@@ -31,4 +31,9 @@ class UsuariosController extends ApiCrudController
     {
         return Usuario::class;
     }
+
+    public function getSearchableFields(): array
+    {
+        return ['id', 'login', 'nome', 'email'];
+    }
 }

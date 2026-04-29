@@ -42,6 +42,11 @@ class AtendimentosController extends ApiCrudController
         return Atendimento::class;
     }
 
+    public function getSearchableFields(): array
+    {
+        return ['id', 'status', 'resolucao'];
+    }
+
     /**
      * Chama um atendimento.
      */

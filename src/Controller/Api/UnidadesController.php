@@ -40,6 +40,11 @@ class UnidadesController extends ApiCrudController
         return Unidade::class;
     }
 
+    public function getSearchableFields(): array
+    {
+        return ['id', 'nome'];
+    }
+
     #[Route('/{id}/servicos', methods: ['GET'])]
     public function servicos(Unidade $unidade, ServicoService $service): Response
     {

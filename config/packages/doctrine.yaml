@@ -33,6 +33,8 @@ doctrine:
         dql:
             datetime_functions:
                 unix_timestamp: App\Doctrine\Functions\UnixTimestampFunction
+            string_functions:
+                regex_replace: App\Doctrine\Functions\RegexReplaceFunction
 
 when@test:
     doctrine:

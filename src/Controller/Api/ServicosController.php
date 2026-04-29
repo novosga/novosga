@@ -34,4 +34,9 @@ class ServicosController extends ApiCrudController
     {
         return \App\Entity\Servico::class;
     }
+
+    public function getSearchableFields(): array
+    {
+        return ['id', 'nome'];
+    }
 }
