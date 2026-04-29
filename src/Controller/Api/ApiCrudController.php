@@ -15,6 +15,7 @@ namespace App\Controller\Api;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -50,9 +51,19 @@ abstract class ApiCrudController extends ApiControllerBase
         return $this->json($entity);
     }
 
+    /** @return string[] */
+    public function getSearchableFields(): array
+    {
+        return ['id'];
+    }
+
     public function search(Request $request): Response
     {
-        $q = explode(' ', $request->query->get('q', ''));
+        try {
+            $q = $request->query->all('q');
+        } catch (BadRequestException $e) {
+            $q = [$request->query->get('q', '')];
+        }
         $sort = (string) $request->query->get('sort', '');
         $order = strtolower((string) $request->query->get('order', ''));
         $limit = (int) $request->query->get('limit', 25);
@@ -64,6 +75,7 @@ abstract class ApiCrudController extends ApiControllerBase
 
         $orderBy  = [];
         $criteria = [];
+        $searchable = $this->getSearchableFields();
 
         if (strlen($sort)) {
             $orderBy[$sort] = $order;
@@ -71,8 +83,8 @@ abstract class ApiCrudController extends ApiControllerBase
 
         foreach ($q as $i) {
             if (!empty($i)) {
-                $param = explode(':', $i);
-                if (count($param) === 2) {
+                $param = explode(':', $i, 2);
+                if (count($param) === 2 && in_array($param[0], $searchable, true)) {
                     $criteria[$param[0]] = $param[1];
                 }
             }

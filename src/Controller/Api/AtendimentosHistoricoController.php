@@ -31,4 +31,9 @@ class AtendimentosHistoricoController extends ApiCrudController
     {
         return AtendimentoHistorico::class;
     }
+
+    public function getSearchableFields(): array
+    {
+        return ['id', 'status', 'resolucao'];
+    }
 }

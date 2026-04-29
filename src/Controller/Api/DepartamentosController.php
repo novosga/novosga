@@ -34,4 +34,9 @@ class DepartamentosController extends ApiCrudController
     {
         return Departamento::class;
     }
+
+    public function getSearchableFields(): array
+    {
+        return ['id', 'nome'];
+    }
 }

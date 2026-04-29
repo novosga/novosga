@@ -35,4 +35,9 @@ class PrioridadesController extends ApiCrudController
     {
         return Prioridade::class;
     }
+
+    public function getSearchableFields(): array
+    {
+        return ['id', 'nome'];
+    }
 }

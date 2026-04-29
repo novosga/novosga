@@ -34,4 +34,9 @@ class LocaisController extends ApiCrudController
     {
         return Local::class;
     }
+
+    public function getSearchableFields(): array
+    {
+        return ['id', 'nome'];
+    }
 }

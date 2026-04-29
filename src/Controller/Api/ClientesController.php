@@ -34,4 +34,9 @@ class ClientesController extends ApiCrudController
     {
         return Cliente::class;
     }
+
+    public function getSearchableFields(): array
+    {
+        return ['id', 'nome', 'documento', 'email', 'telefone'];
+    }
 }
