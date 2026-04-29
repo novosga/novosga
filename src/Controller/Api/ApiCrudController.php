@@ -83,7 +83,7 @@ abstract class ApiCrudController extends ApiControllerBase
 
         foreach ($q as $i) {
             if (!empty($i)) {
-                $param = explode(':', $i);
+                $param = explode(':', $i, 2);
                 if (count($param) === 2 && in_array($param[0], $searchable, true)) {
                     $criteria[$param[0]] = $param[1];
                 }
