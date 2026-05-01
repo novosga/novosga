@@ -62,6 +62,7 @@ use Novosga\Event\TicketsResetEvent;
 use Novosga\Event\TicketStartEvent;
 use Novosga\Event\TicketTransferedEvent;
 use Novosga\Infrastructure\StorageInterface;
+use Novosga\Service\ApplicationSettingsServiceInterface;
 use Novosga\Service\AtendimentoServiceInterface;
 use Psr\Clock\ClockInterface;
 use Psr\Log\LoggerInterface;
@@ -87,6 +88,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         private readonly AtendimentoMetadataRepository $atendimentoMetaRepository,
         private readonly ServicoUnidadeRepository $servicoUnidadeRepository,
         private readonly ClienteRepository $clienteRepository,
+        private readonly ApplicationSettingsServiceInterface $settingsService,
     ) {
     }
 
@@ -490,14 +492,34 @@ class AtendimentoService implements AtendimentoServiceInterface
         $atendimento->getSenha()->setSigla($su->getSigla());
 
         if ($agendamento) {
+            $timezone = $unidade->getDateTimeZone();
             $data = $agendamento->getData()->format('Y-m-d');
             $hora = $agendamento->getHora()->format('H:i');
-            $dtAge = DateTimeImmutable::createFromFormat(
+            $dtAgeUnidade = DateTimeImmutable::createFromFormat(
                 'Y-m-d H:i',
                 "{$data} {$hora}",
-                $atendimento->getUnidade()->getDateTimeZone(),
+                $timezone,
             );
-            $dtAge = $dtAge ? $dtAge->setTimezone(new DateTimeZone('UTC')) : null;
+            if ($dtAgeUnidade === false) {
+                throw new Exception($this->translator->trans('error.schedule.invalid_datetime'));
+            }
+
+            $now = $this->clock->now()->setTimezone($timezone);
+            if ($dtAgeUnidade < $now) {
+                $diff = $now->diff($dtAgeUnidade);
+                $mins = $diff->i + ($diff->h * 60) + ($diff->days * 24 * 60);
+                $maxDelay = $this->settingsService
+                    ->loadBehaviorSettings()
+                    ->appointmentConfirmationDelay;
+                if ($mins > $maxDelay) {
+                    throw new Exception($this->translator->trans(
+                        'error.schedule.expired',
+                        ['%min%' => $maxDelay],
+                    ));
+                }
+            }
+
+            $dtAge = $dtAgeUnidade->setTimezone(new DateTimeZone('UTC'));
             $atendimento
                 ->setDataAgendamento($dtAge)
                 ->setCliente($agendamento->getCliente());

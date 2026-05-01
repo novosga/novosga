@@ -114,6 +114,10 @@
                 <source>label.change_ticket_type</source>
                 <target>Permitir alterar tipo de atendimento</target>
             </trans-unit>
+            <trans-unit id="label.appointment_confirmation_delay">
+                <source>label.appointment_confirmation_delay</source>
+                <target>Tempo máximo para confirmação de agendamento (minutos)</target>
+            </trans-unit>
             <trans-unit id="label.url">
                 <source>label.url</source>
                 <target>URL</target>
@@ -337,6 +341,38 @@
             <trans-unit id="label.email">
                 <source>label.email</source>
                 <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="label.address">
+                <source>label.address</source>
+                <target>Endereço</target>
+            </trans-unit>
+            <trans-unit id="label.endereco.pais">
+                <source>label.endereco.pais</source>
+                <target>País</target>
+            </trans-unit>
+            <trans-unit id="label.endereco.cep">
+                <source>label.endereco.cep</source>
+                <target>CEP</target>
+            </trans-unit>
+            <trans-unit id="label.endereco.estado">
+                <source>label.endereco.estado</source>
+                <target>Estado</target>
+            </trans-unit>
+            <trans-unit id="label.endereco.cidade">
+                <source>label.endereco.cidade</source>
+                <target>Cidade</target>
+            </trans-unit>
+            <trans-unit id="label.endereco.logradouro">
+                <source>label.endereco.logradouro</source>
+                <target>Logradouro</target>
+            </trans-unit>
+            <trans-unit id="label.endereco.numero">
+                <source>label.endereco.numero</source>
+                <target>Número</target>
+            </trans-unit>
+            <trans-unit id="label.endereco.complemento">
+                <source>label.endereco.complemento</source>
+                <target>Complemento</target>
             </trans-unit>
             <trans-unit id="profile.lotation">
                 <source>profile.lotation</source>
@@ -766,6 +802,14 @@
                 <source>error.new_ticket</source>
                 <target>Erro ao tentar gerar nova senha</target>
             </trans-unit>
+            <trans-unit id="error.schedule.expired">
+                <source>error.schedule.expired</source>
+                <target>Agendamento expirado. Tempo máximo de espera de %min% minutos.</target>
+            </trans-unit>
+            <trans-unit id="error.schedule.invalid_datetime">
+                <source>error.schedule.invalid_datetime</source>
+                <target>Data/hora do agendamento inválida.</target>
+            </trans-unit>
             <trans-unit id="label.color">
                 <source>label.color</source>
                 <target>Cor</target>
@@ -793,6 +837,10 @@
             <trans-unit id="label.gender.unknown">
                 <source>label.gender.unknown</source>
                 <target>Outro</target>
+            </trans-unit>
+            <trans-unit id="label.birthday">
+              <source>label.birthday</source>
+              <target>Data de nascimento</target>
             </trans-unit>
             <trans-unit id="label.notes">
                 <source>label.notes</source>

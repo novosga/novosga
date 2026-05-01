@@ -58,7 +58,7 @@ class Agendamento implements AgendamentoInterface
     #[ORM\ManyToOne(targetEntity: Servico::class)]
     private ?ServicoInterface $servico = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?DateTimeInterface $dataConfirmacao = null;
 
     #[ORM\Column(length: 36, nullable: true)]
