@@ -18,6 +18,7 @@
                 <div id="featured-label">Senha chamada</div>
                 <div id="featured-title"
                      :class="{ priority: featuredIsPriority }"
+                     :style="{ '--priority': featured?.corPrioridade || 'inherit' }"
                      v-text="featuredTitle"></div>
                 <div id="featured-subtitle" v-text="featuredSubtitle"></div>
                 <div id="featured-description" v-text="featuredDescription"></div>
@@ -37,7 +38,8 @@
                 <div v-for="t in history"
                      :key="t.id"
                      class="history-item"
-                     :class="{ priority: (t.peso || 0) > 0 }">
+                     :class="{ priority: (t.peso || 0) > 0 }"
+                     :style="{ '--priority': t.corPrioridade || 'inherit' }">
                     <div class="hi-ticket" v-text="t.senha"></div>
                     <div class="hi-desk" v-text="t.local + ' ' + padNum(t.numeroLocal, 2)"></div>
                     <div class="hi-service" v-text="t.servico ? t.servico.nome : ''"></div>

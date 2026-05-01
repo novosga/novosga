@@ -226,7 +226,7 @@ body {
     letter-spacing: .04em;
 }
 
-.history-item.priority .hi-ticket { color: #FF0000; }
+.history-item.priority .hi-ticket { color: var(--priority); }
 
 .hi-desk {
     font-family: var(--font-mono);
