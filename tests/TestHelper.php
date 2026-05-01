@@ -152,6 +152,7 @@ final class TestHelper
         string $name = 'Test',
         ?string $documento = null,
         string $telefone = '1234567890',
+        ?DateTimeInterface $dataNascimento = null,
     ): ClienteInterface {
         if ($documento === null) {
             $documento = uniqid();
@@ -161,7 +162,8 @@ final class TestHelper
             ->setNome($name)
             ->setDocumento($documento)
             ->setEmail(sprintf('%s@test.com', strtolower($name)))
-            ->setTelefone($telefone);
+            ->setTelefone($telefone)
+            ->setDataNascimento($dataNascimento);
 
         $em->persist($cliente);
         $em->flush();

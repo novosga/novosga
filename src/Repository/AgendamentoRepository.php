@@ -16,7 +16,9 @@ namespace App\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Agendamento;
+use DateTimeImmutable;
 use DateTimeInterface;
+use InvalidArgumentException;
 use Novosga\Entity\AgendamentoInterface;
 use Novosga\Entity\ServicoInterface;
 use Novosga\Entity\UnidadeInterface;
@@ -29,14 +31,16 @@ use Novosga\Repository\AgendamentoRepositoryInterface;
  */
 class AgendamentoRepository extends ServiceEntityRepository implements AgendamentoRepositoryInterface
 {
+    private const LIKE_FIELDS = ['cliente.nome'];
+    private const IN_FIELDS = ['servico.id'];
+    private const DIGITS_FIELDS = ['cliente.telefone', 'cliente.documento'];
+    private const DATE_FIELDS = ['data', 'cliente.dataNascimento'];
+    private const TIME_FIELDS = ['hora'];
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Agendamento::class);
     }
-
-    private const LIKE_FIELDS = ['cliente.nome'];
-    private const IN_FIELDS = ['servico.id'];
-    private const PHONE_FIELDS = ['cliente.telefone'];
 
     /** @return AgendamentoInterface[] */
     public function findBy(
@@ -52,37 +56,45 @@ class AgendamentoRepository extends ServiceEntityRepository implements Agendamen
             $param = str_replace('.', '_', $field);
 
             if (str_contains($field, '.')) {
-                [$relation, $column] = explode('.', $field, 2);
+                [$relation, $property] = explode('.', $field, 2);
                 if (!isset($joins[$relation])) {
                     $qb->join("e.{$relation}", $relation);
                     $joins[$relation] = true;
                 }
-
-                if (in_array($field, self::LIKE_FIELDS, true)) {
-                    $qb
-                        ->andWhere("{$relation}.{$column} LIKE :{$param}")
-                        ->setParameter($param, $value);
-                } elseif (in_array($field, self::IN_FIELDS, true)) {
-                    $ids = is_array($value) ? $value : array_map('trim', explode(',', (string) $value));
-                    $qb
-                        ->andWhere("{$relation}.{$column} IN (:{$param})")
-                        ->setParameter($param, $ids);
-                } elseif (in_array($field, self::PHONE_FIELDS, true)) {
-                    $qb
-                        ->andWhere(
-                            "REGEX_REPLACE({$relation}.{$column},
-                            '[^0-9]', '') = REGEX_REPLACE(:{$param},
-                            '[^0-9]', '')",
-                        )
-                        ->setParameter($param, $value);
-                } else {
-                    $qb
-                        ->andWhere("{$relation}.{$column} = :{$param}")
-                        ->setParameter($param, $value);
-                }
+                $path = "{$relation}.{$property}";
+            } else {
+                $path = "e.{$field}";
+            }
+            if (in_array($field, self::LIKE_FIELDS, true)) {
+                $qb
+                    ->andWhere("{$path} LIKE :{$param}")
+                    ->setParameter($param, $value);
+            } elseif (in_array($field, self::IN_FIELDS, true)) {
+                $ids = is_array($value) ? $value : array_map('trim', explode(',', (string) $value));
+                $qb
+                    ->andWhere("{$path} IN (:{$param})")
+                    ->setParameter($param, $ids);
+            } elseif (in_array($field, self::DIGITS_FIELDS, true)) {
+                $qb
+                    ->andWhere(
+                        "REGEX_REPLACE({$path},
+                        '[^0-9]', '') = REGEX_REPLACE(:{$param},
+                        '[^0-9]', '')",
+                    )
+                    ->setParameter($param, $value);
+            } elseif (in_array($field, self::DATE_FIELDS, true)) {
+                $normalized = $this->normalizeDateValue((string) $value);
+                $qb
+                    ->andWhere("{$path} = :{$param}")
+                    ->setParameter($param, $normalized);
+            } elseif (in_array($field, self::TIME_FIELDS, true)) {
+                $normalized = $this->normalizeTimeValue((string) $value);
+                $qb
+                    ->andWhere("{$path} = :{$param}")
+                    ->setParameter($param, $normalized);
             } else {
                 $qb
-                    ->andWhere("e.{$field} = :{$param}")
+                    ->andWhere("{$path} = :{$param}")
                     ->setParameter($param, $value);
             }
         }
@@ -118,5 +130,23 @@ class AgendamentoRepository extends ServiceEntityRepository implements Agendamen
             ->addOrderBy('e.hora', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    private function normalizeDateValue(string $value): string
+    {
+        $date = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
+        if ($date === false) {
+            throw new InvalidArgumentException("Invalid date value: {$value}");
+        }
+        return $value;
+    }
+
+    private function normalizeTimeValue(string $value): string
+    {
+        $time = DateTimeImmutable::createFromFormat('H:i', $value);
+        if ($time === false) {
+            throw new InvalidArgumentException("Invalid time value: {$time}");
+        }
+        return $value;
     }
 }

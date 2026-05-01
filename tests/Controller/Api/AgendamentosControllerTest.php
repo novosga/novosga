@@ -444,6 +444,158 @@ class AgendamentosControllerTest extends WebTestCase
         $this->assertSame($target->getId(), $result[0]['id']);
     }
 
+    public function testSearchByClienteDocumentoFormattedStoredSearchDigitsOnly(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $unidade = TestHelper::createUnidade($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $data = new DateTime('2025-06-01');
+
+        $clienteA = TestHelper::createCliente($this->em, 'Cliente A', '333.333.333-33');
+        $clienteB = TestHelper::createCliente($this->em, 'Cliente B', '444.444.444-44');
+
+        $target = TestHelper::createAgendamento($this->em, $clienteA, $unidade, $servico, $data, new DateTime('09:00'));
+        TestHelper::createAgendamento($this->em, $clienteB, $unidade, $servico, $data, new DateTime('10:00'));
+
+        $client->request('GET', '/api/agendamentos', ['q' => ['cliente.documento:33333333333']], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $result = json_decode($client->getResponse()->getContent(), true);
+        $this->assertCount(1, $result);
+        $this->assertSame($target->getId(), $result[0]['id']);
+    }
+
+    public function testSearchByClienteDocumentoDigitsStoredSearchFormatted(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $unidade = TestHelper::createUnidade($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $data = new DateTime('2025-06-01');
+
+        $clienteA = TestHelper::createCliente($this->em, 'Cliente A', '55555555555');
+        $clienteB = TestHelper::createCliente($this->em, 'Cliente B', '66666666666');
+
+        $target = TestHelper::createAgendamento($this->em, $clienteA, $unidade, $servico, $data, new DateTime('09:00'));
+        TestHelper::createAgendamento($this->em, $clienteB, $unidade, $servico, $data, new DateTime('10:00'));
+
+        $client->request('GET', '/api/agendamentos', ['q' => ['cliente.documento:555.555.555-55']], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $result = json_decode($client->getResponse()->getContent(), true);
+        $this->assertCount(1, $result);
+        $this->assertSame($target->getId(), $result[0]['id']);
+    }
+
+    public function testSearchByClienteTelefoneFormattedStoredSearchDigitsOnly(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $unidade = TestHelper::createUnidade($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $data = new DateTime('2025-06-01');
+
+        $clienteA = TestHelper::createCliente($this->em, 'Cliente A', 'doc-tel-a', '(11) 98765-4321');
+        $clienteB = TestHelper::createCliente($this->em, 'Cliente B', 'doc-tel-b', '(21) 91234-5678');
+
+        $target = TestHelper::createAgendamento($this->em, $clienteA, $unidade, $servico, $data, new DateTime('09:00'));
+        TestHelper::createAgendamento($this->em, $clienteB, $unidade, $servico, $data, new DateTime('10:00'));
+
+        $client->request('GET', '/api/agendamentos', ['q' => ['cliente.telefone:11987654321']], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $result = json_decode($client->getResponse()->getContent(), true);
+        $this->assertCount(1, $result);
+        $this->assertSame($target->getId(), $result[0]['id']);
+    }
+
+    public function testSearchByClienteDataNascimento(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $unidade = TestHelper::createUnidade($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $data = new DateTime('2025-06-01');
+
+        $clienteA = TestHelper::createCliente(
+            $this->em,
+            'Cliente A',
+            'doc-nasc-a',
+            '1111111111',
+            new DateTime('1986-03-29'),
+        );
+        $clienteB = TestHelper::createCliente(
+            $this->em,
+            'Cliente B',
+            'doc-nasc-b',
+            '2222222222',
+            new DateTime('1990-07-15'),
+        );
+
+        $target = TestHelper::createAgendamento($this->em, $clienteA, $unidade, $servico, $data, new DateTime('09:00'));
+        TestHelper::createAgendamento($this->em, $clienteB, $unidade, $servico, $data, new DateTime('10:00'));
+
+        $client->request('GET', '/api/agendamentos', ['q' => ['cliente.dataNascimento:1986-03-29']], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseIsSuccessful();
+
+        $result = json_decode($client->getResponse()->getContent(), true);
+        $this->assertCount(1, $result);
+        $this->assertSame($target->getId(), $result[0]['id']);
+    }
+
+    public function testSearchByClienteDataNascimentoInvalidFormat(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $client->request('GET', '/api/agendamentos', ['q' => ['cliente.dataNascimento:29/03/1986']], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(500);
+    }
+
+    public function testSearchByDataInvalidFormat(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $client->request('GET', '/api/agendamentos', ['q' => ['data:01/06/2025']], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(500);
+    }
+
+    public function testSearchByHoraInvalidFormat(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+
+        $client->request('GET', '/api/agendamentos', ['q' => ['hora:9h00']], server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(500);
+    }
+
     public function testSearchIgnoresNonSearchableFields(): void
     {
         $client = static::getClient();
