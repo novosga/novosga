@@ -71,6 +71,13 @@ class BehaviorSettingsFormType extends AbstractType
                 'required' => false,
                 'constraints' => [new NotNull()],
             ])
+            ->add('appointmentConfirmationDelay', IntegerType::class, [
+                'label' => 'label.appointment_confirmation_delay',
+                'constraints' => [
+                    new NotNull(),
+                    new Range(min: 0, max: 1440),
+                ],
+            ])
         ;
     }
 

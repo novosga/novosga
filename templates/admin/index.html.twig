@@ -13,7 +13,7 @@
             {{ form_start(appearanceForm) }}
                 <div class="card h-100">
                     <div class="card-header">
-                        <i class="fa fa-paint-brush"></i> 
+                        <i class="fa fa-paint-brush"></i>
                         {{ 'admin.system.appearance'|trans }}
                     </div>
                     <div class="card-body">
@@ -76,7 +76,7 @@
             {{ form_start(queueForm) }}
                 <div class="card h-100">
                     <div class="card-header">
-                        <i class="fa fa-cogs"></i> 
+                        <i class="fa fa-cogs"></i>
                         {{ 'admin.system.queue_ordering'|trans }}
                     </div>
                     {{ form_row(queueForm.ordering, { label: false }) }}
@@ -95,7 +95,7 @@
             {{ form_start(behaviorForm) }}
                 <div class="card mb-3">
                     <div class="card-header">
-                        <i class="fa fa-handshake-o"></i> 
+                        <i class="fa fa-handshake-o"></i>
                         {{ 'admin.system.behavior'|trans }}
                     </div>
                     <div class="card-body">
@@ -104,6 +104,7 @@
                                 {{ form_row(behaviorForm.prioritySwap) }}
                                 {{ form_row(behaviorForm.prioritySwapMethod) }}
                                 {{ form_row(behaviorForm.prioritySwapCount) }}
+                                {{ form_row(behaviorForm.appointmentConfirmationDelay) }}
                             </div>
                             <div class="col">
                                 {{ form_row(behaviorForm.callTicketByService) }}
@@ -129,7 +130,7 @@
     <script>
         (function () {
             'use strict'
-            
+
             const btns = [...document.querySelectorAll('[data-remove-file]')];
             btns.forEach((elem) => {
                 elem.addEventListener('click', (e) => {

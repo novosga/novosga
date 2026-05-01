@@ -40,6 +40,8 @@ use Novosga\Event\PreTicketCreateEvent;
 use Novosga\Event\TicketCalledEvent;
 use Novosga\Event\TicketCreatedEvent;
 use Novosga\Infrastructure\StorageInterface;
+use Novosga\Service\ApplicationSettingsServiceInterface;
+use Novosga\Settings\BehaviorSettings;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
@@ -58,6 +60,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 class AtendimentoServiceTest extends TestCase
 {
     private const TEST_LOCALE = 'pt_BR';
+    private const CONFIGURED_DELAY = 30;
 
     private ClockInterface $clock;
     private StorageInterface&MockObject $storage;
@@ -70,6 +73,7 @@ class AtendimentoServiceTest extends TestCase
     private AtendimentoMetadataRepository&MockObject $atendimentoMetaRepository;
     private ServicoUnidadeRepository&MockObject $servicoUnidadeRepository;
     private ClienteRepository&MockObject $clienteRepository;
+    private ApplicationSettingsServiceInterface&MockObject $settingsService;
 
     private AtendimentoService $service;
 
@@ -86,8 +90,15 @@ class AtendimentoServiceTest extends TestCase
         $this->atendimentoMetaRepository = $this->createMock(AtendimentoMetadataRepository::class);
         $this->servicoUnidadeRepository = $this->createMock(ServicoUnidadeRepository::class);
         $this->clienteRepository = $this->createMock(ClienteRepository::class);
+        $this->settingsService = $this->createMock(ApplicationSettingsServiceInterface::class);
 
         $this->translator->addLoader('array', new ArrayLoader());
+
+        $this->settingsService
+            ->method('loadBehaviorSettings')
+            ->willReturn(new BehaviorSettings(
+                appointmentConfirmationDelay: self::CONFIGURED_DELAY,
+            ));
 
         $this->service = new AtendimentoService(
             $this->clock,
@@ -101,6 +112,7 @@ class AtendimentoServiceTest extends TestCase
             $this->atendimentoMetaRepository,
             $this->servicoUnidadeRepository,
             $this->clienteRepository,
+            $this->settingsService,
         );
     }
 
@@ -643,6 +655,7 @@ class AtendimentoServiceTest extends TestCase
         $servicoUnidade = new ServicoUnidade();
 
         $agendamento = (new Agendamento())
+            ->setUnidade($unidade)
             ->setData($this->clock->now())
             ->setHora($this->clock->now())
             ->setCliente(new Cliente());
@@ -675,6 +688,37 @@ class AtendimentoServiceTest extends TestCase
 
         $this->assertNotNull($atendimento->getId());
         $this->assertSame($agendamento->getCliente(), $atendimento->getCliente());
+    }
+
+    public function testDistribuiSenhaWithExpiredAppointment(): void
+    {
+        $unidade = new Unidade();
+        $usuario = (new Usuario())->setAdmin(true);
+        $servico = new Servico();
+        $prioridade = new Prioridade();
+        $servicoUnidade = new ServicoUnidade();
+
+        // Appointment 32 minutes in the past — exceeds configured delay of 30 minutes
+        $appointmentTime = $this->clock
+            ->now()
+            ->modify("-" . self::CONFIGURED_DELAY . " minutes -2 minutes");
+        $agendamento = (new Agendamento())
+            ->setUnidade($unidade)
+            ->setData($appointmentTime)
+            ->setHora($appointmentTime)
+            ->setCliente(new Cliente());
+
+        $this
+            ->servicoUnidadeRepository
+            ->expects($this->once())
+            ->method('get')
+            ->with($unidade, $servico)
+            ->willReturn($servicoUnidade);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('error.schedule.expired');
+
+        $this->service->distribuiSenha($unidade, $usuario, $servico, $prioridade, null, $agendamento);
     }
 
     /**
