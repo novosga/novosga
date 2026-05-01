@@ -1962,12 +1962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c"
+                "reference": "0836bd4ae2ccf76800c2ed8b82f6c158b5cefd2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c",
-                "reference": "ee6e832d2a101ca09f33cf1a4d639f6dc3d0074c",
+                "url": "https://api.github.com/repos/novosga/core/zipball/0836bd4ae2ccf76800c2ed8b82f6c158b5cefd2c",
+                "reference": "0836bd4ae2ccf76800c2ed8b82f6c158b5cefd2c",
                 "shasum": ""
             },
             "require": {
@@ -2014,12 +2014,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/customers-bundle.git",
-                "reference": "e1f292df81d552f3bdabd99fe52ac12d69d81f9d"
+                "reference": "6d8dd495727e6282445563fd7476b36c95958779"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/customers-bundle/zipball/e1f292df81d552f3bdabd99fe52ac12d69d81f9d",
-                "reference": "e1f292df81d552f3bdabd99fe52ac12d69d81f9d",
+                "url": "https://api.github.com/repos/novosga/customers-bundle/zipball/6d8dd495727e6282445563fd7476b36c95958779",
+                "reference": "6d8dd495727e6282445563fd7476b36c95958779",
                 "shasum": ""
             },
             "require": {
@@ -2222,12 +2222,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/scheduling-bundle.git",
-                "reference": "18df1fcfddd35a32ca706eaf1a1bd1568d55424f"
+                "reference": "549ea4d315aa7ccf50cb48010c19b146c6432972"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/18df1fcfddd35a32ca706eaf1a1bd1568d55424f",
-                "reference": "18df1fcfddd35a32ca706eaf1a1bd1568d55424f",
+                "url": "https://api.github.com/repos/novosga/scheduling-bundle/zipball/549ea4d315aa7ccf50cb48010c19b146c6432972",
+                "reference": "549ea4d315aa7ccf50cb48010c19b146c6432972",
                 "shasum": ""
             },
             "require": {
@@ -2329,12 +2329,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/triage-bundle.git",
-                "reference": "e52dd7132f6b5721e22c38b66472bc2e1fc726d4"
+                "reference": "4b463454d8e82703b1c5fa3b61bd08c88759c88b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/e52dd7132f6b5721e22c38b66472bc2e1fc726d4",
-                "reference": "e52dd7132f6b5721e22c38b66472bc2e1fc726d4",
+                "url": "https://api.github.com/repos/novosga/triage-bundle/zipball/4b463454d8e82703b1c5fa3b61bd08c88759c88b",
+                "reference": "4b463454d8e82703b1c5fa3b61bd08c88759c88b",
                 "shasum": ""
             },
             "require": {
