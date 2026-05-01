@@ -810,6 +810,10 @@
                 <source>error.schedule.expired</source>
                 <target>Turno expirado. Tiempo máximo de espera de %min% minutos.</target>
             </trans-unit>
+            <trans-unit id="error.schedule.invalid_datetime">
+                <source>error.schedule.invalid_datetime</source>
+                <target>Fecha/hora de turno inválida.</target>
+            </trans-unit>
             <trans-unit id="label.color">
                 <source>label.color</source>
                 <target>Cor</target>

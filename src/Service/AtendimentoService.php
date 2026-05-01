@@ -492,7 +492,7 @@ class AtendimentoService implements AtendimentoServiceInterface
         $atendimento->getSenha()->setSigla($su->getSigla());
 
         if ($agendamento) {
-            $timezone = $agendamento->getUnidade()->getDateTimeZone();
+            $timezone = $unidade->getDateTimeZone();
             $data = $agendamento->getData()->format('Y-m-d');
             $hora = $agendamento->getHora()->format('H:i');
             $dtAgeUnidade = DateTimeImmutable::createFromFormat(
@@ -500,10 +500,14 @@ class AtendimentoService implements AtendimentoServiceInterface
                 "{$data} {$hora}",
                 $timezone,
             );
+            if ($dtAgeUnidade === false) {
+                throw new Exception($this->translator->trans('error.schedule.invalid_datetime'));
+            }
+
             $now = $this->clock->now()->setTimezone($timezone);
             if ($dtAgeUnidade < $now) {
                 $diff = $now->diff($dtAgeUnidade);
-                $mins = $diff->i + ($diff->h * 60);
+                $mins = $diff->i + ($diff->h * 60) + ($diff->days * 24 * 60);
                 $maxDelay = $this->settingsService
                     ->loadBehaviorSettings()
                     ->appointmentConfirmationDelay;

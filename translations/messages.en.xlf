@@ -810,6 +810,10 @@
                 <source>error.schedule.expired</source>
                 <target>Scheduled appointment expired. Maximum wait time of %min% minutes.</target>
             </trans-unit>
+            <trans-unit id="error.schedule.invalid_datetime">
+                <source>error.schedule.invalid_datetime</source>
+                <target>Invalid appointment date/time.</target>
+            </trans-unit>
             <trans-unit id="label.color">
                 <source>label.color</source>
                 <target>Color</target>
