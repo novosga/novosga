@@ -269,6 +269,133 @@ class TriagemControllerTest extends WebTestCase
         $this->assertSame($result['senha']['sigla'], $servicoUnidade->getSigla());
         $this->assertSame($result['servico']['id'], $servico->getId());
         $this->assertSame($result['prioridade']['id'], $prioridade->getId());
+        $this->assertNull($result['dataAgendamento']);
+    }
+
+    public function testDistribuiSenhaWithInvalidAgendamentoId(): void
+    {
+        $client = static::getClient();
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+        $unidade = TestHelper::createUnidade($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $prioridade = TestHelper::createPrioridade($this->em);
+        $perfil = TestHelper::createPerfil($this->em);
+        $usuario = TestHelper::getUser($this->em);
+
+        TestHelper::linkUnidadeUsuario($this->em, $unidade, $usuario, $perfil);
+        TestHelper::linkServicoUnidade($this->em, $servico, $unidade);
+
+        $data = [
+            'unidade' => $unidade->getId(),
+            'servico' => $servico->getId(),
+            'prioridade' => $prioridade->getId(),
+            'agendamento' => 0,
+        ];
+
+        $client->jsonRequest('POST', '/api/distribui', parameters: $data, server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+
+        $this->assertIsArray($result['error']);
+        $this->assertArrayHasKey('agendamento', $result['error']);
+    }
+
+    public function testDistribuiSenhaWithAgendamento(): void
+    {
+        $client = static::getClient();
+        $usuario = TestHelper::getUser($this->em);
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+        $unidade = TestHelper::createUnidade($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $prioridade = TestHelper::createPrioridade($this->em);
+        $perfil = TestHelper::createPerfil($this->em);
+        $cliente = TestHelper::createCliente($this->em);
+
+        TestHelper::linkUnidadeUsuario($this->em, $unidade, $usuario, $perfil);
+        $servicoUnidade = TestHelper::linkServicoUnidade($this->em, $servico, $unidade);
+
+        // schedule at 15:30, clock is at 15:20 (future appointment)
+        $agendamento = TestHelper::createAgendamento(
+            $this->em,
+            $cliente,
+            $unidade,
+            $servico,
+            new \DateTime('2026-03-29'),
+            new \DateTime('15:30'),
+        );
+
+        $data = [
+            'unidade' => $unidade->getId(),
+            'servico' => $servico->getId(),
+            'prioridade' => $prioridade->getId(),
+            'agendamento' => $agendamento->getId(),
+        ];
+
+        $client->jsonRequest('POST', '/api/distribui', parameters: $data, server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(201);
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('id', $result);
+        $this->assertSame($result['status'], AtendimentoService::SENHA_EMITIDA);
+        $this->assertSame($result['senha']['sigla'], $servicoUnidade->getSigla());
+        $this->assertNotNull($result['dataAgendamento']);
+        $this->assertSame($result['cliente']['id'], $cliente->getId());
+    }
+
+    public function testDistribuiSenhaWithExpiredAgendamento(): void
+    {
+        $client = static::getClient();
+        $usuario = TestHelper::getUser($this->em);
+        $accessToken = TestHelper::generateJwtToken(static::getContainer());
+        $unidade = TestHelper::createUnidade($this->em);
+        $servico = TestHelper::createServico($this->em);
+        $prioridade = TestHelper::createPrioridade($this->em);
+        $perfil = TestHelper::createPerfil($this->em);
+        $cliente = TestHelper::createCliente($this->em);
+
+        TestHelper::linkUnidadeUsuario($this->em, $unidade, $usuario, $perfil);
+        TestHelper::linkServicoUnidade($this->em, $servico, $unidade);
+
+        // 13:00 is 140 mins before clock (15:20) — exceeds default 60 min delay
+        $agendamento = TestHelper::createAgendamento(
+            $this->em,
+            $cliente,
+            $unidade,
+            $servico,
+            new \DateTime('2026-03-29'),
+            new \DateTime('13:00'),
+        );
+
+        $data = [
+            'unidade' => $unidade->getId(),
+            'servico' => $servico->getId(),
+            'prioridade' => $prioridade->getId(),
+            'agendamento' => $agendamento->getId(),
+        ];
+
+        $client->jsonRequest('POST', '/api/distribui', parameters: $data, server: [
+            'HTTP_AUTHORIZATION' => sprintf('Bearer %s', $accessToken),
+        ]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $response = $client->getResponse();
+        $result = json_decode($response->getContent(), true);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('error', $result);
+        $this->assertStringContainsString(
+            'Agendamento expirado. Tempo máximo de espera de 60 minutos.',
+            $result['error'],
+        );
     }
 
     public function testDistribuiSenhaWithDifferentTimezones(): void
