@@ -814,6 +814,14 @@
                 <source>error.schedule.invalid_datetime</source>
                 <target>Invalid appointment date/time.</target>
             </trans-unit>
+            <trans-unit id="error.schedule.invalid_unity">
+                <source>error.schedule.invalid_unity</source>
+                <target>Appointment does not belong to the selected unit.</target>
+            </trans-unit>
+            <trans-unit id="error.schedule.invalid_service">
+                <source>error.schedule.invalid_service</source>
+                <target>Appointment does not belong to the selected service.</target>
+            </trans-unit>
             <trans-unit id="label.color">
                 <source>label.color</source>
                 <target>Color</target>

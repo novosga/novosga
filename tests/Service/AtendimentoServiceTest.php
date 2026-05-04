@@ -656,6 +656,7 @@ class AtendimentoServiceTest extends TestCase
 
         $agendamento = (new Agendamento())
             ->setUnidade($unidade)
+            ->setServico($servico)
             ->setData($this->clock->now())
             ->setHora($this->clock->now())
             ->setCliente(new Cliente());
@@ -704,6 +705,7 @@ class AtendimentoServiceTest extends TestCase
             ->modify("-" . self::CONFIGURED_DELAY . " minutes -2 minutes");
         $agendamento = (new Agendamento())
             ->setUnidade($unidade)
+            ->setServico($servico)
             ->setData($appointmentTime)
             ->setHora($appointmentTime)
             ->setCliente(new Cliente());
@@ -717,6 +719,64 @@ class AtendimentoServiceTest extends TestCase
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('error.schedule.expired');
+
+        $this->service->distribuiSenha($unidade, $usuario, $servico, $prioridade, null, $agendamento);
+    }
+
+    public function testDistribuiSenhaWithAppointmentFromDifferentUnity(): void
+    {
+        $unidade = (new Unidade())->setId(1);
+        $outraUnidade = (new Unidade())->setId(2);
+        $usuario = (new Usuario())->setAdmin(true);
+        $servico = new Servico();
+        $prioridade = new Prioridade();
+
+        $agendamento = (new Agendamento())
+            ->setUnidade($outraUnidade)
+            ->setServico($servico)
+            ->setData($this->clock->now())
+            ->setHora($this->clock->now())
+            ->setCliente(new Cliente());
+
+        $this->translator->addResource('array', [
+            'error.schedule.invalid_unity' => 'O agendamento não pertence à unidade selecionada.',
+        ], self::TEST_LOCALE);
+
+        /** @var EntityManagerInterface&MockObject */
+        $em = $this->createMock(EntityManagerInterface::class);
+        $this->storage->method('getManager')->willReturn($em);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('O agendamento não pertence à unidade selecionada.');
+
+        $this->service->distribuiSenha($unidade, $usuario, $servico, $prioridade, null, $agendamento);
+    }
+
+    public function testDistribuiSenhaWithAppointmentFromDifferentService(): void
+    {
+        $unidade = (new Unidade())->setId(1);
+        $servico = (new Servico())->setId(1);
+        $outroServico = (new Servico())->setId(2);
+        $usuario = (new Usuario())->setAdmin(true);
+        $prioridade = new Prioridade();
+
+        $agendamento = (new Agendamento())
+            ->setUnidade($unidade)
+            ->setServico($outroServico)
+            ->setData($this->clock->now())
+            ->setHora($this->clock->now())
+            ->setCliente(new Cliente());
+
+        $this->translator->addResource('array', [
+            'error.schedule.invalid_service' => 'O agendamento não pertence ao serviço selecionado.',
+        ], self::TEST_LOCALE);
+
+        /** @var EntityManagerInterface&MockObject */
+        $em = $this->createMock(EntityManagerInterface::class);
+        $this->storage->method('getManager')->willReturn($em);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('O agendamento não pertence ao serviço selecionado.');
 
         $this->service->distribuiSenha($unidade, $usuario, $servico, $prioridade, null, $agendamento);
     }
