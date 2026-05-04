@@ -822,6 +822,10 @@
                 <source>error.schedule.invalid_service</source>
                 <target>Appointment does not belong to the selected service.</target>
             </trans-unit>
+            <trans-unit id="error.schedule.invalid_situacao">
+                <source>error.schedule.invalid_situacao</source>
+                <target>Appointment is not in a schedulable status.</target>
+            </trans-unit>
             <trans-unit id="label.color">
                 <source>label.color</source>
                 <target>Color</target>

@@ -42,6 +42,7 @@ class AgendamentosController extends ApiCrudController
             'id',
             'data',
             'hora',
+            'situacao',
             'oid',
             'cliente.nome',
             'cliente.documento',

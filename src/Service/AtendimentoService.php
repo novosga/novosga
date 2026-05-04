@@ -459,6 +459,9 @@ class AtendimentoService implements AtendimentoServiceInterface
         }
 
         if ($agendamento) {
+            if ($agendamento->getSituacao() !== AgendamentoInterface::SITUACAO_AGENDADO) {
+                throw new Exception($this->translator->trans('error.schedule.invalid_situacao'));
+            }
             if ($agendamento->getUnidade()?->getId() !== $unidade->getId()) {
                 throw new Exception($this->translator->trans('error.schedule.invalid_unity'));
             }

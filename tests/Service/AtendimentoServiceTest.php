@@ -781,6 +781,36 @@ class AtendimentoServiceTest extends TestCase
         $this->service->distribuiSenha($unidade, $usuario, $servico, $prioridade, null, $agendamento);
     }
 
+    public function testDistribuiSenhaWithConfirmedAppointmentFails(): void
+    {
+        $unidade = (new Unidade())->setId(1);
+        $servico = (new Servico())->setId(1);
+        $usuario = (new Usuario())->setAdmin(true);
+        $prioridade = new Prioridade();
+
+        $agendamento = (new Agendamento())
+            ->setUnidade($unidade)
+            ->setServico($servico)
+            ->setSituacao(Agendamento::SITUACAO_CONFIRMADO)
+            ->setData($this->clock->now())
+            ->setHora($this->clock->now())
+            ->setCliente(new Cliente());
+
+        $this->translator->addResource('array', [
+            'error.schedule.invalid_situacao' =>
+                'O agendamento não está em situação válida para distribuição de senha.',
+        ], self::TEST_LOCALE);
+
+        /** @var EntityManagerInterface&MockObject */
+        $em = $this->createMock(EntityManagerInterface::class);
+        $this->storage->method('getManager')->willReturn($em);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('O agendamento não está em situação válida para distribuição de senha.');
+
+        $this->service->distribuiSenha($unidade, $usuario, $servico, $prioridade, null, $agendamento);
+    }
+
     /**
      * @dataProvider timezoneProvider
      */

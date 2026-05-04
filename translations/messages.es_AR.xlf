@@ -822,6 +822,10 @@
                 <source>error.schedule.invalid_service</source>
                 <target>El turno no pertenece al servicio seleccionado.</target>
             </trans-unit>
+            <trans-unit id="error.schedule.invalid_situacao">
+                <source>error.schedule.invalid_situacao</source>
+                <target>El turno no está en un estado válido para ser atendido.</target>
+            </trans-unit>
             <trans-unit id="label.color">
                 <source>label.color</source>
                 <target>Cor</target>
