@@ -19,6 +19,7 @@ use App\Entity\Atendimento;
 use App\Service\AtendimentoService;
 use Exception;
 use App\Entity\Usuario;
+use Novosga\Repository\AgendamentoRepositoryInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,7 @@ class TriagemController extends ApiControllerBase
         Request $request,
         #[MapRequestPayload] NovaSenha $novaSenha,
         AtendimentoService $service,
+        AgendamentoRepositoryInterface $agendamentoRepository,
         LoggerInterface $logger
     ): Response {
         try {
@@ -71,8 +73,21 @@ class TriagemController extends ApiControllerBase
             $servico = (int) $novaSenha->servico;
             $prioridade = (int) $novaSenha->prioridade;
             $cliente = $novaSenha->cliente;
+            $agendamento = null;
 
-            $response = $service->distribuiSenha($unidade, $usuario, $servico, $prioridade, $cliente);
+            if ($novaSenha->agendamento) {
+                $agendamento = $agendamentoRepository->find($novaSenha->agendamento);
+            }
+
+            $response = $service->distribuiSenha(
+                $unidade,
+                $usuario,
+                $servico,
+                $prioridade,
+                $cliente,
+                $agendamento,
+            );
+
             $status = 201;
         } catch (Exception $ex) {
             $response = [

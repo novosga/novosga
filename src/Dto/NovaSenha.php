@@ -36,6 +36,8 @@ final readonly class NovaSenha
         public ?int $servico = null,
         public ?Cliente $cliente = null,
         public mixed $metadata = null,
+        #[Range(min: 1)]
+        public ?int $agendamento = null,
     ) {
     }
 }

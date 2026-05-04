@@ -458,6 +458,15 @@ class AtendimentoService implements AtendimentoServiceInterface
             }
         }
 
+        if ($agendamento) {
+            if ($agendamento->getUnidade()?->getId() !== $unidade->getId()) {
+                throw new Exception($this->translator->trans('error.schedule.invalid_unity'));
+            }
+            if ($agendamento->getServico()?->getId() !== $servico->getId()) {
+                throw new Exception($this->translator->trans('error.schedule.invalid_service'));
+            }
+        }
+
         $su = $this->checkServicoUnidade($unidade, $servico);
 
         if (

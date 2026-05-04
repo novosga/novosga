@@ -810,6 +810,14 @@
                 <source>error.schedule.invalid_datetime</source>
                 <target>Data/hora do agendamento inválida.</target>
             </trans-unit>
+            <trans-unit id="error.schedule.invalid_unity">
+                <source>error.schedule.invalid_unity</source>
+                <target>O agendamento não pertence à unidade selecionada.</target>
+            </trans-unit>
+            <trans-unit id="error.schedule.invalid_service">
+                <source>error.schedule.invalid_service</source>
+                <target>O agendamento não pertence ao serviço selecionado.</target>
+            </trans-unit>
             <trans-unit id="label.color">
                 <source>label.color</source>
                 <target>Cor</target>
