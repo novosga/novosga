@@ -49,7 +49,7 @@ class Cliente implements ClienteInterface
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $telefone = null;
 
-    #[ORM\Column(name: 'dt_nascimento', type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[ORM\Column(name: 'dt_nascimento', type: Types::DATE_MUTABLE, nullable: true)]
     private ?DateTimeInterface $dataNascimento = null;
 
     #[ORM\Column(length: 1, nullable: true)]
