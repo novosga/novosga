@@ -18,7 +18,11 @@ use App\Repository\PainelRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Novosga\Entity\PainelInterface;
 use Novosga\Entity\UnidadeInterface;
+use Novosga\Repository\PainelMetadataRepositoryInterface;
 use Novosga\Service\PainelServiceInterface;
+use Novosga\Settings\PainelSettings;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -28,9 +32,15 @@ use Symfony\Component\Uid\Uuid;
  */
 class PainelService implements PainelServiceInterface
 {
+    private const SETTINGS_NAMESPACE = 'novosga.panel';
+    private const SETTINGS_NAME = 'settings';
+
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly PainelRepository $repository,
+        private readonly NormalizerInterface $normalizer,
+        private readonly DenormalizerInterface $denormalizer,
+        private readonly PainelMetadataRepositoryInterface $painelMetadataRepository,
     ) {
     }
 
@@ -76,5 +86,18 @@ class PainelService implements PainelServiceInterface
     {
         $this->em->remove($painel);
         $this->em->flush();
+    }
+
+    public function loadSettings(PainelInterface $painel): PainelSettings
+    {
+        $meta = $this->painelMetadataRepository->get($painel, self::SETTINGS_NAMESPACE, self::SETTINGS_NAME);
+
+        return $this->denormalizer->denormalize($meta?->getValue(), PainelSettings::class);
+    }
+
+    public function saveSettings(PainelInterface $painel, PainelSettings $settings): void
+    {
+        $value = $this->normalizer->normalize($settings);
+        $this->painelMetadataRepository->set($painel, self::SETTINGS_NAMESPACE, self::SETTINGS_NAME, $value);
     }
 }

@@ -18,6 +18,7 @@ use App\Entity\PainelSenha;
 use Doctrine\ORM\EntityManagerInterface;
 use Novosga\Entity\PainelServicoInterface;
 use Novosga\Entity\ServicoInterface;
+use Novosga\Service\PainelServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,11 +36,13 @@ class PainelController extends AbstractController
     public function show(
         Painel $painel,
         ParameterBagInterface $params,
+        PainelServiceInterface $painelService,
     ): Response {
 
         return $this->render('painel/show.html.twig', [
             'painel' => $painel,
             'mercureUrl' => $params->get('mercure_url'),
+            'settings' => $painelService->loadSettings($painel),
         ]);
     }
 

@@ -41,6 +41,7 @@ services:
     Novosga\Repository\LocalRepositoryInterface: '@App\Repository\LocalRepository'
     Novosga\Repository\LotacaoRepositoryInterface: '@App\Repository\LotacaoRepository'
     Novosga\Repository\MetadataRepositoryInterface: '@App\Repository\MetadataRepository'
+    Novosga\Repository\PainelMetadataRepositoryInterface: '@App\Repository\PainelMetadataRepository'
     Novosga\Repository\PainelRepositoryInterface: '@App\Repository\PainelRepository'
     Novosga\Repository\PainelServicoRepositoryInterface: '@App\Repository\PainelServicoRepository'
     Novosga\Repository\PerfilRepositoryInterface: '@App\Repository\PerfilRepository'
