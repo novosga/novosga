@@ -1962,12 +1962,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/core.git",
-                "reference": "6c07bd1d877e9cfb078c1087cad2672280e54828"
+                "reference": "8b5a9b7bc7f44d1264bdf477088f46a0be18d2c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/core/zipball/6c07bd1d877e9cfb078c1087cad2672280e54828",
-                "reference": "6c07bd1d877e9cfb078c1087cad2672280e54828",
+                "url": "https://api.github.com/repos/novosga/core/zipball/8b5a9b7bc7f44d1264bdf477088f46a0be18d2c7",
+                "reference": "8b5a9b7bc7f44d1264bdf477088f46a0be18d2c7",
                 "shasum": ""
             },
             "require": {
@@ -2006,7 +2006,7 @@
                 "issues": "https://github.com/novosga/core/issues",
                 "source": "https://github.com/novosga/core/tree/v2.3"
             },
-            "time": "2026-05-20T16:02:26+00:00"
+            "time": "2026-06-21T18:11:08+00:00"
         },
         {
             "name": "novosga/customers-bundle",
@@ -2117,12 +2117,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/panel-bundle.git",
-                "reference": "688b3d4d3d003f36efe709aaabff65351fb0ea61"
+                "reference": "10b839599f9656b183756edc1cf49086dbff3b83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/panel-bundle/zipball/688b3d4d3d003f36efe709aaabff65351fb0ea61",
-                "reference": "688b3d4d3d003f36efe709aaabff65351fb0ea61",
+                "url": "https://api.github.com/repos/novosga/panel-bundle/zipball/10b839599f9656b183756edc1cf49086dbff3b83",
+                "reference": "10b839599f9656b183756edc1cf49086dbff3b83",
                 "shasum": ""
             },
             "require": {
@@ -2162,7 +2162,7 @@
                 "issues": "https://github.com/novosga/panel-bundle/issues",
                 "source": "https://github.com/novosga/panel-bundle/tree/v2.3"
             },
-            "time": "2026-04-30T14:26:15+00:00"
+            "time": "2026-06-21T18:12:33+00:00"
         },
         {
             "name": "novosga/reports-bundle",
