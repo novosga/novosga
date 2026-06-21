@@ -18,5 +18,5 @@ enum WebhookEvent: string
     case TICKET_REACTIVE = 'ticket.reactive';
     case TICKET_REDIRECTED = 'ticket.redirected';
     case TICKET_START = 'ticket.start';
-    case TICKET_TRANSFERED = 'ticket.transfered';
+    case TICKET_TRANSFERRED = 'ticket.transferred';
 }

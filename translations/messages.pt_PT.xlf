@@ -682,6 +682,10 @@
                 <source>admin.webhook.predefined.mangati_avaliacao.description</source>
                 <target>Pesquisas de satisfação do cliente ao finalizar o atendimento.</target>
             </trans-unit>
+            <trans-unit id="admin.webhook.predefined.mangati_notificacao.description">
+                <source>admin.webhook.predefined.mangati_notificacao.description</source>
+                <target>Envie mensagem de WhatsApp ao emitir e chamar uma senha.</target>
+            </trans-unit>
             <trans-unit id="label.access_token">
                 <source>label.access_token</source>
                 <target>Token de acesso</target>

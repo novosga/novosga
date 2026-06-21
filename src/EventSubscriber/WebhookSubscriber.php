@@ -77,7 +77,7 @@ class WebhookSubscriber implements EventSubscriberInterface
             $event instanceof TicketReactivedEvent => WebhookEvent::TICKET_REACTIVE,
             $event instanceof TicketRedirectedEvent => WebhookEvent::TICKET_REDIRECTED,
             $event instanceof TicketStartEvent => WebhookEvent::TICKET_START,
-            $event instanceof TicketTransferedEvent => WebhookEvent::TICKET_TRANSFERED,
+            $event instanceof TicketTransferedEvent => WebhookEvent::TICKET_TRANSFERRED,
             default => null
         };
     }

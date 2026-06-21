@@ -54,7 +54,7 @@ class PredefinedWebhookDefinition
                     WebhookEvent::TICKET_REACTIVE->value,
                     WebhookEvent::TICKET_REDIRECTED->value,
                     WebhookEvent::TICKET_START->value,
-                    WebhookEvent::TICKET_TRANSFERED->value,
+                    WebhookEvent::TICKET_TRANSFERRED->value,
                 ],
                 logo: 'images/webhooks/mangati-monitor.svg',
             ),
@@ -64,8 +64,22 @@ class PredefinedWebhookDefinition
                 description: 'admin.webhook.predefined.mangati_avaliacao.description',
                 homepage: 'https://avaliacao.mangati.com',
                 url: 'https://avaliacao.mangati.com/webhook/novosga',
-                events: [WebhookEvent::TICKET_FINISHED->value],
+                events: [
+                    WebhookEvent::TICKET_FINISHED->value,
+                ],
                 logo: 'images/webhooks/mangati-avaliacao.svg',
+            ),
+            new self(
+                key: 'mangati-notificacao',
+                name: 'Mangati Noticação',
+                description: 'admin.webhook.predefined.mangati_notificacao.description',
+                homepage: 'https://avaliacao.mangati.com',
+                url: 'https://notificacao.mangati.com/webhook/novosga',
+                events: [
+                    WebhookEvent::TICKET_CREATED->value,
+                    WebhookEvent::TICKET_FIRST_REPLY->value,
+                ],
+                logo: 'images/webhooks/mangati-notificacao.svg',
             ),
         ];
     }
