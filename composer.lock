@@ -2170,18 +2170,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novosga/reports-bundle.git",
-                "reference": "276568443a3c1324f6b90f097877cbe8516d729c"
+                "reference": "1595106e22247bb6d9879bce6fe7818550910bd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/276568443a3c1324f6b90f097877cbe8516d729c",
-                "reference": "276568443a3c1324f6b90f097877cbe8516d729c",
+                "url": "https://api.github.com/repos/novosga/reports-bundle/zipball/1595106e22247bb6d9879bce6fe7818550910bd0",
+                "reference": "1595106e22247bb6d9879bce6fe7818550910bd0",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": "^3.2",
                 "novosga/core": "2.3.x-dev",
                 "php": ">=8.2",
+                "symfony/clock": "^7.4",
                 "symfony/form": "7.4.*",
                 "symfony/framework-bundle": "7.4.*",
                 "symfony/translation": "7.4.*",
@@ -2214,7 +2215,7 @@
                 "issues": "https://github.com/novosga/reports-bundle/issues",
                 "source": "https://github.com/novosga/reports-bundle/tree/v2.3"
             },
-            "time": "2026-04-07T13:29:38+00:00"
+            "time": "2026-06-22T12:38:58+00:00"
         },
         {
             "name": "novosga/scheduling-bundle",
