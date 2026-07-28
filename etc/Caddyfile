@@ -26,7 +26,6 @@ http://:8080 {
 		}
 	}
 
-	cache
 	encode zstd br gzip
 	root {$SERVER_ROOT:public/}
 
