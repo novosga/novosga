@@ -13,6 +13,14 @@
 
 Sistema de gerenciamento de senha de atendimento desenvolvido pelos [colabores](https://github.com/novosga/novosga/graphs/contributors) da comunidade NovoSGA e mantido por [Mangati](https://mangati.com).
 
+## 🚀 NovoSGA Open-Source Edition — Extensões com Voz TTS, Totem Touch e Mídia Admin
+Este fork inclui extensões livres e higienizadas sob licença aberta com novas capacidades para autoatendimento e gestão de guichês:
+- 🔊 **Painel TV com Sintetizador de Voz (TTS)**: Suporte nativo à Web Speech API em português e aviso harmônico na TV e no guichê.
+- 🖐️ **Totem de Autoatendimento Touch**: Teclado virtual interativo otimizado para monitores touch com validação algorítmica de CPF.
+- 🎛️ **Módulos Customizados (Bundles)**: `NovosgaChamadaSenhaBundle` (guichê com bipe suave), `NovosgaGestorUnidadeBundle` e `NovosgaMidiaAdminBundle` (temas JSON e campainha).
+
+📖 **Para o passo a passo completo de instalação, geração de chaves RSA (OAuth2), permissões Linux e compilação dos SPAs, consulte nosso [Guia Completo de Implantação Livre (GUIA_IMPLANTACAO_LIVRE.md)](GUIA_IMPLANTACAO_LIVRE.md).**
+
 
 ## Sobre
 

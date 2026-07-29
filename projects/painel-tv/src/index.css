@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    --pmi-blue: 0 53 128;
+    --pmi-green: 0 122 61;
+    --pmi-red: 200 16 46;
+  }
+
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+  }
+  body {
+    background-color: #003580;
+    color: white;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .ticket-number {
+    font-size: clamp(4rem, 15vw, 14rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .ticket-counter {
+    font-size: clamp(1.5rem, 5vw, 4rem);
+    font-weight: 700;
+  }
+  .queue-ticket {
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
+    font-weight: 700;
+  }
+}

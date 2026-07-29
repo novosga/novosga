@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>Atendente — {{ titulo }}</title>
+<style>
+:root {
+  --primary: {{ primary }};
+  --accent:  {{ accent }};
+  --alert:   {{ alert }};
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f0f2f7; font-family: system-ui, sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+header { background: var(--primary); color: #fff; padding: 0 1.5rem; height: 56px; display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.main { display: grid; grid-template-columns: 380px 1fr; gap: 1rem; padding: 1rem; flex: 1; min-height: 0; overflow: hidden; }
+.panel { background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,.07); display: flex; flex-direction: column; overflow: hidden; }
+.panel-header { padding: .75rem 1.25rem; background: var(--primary); color: #fff; font-weight: 700; font-size: .9rem; letter-spacing: .04em; text-transform: uppercase; }
+.panel-body { flex: 1; overflow-y: auto; padding: 1rem; }
+/* Fila */
+.ticket-item { border: 1px solid #e3e7f0; border-radius: 10px; padding: .75rem 1rem; margin-bottom: .6rem; cursor: default; }
+.ticket-item.prioritario { border-left: 4px solid var(--alert); }
+.ticket-nome { font-weight: 700; font-size: 1rem; color: #1a1f36; }
+.ticket-sub { font-size: .8rem; color: #6b7280; margin-top: .15rem; }
+/* Atendimento atual */
+.atend-card { border: 2px solid var(--accent); border-radius: 14px; padding: 1.25rem 1.5rem; background: linear-gradient(135deg, #f0fdf4, #fff); margin-bottom: 1rem; }
+.atend-nome { font-size: 1.6rem; font-weight: 900; color: #1a1f36; margin-bottom: .25rem; }
+.atend-cpf { font-size: 1.1rem; color: var(--primary); font-family: 'Courier New', monospace; font-weight: 700; margin-bottom: .5rem; background: rgba(0,53,128,.08); padding: .25rem .6rem; border-radius: 6px; display: inline-block; }
+.atend-meta { font-size: .85rem; color: #6b7280; }
+.atend-badge { display: inline-block; padding: .2rem .7rem; border-radius: 999px; font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+.atend-badge.normal { background: #dbeafe; color: #1d4ed8; }
+.atend-badge.prioritario { background: #fee2e2; color: #991b1b; }
+/* Botoes */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; padding: .7rem 1.4rem; border: none; border-radius: 9px; cursor: pointer; font-weight: 700; font-size: .9rem; transition: filter .15s; }
+.btn:hover { filter: brightness(1.1); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+.btn-green   { background: var(--accent);  color: #fff; width: 100%; font-size: 1rem; padding: .9rem; margin-bottom: .6rem; }
+.btn-blue    { background: var(--primary); color: #fff; flex: 1; }
+.btn-red     { background: var(--alert);   color: #fff; flex: 1; }
+.btn-gray    { background: #6b7280; color: #fff; flex: 1; }
+.btn-row     { display: flex; gap: .5rem; margin-bottom: .5rem; }
+/* Status */
+.status-bar { padding: .35rem .75rem; font-size: .8rem; color: #6b7280; border-top: 1px solid #e3e7f0; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 6px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+</style>
+</head>
+<body>
+<header>
+  {% if logoTotem %}
+      <img src="{{ logoTotem }}" style="height:36px;object-fit:contain;margin-right:4px" alt="logo">
+    {% else %}
+      <div style="width:36px;height:36px;background:{{ accent }};border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.75rem;color:#fff;margin-right:4px">PMI</div>
+    {% endif %}
+  <div style="flex:1">
+    <div style="font-weight:800;font-size:.95rem">{{ titulo }}</div>
+    {% if subtitulo %}<div style="font-size:.75rem;opacity:.6">{{ subtitulo }}</div>{% endif %}
+  </div>
+  <div style="display:flex;align-items:center;gap:1.5rem;font-size:.85rem;">
+      <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.18);padding:.35rem .75rem;border-radius:8px;">
+    <span style="font-size:0.82rem;font-weight:700;">🪑 {{ localNome }} Nº:</span>
+    <input type="number" id="input-num-local" value="{{ numeroLocal }}" placeholder="--" min="1" max="999" onkeyup="if(event.key==='Enter')updateNumLocal(document.getElementById('input-num-local').value)" style="width:60px;padding:0.2rem 0.4rem;font-weight:900;font-size:0.95rem;border-radius:6px;border:none;background:#fff;color:#003580;text-align:center;">
+    <button type="button" onclick="updateNumLocal(document.getElementById('input-num-local').value)" style="background:#fff;color:#003580;border:none;font-weight:800;font-size:0.8rem;padding:0.25rem 0.6rem;border-radius:6px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#e2e8f0'" onmouseout="this.style.background='#fff'">✔ OK</button>
+  </div>
+
+    <span id="clock" style="opacity:.8"></span>
+    <a href="/" style="background:rgba(255,255,255,0.15);color:#fff;padding:.4rem .8rem;font-size:.8rem;text-decoration:none;border-radius:6px;font-weight:700;display:inline-flex;align-items:center;gap:4px;transition:background .2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+      &#128281; Voltar ao Menu
+    </a>
+  </div>
+</header>
+
+<div class="main">
+<div id="toast-notify" style="display:none;position:fixed;top:20px;right:20px;background:#10b981;color:#fff;padding:0.8rem 1.4rem;border-radius:8px;font-weight:700;box-shadow:0 10px 25px rgba(0,0,0,0.2);z-index:999999;transition:opacity 0.3s;align-items:center;gap:8px;">
+  <span>✔</span> <span id="toast-msg">Número salvo com sucesso!</span>
+</div>
+
+{% if missingLocal %}
+<div id="modal-missing-local" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(15,23,42,0.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:99999;">
+  <div style="background:#fff;border-radius:16px;padding:2.5rem 2rem;max-width:440px;width:90%;box-shadow:0 25px 50px -12px rgba(0,0,0,0.4);text-align:center;animation: modalFadeIn 0.3s ease;">
+    <div style="width:64px;height:64px;background:#eff6ff;color:#2563eb;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 1.2rem auto;">
+      🪑
+    </div>
+    <h2 style="color:#1e293b;font-size:1.35rem;font-weight:800;margin-bottom:0.6rem;">Configuração de Atendimento</h2>
+    <p style="color:#64748b;font-size:0.92rem;line-height:1.5;margin-bottom:1.5rem;">
+      Olá! Para começar a chamar senhas nesta unidade, informe qual é o número do(a) seu(sua) <strong style="color:#1e293b;">{{ localNome }}</strong> (Guichê, Mesa, Balcão, etc.):
+    </p>
+    <div style="display:flex;justify-content:center;gap:0.5rem;margin-bottom:1.5rem;">
+      <input type="number" id="modal-input-num" placeholder="Ex: 1, 2, 3..." min="1" max="999" autofocus onkeyup="if(event.key==='Enter')confirmModalNum()" style="width:140px;padding:0.7rem;font-size:1.3rem;font-weight:800;text-align:center;border:2px solid #3b82f6;border-radius:10px;outline:none;color:#1e293b;">
+    </div>
+    <button type="button" onclick="confirmModalNum()" style="background:#2563eb;color:#fff;font-weight:800;font-size:1rem;padding:0.8rem 1.5rem;border-radius:10px;border:none;cursor:pointer;width:100%;box-shadow:0 4px 12px rgba(37,99,235,0.3);transition:background 0.2s;" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'">
+      ✔ Confirmar e Iniciar Atendimento
+    </button>
+  </div>
+</div>
+<style>
+  @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+</style>
+{% endif %}
+
+  <!-- Coluna esquerda: Fila -->
+  <div class="panel">
+    <div class="panel-header">Fila de espera</div>
+    <div class="panel-body" id="fila-list">
+      <p style="color:#9ca3af;text-align:center;padding:1rem">Carregando...</p>
+    </div>
+    <div style="padding:.75rem 1rem;border-top:1px solid #e3e7f0">
+      <button class="btn btn-green" id="btn-chamar" disabled>
+        &#128227; Chamar pr&#243;ximo
+      </button>
+    </div>
+    <div class="status-bar"><span class="dot"></span>Atualiza a cada 3 segundos</div>
+  </div>
+
+  <!-- Coluna direita: Atendimento atual -->
+  <div class="panel">
+    <div class="panel-header">Atendimento atual</div>
+    <div class="panel-body">
+      <div id="atend-area">
+        <p style="color:#9ca3af;text-align:center;padding:2rem">Nenhum atendimento em andamento</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-blue" id="btn-iniciar" disabled>&#9654; Iniciar</button>
+        <button class="btn btn-gray" id="btn-nao-comp" disabled>&#10005; N&#227;o compareceu</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-green" id="btn-encerrar-ok"  disabled>&#10003; Encerrar &#8212; Resolvido</button>
+        <button class="btn btn-red"   id="btn-encerrar-nao" disabled>&#10005; Encerrar &#8212; N&#227;o resolvido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BASE = window.location.origin;
+let currentAtendimento = null;
+
+async function apiFetch(path, opts) {
+  opts = opts || {};
+  const res = await fetch(BASE + path, Object.assign({credentials: "same-origin"}, opts, {
+    headers: Object.assign({'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest'}, opts.headers || {})
+  }));
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(err || 'HTTP ' + res.status);
+  }
+  const ct = res.headers.get('Content-Type') || '';
+  if (ct.indexOf('json') !== -1) return res.json();
+  return res.text();
+}
+
+async function update() {
+  try {
+    const data = await apiFetch('/novosga.chamadasenha/ajax_update');
+    const env = (data && data.data) ? data.data : data;
+    renderFila(env.fila || env.senhas || []);
+    const atend = env.atendimento || null;
+    if (atend) {
+      await renderAtendimento(atend);
+    } else {
+      currentAtendimento = null;
+      document.getElementById('atend-area').innerHTML = '<p style="color:#9ca3af;text-align:center;padding:2rem">Nenhum atendimento em andamento</p>';
+      updateBtns(null);
+    }
+
+    // --- ALERTA SONORO E VISUAL DE CHEGADA DE SENHA (PMI v1.5) ---
+    const listaFila = env.fila || env.senhas || [];
+    const newTotal = listaFila.length;
+    const prevTotal = typeof window._pmiLastFilaLength !== 'undefined' ? window._pmiLastFilaLength : 0;
+    const hasNewArrival = window._pmiLoadedOnce && (newTotal > prevTotal);
+    const isOcupado = (currentAtendimento && currentAtendimento.id && (currentAtendimento.status === 'chamado' || currentAtendimento.status === 'iniciado'));
+    const isLivre = !isOcupado;
+
+    console.log('[AvisoSonoro-ChamadaSenha] Fila:', newTotal, '| Ant:', prevTotal, '| Novo?', hasNewArrival, '| Ocupado?', isOcupado);
+
+    if (hasNewArrival && isLivre) {
+      console.log('[AvisoSonoro-ChamadaSenha] -> DISPARANDO ALERTA SONORO E TOAST!');
+      try {
+        if (!window._pmiAlertAudio) {
+          window._pmiAlertAudio = new Audio('/bundles/novosgaattendance/sounds/alert.wav');
+        }
+        window._pmiAlertAudio.volume = 0.6;
+        window._pmiAlertAudio.currentTime = 0;
+        window._pmiAlertAudio.play().catch(function(e) {
+          console.warn('[AvisoSonoro-ChamadaSenha] Web Audio beep fallback:', e);
+          try {
+            var ctx = new (window.AudioContext || window.webkitAudioContext)();
+            var osc = ctx.createOscillator();
+            var gain = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(880, ctx.currentTime);
+            gain.gain.setValueAtTime(0.2, ctx.currentTime);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start();
+            osc.stop(ctx.currentTime + 0.35);
+          } catch(ex) {}
+        });
+      } catch(e) {}
+
+      try {
+        var toastEl = document.getElementById('pmi-toast-alert');
+        if (!toastEl) {
+          toastEl = document.createElement('div');
+          toastEl.id = 'pmi-toast-alert';
+          toastEl.style.cssText = 'position: fixed !important; top: 25px !important; right: 25px !important; z-index: 2147483647 !important; background: #16a34a !important; color: #fff !important; padding: 18px 28px !important; border-radius: 12px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.35) !important; font-weight: 700 !important; font-size: 17px !important; display: flex !important; align-items: center !important; gap: 14px !important; transition: opacity 0.4s ease !important; cursor: pointer !important;';
+          toastEl.onclick = function() { toastEl.style.opacity = '0'; setTimeout(function() { toastEl.style.display = 'none'; }, 400); };
+          document.body.appendChild(toastEl);
+        }
+        toastEl.innerHTML = '<span style="font-size: 26px;">&#128276;</span><div><strong style="font-size:18px;">Novo atendimento na fila!</strong><br><small style="opacity: 0.95; font-weight: 500;">Total aguardando: ' + newTotal + '</small></div>';
+        toastEl.style.opacity = '1';
+        toastEl.style.display = 'flex';
+        clearTimeout(toastEl._timer);
+        toastEl._timer = setTimeout(function() {
+          toastEl.style.opacity = '0';
+          setTimeout(function() { toastEl.style.display = 'none'; }, 400);
+        }, 6000);
+      } catch(e) {}
+    }
+
+    window._pmiLastFilaLength = newTotal;
+    window._pmiLoadedOnce = true;
+    // --- FIM DO ALERTA ---
+  } catch(e) {
+    console.error('update error', e);
+  }
+}
+
+function maskCPF(doc) {
+  var d = String(doc || '').replace(/\D/g, '');
+  if (d.length !== 11) return doc;
+  return d.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+}
+
+async function renderAtendimento(atend) {
+  currentAtendimento = atend;
+  var cpf = '';
+  try {
+    var r = await apiFetch('/novosga.chamadasenha/customer/' + atend.id);
+    var cliente = (r && r.data) ? r.data : r;
+    if (cliente && cliente.documento) cpf = maskCPF(cliente.documento);
+  } catch(e) { /* CPF nao disponivel */ }
+
+  var nome    = atend.nomeCliente || (atend.cliente && atend.cliente.nome) || '—';
+  var sigla   = (atend.senha && atend.senha.sigla)   || atend.sigla   || '';
+  var numero  = (atend.senha && atend.senha.numero)  || atend.numero  || '';
+  var senha   = sigla + numero;
+  var servico = (atend.servico && atend.servico.nome) || '';
+  var peso    = (atend.prioridade && atend.prioridade.peso) || 0;
+  var statusMap = {
+    'senha_emitida': 'Aguardando chamada',
+    'chamado':       'Chamado — aguardando',
+    'iniciado':      'Em atendimento'
+  };
+  var statusLabel = statusMap[atend.status] || atend.status;
+
+  document.getElementById('atend-area').innerHTML =
+    '<div class="atend-card">' +
+      '<div class="atend-nome">' + escHtml(nome) + '</div>' +
+      (cpf ? '<div class="atend-cpf">CPF: ' + escHtml(cpf) + '</div>' : '') +
+      '<div class="atend-meta" style="margin-top:.5rem">' +
+        '<strong>Senha:</strong> ' + escHtml(senha) + ' &nbsp;|&nbsp; ' +
+        '<strong>Serviço:</strong> ' + escHtml(servico) + '<br>' +
+        '<span class="atend-badge ' + (peso > 0 ? 'prioritario' : 'normal') + '" style="margin-top:.35rem">' +
+          (peso > 0 ? '⭐ Prioritário' : 'Normal') +
+        '</span>' +
+        '<span style="margin-left:.5rem;color:#6b7280;font-size:.82rem">' + escHtml(statusLabel) + '</span>' +
+      '</div>' +
+    '</div>';
+
+  updateBtns(atend);
+}
+
+function renderFila(fila) {
+  var el = document.getElementById('fila-list');
+  if (!fila.length) {
+    el.innerHTML = '<p style="color:#9ca3af;text-align:center;padding:1rem">Fila vazia</p>';
+    return;
+  }
+  el.innerHTML = fila.map(function(t, i) {
+    var nome    = t.nomeCliente || (t.cliente && t.cliente.nome) || '—';
+    var sigla   = (t.senha && t.senha.sigla)  || t.sigla  || '';
+    var numero  = (t.senha && t.senha.numero) || t.numero || '';
+    var senha   = sigla + numero;
+    var servico = (t.servico && t.servico.nome) || '';
+    var peso    = (t.prioridade && t.prioridade.peso) || 0;
+    return '<div class="ticket-item ' + (peso > 0 ? 'prioritario' : '') + '">' +
+      '<div class="ticket-nome">' + (i + 1) + '. ' + escHtml(nome) + '</div>' +
+      '<div class="ticket-sub">' + escHtml(servico) + ' · ' + escHtml(senha) + ' · ' +
+        (peso > 0 ? '<span style="color:#991b1b;font-weight:700">Prioritário</span>' : 'Normal') +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function updateBtns(atend) {
+  var status = atend ? atend.status : null;
+  var btnChamar = document.getElementById('btn-chamar');
+  if (!atend) {
+    btnChamar.disabled = false;
+    btnChamar.innerHTML = '&#128227; Chamar pr&#243;ximo';
+  } else if (status === 'chamado') {
+    btnChamar.disabled = false;
+    btnChamar.innerHTML = '&#128227; Chamar novamente';
+  } else {
+    btnChamar.disabled = true;
+    btnChamar.innerHTML = '&#128227; Chamar pr&#243;ximo';
+  }
+  document.getElementById('btn-iniciar').disabled     = status !== 'chamado';
+  document.getElementById('btn-nao-comp').disabled    = status !== 'chamado';
+  document.getElementById('btn-encerrar-ok').disabled  = status !== 'iniciado';
+  document.getElementById('btn-encerrar-nao').disabled = status !== 'iniciado';
+}
+
+async function action(path, body) {
+  try {
+    await apiFetch(path, {method: 'POST', body: body ? JSON.stringify(body) : '{}'});
+    await update();
+  } catch(e) {
+    alert('Erro: ' + e.message);
+  }
+}
+
+function escHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, function(c) {
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+
+function updateClock() {
+  var d = new Date();
+  document.getElementById('clock').textContent =
+    d.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  updateClock();
+  setInterval(updateClock, 1000);
+  update();
+  setInterval(update, 3000);
+
+  document.getElementById('btn-chamar').addEventListener('click', function() {
+    action('/novosga.chamadasenha/chamar');
+  });
+  document.getElementById('btn-iniciar').addEventListener('click', function() {
+    action('/novosga.chamadasenha/iniciar');
+  });
+  document.getElementById('btn-nao-comp').addEventListener('click', function() {
+    if (confirm('Marcar como não compareceu?')) action('/novosga.chamadasenha/nao_compareceu');
+  });
+  document.getElementById('btn-encerrar-ok').addEventListener('click', function() {
+    action('/novosga.chamadasenha/encerrar', {resolucao: 'resolvido'});
+  });
+  document.getElementById('btn-encerrar-nao').addEventListener('click', function() {
+    action('/novosga.chamadasenha/encerrar', {resolucao: 'nao_resolvido'});
+  });
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast-notify');
+  const m = document.getElementById('toast-msg');
+  if (t && m) {
+    m.textContent = msg;
+    t.style.display = 'flex';
+    setTimeout(() => { t.style.display = 'none'; }, 3500);
+  }
+}
+
+async function confirmModalNum() {
+  const inp = document.getElementById('modal-input-num');
+  if (!inp || !inp.value || parseInt(inp.value) < 1) {
+    alert('Por favor, informe um número válido (maior que 0).');
+    if (inp) inp.focus();
+    return;
+  }
+  const val = parseInt(inp.value);
+  await updateNumLocal(val);
+  const modal = document.getElementById('modal-missing-local');
+  if (modal) modal.remove();
+  const topInp = document.getElementById('input-num-local');
+  if (topInp) topInp.value = val;
+}
+
+async function updateNumLocal(val) {
+  if (!val || parseInt(val) < 1) return;
+  try {
+    await fetch('/novosga.chamadasenha/set_num_local', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ num_local: parseInt(val) })
+    });
+    const banner = document.getElementById('missing-local-banner');
+    if (banner) banner.style.display = 'none';
+    const btn = document.getElementById('btn-chamar');
+    if (btn) btn.disabled = false;
+    showToast('{{ localNome }} Nº ' + val + ' salvo com sucesso!');
+    updateFila();
+  } catch (e) {
+    console.error('Erro ao atualizar numero do guiche:', e);
+  }
+}
+
+</script>
+
+</body>
+</html>
