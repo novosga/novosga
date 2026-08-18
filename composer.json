@@ -32,7 +32,7 @@
         "novosga/scheduling-bundle": "^2.3",
         "novosga/settings-bundle": "^2.3",
         "novosga/triage-bundle": "^2.3",
-        "novosga/users-bundle": " 2.3",
+        "novosga/users-bundle": "^2.3",
         "pagerfanta/doctrine-orm-adapter": "*",
         "pagerfanta/pagerfanta": "^4.8",
         "phpdocumentor/reflection-docblock": "^6.0.3",
