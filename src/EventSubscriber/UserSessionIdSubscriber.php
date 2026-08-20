@@ -16,6 +16,7 @@ namespace App\EventSubscriber;
 use App\Entity\Usuario;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Security\Authentication\Token\OAuth2Token;
+use Psr\Clock\ClockInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
@@ -30,6 +31,7 @@ class UserSessionIdSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly RequestStack $requestStack,
         private readonly EntityManagerInterface $em,
+        private readonly ClockInterface $clock,
     ) {
     }
 
@@ -45,7 +47,7 @@ class UserSessionIdSubscriber implements EventSubscriberInterface
         $sessionId = $this->requestStack->getSession()->getId();
 
         $user->setSessionId($sessionId);
-        $user->setUltimoAcesso(new \DateTime());
+        $user->setUltimoAcesso(\DateTime::createFromImmutable($this->clock->now()));
         $user->setIp($this->requestStack->getCurrentRequest()?->getClientIp());
 
         $this->em->persist($user);
