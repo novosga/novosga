@@ -45,6 +45,8 @@ class UserSessionIdSubscriber implements EventSubscriberInterface
         $sessionId = $this->requestStack->getSession()->getId();
 
         $user->setSessionId($sessionId);
+        $user->setUltimoAcesso(new \DateTime());
+        $user->setIp($this->requestStack->getCurrentRequest()?->getClientIp());
 
         $this->em->persist($user);
         $this->em->flush();
