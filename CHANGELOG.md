@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.2](https://github.com/novosga/novosga/compare/v2.3.1...v2.3.2) (2026-08-20)
+
+
+### Bug Fixes
+
+* update usuario ultimoAcesso and ip on login ([#533](https://github.com/novosga/novosga/issues/533)) ([1343a13](https://github.com/novosga/novosga/commit/1343a131df840a1d62da1cd8279039bab822bdf2))
+
 ## [2.2.13](https://github.com/novosga/novosga/compare/v2.2.12...v2.2.13) (2025-10-08)
 
 
