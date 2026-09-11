@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.3](https://github.com/novosga/novosga/compare/v2.3.2...v2.3.3) (2026-09-11)
+
+
+### Bug Fixes
+
+* adding an already-existing servico+unidade throws identity map error ([#536](https://github.com/novosga/novosga/issues/536)) ([7ec8a80](https://github.com/novosga/novosga/commit/7ec8a80e026fc698e99e5647265b183d3d3e4fdf))
+* variable variable typo breaks redirect to a specific atendente ([#535](https://github.com/novosga/novosga/issues/535)) ([dce4bd2](https://github.com/novosga/novosga/commit/dce4bd227ba6622df7f0a68df87c5276ffee93cc))
+
 ## [2.3.2](https://github.com/novosga/novosga/compare/v2.3.1...v2.3.2) (2026-08-20)
 
 
