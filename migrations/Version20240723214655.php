@@ -26,6 +26,14 @@ final class Version20240723214655 extends AbstractMigration
         return 'OAuth Server migration';
     }
 
+    public function isTransactional(): bool
+    {
+        // Loads a raw SQL file plus DROP TABLE statements, both of which
+        // cause an implicit commit on MySQL. Same reasoning as
+        // Version1::isTransactional().
+        return false;
+    }
+
     public function up(Schema $schema): void
     {
         if ($this->platform instanceof MySQLPlatform) {

@@ -26,6 +26,13 @@ final class Version20210326134543 extends AbstractMigration
         return 'Improviments';
     }
 
+    public function isTransactional(): bool
+    {
+        // ALTER TABLE / CREATE INDEX cause an implicit commit on MySQL.
+        // Same reasoning as Version1::isTransactional().
+        return false;
+    }
+
     public function up(Schema $schema) : void
     {
         $isMySQL = $this->platform instanceof MySQLPlatform;

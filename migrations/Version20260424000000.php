@@ -26,6 +26,13 @@ final class Version20260424000000 extends AbstractMigration
         return 'Adds cor_prioridade column to painel_senha table';
     }
 
+    public function isTransactional(): bool
+    {
+        // ALTER TABLE causes an implicit commit on MySQL. Same reasoning
+        // as Version1::isTransactional().
+        return false;
+    }
+
     public function up(Schema $schema): void
     {
         if (!$schema->getTable('painel_senha')->hasColumn('cor_prioridade')) {

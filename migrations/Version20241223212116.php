@@ -26,6 +26,14 @@ final class Version20241223212116 extends AbstractMigration
         return 'Webhook support';
     }
 
+    public function isTransactional(): bool
+    {
+        // Loads a raw SQL file containing CREATE TABLE statements, which
+        // cause an implicit commit on MySQL. Same reasoning as
+        // Version1::isTransactional().
+        return false;
+    }
+
     public function up(Schema $schema): void
     {
         if ($this->platform instanceof MySQLPlatform) {

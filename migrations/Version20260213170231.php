@@ -23,6 +23,13 @@ final class Version20260213170231 extends AbstractMigration
         return 'Add timezone field to unidades table';
     }
 
+    public function isTransactional(): bool
+    {
+        // ALTER TABLE causes an implicit commit on MySQL. Same reasoning
+        // as Version1::isTransactional().
+        return false;
+    }
+
     public function up(Schema $schema): void
     {
         $this->addSql('ALTER TABLE unidades ADD timezone VARCHAR(50) DEFAULT NULL');
