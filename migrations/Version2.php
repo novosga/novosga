@@ -23,6 +23,13 @@ final class Version2 extends AbstractMigration
         return 'Local vs Atendimento relationship';
     }
 
+    public function isTransactional(): bool
+    {
+        // ALTER TABLE / DROP VIEW / CREATE VIEW all cause an implicit
+        // commit on MySQL. Same reasoning as Version1::isTransactional().
+        return false;
+    }
+
     public function up(Schema $schema) : void
     {
         if (!$schema->getTable('atendimentos')->hasColumn('local_id')) {

@@ -29,6 +29,14 @@ final class Version20260408103746 extends AbstractMigration
         return 'Builtin Painel';
     }
 
+    public function isTransactional(): bool
+    {
+        // Loads a raw SQL file containing CREATE TABLE statements, which
+        // cause an implicit commit on MySQL. Same reasoning as
+        // Version1::isTransactional().
+        return false;
+    }
+
     public function up(Schema $schema): void
     {
         if ($this->platform instanceof MySQLPlatform) {
