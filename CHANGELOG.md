@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.14](https://github.com/novosga/novosga/compare/v2.2.13...v2.2.14) (2026-09-15)
+
+
+### Bug Fixes
+
+* adding an already-existing servico+unidade throws identity map error ([#536](https://github.com/novosga/novosga/issues/536)) ([699e2b9](https://github.com/novosga/novosga/commit/699e2b9f5891c1c793abaf57377fc33e3e64a0bc))
+* reset DBAL connection after install migrations to avoid SAVEPOINT crash ([#540](https://github.com/novosga/novosga/issues/540)) ([b1864a4](https://github.com/novosga/novosga/commit/b1864a43bb903c2e24f9c74acedc00049609815e))
+* variable variable typo breaks redirect to a specific atendente ([#535](https://github.com/novosga/novosga/issues/535)) ([0460ca5](https://github.com/novosga/novosga/commit/0460ca52ec988a52f2c7a2b11aba41e58d0646be))
+
 ## [2.2.13](https://github.com/novosga/novosga/compare/v2.2.12...v2.2.13) (2025-10-08)
 
 
