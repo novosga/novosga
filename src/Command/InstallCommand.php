@@ -267,6 +267,16 @@ class InstallCommand extends UpdateCommand
         $migration = $this->getApplication()->find('doctrine:migrations:migrate');
         $code = $migration->run($input, new NullOutput());
 
+        if ($code === self::SUCCESS) {
+            // Migrations that run DDL cause MySQL to implicitly commit, which desyncs
+            // DBAL's transaction-nesting counter (see doctrine/migrations#1169) and
+            // leads to a "SAVEPOINT DOCTRINE_N does not exist" error on the next
+            // wrapped transaction (admin user creation, below). Closing the connection
+            // drops the stale state and forces a clean reconnect, same as what happens
+            // on a container restart.
+            $this->em->getConnection()->close();
+        }
+
         return $code === self::SUCCESS;
     }
 
