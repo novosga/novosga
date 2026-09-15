@@ -663,10 +663,10 @@ class AtendimentoService implements AtendimentoServiceInterface
         }
 
         if (is_int($novoAtendente)) {
-            $$novoAtendente = $this
+            $novoAtendente = $this
                 ->storage
                 ->getRepository(Usuario::class)
-                ->find($$novoAtendente);
+                ->find($novoAtendente);
         }
 
         $this->dispatcher->dispatch(new PreTicketRedirectEvent(

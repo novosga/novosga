@@ -62,17 +62,26 @@ class UnidadeService implements UnidadeServiceInterface
         UnidadeInterface $unidade,
         string $sigla
     ): ServicoUnidadeInterface {
-        $su = new ServicoUnidade();
-        $su
-            ->setUnidade($unidade)
-            ->setServico($servico)
-            ->setIncremento(1)
-            ->setMensagem('')
-            ->setNumeroInicial(1)
-            ->setPeso(1)
-            ->setTipo(ServicoUnidadeInterface::ATENDIMENTO_TODOS)
-            ->setSigla($sigla)
-            ->setAtivo(false);
+        $su = $this->em->getRepository(ServicoUnidade::class)->findOneBy([
+            'unidade' => $unidade,
+            'servico' => $servico,
+        ]);
+
+        if ($su) {
+            $su->setSigla($sigla);
+        } else {
+            $su = new ServicoUnidade();
+            $su
+                ->setUnidade($unidade)
+                ->setServico($servico)
+                ->setIncremento(1)
+                ->setMensagem('')
+                ->setNumeroInicial(1)
+                ->setPeso(1)
+                ->setTipo(ServicoUnidadeInterface::ATENDIMENTO_TODOS)
+                ->setSigla($sigla)
+                ->setAtivo(false);
+        }
 
         $contador = $this->contadorRepository->findOneBy([
             'unidade' => $unidade,
