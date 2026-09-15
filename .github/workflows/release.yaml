@@ -18,5 +18,7 @@ jobs:
         with:
           release-type: simple
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+          default-branch: ${{ github.ref_name }}
           extra-files: |
             config/services.yaml
+
