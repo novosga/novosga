@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace App\EventListener;
 
 use Exception;
+use App\Entity\Atendimento;
 use App\Entity\Local;
-use App\Entity\ServicoUnidade;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreRemoveEventArgs;
@@ -32,26 +32,23 @@ class LocalListener
     {
         /** @var EntityManagerInterface */
         $em = $args->getObjectManager();
+
+        // ServicoUnidade nao tem (e nao tem mais, desde a v2.x) nenhum
+        // vinculo com Local -- essa checagem e' resquicio da v1.x. Quem
+        // realmente referencia Local hoje e' o Atendimento. Bloqueia a
+        // remocao se existir qualquer atendimento (historico incluido)
+        // vinculado a esse local.
         $total = (int) $em
             ->createQueryBuilder()
             ->select('COUNT(1)')
-            ->from(ServicoUnidade::class, 'e')
+            ->from(Atendimento::class, 'e')
             ->where('e.local = :local')
-            ->andWhere('e.ativo = TRUE')
             ->setParameter('local', $local)
             ->getQuery()
             ->getSingleScalarResult();
 
         if ($total > 0) {
-            throw new Exception('Não é possível remover o local porque possui serviços habilitados.');
+            throw new Exception('Não é possível remover o local porque ele está vinculado a atendimentos existentes.');
         }
-
-        $em
-            ->createQueryBuilder()
-            ->delete(ServicoUnidade::class, 'e')
-            ->where('e.local = :local')
-            ->setParameter('local', $local)
-            ->getQuery()
-            ->execute();
     }
 }
