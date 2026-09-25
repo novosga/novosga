@@ -28,9 +28,13 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
+            # release tags: v1.2.3 and v1.2
+            type=semver,pattern={{version}},enable=${{ github.ref_type == 'tag' }}
+            type=semver,pattern={{major}}.{{minor}},enable=${{ github.ref_type == 'tag' }}
+            # development branches: v1.2-dev
             type=raw,value={{branch}}-dev,enable=${{ github.ref_type == 'branch' }}
+            # latest only on the default branch
+            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4.0.0
