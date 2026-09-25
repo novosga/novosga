@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\EventListener\LocalListener;
 use App\EventListener\TimestampableEntityListener;
 use App\Repository\LocalRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -27,7 +26,6 @@ use Novosga\Entity\LocalInterface;
 #[ORM\Entity(repositoryClass: LocalRepository::class)]
 #[ORM\EntityListeners([
     TimestampableEntityListener::class,
-    LocalListener::class,
 ])]
 #[ORM\Table(name: 'locais')]
 class Local implements TimestampableEntityInterface, LocalInterface
