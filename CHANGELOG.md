@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.4](https://github.com/novosga/novosga/compare/v2.3.3...v2.3.4) (2026-10-22)
+
+
+### Bug Fixes
+
+* enable Mercure 0.x compatibility mode for FrankenPHP 1.13 ([#546](https://github.com/novosga/novosga/issues/546)) ([357caae](https://github.com/novosga/novosga/commit/357caaedf629928c75a55910452f18b75120e121))
+* upgrade runtime to PHP 8.5 to address CVE-2026-109618 and CVE-2026-109619 ([#544](https://github.com/novosga/novosga/issues/544)) ([cdd6653](https://github.com/novosga/novosga/commit/cdd6653f29b4229c10de902220af9898cbbfbe7e))
+
 ## [2.3.3](https://github.com/novosga/novosga/compare/v2.3.2...v2.3.3) (2026-09-15)
 
 
