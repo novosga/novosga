@@ -42,6 +42,7 @@ use Novosga\Event\TicketCreatedEvent;
 use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\ApplicationSettingsServiceInterface;
 use Novosga\Settings\BehaviorSettings;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
@@ -811,9 +812,7 @@ class AtendimentoServiceTest extends TestCase
         $this->service->distribuiSenha($unidade, $usuario, $servico, $prioridade, null, $agendamento);
     }
 
-    /**
-     * @dataProvider timezoneProvider
-     */
+    #[DataProvider('timezoneProvider')]
     public function testDistribuiSenhaWithTimezone(string $timezone, string $expectedTzName): void
     {
         $unidade = (new Unidade())->setTimezone($timezone);

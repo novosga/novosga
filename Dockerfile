@@ -5,7 +5,7 @@ RUN mkdir /jwt \
     && openssl rsa -in /jwt/private.pem -pubout -out /jwt/public.pem
 
 
-FROM mangati/frankenphp:1.12-php8.2-alpine AS runtime
+FROM mangati/frankenphp:1.13-php8.5-alpine AS runtime
 
 ARG COMPOSER_AUTH
 ARG GIT_COMMIT=dev

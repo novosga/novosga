@@ -55,7 +55,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.37.1
         with:
-          php-version: 8.2
+          php-version: 8.5
           extensions: ctype, iconv, pdo, pdo_mysql, pdo_pgsql
           coverage: none
 

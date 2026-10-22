@@ -53,7 +53,7 @@ class UnidadesController extends AbstractController
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function form(Request $request, TranslatorInterface $translator, Entity $entity = null): Response
+    public function form(Request $request, TranslatorInterface $translator, ?Entity $entity = null): Response
     {
         if (!$entity) {
             $entity = new Entity();
