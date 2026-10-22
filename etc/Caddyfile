@@ -30,6 +30,7 @@ http://:8080 {
 	root {$SERVER_ROOT:public/}
 
 	mercure {
+		protocol_version_compatibility 8
 		publisher_jwt {env.MERCURE_PUBLISHER_JWT_KEY}
 		anonymous
 		cors_origins *
