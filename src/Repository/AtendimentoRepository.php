@@ -66,7 +66,7 @@ class AtendimentoRepository extends ServiceEntityRepository implements Atendimen
     }
 
     /** {@inheritdoc} */
-    public function getUltimo(UnidadeInterface $unidade, ServicoInterface $servico = null): ?AtendimentoInterface
+    public function getUltimo(UnidadeInterface $unidade, ?ServicoInterface $servico = null): ?AtendimentoInterface
     {
         $qb = $this
             ->getEntityManager()

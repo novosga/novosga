@@ -165,7 +165,7 @@ class FilaService implements FilaServiceInterface
     private function applyOrders(
         QueryBuilder $builder,
         UnidadeInterface $unidade,
-        UsuarioInterface $usuario = null,
+        ?UsuarioInterface $usuario = null,
     ): QueryBuilder {
         $this
             ->dispatcher
