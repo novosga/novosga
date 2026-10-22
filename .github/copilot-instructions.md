@@ -6,7 +6,7 @@ NovoSGA is a customer queue management system written in PHP using the Symfony f
 
 ## Technology Stack
 
-- **Language**: PHP 8.3+
+- **Language**: PHP 8.2+
 - **Framework**: Symfony 7.4
 - **Database**: MySQL 5.7+ or PostgreSQL 15+
 - **ORM**: Doctrine ORM 3.2+

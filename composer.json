@@ -16,7 +16,7 @@
     ],
     "prefer-stable": true,
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.18.2",
@@ -82,7 +82,7 @@
         "bump-after-update": true,
         "sort-packages": true,
         "platform": {
-            "php": "8.3.0"
+            "php": "8.2.0"
         }
     },
     "autoload": {
