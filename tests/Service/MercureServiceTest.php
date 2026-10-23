@@ -17,6 +17,7 @@ use App\Entity\Atendimento;
 use App\Entity\Unidade;
 use App\Entity\Usuario;
 use App\Service\MercureService;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -28,6 +29,7 @@ use Symfony\Component\Mercure\Update;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AllowMockObjectsWithoutExpectations]
 class MercureServiceTest extends TestCase
 {
     private HubInterface&MockObject $hub;

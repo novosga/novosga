@@ -15,6 +15,7 @@ security:
         novosga_provider:
             id: App\Security\UserProvider
 
+
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
@@ -42,8 +43,7 @@ security:
                 path:   /logout
                 target: /
 
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+    # Note: Only the *first* matching rule is applied
     access_control:
         - { path: ^/api/token$, roles: [ PUBLIC_ACCESS ] }
         - { path: ^/(api|\w+\.\w+/api), roles: [ IS_AUTHENTICATED_FULLY ] }

@@ -6,6 +6,7 @@ use App\Repository\ServicoMetadataRepository;
 use App\Repository\ServicoRepository;
 use App\Service\ServicoService;
 use Novosga\Infrastructure\StorageInterface;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -14,6 +15,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AllowMockObjectsWithoutExpectations]
 class ServicoServiceTest extends TestCase
 {
     private StorageInterface&MockObject $storage;

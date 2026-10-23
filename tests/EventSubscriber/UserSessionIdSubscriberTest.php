@@ -17,6 +17,7 @@ use App\Entity\Usuario;
 use App\EventSubscriber\UserSessionIdSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use League\Bundle\OAuth2ServerBundle\Security\Authentication\Token\OAuth2Token;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Clock\MockClock;
@@ -32,6 +33,7 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AllowMockObjectsWithoutExpectations]
 class UserSessionIdSubscriberTest extends TestCase
 {
     private EntityManagerInterface&MockObject $em;

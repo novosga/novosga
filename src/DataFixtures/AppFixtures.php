@@ -13,6 +13,8 @@ use League\Bundle\OAuth2ServerBundle\Model\Client;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Grant;
 use League\Bundle\OAuth2ServerBundle\ValueObject\Scope;
 use Psr\Clock\ClockInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\PasswordHasher\PasswordHasherInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -31,6 +33,8 @@ class AppFixtures extends Fixture
         private readonly UserPasswordHasherInterface $passwordHasher,
         private readonly ClientManagerInterface $oauthClientManager,
         private readonly AccessTokenManagerInterface $oauthTokenManager,
+        #[Autowire(service: 'league.oauth2_server.password_hasher')]
+        private readonly PasswordHasherInterface $oauthSecretHasher,
     ) {
     }
 
@@ -43,7 +47,7 @@ class AppFixtures extends Fixture
         $client = new Client(
             name: self::OAUTH2_CLIENT_NAME,
             identifier: self::OAUTH2_CLIENT_ID,
-            secret: self::OAUTH2_CLIENT_SECRET,
+            secret: $this->oauthSecretHasher->hash(self::OAUTH2_CLIENT_SECRET),
         );
         $client->setGrants(new Grant('token'), new Grant('password'), new Grant('refresh_token'));
 

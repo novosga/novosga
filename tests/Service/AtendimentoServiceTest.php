@@ -42,6 +42,7 @@ use Novosga\Event\TicketCreatedEvent;
 use Novosga\Infrastructure\StorageInterface;
 use Novosga\Service\ApplicationSettingsServiceInterface;
 use Novosga\Settings\BehaviorSettings;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -58,6 +59,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  *
  * @author Rogerio Lino <rogeriolino@gmail.com>
  */
+#[AllowMockObjectsWithoutExpectations]
 class AtendimentoServiceTest extends TestCase
 {
     private const TEST_LOCALE = 'pt_BR';
