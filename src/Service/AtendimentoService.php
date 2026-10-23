@@ -826,8 +826,8 @@ class AtendimentoService implements AtendimentoServiceInterface
         AtendimentoInterface $atendimento,
         UsuarioInterface $usuario,
         array $servicosRealizados,
-        ServicoInterface|int $servicoRedirecionado = null,
-        UsuarioInterface|int $novoUsuario = null,
+        ServicoInterface|int|null $servicoRedirecionado = null,
+        UsuarioInterface|int|null $novoUsuario = null,
     ): void {
         if ($atendimento->getStatus() !== AtendimentoService::ATENDIMENTO_INICIADO) {
             throw new Exception(

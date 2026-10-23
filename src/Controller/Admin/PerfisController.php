@@ -59,8 +59,8 @@ class PerfisController extends AbstractController
     public function form(
         Request $request,
         TranslatorInterface $translator,
-        Perfil $entity = null,
         KernelInterface $kernel,
+        ?Perfil $entity = null,
     ): Response {
         if (!$entity) {
             $entity = new Perfil();
